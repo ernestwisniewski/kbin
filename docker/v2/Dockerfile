@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.4
 FROM php:8.2-fpm-alpine as base
 
 # Install php extensions, by docker-php-extension-installer
@@ -26,7 +27,7 @@ WORKDIR $KBIN_HOME
 
 # PHP configuration (Requires these configuration before "composer install" )
 RUN cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY --link docker/v2/php/conf.d/app.ini $PHP_INI_DIR/conf.d/
+COPY --link docker/v2/php/conf.d/app.ini $PHP_INI_DIR/conf.d/app.ini
 COPY --link docker/v2/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.prod.or.dev.ini
 COPY --link docker/v2/php/conf.d/app.prod.ini $PHP_INI_DIR/conf.d/app.ini-production
 COPY --link docker/v2/php/conf.d/app.dev.ini $PHP_INI_DIR/conf.d/app.ini-development
@@ -48,13 +49,13 @@ RUN xcaddy build v2.6.4 \
 FROM base as builder-composer
 
 # Composer: install package
-COPY --link ../../composer.* $KBIN_HOME
-COPY --link ../../symfony.lock $KBIN_HOME
+COPY composer.* $KBIN_HOME
+COPY symfony.lock $KBIN_HOME
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # Copy repository
-COPY --link ../../ $KBIN_HOME
+COPY --link ./ $KBIN_HOME
 RUN cp .env.example .env
 
 # Dump-autoload and run post-install script
@@ -72,28 +73,28 @@ RUN mkdir -p $KBIN_HOME
 WORKDIR $KBIN_HOME
 
 # Copy required files
-COPY --link ../../package.json $KBIN_HOME
-COPY --link ../../package-lock.json $KBIN_HOME
-COPY --link ../../yarn.lock $KBIN_HOME
-COPY --from=builder-composer $KBIN_HOME/vendor $KBIN_HOME/vendor
+COPY package.json $KBIN_HOME
+COPY package-lock.json $KBIN_HOME
+COPY yarn.lock $KBIN_HOME
+COPY --from=builder-composer --link $KBIN_HOME/vendor $KBIN_HOME/vendor
 
 # Yarn: install package
 RUN yarn install --lock-frozen
 
 # Yarn: build
-COPY --link ../../ $KBIN_HOME
+COPY --link ./ $KBIN_HOME
 RUN yarn build --mode production
 
 ####################
 
 FROM base as runner
 
-COPY --link ../../ $KBIN_HOME
+COPY --link ./ $KBIN_HOME
 RUN cp .env.example .env
 
 COPY --from=builder-caddy --link /usr/bin/caddy /usr/sbin/caddy
-COPY --from=builder-composer --chown=$USER:$GROUP --link $KBIN_HOME/vendor $KBIN_HOME/vendor
-COPY --from=builder-yarn --chown=$USER:$GROUP --link $KBIN_HOME/public $KBIN_HOME/public
+COPY --from=builder-composer --chown=$USER:$GROUP $KBIN_HOME/vendor $KBIN_HOME/vendor
+COPY --from=builder-yarn --chown=$USER:$GROUP $KBIN_HOME/public $KBIN_HOME/public
 
 COPY --link docker/v2/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY --chmod=755 --link docker/v2/docker-entrypoint ./
