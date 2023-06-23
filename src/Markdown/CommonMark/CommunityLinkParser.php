@@ -45,7 +45,7 @@ class CommunityLinkParser implements InlineParserInterface
         if ($isRemote) {
             if ($magazine = $this->magazineRepository->findOneByName($fullHandle)) {
                 $ctx->getContainer()->appendChild(
-                    $this->generateLink(
+                    new CommunityLink(
                         $magazine->apPublicUrl, 
                         '!' . $handle, 
                         '!' . $magazine->apId, 
@@ -66,7 +66,7 @@ class CommunityLinkParser implements InlineParserInterface
             return true;
         }
 
-
+        // unable to resolve a local '!' link so don't even try.
         $ctx->getContainer()->appendChild(new Text('!' . $handle));
         return true;
     }
@@ -74,10 +74,5 @@ class CommunityLinkParser implements InlineParserInterface
     private function isRemoteCommunity(?string $domain): bool
     {
         return $domain !== $this->settingsManager->get('KBIN_DOMAIN');
-    }
-
-    private function generateLink(string $url, string $value, string $title, string $kbinUsername, MentionType $type): CommunityLink 
-    {
-        return new CommunityLink($url, $value, $title, $kbinUsername, $type);
     }
 }
