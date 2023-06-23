@@ -18,10 +18,13 @@
   .dropdown:focus-within{
 
       .dropdown__menu {
-        left: auto;
-        top: 100%;
-        transform: none;
-        right: 0;
+
+        @include media-breakpoint-down(sm){
+          left: auto;
+          top: 100%;
+          transform: none;
+          right: 0;
+        }
       }
   
   }
