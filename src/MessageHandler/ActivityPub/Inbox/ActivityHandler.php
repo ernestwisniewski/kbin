@@ -33,7 +33,6 @@ class ActivityHandler
 
     public function __invoke(ActivityMessage $message): void
     {
-        $this->logger->error('payload: '.$message->payload);
         $payload = @json_decode($message->payload, true);
 
         if ($message->headers) {
