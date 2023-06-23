@@ -18,7 +18,6 @@
   .dropdown:focus-within{
 
       .dropdown__menu {
-
         @include media-breakpoint-down(sm){
           left: auto;
           top: 100%;
