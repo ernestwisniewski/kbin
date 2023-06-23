@@ -1,10 +1,11 @@
 {
+    "name": "kbin/kbin-core",
+    "description": "Kbin is a decentralized content aggregator and microblogging platform running on the Fediverse network",
+    "license": "AGPL-3.0-or-later",
     "type": "project",
-    "license": "proprietary",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=8.2",
+        "ext-amqp": "*",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-fileinfo": "*",
@@ -12,10 +13,11 @@
         "ext-iconv": "*",
         "ext-intl": "*",
         "ext-openssl": "*",
+        "ext-redis": "*",
         "api-platform/core": "^2.7",
         "aws/aws-sdk-php": "^3.250",
         "babdev/pagerfanta-bundle": "^v4.0.0",
-        "composer/package-versions-deprecated": "1.11.99.5",
+        "composer/package-versions-deprecated": "^1.11.99.5",
         "debril/rss-atom-bundle": "^5.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.2",
@@ -101,7 +103,7 @@
         "twig/extra-bundle": "^3.5",
         "twig/html-extra": "^3.5",
         "twig/intl-extra": "^3.2",
-        "twig/twig": "^2.12|^3.0",
+        "twig/twig": "^2.12 || ^3.0",
         "webmozart/assert": "^1.9"
     },
     "require-dev": {
@@ -116,18 +118,16 @@
         "symfony/stopwatch": "^6.1",
         "symfony/web-profiler-bundle": "^6.1"
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "symfony/flex": true,
-            "symfony/runtime": true
-        }
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*"
     },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -138,29 +138,34 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
-    },
-    "scripts": {
-        "auto-scripts": {
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "ergebnis/composer-normalize": true
         },
-        "post-install-cmd": [
-            "@auto-scripts"
-        ],
-        "post-update-cmd": [
-            "@auto-scripts"
-        ]
-    },
-    "conflict": {
-        "symfony/symfony": "*"
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
     },
     "extra": {
         "symfony": {
             "allow-contrib": false,
             "require": "6.2.*"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "auto-scripts": {
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         }
     }
 }
