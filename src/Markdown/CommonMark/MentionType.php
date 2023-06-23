@@ -8,5 +8,7 @@ enum MentionType {
     case Magazine;  
     case RemoteMagazine;
     case RemoteUser;
+    case Search;
+    case Unresolvable;
     case User;  
 }

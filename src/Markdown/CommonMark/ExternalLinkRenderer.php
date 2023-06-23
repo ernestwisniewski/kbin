@@ -52,10 +52,10 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         }
 
         $attr = match ($node::class) {
-            CommunityLink::class => $this->generateCommunityLinkData($node),
-            MentionLink::class => $this->generateMentionLinkData($node),
             ActorSearchLink::class => [],
-            TagLink::class => [
+            CommunityLink::class   => $this->generateCommunityLinkData($node),
+            MentionLink::class     => $this->generateMentionLinkData($node),
+            TagLink::class         => [
                 'class' => 'hashtag tag', 
                 'rel'  =>  'tag',
             ],
