@@ -12,6 +12,22 @@
     top: 3px;
   }
 
+
+  //on smaller devices, ensure dropdowns are places right focused
+  .dropdown:focus-within,
+  .dropdown:hover {
+
+    .dropdown__menu{
+      @include media-breakpoint-down(sm){
+        left: auto;
+        top: 100%;
+        transform: none;
+        right: 0;
+      }
+    }
+
+  }
+
   menu .dropdown__menu {
     left: -3.75rem;
     opacity: 1;
@@ -198,6 +214,8 @@
     }
   }
 }
+
+
 
 @include media-breakpoint-down(lg) {
   .head-nav {

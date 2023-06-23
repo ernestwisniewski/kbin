@@ -10,9 +10,22 @@
   margin-bottom: .5rem;
   z-index: 5;
 
-  .dropdown__menu {
-    opacity: 1;
+
+  .dropdown:hover,
+  .dropdown:focus-within{
+
+      .dropdown__menu {
+        opacity: 1;
+        left: auto;
+        top: 100%;
+        transform: none;
+        right: 0;
+
+      }
+  
   }
+
+  
 
   &--top {
     border-top: 0;
