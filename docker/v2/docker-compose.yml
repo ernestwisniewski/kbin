@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:2019/metrics || exit 1"]
     ports:
       - 80:80
     volumes:
