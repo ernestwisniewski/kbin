@@ -1,38 +1,42 @@
-<?php
+<?php 
 
 declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Markdown\CommonMark\Node\TagLink;
+use App\Utils\RegPatterns;
+use League\CommonMark\Parser\Inline\InlineParserInterface;
+use League\CommonMark\Parser\Inline\InlineParserMatch;
+use League\CommonMark\Parser\InlineParserContext;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class TagLinkParser extends AbstractLocalLinkParser
+class TagLinkParser implements InlineParserInterface
 {
     public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
 
-    public function getPrefix(): string
+    public function getMatchDefinition(): InlineParserMatch
     {
-        return '#';
+        return InlineParserMatch::regex(trim(RegPatterns::LOCAL_TAG, '/'));
     }
 
-    public function getRegex(): string
+    public function parse(InlineParserContext $ctx): bool
     {
-        return '/^#[a-zA-ZżźćńółęąśŻŹĆĄŚĘŁÓŃ0-9_]{2,35}/';
-    }
+        $cursor = $ctx->getCursor();
+        $cursor->advanceBy($ctx->getFullMatchLength());
 
-    public function getUrl(string $suffix): string
-    {
-        return $this->urlGenerator->generate(
+        [$tag] = $ctx->getSubMatches();
+
+        $url = $this->urlGenerator->generate(
             'tag_overview',
-            ['name' => str_replace('#', '', $suffix)],
-            UrlGeneratorInterface::ABSOLUTE_URL
+            ['name' => $tag],
+            UrlGeneratorInterface::ABSOLUTE_PATH,
         );
-    }
 
-    public function getApRegex(): ?string
-    {
-        return null;
+        $ctx->getContainer()->appendChild(new TagLink($url, '#' . $tag));
+
+        return true;
     }
 }

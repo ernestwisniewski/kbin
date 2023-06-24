@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Markdown\CommonMark;
 
 use App\Service\DomainManager;
-use League\CommonMark\HtmlElement;
+use League\CommonMark\Util\HtmlElement;
 
 class EmbedElement
 {

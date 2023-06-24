@@ -33,7 +33,7 @@
         "kornrunner/blurhash": "^1.2",
         "laminas/laminas-diactoros": "^2.5",
         "landrok/activitypub": "^0.5.6",
-        "league/commonmark": "^1.6.5",
+        "league/commonmark": "^2.4",
         "league/flysystem-aws-s3-v3": "^3.10",
         "league/html-to-markdown": "^5.1",
         "league/oauth2-facebook": "^2.2",

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\Factory;
 
-use League\CommonMark\ConfigurableEnvironmentInterface;
+use League\CommonMark\Environment\EnvironmentInterface;
 use Psr\Container\ContainerInterface;
 
 class EnvironmentFactory
@@ -13,8 +13,8 @@ class EnvironmentFactory
     {
     }
 
-    public function createConfigurableEnvironment(): ConfigurableEnvironmentInterface
+    public function createEnvironment(): EnvironmentInterface
     {
-        return $this->container->get(ConfigurableEnvironmentInterface::class);
+        return $this->container->get(EnvironmentInterface::class);
     }
 }
