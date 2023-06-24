@@ -1,0 +1,479 @@
+type.photo: Fotoğraf
+type.video: Video
+search: Ara
+add: Ekle
+newest: En Yeni
+oldest: En Eski
+login: Giriş yap
+filter_by_time: Zamana göre filtrele
+filter_by_type: Türe göre filtrele
+favourites: Favoriler
+up_votes: Boostlar
+add_comment: Yorum ekle
+add_post: Gönderi ekle
+add_media: Medya ekle
+owner: Sahibi
+subscribers: Aboneler
+online: Çevrim İçi
+comments: Yorumlar
+more: Daha Fazla
+avatar: Avatar
+added: Eklendi
+views: Görüntülenme
+moderators: Moderatörler
+mod_log: Moderasyon kaydı
+enter_your_post: Gönderinizi girin
+activity: Etkinlik
+empty: Boş
+microblog: Mikroblog
+events: Olaylar
+password: Şifre
+remember_me: Beni hatırla
+you_cant_login: Parolanızı mı unuttunuz?
+already_have_account: Halihazırda hesabınız var mı?
+register: Kaydol
+reset_password: Şifreyi sıfırla
+show_more: Daha fazlasını göster
+about_instance: Hakkında
+fediverse: Fediverse
+awards: Ödüller
+ranking: Sıralama
+follow: Takip et
+unfollow: Takipten çık
+reply: Cevapla
+email: E-posta
+repeat_password: Şifreyi tekrarla
+faq: SSS
+rss: RSS
+change_theme: Temayı değiştir
+help: Yardım
+check_email: E-postanızı kontrol edin
+email_confirm_content: 'Eğer hesabınızı etkinleştirmek istiyorsanız aşağıdaki bağlantıya
+  tıklayın:'
+type.link: Bağlantı
+select_channel: Bir kanal seç
+markdown_howto: Editör nasıl çalışır?
+enter_your_comment: Yorumunuzu girin
+subscribe: Abone ol
+dont_have_account: Hesabınız yok mu?
+username: Kullanıcı adı
+contact: İletişim
+email_confirm_header: Merhaba! E-posta adresinizi doğrulayın.
+type.smart_contract: Akıllı sözleşme
+type.magazine: Dergi
+people: İnsanlar
+magazine: Dergi
+magazines: Dergiler
+active: Aktif
+commented: Yorum yapılmış
+change_view: Görünümü değiştir
+comments_count: '{0}yorum|{1}yorum|]1,Inf[ yorumlar'
+favourite: Favori
+down_votes: Azaltır
+no_comments: Yorum yok
+created_at: Oluşturuldu
+posts: Gönderiler
+replies: Cevaplar
+cover: Kapak
+related_posts: İlgili gönderiler
+random_posts: Rasgele gönderiler
+unsubscribe: Abonelikden çık
+login_or_email: Login ve ya e-posta adresi
+terms: Kullanım Şartları
+privacy_policy: Gizlilik Politikası
+all_magazines: Tüm dergiler
+stats: İstatistik
+create_new_magazine: Yeni dergi oluştur
+add_new_link: Yeni bağlantı ekle
+add_new_photo: Yeni fotoğraf ekle
+add_new_post: Yeni gönderi ekle
+add_new_video: Yeni video ekle
+useful: Kullanışlı
+reset_check_email_desc: E-posta adresinizle ilişkilendirilmiş bir hesap varsa, kısa
+  süre içinde parolanızı sıfırlamak için kullanabileceğiniz bir bağlantı içeren bir
+  e-posta alacaksınız. Bu bağlantı %expire% içinde geçerliliğini yitirecek.
+reset_check_email_desc2: Bir e-posta almazsanız, lütfen spam klasörünüzü kontrol edin.
+try_again: Yeniden dene
+up_vote: Boost
+url: URL
+eng: ENG
+oc: Oİ
+image: Resim
+name: İsim
+description: Tanım
+is_adult: +18 / NSFW
+down_vote: Azalt
+email_verify: E-posta adresini onayla
+email_confirm_expire: Lütfen bağlantının bir saat içinde geçerliliğini kaybedeceğini
+  unutmayın.
+select_magazine: Dergi seçin
+add_new: Yenisini ekle
+title: Başlık
+tags: Etiketler
+badges: Rozetler
+email_confirm_title: E-posta adresinizi onaylayın
+subscriptions: Abonelikler
+overview: Genel bakış
+cards: Kartlar
+columns: Sütunlar
+user: Kullanıcı
+moderated: Yönetilenler
+ratio: Oran
+people_local: Yerel
+related_tags: İlgili etiketler
+go_to_content: İçeriğe git
+go_to_filters: Filtrelere git
+go_to_search: Aramaya git
+subscribed: Abone olundu
+all: Hepsi
+classic_view: Klassik görünüm
+compact_view: Kompakt görünüm
+chat_view: Sohbet görünümü
+tree_view: Ağaç görünümü
+table_view: Tablo görünümü
+3h: 3 saat
+6h: 6 saat
+12h: 12 saat
+1d: 1 gün
+1y: 1 yıl
+links: Bağlantılar
+photos: Fotoğraflar
+videos: Videolar
+report: Raporla
+share: Paylaş
+copy_url_to_fediverse: Bağlantıyı Fediverse'e kopyala
+share_on_fediverse: Fediverse'de paylaş
+edit: Düzenle
+are_you_sure: Emin misin?
+moderate: Yönet
+reason: Sebep
+edit_photo: Fotoğrafı düzenle
+delete: Sil
+edit_post: Gönderiyi düzenle
+edit_comment: Yorumu düzenle
+settings: Ayarlar
+general: Genel
+profile: Profil
+blocked: Engelli
+reports: Raporlar
+notifications: Bildirimler
+messages: Mesajlar
+homepage: Ana sayfa
+hide_adult: Yetişkin içeriği gizle
+featured_magazines: Öne çıkan dergiler
+privacy: Gizlilik
+show_profile_followings: İzlenilen kullanıcıları göster
+old_email: Mevcut e-posta
+new_email: Yeni e-posta
+current_password: Şimdiki şifre
+new_password: Yeni şifre
+new_password_repeat: Yeni şifreyi onayla
+change_email: E-postayı değiştir
+change_password: Şifreyi değiştir
+expand: Genişlet
+error: Hata
+votes: Oylar
+theme: Tema
+dark: Karanlık
+light: Aydınlık
+font_size: Yazı boyutu
+size: Boyut
+yes: Evet
+no: Hayır
+show_thumbnails: Küçük resimleri göster
+rounded_edges: Yuvarlak kenarlar
+gold_scout_desc: 10 mükemmel bağlantı
+gold_scout: Altın izci
+gold_commentator: Altın yorumcu
+gold_personality_desc: 100 takipçi
+gold_personality: Altın kişilik
+silver_post_week_desc: Haftanın en iyi gönderisi
+silver_post_week: Haftanın gönderisi
+silver_comment_week_desc: Haftanın en iyi yorumu
+silver_comment_week: Haftanın yorumu
+silver_magazine: Popüler dergi
+silver_ranking_desc: Sıralamada 2. sıra
+silver_ranking: 2 Numara
+silver_post_desc: Gönderi 10 defa boost'landı
+silver_post: Çok iyi gönderi
+silver_comment_desc: Yorum 10 defa boost'landı
+silver_comment: Çok iyi yorum
+subject_reported: İçerik raporlandı.
+show_top_bar: Üst çubuğu göster
+infinite_scroll: Sonsuz kaydırma
+message: Mesaj
+send_message: Mesaj gönder
+purge: Tamamen sil
+post: Gönderi
+comment: Yorum
+mentioned_you: Sizden bahsetti
+deleted: Yazar tarafından silindi
+banned: Sizi yasakladı
+added_new_reply: Yeni cevap ekledi
+mod_remove_your_post: Bir yönetici sizin gönderinizi kaldırdı
+removed: Yönetici tarafından kaldırıldı
+edited_post: Gönderi düzenledi
+added_new_post: Yeni gönderi eklendi
+replied_to_your_comment: Yorumunuza cevap verdi
+edited_comment: Bir yorum düzenlendi
+added_new_comment: Yeri yorum ekledi
+gold_post_month_desc: Ayın en iyi gönderileri
+gold_post_month: Ayın en iyi gönderisi
+gold_comment_month_desc: Ayın en iyi yorumu
+gold_comment_month: Ayın yorumu
+gold_magazine_desc: 100 takipçi dergi oluşturdu
+gold_magazine: Popüler dergi
+gold_ranking_desc: Sıralamada 1. sırada
+gold_ranking: 1 numara
+gold_post_desc: Gönderi 15 defa boost'landı
+gold_post: Mükemmel gönderi
+gold_comment_desc: Yorum 15 defa boost'landı
+gold_comment: Mükemmel yorum
+gold_photo_desc: Fotoğraf 15 defa boost'landı
+gold_photo: Mükemmel fotoğraf
+gold_link: Mükemmel bağlantı
+gold_redactor: Altın redaktör
+registration_disabled: Kayıt devre dışı
+registrations_enabled: Kayıt etkinleştirildi
+type_search_term: Arama terimini yaz
+inactive: İnaktif
+FAQ: SSS
+pages: Sayfalar
+instance: Örnek
+dashboard: Gösterge Paneli
+admin_panel: Yönetici paneli
+local: Yerel
+year: Yıl
+months: Aylar
+month: Ay
+weeks: Haftalar
+week: Hafta
+content: İçerik
+users: Kullanıcılar
+writing: Yazı
+note: Not
+reputation: İtibar
+pinned: Sabitlendi
+change: Değiştir
+change_language: Dili değiştir
+change_magazine: Dergi değiştir
+unpin: Sabitlemeyi kaldır
+pin: Sabitle
+done: Oldu
+icon: Simge
+trash: Çöp
+perm: Kalıcı
+expires: Süresi doluyor
+created: Oluşturuldu
+bans: Yasaklar
+add_badge: Rozet ekle
+add_moderator: Yönetici ekle
+rejected: Reddedilmiş
+filters: Filtreler
+ban: Yasakla
+approve: Onayla
+reject: Reddet
+magazine_panel: Dergi paneli
+from_url: URL'den
+upload_file: Dosya yükle
+instances: Örnekler
+status: Durum
+right: Sağ
+left: Sol
+boost: Boost
+return: Geri dön
+kbin_intro_title: Fediverse'ü keşfet
+dynamic_lists: Dinamik listeler
+auto_preview: Otomatik medya önizleme
+random_magazines: Rasgele dergiler
+related_magazines: İlgili dergiler
+delete_account_request_send: Hesabı silme talebiniz gönderildi.
+ban_account: Hesabı yasakla
+unban_account: Hesap yasağını kaldır
+purge_account: Hesabı tamamen sil
+delete_account: Hesabı sil
+active_users: Aktif insanlar
+send: Gönder
+firstname: Ad
+Your account has been banned: Hesabınız yasaklandı.
+Your account is not active: Heabınız aktif değil.
+Password is invalid: Şifre yanlış.
+followers: Takipçiler
+restore: Onar
+following: Takip edilenler
+contact_email: E-posta aracılığıyla iletişme geç
+reputation_points: İtibar puanları
+preview: Ön izleme
+logout: Çıkış yap
+expired_at: Süresinin dolma zamanı
+cards_view: Kart görünümü
+approved: Onaylanmış
+copy_url: Bağlantıyı kopyala
+ban_expired: Yasak süresi doldu
+edit_link: Bağlantıyı düzenle
+wrote_message: Mesaj yazdı
+mod_deleted_your_comment: Bir yönetici sizin yorumunuzu sildi
+appearance: Görünüm
+mod_log_alert: UYARI - Modlog'da yöneticiler tarafından kaldırılmış önemli gönderiler
+  bula bilirsiniz. Ne yaptığınızı bildiğinizden emin olun.
+show_profile_subscriptions: Dergi aboneliklerini göster
+gold_poster_desc: 10 mükemmel gönderi
+new_email_repeat: Yeni e-postayı onayla
+gold_commentator_desc: 10 mükemmel yorum
+show_users_avatars: Kullanıcı avatarını göster
+silver_magazine_desc: 50 takipçi dergi oluşturdu
+body: Gövde
+rules: Kurallar
+notify_on_new_post_reply: Benim gönderilerimdeki cevaplardan beni haberdar et
+notify_on_new_post_comment_reply: Benim gönderilerimdeki yorumlara gelen cevaplardan
+  beni haberdar et
+he_banned: ban
+he_unbanned: unban
+ranking_disabled: Sıralama devre dışı bırakıldı
+show_all: Hepsini göster
+about: Hakkında
+bronze_personality: Bronz kişilik
+bronze_personality_desc: 20 takipçi
+bronze_commentator_desc: 10 iyi yorum
+too_many_requests: Limit aşıldı, lütfen daha sonra tekrar deneyiniz.
+flash_thread_edit_success: Başlık başarıyla düzenlendi.
+flash_thread_delete_success: Başlık başarıyla silindi.
+flash_thread_pin_success: Başlık başarıyla sabitlendi.
+flash_thread_unpin_success: Başlığın sabitlenmesi başarıyla kaldırıldı.
+gold: Altın
+silver: Gümüş
+bronze: Bronz
+set_magazines_bar_empty_desc: Alan boş ise aktif dergiler bar üzerinde gösterilir.
+bronze_post: İyi gönderi
+bronze_post_desc: Bu gönderi 5 defa boostlandı
+bronze_ranking: Numara 3
+silver_personality_desc: 50 takipçi
+bronze_photo: İyi fotoğraf
+flash_register_success: Aramıza hoş geldin! Hesabın başarıyla kaydedildi. Son bir
+  adım kaldı! - Gelen kutunu kontrol et, hesabını aktif hale getirecek bir aktivasyon
+  bağlantısı gönderdik.
+bronze_article: Bronz başlık
+flash_thread_new_success: Başlık başarıyla oluşturuldu ve artık diğer kullanıcılara
+  görünebilir durumda.
+flash_magazine_new_success: Dergi başarıyla oluşturuldu. Artık yeni içerik ekleyebilirsiniz
+  veya derginin yonetici panelini keşfedebilirsiniz.
+type.article: Konu
+thread: Konu
+threads: Konular
+top: Üst
+hot: Sıcak
+federated_magazine_info: Federe sunucudan gelen dergi eksik olabilir.
+federated_user_info: Federe sunucudan alınan profil eksik olabilir.
+go_to_original_instance: Orijinal oluşumda daha fazla göz atın.
+agree_terms: '%terms_link_start%Kullanım şartlarını%terms_link_end% ve %policy_link_start%Gizlilik
+  Politikasını%policy_link_end% onayla'
+add_new_article: Yeni konu ekle
+domain: Alan
+joined: Katıldı
+people_federated: Birleştirilmiş
+go_to_footer: Alt bilgiye git
+edit_article: Konulu düzenle
+notify_on_new_entry_reply: Benim konularımdakı yorumları bana bildir
+notify_on_new_entry_comment_reply: Gönderi yorumlarıma gelen yanıtları bana bildir
+notify_on_new_entry: Abone olduğum dergilerideki yeni konuları bana bildir
+notify_on_new_posts: Abone olduğum dergilerideki yeni gönderileri bana bildir
+save: Kayıt et
+collapse: Daralt
+domains: Alanlar
+boosts: Boost'lar
+show_magazines_icons: Dergilerin simgelerini göster
+restored_thread_by: 'konu, tarafından canlandırıldı:'
+removed_thread_by: 'konu, tarafından kaldırıldı:'
+removed_comment_by: 'yorum, tarafından kaldırıldı:'
+restored_comment_by: 'yorum, tarafından canlandırıldı:'
+removed_post_by: 'gönderi, tarafından kaldırıldı:'
+restored_post_by: 'gönderi, tarafından canlandırıldı:'
+read_all: Hepsini oku
+flash_magazine_edit_success: Dergi başarılı bir şekilde düzenlendi.
+set_magazines_bar: Derginin bar'ları
+set_magazines_bar_desc: virgülden sonra dergi ismini ekle
+bronze_autobiographer: Otobiyografici
+bronze_autobiographer_desc: Profilde tüm alanların doldurulması için
+bronze_commentator: Bronz yorumcu
+bronze_scout: Bronz izci
+bronze_scout_desc: 10 iyi bağlantı
+bronze_redactor: Bronz redaktör
+bronze_redactor_desc: 10 iyi konu
+bronze_poster: Bronz kullanıcı
+bronze_poster_desc: 10 iyi gönderi
+bronze_link: İyi bağlantı
+bronze_link_desc: Gönderi 5 defa boost'landı
+bronze_article_desc: Konu 5 defa boost'landı
+bronze_photo_desc: Fotoğraf 5 defa boost'landı
+bronze_comment: İyi yorum
+bronze_comment_desc: Yorum 5 defa boost'landı
+bronze_ranking_desc: Sıralamada 3. sıra
+bronze_popular_entry: Popüler konu
+bronze_popular_entry_desc: Konu 1000 defa ziyaret edildi
+bronze_magazine: Ünlü dergi
+bronze_magazine_desc: 20 takipçi dergi oluşturdu
+silver_personality: Gümüş kişilik
+silver_commentator: Gümüş yorumcu
+silver_commentator_desc: 10 çok iyi yorum
+silver_scout: Gümüş izci
+silver_scout_desc: 10 çok iyi bağlantı
+silver_redactor: Gümüş redaktör
+silver_redactor_desc: 10 çok iyi konu
+silver_poster: Gümüş kullanıcı
+silver_poster_desc: 10 çok iyi gönderi
+silver_link: Çok iyi bağlantı
+silver_link_desc: Gönderi 10 defa boost'landı
+silver_article: Gümüş konu
+silver_article_desc: Konu 10 defa boost'landı
+silver_photo: Çok iyi fotoğraf
+silver_photo_desc: Fotoğraf 10 defa boost'landı
+silver_popular_entry: Popüler Konu
+silver_popular_entry_desc: Konu 5000 defa ziyaret edildi
+silver_entry_week: Haftanın konusu
+silver_entry_week_desc: Haftanın en iyi konusu
+gold_poster: Altın kullanıcı
+gold_link_desc: Gönderi 15 defa boost'landı
+gold_article: Altın konu
+gold_article_desc: Konu 15 defa boost'landı
+articles: Konular
+gold_redactor_desc: 10 mükemmel konu
+sidebar_position: Yanbar pozisyonu
+federation: Federasyon
+add_ban: Yasaklama ekle
+image_alt: Resim alternatif metni
+1m: 1 ay
+1w: 1 hafta
+gold_popular_entry: Popüler Konu
+gold_popular_entry_desc: Konu 10000 defa ziyaret edildi
+gold_entry_month: Ayın konusu
+gold_entry_month_desc: Ayın en iyi konusu
+added_new_thread: Yeni konu eklendi
+edited_thread: Konu düzenlendi
+mod_remove_your_thread: Bir yönetici konunuzu kaldırdı
+sticky_navbar: Sabit menü çubuğu
+federated: Birleştirilmiş
+federation_enabled: Federasyon aktifleştirildi
+add_mentions_posts: Gönderilere bahsetme etiketi ekle
+captcha_enabled: Captcha aktifleştirildi
+sidebar: Yan bar
+random_entries: Rastgele konular
+related_entries: Alakalı konular
+browsing_one_thread: Tartışmadaki sadece bir konuya bakıyorsunuz! Tüm yorumlar gönderi
+  sayfasında mevcut.
+kbin_promo_desc: "%link_start%Repo'yu klonlayın%link_end% ve Fediverse'ı geliştirin"
+article: Konu
+kbin_intro_desc: Bu, Fediverse ağı içinde işleyen içerik biriktirme ve mikrobloglama
+  için merkezi olmayan bir platformdur.
+to: ile
+in: içinde
+solarized_light: Solarize ışık
+solarized_dark: Solarize karanlık
+on: Açık
+off: Kapalı
+meta: Meta
+add_mentions_entries: Girdilere bahsetme etiketi ekle
+banned_instances: Engellenmiş sunucular
+magazine_panel_tags_info: Bu bilgiyi sadece fediverse'ten etiketler aracılığıyla içerik
+  gelmesini istiyorsanız girin
+kbin_promo_title: Kendi sunucunu oluştur
+header_logo: Header logosu

@@ -1,10 +1,10 @@
 type.link: Ligação
-type.article: Artigo
+type.article: Fio
 type.photo: Foto
 type.video: Video
 type.magazine: Magazine
 thread: Tópico
-threads: Tópicos
+threads: Tópico
 microblog: Microblog
 people: Pessoas
 events: Eventos
@@ -59,11 +59,11 @@ reply: Resposta
 login_or_email: Login ou email
 password: Password
 dont_have_account: Não tem uma conta?
-you_cant_login: Não consegue fazer login?
+you_cant_login: Esqueceu-se da palavra-passe?
 already_have_account: Já tem uma conta?
 register: Registar
 reset_password: Redefinir password
-show_more: Mostrar mais
+show_more: Ver mais
 to: para
 in: em
 email: Email
@@ -93,7 +93,7 @@ try_again: Tente de novo
 up_vote: Upvoto
 down_vote: Downvoto
 email_confirm_header: Olá! Confirme o seu endereço de email.
-email_confirm_content: 'Se quer ativar a sua conta clique no link seguinte:'
+email_confirm_content: 'Pronto para ativar a sua conta Kbin? Clique no link abaixo:'
 email_verify: Confirme endereço de email
 email_confirm_title: Confirme o seu endereço de email.
 select_magazine: Selecione uma magazine
@@ -137,7 +137,7 @@ reports: Relatórios
 notifications: Notificações
 messages: Mensagens
 homepage: Página principal
-hide_adult: Esconder conteúdo adulto
+hide_adult: Esconder conteúdo NSFW
 featured_magazines: Magazines em destaque
 privacy: Privacidade
 show_profile_followings: Mostrar utilizadores seguidos
@@ -148,7 +148,7 @@ notify_on_new_post_comment_reply: Notificar-me de respostas aos meus comentário
 notify_on_new_entry: Notificar-me de novos tópicos em magazines subscritos
 save: Guardar
 about: Sobre
-old_email: Email antigo
+old_email: Email atual
 new_email: Novo email
 new_email_repeat: Confirmar o novo email
 current_password: Password atual
@@ -279,7 +279,7 @@ reset_check_email_desc: Se uma conta com o seu email existir, então um email se
   enviado com um link para redefinir a sua password. Este link irá expirar em %expire%.
 replies: Respostas
 markdown_howto: Como funciona o editor?
-email_confirm_expire: O link irá expirar numa hora.
+email_confirm_expire: O link expira em uma hora.
 federated_magazine_info: A magazine do servidor federado pode estar incompleta.
 remember_me: Lembrar-me
 username: Username
@@ -340,3 +340,43 @@ reputation_points: Pontos de reputação
 related_tags: Etiquetas relacionadas
 go_to_content: Ir para o conteúdo
 go_to_filters: Ir para os filtros
+flash_thread_new_success: O tópico foi criado corretamente e agora está visível a
+  outros usuários.
+flash_thread_edit_success: O tópico foi editado corretamente.
+flash_thread_delete_success: O tópico foi removido corretamente.
+flash_thread_unpin_success: O tópico foi desafixado corretamente.
+flash_register_success: Bem-vindo, sua conta foi criada. Último passo! - Busque no
+  seu e-mail pelo link de ativação que ativará a sua conta.
+flash_thread_pin_success: O tópico foi fixado corretamente.
+flash_magazine_new_success: A magazine foi criada corretamente. Agora você pode adicionar
+  novos conteúdos ou explorar o painel de administração da magazine.
+flash_magazine_edit_success: A magazine foi editada corretamente.
+too_many_requests: Limite excedido, por favor tente novamente mais tarde.
+set_magazines_bar: Barra de magazines
+set_magazines_bar_desc: adicione os nomes dos magazines após a virgula
+set_magazines_bar_empty_desc: se o espaço estiver vazio, magazines ativos serão mostrados
+  na barra
+gold: Ouro
+silver: Prata
+bronze: Bronze
+bronze_autobiographer: Autobiógrafo
+bronze_autobiographer_desc: Por completar todos os espaços no perfil
+bronze_personality: Personalidade bronze
+bronze_personality_desc: 20 seguidores
+bronze_commentator: Comentador bronze
+bronze_commentator_desc: 10 comentários bons
+bronze_scout: Escuteiro bronze
+bronze_scout_desc: 10 links bons
+bronze_redactor: Redator bronze
+bronze_redactor_desc: 10 artigos bons
+bronze_poster: Postador bronze
+bronze_poster_desc: 10 posts bons
+bronze_link: Link bom
+bronze_photo: Boa foto
+bronze_link_desc: Este post tem 5 boosts
+bronze_article: Artigo bronze
+bronze_photo_desc: Esta foto tem 5 boosts
+bronze_comment: Bom comentário
+bronze_comment_desc: Este comentário tem 5 boosts
+bronze_post: Bom post
+bronze_article_desc: Este artigo tem 5 boosts

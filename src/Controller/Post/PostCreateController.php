@@ -47,7 +47,7 @@ class PostCreateController extends AbstractController
                 'magazine_posts',
                 [
                     'name' => $dto->magazine->name,
-                    'sortBy' => $this->manager->getSortRoute(Criteria::SORT_NEW),
+                    'sortBy' => Criteria::SORT_NEW,
                 ]
             );
         }
