@@ -57,7 +57,7 @@ class EntryCreateController extends AbstractController
 
             return $this->redirectToMagazine(
                 $entry->magazine,
-                $this->manager->getSortRoute(Criteria::SORT_NEW)
+                Criteria::SORT_NEW
             );
         }
 

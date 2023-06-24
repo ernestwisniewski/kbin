@@ -365,7 +365,7 @@ comment: Komentarz
 post: Post
 purge: Wyczyść
 send_message: Wyślij wiadomość
-type.article: Artykuł
+type.article: Nитка
 type.smart_contract: Smart contract
 magazines: Magazyny
 filter_by_time: Wybierz zakres
