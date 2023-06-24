@@ -1,11 +1,15 @@
-# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
 oneup_flysystem:
     adapters:
         default_adapter:
             local:
-                location: "%kernel.project_dir%/public/%uploads_dir_name%"
+                location: "%kernel.project_dir%/public/media"
+
+        kbin.s3_adapter:
+            awss3v3:
+                client: kbin.s3_client
+                bucket: '%amazon.s3.bucket%'
 
     filesystems:
         public_uploads_filesystem:
-            adapter: default_adapter
+            adapter: kbin.s3_adapter
             alias: League\Flysystem\Filesystem
