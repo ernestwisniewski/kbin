@@ -68,3 +68,7 @@ Then, you shoud be able to access the new instance via `http://localhost:80`. Yo
 ### Add auxiliary containers to `docker-compose.yml`
 
 Add any auxiliary container as you want. For example, add a nginx container as reverse proxy to provide HTTPS encryption.
+
+## Filesystem ACL support
+
+The filesystem ACL is disabled by default, in the `kbin` image. You can set the environment variable `ENABLE_ACL=1` to enable it. Remember that not all filesystems support ACL. This will cause an error if you enable filesystem ACL for such filesystems.
