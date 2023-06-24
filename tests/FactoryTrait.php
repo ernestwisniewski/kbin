@@ -15,9 +15,9 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Entity\Vote;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
+use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
@@ -26,20 +26,18 @@ use Doctrine\ORM\EntityManagerInterface;
 
 trait FactoryTrait
 {
-    public function createVote(int $choice, VotableInterface $subject, User $user): Vote
+    public function createVote(int $choice, VotableInterface $subject, User $user): void
     {
+
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
-        /**
-         * @var $voteManager VoteManager
-         */
-        $voteManager = $this->getContainer()->get(VoteManager::class);
 
-        $vote = $voteManager->vote($choice, $subject, $user);
-
-        $manager->persist($vote);
-        $manager->flush();
-
-        return $vote;
+        if (VotableInterface::VOTE_UP === $choice) {
+            $favManager = $this->getContainer()->get(FavouriteManager::class);
+            $favManager->toggle($user, $subject);
+        } else {
+            $voteManager = $this->getContainer()->get(VoteManager::class);
+            $voteManager->vote($choice, $subject, $user);
+        }
     }
 
     protected function loadExampleMagazines(): void
