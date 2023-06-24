@@ -108,3 +108,6 @@ RUN chown -R $USER:$GROUP $KBIN_HOME
 USER $USER:$GROUP
 
 ENTRYPOINT ["./docker-entrypoint"]
+
+# Expose port 2019 for caddy metric
+EXPOSE 2019/tcp
