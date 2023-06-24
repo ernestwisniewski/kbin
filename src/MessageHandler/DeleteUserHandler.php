@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\MessageHandler;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Entity\DomainBlock;
+use App\Entity\DomainSubscription;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Favourite;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Message;
+use App\Entity\Moderator;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -19,6 +23,7 @@ use App\Entity\UserFollow;
 use App\Message\DeleteUserMessage;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
+use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
@@ -44,6 +49,7 @@ class DeleteUserHandler
         private readonly PostCommentManager $postCommentManager,
         private readonly PostManager $postManager,
         private readonly VoteManager $voteManager,
+        private readonly FavouriteManager $favouriteManager,
         private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -61,13 +67,12 @@ class DeleteUserHandler
             throw new UnrecoverableMessageHandlingException('User not found');
         }
 
-        $retry =
-            $this->removeMeta()
-            || $this->removeNotifications()
-            || $this->removeMagazineSubscriptions()
+        $this->removeMeta();
+        $retry = $this->removeMagazineSubscriptions()
             || $this->removeMagazineBlocks()
             || $this->removeUserFollows()
             || $this->removeUserBlocks()
+            || $this->removeFavourites()
             || $this->removeVotes(EntryComment::class)
             || $this->removeEntryComments()
             || $this->removeVotes(Entry::class)
@@ -82,24 +87,39 @@ class DeleteUserHandler
 
         if ($retry) {
             $this->bus->dispatch($message);
+        } else {
+            $this->removeDomainSubscriptions();
+            $this->removeDomainBlocks();
+            $this->removeNotifications();
+            $this->removeMod();
+
+            $this->user = $this->entityManager
+                ->getRepository(User::class)
+                ->find($message->id);
+
+            if ($this->op === 'purge') {
+                $this->entityManager->remove($this->user);
+                $this->entityManager->flush();
+            } else {
+                $this->user->username = '!deleted'.$this->user->getId();
+                $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
+                $this->user->isVerified = false;
+                $this->user->isDeleted = true;
+
+                $this->entityManager->persist($this->user);
+                $this->entityManager->flush();
+            }
         }
     }
 
-    private function removeMeta(): bool
+    private function removeMeta(): void
     {
-        if ($this->user->isAccountDeleted()) {
-            return false;
+        if (!$this->user->isAccountDeleted()) {
+            $this->userManager->detachAvatar($this->user);
+            $this->userManager->detachCover($this->user);
+            $this->user->isDeleted = true;
+            $this->user->about = null;
         }
-
-//        $this->user->username = '!deleted'.$this->user->getId();
-//        $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
-
-        $this->userManager->detachAvatar($this->user);
-        $this->userManager->detachCover($this->user);
-        $this->user->isDeleted = true;
-        $this->user->about = null;
-
-        return false;
     }
 
     private function removeMagazineSubscriptions(): bool
@@ -384,15 +404,66 @@ class DeleteUserHandler
         $this->entityManager->flush();
 
         return $retry;
+
+//        $em = $this->entityManager;
+//        $query = $em->createQuery('DELETE FROM '.Message::class.' m WHERE m.sender = :userId');
+//        $query->setParameter('userId', $this->user->getId());
+//        $query->execute();
+//
+//        $this->entityManager->flush();
     }
 
-    private function removeNotifications(): bool
+    private function removeFavourites(): bool
+    {
+        $subjects = $this->entityManager->getRepository(Favourite::class)->findByUser($this->user);
+
+        $retry = false;
+
+        foreach ($subjects as $subject) {
+            $retry = true;
+            $this->favouriteManager->toggle($this->user, $subject->getSubject(), FavouriteManager::TYPE_UNLIKE);
+        }
+
+        return $retry;
+    }
+
+    private function removeNotifications(): void
     {
         $em = $this->entityManager;
         $query = $em->createQuery('DELETE FROM '.Notification::class.' n WHERE n.user = :userId');
-        $query->setParameter('userId', 4);
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeDomainSubscriptions(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery('DELETE FROM '.DomainSubscription::class.' s WHERE s.user = :userId');
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeDomainBlocks(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery('DELETE FROM '.DomainBlock::class.' b WHERE b.user = :userId');
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeMod(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery('DELETE FROM '.Moderator::class.' m WHERE m.user = :userId AND m.isOwner = false');
+        $query->setParameter('userId', $this->user->getId());
         $query->execute();
 
-        return false;
+        $admin = $this->entityManager->getRepository(User::class)->findAdmin();
+
+        $query = $em->createQuery(
+            'UPDATE '.Moderator::class.' m SET m.user = :newUserId WHERE m.user = :userId'
+        );
+        $query->setParameters(['userId' => $this->user->getId(), 'newUserId' => $admin->getId()]);
+        $query->execute();
     }
 }
