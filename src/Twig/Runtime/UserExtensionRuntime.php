@@ -53,7 +53,7 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
         return $this->cache->get(
             "user_reputation_{$user->getId()}",
             function (ItemInterface $item) use ($user) {
-                $item->expiresAfter(1);
+                $item->expiresAfter(60);
 
                 return $this->reputationRepository->getUserReputationTotal($user);
             }
