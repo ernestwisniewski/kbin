@@ -1,21 +1,21 @@
 .theme--tokyo-night {
     .ts-dropdown {
-      background: var(--kbin-input-bg);
-      border-color: var(--kbin-main-border-color);
-      color: var(--kbin-meta-text-color);
-  
-      .active {
-        background: var(--kbin-options-bg);
+        background: var(--kbin-input-bg);
+        border-color: var(--kbin-main-border-color);
         color: var(--kbin-meta-text-color);
-      }
+
+        .active {
+            background: var(--kbin-options-bg);
+            color: var(--kbin-meta-text-color);
+        }
     }
-  
+
     .ts-control input {
-      color: #9191a1;
+        color: #9191a1;
     }
-  
+
     --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans",
-      "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --kbin-body-font-size: 1rem;
     --kbin-body-font-weight: 400;
     --kbin-body-line-height: 1.5;
@@ -29,12 +29,15 @@
     --kbin-link-color: #d6d6ff;
     --kbin-link-hover-color: #9999ff;
     --kbin-outline: #9999ff solid 4px;
-    
+
     --kbin-primary-color: #363649;
     --kbin-text-muted-color: #9191a1;
 
     --kbin-success-color: #a1e87d;
     --kbin-danger-color: #ff6675;
+
+    --kbin-own-color: var(--kbin-success-color);
+    --kbin-author-color: var(--kbin-danger-color);
 
     // section
     --kbin-section-bg: #2a2a3c;
@@ -43,8 +46,8 @@
     --kbin-section-link-color: #9c9fc9;
     --kbin-section-link-hover-color: var(--kbin-link-hover-color);
     --kbin-section-border: 1px solid #414358;
-    --kbin-author-border: 1px dashed var(--kbin-danger-color);
-    --kbin-own-border: 1px dashed var(--kbin-success-color);
+    --kbin-author-border: 1px dashed var(--kbin-author-color);
+    --kbin-own-border: 1px dashed var(--kbin-own-color);
 
     // meta
     --kbin-meta-bg: none;
@@ -53,6 +56,7 @@
     --kbin-meta-link-hover-color: var(--kbin-link-hover-color);
     --kbin-meta-border: 1px dashed #4f5064;
     --kbin-avatar-border: 3px solid #414358;
+    --kbin-blockquote-color: var(--kbin-success-color);
 
     // options
     --kbin-options-bg: #2a2a3c;
@@ -104,6 +108,8 @@
     --kbin-vote-bg: #1c1d26;
     --kbin-vote-text-color: #d6d6ff;
     --kbin-vote-text-hover-color: #9999ff;
+    --kbin-upvoted-color: var(--kbin-success-color);
+    --kbin-downvoted-color: var(--kbin-danger-color);
 
     // alerts
     --kbin-alert-info-bg: #fff3cc;
@@ -124,21 +130,20 @@
     --kbin-footer-text-color: #e8e8ee;
     --kbin-footer-link-color: #e8e8ee;
     --kbin-footer-link-hover-color: var(--kbin-header-link-hover-color);
-  
+
     .options--top,
     .section--top {
-      border-top: 1px solid #414358 !important;
+        border-top: 1px solid #414358 !important;
     }
-  
+
     &.rounded-edges {
-      .options--top,
-      .section--top {
-        border-radius: 0.5rem !important;
-      }
+        .options--top,
+        .section--top {
+            border-radius: 0.5rem !important;
+        }
     }
-  
+
     #middle .kbin-container {
-      margin-top: 0.5rem;
+        margin-top: 0.5rem;
     }
-  }
-  
+}
