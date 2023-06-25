@@ -32,14 +32,6 @@ export default class extends Controller {
         this.moreTarget.addEventListener('focusout', () => {
             this.element.classList.remove('z-5');
         });
-
-        this.element.querySelectorAll('.content .mention').forEach((el) => {
-            el.addEventListener('click', (event) => {
-                event.preventDefault();
-                window.location = '/u/' + el.title;
-            });
-        });
-
         if (this.element.classList.contains('show-preview')) {
             useIntersection(this)
         }
@@ -47,7 +39,7 @@ export default class extends Controller {
         this.checkHeight();
         this.handleAdultThumbs()
     }
-
+    
     async getForm(event) {
         event.preventDefault();
 

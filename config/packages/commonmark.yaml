@@ -3,6 +3,8 @@ parameters:
         allow_unsafe_links: false
         html_input: escape
         max_nesting_level: 25
+        renderer:
+            soft_break: "<br/>\r\n"
     commonmark.allowed_schemes: [http, https]
 
 services:
@@ -10,21 +12,22 @@ services:
         autowire: true
         public: false
 
-    League\CommonMark\Extension\Strikethrough\StrikethroughExtension: ~
-    League\CommonMark\Extension\Table\TableExtension: ~
-    League\CommonMark\Extension\Autolink\UrlAutolinkProcessor:
+    App\Markdown\MarkdownExtension:
+        lazy: true
+
+    League\CommonMark\Extension\Autolink\UrlAutolinkParser:
         arguments:
             $allowedProtocols: "%commonmark.allowed_schemes%"
+    League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: ~
 
-    League\CommonMark\ConfigurableEnvironmentInterface:
-        factory: [League\CommonMark\Environment, createCommonMarkEnvironment]
+    League\CommonMark\Environment\EnvironmentBuilderInterface:
+        class: League\CommonMark\Environment\Environment
+        arguments: 
+            $config: ['%commonmark.configuration%']
         calls:
-            - mergeConfig: ["%commonmark.configuration%"]
-            - addExtension: ['@League\CommonMark\Extension\Strikethrough\StrikethroughExtension']
-            - addExtension: ['@League\CommonMark\Extension\Table\TableExtension']
-            - addEventListener:
-                - League\CommonMark\Event\DocumentParsedEvent
-                - '@League\CommonMark\Extension\Autolink\UrlAutolinkProcessor'
-        shared: false
-
-    League\CommonMark\EnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
+            - addInlineParser:
+                - '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
+            - addExtension:
+                - '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
+            - addExtension:
+                - '@App\Markdown\MarkdownExtension'

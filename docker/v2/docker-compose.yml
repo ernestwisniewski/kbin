@@ -1,0 +1,111 @@
+version: "3.9"
+
+services:
+  www:
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
+    image: kbin
+    restart: unless-stopped
+    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:2019/metrics || exit 1"]
+    ports:
+      - 80:80
+    volumes:
+      - ./storage/caddy_config:/config
+      - ./storage/caddy_data:/data
+    environment:
+      - SERVER_NAME=:80  # the addresss that the web server binds
+      - PHP_FASTCGI_HOST=php:9000  # caddy forward traffic to this host via fastcgi
+      - MERCURE_PUBLISHER_JWT_KEY=$MERCURE_JWT_SECRET
+      - MERCURE_SUBSCRIBER_JWT_KEY=$MERCURE_JWT_SECRET
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
+    image: kbin
+    restart: unless-stopped
+    command: php-fpm
+    healthcheck:
+      test: ["CMD-SHELL", "REQUEST_METHOD=GET SCRIPT_NAME=/ping SCRIPT_FILENAME=/ping cgi-fcgi -bind -connect localhost:9000 || exit 1"]
+    volumes:
+      - ./storage/media:/var/www/kbin/public/media
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+      - rabbitmq
+
+  messenger:
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
+    image: kbin
+    restart: unless-stopped
+    command: bin/console messenger:consume async --time-limit=3600
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+      - rabbitmq
+
+  messenger_ap:
+    build:
+      context: ../../
+      dockerfile: docker/v2/Dockerfile
+    image: kbin
+    restart: unless-stopped
+    command: bin/console messenger:consume async_ap --time-limit=3600
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
+      - rabbitmq
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: /bin/sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
+    volumes:
+      - ./storage/redis:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    volumes:
+      - ./storage/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=kbin
+      - POSTGRES_USER=kbin
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=kbin
+    volumes:
+      - ./storage/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 15672:15672
+
+  # Add your favorite reverse proxy (e.g nginx) which accept incoming HTTPS
+  # traffic and forward to http://www:80
+  # nginx:
+  #  image: nginx
+  #  ports:
+  #    - 443:443
+  #  volumes:
+  #    - ./nginx.conf:/etc/nginx/nginx.conf

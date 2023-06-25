@@ -12,7 +12,7 @@
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="entry-{{ entry.id }}"
-                data-controller="subject preview"
+                data-controller="subject preview mentions"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}

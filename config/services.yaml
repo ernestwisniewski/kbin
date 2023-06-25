@@ -102,10 +102,6 @@ services:
   #    tags:
   #      - { name: "liip_imagine.cache.resolver", resolver: "cached_s3_client" }
 
-  _instanceof:
-    League\CommonMark\Inline\Parser\InlineParserInterface:
-      tags: [ commonmark.inline_parser ]
-
   App\:
     resource: '../src/'
     exclude:
@@ -141,17 +137,9 @@ services:
       $kbinCaptchaEnabled: '%env(bool:KBIN_CAPTCHA_ENABLED)%'
 
   # Markdown
-  App\Markdown\CommonMark\ExternalImagesRenderer:
-    tags:
-      - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Image, priority: 1 }
-
-  App\Markdown\CommonMark\ExternalLinkRenderer:
-    tags:
-      - { name: commonmark.inline_renderer, element: League\CommonMark\Inline\Element\Link, priority: 1 }
-
   App\Markdown\Factory\EnvironmentFactory:
-    $container: !service_locator
-      League\CommonMark\ConfigurableEnvironmentInterface: '@League\CommonMark\ConfigurableEnvironmentInterface'
+      $container: !service_locator
+          League\CommonMark\Environment\EnvironmentInterface: '@League\CommonMark\Environment\EnvironmentBuilderInterface'    
 
   # Language
   App\EventListener\LanguageListener:

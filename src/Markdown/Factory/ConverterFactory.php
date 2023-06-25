@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace App\Markdown\Factory;
 
-use League\CommonMark\CommonMarkConverter;
-use League\CommonMark\EnvironmentInterface;
-use League\CommonMark\MarkdownConverterInterface;
+use League\CommonMark\Environment\EnvironmentInterface;
+use League\CommonMark\ConverterInterface;
+use League\CommonMark\MarkdownConverter;
 
 class ConverterFactory
 {
-    public function createConverter(EnvironmentInterface $environment): MarkdownConverterInterface
+    public function createConverter(EnvironmentInterface $environment): ConverterInterface
     {
-        return new CommonMarkConverter([
-            'renderer' => [
-                'soft_break' => "<br>\r\n",
-            ],
-            'html_input' => 'escape',
-            'allow_unsafe_links' => false,
-        ], $environment);
+        return new MarkdownConverter($environment);
     }
 }

@@ -29,14 +29,11 @@ final class ConvertMarkdownListener implements EventSubscriberInterface
 
     public function onConvertMarkdown(ConvertMarkdown $event): void
     {
-        $environment = $this->environmentFactory->createConfigurableEnvironment();
-
-        $configureEvent = new ConfigureCommonMark($environment, $event);
-        $this->dispatcher->dispatch($configureEvent);
+        $environment = $this->environmentFactory->createEnvironment();
 
         $converter = $this->converterFactory->createConverter($environment);
-        $html = $converter->convertToHtml($event->getMarkdown());
+        $html = $converter->convert($event->getMarkdown());
 
-        $event->setRenderedHtml($html);
+        $event->setRenderedContent($html);
     }
 }

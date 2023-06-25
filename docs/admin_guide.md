@@ -21,7 +21,7 @@ ubuntu 22.04 used for steps here
 ```bash
 $ apt-get update && apt-get upgrade
 $ add-apt-repository ppa:ondrej/php
-$ apt-get install git redis-server postgresql postgresql-contrib nginx php8.2-common php8.2-fpm php8.2-cli php8.2-amqp php8.2-pgsql php8.2-gd php8.2-curl php8.2-simplexml php8.2-dom php8.2-xml php8.2-redis php8.2-intl unzip
+$ apt-get install git redis-server postgresql postgresql-contrib nginx php8.2-common php8.2-fpm php8.2-cli php8.2-amqp php8.2-pgsql php8.2-gd php8.2-curl php8.2-simplexml php8.2-dom php8.2-xml php8.2-redis php8.2-mbstring php8.2-intl unzip
 $ curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php
 $ php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
 ```
@@ -359,20 +359,21 @@ Make sure you have substituted all the passwords and configured the basic servic
 
 The Dockerfile is based on [symfony-docker](https://github.com/dunglas/symfony-docker).
 
-[https://docs.docker.com/engine/install/debian/](https://docs.docker.com/engine/install/debian/)
+#### Install Docker
+
+The most convenient way to install docker is using the official [convenience script](https://github.com/docker/docs/blob/main/_includes/install-script.md)
+provided at [https://get.docker.com/]:
 
 ```bash
-$ sudo apt-get install ca-certificates curl gnupg
-$ sudo install -m 0755 -d /etc/apt/keyrings
-$ curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-$ sudo chmod a+r /etc/apt/keyrings/docker.gpg
-$ echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-$ sudo apt-get update
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-$ sudo apt-get install docker-compose-plugin
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
+```
+
+Alternatively, you can follow the [Docker install documentation](https://docs.docker.com/engine/install/) for your platform.
+
+Once Docker is installed on your system, it is recommended to create a `docker` group and add it to your user:
+
+```bash
 $ sudo groupadd docker
 $ sudo usermod -aG docker $USER
 ```

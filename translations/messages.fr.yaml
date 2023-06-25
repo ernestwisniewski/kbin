@@ -1,4 +1,4 @@
-type.article: Article
+type.article: Fil
 type.photo: Photo
 type.video: Vidéo
 thread: Fil
@@ -11,26 +11,26 @@ search: Recherche
 add: Ajouter
 people: Personnes
 login: Se connecter
-top: Haut
+top: Top
 active: Actif
 favourites: Favoris
 favourite: Favori
-more: Suite
+more: Plus
 type.magazine: Magazine
-newest: Plus neufs
+newest: Plus récents
 oldest: Plus anciens
 commented: Commentés
-filter_by_time: Filtrer par temps
+filter_by_time: Filtrer par période
 filter_by_type: Filtrer par type
 comments_count: '{0}commentaires|{1}commentaire|]1,Inf[ commentaires'
 added: Ajouté
 views: Vues
-no_comments: Aucuns commentaires
+no_comments: Aucun commentaire
 created_at: Créé
 owner: Propriétaire
 subscribers: Abonné(e)s
 online: En ligne
-posts: Messages
+posts: Publications
 replies: Réponses
 moderators: Modérateurs/trices
 mod_log: Journal de modération
@@ -54,7 +54,7 @@ cover: Couverture
 federated_magazine_info: Les magazines provenant d'un serveur fédéré peuvent être
   incomplets.
 federated_user_info: Les profils provenant d'un serveur fédéré peuvent être incomplets.
-go_to_original_instance: Parcourez davantage sur l'instance d'origine.
+go_to_original_instance: Parcourez-en d'avantage sur l'instance d'origine.
 empty: Vide
 subscribe: S'abonner
 unsubscribe: Se désabonner
@@ -65,7 +65,7 @@ login_or_email: Nom d'utilisateur ou e-mail
 password: Mot de passe
 remember_me: Rester connecté(e)
 dont_have_account: Vous n'avez pas de compte ?
-you_cant_login: Vous ne pouvez pas vous connecter ?
+you_cant_login: Mot de passe oublié ?
 already_have_account: Vous avez déjà un compte ?
 register: S’inscrire
 reset_password: Réinitialiser le mot de passe
@@ -78,7 +78,7 @@ about_instance: À propos
 all_magazines: Tous les magazines
 stats: Statistiques
 fediverse: Fédivers
-awards: Prix
+awards: Récompenses
 ranking: Classement
 create_new_magazine: Créer un nouveau magazine
 add_new_link: Ajouter un nouveau lien
@@ -95,7 +95,7 @@ try_again: Essayez à nouveau
 up_vote: Partager
 down_vote: Réduire
 email_verify: Confirmer l’adresse email
-email_confirm_expire: Le lien expirera dans 1 heure.
+email_confirm_expire: Notez que le lien expirera dans une heure.
 email_confirm_title: Confirmez votre addresse email.
 select_magazine: Sélectionnez un magazine
 add_new: Ajouter nouveau
@@ -103,10 +103,10 @@ url: URL
 title: Titre
 body: Corps
 tags: Étiquettes
-badges: Badges
+badges: Insignes
 is_adult: +18 / NSFW
-email_confirm_content: 'Pour activer votre compte, veuillez cliquer le lien ci-dessous
-  :'
+email_confirm_content: 'Prêt pour activer votre compte Kbin ? Cliquez sur le lien
+  ci-dessous :'
 oc: CO
 image_alt: Texte alternatif de l'image
 name: Nom
@@ -135,7 +135,7 @@ compact_view: Vue compacte
 1m: 1m
 1y: 1an
 links: Liens
-articles: Articles
+articles: Fils
 photos: Photos
 report: Signaler
 share: Partager
@@ -146,7 +146,7 @@ go_to_filters: Vers les filtres
 go_to_footer: Vers le pied de page
 classic_view: Vue classique
 chat_view: Vue de discussion
-tree_view: Vue en arbre
+tree_view: Vue arborescente
 table_view: Vue en table
 cards_view: Vue en cartes
 moderate: Modérer
@@ -162,15 +162,15 @@ settings: Réglages
 general: Général
 profile: Profil
 blocked: Bloqué(e)
-reports: Signalizations
+reports: Signalements
 notifications: Notifications
 appearance: Apparence
 homepage: Page d'accueil
 hide_adult: Masquer le contenu réservé aux adultes
 featured_magazines: Magazines en vedette
 privacy: Confidentialité
-show_more: Voir plus
-add_new_article: Ajouter un nouvel article
+show_more: Afficher plus
+add_new_article: Ajouter un nouveau fil
 check_email: Vérifiez votre email
 eng: ENG
 subscribed: Abonné(e)
@@ -178,7 +178,7 @@ videos: Vidéos
 are_you_sure: Êtes-vous sûr(e) ?
 reset_check_email_desc2: Si vous ne recevez pas d'email, veuillez vérifier votre dossier
   spam.
-messages: Messages directs
+messages: Messages
 in: dans
 email_confirm_header: Salut ! Confirmez votre addresse email.
 image: Image
@@ -186,17 +186,17 @@ edit: Modifier
 go_to_search: Vers la recherche
 privacy_policy: Politique de confidentialité
 subscriptions: Abonnements
-edit_article: Modifier l'article
+edit_article: Modifier le fil
 type.smart_contract: Contrat intelligent
 hot: Dernière minute
 agree_terms: Consentir aux %terms_link_start%conditions d'utilisation%terms_link_end%
   et à la %policy_link_start%politique de confidentialité%policy_link_end%
-reset_check_email_desc: Si un compte correspondant à votre adresse email existe, un
-  email vient d'être envoyé contenant un lien que vous pouvez utiliser pour réinitialiser
+reset_check_email_desc: Si un compte correspondant à votre adresse email existe, vous
+  recevrez rapidement un email contenant un lien que vous pouvez utiliser pour réinitialiser
   votre mot de passe. Ce lien expirera dans %expire%.
 joined: Inscrit(e)
 show_profile_subscriptions: Voir les abonnements aux magazines
-show_profile_followings: Voir les utilisateurs suivants
+show_profile_followings: Voir les utilisateurs abonnés
 notify_on_new_entry_reply: Avertissez-moi des commentaires dans mes fils
 notify_on_new_entry_comment_reply: Avertissez-moi des réponses à mes commentaires
   dans les fils
@@ -207,7 +207,7 @@ notify_on_new_entry: Avertissez-moi des nouveaux fils dans les magazines abonné
 notify_on_new_posts: Avertissez-moi des nouveaux messages dans les magazines abonnés
 save: Enregistrer
 about: À propos
-old_email: Ancien email
+old_email: Email actuel
 new_email: Nouvel email
 new_email_repeat: Confirmer le nouvel email
 current_password: Mot de passe actuel
@@ -216,7 +216,7 @@ new_password_repeat: Confirmer le nouveau mot de passe
 change_email: Changer l'email
 change_password: Changer le mot de passe
 expand: Élargir
-collapse: Plier
+collapse: Réduire
 domains: Domaines
 error: Erreur
 votes: Votes
@@ -252,29 +252,29 @@ delete_account: Supprimer le compte
 related_entries: Fils reliés
 random_entries: Fils aléatoires
 active_users: Personnes actives
-banned_instances: Instances bannis
+banned_instances: Instances bannies
 ban_account: Bannir le compte
 send: Envoyer
-he_banned: banni
+he_banned: bannir
 Your account has been banned: Votre compte a été banni.
 banned: Vous a banni
 show_magazines_icons: Afficher les icônes des magazines
 solarized_light: Clair solarisé
 solarized_dark: Sombre solarisé
 rounded_edges: Bords arrondis
-removed_thread_by: a enlevé un fil par
+removed_thread_by: a supprimé un fil par
 restored_thread_by: a rétabli un fil par
 removed_comment_by: a enlevé un commentaire par
 restored_comment_by: a rétabli un commentaire par
-removed_post_by: a enlevé un message par
-restored_post_by: a rétabli un message par
-read_all: Lire tou(te)s
+removed_post_by: a supprimé un message de
+restored_post_by: a rétabli un message de
+read_all: Lire tout
 show_all: Afficher tout
-ranking_disabled: Le classement est inactif
-flash_register_success: Votre compte a été enregistré. Vérifiez votre email, nous
-  avons envoyé un message avec un lien d'activation.
+ranking_disabled: Le classement est désactivé
+flash_register_success: Bienvenue, votre compte a été enregistré. Vérifiez votre email,
+  nous avons envoyé un message avec un lien d'activation.
 flash_thread_new_success: Le fil a été créé correctement et est maintenant visible
-  aux autres usagers.
+  par les autres usagers.
 flash_thread_edit_success: Le fil a été modifié correctement.
 flash_thread_delete_success: Le fil a été supprimé correctement.
 flash_thread_pin_success: Le fil a été fixé correctement.
@@ -293,12 +293,12 @@ bronze_commentator: Commentateur/trice bronze
 bronze_commentator_desc: 10 bons commentaires
 bronze_scout: Scout(e) bronze
 bronze_scout_desc: 10 bons liens
-bronze_redactor_desc: 10 bons articles
+bronze_redactor_desc: 10 bons fils
 set_magazines_bar_desc: ajoutez les noms de magazines après la virgule
 bronze_poster_desc: 10 bons messages
 bronze_link: Bon lien
 bronze_link_desc: Le message a été partagé 5 fois
-bronze_article: Article bronze
+bronze_article: Fil de bronze
 bronze_photo: Bonne photo
 bronze_photo_desc: La photo a été partagée 5 fois
 bronze_comment: Bon commentaire
@@ -313,12 +313,12 @@ silver_personality_desc: 50 suiveurs
 silver_commentator: Commentateur/trice argent
 silver_scout: Scout(e) argent
 silver_scout_desc: 10 très bons liens
-silver_redactor_desc: 10 très bons articles
+silver_redactor_desc: 10 très bons fils
 silver_poster: Messager argent
 silver_poster_desc: 10 très bons messages
 silver_link: Très bon lien
-silver_article: Article argent
-silver_article_desc: L'article a été partagé 10 fois
+silver_article: Fil d'argent
+silver_article_desc: Le fil a été partagé 10 fois
 silver_photo: Très bonne photo
 silver_photo_desc: La photo a été partagée 10 fois
 silver_comment: Très bon commentaire
@@ -341,12 +341,12 @@ gold_scout: Scout(e) or
 gold_scout_desc: 10 liens excellents
 silver_redactor: Rédacteur/trice argent
 gold_redactor: Rédacteur/trice or
-gold_redactor_desc: 10 articles excellents
+gold_redactor_desc: 10 excellents fils
 gold_poster: Messager or
 gold_link: Lien excellent
 gold_link_desc: Le message a été partagé 15 fois
-gold_article: Article or
-gold_article_desc: L'article a été partagé 15 fois
+gold_article: Fil d'or
+gold_article_desc: Le fil a été partagé 15 fois
 gold_photo: Photo excellente
 gold_comment: Commentaire excellent
 gold_comment_desc: Le commentaire a été partagé 15 fois
@@ -358,17 +358,17 @@ gold_ranking_desc: Premier rang du classement
 gold_popular_entry: Fil populaire
 gold_popular_entry_desc: Fil visité 10000 fois
 gold_magazine: Magazine populaire
-gold_entry_month_desc: Meilleur fil du mois
+gold_entry_month_desc: Le meilleur fil du mois
 gold_comment_month: Commentaire du mois
 gold_comment_month_desc: Meilleur commentaire du mois
 gold_post_month: Message du mois
-gold_post_month_desc: Meilleur message du mois
+gold_post_month_desc: Le meilleur message du mois
 gold_magazine_desc: 100 suiveurs ont créé un magazine
 edited_thread: Fil modifié
 added_new_thread: a ajouté un nouveau fil
 added_new_comment: A ajouté un nouveau commentaire
 edited_comment: A modifié un commentaire
-replied_to_your_comment: A répondu à un commentaire
+replied_to_your_comment: A répondu à un de vos commentaires
 mod_deleted_your_comment: Un(e) modérateur/trice a supprimé votre commentaire
 mod_remove_your_thread: Un(e) modérateur/trice a retiré votre fil
 added_new_post: A ajouté un nouveau message
@@ -380,7 +380,7 @@ deleted: Supprimé par l'auteur
 mentioned_you: vous a mentionné
 comment: Commentaire
 post: Message
-purge: Purge
+purge: Purger
 message: Message direct
 infinite_scroll: Défilement infini
 show_top_bar: Afficher la barre supérieure
@@ -393,7 +393,7 @@ status: Statut
 on: Actif
 off: Inactif
 instances: Instances
-upload_file: Téléverser un fichier
+upload_file: Envoyer un fichier
 from_url: Depuis l'URL
 magazine_panel: Panneau de magazine
 reject: Refuser
@@ -405,19 +405,19 @@ add_moderator: Ajouter un(e) modérateur/trice
 add_badge: Ajouter un badge
 created: Créé
 expires: Expire
-perm: Perm
+perm: Permanent
 expired_at: Expiré le
 trash: Corbeille
 icon: Icône
 done: Terminé
-pin: Épingle
+pin: Épingler
 bronze_redactor: Rédacteur/trice bronze
 bronze_poster: Messager bronze
 flash_magazine_new_success: Le magazine a été créé correctement. Vous pouvez désormais
   ajouter du nouveau contenu ou explorer le panneau d'administration du magazine.
-bronze_article_desc: L'article a été partagé 5 fois
+bronze_article_desc: Le fil a été partagé 5 fois
 bronze_popular_entry_desc: Fil visité 1000 fois
-bronze_magazine: Magazine fameux
+bronze_magazine: Magazine célèbre
 silver_commentator_desc: 10 très bons commentaires
 silver_link_desc: Le lien a été partagé 10 fois
 silver_comment_desc: Le commentaire a été partagé 10 fois
@@ -432,15 +432,15 @@ wrote_message: A écrit un message
 send_message: Envoyer un message
 gold_post_desc: Le message a été partagé 15 fois
 sidebar_position: Position de la barre latérale
-mod_log_alert: Dans le journal de modération vous pourriez trouver du contenu choquant
-  enlevé par les modérateurs. Assurez-vous de savoir ce que vous faites.
+mod_log_alert: ATTENTION - Le journal de modération peut contenir des éléments désagréables
+  ou choquants qui ont été supprimés par les modérateurs. Soyez prudents.
 unpin: Détacher
 change_magazine: Changer de magazine
 change_language: Changer de langue
 change: Changer
 pinned: Épinglé
 preview: Aperçu
-article: Article
+article: Fil
 reputation: Réputation
 note: Note
 writing: Écriture
@@ -453,8 +453,8 @@ months: Mois
 year: Année
 federated: Fédéré
 local: Local
-admin_panel: Panneau admin
-dashboard: À la une
+admin_panel: Panneau d'administration
+dashboard: Tableau de bord
 contact_email: Email de contact
 meta: Méta
 instance: Instance
@@ -462,6 +462,20 @@ pages: Pages
 FAQ: FAQ
 type_search_term: Tapez le terme de recherche
 federation_enabled: Fédération active
-registrations_enabled: Enregistrements ouverts
-registration_disabled: Enregistrements fermés
+registrations_enabled: Inscriptions ouvertes
+registration_disabled: Inscriptions fermées
 restore: Restaurer
+add_mentions_entries: Ajouter des étiquettes dans le contenu
+add_mentions_posts: Ajouter des étiquettes dans les messages
+Password is invalid: Le mot de passe n'est pas valide.
+Your account is not active: Votre compte n'est pas actif.
+inactive: Inactif
+purge_account: Purger le compte
+magazine_panel_tags_info: Fournissez seulement si vous voulez inclure du contenu du
+  Fédivers dans ce magazine, d'après ces étiquettes
+kbin_intro_desc: C'est une plate-forme décentralisée d'agrégation de contenu et de
+  microblogging qui fonctionne au sein du réseau Fédivers.
+kbin_promo_desc: '%link_start%Clonez le dépôt%link_end% et développez le Fédivers'
+browsing_one_thread: Vous ne parcourez qu'un seul fil de discussion ! Tous les commentaires
+  sont disponibles sur la page de publication.
+boost: Partager

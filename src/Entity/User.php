@@ -27,6 +27,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Entity(repositoryClass: UserRepository::class)]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 #[Table(name: '`user`', uniqueConstraints: [
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
@@ -52,9 +53,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
+    #[Cache(usage: 'NONSTRICT_READ_WRITE')]
     public ?Image $avatar = null;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
+    #[Cache(usage: 'NONSTRICT_READ_WRITE')]
     public ?Image $cover = null;
     #[Column(type: 'string', unique: true, nullable: false)]
     public string $email;
@@ -93,15 +96,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewEntry = false;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewEntryReply = false;
+    public bool $notifyOnNewEntryReply = true;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewEntryCommentReply = false;
+    public bool $notifyOnNewEntryCommentReply = true;
     #[Column(type: 'boolean', nullable: false)]
     public bool $notifyOnNewPost = false;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewPostReply = false;
+    public bool $notifyOnNewPostReply = true;
     #[Column(type: 'boolean', nullable: false)]
-    public bool $notifyOnNewPostCommentReply = false;
+    public bool $notifyOnNewPostCommentReply = true;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $addMentionsEntries = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]

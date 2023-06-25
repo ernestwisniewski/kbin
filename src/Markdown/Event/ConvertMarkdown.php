@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Markdown\Event;
 
+use League\CommonMark\Output\RenderedContentInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class ConvertMarkdown extends Event
 {
-    private string $renderedHtml = '';
+    private RenderedContentInterface $renderedContent;
     private array $attributes = [];
 
     public function __construct(private string $markdown)
@@ -20,19 +21,14 @@ class ConvertMarkdown extends Event
         return $this->markdown;
     }
 
-    public function setMarkdown(string $markdown): void
+    public function getRenderedContent(): RenderedContentInterface
     {
-        $this->markdown = $markdown;
+        return $this->renderedContent;
     }
 
-    public function getRenderedHtml(): string
+    public function setRenderedContent(RenderedContentInterface $renderedContent): void
     {
-        return $this->renderedHtml;
-    }
-
-    public function setRenderedHtml(string $renderedHtml): void
-    {
-        $this->renderedHtml = $renderedHtml;
+        $this->renderedContent = $renderedContent;
     }
 
     /**

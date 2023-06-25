@@ -38,7 +38,7 @@
         </section>
         <section>
             <h5>© {{ 'now'|date('Y') }} {{ kbin_domain() }}</h5>
-            <div>Powered by <a href="https://kbin.pub">kbin</a></div>
+            <div>Powered by <a href="https://kbin.pub">kbin</a> &#8729; <a href="https://codeberg.org/Kbin/kbin-core/issues" rel="no-referrer">{{ 'report_issue'|trans }}</a></div>
             <div>
                 <menu>
                     <li><a href="#"
@@ -64,6 +64,8 @@
                 </menu>
                 <div class="lang-switch">
                     <select data-action="kbin#changeLang">
+                        <option value="de" {{ app.request.cookies.get('kbin_lang') is same as 'de' ? 'selected' : '' }}>Deutsch</option>
+                        <option value="el" {{ app.request.cookies.get('kbin_lang') is same as 'en' ? 'selected' : '' }}>Ελληνικά</option>
                         <option value="en" {{ app.request.cookies.get('kbin_lang') is same as 'en' ? 'selected' : '' }}>English</option>
                         <option value="es" {{ app.request.cookies.get('kbin_lang') is same as 'es' ? 'selected' : '' }}>Español</option>
                         <option value="fr" {{ app.request.cookies.get('kbin_lang') is same as 'fr' ? 'selected' : '' }}>Français</option>
@@ -72,6 +74,7 @@
                         <option value="nl" {{ app.request.cookies.get('kbin_lang') is same as 'nl' ? 'selected' : '' }}>Dutch</option>
                         <option value="pl" {{ app.request.cookies.get('kbin_lang') is same as 'pl' ? 'selected' : '' }}>Polski</option>
                         <option value="pt" {{ app.request.cookies.get('kbin_lang') is same as 'pt' ? 'selected' : '' }}>Português</option>
+                        <option value="tr" {{ app.request.cookies.get('kbin_lang') is same as 'pt' ? 'selected' : '' }}>Türkçe</option>
                     </select>
                 </div>
             </div>
