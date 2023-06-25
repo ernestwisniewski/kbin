@@ -6,7 +6,6 @@
   "start_url": "/",
   "short_name": "/kbin",
   "description": "/kbin Progressive Web App",
-  "orientation": "any",
   "related_applications": [],
   "prefer_related_applications": false,
   "display_override": [
