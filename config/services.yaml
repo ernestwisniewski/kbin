@@ -147,6 +147,11 @@ services:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
     arguments: [ '%kbin_default_lang%' ]
 
+  # User
+  App\EventListener\UserHomepageListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, priority: 7 }
+
   # Federation
   App\EventListener\FederationStatusListener:
     tags:
