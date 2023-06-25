@@ -1,12 +1,12 @@
 .entry {
   display: grid;
-  grid-template-areas: "vote title image"
-                       "vote shortDesc image"
-                       "vote meta image"
-                       "vote footer image"
+  grid-template-areas: "vote image title"
+                       "vote image shortDesc"
+                       "vote image meta"
+                       "vote image footer"
                        "vote body body";
-  grid-template-columns: min-content 1fr;
-  padding: 0.75rem;
+  grid-template-columns: min-content min-content 1fr;
+  padding: 0 0 0.75rem 0;
   position: relative;
   z-index: 2;
 
@@ -20,11 +20,11 @@
   }
 
   @include media-breakpoint-down(sm) {
-    grid-template-areas: "vote image"
-                       "title title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
+    grid-template-areas: "image image"
+                       "vote title"
+                       "vote shortDesc"
+                       "vote meta"
+                       "vote footer"
                        "body body";
     grid-template-columns: min-content 1fr;
 
@@ -99,12 +99,9 @@
 
   .vote {
     grid-area: vote;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
+    margin: 0.75rem;
 
     @include media-breakpoint-down(sm) {
-      margin-right: .75rem;
-
       .view-compact & {
         margin-right: 0;
         margin-left: .5rem;
@@ -112,33 +109,72 @@
     }
   }
 
-  figure {
+  figure,
+  .no-image-placeholder {
+    position: relative;
     grid-area: image;
-    margin: 0 0 0 1rem;
-    width: 220px;
-    height: 145px;
+    margin: 0 1rem 0 0;
+    width: 190px;
+    height: calc(190px / 1.5); // 3:2 ratio
     justify-self: right;
+    overflow: hidden;
 
     img {
+      position: absolute;
+      top: 0;
       height: 100%;
       width: 100%;
-      object-fit: cover;
-      -o-object-fit: cover;
+      object-fit: contain;
+      -o-object-fit: contain;
     }
 
-    @include media-breakpoint-down(lg) {
-      width: 190px;
-      height: 100px;
+    .image-filler {
+      position: absolute;
+      background-position: center;
+      filter: blur(8px);
+      width: 110%;
+      height: 110%;
+      top: -5%;
+      left: -5%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      width: 140px;
+      height: calc(140px / 1.5); // 3:2 ratio
+      margin: 0.75rem 0.75rem 0.75rem 0;
     }
 
     @include media-breakpoint-down(sm) {
-      margin: 0 0 0 .25rem;
-      height: 70px;
+      margin: 0;
+      height: 110px;
       width: 100%;
+
+      .rounded-edges & {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
       
       .view-compact & {
         margin-left: 0rem;
       }
+    }
+  }
+
+  .no-image-placeholder {
+    border: var(--kbin-entry-no-image-placeholder-border);
+    font-size: 1.4rem;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      text-align: center;
+      padding-top: 1.6rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: none;
     }
   }
 
@@ -153,7 +189,7 @@
     display: flex;
     flex-wrap: wrap;
     grid-area: title;
-    margin-bottom: 1rem;
+    margin: 0.75rem 0;
 
     h2, h1 {
       font-size: 1.1rem;

@@ -154,7 +154,7 @@ figure {
   .options,
   .alert,
   .btn,
-  figure img,
+  figure,
   input,
   textarea,
   select,
@@ -164,7 +164,8 @@ figure {
   .preview iframe,
   .dropdown__menu,
   #sidebar .theme,
-  #sidebar .user-list img {
+  #sidebar .user-list img,
+  .no-image-placeholder {
     border-radius: .5rem !important;
   }
 
