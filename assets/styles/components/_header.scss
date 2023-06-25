@@ -40,6 +40,25 @@
     padding-bottom: .6rem;
   }
 
+  .login.has-avatar{
+    display: flex;
+    align-items: center;
+
+    .user-avatar{
+      border-radius: 50%;
+      margin-left: 0.5em;
+      width: 20px;
+      height: 20px;
+    }
+
+    @include media-breakpoint-down(sm) {   
+      .user-name{
+        display: none;
+      }
+    }
+
+  }
+
   .counter a {
     padding-left: .1rem;
     padding-right: .1rem;

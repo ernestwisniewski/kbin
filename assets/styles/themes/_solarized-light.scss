@@ -71,6 +71,9 @@ $green: #859900;
   --kbin-success-color: #{$green};
   --kbin-danger-color: #{$red};
 
+  --kbin-own-color: #{$green};
+  --kbin-author-color: #{$red};
+
   // section
   --kbin-section-bg: #{$base3};
   --kbin-section-text-color: var(--kbin-text-color);
@@ -78,8 +81,8 @@ $green: #859900;
   --kbin-section-link-color: #{$blue};
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #c8cac0;
-  --kbin-author-border: 1px dashed var(--kbin-danger-color);
-  --kbin-own-border: 1px dashed var(--kbin-success-color);
+  --kbin-author-border: 1px dashed var(--kbin-author-color);
+  --kbin-own-border: 1px dashed var(--kbin-own-color);
 
   // meta
   --kbin-meta-bg: none;
@@ -88,6 +91,7 @@ $green: #859900;
   --kbin-meta-link-hover-color: #{$base1};
   --kbin-meta-border: 1px dashed #e7dfc6;;
   --kbin-avatar-border: 3px solid #d8cda9;
+  --kbin-blockquote-color: #{$green};
 
   // options
   --kbin-options-bg: #{$base3};
@@ -140,6 +144,8 @@ $green: #859900;
   --kbin-vote-bg: #fff5db;
   --kbin-vote-text-color: #{$base01};
   --kbin-vote-text-hover-color: #{$base1};
+  --kbin-upvoted-color: #{$green};
+  --kbin-downvoted-color: #{$red};
 
   // alerts
   --kbin-alert-info-bg: #fff3cd;

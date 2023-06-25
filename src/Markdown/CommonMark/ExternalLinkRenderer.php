@@ -168,7 +168,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             $embed = false;
         }
 
-        return $embed;
+        return (bool) $embed;
     }
 
     private function isMentionType(Link $link): bool 
