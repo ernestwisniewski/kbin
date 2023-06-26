@@ -11,6 +11,8 @@
   "display_override": [
     "window-controls-overlay"
   ],
+  "background_color": "#100045",
+  "theme_color": "#100045",
   "icons": [
     {
       "src": "assets/icons/icon-1024x1024.png",
@@ -34,7 +36,7 @@
     },
     {
       "src": "assets/icons/icon-144x144.png",
-      "sizes": "144x44",
+      "sizes": "144x144",
       "type": "image/png"
     },
     {
@@ -51,6 +53,18 @@
       "src": "assets/icons/icon-48x48.png",
       "sizes": "48x48",
       "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-192-maskable.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
@@ -74,25 +88,49 @@
       "name": "Open Microblog",
       "short_name": "Microblog",
       "description": "Open the Microblog section",
-      "url": "/microblog"
+      "url": "/microblog",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open Magazines",
       "short_name": "Magazines",
       "description": "Open the Magazines list",
-      "url": "/magazines"
+      "url": "/magazines",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open People",
       "short_name": "People",
       "description": "Open the People list",
-      "url": "/people"
+      "url": "/people",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open Settings",
       "short_name": "Settings",
       "description": "Open the Settings page",
-      "url": "/settings"
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
