@@ -328,6 +328,10 @@
       }
     }
 
+    .no-image-placeholder {
+      display: none;
+    }
+
     .rounded-edges .view-compact & figure {
       border-top-right-radius: 0 !important;
     }
