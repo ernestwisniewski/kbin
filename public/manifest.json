@@ -11,6 +11,7 @@
   "display_override": [
     "window-controls-overlay"
   ],
+  "background_color": "#100045",
   "icons": [
     {
       "src": "assets/icons/icon-1024x1024.png",
@@ -51,6 +52,18 @@
       "src": "assets/icons/icon-48x48.png",
       "sizes": "48x48",
       "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-192-maskable.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/icons/icon-512-maskable.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
     }
   ],
   "screenshots": [
