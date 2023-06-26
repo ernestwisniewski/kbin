@@ -6,16 +6,23 @@ namespace App\DataFixtures;
 
 use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
+use App\Repository\ImageRepository;
 use App\Service\EntryCommentManager;
+use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterface
 {
     public const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
-    public function __construct(private readonly EntryCommentManager $commentManager)
-    {
+    public function __construct(
+        private readonly EntryCommentManager $commentManager,
+        private readonly ImageManager $imageManager,
+        private readonly ImageRepository $imageRepository,
+        private readonly EntityManagerInterface $entityManager
+    ) {
     }
 
     public function getDependencies()
@@ -31,6 +38,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $dto = new EntryCommentDto();
             $dto->entry = $comment['entry'];
             $dto->body = $comment['body'];
+            $dto->lang = 'en';
 
             $entity = $this->commentManager->create($dto, $comment['user']);
 
@@ -74,8 +82,25 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             null,
             $this->faker->paragraphs($this->faker->numberBetween(1, 3), true)
         );
+        $dto->lang = 'en';
 
         $entity = $this->commentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+
+        $roll = rand(1, 400);
+        if ($roll % 10) {
+            try {
+                $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+            } catch (\Exception $e) {
+                $tempFile = null;
+            }
+
+            if ($tempFile) {
+                $image = $this->imageRepository->findOrCreateFromPath($tempFile);
+
+                $entity->image = $image;
+                $this->entityManager->flush();
+            }
+        }
 
         $entity->createdAt = $this->getRandomTime($parent->createdAt);
         $entity->updateLastActive();
