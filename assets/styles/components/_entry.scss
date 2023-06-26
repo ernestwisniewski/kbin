@@ -4,9 +4,10 @@
                        "vote image shortDesc"
                        "vote image meta"
                        "vote image footer"
-                       "vote body body";
+                       "body body body";
   grid-template-columns: min-content min-content 1fr;
-  padding: 0 0 0.75rem 0;
+  grid-template-rows: 1fr min-content;
+  padding: 0;
   position: relative;
   z-index: 2;
 
@@ -42,20 +43,22 @@
     }
 
     .view-compact & {
-      grid-template-areas: "image vote"
-                       "title title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
-      grid-template-columns: 1fr min-content;
+      grid-template-areas: "title image vote"
+                       "meta image vote"
+                       "footer footer vote"
+                       "body body body";
+      grid-template-columns: 1fr min-content min-content;
 
-      figure {
-        justify-self: left;
+      header,
+      footer,
+      &__meta {
+        margin-left: 0.75rem;
       }
 
       .vote {
         justify-content: right;
+        margin-right: 0.75rem;
+        margin-left: 0;
       }
 
       .short-desc {
@@ -75,15 +78,15 @@
 
   @include media-breakpoint-up(sm) {
     .view-compact & {
-      grid-template-areas: "vote title image "
+      grid-template-areas: "vote title image"
                        "vote meta image"
                        "vote footer image"
-                       "body body" !important;
-      grid-template-columns: min-content 1fr;
+                       "body body body";
+      grid-template-columns: min-content 1fr min-content;
 
       .vote {
-        margin-right: 1rem !important;
-        margin-left: 0 !important;
+        margin-right: 0.75rem !important;
+        margin-left: 0.75rem !important;
       }
 
       .short-desc {
@@ -100,22 +103,15 @@
   .vote {
     grid-area: vote;
     margin: 0.75rem;
-
-    @include media-breakpoint-down(sm) {
-      .view-compact & {
-        margin-right: 0;
-        margin-left: .5rem;
-      }
-    }
   }
 
   figure,
   .no-image-placeholder {
     position: relative;
     grid-area: image;
-    margin: 0 1rem 0 0;
-    width: 190px;
-    height: calc(190px / 1.5); // 3:2 ratio
+    margin: 0.75rem 0.75rem 0.75rem 0;
+    width: 170px;
+    height: calc(170px / 1.5); // 3:2 ratio
     justify-self: right;
     overflow: hidden;
 
@@ -138,24 +134,40 @@
       left: -5%;
     }
 
-    @include media-breakpoint-up(sm) {
+    .view-compact & {
+      width: 170px;
+      height: 100%;
+      margin: 0 0 0 0.75rem;
+    }
+
+    .rounded-edges .view-compact & {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+
+    @include media-breakpoint-down(lg) {
       width: 140px;
       height: calc(140px / 1.5); // 3:2 ratio
-      margin: 0.75rem 0.75rem 0.75rem 0;
     }
 
     @include media-breakpoint-down(sm) {
       margin: 0;
       height: 110px;
       width: 100%;
+      
+      .view-compact & {
+        margin: 0.75rem;
+        height: 68px;
+        width: 68px;
+      }
 
       .rounded-edges & {
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
       }
-      
-      .view-compact & {
-        margin-left: 0rem;
+
+      .rounded-edges .view-compact & {
+        border-radius: .5rem !important;
       }
     }
   }
@@ -170,7 +182,17 @@
       height: 100%;
 
       text-align: center;
-      padding-top: 1.6rem;
+      padding-top: 2.35rem;
+    }
+
+    .view-compact & {
+      display: none;
+    }
+
+    @include media-breakpoint-down(lg) {
+      a {
+        padding-top: 1.6rem;
+      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -225,7 +247,7 @@
 
     p {
       font-size: .85rem;
-      margin: 0 0 1rem;
+      margin: 0 0.75rem 1rem 0;
     }
   }
 
@@ -242,6 +264,7 @@
   footer {
     grid-area: footer;
     align-self: flex-end;
+    margin-bottom: 0.75rem;
 
     menu {
       column-gap: 1rem;
@@ -263,6 +286,10 @@
       button, input[type='submit'], a {
         @include kbin-btn-link;
       }
+    }
+
+    .view-compact & {
+      margin-bottom: 0.3rem;
     }
   }
 
@@ -292,15 +319,22 @@
   &--single {
     border-top: 0;
     margin-top: 0;
-    padding: 1.25rem;
 
     .entry__body {
-      @include media-breakpoint-down(sm) {
-        padding: 0;
-      }
+      margin: 0.75rem;
 
       .content *:last-child {
         margin-bottom: 0;
+      }
+    }
+
+    .rounded-edges .view-compact & figure {
+      border-top-right-radius: 0 !important;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .rounded-edges .view-compact & figure {
+        border-top-right-radius: .5rem !important;
       }
     }
   }
