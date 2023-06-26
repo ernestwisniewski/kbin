@@ -9,7 +9,7 @@
         <nav class="head-nav"  data-action="click->kbin#toggleNav">
             <div class="brand">
                 <div><i class="fa-solid fa-bars"></i></div>
-                <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
+                <a href="/">
                     {% if kbin_header_logo() %}
                         <img id="logo" src="{{ asset('kbin_logo.svg') }}" alt="{{ kbin_title() }}">
                     {% else %}
