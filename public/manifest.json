@@ -35,7 +35,7 @@
     },
     {
       "src": "assets/icons/icon-144x144.png",
-      "sizes": "144x44",
+      "sizes": "144x144",
       "type": "image/png"
     },
     {
@@ -93,7 +93,13 @@
       "name": "Open Magazines",
       "short_name": "Magazines",
       "description": "Open the Magazines list",
-      "url": "/magazines"
+      "url": "/magazines",
+      "icons": [
+        {
+          "src": "assets/shield.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open People",
