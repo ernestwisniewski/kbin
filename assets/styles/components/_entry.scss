@@ -333,6 +333,11 @@
     }
 
     @include media-breakpoint-down(sm) {
+      .rounded-edges & figure {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
+
       .rounded-edges .view-compact & figure {
         border-top-right-radius: .5rem !important;
       }
