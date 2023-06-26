@@ -87,7 +87,13 @@
       "name": "Open Microblog",
       "short_name": "Microblog",
       "description": "Open the Microblog section",
-      "url": "/microblog"
+      "url": "/microblog",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open Magazines",
@@ -96,7 +102,7 @@
       "url": "/magazines",
       "icons": [
         {
-          "src": "assets/shield.png",
+          "src": "assets/icons/icon-192-maskable.png",
           "sizes": "192x192"
         }
       ]
@@ -105,13 +111,25 @@
       "name": "Open People",
       "short_name": "People",
       "description": "Open the People list",
-      "url": "/people"
+      "url": "/people",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Open Settings",
       "short_name": "Settings",
       "description": "Open the Settings page",
-      "url": "/settings"
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "assets/icons/icon-192-maskable.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
