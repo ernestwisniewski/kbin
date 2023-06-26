@@ -15,6 +15,8 @@ body {
 #middle {
   background: var(--kbin-bg);
   padding-bottom: 3rem;
+  z-index: 5;
+  position :relative;
 
   .kbin-container {
     display: grid;
@@ -161,7 +163,12 @@ figure {
   textarea,
   select,
   button,
-  .ts-wrapper .ts-control {
+  .ts-wrapper .ts-control,
+  .preview img,
+  .preview iframe,
+  .dropdown__menu,
+  #sidebar .theme,
+  #sidebar .user-list img {
     border-radius: .5rem !important;
   }
 
@@ -184,6 +191,11 @@ figure {
     button {
       border-radius: 0;
     }
+  }
+
+  .magazine__subscribe,
+  .user__follow {
+    gap: 0.25rem
   }
 }
 

@@ -106,10 +106,20 @@
   }
 
   .magazine {
-    align-content: center;
+    align-content: start;
     align-items: center;
     display: grid;
     grid-template-rows: auto;
+  }
+  h3 {
+    border-bottom: var(--kbin-sidebar-header-border);
+    color: var(--kbin-sidebar-header-text-color);
+    font-size: .8rem;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+  }
+  .content {
+    font-size: 0.85rem;
   }
 }
 

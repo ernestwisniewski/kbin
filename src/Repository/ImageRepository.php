@@ -42,6 +42,7 @@ class ImageRepository extends ServiceEntityRepository
             if (file_exists($source)) {
                 unlink($source);
             }
+
             return $image;
         }
 
@@ -78,6 +79,10 @@ class ImageRepository extends ServiceEntityRepository
             $max_width = 20;
             if ($width > $max_width) {
                 $image = imagescale($image, $max_width);
+                if (!$image) {
+                    throw new \Exception('Could not scale image');
+                }
+
                 $width = imagesx($image);
                 $height = imagesy($image);
             }
