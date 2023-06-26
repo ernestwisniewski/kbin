@@ -12,6 +12,7 @@
     "window-controls-overlay"
   ],
   "background_color": "#100045",
+  "theme_color": "#100045",
   "icons": [
     {
       "src": "assets/icons/icon-1024x1024.png",
