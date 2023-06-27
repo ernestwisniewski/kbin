@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-use App\Message\Contracts\AsyncApMessageInterface;
+use App\Message\Contracts\AsyncMessageInterface;
 
-class LinkEmbedMessage implements AsyncApMessageInterface
+class LinkEmbedMessage implements AsyncMessageInterface
 {
     public function __construct(public string $body)
     {
