@@ -40,6 +40,8 @@ $aspect-ratios: (
   --kbin-own-color: #0f5132;
   --kbin-author-color: #842029;
 
+  --kbin-rounded-edges-radius: .5rem !important;
+
   // section
   --kbin-section-bg: #fff;
   --kbin-section-text-color: var(--kbin-text-color);
@@ -126,6 +128,7 @@ $aspect-ratios: (
 
   //entry
   --kbin-entry-link-visited-color: #7e8f99;
+  --kbin-entry-no-image-placeholder-border: 2px solid var(--kbin-text-muted-color);
 
   // footer
   --kbin-footer-bg: #110045;

@@ -33,7 +33,7 @@ $comment-margin-sm: .3rem;
                          "avatar footer footer";
   grid-template-columns: min-content auto min-content;
   margin: .5rem 0;
-  padding: 1rem .5rem;
+  padding: 0.75rem;
   position: relative;
   z-index: 2;
 
@@ -232,4 +232,5 @@ aside.comments {
 
 #comment-add {
   margin: .5rem 0;
+  padding: 0.75rem;
 }
