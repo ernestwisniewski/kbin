@@ -142,6 +142,10 @@
       left: -5%;
     }
 
+    .rounded-edges & {
+      border-radius: var(--kbin-rounded-edges-radius);
+    }
+
     .view-compact & {
       width: 170px;
       height: 100%;
@@ -175,9 +179,7 @@
       }
 
       .rounded-edges .view-compact & {
-        border-radius: 0 !important;
-        border-top-left-radius: var(--kbin-rounded-edges-radius) !important;
-        border-bottom-right-radius: var(--kbin-rounded-edges-radius) !important;
+        border-radius: var(--kbin-rounded-edges-radius) !important;
       }
     }
   }

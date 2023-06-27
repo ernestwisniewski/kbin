@@ -154,7 +154,6 @@ figure {
   .options,
   .alert,
   .btn,
-  figure,
   figure img,
   input,
   textarea,
@@ -167,7 +166,7 @@ figure {
   #sidebar .theme,
   #sidebar .user-list img,
   .no-image-placeholder {
-    border-radius: var(--kbin-rounded-edges-radius);
+    border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
   .options {
