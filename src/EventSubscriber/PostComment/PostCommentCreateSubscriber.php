@@ -6,6 +6,7 @@ namespace App\EventSubscriber\PostComment;
 
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Message\ActivityPub\Outbox\CreateMessage;
+use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostCommentCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -32,6 +33,7 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
         ]);
 
         $this->bus->dispatch(new PostCommentCreatedNotificationMessage($event->comment->getId()));
+        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new CreateMessage($event->comment->getId(), get_class($event->comment)));

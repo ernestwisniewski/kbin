@@ -17,6 +17,7 @@ use App\Entity\Moderator;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\Report;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
@@ -73,13 +74,12 @@ class DeleteUserHandler
             || $this->removeUserFollows()
             || $this->removeUserBlocks()
             || $this->removeFavourites()
-            || $this->removeVotes(EntryComment::class)
+            || $this->removeNotifications()
+            || $this->removeReports()
+            || $this->removeVotes()
             || $this->removeEntryComments()
-            || $this->removeVotes(Entry::class)
             || $this->removeEntries()
-            || $this->removeVotes(PostComment::class)
             || $this->removePostComments()
-            || $this->removeVotes(Post::class)
             || $this->removePosts()
             || $this->removeMessages();
 
@@ -90,7 +90,7 @@ class DeleteUserHandler
         } else {
             $this->removeDomainSubscriptions();
             $this->removeDomainBlocks();
-            $this->removeNotifications();
+            $this->purgeVotes();
             $this->removeMod();
 
             $this->user = $this->entityManager
@@ -214,39 +214,30 @@ class DeleteUserHandler
         return $retry;
     }
 
-    private function removeVotes(string $subjectClass): bool
+    private function removeVotes(): bool
     {
-        $subjects = $this->entityManager->createQueryBuilder()
-            ->select('c')
-            ->from($subjectClass, 'c')
-            ->join('c.votes', 'cv')
-            ->where('cv.user = :user')
-            ->andWhere('cv.choice != 0')
-            ->orderBy('c.id', 'DESC')
-            ->setParameter('user', $this->user)
-            ->setMaxResults($this->batchSize)
-            ->getQuery()
-            ->execute();
+        foreach ([Entry::class, Post::class, EntryComment::class, PostComment::class] as $subjectClass) {
+            $subjects = $this->entityManager->createQueryBuilder()
+                ->select('c')
+                ->from($subjectClass, 'c')
+                ->join('c.votes', 'cv')
+                ->where('cv.user = :user')
+                ->andWhere('cv.choice != 0')
+                ->orderBy('c.id', 'DESC')
+                ->setParameter('user', $this->user)
+                ->setMaxResults($this->batchSize)
+                ->getQuery()
+                ->execute();
 
-        $retry = false;
+            $retry = false;
 
-        foreach ($subjects as $subject) {
-            $retry = true;
-            $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
+            foreach ($subjects as $subject) {
+                $retry = true;
+                $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
+            }
         }
 
-        if (false === $retry) {
-            $em = $this->entityManager;
-            $query = $em->createQuery(
-                'DELETE FROM '.$subjectClass.'Vote'.' v WHERE v.user = :user OR v.author = :user'
-            );
-            $query->setParameter('user', $this->user);
-            $query->execute();
-
-            return false;
-        }
-
-        return $retry;
+        return false;
     }
 
     private function removeEntryComments(): bool
@@ -427,12 +418,14 @@ class DeleteUserHandler
         return $retry;
     }
 
-    private function removeNotifications(): void
+    private function removeNotifications(): bool
     {
         $em = $this->entityManager;
         $query = $em->createQuery('DELETE FROM '.Notification::class.' n WHERE n.user = :userId');
         $query->setParameter('userId', $this->user->getId());
         $query->execute();
+
+        return false;
     }
 
     private function removeDomainSubscriptions(): void
@@ -465,5 +458,28 @@ class DeleteUserHandler
         );
         $query->setParameters(['userId' => $this->user->getId(), 'newUserId' => $admin->getId()]);
         $query->execute();
+    }
+
+    private function removeReports(): bool
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.Report::class.' r WHERE r.reported = :userId OR r.reporting = :userId'
+        );
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+
+        return false;
+    }
+
+    private function purgeVotes(): void
+    {
+        foreach ([Entry::class, Post::class, EntryComment::class, PostComment::class] as $subjectClass) {
+            $query = $this->entityManager->createQuery(
+                'DELETE FROM '.$subjectClass.'Vote'.' v WHERE v.user = :user OR v.author = :user'
+            );
+            $query->setParameter('user', $this->user);
+            $query->execute();
+        }
     }
 }
