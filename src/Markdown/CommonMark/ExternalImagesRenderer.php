@@ -4,39 +4,32 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
-use League\CommonMark\ElementRendererInterface;
-use League\CommonMark\HtmlElement;
-use League\CommonMark\Inline\Element\AbstractInline;
-use League\CommonMark\Inline\Element\Image;
-use League\CommonMark\Inline\Element\Text;
-use League\CommonMark\Inline\Renderer\InlineRendererInterface;
-use League\CommonMark\Util\ConfigurationAwareInterface;
-use League\CommonMark\Util\ConfigurationInterface;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
+use League\CommonMark\Node\Inline\Text;
+use League\CommonMark\Node\Node;
+use League\CommonMark\Renderer\ChildNodeRendererInterface;
+use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 
-final class ExternalImagesRenderer implements InlineRendererInterface, ConfigurationAwareInterface
+final class ExternalImagesRenderer implements NodeRendererInterface
 {
-    private ConfigurationInterface $config;
-
+    /**
+     * @param Image $node
+     * @param ChildNodeRendererInterface $childRenderer
+     * @return HtmlElement
+     */
     public function render(
-        AbstractInline $inline,
-        ElementRendererInterface $htmlRenderer
+        Node $node,
+        ChildNodeRendererInterface $childRenderer
     ): HtmlElement {
-        if (!$inline instanceof Image) {
-            throw new \InvalidArgumentException(sprintf('Incompatible inline type: %s', \get_class($inline)));
-        }
+        Image::assertInstanceOf($node);
 
-        $url = $title = $inline->getUrl();
+        $url = $title = $node->getUrl();
 
-        if ($inline->firstChild() instanceof Text) {
-            $title = $htmlRenderer->renderInline($inline->firstChild());
+        if ($node->firstChild() instanceof Text) {
+            $title = $childRenderer->renderNodes([$node->firstChild()]);
         }
 
         return EmbedElement::buildEmbed($url, $title);
-    }
-
-    public function setConfiguration(
-        ConfigurationInterface $configuration
-    ): void {
-        $this->config = $configuration;
     }
 }

@@ -1,5 +1,5 @@
 type.link: Link
-type.article: Article
+type.article: Thread
 type.photo: Photo
 type.video: Video
 type.smart_contract: Smart contract
@@ -66,7 +66,7 @@ login_or_email: Login or email
 password: Password
 remember_me: Remember me
 dont_have_account: Don't have an account?
-you_cant_login: You can't login?
+you_cant_login: Forgot your password?
 already_have_account: Already have an account?
 register: Register
 reset_password: Reset password
@@ -87,7 +87,7 @@ fediverse: Fediverse
 awards: Awards
 ranking: Ranking
 create_new_magazine: Create new magazine
-add_new_article: Add new article
+add_new_article: Add new thread
 add_new_link: Add new link
 add_new_photo: Add new photo
 add_new_post: Add new post
@@ -99,17 +99,17 @@ change_theme: Change theme
 useful: Useful
 help: Help
 check_email: Check your email
-reset_check_email_desc: If an account matching your email exists, then an email was
-  just sent that contains a link that you can use to reset your password. This link
-  will expire in %expire%.
+reset_check_email_desc: If there is already an account associated with your email
+  address, you should shortly receive an email containing a link that you can use
+  to reset your password. This link will expire in %expire%.
 reset_check_email_desc2: If you don't receive an email please check your spam folder.
 try_again: Try again
 up_vote: Boost
 down_vote: Reduce
 email_confirm_header: Hello! Confirm your email address.
-email_confirm_content: 'If you want to activate your account click on the link below:'
+email_confirm_content: 'Ready to active your Kbin account? Click on the link below:'
 email_verify: Confirm email address
-email_confirm_expire: The link will expire in 1 hour.
+email_confirm_expire: Please note that the link will expire in an hour.
 email_confirm_title: Confirm your email address.
 select_magazine: Select a magazine
 add_new: Add new
@@ -162,7 +162,7 @@ cards_view: Cards view
 1m: 1m
 1y: 1y
 links: Links
-articles: Articles
+articles: Threads
 photos: Photos
 videos: Videos
 report: Report
@@ -175,7 +175,7 @@ are_you_sure: Are you sure?
 moderate: Moderate
 reason: Reason
 edit_link: Edit link
-edit_article: Edit article
+edit_article: Edit thread
 edit_photo: Edit photo
 delete: Delete
 edit_post: Edit post
@@ -189,7 +189,7 @@ notifications: Notifications
 messages: Messages
 appearance: Appearance
 homepage: Homepage
-hide_adult: Hide adult content
+hide_adult: Hide NSFW content
 featured_magazines: Featured magazines
 privacy: Privacy
 show_profile_subscriptions: Show magazine subscriptions
@@ -202,7 +202,7 @@ notify_on_new_entry: Notify me of new threads in a subscribed magazine
 notify_on_new_posts: Notify me of new posts in a subscribed magazine
 save: Save
 about: About
-old_email: Old email
+old_email: Current email
 new_email: New email
 new_email_repeat: Confirm new email
 current_password: Current password
@@ -240,8 +240,9 @@ he_unbanned: unban
 read_all: Read all
 show_all: Show all
 ranking_disabled: Ranking is disabled
-flash_register_success: Your account has been registered. Check your email, we have
-  sent an email with an activation link.
+flash_register_success: Welcome onboard, your account is now registered. One last
+  step! - Check your inbox for an activation link that will bring your account to
+  life.
 flash_thread_new_success: The thread has been created correctly and is now visible
   to other users.
 flash_thread_edit_success: The thread has been correctly edited.
@@ -268,13 +269,13 @@ bronze_commentator_desc: 10 good comments
 bronze_scout: Bronze scout
 bronze_scout_desc: 10 good links
 bronze_redactor: Bronze redactor
-bronze_redactor_desc: 10 good articles
+bronze_redactor_desc: 10 good threads
 bronze_poster: Bronze poster
 bronze_poster_desc: 10 good posts
 bronze_link: Good link
 bronze_link_desc: The post has been boosted 5 times
-bronze_article: Bronze article
-bronze_article_desc: The article has been boosted 5 times
+bronze_article: Bronze thread
+bronze_article_desc: The thread has been boosted 5 times
 bronze_photo: Good photo
 bronze_photo_desc: The photo has been boosted 5 times
 bronze_comment: Good comment
@@ -294,13 +295,13 @@ silver_commentator_desc: 10 very good comments
 silver_scout: Silver scout
 silver_scout_desc: 10 very good links
 silver_redactor: Silver redactor
-silver_redactor_desc: 10 very good articles
+silver_redactor_desc: 10 very good threads
 silver_poster: Silver poster
 silver_poster_desc: 10 very good posts
 silver_link: Very good link
 silver_link_desc: The post has been boosted 10 times
-silver_article: Silver article
-silver_article_desc: The article has been boosted 10 times
+silver_article: Silver thread
+silver_article_desc: The thread has been boosted 10 times
 silver_photo: Very good photo
 silver_photo_desc: The photo has been boosted 10 times
 silver_comment: Very good comment
@@ -326,13 +327,13 @@ gold_commentator_desc: 10 excellent comments
 gold_scout: Gold scout
 gold_scout_desc: 10 excellent links
 gold_redactor: Gold redactor
-gold_redactor_desc: 10 excellent articles
+gold_redactor_desc: 10 excellent threads
 gold_poster: Gold poster
 gold_poster_desc: 10 excellent posts
 gold_link: Excellent link
 gold_link_desc: The post has been boosted 15 times
-gold_article: Gold article
-gold_article_desc: The article has been boosted 15 times
+gold_article: Gold thread
+gold_article_desc: The thread has been boosted 15 times
 gold_photo: Excellent photo
 gold_photo_desc: The photo has been boosted 15 times
 gold_comment: Excellent comment
@@ -351,8 +352,8 @@ gold_comment_month: Comment of the month
 gold_comment_month_desc: The best comment of the month
 gold_post_month: Post of the month
 gold_post_month_desc: The best post of the month
-mod_log_alert: In Modlog you may find drastic content removed by moderators. Make
-  sure you know what you are doing.
+mod_log_alert: WARNING - The Modlog may contain unpleasant or distressing content
+  that has been removed by moderators. Please exercise caution.
 added_new_thread: Added a new thread
 edited_thread: Edited a thread
 mod_remove_your_thread: A moderator removed your thread
@@ -361,7 +362,7 @@ edited_comment: Edited a comment
 replied_to_your_comment: Replied to your comment
 mod_deleted_your_comment: A moderator deleted your comment
 added_new_post: Added a new post
-edited_post: Adited a post
+edited_post: Edited a post
 mod_remove_your_post: A moderator removed your post
 added_new_reply: Added a new reply
 wrote_message: Wrote a message
@@ -401,7 +402,7 @@ add_badge: Add badge
 bans: Bans
 created: Created
 expires: Expires
-perm: Perm
+perm: Permanent
 expired_at: Expired at
 add_ban: Add ban
 trash: Trash
@@ -414,7 +415,7 @@ change_language: Change language
 change: Change
 pinned: Pinned
 preview: Preview
-article: Article
+article: Thread
 reputation: Reputation
 note: Note
 writing: Writing
@@ -434,7 +435,7 @@ meta: Meta
 instance: Instance
 pages: Pages
 FAQ: FAQ
-inactive: Innactive
+inactive: Inactive
 type_search_term: Type search term
 federation_enabled: Federation enabled
 registrations_enabled: Registrations enabled
@@ -445,7 +446,7 @@ add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
 Your account has been banned: Your account has been banned.
-firstname: Firstname
+firstname: First name
 send: Send
 active_users: Active people
 random_entries: Random threads
@@ -463,7 +464,7 @@ sidebar: Sidebar
 auto_preview: Auto media preview
 dynamic_lists: Dynamic lists
 banned_instances: Banned instances
-kbin_intro_title: Explore Fediverse
+kbin_intro_title: Explore the Fediverse
 kbin_intro_desc: it's a decentralized platform for content aggregation and microblogging
   that operates within the Fediverse network.
 kbin_promo_title: Create your own instance
@@ -474,3 +475,6 @@ browsing_one_thread: You are only browsing one thread in the discussion! All com
   are available on the post page.
 return: Return
 boost: Boost
+mercure_enabled: Mercure enabled
+report_issue: Report issue
+tokyo_night: Tokyo Night

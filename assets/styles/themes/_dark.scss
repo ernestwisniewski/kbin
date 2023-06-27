@@ -28,8 +28,11 @@
   --kbin-primary-color: #3c3c3c;
   --kbin-text-muted-color: #95a6a6;
 
-  --kbin-success-color: #0f5132;
+  --kbin-success-color: #24b270;
   --kbin-danger-color: #dc2f3f;
+
+  --kbin-own-color: #24b270;
+  --kbin-author-color: #dc2f3f;
 
   // section
   --kbin-section-bg: #2c2c2c;
@@ -38,8 +41,8 @@
   --kbin-section-link-color: #85a1c0;
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #373737;
-  --kbin-author-border: 1px dashed var(--kbin-danger-color);
-  --kbin-own-border: 1px dashed var(--kbin-success-color);
+  --kbin-author-border: 1px dashed var(--kbin-author-color);
+  --kbin-own-border: 1px dashed var(--kbin-own-color);
 
   // meta
   --kbin-meta-bg: none;
@@ -48,6 +51,7 @@
   --kbin-meta-link-hover-color: var(--kbin-link-hover-color);
   --kbin-meta-border: 1px dashed #4d5052;
   --kbin-avatar-border: 3px solid #373737;
+  --kbin-blockquote-color: #24b270;
 
   // options
   --kbin-options-bg: #2c2c2c;
@@ -99,6 +103,8 @@
   --kbin-vote-bg: #1c1c1c;
   --kbin-vote-text-color: #b6b6b6;
   --kbin-vote-text-hover-color: #fafafa;
+  --kbin-upvoted-color: #24b270;
+  --kbin-downvoted-color: #dc2f3f;
 
   // alerts
   --kbin-alert-info-bg: #fff3cd;

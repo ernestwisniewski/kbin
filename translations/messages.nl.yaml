@@ -4,9 +4,9 @@ notify_on_new_posts: Meldingen tonen bij nieuwe berichten in een tijdschriftabon
 solarized_light: Gepolariseerd licht
 show_magazines_icons: Tijdschriftpictogrammen tonen
 removed_post_by: heeft een bericht verwijderd van
-flash_register_success: Je account is geregistreerd. Er is een e-mail met een bevestigingslink
-  gestuurd.
-type.article: Artikel
+flash_register_success: Welkom aan boord, je account is nu geregistreerd. Nog één
+  stap! - Check je inbox voor een activatielink die je account tot leven zal brengen.
+type.article: Draad
 type.photo: Foto
 type.video: Video
 type.smart_contract: Slim contract
@@ -94,15 +94,16 @@ change_theme: Thema wijzigen
 useful: Nuttig
 help: Hulp
 check_email: Controleer je postvak in
-reset_check_email_desc2: Als je geen e-mail hebt ontvangen, controleer dan je spammap.
-try_again: Opnieuw proberen
-up_vote: Omhoog stemmen
-down_vote: Omlaag stemmen
+reset_check_email_desc2: Wanneer je geen e-mail hebt ontvangen, controleer dan je
+  spammap.
+try_again: Probeer opnieuw
+up_vote: Boost
+down_vote: Stem omlaag
 email_confirm_header: Hallo! Bevestig je e-mailadres.
-email_confirm_content: 'Als je je account wilt activeren, klik dan op onderstaande
+email_confirm_content: 'Klaar om je account te activeren? Klik dan op onderstaande
   link:'
 email_verify: E-mailadres bevestigen
-email_confirm_expire: De link is 1 uur geldig.
+email_confirm_expire: 'Let op: de link is 1 uur geldig.'
 email_confirm_title: Bevestig je e-mailadres.
 select_magazine: Kies een tijdschrift
 add_new: Toevoegen
@@ -171,7 +172,7 @@ notify_on_new_post_comment_reply: Meldingen tonen bij reacties op een van mijn b
 notify_on_new_entry: Meldingen tonen bij nieuwe gesprekken in een tijdschriftabonnement
 save: Opslaan
 about: Over
-old_email: Oud e-mailadres
+old_email: Huidig e-mailadres
 new_email: Nieuw e-mailadres
 new_email_repeat: E-mailadres bevestigen
 current_password: Huidig wachtwoord
@@ -218,16 +219,16 @@ show_all: Alles tonen
 ranking_disabled: Klassement is uitgeschakeld
 flash_thread_new_success: Het gesprek is aangemaakt en zichtbaar voor andere gebruikers.
 flash_thread_edit_success: Het gesprek is bewerkt.
-bronze_article_desc: Dit artikel is 5 keer omhoog gestemd
+bronze_article_desc: Dit gesprek is 5 keer omhoog gestemd
 bronze_photo_desc: Deze foto is 5 keer omhoog gestemd
 bronze_comment_desc: Deze reactie is 5 keer omhoog gestemd
 flash_thread_delete_success: Het gesprek is verwijderd.
 flash_thread_pin_success: Het gesprek is vastgemaakt.
 flash_thread_unpin_success: Het gesprek is losgemaakt.
-silver_article_desc: Dit artikel is 10 keer omhoog gestemd
+silver_article_desc: Dit gesprek is 10 keer omhoog gestemd
 silver_photo_desc: Deze foto is 10 keer omhoog gestemd
 silver_post_desc: Dit bericht is 10 keer omhoog gestemd
-gold_article_desc: Dit artikel is 15 keer omhoog gestemd
+gold_article_desc: Dit gesprek is 15 keer omhoog gestemd
 gold_link_desc: Dit bericht is 15 keer omhoog gestemd
 gold_photo_desc: Deze foto is 15 keer omhoog gestemd
 gold_comment_desc: Deze reactie is 15 keer omhoog gestemd
@@ -240,13 +241,13 @@ markdown_howto: Hoe werkt het bewerkveld?
 federated_magazine_info: Het tijdschrift van deze server is mogelijk onvolledig.
 unsubscribe: Deabonneren
 reply: Beantwoorden
-you_cant_login: Lukt het niet om in te loggen?
+you_cant_login: Wachtwoord vergeten?
 repeat_password: Wachtwoord herhalen
 agree_terms: Ik ga akkoord met de %terms_link_start%algemene voorwaarden%terms_link_end%
   and %policy_link_start%Privacy Policy%policy_link_end%
 reset_check_email_desc: 'Als er een account bestaat dat overeenkomt met je e-mailadres,
-  dan is er nu een e-mail verstuurd met een link om je wachtwoord te herstellen. Let
-  op: de link vervalt over %expire%.'
+  dan ontvang je op korte termijn een email met een link om je wachtwoord opnieuw
+  in te stellen. Deze link vervalt over %expire%.'
 boosts: Omhoogstemmen
 bronze_link_desc: Dit bericht is 5 keer omhoog gestemd
 bronze_post_desc: Dit bericht is 5 keer omhoog gestemd
@@ -268,8 +269,8 @@ gold_entry_month: Gesprek van de maand
 deleted: Verwijderd door de auteur
 gold_post_month_desc: Het beste bericht van de maand
 sticky_navbar: Bovenbalk meeschuiven
-mod_log_alert: In het moderatielogboek vind je inhoud die drastisch genoeg was om
-  verwijderd te worden. Wees je bewust van je acties.
+mod_log_alert: WAARSCHUWING - Het moderatielogboek kan onaangename of schrijnende
+  inhoud verwijderd door moderators bevatten. Wees voorzichtig.
 upload_file: Bestand uploaden
 created: Toegekend op
 add_ban: Verbanning toekennen
@@ -299,11 +300,11 @@ bronze_commentator_desc: 10 goede reacties
 bronze_scout_desc: 10 goede links
 bronze_scout: Bronzen padvinder
 bronze_redactor: Bronzen redacteur
-bronze_redactor_desc: 10 goede artikelen
+bronze_redactor_desc: 10 goede gesprekken
 bronze_poster: Bronzen berichtgever
 bronze_poster_desc: 10 goede berichten
 bronze_link: Goede link
-bronze_article: Bronzen artikel
+bronze_article: Bronzen gesprek
 bronze_photo: Goede foto
 bronze_comment: Goede reactie
 bronze_post: Goed bericht
@@ -320,11 +321,11 @@ silver_commentator_desc: 10 zeer goede reacties
 silver_scout: Zilveren padvinder
 silver_scout_desc: 10 zeer goede links
 silver_redactor: Zilveren redacteur
-silver_redactor_desc: 10 zeer goede artikelen
+silver_redactor_desc: 10 zeer goede gesprekken
 silver_poster: Zilveren berichtgever
 silver_poster_desc: 10 zeer goede berichten
 silver_link: Zeer goede link
-silver_article: Zilveren artikel
+silver_article: Zilveren gesprek
 silver_photo: Zeer goede foto
 silver_comment: Zeer goede reactie
 silver_post: Zeer goed bericht
@@ -347,11 +348,11 @@ gold_commentator_desc: 10 geweldige reacties
 gold_scout: Gouden padvinder
 gold_scout_desc: 10 geweldige links
 gold_redactor: Gouden redacteur
-gold_redactor_desc: 10 geweldige artikelen
+gold_redactor_desc: 10 geweldige gesprekken
 gold_poster: Gouden berichtgever
 gold_poster_desc: 10 geweldige berichten
 gold_link: Geweldige link
-gold_article: Gouden artikel
+gold_article: Gouden gesprek
 gold_photo: Geweldige foto
 gold_comment: Geweldige reactie
 gold_post: Geweldig bericht
@@ -463,7 +464,7 @@ magazine_panel_tags_info: Alleen als je inhoud van het fediverse op basis van la
 sidebar: Zijbalk
 auto_preview: Media automatisch voorvertonen
 dynamic_lists: Dynamische lijsten
-kbin_intro_title: Verken het fediverse
+kbin_intro_title: Verken het Fediverse
 kbin_intro_desc: het is een gedecentraliseerd platform voor het verzamelen van inhoud
   en microbloggen dat opereert binnen het fediversenetwerk.
 kbin_promo_title: Zet je eigen instantie op

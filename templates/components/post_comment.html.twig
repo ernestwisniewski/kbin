@@ -15,7 +15,7 @@
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="post-comment-{{ comment.id }}"
-                data-controller="comment subject"
+                data-controller="comment subject mentions"
                 data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
                 data-action="notifications:Notification@window->subject#notification">
             <header>

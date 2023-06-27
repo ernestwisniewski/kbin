@@ -6,6 +6,7 @@ namespace App\Markdown\Listener;
 
 use App\Markdown\Event\BuildCacheContext;
 use App\Markdown\Event\ConvertMarkdown;
+use League\CommonMark\Output\RenderedContentInterface;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -20,10 +21,9 @@ final class CacheMarkdownListener implements EventSubscriberInterface
     public const ATTR_NO_CACHE_STORE = 'no_cache_store';
 
     public function __construct(
-        CacheItemPoolInterface $markdownCache,
+        private readonly CacheItemPoolInterface $pool,
         private readonly EventDispatcherInterface $dispatcher
     ) {
-        $this->pool = $markdownCache;
     }
 
     public static function getSubscribedEvents(): array
@@ -44,9 +44,17 @@ final class CacheMarkdownListener implements EventSubscriberInterface
         $item = $this->pool->getItem($cacheEvent->getCacheKey());
 
         if ($item->isHit()) {
-            $event->setRenderedHtml($item->get());
-            $event->stopPropagation();
-        } elseif (!$event->getAttribute(self::ATTR_NO_CACHE_STORE)) {
+            $content = $item->get();
+
+            if ($content instanceof RenderedContentInterface) {
+                $event->setRenderedContent($content);
+                $event->stopPropagation();
+
+                return;
+            }
+        }
+        
+        if (!$event->getAttribute(self::ATTR_NO_CACHE_STORE)) {
             $event->addAttribute(self::ATTR_CACHE_ITEM, $item);
         }
     }
@@ -60,7 +68,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
         $item = $event->getAttribute(self::ATTR_CACHE_ITEM);
         \assert($item instanceof CacheItemInterface);
 
-        $item->set($event->getRenderedHtml());
+        $item->set($event->getRenderedContent());
         $this->pool->save($item);
 
         $event->removeAttribute(self::ATTR_CACHE_ITEM);

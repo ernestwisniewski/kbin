@@ -31,6 +31,10 @@
       padding: .35rem;
       pointer-events: none;
     }
+
+    .rounded-edges & {
+      border-radius: var(--kbin-rounded-edges-radius);
+    }
   }
 
   .show-preview {

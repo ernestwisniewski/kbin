@@ -20,6 +20,6 @@ class MarkdownConverter
 
         $this->dispatcher->dispatch($event);
 
-        return $event->getRenderedHtml();
+        return (string) $event->getRenderedContent();
     }
 }

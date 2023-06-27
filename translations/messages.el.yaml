@@ -1,0 +1,481 @@
+type.link: Σύνδεσμος
+type.article: Νήμα
+type.photo: Φωτογραφία
+type.video: Βίντεο
+type.magazine: Περιοδικό
+thread: Νήμα
+threads: Νήματα
+microblog: Microblog
+events: Γεγονότα
+magazine: Περιοδικό
+magazines: Περιοδικά
+search: Αναζήτηση
+add: Προσθήκη
+select_channel: Επίλεξε ένα κανάλι
+login: Σύνδεση
+active: Ενεργά
+newest: Νεότερα
+oldest: Παλαιότερα
+commented: Με σχόλια
+filter_by_time: Φιλτράρισμα κατά χρόνο
+filter_by_type: φιλτράρισμα κατά τύπο
+favourites: Αγαπημένα
+favourite: Αγαπημένο
+avatar: Άβαταρ
+added: Προστέθηκε
+views: Προβολές
+no_comments: Χωρίς σχόλια
+created_at: Δημιουργήθηκε
+subscribers: Συνδρομητές
+online: Σε σύνδεση
+comments: Σχόλια
+posts: Αναρτήσεις
+replies: Απαντήσεις
+moderators: Διαχειριστές
+add_post: Προσθήκη ανάρτησης
+add_media: Προσθήκη πολυμέσων
+markdown_howto: Πώς λειτουργεί ο επεξεργαστής κειμένου;
+activity: Δραστηριότητα
+cover: Εξώφυλλο
+related_posts: Σχετικές αναρτήσεις
+unsubscribe: Απεγγραφή
+subscribe: Εγγραφή
+follow: Ακολούθησε
+reply: Απάντησε
+password: Κωδικός
+remember_me: Να με θυμάσαι
+top: Κορυφή
+you_cant_login: Ξέχασες τον κωδικό σου;
+already_have_account: Έχεις ήδη λογαριασμό;
+register: Εγγραφή
+reset_password: Επαναφορά κωδικού
+show_more: Δείξε περισσότερα
+email: Email
+repeat_password: Επανάληψη κωδικού
+terms: Όροι χρήσης
+privacy_policy: Πολιτική απορρήτου
+about_instance: Σχετικά
+all_magazines: Όλα τα περιοδικά
+stats: Στατιστικά
+fediverse: Fediverse
+awards: Βραβεία
+ranking: Σειρά κατάταξης
+add_new_article: Προσθήκη νέου νήματος
+add_new_link: Προσθήκη νέου συνδέσμου
+add_new_photo: Προσθήκη νέας φωτογραφίας
+add_new_post: Προσθήκη νέας ανάρτησης
+add_new_video: Προσθήκη νέου βίντεο
+contact: Επικοινωνία
+rss: RSS
+change_theme: Αλλαγή θέματος
+useful: Χρήσιμα
+help: Βοήθεια
+check_email: Ελέγξτε το email σας
+reset_check_email_desc2: Αν δεν λάβατε email παρακαλώ τσέκαρετε το φάκελο με τα ανεπιθύμητα.
+try_again: Προσπάθησε ξανά
+email_confirm_header: Γεια! Επιβεβαίωσε την διεύθυνση email σου.
+email_verify: Επιβεβαίωσε την διεύθυνση email
+email_confirm_title: Επιβεβαίωσε την διεύθυνση email.
+select_magazine: Επίλεξε ένα περιοδικό
+add_new: Προσθήκη νέου
+url: URL
+title: Τίτλος
+tags: Ετικέτες
+badges: Σήματα
+is_adult: +18 / NSFW
+eng: ENG
+oc: OC
+image: Εικόνα
+name: Όνομα
+rules: Κανόνες
+followers: Ακόλουθοι
+subscriptions: Εγγραφές
+cards: Κάρτες
+columns: Στήλες
+user: Χρήστης
+joined: Έγινε μέλος
+people_local: Τοπικά
+hot: Τρέχοντα
+dont_have_account: Δεν έχεις λογαριασμό;
+change_view: Αλλαγή όψης
+username: Όνομα χρήστη
+more: Περισσότερα
+agree_terms: Δέχομαι τους %terms_link_start%Όρους και Προϋποθέσεις%terms_link_end%
+  και την %policy_link_start%Πολιτική Απορρήτου%policy_link_end%
+owner: Ιδιοκτήτης
+create_new_magazine: Δημιουργία νέου περιοδικού
+mod_log: Ιστορικό συντονιστών
+faq: Συχνές ερωτήσεις (FAQ)
+add_comment: Προσθήκη σχολίου
+reset_check_email_desc: Αν υπάρχει ήδη λογαριασμός με το email σας, σύντομα θα λάβετε
+  email που θα περιέχει σύνδεσμο ώστε να επαναφέρετε τον κωδικό σας. Ο σύνδεσμος θα
+  λήξει σε %expire%.
+random_posts: Τυχαίες αναρτήσεις
+email_confirm_content: 'Έτοιμος να ενεργοποιήσεις τον λογαριασμό σου στο Kbin; Πάτησε
+  στον παρακάτω σύνδεσμο:'
+federated_user_info: Το προφίλ από τον συνενωμένο server μπορεί να είναι ελλιπές.
+email_confirm_expire: Λάβετε υπόψη ότι ο σύνδεσμος θα λήξει σε μία ώρα.
+description: Περιγραφή
+ratio: Αναλογία
+people: Άτομα
+image_alt: Εναλλακτικό κείμενο εικόνας
+domain: Τομέας
+overview: Επισκόπηση
+related_tags: Σχετικές ετικέτες
+go_to_content: Μετάβαση στο περιεχόμενο
+go_to_filters: Μετάβαση στα φίλτρα
+go_to_search: Μετάβαση στην αναζήτηση
+go_to_footer: Μετάβαση στο υποσέλιδο
+subscribed: Εγγεγραμμένος
+all: Όλα
+logout: Αποσύνδεση
+classic_view: Κλασική προβολή
+compact_view: Συμπαγής προβολή
+chat_view: Προβολή συνομιλίας
+tree_view: Προβολή δέντρου
+table_view: Προβολή πίνακα
+cards_view: Προβολή καρτών
+3h: 3 ώρες
+6h: 6 ώρες
+12h: 12 ώρες
+1w: 1 εβδομάδα
+1m: 1 μήνας
+links: Σύνδεσμοι
+articles: Νήματα
+photos: Φωτογραφίες
+videos: Βίντεο
+report: Αναφορά
+copy_url: Αντιγραφή url
+copy_url_to_fediverse: Αντιγραφή url στο Fediverse
+share_on_fediverse: Κοινοποίηση στο Fediverse
+are_you_sure: Είσαι σίγουρος;
+reason: Αιτιολογία
+edit_link: Επεξεργασία συνδέσμου
+edit_photo: Επεξεργασία φωτογραφίας
+delete: Διαγραφή
+edit_post: Επεξεργασία ανάρτησης
+edit_comment: Επεξεργασία σχολίου
+settings: Ρυθμίσεις
+profile: Προφίλ
+blocked: Μπλοκαρισμένοι
+reports: Αναφορές
+notifications: Ειδοποιήσεις
+messages: Μηνύματα
+appearance: Εμφάνιση
+hide_adult: Απόκρυψη περιεχομένου για ενηλίκους (NSFW)
+privacy: Ιδιωτικότητα
+show_profile_subscriptions: Εμφάνιση συνδρομών σε περιοδικά
+notify_on_new_entry_comment_reply: Ειδοποίησε με για απαντήσεις στα σχόλια των νημάτων
+  μου
+notify_on_new_post_reply: Ειδοποίησε με για απαντήσεις στις αναρτήσεις μου
+notify_on_new_entry: Ειδοποίησε με για νέα νήματα σε ένα εγγεγραμμένο περιοδικό
+save: Αποθήκευση
+about: Σχετικά
+old_email: Τρέχον email
+new_email: Νέο email
+new_email_repeat: Επιβεβαίωση νέου email
+current_password: Τρέχων κωδικός πρόσβασης
+new_password: Νέος κωδικός πρόσβασης
+change_email: Αλλαγή email
+change_password: Αλλαγή κωδικού πρόσβασης
+expand: Ανάπτυξη
+collapse: Αναδίπλωση
+domains: Τομείς
+error: Σφάλμα
+votes: Ψήφοι
+theme: Θέμα
+dark: Σκοτεινό
+light: Φωτεινό
+solarized_light: Solarized φωτεινό
+font_size: Μέγεθος γραμματοσειράς
+size: Μέγεθος
+boosts: Ενισχύσεις
+show_users_avatars: Εμφάνιση άβαταρ των χρηστών
+yes: Ναι
+no: Όχι
+show_thumbnails: Εμφάνιση μικρογραφιών
+rounded_edges: Στρογγυλεμένες άκρες
+removed_thread_by: έχει αφαιρέσει το νήμα από
+removed_comment_by: έχει αφαιρέσει το σχόλιο από
+restored_comment_by: έχει επαναφέρει το σχόλιο από
+restored_post_by: έχει επαναφέρει την ανάρτηση από
+he_banned: ban
+he_unbanned: unban
+read_all: Ανάγνωση όλων
+show_all: Εμφάνιση όλων
+ranking_disabled: Η κατάταξη είναι απενεργοποιημένη
+flash_thread_edit_success: Το νήμα επεξεργάστηκε επιτυχώς.
+flash_thread_delete_success: Το νήμα διαγράφηκε επιτυχώς.
+flash_thread_pin_success: Το νήμα καρφιτσώθηκε επιτυχώς.
+flash_thread_unpin_success: Το νήμα ξεκαρφιτσώθηκε επιτυχώς.
+flash_magazine_edit_success: Το περιοδικό έχει επεξεργαστεί επιτυχώς.
+too_many_requests: Υπέρβαση του ορίου, δοκιμάστε ξανά αργότερα.
+set_magazines_bar_desc: προσθέστε τα ονόματα των περιοδικών μετά το κόμμα
+gold: Χρυσός
+silver: Ασημένιος
+bronze: Χάλκινος
+bronze_autobiographer: Αυτοβιογράφος
+bronze_autobiographer_desc: Για τη συμπλήρωση όλων των πεδίων στο προφίλ
+bronze_personality: Χάλκινη προσωπικότητα
+bronze_personality_desc: 20 ακόλουθοι
+bronze_commentator: Χάλκινος σχολιαστής
+bronze_scout: Χάλκινος ανιχνευτής
+bronze_scout_desc: 10 καλοί σύνδεσμοι
+bronze_redactor: Χάλκινος συντάκτης
+bronze_redactor_desc: 10 καλά νήματα
+bronze_poster_desc: 10 καλές αναρτήσεις
+bronze_article: Χάλκινο νήμα
+bronze_comment: Καλό σχόλιο
+bronze_post: Καλή ανάρτηση
+bronze_ranking: Νούμερο 3
+bronze_ranking_desc: 3η θέση στην κατάταξη
+bronze_popular_entry: Δημοφιλές Νήμα
+bronze_magazine: Δημοφιλές περιοδικό
+bronze_magazine_desc: Δημιούργησε περιοδικό με 20 ακολούθους
+silver_personality: Silver προσωπικότητα
+silver_personality_desc: 50 ακόλουθοι
+silver_commentator_desc: 10 πολύ καλά σχόλια
+silver_scout: Silver ανιχνευτής
+silver_scout_desc: 10 πολύ καλοί σύνδεσμοι
+silver_redactor: Silver συντάκτης
+silver_link: Πολύ καλός σύνδεσμος
+silver_article: Silver νήμα
+silver_photo: Πολύ καλή φωτογραφία
+silver_post: Πολύ καλή ανάρτηση
+silver_ranking: Νούμερο 2
+silver_ranking_desc: 2η θέση στην κατάταξη
+silver_popular_entry: Δημοφιλές Νήμα
+silver_magazine: Δημοφιλές περιοδικό
+silver_magazine_desc: 50 ακόλουθοι δημιούργησαν περιοδικό
+silver_entry_week: Νήμα της εβδομάδας
+silver_comment_week: Σχόλιο της εβδομάδας
+silver_comment_week_desc: Το καλύτερο σχόλιο της εβδομάδας
+silver_post_week: Ανάρτηση της εβδομάδας
+gold_personality: Gold προσωπικότητα
+gold_personality_desc: 100 ακόλουθοι
+gold_post: Εξαιρετική ανάρτηση
+gold_ranking: Νούμερο 1
+gold_ranking_desc: 1η θέση στην κατάταξη
+gold_popular_entry: Δημοφιλές Νήμα
+gold_magazine: Δημοφιλές περιοδικό
+gold_magazine_desc: 100 ακόλουθοι δημιούργησαν περιοδικό
+gold_entry_month: Νήμα του μήνα
+gold_comment_month: Σχόλιο του μήνα
+gold_comment_month_desc: Το καλύτερο σχόλιο του μήνα
+gold_post_month: Ανάρτηση του μήνα
+gold_post_month_desc: Η καλύτερη ανάρτηση του μήνα
+added_new_thread: Πρόσθεσε νέο νήμα
+edited_thread: Επεξεργάστηκε ένα νήμα
+mod_remove_your_thread: Ένας συντονιστής αφαίρεσε το νήμα σου
+added_new_comment: Πρόσθεσε νέο σχόλιο
+edited_comment: Επεξεργάστηκε ένα σχόλιο
+mod_deleted_your_comment: Ένας συντονιστής διέγραψε το σχόλιο σου
+added_new_post: Πρόσθεσε μια νέα ανάρτηση
+mod_remove_your_post: Ένας συντονιστής αφαίρεσε την ανάρτησή σου
+added_new_reply: Πρόσθεσε μια νέα απάντηση
+wrote_message: Έγραψε ένα μήνυμα
+mentioned_you: Σε ανέφερε
+comment: Σχόλιο
+post: Ανάρτηση
+send_message: Αποστολή μηνύματος
+message: Μήνυμα
+infinite_scroll: Άπειρη κύλιση
+sticky_navbar: Καρφιτσωμένη μπάρα πλοήγησης
+subject_reported: Το περιεχόμενο έχει αναφερθεί.
+left: Αριστερά
+right: Δεξιά
+status: Κατάσταση
+on: Ενεργό
+off: Ανενεργό
+upload_file: Ανέβασμα αρχείου
+from_url: Από url
+magazine_panel: Πίνακας περιοδικών
+reject: Απόρριψη
+filters: Φίλτρα
+approved: Εγκρίθηκε
+rejected: Απορρίφθηκε
+add_moderator: Προσθήκη συντονιστή
+created: Δημιουργήθηκε
+expires: Λήγει
+perm: Μόνιμο
+expired_at: Έληξε στις
+icon: Εικονίδιο
+done: Ολοκληρώθηκε
+pin: Καρφίτσωμα
+unpin: Ξεκαρφίτσωμα
+change_language: Αλλαγή γλώσσας
+change: Αλλαγή
+pinned: Καρφιτσωμένο
+preview: Προεπισκόπηση
+article: Νήμα
+reputation: Φήμη
+writing: Γραφή
+users: Χρήστες
+content: Περιεχόμενο
+week: Εβδομάδα
+weeks: Εβδομάδες
+month: Μήνας
+months: Μήνες
+year: Έτος
+admin_panel: Πίνακας Διαχειριστή
+dashboard: Ταμπλό
+contact_email: Email επικοινωνίας
+pages: Σελίδες
+inactive: Ανενεργό
+type_search_term: Πληκτρολογήστε τον όρο αναζήτησης
+registrations_enabled: Οι εγγραφές ενεργοποιήθηκαν
+registration_disabled: Οι εγγραφές απενεργοποιήθηκαν
+restore: Επαναφορά
+add_mentions_posts: Προσθήκη ετικετών αναφοράς σε αναρτήσεις
+Password is invalid: Ο κωδικός είναι μη έγκυρος.
+Your account has been banned: Ο λογαριασμός σας έχει αποκλειστεί.
+firstname: Όνομα
+send: Αποστολή
+active_users: Ενεργοί άνθρωποι
+random_entries: Τυχαία νήματα
+delete_account: Διαγραφή λογαριασμού
+purge_account: Εκκαθάριση λογαριασμού
+ban_account: Αποκλεισμός λογαριασμού
+delete_account_request_send: Το αίτημά σας για διαγραφή του λογαριασμού έχει υποβληθεί.
+related_magazines: Σχετικά περιοδικά
+sidebar: Πλαϊνή μπάρα
+auto_preview: Αυτόματη προεπισκόπηση πολυμέσων
+dynamic_lists: Δυναμικές λίστες
+captcha_enabled: Το Captcha ενεργοποιήθηκε
+return: Επιστροφή
+boost: Ενίσχυση
+1d: 1 ημέρα
+edit: Επεξεργασία
+edit_article: Επεξεργασία νήματος
+notify_on_new_entry_reply: Ειδοποίησε με για σχόλια στα νήματά μου
+1y: 1 έτος
+general: Γενικά
+solarized_dark: Solarized σκοτεινό
+share: Κοινοποίηση
+homepage: Αρχική
+notify_on_new_post_comment_reply: Ειδοποίησε με για απαντήσεις στα σχόλια των αναρτήσεων
+  μου
+featured_magazines: Επίλεκτα περιοδικά
+notify_on_new_posts: Ειδοποίησε με για νέες αναρτήσεις σε ένα εγγεγραμμένο περιοδικό
+show_magazines_icons: Εμφάνιση εικονιδίων περιοδικών
+restored_thread_by: έχει επαναφέρει το νήμα από
+new_password_repeat: Επιβεβαίωση νέου κωδικού πρόσβασης
+removed_post_by: έχει αφαιρέσει την ανάρτηση από
+bronze_link: Καλός σύνδεσμος
+flash_thread_new_success: Το νήμα δημιουργήθηκε σωστά και είναι ορατό σε άλλους χρήστες.
+bronze_photo: Καλή φωτογραφία
+bronze_popular_entry_desc: Νήμα με 1000 επισκέψεις
+silver_commentator: Silver σχολιαστής
+silver_redactor_desc: 10 πολύ καλά νήματα
+silver_poster_desc: 10 πολύ καλές αναρτήσεις
+silver_comment: Πολύ καλό σχόλιο
+silver_popular_entry_desc: Το νήμα επισκέφτηκε 5000 φορές
+flash_magazine_new_success: Το περιοδικό δημιουργήθηκε επιτυχώς. Τώρα μπορείς να προσθέσεις
+  νέο περιεχόμενο ή να εξερευνήσεις τον πίνακα διαχείρισης του περιοδικού.
+silver_entry_week_desc: Το καλύτερο νήμα της εβδομάδας
+silver_post_week_desc: Η καλύτερη ανάρτηση της εβδομάδας
+replied_to_your_comment: Απάντησε στο σχόλιό σου
+purge: Eκκαθάριση
+show_top_bar: Προβολή μπάρας κορυφής
+approve: Αποδοχή
+trash: Διαγραμμένα
+change_magazine: Αλλαγή περιοδικού
+note: Σημείωση
+local: Τοπικά
+FAQ: Συχνές ερωτήσεις (FAQ)
+related_entries: Σχετικά νήματα
+header_logo: Λογότυπο επικεφαλίδας
+set_magazines_bar_empty_desc: εάν το πεδίο είναι κενό, τα ενεργά περιοδικά εμφανίζονται
+  στη γραμμή.
+gold_commentator: Gold σχολιαστής
+gold_comment: Εξαιρετικό σχόλιο
+edited_post: Επεξεργάστηκε μια ανάρτηση
+sidebar_position: Θέση πλευρικής γραμμής
+add_badge: Προσθήκη σήματος
+add_mentions_entries: Προσθήκη ετικετών αναφοράς σε καταχωρήσεις
+unban_account: Κατάργηση αποκλεισμού λογαριασμού
+browsing_one_thread: Περιηγείστε μόνο ένα νήμα στη συζήτηση! Όλα τα σχόλια είναι διαθέσιμα
+  στη σελίδα ανάρτησης.
+bronze_commentator_desc: 10 καλά σχόλια
+gold_popular_entry_desc: Το νήμα επισκέφτηκε 10000 φορές
+Your account is not active: Ο λογαριασμός σας δεν είναι ενεργός.
+random_magazines: Τυχαία περιοδικά
+gold_entry_month_desc: Το καλύτερο νήμα του μήνα
+removed: Αφαιρέθηκε από συντονιστή
+deleted: Διαγράφηκε από τον συγγραφέα
+mod_log_alert: ΠΡΟΕΙΔΟΠΟΙΗΣΗ - Το αρχείο καταγραφής του συντονιστή μπορεί να περιέχει
+  δυσάρεστο ή ενοχλητικό περιεχόμενο που έχει αφαιρεθεί από τους συντονιστές. Παρακαλούμε
+  να είστε προσεκτικοί.
+type.smart_contract: Έξυπνο συμβόλαιο
+up_votes: Ενισχύσεις
+enter_your_comment: Εισαγάγετε το σχόλιό σας
+enter_your_post: Εισαγάγετε την ανάρτησή σας
+comments_count: '{0}σχόλια|{1}σχόλιο|]1,Inf[ σχόλια'
+empty: Κενό
+unfollow: Κατάργηση ακολούθησης
+down_votes: Μειώσεις
+federated_magazine_info: Το περιοδικό από τον συνενωμένο server ενδέχεται να είναι
+  ελλιπές.
+go_to_original_instance: Περιηγηθείτε περισσότερο στο πρωτότυπο instance.
+login_or_email: Όνομα χρήστη ή email
+in: στο
+up_vote: Ενίσχυση
+down_vote: Μείωση
+moderated: Συντονισμένο
+reputation_points: Πόντοι φήμης
+body: Κείμενο
+following: Ακολουθεί
+people_federated: Federated
+moderate: Συντόνισε
+show_profile_followings: Εμφάνιση χρηστών που ακολουθούνται
+flash_register_success: Καλώς ήρθες, ο λογαριασμός σου είναι πλέον εγγεγραμμένος.
+  Ένα τελευταίο βήμα! - Στα εισερχόμενά σου θα βρεις έναν σύνδεσμο ενεργοποίησης ώστε
+  να ενεργοποιήσεις τον λογαριασμό σου.
+set_magazines_bar: Μπάρα περιοδικών
+bronze_poster: Bronze poster
+bronze_link_desc: Η ανάρτηση έχει ενισχυθεί 5 φορές
+bronze_article_desc: Το νήμα έχει ενισχυθεί 5 φορές
+bronze_photo_desc: Η φωτογραφία έχει ενισχυθεί 5 φορές
+bronze_comment_desc: Το σχόλιο έχει ενισχυθεί 5 φορές
+bronze_post_desc: Η ανάρτηση έχει ενισχυθεί 5 φορές
+silver_poster: Silver poster
+silver_link_desc: Η ανάρτηση έχει ενισχυθεί 10 φορές
+silver_article_desc: Το νήμα έχει ενισχυθεί 10 φορές
+silver_photo_desc: Η φωτογραφία έχει ενισχυθεί 10 φορές
+silver_comment_desc: Το σχόλιο έχει ενισχυθεί 10 φορές
+silver_post_desc: Η ανάρτηση έχει ενισχυθεί 10 φορές
+gold_commentator_desc: 10 εξαιρετικά σχόλια
+gold_scout: Gold ανιχνευτής
+gold_scout_desc: 10 εξαιρετικοί σύνδεσμοι
+gold_redactor: Gold συντάκτης
+gold_redactor_desc: 10 εξαιρετικά νήματα
+gold_poster_desc: 10 εξαιρετικές αναρτήσεις
+gold_link: Εξαιρετικός σύνδεσμος
+gold_link_desc: Η ανάρτηση έχει ενισχυθεί 15 φορές
+gold_article: Gold νήμα
+gold_article_desc: Το νήμα έχει ενισχυθεί 15 φορές
+gold_photo: Εξαιρετική φωτογραφία
+gold_photo_desc: Η φωτογραφία έχει ενισχυθεί 15 φορές
+gold_comment_desc: Το σχόλιο έχει ενισχυθεί 15 φορές
+gold_post_desc: Η ανάρτηση έχει ενισχυθεί 15 φορές
+banned: Σε απαγόρευσε
+gold_poster: Gold poster
+ban_expired: Η απαγόρευση έληξε
+ban: Απαγόρευση
+bans: Απαγορεύσεις
+add_ban: Προσθήκη απαγόρευσης
+federation: Ομοσπονδία
+instances: Instances
+meta: Meta
+federated: Ομοσπονδιακός
+instance: Instance
+federation_enabled: Ενεργοποιήθηκε η ομοσπονδία
+magazine_panel_tags_info: Παρέχετε μόνο εάν θέλετε περιεχόμενο από το fediverse να
+  περιλαμβάνεται σε αυτό το περιοδικό με βάση ετικέτες
+banned_instances: Instances σε απαγόρευση
+kbin_intro_title: Εξερευνήστε το Fediverse
+kbin_intro_desc: Eίναι μια αποκεντρωμένη πλατφόρμα για συγκέντρωση περιεχομένου και
+  microblogging που λειτουργεί εντός του δικτύου Fediverse.
+kbin_promo_title: Δημιουργήστε το δικό σας instance
+kbin_promo_desc: '%link_start%Αντιγραφή clone repo%link_end% και ανάπτυξη fediverse'
+to: σε

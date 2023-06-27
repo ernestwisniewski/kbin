@@ -15,6 +15,8 @@ body {
 #middle {
   background: var(--kbin-bg);
   padding-bottom: 3rem;
+  z-index: 5;
+  position :relative;
 
   .kbin-container {
     display: grid;
@@ -79,7 +81,7 @@ menu {
   padding: 3px !important;
 
   blockquote {
-    border-left: 2px solid var(--kbin-success-color);
+    border-left: 2px solid var(--kbin-blockquote-color);
     margin: 0 0 1rem 1rem !important;
     padding-left: 1rem;
   }
@@ -97,10 +99,6 @@ main {
 .content {
   position: relative;
   word-break: break-word;
-
-  a {
-    font-size: .85rem;
-  }
 }
 
 hr {
@@ -156,13 +154,19 @@ figure {
   .options,
   .alert,
   .btn,
-  figure img,
+  figure,
   input,
   textarea,
   select,
   button,
-  .ts-wrapper .ts-control {
-    border-radius: .5rem !important;
+  .ts-wrapper .ts-control,
+  .preview img,
+  .preview iframe,
+  .dropdown__menu,
+  #sidebar .theme,
+  #sidebar .user-list img,
+  .no-image-placeholder {
+    border-radius: var(--kbin-rounded-edges-radius);
   }
 
   .options {
@@ -184,6 +188,11 @@ figure {
     button {
       border-radius: 0;
     }
+  }
+
+  .magazine__subscribe,
+  .user__follow {
+    gap: 0.25rem
   }
 }
 
@@ -310,7 +319,7 @@ pre, code {
 }
 
 .js-container {
-  margin-bottom: .5rem;
+  margin-bottom: 0;
 }
 
 .bold {

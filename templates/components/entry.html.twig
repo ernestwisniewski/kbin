@@ -7,19 +7,19 @@
     {% else %}
         <article{{ attributes.defaults({
             class: html_classes('entry section subject', {
-                'no-image': not entry.image or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
+                'no-image': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
                 'own': app.user and entry.isAuthor(app.user),
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="entry-{{ entry.id }}"
-                data-controller="subject preview"
+                data-controller="subject preview mentions"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {% if isSingle %}
                         <h1>
                             {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
-                            {% if entry.isOc %}<small class="badge success">OC</small>{% endif %}
+                            {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             {% if entry.url %}
                                 <a rel="{{ get_rel(entry.url) }}"
                                    href="{{ entry.url }}">{{ entry.title }}</a>
@@ -61,11 +61,11 @@
                 {% endif %}
             </header>
             {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
-                <div class="content short-desc">
-                    {% if entry.body and showShortSentence %}
+                {% if entry.body and showShortSentence %}
+                    <div class="content short-desc">
                         <p>{{ get_short_sentence(entry.body) }}</p>
-                    {% endif %}
-                </div>
+                    </div>
+                {% endif %}
                 {% if entry.body and showBody %}
                     <div class="entry__body">
                         <div class="content formatted">
@@ -80,25 +80,34 @@
                 {{ component('date', {date: entry.createdAt}) }} {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
             </aside>
             {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
-                <figure>
-                    {% if entry.image %}
-                        {% if entry.type is same as 'link' or entry.type is same as 'video' %}
+                {% if entry.image %}
+                    {% if entry.type is same as 'link' or entry.type is same as 'video' %}
+                        <figure>
+                            <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
                                rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
-                                <img width="220" height="145"
-                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                <img src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
-                        {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
+                        </figure>
+                    {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
+                        <figure>
+                            <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
                                class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
-                                <img width="220" height="145"
-                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                <img src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
-                        {% endif %}
+                        </figure>
                     {% endif %}
-                </figure>
+                {% else %}
+                    <div class="no-image-placeholder">
+                        <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
+                           {%- if entry.type is same as 'link' or entry.type is same as 'video' %} rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}" {% endif -%}>
+                            <i class="fa-solid {% if entry.type is same as 'link' %}fa-link{% else %}fa-message{% endif %}"></i>
+                        </a>
+                    </div>
+                {% endif %}
             {% endif %}
             {% if entry.visibility in ['visible', 'private'] %}
                 {{ component('vote', {

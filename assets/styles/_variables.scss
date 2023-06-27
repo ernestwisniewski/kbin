@@ -37,6 +37,11 @@ $aspect-ratios: (
   --kbin-success-color: #0f5132;
   --kbin-danger-color: #842029;
 
+  --kbin-own-color: #0f5132;
+  --kbin-author-color: #842029;
+
+  --kbin-rounded-edges-radius: .5rem !important;
+
   // section
   --kbin-section-bg: #fff;
   --kbin-section-text-color: var(--kbin-text-color);
@@ -44,8 +49,8 @@ $aspect-ratios: (
   --kbin-section-link-color: var(--kbin-link-color);
   --kbin-section-link-hover-color: var(--kbin-link-hover-color);
   --kbin-section-border: 1px solid #e5eaec;
-  --kbin-author-border: 1px dashed var(--kbin-danger-color);
-  --kbin-own-border: 1px dashed var(--kbin-success-color);
+  --kbin-author-border: 1px dashed var(--kbin-author-color);
+  --kbin-own-border: 1px dashed var(--kbin-own-color);
 
   // meta
   --kbin-meta-bg: none;
@@ -54,6 +59,7 @@ $aspect-ratios: (
   --kbin-meta-link-hover-color: var(--kbin-link-hover-color);
   --kbin-meta-border: 1px dashed #e5eaec;
   --kbin-avatar-border: 3px solid #ecf0f1;
+  --kbin-blockquote-color: #0f5132;
 
   // options
   --kbin-options-bg: #fff;
@@ -106,6 +112,8 @@ $aspect-ratios: (
   --kbin-vote-bg: #f3f3f3;
   --kbin-vote-text-color: #b6b6b6;
   --kbin-vote-text-hover-color: #000;
+  --kbin-upvoted-color: #0f5132;
+  --kbin-downvoted-color: #842029;
 
   // alerts
   --kbin-alert-info-bg: #fff3cd;
@@ -120,6 +128,7 @@ $aspect-ratios: (
 
   //entry
   --kbin-entry-link-visited-color: #7e8f99;
+  --kbin-entry-no-image-placeholder-border: 2px solid var(--kbin-text-muted-color);
 
   // footer
   --kbin-footer-bg: #110045;
