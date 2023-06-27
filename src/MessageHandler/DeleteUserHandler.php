@@ -237,7 +237,7 @@ class DeleteUserHandler
             }
         }
 
-        return false;
+        return $retry;
     }
 
     private function removeEntryComments(): bool
