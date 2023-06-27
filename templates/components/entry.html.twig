@@ -94,7 +94,7 @@
                         <figure>
                             <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
-                            class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
+                               class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
                                 <img src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
@@ -103,7 +103,7 @@
                 {% else %}
                     <div class="no-image-placeholder">
                         <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
-                           rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
+                           {%- if entry.type is same as 'link' or entry.type is same as 'video' %} rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}" {% endif -%}>
                             <i class="fa-solid {% if entry.type is same as 'link' %}fa-link{% else %}fa-message{% endif %}"></i>
                         </a>
                     </div>
