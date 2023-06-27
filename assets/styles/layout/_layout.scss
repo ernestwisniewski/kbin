@@ -76,9 +76,9 @@ menu {
 }
 
 .content {
-  margin: -3px !important;
+  // margin: -3px !important;
   overflow: hidden !important;
-  padding: 3px !important;
+  // padding: 3px !important;
 
   blockquote {
     border-left: 2px solid var(--kbin-blockquote-color);
@@ -155,6 +155,7 @@ figure {
   .alert,
   .btn,
   figure,
+  figure img,
   input,
   textarea,
   select,
