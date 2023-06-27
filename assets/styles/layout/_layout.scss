@@ -166,7 +166,7 @@ figure {
   #sidebar .theme,
   #sidebar .user-list img,
   .no-image-placeholder {
-    border-radius: .5rem !important;
+    border-radius: var(--kbin-rounded-edges-radius);
   }
 
   .options {

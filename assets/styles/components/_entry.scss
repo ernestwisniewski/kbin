@@ -167,7 +167,7 @@
       }
 
       .rounded-edges .view-compact & {
-        border-radius: .5rem !important;
+        border-radius: var(--kbin-rounded-edges-radius);
       }
     }
   }
@@ -321,10 +321,20 @@
     margin-top: 0;
 
     .entry__body {
-      margin: 0.75rem;
+      margin: 0 0.75rem 0.75rem 0.75rem;
+      padding: 3px;
 
       .content *:last-child {
         margin-bottom: 0;
+      }
+
+      .more {
+        width: inherit;
+        margin: 0.75rem;
+
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
     }
 
@@ -343,7 +353,7 @@
       }
 
       .rounded-edges .view-compact & figure {
-        border-top-right-radius: .5rem !important;
+        border-top-right-radius: var(--kbin-rounded-edges-radius);
       }
     }
   }
