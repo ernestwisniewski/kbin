@@ -14,6 +14,21 @@
     opacity: 1;
   }
 
+  .dropdown:hover,
+  .dropdown:focus-within{
+
+      .dropdown__menu {
+        @include media-breakpoint-down(sm){
+          left: auto;
+          top: 100%;
+          transform: none;
+          right: 0;
+          min-width: 10rem;
+        }
+      }
+  
+  }
+
   &--top {
     border-top: 0;
   }
