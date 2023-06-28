@@ -58,6 +58,8 @@ class AttachEntryEmbedHandler
         $entry->type = $type;
         $entry->hasEmbed = $html || $isImage;
         $entry->image = $cover;
+
+        $this->entityManager->flush();
     }
 
     private function fetchCover(Entry $entry, Embed $embed): ?Image
