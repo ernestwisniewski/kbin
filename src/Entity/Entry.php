@@ -98,7 +98,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     #[Column(type: 'integer', nullable: true)]
     public ?int $views = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'boolean', nullable: false)]
     public bool $sticky = false;
     #[Column(type: 'datetimetz')]

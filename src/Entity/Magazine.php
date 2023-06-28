@@ -59,7 +59,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     #[Column(type: 'integer', nullable: false)]
     public int $postCommentCount = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
     #[Column(type: 'text', nullable: true)]
