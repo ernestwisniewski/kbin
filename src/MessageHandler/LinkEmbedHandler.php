@@ -34,10 +34,6 @@ class LinkEmbedHandler
         );
 
         foreach ($match[0] as $url) {
-            if ($this->embedRepository->findOneBy(['url' => $url])) {
-                continue;
-            }
-
             try {
                 $embed = $this->embed->fetch($url)->html;
                 if ($embed) {
