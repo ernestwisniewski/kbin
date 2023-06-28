@@ -1,3 +1,7 @@
+:root {
+  --kbin-entry-element-spacing: 10px;
+}
+
 .entry {
   display: grid;
   grid-template-areas: "vote image title"
@@ -16,48 +20,56 @@
                        "vote shortDesc"
                        "vote meta"
                        "vote footer"
-                       "vote body";
+                       "body body";
     grid-template-columns: min-content 1fr;
+  }
+
+  header,
+  .vote,
+  figure,
+  .no-image-placeholder,
+  .short-desc,
+  footer,
+  &__meta {
+    margin-left: var(--kbin-entry-element-spacing);
   }
 
   @include media-breakpoint-down(sm) {
     grid-template-areas: "image image"
-                       "vote title"
-                       "vote shortDesc"
-                       "vote meta"
-                       "vote footer"
-                       "body body";
+                         "vote title"
+                         "shortDesc shortDesc"
+                         "meta meta"
+                         "footer footer"
+                         "body body";
     grid-template-columns: min-content 1fr;
+
+    header,
+    .vote,
+    .short-desc,
+    footer,
+    &__meta {
+      margin-left: var(--kbin-entry-element-spacing);
+    }
 
     &.no-image {
       grid-template-areas: "vote title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
+                           "shortDesc shortDesc"
+                           "meta meta"
+                           "footer footer"
+                           "body body";
       grid-template-columns: min-content 1fr;
-
-      .vote {
-        margin-bottom: 1rem;
-      }
     }
 
     .view-compact & {
-      grid-template-areas: "title image vote"
-                       "meta meta vote"
-                       "footer footer vote"
+      grid-template-areas: "title title vote"
+                       "meta meta image"
+                       "footer footer image"
                        "body body body";
       grid-template-columns: 1fr min-content min-content;
 
-      header,
-      footer,
-      &__meta {
-        margin-left: 0.75rem;
-      }
-
       .vote {
         justify-content: right;
-        margin-right: 0.75rem;
+        margin-right: var(--kbin-entry-element-spacing);
         margin-left: 0;
       }
 
@@ -84,11 +96,6 @@
                        "body body body";
       grid-template-columns: min-content 1fr min-content;
 
-      .vote {
-        margin-right: 0.75rem !important;
-        margin-left: 0.75rem !important;
-      }
-
       .short-desc {
         display: none;
       }
@@ -102,14 +109,15 @@
 
   .vote {
     grid-area: vote;
-    margin: 0.75rem;
+    margin-top: var(--kbin-entry-element-spacing);
+    margin-bottom: var(--kbin-entry-element-spacing);
   }
 
   figure,
   .no-image-placeholder {
     position: relative;
     grid-area: image;
-    margin: 0.75rem 0.75rem 0.75rem 0;
+    margin: var(--kbin-entry-element-spacing) 0 var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing);
     width: 170px;
     height: calc(170px / 1.5); // 3:2 ratio
     justify-self: right;
@@ -134,10 +142,14 @@
       left: -5%;
     }
 
+    .rounded-edges & {
+      border-radius: var(--kbin-rounded-edges-radius);
+    }
+
     .view-compact & {
       width: 170px;
       height: 100%;
-      margin: 0 0 0 0.75rem;
+      margin: 0 0 0 var(--kbin-entry-element-spacing);
     }
 
     .rounded-edges .view-compact & {
@@ -156,9 +168,9 @@
       width: 100%;
       
       .view-compact & {
-        margin: 0.75rem;
-        height: 68px;
-        width: 68px;
+        margin: 0 10px 10px 10px;
+        height: calc(100% - 10px);
+        width: calc(100% - 10px);
       }
 
       .rounded-edges & {
@@ -167,7 +179,7 @@
       }
 
       .rounded-edges .view-compact & {
-        border-radius: var(--kbin-rounded-edges-radius);
+        border-radius: var(--kbin-rounded-edges-radius) !important;
       }
     }
   }
@@ -182,7 +194,7 @@
       height: 100%;
 
       text-align: center;
-      padding-top: 2.35rem;
+      padding-top: 35px;
     }
 
     .view-compact & {
@@ -191,7 +203,7 @@
 
     @include media-breakpoint-down(lg) {
       a {
-        padding-top: 1.6rem;
+        padding-top: 25px;
       }
     }
 
@@ -211,7 +223,7 @@
     display: flex;
     flex-wrap: wrap;
     grid-area: title;
-    margin: 0.75rem 0;
+    margin: var(--kbin-entry-element-spacing);
 
     h2, h1 {
       font-size: 1.1rem;
@@ -231,15 +243,6 @@
     h1 {
       font-size: 1.3rem;
     }
-
-    & > * {
-      margin-right: .5rem !important;
-    }
-
-    // last child element
-    & > *:last-child {
-      margin-right: 0 !important;
-    }
   }
 
   .short-desc {
@@ -247,7 +250,7 @@
 
     p {
       font-size: .85rem;
-      margin: 0 0.75rem 1rem 0;
+      margin: 0 var(--kbin-entry-element-spacing) 1rem 0;
     }
   }
 
@@ -264,7 +267,7 @@
   footer {
     grid-area: footer;
     align-self: flex-end;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--kbin-entry-element-spacing);
 
     menu {
       column-gap: 1rem;
@@ -321,7 +324,7 @@
     margin-top: 0;
 
     .entry__body {
-      margin: 0 0.75rem 0.75rem 0.75rem;
+      margin: 0 var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing);
       padding: 3px;
 
       .content *:last-child {
@@ -330,7 +333,7 @@
 
       .more {
         width: inherit;
-        margin: 0.75rem;
+        margin: var(--kbin-entry-element-spacing);
 
         bottom: 0;
         left: 0;
