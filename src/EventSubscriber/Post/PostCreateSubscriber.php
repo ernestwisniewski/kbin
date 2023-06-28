@@ -7,6 +7,7 @@ namespace App\EventSubscriber\Post;
 use App\Entity\Post;
 use App\Event\Post\PostCreatedEvent;
 use App\Message\ActivityPub\Outbox\CreateMessage;
+use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostCreatedNotificationMessage;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
@@ -46,6 +47,8 @@ class PostCreateSubscriber implements EventSubscriberInterface
         }
 
         $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
+        $this->bus->dispatch(new LinkEmbedMessage($event->post->body));
+
     }
 
     private function handleMagazine(Post $post): void

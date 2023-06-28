@@ -6,9 +6,9 @@ namespace App\Tests\Functional\Controller\Post\Comment;
 
 use App\Tests\WebTestCase;
 
-class PostCommentFavouriteControllerTest extends WebTestCase
+class PostCommentBoostControllerTest extends WebTestCase
 {
-    public function testLoggedUserAddToFavouritesComment(): void
+    public function testLoggedUserBoostComment(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
@@ -19,16 +19,16 @@ class PostCommentFavouriteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
         $client->submit(
-            $crawler->filter('#main .post-comment')->selectButton('favourites')->form([])
+            $crawler->filter('#main .post-comment')->selectButton('boost')->form([])
         );
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main .post-comment', 'favourites (1)');
+        $this->assertSelectorTextContains('#main .post-comment', 'boost (1)');
 
         $crawler = $client->click($crawler->filter('#main .post-comment')->selectLink('activity')->link());
 
-        $client->click($crawler->filter('#main #activity')->selectLink('favourites (1)')->link());
+        $client->click($crawler->filter('#main #activity')->selectLink('boosts (1)')->link());
 
         $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
     }

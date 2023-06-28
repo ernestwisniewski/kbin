@@ -6,6 +6,7 @@ namespace App\EventSubscriber\EntryComment;
 
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Message\ActivityPub\Outbox\CreateMessage;
+use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryCommentCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -29,6 +30,7 @@ class EntryCommentCreateSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentCreatedNotificationMessage($event->comment->getId()));
+        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new CreateMessage($event->comment->getId(), get_class($event->comment)));

@@ -73,22 +73,22 @@ class DeleteHandler
         $this->$fn($object, $actor);
     }
 
-    private function deleteEntry(Entry $entry, User $user)
+    private function deleteEntry(Entry $entry, User $user):void
     {
         $this->entryManager->delete($user, $entry);
     }
 
-    private function deleteEntryComment(EntryComment $comment, User $user)
+    private function deleteEntryComment(EntryComment $comment, User $user):void
     {
         $this->entryCommentManager->delete($user, $comment);
     }
 
-    private function deletePost(Post $post, User $user)
+    private function deletePost(Post $post, User $user):void
     {
         $this->postManager->delete($user, $post);
     }
 
-    private function deletePostComment(PostComment $comment, User $user)
+    private function deletePostComment(PostComment $comment, User $user):void
     {
         $this->postCommentManager->delete($user, $comment);
     }

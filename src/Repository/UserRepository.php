@@ -337,6 +337,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function findAdmin(): User
     {
+        // @todo orderBy lastActivity
         return $this->createQueryBuilder('u')
             ->andWhere("JSONB_CONTAINS(u.roles, '\"".'ROLE_ADMIN'."\"') = true")
             ->getQuery()

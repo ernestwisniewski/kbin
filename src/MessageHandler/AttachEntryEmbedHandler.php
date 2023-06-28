@@ -55,13 +55,9 @@ class AttachEntryEmbedHandler
             return;
         }
 
-        $this->entityManager->transactional(
-            static function () use ($entry, $cover, $html, $isImage, $type): void {
-                $entry->type = $type;
-                $entry->hasEmbed = $html || $isImage;
-                $entry->image = $cover;
-            }
-        );
+        $entry->type = $type;
+        $entry->hasEmbed = $html || $isImage;
+        $entry->image = $cover;
     }
 
     private function fetchCover(Entry $entry, Embed $embed): ?Image

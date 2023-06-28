@@ -29,9 +29,6 @@ export default class extends Controller {
             this.element.classList.add('z-5');
         });
 
-        this.moreTarget.addEventListener('focusout', () => {
-            this.element.classList.remove('z-5');
-        });
         if (this.element.classList.contains('show-preview')) {
             useIntersection(this)
         }
