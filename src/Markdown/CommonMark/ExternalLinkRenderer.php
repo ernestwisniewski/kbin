@@ -139,13 +139,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     private function isEmbed(string $url, string $title): bool
     {
         $embed = false;
-        if (filter_var($url, FILTER_VALIDATE_URL) && !str_starts_with($title, '@') && !str_starts_with(
-                $title,
-                '#'
-            )) {
-            if ($entity = $this->embedRepository->findOneBy(['url' => $url])) {
-                $embed = $entity->hasEmbed;
-            }
+        if (filter_var($url, FILTER_VALIDATE_URL) && $entity = $this->embedRepository->findOneBy(['url' => $url])) {
+            $embed = $entity->hasEmbed;
         }
 
         return (bool) $embed;
