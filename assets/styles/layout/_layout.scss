@@ -165,7 +165,8 @@ figure {
   .dropdown__menu,
   #sidebar .theme,
   #sidebar .user-list img,
-  .no-image-placeholder {
+  .no-image-placeholder,
+  .pagination__item {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
