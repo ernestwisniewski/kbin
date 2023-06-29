@@ -250,7 +250,8 @@ bronze: ブロンズ
 bronze_autobiographer: 自分語り
 font_size: 文字サイズ
 rounded_edges: 丸角
-flash_register_success: ようこそ！アカウント登録ができました。まだ一段残ります！メールアドレスにアカウント検証リンクを送信しました。アカウントを確認するためにメールボックスを見て下さい。
+flash_register_success: 
+  ようこそ！アカウント登録ができました。まだ一段残ります！メールアドレスにアカウント検証リンクを送信しました。アカウントを確認するためにメールボックスを見て下さい。
 restored_thread_by: はこのアカウントが作成したスレッドを復旧しました：
 removed_post_by: はこのアカウントが作成した投稿を削除しました：
 flash_thread_unpin_success: スレッドの固定を外しました。
@@ -465,3 +466,6 @@ kbin_intro_desc: はフェディバースネットワーク内で動作する、
 browsing_one_thread: 現在ディスカッション内の一つのスレッドだけを見ています！すべてのコメントは投稿ページから見られます。
 boost: ブースト
 inactive: 非アクティブ
+mercure_enabled: Mercureが有効
+report_issue: バグを報告
+tokyo_night: 東京ナイト

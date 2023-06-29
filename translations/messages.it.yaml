@@ -6,7 +6,7 @@ type.magazine: Magazine
 thread: Thread
 people: Persone
 events: Eventi
-magazine: Magazine
+magazine: Rivista
 magazines: Magazine
 search: Cerca
 add: Aggiungi
@@ -29,7 +29,7 @@ created_at: Creato
 owner: Proprietario
 online: Online
 comments: Commenti
-posts: Post
+posts: Pubblica
 replies: Risposte
 markdown_howto: Come si usa l'editor?
 moderators: Moderatori
@@ -55,10 +55,11 @@ password: Password
 remember_me: Ricordami
 reset_password: Reimposta password
 show_more: Mostra di più
-email_confirm_content: 'Per attivare il tuo account clicca sul link sottostante:'
+email_confirm_content: 'Sei pronto ad attivare il tuo account Kbin? Clicca sul link
+  sottostante:'
 reset_check_email_desc2: Se non vedi alcuna e-mail, controlla nella cartella della
   posta indesiderata.
-email_confirm_expire: Tra un'ora il collegamento non sarà più attivo.
+email_confirm_expire: Ricorda che il link scade tra un ora.
 email_confirm_header: Ciao! Conferma il tuo indirizzo e-mail.
 subscriptions: Iscrizioni
 subscribed: Iscritto
@@ -73,7 +74,7 @@ flash_thread_new_success: Il thread è stato creato correttamente ed è ora visi
 set_magazines_bar_desc: aggiungi il nome dei magazine dopo la virgola
 bronze_autobiographer_desc: Per aver completato tutti i campi del profilo
 bronze_link_desc: Il post è stato potenziato 5 volte
-bronze_article_desc: L'articolo è stato potenziato 5 volte
+bronze_article_desc: Il thread è stato potenziato 5 volte
 bronze_photo_desc: La foto è stata potenziata 5 volte
 bronze_comment_desc: Il commento è stato potenziato 5 volte
 bronze_post_desc: Il post è stato potenziato 5 volte
@@ -82,7 +83,7 @@ flash_thread_unpin_success: Il thread non risulta più in evidenza.
 flash_magazine_edit_success: Il magazine è stato modificato correttamente.
 too_many_requests: Limite superato, riprova più tardi.
 bronze_ranking_desc: 3° posto in classifica
-silver_article_desc: L'articolo è stato potenziato 10 volte
+silver_article_desc: Il thread è stato potenziato 10 volte
 silver_comment_desc: Il commento è stato potenziato 10 volte
 silver_post_desc: Il post è stato potenziato 10 volte
 silver_entry_week_desc: Il miglior thread della settimana
@@ -111,23 +112,25 @@ kbin_promo_desc: '%link_start%Clona il repository%link_end% e sviluppa il fedive
 type.link: Link
 login: Accedi
 register: Iscriviti
-flash_register_success: "Il tuo account è stato registrato. Controlla la tua casella\
-  \ di posta: abbiamo inviato un'e-mail con un link di attivazione."
+flash_register_success: "Benvenuto a bordo, il tuo account è stato registrato. Un
+  ultimo passo! Controlla la tua casella email per il link di attivazione del tuo
+  account."
 microblog: Microblog
 top: Migliori
 filter_by_time: Filtra per data
 type_search_term: Digita un termine di ricerca
 favourites: Preferiti
 unfollow: Non seguire
-you_cant_login: Non riesci ad accedere?
-reset_check_email_desc: Se al tuo indirizzo di posta elettronica corrisponde un account
-  esistente, hai appena ricevuto un'e-mail con un link da utilizzare per reimpostare
-  la tua password. Tra %expire% il link non sarà più attivo.
+you_cant_login: Hai dimenticato la password?
+reset_check_email_desc: Se esiste un account associato al tuo indirizzo email, dovresti
+  ricevere a breve un'email contenente un link che puoi usare per reimpostare la tua
+  password. Tra %expire% il link non sarà più attivo.
 flash_magazine_new_success: Il magazine è stato creato correttamente. Ora puoi aggiungere
   nuovi contenuti o esplorare il pannello di amministrazione dei magazine.
 mod_log: Registro di moderazione
-mod_log_alert: Nel Registro di moderazione potresti trovare contenuti disturbanti
-  rimossi dai moderatori. Sii consapevole di ciò che stai per fare.
+mod_log_alert: ATTENZIONE - Il registro di moderazione potrebbe contenere contenuti
+  non piacevoli o angoscianti che sono stati rimossi dai moderatori. Per favore procedi
+  con cautela.
 set_magazines_bar_empty_desc: se il campo è vuoto, nella barra vengono visualizzati
   i magazine attivi.
 federated_magazine_info: 'Il magazine è su un server federato: alcuni contenuti potrebbero
@@ -168,7 +171,7 @@ fediverse: Fediverso
 awards: Riconoscimenti
 ranking: Graduatoria
 create_new_magazine: Crea un nuovo magazine
-add_new_article: Aggiungi un articolo
+add_new_article: Aggiungi un nuovo thread
 add_new_link: Aggiungi un nuovo link
 add_new_photo: Aggiungi una nuova foto
 add_new_post: Aggiungi un nuovo post
@@ -227,7 +230,7 @@ cards_view: Vista a schede
 1m: 1 mese
 1y: 1 anno
 links: Collegamenti
-articles: Articoli
+articles: Thread
 photos: Foto
 report: Rapporti
 share: Condividi
@@ -236,7 +239,7 @@ share_on_fediverse: Condividi sul Fediverso
 edit: Modifica
 are_you_sure: Confermi?
 reason: Motivo
-edit_article: Modifica articolo
+edit_article: Modifica thread
 edit_photo: Modifica foto
 delete: Cancella
 edit_post: Modifica il post
@@ -249,12 +252,12 @@ reports: Rapporti
 messages: Messaggi
 appearance: Aspetto
 homepage: Homepage
-hide_adult: Nascondi contenuto per adulti
+hide_adult: Nascondi contenuto esplicito
 privacy: Privacy
 show_profile_followings: Mostra gli utenti seguaci
 save: Salva
 about: A proposito
-old_email: Vecchia email
+old_email: Email attuale
 new_email: Nuova email
 new_email_repeat: Conferma nuova email
 current_password: Password attuale
@@ -293,7 +296,7 @@ bronze: Bronzo
 bronze_personality_desc: 20 seguaci
 bronze_commentator_desc: 10 commenti buoni
 bronze_scout_desc: 10 collegamenti buoni
-bronze_redactor_desc: 10 articoli buoni
+bronze_redactor_desc: 10 thread buoni
 bronze_poster_desc: 10 post buoni
 bronze_link: Collegamento buono
 bronze_photo: Buona foto
@@ -336,7 +339,7 @@ silver_commentator_desc: 10 ottimi commenti
 silver_scout: Scout medaglia d'argento
 silver_scout_desc: 10 ottimi link
 silver_redactor: Redattore medaglia d'argento
-silver_redactor_desc: 10 ottimi articoli
+silver_redactor_desc: 10 ottimi thread
 silver_poster: Poster medaglia d'argento
 silver_poster_desc: 10 ottimi post
 silver_link: Link ottimi
@@ -359,7 +362,7 @@ gold_commentator_desc: 10 commenti eccellenti
 gold_scout: Scout medaglia d'oro
 gold_scout_desc: 10 link eccellenti
 gold_redactor: Redattore medaglia d'oro
-gold_redactor_desc: 10 articoli eccellenti
+gold_redactor_desc: 10 thread eccellenti
 gold_poster: Poster medaglia d'oro
 gold_poster_desc: 10 post eccellenti
 gold_link: Link eccellente
@@ -401,7 +404,7 @@ left: Sinistra
 right: Destra
 federation: Federazione
 on: On
-off: Off
+off: Spento
 instances: Istanze
 upload_file: Carica file
 from_url: Da url
@@ -427,7 +430,7 @@ change_magazine: Modifica magazine
 change_language: Modifica lingua
 pinned: Fissato
 preview: Anteprima
-article: Articolo
+article: Thread
 reputation: Reputazione
 note: Nota
 users: Utenti
@@ -478,3 +481,6 @@ rejected: Respinto
 unpin: Non fissare
 writing: Scrivere
 admin_panel: Pannello di amministrazione
+mercure_enabled: Mercure abilitato
+report_issue: Segnala un problema
+tokyo_night: Tokyo Night
