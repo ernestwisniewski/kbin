@@ -27,7 +27,9 @@ class EntryEditSubscriber implements EventSubscriberInterface
     public function onEntryEdited(EntryEditedEvent $event): void
     {
         $this->bus->dispatch(new EntryEditedNotificationMessage($event->entry->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->entry->body));
+        if ($event->entry->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->entry->body));
+        }
 
         if (!$event->entry->apId) {
             $this->bus->dispatch(new UpdateMessage($event->entry->getId(), get_class($event->entry)));

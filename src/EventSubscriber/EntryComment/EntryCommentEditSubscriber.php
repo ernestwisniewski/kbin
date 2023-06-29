@@ -30,7 +30,9 @@ class EntryCommentEditSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentEditedNotificationMessage($event->comment->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        if ($event->comment->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        }
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new UpdateMessage($event->comment->getId(), get_class($event->comment)));
