@@ -185,8 +185,8 @@
   }
 
   .no-image-placeholder {
-    border: var(--kbin-entry-no-image-placeholder-border);
-    font-size: 1.4rem;
+    background: var(--kbin-vote-bg);
+    font-size: 2.5rem;
 
     a {
       display: block;
@@ -194,7 +194,7 @@
       height: 100%;
 
       text-align: center;
-      padding-top: 35px;
+      padding-top: 25px;
     }
 
     .view-compact & {
