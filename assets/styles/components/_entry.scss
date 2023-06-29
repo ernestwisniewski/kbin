@@ -199,12 +199,6 @@
       display: none;
     }
 
-    @include media-breakpoint-down(lg) {
-      a {
-        padding-top: 25px;
-      }
-    }
-
     @include media-breakpoint-down(sm) {
       display: none;
     }
