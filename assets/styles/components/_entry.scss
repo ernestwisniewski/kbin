@@ -195,6 +195,11 @@
       justify-content: center;
     }
 
+    i {
+      color: var(--kbin-vote-text-color);
+      opacity: .5;
+    }
+
     .view-compact & {
       display: none;
     }
