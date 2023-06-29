@@ -6,9 +6,9 @@ namespace App\Tests\Functional\Controller\Entry;
 
 use App\Tests\WebTestCase;
 
-class EntryFavouriteControllerTest extends WebTestCase
+class EntryBoostControllerTest extends WebTestCase
 {
-    public function testLoggedUserCanAddToFavouritesEntry(): void
+    public function testLoggedUserCanBoostEntry(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));
@@ -24,14 +24,14 @@ class EntryFavouriteControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
         $client->submit(
-            $crawler->filter('#main .entry')->selectButton('favourites')->form([])
+            $crawler->filter('#main .entry')->selectButton('boost')->form([])
         );
 
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main .entry', 'favourites (1)');
+        $this->assertSelectorTextContains('#main .entry', 'boost (1)');
 
-        $client->click($crawler->filter('#activity')->selectLink('favourites (1)')->link());
+        $client->click($crawler->filter('#activity')->selectLink('boosts (1)')->link());
 
         $this->assertSelectorTextContains('#main .users-columns', 'JohnDoe');
     }

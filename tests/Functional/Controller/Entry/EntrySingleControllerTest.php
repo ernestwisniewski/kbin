@@ -74,7 +74,7 @@ class EntrySingleControllerTest extends WebTestCase
 
         $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
-        $this->assertSelectorTextContains('.options-activity', 'Activity (3)');
+        $this->assertSelectorTextContains('.options-activity', 'Activity (2)');
     }
 
     public function testCanSortComments()

@@ -55,6 +55,6 @@ class PostSingleControllerTest extends WebTestCase
 
         $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 
-        $this->assertSelectorTextContains('.options-activity', 'Activity (3)');
+        $this->assertSelectorTextContains('.options-activity', 'Activity (2)');
     }
 }

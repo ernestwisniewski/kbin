@@ -1,12 +1,17 @@
+:root {
+  --kbin-entry-element-spacing: 10px;
+}
+
 .entry {
   display: grid;
-  grid-template-areas: "vote title image"
-                       "vote shortDesc image"
-                       "vote meta image"
-                       "vote footer image"
+  grid-template-areas: "vote image title"
+                       "vote image shortDesc"
+                       "vote image meta"
+                       "vote image footer"
                        "body body body";
-  grid-template-columns: min-content auto min-content;
-  padding: 1rem .5rem;
+  grid-template-columns: min-content min-content 1fr;
+  grid-template-rows: 1fr min-content;
+  padding: 0;
   position: relative;
   z-index: 2;
 
@@ -16,60 +21,56 @@
                        "vote meta"
                        "vote footer"
                        "body body";
-    grid-template-columns: min-content auto;
+    grid-template-columns: min-content 1fr;
   }
 
-  @include media-breakpoint-down(lg) {
-    grid-template-areas: "vote image image"
-                       "vote title title"
-                       "vote shortDesc shortDesc"
-                       "vote meta meta"
-                       "vote footer footer"
-                       "body body body";
-    grid-template-columns: min-content auto auto;
-
-    header {
-      margin-top: .5rem;
-    }
-
-    figure img {
-      max-height: 70px;
-    }
+  header,
+  .vote,
+  figure,
+  .no-image-placeholder,
+  .short-desc,
+  footer,
+  &__meta {
+    margin-left: var(--kbin-entry-element-spacing);
   }
 
   @include media-breakpoint-down(sm) {
-    grid-template-areas: "vote image"
-                       "title title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
-    grid-template-columns: min-content auto;
+    grid-template-areas: "image image"
+                         "vote title"
+                         "shortDesc shortDesc"
+                         "meta meta"
+                         "footer footer"
+                         "body body";
+    grid-template-columns: min-content 1fr;
+
+    header,
+    .vote,
+    .short-desc,
+    footer,
+    &__meta {
+      margin-left: var(--kbin-entry-element-spacing);
+    }
 
     &.no-image {
       grid-template-areas: "vote title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
-      grid-template-columns: min-content auto;
-
-      .vote {
-        margin-bottom: 1rem;
-      }
+                           "shortDesc shortDesc"
+                           "meta meta"
+                           "footer footer"
+                           "body body";
+      grid-template-columns: min-content 1fr;
     }
 
     .view-compact & {
-      grid-template-areas: "image vote"
-                       "title title"
-                       "shortDesc shortDesc"
-                       "meta meta"
-                       "footer footer"
-                       "body body";
-      grid-template-columns: min-content auto;
+      grid-template-areas: "title title vote"
+                       "meta meta image"
+                       "footer footer image"
+                       "body body body";
+      grid-template-columns: 1fr min-content min-content;
 
       .vote {
-        text-align: right;
+        justify-content: right;
+        margin-right: var(--kbin-entry-element-spacing);
+        margin-left: 0;
       }
 
       .short-desc {
@@ -77,35 +78,23 @@
       }
     }
 
-    .view-compact &.no-image {
+    .view-compact &.no-meta {
       grid-template-areas: "title vote"
                        "shortDesc shortDesc"
                        "meta meta"
                        "footer footer"
                        "body body";
-      grid-template-columns: auto min-content;
+      grid-template-columns: 1fr min-content;
     }
   }
 
   @include media-breakpoint-up(sm) {
     .view-compact & {
-      grid-template-areas: "vote title image "
+      grid-template-areas: "vote title image"
                        "vote meta image"
                        "vote footer image"
-                       "body body body" !important;
-      grid-template-columns: min-content auto min-content;
-
-      figure {
-        img {
-          max-height: 100px;
-          max-width: 120px;
-        }
-      }
-
-      .vote {
-        margin-right: 1rem !important;
-        margin-left: 0 !important;
-      }
+                       "body body body";
+      grid-template-columns: min-content 1fr min-content;
 
       .short-desc {
         display: none;
@@ -120,29 +109,106 @@
 
   .vote {
     grid-area: vote;
-    margin-right: 1rem;
+    margin-top: var(--kbin-entry-element-spacing);
+    margin-bottom: var(--kbin-entry-element-spacing);
+  }
+
+  figure,
+  .no-image-placeholder {
+    position: relative;
+    grid-area: image;
+    margin: var(--kbin-entry-element-spacing) 0 var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing);
+    width: 170px;
+    height: calc(170px / 1.5); // 3:2 ratio
+    justify-self: right;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      -o-object-fit: contain;
+    }
+
+    .image-filler {
+      position: absolute;
+      background-position: center;
+      filter: blur(8px);
+      width: 110%;
+      height: 110%;
+      top: -5%;
+      left: -5%;
+    }
+
+    .rounded-edges & {
+      border-radius: var(--kbin-rounded-edges-radius);
+    }
+
+    .view-compact & {
+      width: 170px;
+      height: 100%;
+      margin: 0 0 0 var(--kbin-entry-element-spacing);
+    }
+
+    .rounded-edges .view-compact & {
+      border-top-left-radius: 0 !important;
+      border-bottom-left-radius: 0 !important;
+    }
+
+    @include media-breakpoint-down(lg) {
+      width: 140px;
+      height: calc(140px / 1.5); // 3:2 ratio
+    }
 
     @include media-breakpoint-down(sm) {
-      margin-right: .5rem;
-
+      margin: 0;
+      height: 110px;
+      width: 100%;
+      
       .view-compact & {
-        margin-right: 0;
-        margin-left: .5rem;
+        margin: 0 10px 10px 10px;
+        height: calc(100% - 10px);
+        width: calc(100% - 10px);
+      }
+
+      .rounded-edges & {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+
+      .rounded-edges .view-compact & {
+        border-radius: var(--kbin-rounded-edges-radius) !important;
       }
     }
   }
 
-  figure {
-    grid-area: image;
-    margin: 0 0 0 1rem;
+  .no-image-placeholder {
+    border: var(--kbin-entry-no-image-placeholder-border);
+    font-size: 1.4rem;
 
-    @include media-breakpoint-down(sm) {
-      margin: 0 .5rem 0 0;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      text-align: center;
+      padding-top: 35px;
     }
 
-    img {
-      -o-object-fit: none;
-      object-fit: none;
+    .view-compact & {
+      display: none;
+    }
+
+    @include media-breakpoint-down(lg) {
+      a {
+        padding-top: 25px;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: none;
     }
   }
 
@@ -153,11 +219,11 @@
   }
 
   header {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     grid-area: title;
-    margin-bottom: 1rem;
+    margin: var(--kbin-entry-element-spacing);
 
     h2, h1 {
       font-size: 1.1rem;
@@ -177,15 +243,6 @@
     h1 {
       font-size: 1.3rem;
     }
-
-    & > * {
-      margin-right: .5rem !important;
-    }
-
-    // last child element
-    & > *:last-child {
-      margin-right: 0 !important;
-    }
   }
 
   .short-desc {
@@ -193,7 +250,7 @@
 
     p {
       font-size: .85rem;
-      margin: 0 0 1rem;
+      margin: 0 var(--kbin-entry-element-spacing) 1rem 0;
     }
   }
 
@@ -204,10 +261,13 @@
 
   &__meta {
     grid-area: meta;
+    align-self: flex-end;
   }
 
   footer {
     grid-area: footer;
+    align-self: flex-end;
+    margin-bottom: var(--kbin-entry-element-spacing);
 
     menu {
       column-gap: 1rem;
@@ -217,14 +277,22 @@
       list-style: none;
       opacity: .75;
 
+      & > li {
+        line-height: 1rem;
+      }
+
       & > a.active,
-      & > li button.active, {
+      & > li button.active {
         text-decoration: underline;
       }
 
       button, input[type='submit'], a {
         @include kbin-btn-link;
       }
+    }
+
+    .view-compact & {
+      margin-bottom: 0.3rem;
     }
   }
 
@@ -254,13 +322,41 @@
   &--single {
     border-top: 0;
     margin-top: 0;
-    padding-bottom: 2rem;
-    padding-top: 2rem;
 
     .entry__body {
-      padding: 0 2rem;
-      @include media-breakpoint-down(sm) {
-        padding: 0;
+      margin: 0 var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing) var(--kbin-entry-element-spacing);
+      padding: 3px;
+
+      .content *:last-child {
+        margin-bottom: 0;
+      }
+
+      .more {
+        width: inherit;
+        margin: var(--kbin-entry-element-spacing);
+
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    }
+
+    .no-image-placeholder {
+      display: none;
+    }
+
+    .rounded-edges .view-compact & figure {
+      border-top-right-radius: 0 !important;
+    }
+
+    @include media-breakpoint-down(sm) {
+      .rounded-edges & figure {
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
+
+      .rounded-edges .view-compact & figure {
+        border-top-right-radius: var(--kbin-rounded-edges-radius);
       }
     }
   }
@@ -270,6 +366,9 @@
   }
 
   .badge {
+    display: inline-block;
+    position: relative;
+    top: -2px;
     padding: .25rem;
   }
 }

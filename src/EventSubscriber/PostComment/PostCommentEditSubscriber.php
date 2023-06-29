@@ -6,6 +6,7 @@ namespace App\EventSubscriber\PostComment;
 
 use App\Event\PostComment\PostCommentEditedEvent;
 use App\Message\ActivityPub\Outbox\UpdateMessage;
+use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostCommentEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -30,10 +31,11 @@ class PostCommentEditSubscriber implements EventSubscriberInterface
     {
         $this->cache->invalidateTags([
             'post_'.$event->comment->post->getId(),
-            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
         ]);
 
         $this->bus->dispatch(new PostCommentEditedNotificationMessage($event->comment->getId()));
+        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new UpdateMessage($event->comment->getId(), get_class($event->comment)));

@@ -316,7 +316,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $this->createQueryBuilder('e')
             ->where('e.visibility != :visibility')
             ->andWhere('e.user = :user')
-            ->setParameters(['visibility' => Entry::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_SOFT_DELETED, 'user' => $user])
             ->orderBy('e.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

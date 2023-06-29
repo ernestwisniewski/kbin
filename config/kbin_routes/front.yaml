@@ -1,34 +1,31 @@
-front:
-  controller: App\Controller\Entry\EntryFrontController::front
+root: &root
+  controller: App\Controller\Entry\EntryFrontController::root
   defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /{sortBy}/{time}/{type}
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
+front:
+  <<: *root
+  controller: App\Controller\Entry\EntryFrontController::front
+  path: /all/{sortBy}/{time}/{type}
+
 front_subscribed:
+  <<: *root
   controller: App\Controller\Entry\EntryFrontController::subscribed
-  defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /sub/{sortBy}/{time}/{type}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
 
 front_moderated:
+  <<: *root
   controller: App\Controller\Entry\EntryFrontController::moderated
-  defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /mod/{sortBy}/{time}/{type}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
 
 front_favourite:
+  <<: *root
   controller: App\Controller\Entry\EntryFrontController::favourite
-  defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /fav/{sortBy}/{time}/{type}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }
 
 front_magazine:
+  <<: *root
   controller: App\Controller\Entry\EntryFrontController::magazine
-  defaults: { sortBy: hot, time: '∞', type: ~ }
   path: /m/{name}/{sortBy}/{time}/{type}
-  methods: [GET]
-  requirements: { sortBy: "%front_sort_options%" }

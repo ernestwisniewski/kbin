@@ -182,11 +182,11 @@ class ApHttpClient
         return $headers;
     }
 
-    private function getInstanceHeaders(string $url, ?array $body = null)
+    private function getInstanceHeaders(string $url, ?array $body = null, string $method = 'post')
     {
         $keyId = 'https://'.$this->kbinDomain.'/i/actor#main-key';
         $privateKey = $this->getInstancePrivateKey();
-        $headers = self::headersToSign($url, $body ? self::digest($body) : null);
+        $headers = self::headersToSign($url, $body ? self::digest($body) : null, $method);
         $stringToSign = self::headersToSigningString($headers);
         $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
         $key = openssl_pkey_get_private($privateKey);
@@ -209,17 +209,20 @@ class ApHttpClient
         'Accept' => 'string',
         'Digest' => 'string',
     ])]
-    protected static function headersToSign(string $url, ?string $digest = null): array
+    protected static function headersToSign(string $url, ?string $digest = null, string $method = 'post'): array
     {
         $date = new \DateTime('UTC');
 
+        if(!in_array($method, ['post', 'get'])) {
+            throw new InvalidApPostException('Invalid method used to sign headers in ApHttpClient');
+        }
         $headers = [
-            '(request-target)' => 'post '.parse_url($url, PHP_URL_PATH),
+            '(request-target)' => $method.' '.parse_url($url, PHP_URL_PATH),
             'Date' => $date->format('D, d M Y H:i:s \G\M\T'),
             'Host' => parse_url($url, PHP_URL_HOST),
         ];
 
-        if ($digest) {
+        if (!empty($digest)) {
             $headers['Digest'] = 'SHA-256='.$digest;
         }
 

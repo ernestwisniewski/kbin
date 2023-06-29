@@ -113,7 +113,12 @@ class Page
                     fn($val) => in_array($val['type'], ['Link'])
                 );
 
-                $dto->url = $link[0]['href'];
+                if(is_array($link)) {
+                        $dto->url = $link[0]['href'];
+                } else {
+                        $dto->url = $link['href'];
+                };
+
             }
         } catch (\Exception $e) {
         }

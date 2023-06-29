@@ -12,6 +12,21 @@
     top: 3px;
   }
 
+  .dropdown:focus-within,
+  .dropdown:hover {
+
+    .dropdown__menu{
+      @include media-breakpoint-down(sm){
+        left: auto;
+        top: 100%;
+        transform: none;
+        right: 0;
+        min-width: 10rem;
+      }
+    }
+
+  }
+
   menu .dropdown__menu {
     left: -3.75rem;
     opacity: 1;

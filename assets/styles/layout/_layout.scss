@@ -76,9 +76,9 @@ menu {
 }
 
 .content {
-  margin: -3px !important;
+  // margin: -3px !important;
   overflow: hidden !important;
-  padding: 3px !important;
+  // padding: 3px !important;
 
   blockquote {
     border-left: 2px solid var(--kbin-blockquote-color);
@@ -99,10 +99,6 @@ main {
 .content {
   position: relative;
   word-break: break-word;
-
-  a {
-    font-size: .85rem;
-  }
 }
 
 hr {
@@ -168,8 +164,9 @@ figure {
   .preview iframe,
   .dropdown__menu,
   #sidebar .theme,
-  #sidebar .user-list img {
-    border-radius: .5rem !important;
+  #sidebar .user-list img,
+  .no-image-placeholder {
+    border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
   .options {
@@ -322,7 +319,7 @@ pre, code {
 }
 
 .js-container {
-  margin-bottom: .5rem;
+  margin-bottom: 0;
 }
 
 .bold {
