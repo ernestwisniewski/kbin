@@ -166,7 +166,8 @@ figure {
   #sidebar .theme,
   #sidebar .user-list img,
   .no-image-placeholder,
-  .pagination__item {
+  .pagination__item,
+  code {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
@@ -297,6 +298,23 @@ figure {
 pre, code {
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+pre > code {
+  display: inline-block;
+  color: var(--kbin-text-color);
+  background: var(--kbin-bg);
+  padding: 1rem;
+  font-size: .85rem;
+  max-height: 16rem;
+  overflow: auto;
+}
+
+p > code {
+  color: var(--kbin-text-color);
+  background: var(--kbin-bg);
+  padding: 0.2rem .4rem;
+  font-size: .85rem;
 }
 
 .markdown {
