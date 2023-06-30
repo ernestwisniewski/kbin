@@ -194,6 +194,9 @@
       a {
         font-size: 1.0rem;
       }
+      div {
+        top: 0px;
+      }
     }
 
     @include media-breakpoint-down(lg) {
