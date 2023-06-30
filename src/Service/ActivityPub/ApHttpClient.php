@@ -97,7 +97,7 @@ class ApHttpClient
                         }
                         if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
                             $magazine->apDeletedAt = new \DateTime();
-                            $this->userRepository->save($user, true);
+                            $this->magazineRepository->save($magazine, true);
                         }
                     }
                 } catch (\Exception $e) {
