@@ -14,13 +14,10 @@
                         {% if post.body %}
                             <blockquote class="content">
                                 {{ get_short_sentence(post.body)|markdown|raw }}
-                                <div>
-                                    <a href="{{ post_url(post) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
-                                </div>
                             </blockquote>
                         {% endif %}
                     </div>
-                    <figcaption>
+                    <figcaption class="mt-2">
                         {{ component('date', {date: post.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}
                     </figcaption>
                 </figure>
