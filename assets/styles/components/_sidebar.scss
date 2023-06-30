@@ -96,6 +96,10 @@
         }
       }
 
+      .more {
+        opacity: 0;
+      }
+
       figcaption {
         color: var(--kbin-meta-text-color);
         text-align: right;

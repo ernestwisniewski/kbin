@@ -6,16 +6,15 @@
                 <figure>
                     <div class="row">
                         {% if entry.image %}
-                            <a href="{{ entry_url(entry) }}" class="stretched-link">
-                                <img src="{{ asset(entry.image.filePath) | imagine_filter('entry_thumb') }}"
-                                     alt="{{ entry.image.alt|default('') }}">
-                            </a>
+                            <img src="{{ asset(entry.image.filePath) | imagine_filter('entry_thumb') }}"
+                                 alt="{{ entry.image.alt|default('') }}">
                         {% endif %}
                         <blockquote class="content">
                             <p>{{ entry.title }}</p>
                         </blockquote>
+                        <a href="{{ entry_url(entry) }}" class="stretched-link more">{{ 'show_more'|trans }}</a>
                     </div>
-                    <figcaption class="mt-2">
+                    <figcaption>
                         {{ component('date', {date: entry.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}
                     </figcaption>
                 </figure>
