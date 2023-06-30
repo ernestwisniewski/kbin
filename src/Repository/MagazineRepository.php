@@ -396,7 +396,7 @@ class MagazineRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('m')
             ->where('m.id IN (:ids)')
-            ->andWhere('m.is_adult = false')
+            ->andWhere('m.isAdult = false')
             ->andWhere('m.visibility = :visibility')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('ids', $ids)
@@ -409,7 +409,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->where('m.entryCount > 0 OR m.postCount > 0')
             ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
-            ->andWhere('m.is_adult = false')
+            ->andWhere('m.isAdult = false')
             ->andWhere('m.visibility = :visibility')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('magazine', "%{$magazine}%")
