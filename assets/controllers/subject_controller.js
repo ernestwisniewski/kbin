@@ -413,13 +413,15 @@ export default class extends Controller {
         const adultBadge = this.element.querySelector('.danger');
         if (adultBadge && adultBadge.textContent === '+18') {
             const image = this.element.querySelector('img');
-            image.style.filter = 'blur(8px)';
-            image.addEventListener('mouseenter', () => {
-                image.style.filter = 'none';
-            });
-            image.addEventListener('mouseleave', () => {
+            if (image) {
                 image.style.filter = 'blur(8px)';
-            });
+                image.addEventListener('mouseenter', () => {
+                    image.style.filter = 'none';
+                });
+                image.addEventListener('mouseleave', () => {
+                    image.style.filter = 'blur(8px)';
+                });
+            }
         }
     }
 }
