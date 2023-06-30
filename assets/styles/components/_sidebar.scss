@@ -83,21 +83,25 @@
         border: 0;
         padding: 0;
 
-        div {
-          color: var(--kbin-meta-text-color);
-          font-size: .7rem;
-          text-align: right;
+        a{
+          @include kbin-btn-link;
+        }
 
-          a {
-            color: var(--kbin-meta-text-color);
-          }
+        p:last-of-type{
+          margin: 0em;
+        }
+
+        div{
+          margin-top: 0.5em;
         }
       }
 
       figcaption {
         color: var(--kbin-meta-text-color);
-        text-align: right;
+        text-align: left;
       }
+
+      
     }
   }
 
