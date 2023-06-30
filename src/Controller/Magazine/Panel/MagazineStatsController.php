@@ -20,7 +20,7 @@ class MagazineStatsController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('edit', subject: 'magazine')]
-    public function __invoke(Magazine $magazine, ?string $statsType, ?int $statsPeriod, Request $request): Response
+    public function __invoke(Magazine $magazine, ?string $statsType, ?int $statsPeriod, ?bool $withFederated, Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
@@ -38,16 +38,19 @@ class MagazineStatsController extends AbstractController
             $statsPeriod = min($statsPeriod, 256);
             $start = (new \DateTime())->modify("-$statsPeriod days");
         }
+        if ($withFederated === null) {
+            $withFederated = false;
+        }
         $results = match ($statsType) {
             StatsRepository::TYPE_VIEWS => $statsPeriod
-                ? $this->manager->drawDailyViewsStatsByTime($start, null, $magazine)
-                : $this->manager->drawMonthlyViewsChart(null, $magazine),
+                ? $this->manager->drawDailyViewsStatsByTime($start, null, $magazine, !$withFederated)
+                : $this->manager->drawMonthlyViewsChart(null, $magazine, !$withFederated),
             StatsRepository::TYPE_VOTES => $statsPeriod
-                ? $this->manager->drawDailyVotesStatsByTime($start, null, $magazine)
-                : $this->manager->drawMonthlyVotesChart(null, $magazine),
+                ? $this->manager->drawDailyVotesStatsByTime($start, null, $magazine, !$withFederated)
+                : $this->manager->drawMonthlyVotesChart(null, $magazine, !$withFederated),
             default => $statsPeriod
-                ? $this->manager->drawDailyContentStatsByTime($start, null, $magazine)
-                : $this->manager->drawMonthlyContentChart(null, $magazine)
+                ? $this->manager->drawDailyContentStatsByTime($start, null, $magazine, !$withFederated)
+                : $this->manager->drawMonthlyContentChart(null, $magazine, !$withFederated)
         };
 
         return $this->render(
@@ -55,6 +58,7 @@ class MagazineStatsController extends AbstractController
                 'magazine' => $magazine,
                 'period' => $statsPeriod,
                 'chart' => $results,
+                'withFederated' => $withFederated,
             ]
         );
     }

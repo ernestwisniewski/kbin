@@ -20,6 +20,7 @@ abstract class StatsRepository extends ServiceEntityRepository
     protected ?\DateTime $start;
     protected ?User $user;
     protected ?Magazine $magazine;
+    protected ?bool $onlyLocal;
 
     public function __construct(ManagerRegistry $registry)
     {
