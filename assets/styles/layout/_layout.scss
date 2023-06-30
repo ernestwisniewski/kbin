@@ -165,7 +165,8 @@ figure {
   .dropdown__menu,
   #sidebar .theme,
   #sidebar .user-list img,
-  .no-image-placeholder {
+  .no-image-placeholder,
+  .pagination__item {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
@@ -191,7 +192,8 @@ figure {
   }
 
   .magazine__subscribe,
-  .user__follow {
+  .user__follow,
+  .domain__subscribe {
     gap: 0.25rem
   }
 }

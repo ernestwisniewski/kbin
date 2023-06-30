@@ -20,6 +20,7 @@ $transition: 180ms all 120ms ease-out;
     z-index: 100;
     top: 100%;
     padding: 0em;
+    overflow: clip;
 
     li {
       list-style: none;
