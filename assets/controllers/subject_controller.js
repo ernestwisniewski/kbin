@@ -361,15 +361,17 @@ export default class extends Controller {
     checkHeight() {
         this.isExpandedValue = false;
         const elem = this.element.querySelector('.content');
-        elem.style.maxHeight = '25rem'
+        if (elem) {
+            elem.style.maxHeight = '25rem'
 
-        if (elem.scrollHeight - 30 > elem.clientHeight
-            || elem.scrollWidth > elem.clientWidth) {
+            if (elem.scrollHeight - 30 > elem.clientHeight
+                || elem.scrollWidth > elem.clientWidth) {
 
-            this.moreBtn = this.createMoreBtn(elem);
-            this.more();
-        } else {
-            elem.style.maxHeight = null;
+                this.moreBtn = this.createMoreBtn(elem);
+                this.more();
+            } else {
+                elem.style.maxHeight = null;
+            }
         }
     }
 
