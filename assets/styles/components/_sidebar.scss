@@ -83,25 +83,31 @@
         border: 0;
         padding: 0;
 
-        a{
+        a {
           @include kbin-btn-link;
         }
 
-        p:last-of-type{
+        p:last-of-type {
           margin: 0em;
         }
 
-        div{
+        div {
           margin-top: 0.5em;
         }
       }
 
-      figcaption {
-        color: var(--kbin-meta-text-color);
-        text-align: left;
+      .more {
+        opacity: 0;
       }
 
-      
+      figcaption {
+        color: var(--kbin-meta-text-color);
+        text-align: right;
+      }
+
+      figcaption time {
+        display: block;
+      }
     }
   }
 
@@ -245,6 +251,7 @@
       &.solarized-dark {
         background: #093642;
       }
+
       &.tokyo-night {
         background: #2A2A3C;
       }
