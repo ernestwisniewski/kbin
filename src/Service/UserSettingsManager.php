@@ -49,7 +49,7 @@ class UserSettingsManager
         $user->addMentionsEntries = $dto->addMentionsEntries;
         $user->addMentionsPosts = $dto->addMentionsPosts;
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
-        $user->preferredLanguages = $dto->preferredLanguages ?  array_unique($dto->preferredLanguages) : null;
+        $user->preferredLanguages = $dto->preferredLanguages ? array_unique($dto->preferredLanguages) : [];
 
         $this->entityManager->flush();
     }
