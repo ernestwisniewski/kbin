@@ -61,9 +61,6 @@ class EntrySingleController extends AbstractController
 
         $comments = $repository->findByCriteria($criteria);
 
-        $repository->hydrate(...$comments);
-        $repository->hydrateChildren(...$comments);
-
         $dispatcher->dispatch(new EntryHasBeenSeenEvent($entry));
 
         if ($request->isXmlHttpRequest()) {
