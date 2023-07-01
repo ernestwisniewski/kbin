@@ -53,8 +53,6 @@ class TagManager
             \Transliterator::FORWARD
         );
 
-        setlocale(LC_CTYPE, 'pl_PL');
-
         return iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag));
     }
 }
