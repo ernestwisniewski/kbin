@@ -2,6 +2,7 @@
   font-size: .85rem;
   height: 100%;
   padding: .7rem;
+  cursor: pointer;
 
   &__primary {
     background: var(--kbin-button-primary-bg);;
@@ -194,6 +195,7 @@ select {
   color: var(--kbin-button-secondary-text-color) !important;
   padding: 0.65rem;
   border-radius: 0;
+  cursor: pointer;
 }
 
 .actions {
