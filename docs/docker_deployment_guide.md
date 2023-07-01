@@ -71,7 +71,7 @@ Add any auxiliary container as you want. For example, add a nginx container as r
 
 ## Uploaded media files
 
-Uploaded media files (e.g. photos uploaded by users) will be stored at the host directory `storage/media`. They will be served by the Caddy web server in the `www` container as static files, so make sure `KBIN_STORAGE_URL` in your `.env` configuration file is set to be `https://instance-domain.com` (assuming your instance domain name is `instance-domain.com` and the url `https://instance-domain.com` can reach your instance). You also can serve those media files on another server by mirroring the files at `stroage/media` and changing `KBIN_STORAGE_URL` correspondingly.
+Uploaded media files (e.g. photos uploaded by users) will be stored at the host directory `storage/media`. They will be served by the Caddy web server in the `www` container as static files, so make sure `KBIN_STORAGE_URL` in your `.env` configuration file is set to be `https://instance-domain.com` (assuming your instance domain name is `instance-domain.com` and the url `https://instance-domain.com` can reach your instance). You can also serve those media files on another server by mirroring the files at `stroage/media` and changing `KBIN_STORAGE_URL` correspondingly.
 
 ## Filesystem ACL support
 
