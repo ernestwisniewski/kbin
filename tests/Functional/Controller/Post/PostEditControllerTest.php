@@ -34,4 +34,29 @@ class PostEditControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('#main .post .content', 'test post 2 body');
     }
+
+    public function testAuthorCanEditPostToMarkItIsForAdults(): void
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('JohnDoe'));
+
+        $post = $this->createPost('test post 1');
+        $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1/edit");
+
+        $crawler = $client->click($crawler->filter('#main .post')->selectLink('edit')->link());
+
+        $this->assertSelectorExists('#main .post');
+
+        $client->submit(
+            $crawler->filter('form[name=post]')->selectButton('Edit post')->form(
+                [
+                    'post[isAdult]' => '1',
+                ]
+            )
+        );
+
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('blockquote header .danger', '+18');
+    }
 }

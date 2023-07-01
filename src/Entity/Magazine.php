@@ -59,7 +59,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
     #[Column(type: 'integer', nullable: false)]
     public int $postCommentCount = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
     #[Column(type: 'text', nullable: true)]
@@ -110,14 +110,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         User $user,
         ?string $description,
         ?string $rules,
-        ?bool $isAdult,
+        bool $isAdult,
         ?Image $icon
     ) {
         $this->name = $name;
         $this->title = $title;
         $this->description = $description;
         $this->rules = $rules;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->icon = $icon;
         $this->moderators = new ArrayCollection();
         $this->entries = new ArrayCollection();

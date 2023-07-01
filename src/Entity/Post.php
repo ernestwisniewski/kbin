@@ -76,7 +76,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     #[Column(type: 'integer', nullable: false)]
     public int $score = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;
     #[Column(type: 'string', nullable: true)]
@@ -105,13 +105,13 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         string $body,
         Magazine $magazine,
         User $user,
-        ?bool $isAdult = false,
+        bool $isAdult,
         ?string $ip = null
     ) {
         $this->body = $body;
         $this->magazine = $magazine;
         $this->user = $user;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->ip = $ip;
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();

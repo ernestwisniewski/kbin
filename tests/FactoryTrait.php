@@ -71,7 +71,7 @@ trait FactoryTrait
         ];
     }
 
-    private function createUser(string $username, string $email = null, string $password = null, $active = true): User
+    private function createUser(string $username, string $email = null, string $password = null, $active = true, $hideAdult = true): User
     {
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
 
@@ -86,6 +86,7 @@ trait FactoryTrait
         $user->notifyOnNewPostCommentReply = true;
         $user->showProfileFollowings = true;
         $user->showProfileSubscriptions = true;
+        $user->hideAdult = $hideAdult;
 
         $manager->persist($user);
         $manager->flush();
@@ -110,7 +111,7 @@ trait FactoryTrait
         ];
     }
 
-    protected function getUserByUsername(string $username, bool $isAdmin = false): User
+    protected function getUserByUsername(string $username, bool $isAdmin = false, bool $hideAdult = true): User
     {
         $user = $this->users->filter(
             static function (User $user) use ($username) {
@@ -118,7 +119,7 @@ trait FactoryTrait
             }
         )->first();
 
-        $user = $user ?: $this->createUser($username);
+        $user = $user ?: $this->createUser($username, hideAdult: $hideAdult);
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];
@@ -142,7 +143,7 @@ trait FactoryTrait
         $manager->refresh($user);
     }
 
-    private function createMagazine(string $name, string $title = null, User $user = null): Magazine
+    private function createMagazine(string $name, string $title = null, User $user = null, bool $isAdult = false): Magazine
     {
         /**
          * @var $manager MagazineManager
@@ -152,6 +153,7 @@ trait FactoryTrait
         $dto = new MagazineDto();
         $dto->name = $name;
         $dto->title = $title ?? 'Magazine title';
+        $dto->isAdult = $isAdult;
 
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
 
@@ -186,7 +188,7 @@ trait FactoryTrait
         );
     }
 
-    protected function getMagazineByName(string $name, ?User $user = null): Magazine
+    protected function getMagazineByName(string $name, ?User $user = null, bool $isAdult = false): Magazine
     {
         $magazine = $this->magazines->filter(
             static function (Magazine $magazine) use ($name) {
@@ -194,7 +196,7 @@ trait FactoryTrait
             }
         )->first();
 
-        return $magazine ?: $this->createMagazine($name, null, $user);
+        return $magazine ?: $this->createMagazine($name, null, $user, $isAdult);
     }
 
     protected function getEntryByTitle(
