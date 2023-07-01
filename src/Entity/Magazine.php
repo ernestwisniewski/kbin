@@ -110,14 +110,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface
         User $user,
         ?string $description,
         ?string $rules,
-        ?bool $isAdult,
+        bool $isAdult,
         ?Image $icon
     ) {
         $this->name = $name;
         $this->title = $title;
         $this->description = $description;
         $this->rules = $rules;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->icon = $icon;
         $this->moderators = new ArrayCollection();
         $this->entries = new ArrayCollection();

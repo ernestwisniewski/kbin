@@ -70,7 +70,7 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     #[Column(type: 'string', nullable: false)]
     public string $lang = 'en';
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
     #[Column(type: 'datetimetz')]

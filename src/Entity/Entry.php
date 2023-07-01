@@ -147,7 +147,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         ?string $body,
         Magazine $magazine,
         User $user,
-        ?bool $isAdult,
+        bool $isAdult,
         ?bool $isOc,
         ?string $lang,
         ?string $ip = null
@@ -157,7 +157,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         $this->body = $body;
         $this->magazine = $magazine;
         $this->user = $user;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->isOc = $isOc;
         $this->lang = $lang;
         $this->ip = $ip;
