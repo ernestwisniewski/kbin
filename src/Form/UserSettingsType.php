@@ -7,9 +7,11 @@ namespace App\Form;
 use App\DTO\UserSettingsDto;
 use App\Entity\User;
 use App\Form\DataTransformer\FeaturedMagazinesBarTransformer;
+use App\Form\Type\AllLanguagesChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\LanguageType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -41,6 +43,13 @@ class UserSettingsType extends AbstractType
                 ]
             )
             ->add('featuredMagazines', TextareaType::class, ['required' => false])
+            ->add('preferredLanguages', LanguageType::class, [
+                'required'                => false,
+                'preferred_choices'       => [$this->translator->getLocale()],
+                'autocomplete'            => true,
+                'multiple'                => true,
+                'choice_self_translation' => true,
+            ])
             ->add(
                 'showProfileSubscriptions',
                 CheckboxType::class,

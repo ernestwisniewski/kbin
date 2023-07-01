@@ -20,6 +20,7 @@ class UserSettingsDto
         public bool $addMentionsPosts = true,
         public string $homepage = 'front_subscribed',
         public ?array $featuredMagazines = null,
+        public ?array $preferredLanguages = null,
     ) {
     }
 }
