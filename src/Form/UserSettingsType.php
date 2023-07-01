@@ -7,7 +7,6 @@ namespace App\Form;
 use App\DTO\UserSettingsDto;
 use App\Entity\User;
 use App\Form\DataTransformer\FeaturedMagazinesBarTransformer;
-use App\Form\Type\AllLanguagesChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
