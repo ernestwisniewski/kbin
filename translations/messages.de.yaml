@@ -14,7 +14,7 @@ active: Aktiv
 select_channel: Kanal auswählen
 events: Ereignis
 login: Anmelden
-newest: Neueste(r)
+newest: Neu
 oldest: Älteste(r)
 commented: kommentiert
 favourites: Favoriten
@@ -212,7 +212,7 @@ notify_on_new_entry: Über neue Threads in meine abonnierten Magazinen benachric
 save: Speichern
 notify_on_new_post_reply: Über neue Antworten auf meine Beitrage benachrichtigen
 notify_on_new_posts: Über neue Beitrage in einem abonnierten Magazin benachrichtigen
-change_theme: Thema ändern
+change_theme: Design ändern
 add_new: Erstellen
 badges: Abzeichen
 body: Inhalt
@@ -230,7 +230,7 @@ share: Teilen
 copy_url: Url kopieren
 share_on_fediverse: Im Fediverse teilen
 go_to_original_instance: Auf der original Instanz weiter stöbern.
-up_vote: Schub
+up_vote: Boost
 down_vote: Reduce
 tags: Stichworte
 followers: Follower
@@ -402,8 +402,8 @@ removed_thread_by: hat den Artikel entfernt, erstellt von
 restored_thread_by: hat den Artikel wiederhergestellt, erstellt von
 removed_comment_by: hat den Kommentar entfernt, erstellt von
 restored_comment_by: hat den Kommentar wiederhergestellt, erstellt von
-flash_magazine_new_success: Das Magazin wurde erfolgreich erstellt. Du kannst jetzt
-  neue Inhalte hinzufügen oder das Administrationsmenü öffnen.
+flash_magazine_new_success: Das Magazin wurde erfolgreich erstellt. Du kannst nun
+  neue Inhalte hinzufügen oder die Administrationsansicht des Magazins öffnen.
 bronze_link: Guter Link
 bronze_article: Bronze Artikel
 bronze_photo: Gutes Bild

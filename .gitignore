@@ -40,6 +40,7 @@ yarn-error.log
 
 .env
 /public/media/*
+package-lock.json
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem

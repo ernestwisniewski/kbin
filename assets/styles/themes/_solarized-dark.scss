@@ -148,13 +148,13 @@ $green: #859900;
   --kbin-downvoted-color: #{$red};
 
   // alerts
-  --kbin-alert-info-bg: #fff3cd;
-  --kbin-alert-info-border: 1px solid #ffe69c;
+  --kbin-alert-info-bg: rgba(153,116,4,0.15);
+  --kbin-alert-info-border: 1px solid rgba(153,116,4,0.4);
   --kbin-alert-info-text-color: #997404;
   --kbin-alert-info-link-color: #997404;
 
-  --kbin-alert-danger-bg: #f8d7da;
-  --kbin-alert-danger-border: 1px solid #f5c2c7;
+  --kbin-alert-danger-bg: rgba(220, 47, 63, 0.15);
+  --kbin-alert-danger-border: 1px solid rgba(220, 47, 63, 0.4);
   --kbin-alert-danger-text-color: var(--kbin-danger-color);
   --kbin-alert-danger-link-color: var(--kbin-danger-color);
 

@@ -35,7 +35,9 @@ class PostCommentEditSubscriber implements EventSubscriberInterface
         ]);
 
         $this->bus->dispatch(new PostCommentEditedNotificationMessage($event->comment->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        if ($event->comment->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        }
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new UpdateMessage($event->comment->getId(), get_class($event->comment)));

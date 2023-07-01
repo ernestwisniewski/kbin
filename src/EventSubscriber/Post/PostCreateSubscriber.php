@@ -47,8 +47,9 @@ class PostCreateSubscriber implements EventSubscriberInterface
         }
 
         $this->bus->dispatch(new PostCreatedNotificationMessage($event->post->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->post->body));
-
+        if ($event->post->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->post->body));
+        }
     }
 
     private function handleMagazine(Post $post): void
