@@ -24,6 +24,7 @@ parameters:
   amazon.s3.bucket: '%env(S3_BUCKET)%'
   amazon.s3.region: '%env(S3_REGION)%'
   amazon.s3.version: '%env(S3_VERSION)%'
+  amazon.s3.endpoint: '%env(S3_ENDPOINT)%'
 
   hcaptcha_site_key: '%env(resolve:HCAPTCHA_SITE_KEY)%'
   hcaptcha_secret: '%env(resolve:HCAPTCHA_SECRET)%'
@@ -81,10 +82,11 @@ services:
     arguments:
       - version: '%amazon.s3.version%'
         region: '%amazon.s3.region%'
+        endpoint: '%amazon.s3.endpoint%'
         credentials:
           key: '%amazon.s3.key%'
           secret: '%amazon.s3.secret%'
-        proxies: [ 'https://media.karab.in' ]
+          #proxies: [ 'https://media.karab.in' ]
 
   #  kbin.imagine.cache.resolver.amazon_s3:
   #    class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
