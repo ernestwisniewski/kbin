@@ -69,6 +69,10 @@ Then, you shoud be able to access the new instance via `http://localhost:80`. Yo
 
 Add any auxiliary container as you want. For example, add a nginx container as reverse proxy to provide HTTPS encryption.
 
+## Uploaded media files
+
+Uploaded media files (e.g. photos uploaded by users) will be stored at the host directory `storage/media`. They will be served by the Caddy web server in the `www` container as static files, so make sure `KBIN_STORAGE_URL` in your `.env` configuration file is set to be `https://instance-domain.com` (assuming your instance domain name is `instance-domain.com` and the url `https://instance-domain.com` can reach your instance). You also can serve those media files on another server by mirroring the files at `stroage/media` and changing `KBIN_STORAGE_URL` correspondingly.
+
 ## Filesystem ACL support
 
 The filesystem ACL is disabled by default, in the `kbin` image. You can set the environment variable `ENABLE_ACL=1` to enable it. Remember that not all filesystems support ACL. This will cause an error if you enable filesystem ACL for such filesystems.
