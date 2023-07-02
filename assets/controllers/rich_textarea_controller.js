@@ -11,22 +11,22 @@ export default class extends TextareaAutoGrow {
 
     handleInput (event) {
         // ctrl + enter to submit form
-        if (event.ctrlKey && event.which === 13) {
+        if (event.ctrlKey && event.key === "Enter") {
             this.element.form.submit();
         }
 
         // ctrl + b to toggle bold
-        else if (event.ctrlKey && event.which === 66) {
+        else if (event.ctrlKey && event.key === "b") {
             this.toggleFormattingEnclosure('**');
         }
 
         // ctrl + i to toggle italic
-        else if (event.ctrlKey && event.which === 73) {
+        else if (event.ctrlKey && event.key === "i") {
             this.toggleFormattingEnclosure('_');
         }
 
         // grave to toggle inline code
-        else if (event.which === 192) {
+        else if (event.key === "`") {
             this.toggleFormattingEnclosure('`');
         }
 
