@@ -29,9 +29,6 @@ class EntryComments extends AbstractController
             $criteria->onlyParents = false;
 
             $comments = $this->repository->findByCriteria($criteria);
-
-            $this->repository->hydrate(...$comments);
-            $this->repository->hydrateChildren(...$comments);
         } catch (\Exception $e) {
             return [];
         }

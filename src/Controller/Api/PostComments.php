@@ -29,8 +29,6 @@ class PostComments extends AbstractController
             $criteria->onlyParents = false;
 
             $comments = $this->repository->findByCriteria($criteria);
-
-            $this->repository->hydrate(...$comments);
         } catch (\Exception $e) {
             return [];
         }
