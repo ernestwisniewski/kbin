@@ -176,7 +176,7 @@ class EntryManager implements ContentManagerInterface
 
     public function delete(User $user, Entry $entry): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($entry->apId, PHP_URL_HOST)) {
             return;
         }
 

@@ -119,7 +119,7 @@ class PostCommentManager implements ContentManagerInterface
 
     public function delete(User $user, PostComment $comment): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($comment->apId, PHP_URL_HOST)) {
             return;
         }
 

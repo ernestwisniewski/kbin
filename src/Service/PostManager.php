@@ -124,7 +124,7 @@ class PostManager implements ContentManagerInterface
 
     public function delete(User $user, Post $post): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($post->apId, PHP_URL_HOST)) {
             return;
         }
 
