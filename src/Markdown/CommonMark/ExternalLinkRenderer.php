@@ -108,7 +108,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         }
 
         if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
-            $data['class']       = $data['class'] . 'u-url mention--user';
+            $data['class']       = $data['class'] . ' u-url mention--user';
             $data['data-action'] = 'mouseover->mentions#user_popup mentions#navigate_user';
         }
 
