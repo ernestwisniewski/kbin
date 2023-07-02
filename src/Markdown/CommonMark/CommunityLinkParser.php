@@ -9,18 +9,15 @@ use App\Markdown\CommonMark\Node\CommunityLink;
 use App\Markdown\CommonMark\Node\UnresolvableLink;
 use App\Repository\MagazineRepository;
 use App\Service\SettingsManager;
-use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
 use League\CommonMark\Parser\InlineParserContext;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CommunityLinkParser implements InlineParserInterface
 {
     public function __construct(
         private readonly MagazineRepository $magazineRepository,
-        private readonly MessageBusInterface $bus,
         private readonly SettingsManager $settingsManager,
         private readonly UrlGeneratorInterface $urlGenerator,
     ) {
@@ -47,10 +44,10 @@ class CommunityLinkParser implements InlineParserInterface
             if ($magazine = $this->magazineRepository->findOneByName($fullHandle)) {
                 $ctx->getContainer()->appendChild(
                     new CommunityLink(
-                        $magazine->apPublicUrl, 
-                        '!' . $handle, 
-                        '!' . $magazine->apId, 
-                        $magazine->apId, 
+                        $magazine->apPublicUrl,
+                        '!' . $handle,
+                        '!' . $magazine->apId,
+                        $magazine->apId,
                         MentionType::RemoteMagazine,
                     ),
                 );
@@ -59,7 +56,7 @@ class CommunityLinkParser implements InlineParserInterface
 
             $ctx->getContainer()->appendChild(
                 new ActorSearchLink(
-                    $this->urlGenerator->generate('search', ['q' => $fullHandle], UrlGeneratorInterface::ABSOLUTE_PATH),
+                    $this->urlGenerator->generate('search', ['q' => $fullHandle], UrlGeneratorInterface::ABSOLUTE_URL),
                     '!' . $handle,
                     '!' . $fullHandle,
                 )

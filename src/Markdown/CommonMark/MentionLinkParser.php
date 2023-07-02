@@ -153,6 +153,6 @@ class MentionLinkParser implements InlineParserInterface
             MentionType::User           => ['user_overview', 'username'],
         };
 
-        return $this->urlGenerator->generate($route, [$param => $slug], UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this->urlGenerator->generate($route, [$param => $slug], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 }
