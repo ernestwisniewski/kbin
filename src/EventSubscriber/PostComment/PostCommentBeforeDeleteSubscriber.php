@@ -15,8 +15,9 @@ class PostCommentBeforeDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MessageBusInterface $bus,
-        private readonly DeleteWrapper $deleteWrapper,
-    ) {
+        private readonly DeleteWrapper       $deleteWrapper,
+    )
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -29,10 +30,12 @@ class PostCommentBeforeDeleteSubscriber implements EventSubscriberInterface
     public function onPostBeforeDelete(PostCommentBeforeDeletedEvent $event): void
     {
         if (!$event->comment->apId) {
-            new DeleteMessage(
-                $this->deleteWrapper->build($event->comment, Uuid::v4()->toRfc4122()),
-                $event->comment->user->getId(),
-                $event->comment->magazine->getId()
+            $this->bus->dispatch(
+                new DeleteMessage(
+                    $this->deleteWrapper->build($event->comment, Uuid::v4()->toRfc4122()),
+                    $event->comment->user->getId(),
+                    $event->comment->magazine->getId()
+                )
             );
         }
     }

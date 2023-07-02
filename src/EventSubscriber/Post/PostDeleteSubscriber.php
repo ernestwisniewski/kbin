@@ -18,9 +18,10 @@ class PostDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MessageBusInterface $bus,
-        private readonly PostRepository $postRepository,
-        private readonly DeleteWrapper $deleteWrapper,
-    ) {
+        private readonly PostRepository      $postRepository,
+        private readonly DeleteWrapper       $deleteWrapper,
+    )
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -43,10 +44,12 @@ class PostDeleteSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
 
         if (!$event->post->apId) {
-            new DeleteMessage(
-                $this->deleteWrapper->build($event->post, Uuid::v4()->toRfc4122()),
-                $event->post->user->getId(),
-                $event->post->magazine->getId()
+            $this->bus->dispatch(
+                new DeleteMessage(
+                    $this->deleteWrapper->build($event->post, Uuid::v4()->toRfc4122()),
+                    $event->post->user->getId(),
+                    $event->post->magazine->getId()
+                )
             );
         }
     }

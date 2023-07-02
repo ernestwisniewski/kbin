@@ -17,10 +17,11 @@ use Symfony\Contracts\Cache\CacheInterface;
 class PostCommentDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly CacheInterface $cache,
+        private readonly CacheInterface      $cache,
         private readonly MessageBusInterface $bus,
-        private readonly DeleteWrapper $deleteWrapper,
-    ) {
+        private readonly DeleteWrapper       $deleteWrapper,
+    )
+    {
     }
 
     public static function getSubscribedEvents(): array
@@ -34,8 +35,8 @@ class PostCommentDeleteSubscriber implements EventSubscriberInterface
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
         $this->cache->invalidateTags([
-            'post_'.$event->comment->post->getId(),
-            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+            'post_' . $event->comment->post->getId(),
+            'post_comment_' . $event->comment->root?->getId() ?? $event->comment->getId(),
         ]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
@@ -44,17 +45,19 @@ class PostCommentDeleteSubscriber implements EventSubscriberInterface
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
     {
         $this->cache->invalidateTags([
-            'post_'.$event->comment->post->getId(),
-            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+            'post_' . $event->comment->post->getId(),
+            'post_comment_' . $event->comment->root?->getId() ?? $event->comment->getId(),
         ]);
 
         $this->bus->dispatch(new PostCommentDeletedNotificationMessage($event->comment->getId()));
 
         if (!$event->comment->apId) {
-            new DeleteMessage(
-                $this->deleteWrapper->build($event->comment, Uuid::v4()->toRfc4122()),
-                $event->comment->user->getId(),
-                $event->comment->magazine->getId()
+            $this->bus->dispatch(
+                new DeleteMessage(
+                    $this->deleteWrapper->build($event->comment, Uuid::v4()->toRfc4122()),
+                    $event->comment->user->getId(),
+                    $event->comment->magazine->getId()
+                )
             );
         }
     }
