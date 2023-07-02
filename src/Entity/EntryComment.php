@@ -20,7 +20,6 @@ use App\Repository\EntryCommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -33,7 +32,6 @@ use Doctrine\ORM\Mapping\OrderBy;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryCommentRepository::class)]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 #[Index(columns: ['up_votes'], name: 'entry_comment_up_votes_idx')]
 #[Index(columns: ['last_active'], name: 'entry_comment_last_active_at_idx')]
 #[Index(columns: ['created_at'], name: 'entry_comment_created_at_idx')]

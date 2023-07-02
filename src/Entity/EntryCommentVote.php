@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Entity\Contracts\VotableInterface;
 use Doctrine\ORM\Mapping\AssociationOverride;
 use Doctrine\ORM\Mapping\AssociationOverrides;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
@@ -20,7 +19,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[AssociationOverrides([
     new AssociationOverride(name: 'user', inversedBy: 'entryCommentVotes'),
 ])]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class EntryCommentVote extends Vote
 {
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'votes')]

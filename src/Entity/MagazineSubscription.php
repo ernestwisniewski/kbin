@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MagazineSubscriptionRepository;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -19,7 +18,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: MagazineSubscriptionRepository::class)]
 #[Table]
 #[UniqueConstraint(name: 'magazine_subsription_idx', columns: ['user_id', 'magazine_id'])]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class MagazineSubscription
 {
     use CreatedAtTrait {

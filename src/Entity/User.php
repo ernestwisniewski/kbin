@@ -11,7 +11,6 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -27,7 +26,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Entity(repositoryClass: UserRepository::class)]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 #[Table(name: '`user`', uniqueConstraints: [
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
@@ -53,11 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
-    #[Cache(usage: 'NONSTRICT_READ_WRITE')]
     public ?Image $avatar = null;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
-    #[Cache(usage: 'NONSTRICT_READ_WRITE')]
     public ?Image $cover = null;
     #[Column(type: 'string', unique: true, nullable: false)]
     public string $email;
