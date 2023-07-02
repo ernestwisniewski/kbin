@@ -14,6 +14,7 @@ use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use FeedIo\Feed;
 use FeedIo\Feed\Item;
+use FeedIo\Feed\Node\Category;
 use FeedIo\FeedInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -93,23 +94,31 @@ class FeedManager
 
     public function getEntries(\ArrayIterator $entries): \Generator
     {
+        /** @var $entry Entry */
         foreach ($entries as $entry) {
-            /**
-             * @var $entry Entry
-             */
-            $item = new Item();
-            $item->setTitle($entry->title);
-            $item->setLastModified(\DateTime::createFromImmutable($entry->createdAt));
-            $item->setLink(
-                'https://'.$this->settings->get('KBIN_DOMAIN').
+            $link = 'https://' . $this->settings->get('KBIN_DOMAIN') .
                 $this->router->generate('entry_single', [
                     'magazine_name' => $entry->magazine->name,
                     'entry_id' => $entry->getId(),
                     'slug' => $entry->slug,
-                ])
-            );
+                ]);
+
+            $item = new Item();
+            $item->setTitle($entry->title);
+            $item->setContent($entry->getShortDesc());
+            $item->setLastModified(\DateTime::createFromImmutable($entry->createdAt));
+            $item->setLink($link);
+            $item->set('comments', $link.'#comments');
             $item->setPublicId($this->iriConverter->getIriFromResource($this->entryFactory->createDto($entry)));
             $item->setAuthor((new Item\Author())->setName($entry->user->username));
+
+            foreach ($entry->getTags() as $tag) {
+                $category = new Category();
+                $category->setLabel($tag);
+
+                $item->addCategory($category);
+            }
+
             yield $item;
         }
     }
