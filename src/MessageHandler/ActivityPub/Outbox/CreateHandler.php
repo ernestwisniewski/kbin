@@ -39,9 +39,12 @@ class CreateHandler
 
         $activity = $this->createWrapper->build($entity);
 
-        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($entity->user)), $activity);
+        $this->deliver(
+            array_filter($this->activityPubManager->createInboxesFromCC($activity, $entity->user)),
+            $activity
+        );
+        $this->deliver(array_filter($this->magazineRepository->findAudience($entity->magazine)), $activity);
     }
 
     private function deliver(array $followers, array $activity): void

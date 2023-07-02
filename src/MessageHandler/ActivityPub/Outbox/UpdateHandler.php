@@ -49,9 +49,12 @@ class UpdateHandler
         $activity['type'] = 'Update';
         $activity['object']['updated'] = $entity->editedAt->format(DATE_ATOM);
 
-        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($entity->user)), $activity);
+        $this->deliver(
+            array_filter($this->activityPubManager->createInboxesFromCC($activity, $entity->user)),
+            $activity
+        );
+        $this->deliver(array_filter($this->magazineRepository->findAudience($entity->magazine)), $activity);
     }
 
     private function deliver(array $followers, array $activity): void

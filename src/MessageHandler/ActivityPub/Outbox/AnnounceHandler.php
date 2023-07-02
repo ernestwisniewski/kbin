@@ -59,9 +59,9 @@ class AnnounceHandler
             $activity = $this->undoWrapper->build($activity);
         }
 
-        $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($user)), $activity);
+        $this->deliver(array_filter($this->activityPubManager->createInboxesFromCC($activity, $user)), $activity);
+        $this->deliver(array_filter($this->magazineRepository->findAudience($object->magazine)), $activity);
         $this->deliver([$object->user->apInboxUrl], $activity);
     }
 

@@ -8,7 +8,7 @@ use App\Message\Contracts\AsyncApMessageInterface;
 
 class DeleteMessage implements AsyncApMessageInterface
 {
-    public function __construct(public int $id, public string $type)
+    public function __construct(public array $payload, public int $userId, public int $magazineId)
     {
     }
 }
