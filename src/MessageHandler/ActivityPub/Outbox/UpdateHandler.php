@@ -47,7 +47,9 @@ class UpdateHandler
             \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
         );
         $activity['type'] = 'Update';
-        $activity['object']['updated'] = $entity->editedAt->format(DATE_ATOM);
+        $activity['object']['updated'] = $entity->editedAt
+            ? $entity->editedAt->format(DATE_ATOM)
+            : (new \DateTime())->format(DATE_ATOM);
 
         $this->deliver(array_filter($this->userRepository->findAudience($entity->user)), $activity);
         $this->deliver(
