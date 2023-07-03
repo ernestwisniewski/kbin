@@ -322,7 +322,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
 
     public function getShortDesc(?int $length = 330): string
     {
-        $body = wordwrap($this->body, $length);
+        $body = wordwrap($this->body ?? '', $length);
         $body = explode("\n", $body);
 
         return trim($body[0]).(isset($body[1]) ? '...' : '');

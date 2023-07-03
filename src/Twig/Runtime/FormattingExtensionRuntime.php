@@ -20,7 +20,7 @@ class FormattingExtensionRuntime implements RuntimeExtensionInterface
 
     public function getShortSentence(?string $val, $length = 330): string
     {
-        $body = wordwrap($val, $length);
+        $body = wordwrap($val ?? '', $length);
         $body = explode("\n", $body);
 
         return trim($body[0]).(isset($body[1]) ? '...' : '');
