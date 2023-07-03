@@ -118,7 +118,10 @@ class SettingsManager
 
     public function isBannedInstance(string $inboxUrl): bool
     {
-        return in_array(str_replace('www.', '', $inboxUrl), $this->get('KBIN_BANNED_INSTANCES') ?? []);
+        return in_array(
+            str_replace('www.', '', parse_url($inboxUrl, PHP_URL_HOST)),
+            $this->get('KBIN_BANNED_INSTANCES') ?? []
+        );
     }
 
     public function get(string $name)
