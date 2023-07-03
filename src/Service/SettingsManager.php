@@ -16,21 +16,22 @@ class SettingsManager
 
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly SettingsRepository $repository,
-        private readonly string $kbinDomain,
-        private readonly string $kbinTitle,
-        private readonly string $kbinMetaTitle,
-        private readonly string $kbinMetaDescription,
-        private readonly string $kbinMetaKeywords,
-        private readonly string $kbinDefaultLang,
-        private readonly string $kbinContactEmail,
-        private readonly string $kbinSenderEmail,
-        private readonly bool $kbinJsEnabled,
-        private readonly bool $kbinFederationEnabled,
-        private readonly bool $kbinRegistrationsEnabled,
-        private readonly bool $kbinHeaderLogo,
-        private readonly bool $kbinCaptchaEnabled,
-    ) {
+        private readonly SettingsRepository     $repository,
+        private readonly string                 $kbinDomain,
+        private readonly string                 $kbinTitle,
+        private readonly string                 $kbinMetaTitle,
+        private readonly string                 $kbinMetaDescription,
+        private readonly string                 $kbinMetaKeywords,
+        private readonly string                 $kbinDefaultLang,
+        private readonly string                 $kbinContactEmail,
+        private readonly string                 $kbinSenderEmail,
+        private readonly bool                   $kbinJsEnabled,
+        private readonly bool                   $kbinFederationEnabled,
+        private readonly bool                   $kbinRegistrationsEnabled,
+        private readonly bool                   $kbinHeaderLogo,
+        private readonly bool                   $kbinCaptchaEnabled,
+    )
+    {
         if (!self::$dto) {
             $results = $this->repository->findAll();
 
@@ -113,6 +114,11 @@ class SettingsManager
     public function isLocalUrl(string $url): bool
     {
         return parse_url($url, PHP_URL_HOST) === $this->get('KBIN_DOMAIN');
+    }
+
+    public function isBannedInstance(string $inboxUrl): bool
+    {
+        return in_array(str_replace('www.', '', $inboxUrl), $this->get('KBIN_BANNED_INSTANCES') ?? []);
     }
 
     public function get(string $name)

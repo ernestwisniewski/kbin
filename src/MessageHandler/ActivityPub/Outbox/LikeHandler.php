@@ -70,13 +70,14 @@ class LikeHandler
             if (!$follower) {
                 continue;
             }
-            if (is_string($follower)) {
-                $this->bus->dispatch(new DeliverMessage($follower, $activity));
+
+            $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
+
+            if($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;
             }
-            if ($follower->apInboxUrl) {
-                $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
-            }
+
+            $this->bus->dispatch(new DeliverMessage($inboxUrl, $activity));
         }
     }
 }
