@@ -339,6 +339,30 @@
         left: 0;
         right: 0;
       }
+
+      h1,h2,h3,h4,h5,h6{
+        margin: 1rem auto;
+      }
+      h1{       
+        font-size: 1.25rem;      
+      }
+      h2{
+        font-size: 1.20rem;
+      }
+      h3{
+        font-size: 1.15rem;
+      }
+      h4{
+        font-size: 1.10rem;
+      }
+      h5{
+        font-size: 1.05rem;
+      }
+      h6{
+        font-size: 1rem;
+      }
+      
+
     }
 
     .no-image-placeholder {
@@ -383,3 +407,6 @@
     }
   }
 }
+
+
+
