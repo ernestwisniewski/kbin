@@ -21,6 +21,8 @@
 
   a {
     color: var(--kbin-meta-link-color) !important;
+    line-height: normal;
+    display: inline-block;
 
     &:hover {
       color: var(--kbin-meta-link-color-hover) !important;
