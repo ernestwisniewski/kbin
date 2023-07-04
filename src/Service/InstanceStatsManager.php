@@ -46,9 +46,15 @@ class InstanceStatsManager
             }
 
             if (!$withFederated) {
-                $criteria->where(
-                    Criteria::expr()->eq('apId', null)
-                );
+                if ($periodDate) {
+                    $criteria->andWhere(
+                        Criteria::expr()->eq('apId', null)
+                    );
+                } else {
+                    $criteria->where(
+                        Criteria::expr()->eq('apId', null)
+                    );
+                }
             }
 
             return [
