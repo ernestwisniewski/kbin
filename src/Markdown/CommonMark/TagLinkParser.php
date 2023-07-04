@@ -19,7 +19,7 @@ class TagLinkParser implements InlineParserInterface
 
     public function getMatchDefinition(): InlineParserMatch
     {
-        return InlineParserMatch::regex(trim(RegPatterns::LOCAL_TAG, '/'));
+        return InlineParserMatch::regex(RegPatterns::LOCAL_TAG_REGEX);
     }
 
     public function parse(InlineParserContext $ctx): bool
