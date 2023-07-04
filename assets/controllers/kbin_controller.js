@@ -79,18 +79,23 @@ export default class extends ApplicationController {
         document.querySelector('body').classList.add(`theme--${preferredTheme}`);
     }
 
-    toggleNav(e) {
+    /**
+     * Handles interaction with the top nav bar menu items
+     * @param {*} e 
+     * @returns 
+     */
+    handleNavBarItemClick(e){
         e.preventDefault();
-        if (window.screen.width >= 992 && e.target.closest('a')) {
-            window.location = e.target.closest('a').href;
-            return;
-        }
+        window.location = e.target.closest('a').href;
+        return;
+    }
 
+    /**
+     * Handles interaction with the mobile nav button, opening the sidebar
+     * @param {*} e 
+     */
+    handleNavToggleClick(e) {      
         const sidebar = document.getElementById('sidebar');
-        if (sidebar.classList.contains('open') && e.target.closest('a')) {
-            // window.location = e.target.closest('a').href;
-        }
-
         sidebar.classList.toggle('open');
     }
 
