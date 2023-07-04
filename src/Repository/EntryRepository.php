@@ -78,9 +78,12 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $user = $this->security->getUser();
 
         $qb = $this->createQueryBuilder('e')
+            ->select('e', 'm', 'u', 'd')
             ->where('e.visibility = :e_visibility')
+            ->andWhere('m.visibility = :m_visibility')
             ->join('e.magazine', 'm')
-            ->andWhere('m.visibility = :m_visibility');
+            ->join('e.user', 'u')
+            ->leftJoin('e.domain', 'd');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $followings = $this->getEntityManager()->getRepository(UserFollow::class)->findUserFollowIds($user);
@@ -151,22 +154,21 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         if ($criteria->tag) {
-            $qb->andWhere("JSONB_CONTAINS(e.tags, '\"".$criteria->tag."\"') = true");
+            $qb->andWhere("JSONB_CONTAINS(e.tags, '\"" . $criteria->tag . "\"') = true");
         }
 
         if ($criteria->domain) {
-            $qb->andWhere('ed.name = :domain')
-                ->join('e.domain', 'ed')
+            $qb->andWhere('d.name = :domain')
                 ->setParameter('domain', $criteria->domain);
         }
 
         if ($criteria->subscribed) {
             $qb->andWhere(
-                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
+                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM ' . MagazineSubscription::class . ' ms WHERE ms.user = :user) 
                 OR 
-                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                e.user IN (SELECT IDENTITY(uf.following) FROM ' . UserFollow::class . ' uf WHERE uf.follower = :user)
                 OR 
-                e.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)
+                e.domain IN (SELECT IDENTITY(ds.domain) FROM ' . DomainSubscription::class . ' ds WHERE ds.user = :user)
                 OR
                 e.user = :user'
             )
@@ -175,14 +177,14 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         if ($criteria->moderated) {
             $qb->andWhere(
-                'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+                'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM ' . Moderator::class . ' mm WHERE mm.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->favourite) {
             $qb->andWhere(
-                'e.id IN (SELECT IDENTITY(mf.entry) FROM '.EntryFavourite::class.' mf WHERE mf.user = :user)'
+                'e.id IN (SELECT IDENTITY(mf.entry) FROM ' . EntryFavourite::class . ' mf WHERE mf.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
@@ -212,7 +214,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM ' . DomainBlock::class . ' db WHERE db.user = :domainBlocker)'
                 );
                 $qb->setParameter('domainBlocker', $user);
             }
@@ -328,7 +330,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $qb = $this->createQueryBuilder('e');
 
         return $qb
-            ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
+            ->andWhere("JSONB_CONTAINS(e.tags, '\"" . $tag . "\"') = true")
             ->andWhere('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
             ->andWhere('m.isAdult = false')

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -16,6 +17,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Table]
 #[UniqueConstraint(name: 'images_file_name_idx', columns: ['file_name'])]
 #[UniqueConstraint(name: 'images_sha256_idx', columns: ['sha256'])]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Image
 {
     #[Column(type: 'string', nullable: false)]

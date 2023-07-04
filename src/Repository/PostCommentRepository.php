@@ -71,6 +71,8 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         $user = $this->security->getUser();
 
         $qb = $this->createQueryBuilder('c')
+            ->select('c', 'u')
+            ->join('c.user', 'u')
             ->andWhere('c.visibility IN (:visibility)');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
