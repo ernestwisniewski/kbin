@@ -55,6 +55,21 @@
     padding-bottom: .6rem;
   }
 
+  .login{
+
+    @include media-breakpoint-down(sm) {   
+      
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px;
+      padding-left: 5px;
+      padding-right: 5px;
+
+    }
+
+  }
+
   .login.has-avatar{
     display: flex;
     align-items: center;
