@@ -18,6 +18,7 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\ConfigurableExtensionInterface;
 use League\Config\ConfigurationBuilderInterface;
+use Nette\Schema\Expect;
 
 final class MarkdownExtension implements ConfigurableExtensionInterface
 {
@@ -40,6 +41,10 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
             'html_input' => 'escape',
             'allow_unsafe_links' => false
         ]);
+        
+        $builder->addSchema('kbin', Expect::structure([
+            'render_target' => Expect::type(RenderTarget::class)
+        ]));
     }
 
     public function register(EnvironmentBuilderInterface $environment): void

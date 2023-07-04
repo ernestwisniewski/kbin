@@ -19,14 +19,22 @@ use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\RegexHelper;
+use League\Config\ConfigurationAwareInterface;
+use League\Config\ConfigurationInterface;
 
-final class ExternalLinkRenderer implements NodeRendererInterface
+final class ExternalLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
+    private ConfigurationInterface $config;
+
     public function __construct(
         private readonly Embed $embed,
         private readonly EmbedRepository $embedRepository,
         private readonly SettingsManager $settingsManager
     ) {
+    }
+
+    public function setConfiguration(ConfigurationInterface $configuration): void { 
+        $this->config = $configuration;
     }
 
     public function render(
@@ -53,8 +61,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface
 
         $attr = match ($node::class) {
             ActorSearchLink::class => [],
-            CommunityLink::class   => $this->generateCommunityLinkData($node),
-            MentionLink::class     => $this->generateMentionLinkData($node),
+            CommunityLink::class   => $this->generateCommunityLinkAttr($node),
+            MentionLink::class     => $this->generateMentionLinkAttr($node),
             TagLink::class         => [
                 'class' => 'hashtag tag', 
                 'rel'  =>  'tag',
@@ -94,7 +102,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
      *     data-mentions-username-param: string,
      * }
      */
-    private function generateMentionLinkData(MentionLink $link): array
+    private function generateMentionLinkAttr(MentionLink $link): array
     {
         $data = [
             'class'                        => 'mention',
@@ -124,7 +132,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
      *     data-mentions-username-param: string,
      * }
      */
-    private function generateCommunityLinkData(CommunityLink $link): array
+    private function generateCommunityLinkAttr(CommunityLink $link): array
     {
         $data = [
             'class'                        => 'mention  mention--magazine',

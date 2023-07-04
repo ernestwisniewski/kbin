@@ -140,8 +140,12 @@ services:
 
   # Markdown
   App\Markdown\Factory\EnvironmentFactory:
-      $container: !service_locator
-          League\CommonMark\Environment\EnvironmentInterface: '@League\CommonMark\Environment\EnvironmentBuilderInterface'    
+    arguments:
+        $container: !service_locator
+          League\CommonMark\Extension\Autolink\UrlAutolinkParser: '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
+          League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
+          App\Markdown\MarkdownExtension: '@App\Markdown\MarkdownExtension'
+        $config: ['%commonmark.configuration%']
 
   # Language
   App\EventListener\LanguageListener:

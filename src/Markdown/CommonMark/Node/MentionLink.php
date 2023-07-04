@@ -13,23 +13,25 @@ class MentionLink extends Link
         string $url, 
         string $label, 
         string $title,
-        string $kbinUsername,
-        MentionType $type,
+        private string $route,
+        private string $kbinUsername,
+        private MentionType $type,
     ) {
         parent::__construct($url, $label, $title);
-
-        $this->data->set('title', $this->getTitle());
-        $this->data->set('kbinUsername', $kbinUsername);
-        $this->data->set('type', $type);
     }
 
     public function getKbinUsername(): string
     {
-        return $this->data->get('kbinUsername');
+        return $this->kbinUsername;
+    }
+    
+    public function getRoute(): string
+    {
+        return $this->route;
     }
 
     public function getType(): MentionType
     {
-        return $this->data->get('type');
+        return $this->type;
     }
 }
