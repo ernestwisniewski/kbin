@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderators'|trans }} - {{ magazine.title }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-moderators{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'moderators'|trans }}</h1>
+    {% include 'magazine/_moderators_list.html.twig' %}
+    {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}
+        {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    {% if not moderators|length %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}

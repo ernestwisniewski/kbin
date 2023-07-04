@@ -1,0 +1,27 @@
+<div id="content" class="section users users-columns">
+    <ul>
+        {% for moderator in moderators %}
+            <li>
+                {% if moderator.user.avatar %}
+                    {{ component('user_avatar', {user: moderator.user}) }}
+                {% endif %}
+                <div>
+                    <a href="{{ path('user_overview', {username: moderator.user.username}) }}">
+                        {{ moderator.user.username|username(true) }}
+                    </a>
+                    <small>{{ component('date', {date: moderator.createdAt}) }}</small>
+                </div>
+                {% if is_granted('edit', magazine) and not moderator.isOwner %}
+                    <div class="actions">
+                        <form method="post"
+                              action="{{ path('magazine_panel_moderator_purge', {magazine_name: magazine.name, moderator_id: moderator.id}) }}"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
+                            <button type="submit" class="btn btn__secondary">{{ 'delete'|trans }}</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
