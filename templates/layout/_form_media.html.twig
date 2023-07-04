@@ -1,12 +1,11 @@
-<div class="media">
-    <div>
-        <div>
-            <i class="fa-solid fa-image"></i>
-        </div>
+<div class="media" data-controller="image-upload">
+    <div class="image-preview-container">
+        <img class="image-preview" src="#">
+        <button type="button" class="image-preview-clear" data-action="image-upload#clearPreview">x</button>
     </div>
     <div>
         {% if form.image is defined %}
-            {{ form_row(form.image, {label: 'image'}) }}
+            {{ form_row(form.image, {label: 'image', attr: {class: 'image-input'}}) }}
         {% endif %}
         <div hidden>
             {{ form_row(form.imageUrl, {label: 'url'}) }}
