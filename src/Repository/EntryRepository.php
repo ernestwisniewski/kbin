@@ -109,7 +109,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $qb;
     }
 
-    private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria)
+    private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria): void
     {
         if (Criteria::TIME_ALL !== $criteria->time) {
             $since = $criteria->getSince();
@@ -119,7 +119,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
     }
 
-    private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria)
+    private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria): void
     {
         if ($criteria->stickiesFirst) {
             if (1 === $criteria->page) {
@@ -224,6 +224,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             $qb->andWhere('m.isAdult = :isAdult')
                 ->andWhere('e.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
+        }
+
+        if (0 < count($user?->preferredLanguages ?? [])) {
+            $qb->andWhere('e.lang IN (:e_lang)')
+                ->setParameter('e_lang', $user->preferredLanguages);
         }
 
         switch ($criteria->sortOption) {

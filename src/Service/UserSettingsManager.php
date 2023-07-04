@@ -30,10 +30,11 @@ class UserSettingsManager
             $user->addMentionsPosts,
             $user->homepage,
             $user->featuredMagazines,
+            $user->preferredLanguages,
         );
     }
 
-    public function update(User $user, UserSettingsDto $dto)
+    public function update(User $user, UserSettingsDto $dto): void
     {
         $user->notifyOnNewEntry = $dto->notifyOnNewEntry;
         $user->notifyOnNewPost = $dto->notifyOnNewPost;
@@ -48,6 +49,7 @@ class UserSettingsManager
         $user->addMentionsEntries = $dto->addMentionsEntries;
         $user->addMentionsPosts = $dto->addMentionsPosts;
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
+        $user->preferredLanguages = $dto->preferredLanguages ? array_unique($dto->preferredLanguages) : [];
 
         $this->entityManager->flush();
     }

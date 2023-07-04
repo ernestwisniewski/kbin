@@ -190,6 +190,11 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
                 ->setParameter('isAdult', false);
         }
 
+        if (0 < count($user?->preferredLanguages ?? [])) {
+            $qb->andWhere('p.lang IN (:p_lang)')
+                ->setParameter('p_lang', $user->preferredLanguages);
+        }
+
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
                 $qb->orderBy('p.ranking', 'DESC');
