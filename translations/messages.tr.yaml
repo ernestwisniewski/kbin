@@ -33,7 +33,7 @@ you_cant_login: Parolanızı mı unuttunuz?
 already_have_account: Halihazırda hesabınız var mı?
 register: Kaydol
 reset_password: Şifreyi sıfırla
-show_more: Daha fazlasını göster
+show_more: Daha fazlası
 about_instance: Hakkında
 fediverse: Fediverse
 awards: Ödüller
@@ -62,10 +62,10 @@ email_confirm_header: Merhaba! E-posta adresinizi doğrulayın.
 type.smart_contract: Akıllı sözleşme
 type.magazine: Dergi
 people: İnsanlar
-magazine: Dergi
+magazine: Magazin
 magazines: Dergiler
 active: Aktif
-commented: Yorum yapılmış
+commented: Yorumlanmış
 change_view: Görünümü değiştir
 comments_count: '{0}yorum|{1}yorum|]1,Inf[ yorumlar'
 favourite: Favori
@@ -78,7 +78,7 @@ cover: Kapak
 related_posts: İlgili gönderiler
 random_posts: Rasgele gönderiler
 unsubscribe: Abonelikden çık
-login_or_email: Login ve ya e-posta adresi
+login_or_email: Giriş veya e-posta
 terms: Kullanım Şartları
 privacy_policy: Gizlilik Politikası
 all_magazines: Tüm dergiler
@@ -357,25 +357,25 @@ flash_thread_new_success: Başlık başarıyla oluşturuldu ve artık diğer kul
   görünebilir durumda.
 flash_magazine_new_success: Dergi başarıyla oluşturuldu. Artık yeni içerik ekleyebilirsiniz
   veya derginin yonetici panelini keşfedebilirsiniz.
-type.article: Konu
-thread: Konu
-threads: Konular
+type.article: İçerik
+thread: İçerik
+threads: İçerikler
 top: Üst
 hot: Sıcak
 federated_magazine_info: Federe sunucudan gelen dergi eksik olabilir.
 federated_user_info: Federe sunucudan alınan profil eksik olabilir.
-go_to_original_instance: Orijinal oluşumda daha fazla göz atın.
+go_to_original_instance: Özgün oluşuma daha fazla göz atın.
 agree_terms: '%terms_link_start%Kullanım şartlarını%terms_link_end% ve %policy_link_start%Gizlilik
   Politikasını%policy_link_end% onayla'
-add_new_article: Yeni konu ekle
+add_new_article: Yeni içerikler ekle
 domain: Alan
 joined: Katıldı
 people_federated: Birleştirilmiş
 go_to_footer: Alt bilgiye git
-edit_article: Konulu düzenle
-notify_on_new_entry_reply: Benim konularımdakı yorumları bana bildir
+edit_article: İçeriği düzenle
+notify_on_new_entry_reply: Benim içeriklerimdeki yorumları bana bildir
 notify_on_new_entry_comment_reply: Gönderi yorumlarıma gelen yanıtları bana bildir
-notify_on_new_entry: Abone olduğum dergilerideki yeni konuları bana bildir
+notify_on_new_entry: Abone olduğum magazinlerdeki yeni içerikleri bana bildir
 notify_on_new_posts: Abone olduğum dergilerideki yeni gönderileri bana bildir
 save: Kayıt et
 collapse: Daralt
@@ -435,7 +435,7 @@ gold_poster: Altın kullanıcı
 gold_link_desc: Gönderi 15 defa boost'landı
 gold_article: Altın konu
 gold_article_desc: Konu 15 defa boost'landı
-articles: Konular
+articles: İçerikler
 gold_redactor_desc: 10 mükemmel konu
 sidebar_position: Yanbar pozisyonu
 federation: Federasyon
@@ -477,3 +477,6 @@ magazine_panel_tags_info: Bu bilgiyi sadece fediverse'ten etiketler aracılığ�
   gelmesini istiyorsanız girin
 kbin_promo_title: Kendi sunucunu oluştur
 header_logo: Header logosu
+mercure_enabled: Merkür etkinleştir
+report_issue: Sorun bildir
+tokyo_night: Tokyo Gecesi

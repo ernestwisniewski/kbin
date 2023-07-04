@@ -22,58 +22,58 @@ oldest: Plus anciens
 commented: Commentés
 filter_by_time: Filtrer par période
 filter_by_type: Filtrer par type
-comments_count: '{0}commentaires|{1}commentaire|]1,Inf[ commentaires'
+comments_count: '{0}commentaire|{1}commentaire|]1,Inf[ commentaires'
 added: Ajouté
 views: Vues
 no_comments: Aucun commentaire
 created_at: Créé
 owner: Propriétaire
-subscribers: Abonné(e)s
+subscribers: Abonné·e·s
 online: En ligne
 posts: Publications
 replies: Réponses
-moderators: Modérateurs/trices
+moderators: Modérateur·rice·s
 mod_log: Journal de modération
 add_comment: Ajouter un commentaire
-add_post: Ajouter un message
-markdown_howto: Comment fonctionne l'éditeur ?
+add_post: Ajouter une publication
+markdown_howto: Comment fonctionne l’éditeur ?
 enter_your_comment: Entrez votre commentaire
 enter_your_post: Entrez votre message
 activity: Activité
-related_posts: Messages reliés
+related_posts: Publications liées
 type.link: Lien
 select_channel: Sélectionnez une chaîne
 avatar: Avatar
 comments: Commentaires
-random_posts: Messages aléatoires
+random_posts: Publications aléatoires
 change_view: Changer la vue
 add_media: Ajouter média
 up_votes: Partages
 down_votes: Réductions
 cover: Couverture
-federated_magazine_info: Les magazines provenant d'un serveur fédéré peuvent être
+federated_magazine_info: Les magazines provenant d’un serveur fédéré peuvent être
   incomplets.
-federated_user_info: Les profils provenant d'un serveur fédéré peuvent être incomplets.
-go_to_original_instance: Parcourez-en d'avantage sur l'instance d'origine.
+federated_user_info: Les profils provenant d’un serveur fédéré peuvent être incomplets.
+go_to_original_instance: Parcourez-en d’avantage sur l’instance d’origine.
 empty: Vide
-subscribe: S'abonner
+subscribe: S’abonner
 unsubscribe: Se désabonner
 follow: Suivre
 unfollow: Ne plus suivre
 reply: Répondre
-login_or_email: Nom d'utilisateur ou e-mail
+login_or_email: Nom d’utilisateur ou courriel
 password: Mot de passe
-remember_me: Rester connecté(e)
-dont_have_account: Vous n'avez pas de compte ?
-you_cant_login: Mot de passe oublié ?
+remember_me: Rester connecté·e
+dont_have_account: Vous n’avez pas de compte ?
+you_cant_login: Mot de passe oublié ?
 already_have_account: Vous avez déjà un compte ?
 register: S’inscrire
 reset_password: Réinitialiser le mot de passe
-to: à
+to: vers
 username: Nom d’utilisateur
-email: Email
+email: Courriel
 repeat_password: Répéter le mot de passe
-terms: Conditions d'utilisation du service
+terms: Conditions d’utilisation du service
 about_instance: À propos
 all_magazines: Tous les magazines
 stats: Statistiques
@@ -83,7 +83,7 @@ ranking: Classement
 create_new_magazine: Créer un nouveau magazine
 add_new_link: Ajouter un nouveau lien
 add_new_photo: Ajouter une nouvelle photo
-add_new_post: Ajouter un nouveau message
+add_new_post: Ajouter une nouvelle publication
 add_new_video: Ajouter une nouvelle vidéo
 contact: Contact
 faq: FAQ
@@ -91,12 +91,12 @@ rss: RSS
 change_theme: Changer le thème
 useful: Utile
 help: Aide
-try_again: Essayez à nouveau
+try_again: Veuillez réessayer
 up_vote: Partager
 down_vote: Réduire
-email_verify: Confirmer l’adresse email
-email_confirm_expire: Notez que le lien expirera dans une heure.
-email_confirm_title: Confirmez votre addresse email.
+email_verify: Confirmer l’adresse courriel
+email_confirm_expire: Veuillez noter que le lien expirera dans une heure.
+email_confirm_title: Confirmez votre adresse courriel.
 select_magazine: Sélectionnez un magazine
 add_new: Ajouter nouveau
 url: URL
@@ -105,35 +105,35 @@ body: Corps
 tags: Étiquettes
 badges: Insignes
 is_adult: +18 / NSFW
-email_confirm_content: 'Prêt pour activer votre compte Kbin ? Cliquez sur le lien
-  ci-dessous :'
+email_confirm_content: 'Prêt pour activer votre compte Kbin ? Cliquez sur le lien
+  ci-dessous :'
 oc: CO
-image_alt: Texte alternatif de l'image
+image_alt: Texte alternatif de l’image
 name: Nom
 description: Description
 rules: Règles
 domain: Domaine
-followers: Suiveurs/ses
+followers: Suiveur·se·s
 following: Suivis
 overview: Aperçu
 cards: Cartes
 columns: Colonnes
 user: Utilisateur
-moderated: Modéré(e)
+moderated: Modéré·e
 people_local: Local
 people_federated: Fédéré
 reputation_points: Points de réputation
-related_tags: Étiquettes reliées
+related_tags: Étiquettes liées
 all: Tous
 logout: Se déconnecter
 compact_view: Vue compacte
-3h: 3h
-6h: 6h
-12h: 12h
-1d: 1j
-1w: 1sem
-1m: 1m
-1y: 1an
+3h: 3 h
+6h: 6 h
+12h: 12 h
+1d: 1 j
+1w: 1 sem
+1m: 1 m
+1y: 1 an
 links: Liens
 articles: Fils
 photos: Photos
@@ -141,9 +141,9 @@ report: Signaler
 share: Partager
 copy_url: Copier URL
 ratio: Ratio
-go_to_content: Vers le contenu
-go_to_filters: Vers les filtres
-go_to_footer: Vers le pied de page
+go_to_content: Aller au contenu
+go_to_filters: Aller aux filtres
+go_to_footer: Aller au pied de page
 classic_view: Vue classique
 chat_view: Vue de discussion
 tree_view: Vue arborescente
@@ -161,59 +161,59 @@ edit_comment: Modifier le commentaire
 settings: Réglages
 general: Général
 profile: Profil
-blocked: Bloqué(e)
+blocked: Bloqué·e
 reports: Signalements
 notifications: Notifications
 appearance: Apparence
-homepage: Page d'accueil
+homepage: Page d’accueil
 hide_adult: Masquer le contenu réservé aux adultes
 featured_magazines: Magazines en vedette
 privacy: Confidentialité
 show_more: Afficher plus
 add_new_article: Ajouter un nouveau fil
-check_email: Vérifiez votre email
+check_email: Vérifiez votre courriel
 eng: ENG
-subscribed: Abonné(e)
+subscribed: Abonné·e
 videos: Vidéos
-are_you_sure: Êtes-vous sûr(e) ?
-reset_check_email_desc2: Si vous ne recevez pas d'email, veuillez vérifier votre dossier
-  spam.
+are_you_sure: Êtes-vous sûr·e ?
+reset_check_email_desc2: Si vous ne recevez pas de courriel, veuillez vérifier votre
+  dossier spam.
 messages: Messages
 in: dans
-email_confirm_header: Salut ! Confirmez votre addresse email.
+email_confirm_header: Salut ! Confirmez votre adresse courriel.
 image: Image
 edit: Modifier
-go_to_search: Vers la recherche
+go_to_search: Aller à la recherche
 privacy_policy: Politique de confidentialité
 subscriptions: Abonnements
 edit_article: Modifier le fil
 type.smart_contract: Contrat intelligent
 hot: Dernière minute
-agree_terms: Consentir aux %terms_link_start%conditions d'utilisation%terms_link_end%
+agree_terms: Consentir aux %terms_link_start%conditions d’utilisation%terms_link_end%
   et à la %policy_link_start%politique de confidentialité%policy_link_end%
-reset_check_email_desc: Si un compte correspondant à votre adresse email existe, vous
-  recevrez rapidement un email contenant un lien que vous pouvez utiliser pour réinitialiser
-  votre mot de passe. Ce lien expirera dans %expire%.
-joined: Inscrit(e)
-show_profile_subscriptions: Voir les abonnements aux magazines
+reset_check_email_desc: Si un compte correspondant à votre adresse courriel existe,
+  vous recevrez rapidement un courriel contenant un lien que vous pouvez utiliser
+  pour réinitialiser votre mot de passe. Ce lien expirera dans %expire%.
+joined: Inscrit·e
+show_profile_subscriptions: Afficher les magazines souscrits
 show_profile_followings: Voir les utilisateurs abonnés
-notify_on_new_entry_reply: Avertissez-moi des commentaires dans mes fils
-notify_on_new_entry_comment_reply: Avertissez-moi des réponses à mes commentaires
-  dans les fils
-notify_on_new_post_reply: Avertissez-moi des réponses à mes messages
-notify_on_new_post_comment_reply: Avertissez-moi des réponses à mes commentaires dans
-  les messages
-notify_on_new_entry: Avertissez-moi des nouveaux fils dans les magazines abonnés
-notify_on_new_posts: Avertissez-moi des nouveaux messages dans les magazines abonnés
+notify_on_new_entry_reply: M’avertir des commentaires dans mes fils
+notify_on_new_entry_comment_reply: M’avertir des réponses à mes commentaires dans
+  les fils
+notify_on_new_post_reply: M’avertir des réponses à mes messages
+notify_on_new_post_comment_reply: M’avertir des réponses à mes commentaires dans les
+  messages
+notify_on_new_entry: M’avertir des nouveaux fils dans les magazines abonnés
+notify_on_new_posts: M’avertir des nouveaux messages dans les magazines abonnés
 save: Enregistrer
 about: À propos
-old_email: Email actuel
-new_email: Nouvel email
-new_email_repeat: Confirmer le nouvel email
+old_email: Courriel actuel
+new_email: Nouveau courriel
+new_email_repeat: Confirmer le nouveau courriel
 current_password: Mot de passe actuel
 new_password: Nouveau mot de passe
 new_password_repeat: Confirmer le nouveau mot de passe
-change_email: Changer l'email
+change_email: Changer le courriel
 change_password: Changer le mot de passe
 expand: Élargir
 collapse: Réduire
@@ -262,24 +262,24 @@ show_magazines_icons: Afficher les icônes des magazines
 solarized_light: Clair solarisé
 solarized_dark: Sombre solarisé
 rounded_edges: Bords arrondis
-removed_thread_by: a supprimé un fil par
-restored_thread_by: a rétabli un fil par
-removed_comment_by: a enlevé un commentaire par
-restored_comment_by: a rétabli un commentaire par
-removed_post_by: a supprimé un message de
-restored_post_by: a rétabli un message de
+removed_thread_by: a supprimé le fil de
+restored_thread_by: a rétabli le fil de
+removed_comment_by: a supprimé le commentaire de
+restored_comment_by: a rétabli le commentaire de
+removed_post_by: a supprimé une publication de
+restored_post_by: a rétabli la publication de
 read_all: Lire tout
 show_all: Afficher tout
-ranking_disabled: Le classement est désactivé
-flash_register_success: Bienvenue, votre compte a été enregistré. Vérifiez votre email,
-  nous avons envoyé un message avec un lien d'activation.
-flash_thread_new_success: Le fil a été créé correctement et est maintenant visible
-  par les autres usagers.
-flash_thread_edit_success: Le fil a été modifié correctement.
-flash_thread_delete_success: Le fil a été supprimé correctement.
-flash_thread_pin_success: Le fil a été fixé correctement.
-flash_thread_unpin_success: Le fil a été défixé correctement.
-flash_magazine_edit_success: Le magazine a été modifié correctement.
+ranking_disabled: Classement désactivé
+flash_register_success: Bienvenue, votre compte a été enregistré. Vérifiez votre courriel,
+  nous avons envoyé un message avec un lien d’activation.
+flash_thread_new_success: Le fil a été créé et est maintenant visible par les autres
+  utilisateurs.
+flash_thread_edit_success: Le fil a été modifié.
+flash_thread_delete_success: Le fil a été supprimé.
+flash_thread_pin_success: Le fil a été épinglé.
+flash_thread_unpin_success: Le fil a été désépinglé.
+flash_magazine_edit_success: Le magazine a été modifié.
 too_many_requests: Limite dépassée, veuillez réessayer plus tard.
 set_magazines_bar: Barre des magazines
 gold: Or
@@ -390,7 +390,7 @@ left: Gauche
 right: Droite
 federation: Fédération
 status: Statut
-on: Actif
+on: On
 off: Inactif
 instances: Instances
 upload_file: Envoyer un fichier
@@ -413,8 +413,8 @@ done: Terminé
 pin: Épingler
 bronze_redactor: Rédacteur/trice bronze
 bronze_poster: Messager bronze
-flash_magazine_new_success: Le magazine a été créé correctement. Vous pouvez désormais
-  ajouter du nouveau contenu ou explorer le panneau d'administration du magazine.
+flash_magazine_new_success: Le magazine a été créé. Vous pouvez désormais ajouter
+  du nouveau contenu ou explorer le panneau d’administration du magazine.
 bronze_article_desc: Le fil a été partagé 5 fois
 bronze_popular_entry_desc: Fil visité 1000 fois
 bronze_magazine: Magazine célèbre
@@ -479,3 +479,6 @@ kbin_promo_desc: '%link_start%Clonez le dépôt%link_end% et développez le Féd
 browsing_one_thread: Vous ne parcourez qu'un seul fil de discussion ! Tous les commentaires
   sont disponibles sur la page de publication.
 boost: Partager
+mercure_enabled: Mercure activé
+report_issue: Signaler un problème
+tokyo_night: Nuit tokyoïte

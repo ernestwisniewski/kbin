@@ -56,7 +56,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->magazine = $dto->post->magazine;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
+        $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
@@ -91,7 +91,7 @@ class PostCommentManager implements ContentManagerInterface
 
         $comment->body = $dto->body;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
+        $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;
@@ -119,7 +119,7 @@ class PostCommentManager implements ContentManagerInterface
 
     public function delete(User $user, PostComment $comment): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($comment->apId, PHP_URL_HOST)) {
             return;
         }
 

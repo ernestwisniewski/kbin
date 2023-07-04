@@ -31,9 +31,6 @@ class TagCommentFrontController extends AbstractController
             'tag' => $name,
         ];
 
-        $this->repository->hydrate(...$params['comments']);
-        $this->repository->hydrateChildren(...$params['comments']);
-
         return $this->render(
             'tag/comments.html.twig',
             $params

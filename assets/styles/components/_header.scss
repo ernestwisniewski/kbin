@@ -201,7 +201,7 @@
     font-size: 1.5rem;
     font-weight: 400;
     grid-area: brand;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
     text-decoration: none;
     display: flex;
 
@@ -211,6 +211,15 @@
       margin-right: .5rem;
       position: relative;
       top: 3px;
+    }
+
+    @include media-breakpoint-down(sm) {
+      a {
+        font-size: 1.0rem;
+      }
+      div {
+        top: 0px;
+      }
     }
 
     @include media-breakpoint-down(lg) {

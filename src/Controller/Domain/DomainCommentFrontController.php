@@ -34,9 +34,6 @@ class DomainCommentFrontController extends AbstractController
         $params['comments'] = $this->commentRepository->findByCriteria($criteria);
         $params['domain'] = $domain;
 
-        $this->commentRepository->hydrate(...$params['comments']);
-        $this->commentRepository->hydrateChildren(...$params['comments']);
-
         return $this->render(
             'domain/comment/front.html.twig',
             $params

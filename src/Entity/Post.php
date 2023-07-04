@@ -22,7 +22,6 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -42,7 +41,6 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['comment_count'], name: 'post_comment_count_idx')]
 #[Index(columns: ['created_at'], name: 'post_created_at_idx')]
 #[Index(columns: ['last_active'], name: 'post_last_active_at_idx')]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -76,7 +74,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     #[Column(type: 'integer', nullable: false)]
     public int $score = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;
     #[Column(type: 'string', nullable: true)]
@@ -105,13 +103,13 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         string $body,
         Magazine $magazine,
         User $user,
-        ?bool $isAdult = false,
+        bool $isAdult,
         ?string $ip = null
     ) {
         $this->body = $body;
         $this->magazine = $magazine;
         $this->user = $user;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->ip = $ip;
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();

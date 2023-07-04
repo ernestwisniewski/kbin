@@ -63,8 +63,6 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
             throw new NotFoundHttpException();
         }
 
-        $this->hydrate(...$pagerfanta->getCurrentPageResults());
-
         return $pagerfanta;
     }
 

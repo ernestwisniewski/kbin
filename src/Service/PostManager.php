@@ -65,7 +65,7 @@ class PostManager implements ContentManagerInterface
         }
 
         $post->lang = $dto->lang;
-        $post->isAdult = $post->magazine->isAdult ?? $dto->isAdult;
+        $post->isAdult = $dto->isAdult || $post->magazine->isAdult;
         $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $post->image = $dto->image;
         if ($post->image && !$post->image->altText) {
@@ -97,7 +97,7 @@ class PostManager implements ContentManagerInterface
 
         $post->body = $dto->body;
         $post->lang = $dto->lang;
-        $post->isAdult = $post->magazine->isAdult ?? $dto->isAdult;
+        $post->isAdult = $dto->isAdult || $post->magazine->isAdult;
         $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $oldImage = $post->image;
         if ($dto->image) {
@@ -124,7 +124,7 @@ class PostManager implements ContentManagerInterface
 
     public function delete(User $user, Post $post): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($post->apId, PHP_URL_HOST)) {
             return;
         }
 

@@ -33,6 +33,11 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
 
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
+        $builder->merge([
+            'renderer' => [
+                'soft_break' => "<br>\r\n",
+            ],
+        ]);
     }
 
     public function register(EnvironmentBuilderInterface $environment): void

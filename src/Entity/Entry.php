@@ -24,7 +24,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping\Index;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -45,7 +44,6 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['comment_count'], name: 'entry_comment_count_idx')]
 #[Index(columns: ['created_at'], name: 'entry_created_at_idx')]
 #[Index(columns: ['last_active'], name: 'entry_last_active_at_idx')]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -98,7 +96,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     #[Column(type: 'integer', nullable: true)]
     public ?int $views = 0;
     #[Column(type: 'boolean', nullable: false)]
-    public ?bool $isAdult = false;
+    public bool $isAdult = false;
     #[Column(type: 'boolean', nullable: false)]
     public bool $sticky = false;
     #[Column(type: 'datetimetz')]
@@ -147,7 +145,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         ?string $body,
         Magazine $magazine,
         User $user,
-        ?bool $isAdult,
+        bool $isAdult,
         ?bool $isOc,
         ?string $lang,
         ?string $ip = null
@@ -157,7 +155,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         $this->body = $body;
         $this->magazine = $magazine;
         $this->user = $user;
-        $this->isAdult = $isAdult ?? false;
+        $this->isAdult = $isAdult;
         $this->isOc = $isOc;
         $this->lang = $lang;
         $this->ip = $ip;

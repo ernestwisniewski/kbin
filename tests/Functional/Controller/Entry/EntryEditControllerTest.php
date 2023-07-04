@@ -54,7 +54,7 @@ class EntryEditControllerTest extends WebTestCase
         $this->assertEquals('disabled', $crawler->filter('#entry_article_magazine_autocomplete')->attr('disabled'));
 
         $client->submit(
-            $crawler->filter('form[name=entry_article]')->selectButton('Edit article')->form(
+            $crawler->filter('form[name=entry_article]')->selectButton('Edit thread')->form(
                 [
                     'entry_article[title]' => 'test entry 2 title',
                     'entry_article[body]' => 'test entry 2 body',

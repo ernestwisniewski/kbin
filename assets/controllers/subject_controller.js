@@ -59,18 +59,20 @@ export default class extends Controller {
 
             const textarea = this.containerTarget.querySelector('textarea');
             if (textarea) {
-                let firstLineEnd = textarea.value.indexOf("\n");
-                if (-1 === firstLineEnd) {
-                    firstLineEnd = textarea.value.length;
-                    textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
-                    textarea.selectionStart = firstLineEnd + 1;
-                    textarea.selectionEnd = firstLineEnd + 1;
-                } else {
-                    textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
-                    textarea.selectionStart = firstLineEnd + 1;
-                    textarea.selectionEnd = firstLineEnd + 1;
+                if (textarea.value !== "") {
+                    let firstLineEnd = textarea.value.indexOf("\n");
+                    if (-1 === firstLineEnd) {
+                        firstLineEnd = textarea.value.length;
+                        textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
+                        textarea.selectionStart = firstLineEnd + 1;
+                        textarea.selectionEnd = firstLineEnd + 1;
+                    } else {
+                        textarea.value = textarea.value.slice(0, firstLineEnd) + " " + textarea.value.slice(firstLineEnd);
+                        textarea.selectionStart = firstLineEnd + 1;
+                        textarea.selectionEnd = firstLineEnd + 1;
+                    }
                 }
-
+                
                 textarea.focus();
             }
         } catch (e) {
@@ -359,15 +361,17 @@ export default class extends Controller {
     checkHeight() {
         this.isExpandedValue = false;
         const elem = this.element.querySelector('.content');
-        elem.style.maxHeight = '25rem'
+        if (elem) {
+            elem.style.maxHeight = '25rem'
 
-        if (elem.scrollHeight - 30 > elem.clientHeight
-            || elem.scrollWidth > elem.clientWidth) {
+            if (elem.scrollHeight - 30 > elem.clientHeight
+                || elem.scrollWidth > elem.clientWidth) {
 
-            this.moreBtn = this.createMoreBtn(elem);
-            this.more();
-        } else {
-            elem.style.maxHeight = null;
+                this.moreBtn = this.createMoreBtn(elem);
+                this.more();
+            } else {
+                elem.style.maxHeight = null;
+            }
         }
     }
 
@@ -409,13 +413,15 @@ export default class extends Controller {
         const adultBadge = this.element.querySelector('.danger');
         if (adultBadge && adultBadge.textContent === '+18') {
             const image = this.element.querySelector('img');
-            image.style.filter = 'blur(8px)';
-            image.addEventListener('mouseenter', () => {
-                image.style.filter = 'none';
-            });
-            image.addEventListener('mouseleave', () => {
+            if (image) {
                 image.style.filter = 'blur(8px)';
-            });
+                image.addEventListener('mouseenter', () => {
+                    image.style.filter = 'none';
+                });
+                image.addEventListener('mouseleave', () => {
+                    image.style.filter = 'blur(8px)';
+                });
+            }
         }
     }
 }

@@ -63,7 +63,7 @@ class EntryCreateControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/new/article');
 
         $client->submit(
-            $crawler->filter('form[name=entry_article]')->selectButton('Add new article')->form(
+            $crawler->filter('form[name=entry_article]')->selectButton('Add new thread')->form(
                 [
                     'entry_article[title]' => 'Test entry 1',
                     'entry_article[body]' => 'Test body',
@@ -97,5 +97,31 @@ class EntryCreateControllerTest extends WebTestCase
         $client->request('GET', '/m/acme/new/photo');
 
         $this->assertSelectorExists('form[name=entry_image]');
+    }
+
+    public function testUserCanCreateEntryArticleForAdults()
+    {
+        $client = $this->createClient();
+        $client->loginUser($this->getUserByUsername('user', hideAdult: false));
+
+        $this->getMagazineByName('acme');
+
+        $crawler = $client->request('GET', '/m/acme/new/article');
+
+        $client->submit(
+            $crawler->filter('form[name=entry_article]')->selectButton('Add new thread')->form(
+                [
+                    'entry_article[title]' => 'Test entry 1',
+                    'entry_article[body]' => 'Test body',
+                    'entry_article[isAdult]' => '1',
+                ]
+            )
+        );
+
+        $this->assertResponseRedirects('/m/acme/newest');
+        $client->followRedirect();
+
+        $this->assertSelectorTextContains('article h2', 'Test entry 1');
+        $this->assertSelectorTextContains('article h2 .danger', '+18');
     }
 }

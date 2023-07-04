@@ -21,7 +21,7 @@
 {{ form_start(form, {action: action, attr: {class: edit ? 'post-edit replace' : 'post-add'}|merge(attributes)}) }}
 <div class="row">
     {{ component('editor_toolbar', {id: 'post_body'}) }}
-    {{ form_row(form.body, {label: false, attr: {'data-controller': 'textarea-autogrow'}}) }}
+    {{ form_row(form.body, {label: false, attr: {'data-controller': 'rich-textarea'}}) }}
 </div>
 <div class="row params">
     {{ form_row(form.isAdult, {label:'is_adult'}) }}

@@ -19,14 +19,15 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class CreateHandler
 {
     public function __construct(
-        private readonly MessageBusInterface $bus,
-        private readonly UserRepository $userRepository,
-        private readonly MagazineRepository $magazineRepository,
-        private readonly CreateWrapper $createWrapper,
+        private readonly MessageBusInterface    $bus,
+        private readonly UserRepository         $userRepository,
+        private readonly MagazineRepository     $magazineRepository,
+        private readonly CreateWrapper          $createWrapper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ActivityPubManager $activityPubManager,
-        private readonly SettingsManager $settingsManager
-    ) {
+        private readonly ActivityPubManager     $activityPubManager,
+        private readonly SettingsManager        $settingsManager
+    )
+    {
     }
 
     public function __invoke(CreateMessage $message): void
@@ -39,9 +40,12 @@ class CreateHandler
 
         $activity = $this->createWrapper->build($entity);
 
-        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($entity->user)), $activity);
+        $this->deliver(
+            array_filter($this->activityPubManager->createInboxesFromCC($activity, $entity->user)),
+            $activity
+        );
+        $this->deliver(array_filter($this->magazineRepository->findAudience($entity->magazine)), $activity);
     }
 
     private function deliver(array $followers, array $activity): void
@@ -50,13 +54,14 @@ class CreateHandler
             if (!$follower) {
                 continue;
             }
-            if (is_string($follower)) {
-                $this->bus->dispatch(new DeliverMessage($follower, $activity));
+
+            $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
+
+            if($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;
             }
-            if ($follower->apInboxUrl) {
-                $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
-            }
+
+            $this->bus->dispatch(new DeliverMessage($follower, $activity));
         }
     }
 }

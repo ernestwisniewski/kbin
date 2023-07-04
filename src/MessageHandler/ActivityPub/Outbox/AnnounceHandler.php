@@ -59,9 +59,9 @@ class AnnounceHandler
             $activity = $this->undoWrapper->build($activity);
         }
 
-        $this->deliver($this->userRepository->findAudience($user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($object->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($user)), $activity);
+        $this->deliver(array_filter($this->activityPubManager->createInboxesFromCC($activity, $user)), $activity);
+        $this->deliver(array_filter($this->magazineRepository->findAudience($object->magazine)), $activity);
         $this->deliver([$object->user->apInboxUrl], $activity);
     }
 
@@ -71,13 +71,14 @@ class AnnounceHandler
             if (!$follower) {
                 continue;
             }
-            if (is_string($follower)) {
-                $this->bus->dispatch(new DeliverMessage($follower, $activity));
+
+            $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
+
+            if($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;
             }
-            if ($follower->apInboxUrl) {
-                $this->bus->dispatch(new DeliverMessage($follower->apInboxUrl, $activity));
-            }
+
+            $this->bus->dispatch(new DeliverMessage($inboxUrl, $activity));
         }
     }
 }

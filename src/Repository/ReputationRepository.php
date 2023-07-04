@@ -64,10 +64,10 @@ class ReputationRepository extends ServiceEntityRepository
             ->getConnection();
 
         $sql = 'SELECT
-                    (SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM entry WHERE user_id = :user) +
-                    (SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM entry_comment WHERE user_id = :user) +
-                    (SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM post WHERE user_id = :user) +
-                    (SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM post_comment WHERE user_id = :user) as total';
+            COALESCE((SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM entry WHERE user_id = :user), 0) +
+            COALESCE((SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM entry_comment WHERE user_id = :user), 0) +
+            COALESCE((SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM post WHERE user_id = :user), 0) +
+            COALESCE((SELECT SUM((up_votes * 2) - down_votes + favourite_count) FROM post_comment WHERE user_id = :user), 0) as total';
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('user', $user->getId());

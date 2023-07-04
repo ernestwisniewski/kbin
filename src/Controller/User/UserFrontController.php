@@ -67,9 +67,6 @@ class UserFrontController extends AbstractController
 
         $comments = $repository->findByCriteria($criteria);
 
-        $repository->hydrate(...$comments);
-        $repository->hydrateParents(...$comments);
-
         return $this->render(
             'user/comments.html.twig',
             [

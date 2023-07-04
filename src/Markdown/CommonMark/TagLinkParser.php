@@ -32,7 +32,7 @@ class TagLinkParser implements InlineParserInterface
         $url = $this->urlGenerator->generate(
             'tag_overview',
             ['name' => $tag],
-            UrlGeneratorInterface::ABSOLUTE_PATH,
+            UrlGeneratorInterface::ABSOLUTE_URL,
         );
 
         $ctx->getContainer()->appendChild(new TagLink($url, '#' . $tag));

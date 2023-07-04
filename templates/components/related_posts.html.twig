@@ -6,7 +6,6 @@
                 <figure>
                     <div class="row">
                         {% if post.image %}
-                            <a href="{{ post_url(post) }}" class="stretched-link">
                                 <img src="{{ asset(post.image.filePath) | imagine_filter('post_thumb') }}"
                                      alt="{{ post.image.alt|default('') }}">
                             </a>
@@ -14,11 +13,9 @@
                         {% if post.body %}
                             <blockquote class="content">
                                 {{ get_short_sentence(post.body)|markdown|raw }}
-                                <div>
-                                    <a href="{{ post_url(post) }}" class="stretched-link">{{ 'show_more'|trans }}</a>
-                                </div>
                             </blockquote>
                         {% endif %}
+                        <a href="{{ post_url(post) }}" class="stretched-link more">{{ 'show_more'|trans }}</a>
                     </div>
                     <figcaption>
                         {{ component('date', {date: post.createdAt}) }} {{ 'to'|trans }} {{ component('magazine_inline', {magazine: post.magazine}) }}

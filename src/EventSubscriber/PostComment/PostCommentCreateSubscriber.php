@@ -33,7 +33,9 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
         ]);
 
         $this->bus->dispatch(new PostCommentCreatedNotificationMessage($event->comment->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        if ($event->comment->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->comment->body));
+        }
 
         if (!$event->comment->apId) {
             $this->bus->dispatch(new CreateMessage($event->comment->getId(), get_class($event->comment)));

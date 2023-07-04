@@ -165,7 +165,9 @@ figure {
   .dropdown__menu,
   #sidebar .theme,
   #sidebar .user-list img,
-  .no-image-placeholder {
+  .no-image-placeholder,
+  .pagination__item,
+  code {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
@@ -191,7 +193,8 @@ figure {
   }
 
   .magazine__subscribe,
-  .user__follow {
+  .user__follow,
+  .domain__subscribe {
     gap: 0.25rem
   }
 }
@@ -297,6 +300,23 @@ pre, code {
   word-wrap: break-word;
 }
 
+pre > code {
+  display: inline-block;
+  color: var(--kbin-text-color);
+  background: var(--kbin-bg);
+  padding: 1rem;
+  font-size: .85rem;
+  max-height: 16rem;
+  overflow: auto;
+}
+
+p > code {
+  color: var(--kbin-text-color);
+  background: var(--kbin-bg);
+  padding: 0.2rem .4rem;
+  font-size: .85rem;
+}
+
 .markdown {
   display: flex;
   flex-wrap: wrap;
@@ -329,4 +349,8 @@ pre, code {
 .no-avatar {
   background: var(--kbin-bg);
   display: block;
+}
+
+:target {
+  scroll-margin-top: 8rem;
 }

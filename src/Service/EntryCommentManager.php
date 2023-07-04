@@ -54,9 +54,9 @@ class EntryCommentManager implements ContentManagerInterface
             throw new UserBannedException();
         }
 
-        $comment->lang = $dto->lang;
-        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
         $comment->magazine = $dto->entry->magazine;
+        $comment->lang = $dto->lang;
+        $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $comment->image = $dto->image;
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
@@ -91,7 +91,7 @@ class EntryCommentManager implements ContentManagerInterface
 
         $comment->body = $dto->body;
         $comment->lang = $dto->lang;
-        $comment->isAdult = $comment->magazine->isAdult ?? $dto->isAdult;
+        $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
             $comment->image = $dto->image;
@@ -119,7 +119,7 @@ class EntryCommentManager implements ContentManagerInterface
 
     public function delete(User $user, EntryComment $comment): void
     {
-        if ($user->apId) {
+        if ($user->apDomain && $user->apDomain !== parse_url($comment->apId, PHP_URL_HOST)) {
             return;
         }
 

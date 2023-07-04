@@ -27,7 +27,9 @@ class PostEditSubscriber implements EventSubscriberInterface
     public function onPostEdited(PostEditedEvent $event)
     {
         $this->bus->dispatch(new PostEditedNotificationMessage($event->post->getId()));
-        $this->bus->dispatch(new LinkEmbedMessage($event->post->body));
+        if ($event->post->body) {
+            $this->bus->dispatch(new LinkEmbedMessage($event->post->body));
+        }
 
         if (!$event->post->apId) {
             $this->bus->dispatch(new UpdateMessage($event->post->getId(), get_class($event->post)));

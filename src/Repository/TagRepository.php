@@ -61,19 +61,15 @@ class TagRepository
         $entries = $this->entityManager->getRepository(Entry::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
-        $this->entityManager->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
-        $this->entityManager->getRepository(EntryComment::class)->hydrate(...$entryComments);
         $post = $this->entityManager->getRepository(Post::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'post')]
         );
-        $this->entityManager->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
-        $this->entityManager->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);

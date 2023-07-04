@@ -7,7 +7,6 @@ namespace App\Entity;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\UserNoteRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -20,7 +19,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: UserNoteRepository::class)]
 #[Table]
 #[UniqueConstraint(name: 'user_noted_idx', columns: ['user_id', 'target_id'])]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class UserNote
 {
     use CreatedAtTrait {

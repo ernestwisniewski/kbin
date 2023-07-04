@@ -8,25 +8,20 @@ use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
 class DeleteHandler
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $userRepository,
         private readonly MagazineRepository $magazineRepository,
-        private readonly DeleteWrapper $deleteWrapper,
         private readonly MessageBusInterface $bus,
         private readonly ActivityPubManager $activityPubManager,
-        private readonly SettingsManager $settingsManager
+        private readonly SettingsManager $settingsManager,
     ) {
     }
 
@@ -36,13 +31,15 @@ class DeleteHandler
             return;
         }
 
-        $entity = $this->entityManager->getRepository($message->type)->find($message->id);
+        $user = $this->userRepository->find($message->userId);
+        $magazine = $this->magazineRepository->find($message->magazineId);
 
-        $activity = $this->deleteWrapper->build($entity, Uuid::v4()->toRfc4122());
-
-        $this->deliver($this->userRepository->findAudience($entity->user), $activity);
-        $this->deliver($this->activityPubManager->createInboxesFromCC($activity, $entity->user), $activity);
-        $this->deliver($this->magazineRepository->findAudience($entity->magazine), $activity);
+        $this->deliver(array_filter($this->userRepository->findAudience($user)), $message->payload);
+        $this->deliver(
+            array_filter($this->activityPubManager->createInboxesFromCC($message->payload, $user)),
+            $message->payload
+        );
+        $this->deliver(array_filter($this->magazineRepository->findAudience($magazine)), $message->payload);
     }
 
     private function deliver(array $followers, array $activity)

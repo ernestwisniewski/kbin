@@ -258,17 +258,13 @@ class MagazineRepository extends ServiceEntityRepository
         $entries = $this->_em->getRepository(Entry::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry')]
         );
-        $this->_em->getRepository(Entry::class)->hydrate(...$entries);
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
         );
-        $this->_em->getRepository(EntryComment::class)->hydrate(...$entryComments);
         $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
-        $this->_em->getRepository(Post::class)->hydrate(...$post);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
             ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
         );
-        $this->_em->getRepository(PostComment::class)->hydrate(...$postComment);
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
@@ -396,6 +392,9 @@ class MagazineRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('m')
             ->where('m.id IN (:ids)')
+            ->andWhere('m.isAdult = false')
+            ->andWhere('m.visibility = :visibility')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();
@@ -406,6 +405,9 @@ class MagazineRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->where('m.entryCount > 0 OR m.postCount > 0')
             ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
+            ->andWhere('m.isAdult = false')
+            ->andWhere('m.visibility = :visibility')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('magazine', "%{$magazine}%")
             ->setMaxResults(5)
             ->getQuery()
