@@ -54,7 +54,7 @@ final class RelatedEntriesComponent
     public function getHtml(ComponentAttributes $attributes): string
     {
         $entryId = $this->entry?->getId();
-        $magazine = str_replace('@', '', $this->magazine);
+        $magazine = str_replace('@', '', $this->magazine ?? '');
 
         return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",

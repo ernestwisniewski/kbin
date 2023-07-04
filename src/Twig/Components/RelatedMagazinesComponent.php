@@ -50,7 +50,7 @@ final class RelatedMagazinesComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $magazine = str_replace('@', '', $this->magazine);
+        $magazine = str_replace('@', '', $this->magazine ?? '');
 
         return $this->cache->get(
             "related_magazines_{$magazine}_{$this->tag}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",

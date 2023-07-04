@@ -54,7 +54,7 @@ final class RelatedPostsComponent
     public function getHtml(ComponentAttributes $attributes): string
     {
         $postId = $this->post?->getId();
-        $magazine = str_replace('@', '', $this->magazine);
+        $magazine = str_replace('@', '', $this->magazine ?? '');
 
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
