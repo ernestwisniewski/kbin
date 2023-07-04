@@ -36,7 +36,7 @@
     display: grid;
     grid-template-areas: 'sr-nav brand magazine nav menu';
     grid-template-columns: min-content max-content max-content auto max-content;
-    padding: 0 .55rem 0 1rem;
+    padding: 0 .55rem 0 0.55rem;
     position: relative;
   }
 
@@ -178,26 +178,28 @@
     font-size: 1.5rem;
     font-weight: 400;
     grid-area: brand;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
     text-decoration: none;
     display: flex;
 
     div {
       display: none;
       font-size: .9rem;
-      margin-right: .5rem;
+      margin-right: 0.75rem;
       position: relative;
-      top: 3px;
+      cursor: pointer;
     }
 
     @include media-breakpoint-down(lg) {
+
+      align-items: center;
+
       a {
         align-items: center;
         display: flex;
         gap: .5rem;
         justify-content: center;
         position: relative;
-        top: -3px;
 
         span {
           top: -5px;
@@ -209,7 +211,7 @@
       }
 
       div {
-        display: inline-block;
+        display: inline-block;  
       }
     }
   }
@@ -234,9 +236,9 @@
 }
 
 @include media-breakpoint-down(lg) {
+
   .head-nav {
     position: relative;
-    top: 5px;
 
     #logo {
       padding-bottom: .438rem;
