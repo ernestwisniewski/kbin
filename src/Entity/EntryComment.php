@@ -196,7 +196,7 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
 
     public function getShortTitle(?int $length = 60): string
     {
-        $body = wordwrap($this->body, $length);
+        $body = wordwrap($this->body ?? '', $length);
         $body = explode("\n", $body);
 
         return trim($body[0]).(isset($body[1]) ? '...' : '');

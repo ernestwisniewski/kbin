@@ -65,7 +65,7 @@ class EntryPageFactory
             ],
             'name' => $entry->title,
             'content' => $entry->body ? $this->markdownConverter->convertToHtml($entry->body) : null,
-            'summary' => ($entry->body ? $entry->getShortDesc() : '').' '.implode(
+            'summary' => $entry->getShortDesc().' '.implode(
                     ' ',
                     array_map(fn($val) => '#'.$val, $tags)
                 ),
