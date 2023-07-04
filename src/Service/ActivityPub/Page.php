@@ -44,6 +44,10 @@ class Page
             $object['to'] = [$object['to']];
         }
 
+        if (is_string($object['cc'])) {
+            $object['cc'] = [$object['cc']];
+        }
+
         $dto = new EntryDto();
         $dto->magazine = $this->magazineRepository->findByApGroupProfileId(
             array_merge($object['to'], $object['cc'])

@@ -165,6 +165,10 @@ class Question
             $object['to'] = [$object['to']];
         }
 
+        if (is_string($object['cc'])) {
+            $object['cc'] = [$object['cc']];
+        }
+
         return $this->createPost($object);
     }
 
