@@ -7,6 +7,7 @@
 
   a {
     color: var(--kbin-section-title-link-color);
+    overflow-wrap: anywhere;
 
     &:hover {
       color: var(--kbin-section-link-hover-color);
