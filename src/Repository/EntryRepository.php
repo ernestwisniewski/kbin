@@ -224,7 +224,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
                 ->setParameter('isAdult', false);
         }
 
-        if (0 < count($user->preferredLanguages)) {
+        if (0 < count($user?->preferredLanguages ?? [])) {
             $qb->andWhere('e.lang IN (:e_lang)')
                 ->setParameter('e_lang', $user->preferredLanguages);
         }

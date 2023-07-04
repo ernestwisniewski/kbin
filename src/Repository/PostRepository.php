@@ -188,7 +188,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
                 ->setParameter('isAdult', false);
         }
 
-        if (0 < count($user->preferredLanguages)) {
+        if (0 < count($user?->preferredLanguages ?? [])) {
             $qb->andWhere('p.lang IN (:p_lang)')
                 ->setParameter('p_lang', $user->preferredLanguages);
         }
