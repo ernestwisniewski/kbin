@@ -29,7 +29,7 @@ class LanguageType extends AbstractType
             [
                 'choice_loader' =>  function (Options $options) {
                     return ChoiceList::loader($this, new CallbackChoiceLoader(function () {
-                        $preferredLanguages = $this->security->getUser()->preferredLanguages;
+                        $preferredLanguages = $this->security->getUser()?->preferredLanguages ?? [$this->settingsManager->get('KBIN_DEFAULT_LANG')];
 
                         foreach (Languages::getLanguageCodes() as $languageCode) {
                             try {
