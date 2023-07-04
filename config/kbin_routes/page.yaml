@@ -26,8 +26,8 @@ award_list_all:
 
 stats:
   controller: App\Controller\StatsController
-  defaults: { statsType: ~, statsPeriod: ~ }
-  path: /stats/{statsType}/{statsPeriod}
+  defaults: { statsType: general, statsPeriod: -1, withFederated: false }
+  path: /stats/{statsType}/{statsPeriod}/{withFederated}
   methods: [ GET ]
 
 ranking:

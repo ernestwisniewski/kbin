@@ -12,17 +12,17 @@ class VoteRepository
     {
     }
 
-    public function count(?\DateTimeImmutable $date = null): int
+    public function count(?\DateTimeImmutable $date = null, ?bool $withFederated = null): int
     {
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, 'entry' AS type FROM entry_vote {$this->where($date)}) 
+        (SELECT id, 'entry' AS type FROM entry_vote {$this->where($date, $withFederated)}) 
         UNION 
-        (SELECT id, 'entry_comment' AS type FROM entry_comment_vote {$this->where($date)})
+        (SELECT id, 'entry_comment' AS type FROM entry_comment_vote {$this->where($date, $withFederated)})
         UNION 
-        (SELECT id, 'post' AS type FROM post_vote {$this->where($date)})
+        (SELECT id, 'post' AS type FROM post_vote {$this->where($date, $withFederated)})
         UNION 
-        (SELECT id, 'post_comment' AS type FROM post_comment_vote {$this->where($date)})
+        (SELECT id, 'post_comment' AS type FROM post_comment_vote {$this->where($date, $withFederated)})
         ";
 
         $stmt = $conn->prepare($sql);
@@ -31,8 +31,17 @@ class VoteRepository
         return $stmt->rowCount();
     }
 
-    private function where(?\DateTimeImmutable $date = null): string
+    private function where(?\DateTimeImmutable $date = null, ?bool $withFederated = null): string
     {
-        return $date ? "WHERE created_at > '{$date->format('Y-m-d H:i:s')}'" : '';
+        $dateWhere = $date ? "created_at > '{$date->format('Y-m-d H:i:s')}'" : '';
+        $withoutFederationWhere = "EXISTS (SELECT * FROM public.user WHERE public.user.ap_id IS NULL and public.user.id=user_id)";
+        if ($date and !$withFederated)
+            return "WHERE $dateWhere AND $withoutFederationWhere";
+        else if ($date and $withFederated === true)
+            return "WHERE $dateWhere";
+        else if (!$date and !$withFederated)
+            return "WHERE $withoutFederationWhere";
+        else
+            return '';
     }
 }

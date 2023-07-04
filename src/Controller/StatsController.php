@@ -16,7 +16,7 @@ class StatsController extends AbstractController
     {
     }
 
-    public function __invoke(?string $statsType, ?int $statsPeriod, Request $request): Response
+    public function __invoke(?string $statsType, ?int $statsPeriod, ?bool $withFederated, Request $request): Response
     {
         $statsType = $this->manager->resolveType($statsType);
 
@@ -29,20 +29,24 @@ class StatsController extends AbstractController
         }
 
         if ($statsPeriod) {
-            $statsPeriod = min($statsPeriod, 256);
+            $statsPeriod = min($statsPeriod, 365);
             $start = (new \DateTime())->modify("-$statsPeriod days");
+        }
+
+        if ($withFederated == null) {
+            $withFederated = false;
         }
 
         $results = match ($statsType) {
             StatsRepository::TYPE_CONTENT => $statsPeriod
-                ? $this->manager->drawDailyContentStatsByTime($start)
-                : $this->manager->drawMonthlyContentChart(),
+                ? $this->manager->drawDailyContentStatsByTime($start, onlyLocal: !$withFederated)
+                : $this->manager->drawMonthlyContentChart(onlyLocal: !$withFederated),
             StatsRepository::TYPE_VIEWS => $statsPeriod
-                ? $this->manager->drawDailyViewsStatsByTime($start)
-                : $this->manager->drawMonthlyViewsChart(),
+                ? $this->manager->drawDailyViewsStatsByTime($start, onlyLocal: !$withFederated)
+                : $this->manager->drawMonthlyViewsChart(onlyLocal: !$withFederated),
             StatsRepository::TYPE_VOTES => $statsPeriod
-                ? $this->manager->drawDailyVotesStatsByTime($start)
-                : $this->manager->drawMonthlyVotesChart(),
+                ? $this->manager->drawDailyVotesStatsByTime($start, onlyLocal: !$withFederated)
+                : $this->manager->drawMonthlyVotesChart(onlyLocal: !$withFederated),
             default => null,
         };
 
@@ -52,7 +56,8 @@ class StatsController extends AbstractController
                 'type' => $statsType ?? StatsRepository::TYPE_GENERAL,
                 'period' => $statsPeriod,
                 'chart' => $results,
-            ] + ((!$statsType || StatsRepository::TYPE_GENERAL === $statsType) ? $this->counter->count() : []),
+                'withFederated' => $withFederated,
+            ] + ((!$statsType || StatsRepository::TYPE_GENERAL === $statsType) ? $this->counter->count($statsPeriod ? "-$statsPeriod days" : null, $withFederated) : []),
         );
     }
 }

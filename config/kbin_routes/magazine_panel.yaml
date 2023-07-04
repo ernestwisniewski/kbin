@@ -71,6 +71,6 @@ magazine_panel_trash:
 
 magazine_panel_stats:
   controller: App\Controller\Magazine\Panel\MagazineStatsController
-  defaults: { statsType: content, statsPeriod: ~ }
-  path: /m/{name}/panel/stats/{statsType}/{statsPeriod}
+  defaults: { statsType: content, statsPeriod: 31, withFederated: false }
+  path: /m/{name}/panel/stats/{statsType}/{statsPeriod}/{withFederated}
   methods: [ GET ]

@@ -29,20 +29,32 @@ class InstanceStatsManager
     ) {
     }
 
-    public function count(?string $period = null)
+    public function count(?string $period = null, bool $withFederated = false)
     {
-        $period = $period ? \DateTimeImmutable::createFromMutable(new \DateTime($period)) : null;
+        $periodDate = $period ? \DateTimeImmutable::createFromMutable(new \DateTime($period)) : null;
 
-        return $this->cache->get('instance_stats', function (ItemInterface $item) use ($period) {
+        return $this->cache->get('instance_stats', function (ItemInterface $item) use ($period, $periodDate, $withFederated) {
             $item->expiresAfter(0);
 
             $criteria = Criteria::create();
 
-            if ($period) {
+            if ($periodDate) {
                 $criteria->where(
                     Criteria::expr()
-                        ->gt('createdAt', $period)
+                        ->gt('createdAt', $periodDate)
                 );
+            }
+
+            if (!$withFederated) {
+                if ($periodDate) {
+                    $criteria->andWhere(
+                        Criteria::expr()->eq('apId', null)
+                    );
+                } else {
+                    $criteria->where(
+                        Criteria::expr()->eq('apId', null)
+                    );
+                }
             }
 
             return [
@@ -51,9 +63,9 @@ class InstanceStatsManager
                 'entries' => $this->entryRepository->matching($criteria)->count(),
                 'comments' => $this->entryCommentRepository->matching($criteria)->count(),
                 'posts' => $this->postRepository->matching($criteria)->count() + $this->postCommentRepository->matching(
-                    $criteria
-                )->count(),
-                'votes' => $this->voteRepository->count($period),
+                        $criteria
+                    )->count(),
+                'votes' => $this->voteRepository->count($periodDate, $withFederated),
             ];
         });
     }
