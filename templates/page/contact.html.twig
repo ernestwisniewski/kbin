@@ -29,7 +29,7 @@
     </div>
     {% if body %}
         <div class="section">
-            {{ body|raw }}
+            {{ body|markdown|raw }}
         </div>
     {% endif %}
 {% endblock %}

@@ -15,6 +15,6 @@
 {% block body %}
     <h1>{{ 'about_instance'|trans }}</h1>
     <div id="content" class="section">
-        {{ body|raw }}
+        {{ body|markdown|raw }}
     </div>
 {% endblock %}
