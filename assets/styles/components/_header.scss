@@ -67,8 +67,15 @@
     }
 
     @include media-breakpoint-down(sm) {   
+      padding-left: 5px;
+      padding-right: 5px;
+
       .user-name{
         display: none;
+      }
+
+      .user-avatar{
+        margin-left: 0px;
       }
     }
 
@@ -98,11 +105,12 @@
   }
 
   menu {
-    align-items: end;
+    align-items: center;
     display: grid;
     grid-area: menu;
     grid-auto-flow: column;
     list-style: none;
+    justify-content: center;
 
     .sidebar-link {
       display: none;
@@ -116,6 +124,7 @@
       border-bottom: 3px solid transparent;
       display: block;
       padding: 1rem 1rem .7rem;
+
     }
 
     li a:hover {
