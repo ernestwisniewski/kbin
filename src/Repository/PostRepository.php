@@ -14,10 +14,12 @@ use App\Entity\PostFavourite;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\PageView\EntryPageView;
 use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -26,6 +28,8 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -39,31 +43,33 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     public const SORT_DEFAULT = 'hot';
 
     private Security $security;
+    private CacheInterface $cache;
 
-    public function __construct(ManagerRegistry $registry, Security $security)
+    public function __construct(ManagerRegistry $registry, Security $security, CacheInterface $cache)
     {
         parent::__construct($registry, Post::class);
 
         $this->security = $security;
+        $this->cache = $cache;
     }
 
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
-            $criteria->magazine ? new QueryAdapter(
+            new KbinQueryAdapter(
                 $this->getEntryQueryBuilder($criteria),
                 false,
-                false
-            ) : new KbinQueryAdapter(
-                $this->getEntryQueryBuilder($criteria),
                 false,
-                false
+                $this->countAll($criteria)
             )
         );
 
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
+            if (!$criteria->magazine) {
+                $pagerfanta->setMaxNbPages(1000);
+            }
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -402,5 +408,26 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->where('p.tags IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    private function countAll(EntryPageView|Criteria $criteria): int
+    {
+        return $this->cache->get('posts_count_' . $criteria->magazine?->name, function (ItemInterface $item) use ($criteria): int {
+            $item->expiresAfter(60);
+
+            if (!$criteria->magazine) {
+                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility')
+                    ->setParameter('visibility', 'visible');
+            } else {
+                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility AND p.magazine = :magazine')
+                    ->setParameters(['visibility' => 'visible', 'magazine' => $criteria->magazine]);
+            }
+
+            try {
+                return $query->getSingleScalarResult();
+            } catch (NoResultException $e) {
+                return 0;
+            }
+        });
     }
 }
