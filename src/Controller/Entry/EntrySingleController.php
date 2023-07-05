@@ -86,6 +86,7 @@ class EntrySingleController extends AbstractController
                             'entry_id' => $entry->getId(),
                         ]
                     ),
+                    'entryLanguage' => $entry->lang,
                 ])->createView(),
             ]
         );

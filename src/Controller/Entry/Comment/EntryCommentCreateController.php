@@ -118,6 +118,7 @@ class EntryCommentCreateController extends AbstractController
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),
+                'entryLanguage' => $parent?->lang ?? $entry->lang,
             ]
         );
     }

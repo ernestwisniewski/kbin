@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\DTO\PostDto;
 use App\Form\Constraint\ImageConstraint;
+use App\Form\EventListener\DefaultLanguage;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\LanguageTypeSetField;
 use App\Form\EventListener\SetLanguageField;
@@ -22,8 +23,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
 {
-    public function __construct(private readonly ImageListener $imageListener)
-    {
+    public function __construct(
+        private readonly ImageListener $imageListener,
+        private readonly DefaultLanguage $defaultLanguage,
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -46,6 +49,7 @@ class PostType extends AbstractType
             ->add('isAdult', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
+        $builder->addEventSubscriber($this->defaultLanguage); 
         $builder->addEventSubscriber($this->imageListener);
     }
 
