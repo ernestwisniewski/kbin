@@ -31,7 +31,7 @@ class PostCommentType extends AbstractType
     {
         $builder
             ->add('body', TextareaType::class, ['required' => false, 'empty_data' => ''])
-            ->add('lang', LanguageType::class)
+            ->add('lang', LanguageType::class, ['priorityLanguage' => $options['parentLanguage']])
             ->add(
                 'image',
                 FileType::class,
@@ -53,9 +53,11 @@ class PostCommentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'   => PostCommentDto::class,
-                'postLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
+                'data_class'     => PostCommentDto::class,
+                'parentLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
             ]
         );
+
+        $resolver->addAllowedTypes('parentLanguage', 'string');
     }
 }

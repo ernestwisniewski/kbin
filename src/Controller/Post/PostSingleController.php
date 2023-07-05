@@ -84,7 +84,7 @@ class PostSingleController extends AbstractController
                     PostCommentType::class, 
                     $dto,
                     [
-                        'postLanguage' => $post->lang,
+                        'parentLanguage' => $post->lang,
                     ]
                 )->createView(),
             ]

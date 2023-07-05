@@ -31,7 +31,7 @@ class EntryCommentType extends AbstractType
     {
         $builder
             ->add('body', TextareaType::class, ['required' => false, 'empty_data' => ''])
-            ->add('lang', LanguageType::class, ['priorityLanguage' => $options['entryLanguage']])
+            ->add('lang', LanguageType::class, ['priorityLanguage' => $options['parentLanguage']])
             ->add(
                 'image',
                 FileType::class,
@@ -53,11 +53,11 @@ class EntryCommentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'    => EntryCommentDto::class,
-                'entryLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
+                'data_class'     => EntryCommentDto::class,
+                'parentLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
             ]
         );
 
-        $resolver->addAllowedTypes('entryLanguage', 'string');
+        $resolver->addAllowedTypes('parentLanguage', 'string');
     }
 }
