@@ -14,6 +14,7 @@ use App\Entity\PostFavourite;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
@@ -49,7 +50,11 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
+            $criteria->magazine ? new QueryAdapter(
+                $this->getEntryQueryBuilder($criteria),
+                false,
+                false
+            ) : new KbinQueryAdapter(
                 $this->getEntryQueryBuilder($criteria),
                 false,
                 false
@@ -59,9 +64,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
-            if (!$criteria->magazine) {
-                $pagerfanta->setMaxNbPages(5000);
-            }
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -132,14 +134,14 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($criteria->tag) {
-            $qb->andWhere("JSONB_CONTAINS(p.tags, '\"".$criteria->tag."\"') = true");
+            $qb->andWhere("JSONB_CONTAINS(p.tags, '\"" . $criteria->tag . "\"') = true");
         }
 
         if ($criteria->subscribed) {
             $qb->andWhere(
-                'p.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
+                'p.magazine IN (SELECT IDENTITY(ms.magazine) FROM ' . MagazineSubscription::class . ' ms WHERE ms.user = :user) 
                 OR 
-                p.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
+                p.user IN (SELECT IDENTITY(uf.following) FROM ' . UserFollow::class . ' uf WHERE uf.follower = :user)
                 OR
                 p.user = :user'
             );
@@ -148,14 +150,14 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         if ($criteria->moderated) {
             $qb->andWhere(
-                'p.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
+                'p.magazine IN (SELECT IDENTITY(mm.magazine) FROM ' . Moderator::class . ' mm WHERE mm.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->favourite) {
             $qb->andWhere(
-                'p.id IN (SELECT IDENTITY(pf.post) FROM '.PostFavourite::class.' pf WHERE pf.user = :user)'
+                'p.id IN (SELECT IDENTITY(pf.post) FROM ' . PostFavourite::class . ' pf WHERE pf.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
@@ -293,7 +295,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $qb = $this->createQueryBuilder('p');
 
         return $qb
-            ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
+            ->andWhere("JSONB_CONTAINS(p.tags, '\"" . $tag . "\"') = true")
             ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
             ->andWhere('m.name != :name')

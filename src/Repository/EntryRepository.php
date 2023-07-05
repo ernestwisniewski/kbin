@@ -17,6 +17,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
+use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
@@ -53,7 +54,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     public function findByCriteria(EntryPageView|Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
+            $criteria->magazine ? new QueryAdapter(
+                $this->getEntryQueryBuilder($criteria),
+                false,
+                false
+            ) : new KbinQueryAdapter(
                 $this->getEntryQueryBuilder($criteria),
                 false,
                 false
@@ -63,9 +68,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
-            if (!$criteria->magazine) {
-                $pagerfanta->setMaxNbPages(50000);
-            }
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
