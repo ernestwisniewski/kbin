@@ -129,10 +129,10 @@
                 <li class="dropdown">
                     <a class="{{ app.user.avatar ? 'has-avatar' : '' }} {{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                        href="{{ path('user_overview', {username: app.user.username}) }}">
-                       <span class='user-name'>{{ app.user.username }}</span>
                         {% if app.user.avatar %}
                             {{ component('user_image_component', {user: app.user}) }}
                         {% endif %}
+                        <span class='user-name'>{{ app.user.username }}</span>
                     </a>
                     <ul class="dropdown__menu">
                         <li>
