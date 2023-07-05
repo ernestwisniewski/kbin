@@ -57,7 +57,7 @@ class PostType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => PostDto::class
+                'data_class' => PostDto::class,
             ]
         );
     }
