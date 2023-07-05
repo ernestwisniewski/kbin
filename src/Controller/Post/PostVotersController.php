@@ -7,7 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +15,13 @@ use Symfony\UX\TwigComponent\ComponentAttributes;
 
 class PostVotersController extends AbstractController
 {
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    public function __invoke(Magazine $magazine, Post $post, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['post_id' => 'id'])]
+        Post $post,
+        Request $request
+    ): Response {
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse([
                 'html' => $this->renderView('components/voters_inline.html.twig', [

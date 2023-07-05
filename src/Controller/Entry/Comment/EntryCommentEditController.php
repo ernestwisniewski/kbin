@@ -13,12 +13,12 @@ use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use App\Service\EntryCommentManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryCommentEditController extends AbstractController
 {
@@ -30,14 +30,14 @@ class EntryCommentEditController extends AbstractController
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('edit', subject: 'comment')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(mapping: ['entry_id' => 'id'])]
         Entry $entry,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
         EntryComment $comment,
         Request $request,
     ): Response {

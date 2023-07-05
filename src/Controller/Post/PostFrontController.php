@@ -12,10 +12,10 @@ use App\Form\PostType;
 use App\PageView\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\PostRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostFrontController extends AbstractController
 {

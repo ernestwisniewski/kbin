@@ -9,10 +9,10 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Service\EntryCommentManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryCommentDeleteController extends AbstractController
 {
@@ -21,13 +21,17 @@ class EntryCommentDeleteController extends AbstractController
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('delete', subject: 'comment')]
-    public function delete(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        Entry $entry,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        EntryComment $comment,
+        Request $request
+    ): Response {
         $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
 
         $this->manager->delete($this->getUserOrThrow(), $comment);
@@ -35,12 +39,17 @@ class EntryCommentDeleteController extends AbstractController
         return $this->redirectToEntry($entry);
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('delete', subject: 'comment')]
-    public function restore(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
+    public function restore(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        Entry $entry,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        EntryComment $comment,
+        Request $request
+    ): Response
     {
         $this->validateCsrf('entry_comment_restore', $request->request->get('token'));
 
@@ -49,13 +58,17 @@ class EntryCommentDeleteController extends AbstractController
         return $this->redirectToEntry($entry);
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('purge', subject: 'comment')]
-    public function purge(Magazine $magazine, Entry $entry, EntryComment $comment, Request $request): Response
-    {
+    public function purge(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        Entry $entry,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        EntryComment $comment,
+        Request $request
+    ): Response {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
         $this->manager->purge($comment);

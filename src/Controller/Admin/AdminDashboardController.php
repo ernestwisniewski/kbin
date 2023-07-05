@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 use App\Service\InstanceStatsManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminDashboardController extends AbstractController
 {

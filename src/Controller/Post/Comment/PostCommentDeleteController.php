@@ -8,10 +8,10 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\PostComment;
 use App\Service\PostCommentManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostCommentDeleteController extends AbstractController
 {
@@ -19,13 +19,15 @@ class PostCommentDeleteController extends AbstractController
     {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('delete', subject: 'comment')]
-    public function delete(Magazine $magazine, PostComment $comment, Request $request): Response
-    {
+    public function delete(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        PostComment $comment,
+        Request $request
+    ): Response {
         $this->validateCsrf('post_comment_delete', $request->request->get('token'));
 
         $this->manager->delete($this->getUserOrThrow(), $comment);
@@ -33,13 +35,15 @@ class PostCommentDeleteController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('delete', subject: 'comment')]
-    public function restore(Magazine $magazine, PostComment $comment, Request $request): Response
-    {
+    public function restore(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        PostComment $comment,
+        Request $request
+    ): Response {
         $this->validateCsrf('post_comment_restore', $request->request->get('token'));
 
         $this->manager->restore($this->getUserOrThrow(), $comment);
@@ -47,13 +51,15 @@ class PostCommentDeleteController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('purge', subject: 'comment')]
-    public function purge(Magazine $magazine, PostComment $comment, Request $request): Response
-    {
+    public function purge(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        PostComment $comment,
+        Request $request
+    ): Response {
         $this->validateCsrf('post_comment_purge', $request->request->get('token'));
 
         $this->manager->purge($comment);

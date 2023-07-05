@@ -11,12 +11,12 @@ use App\Form\PostType;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Service\PostManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostEditController extends AbstractController
 {
@@ -24,12 +24,12 @@ class PostEditController extends AbstractController
     {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('edit', subject: 'post')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(mapping: ['post_id' => 'id'])]
         Post $post,
         Request $request,
         PostCommentRepository $repository

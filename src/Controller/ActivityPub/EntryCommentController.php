@@ -10,7 +10,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Factory\ActivityPub\EntryCommentNoteFactory;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +23,12 @@ class EntryCommentController extends AbstractController
     {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(mapping: ['entry_id' => 'id'])]
         Entry $entry,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
         EntryComment $comment,
         Request $request
     ): Response {

@@ -8,19 +8,18 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PostCommentFavouriteController extends AbstractController
 {
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[ParamConverter('comment', options: ['mapping' => ['comment_id' => 'id']])]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(mapping: ['post_id' => 'id'])]
         Post $post,
+        #[MapEntity(mapping: ['comment_id' => 'id'])]
         PostComment $comment,
         Request $request,
     ): Response {
