@@ -22,9 +22,9 @@ class PostCommentModerateController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['post_id' => 'id'])]
+        #[MapEntity(id: 'post_id')]
         Post $post,
-        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        #[MapEntity(id: 'comment_id')]
         PostComment $comment,
         Request $request,
     ): Response {

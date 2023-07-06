@@ -25,7 +25,7 @@ class EntryDeleteController extends AbstractController
     public function delete(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
     ): Response {
@@ -46,7 +46,7 @@ class EntryDeleteController extends AbstractController
     public function restore(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
     ): Response {
@@ -62,7 +62,7 @@ class EntryDeleteController extends AbstractController
     public function purge(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
     ): Response

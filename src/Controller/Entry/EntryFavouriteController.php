@@ -16,7 +16,7 @@ class EntryFavouriteController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
     ): Response {

@@ -39,9 +39,9 @@ class PostCommentCreateController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['post_id' => 'id'])]
+        #[MapEntity(id: 'post_id')]
         Post $post,
-        #[MapEntity(mapping: ['parent_comment_id' => 'id'])]
+        #[MapEntity(id: 'parent_comment_id')]
         ?PostComment $parent,
         Request $request,
     ): Response {

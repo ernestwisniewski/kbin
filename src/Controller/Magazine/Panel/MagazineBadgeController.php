@@ -56,7 +56,7 @@ class MagazineBadgeController extends AbstractController
     public function remove(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['badge_id' => 'id'])]
+        #[MapEntity(id: 'badge_id')]
         Badge $badge,
         BadgeManager $manager,
         Request $request

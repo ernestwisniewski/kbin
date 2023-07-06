@@ -24,7 +24,7 @@ class PostCommentDeleteController extends AbstractController
     public function delete(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        #[MapEntity(id: 'comment_id')]
         PostComment $comment,
         Request $request
     ): Response {
@@ -40,7 +40,7 @@ class PostCommentDeleteController extends AbstractController
     public function restore(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        #[MapEntity(id: 'comment_id')]
         PostComment $comment,
         Request $request
     ): Response {
@@ -56,7 +56,7 @@ class PostCommentDeleteController extends AbstractController
     public function purge(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        #[MapEntity(id: 'comment_id')]
         PostComment $comment,
         Request $request
     ): Response {

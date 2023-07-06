@@ -27,9 +27,9 @@ class EntryCommentDeleteImageController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        #[MapEntity(mapping: ['comment_id' => 'id'])]
+        #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
         Request $request
     ): Response {

@@ -38,9 +38,9 @@ class EntryCommentCreateController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        #[MapEntity(mapping: ['parent_comment_id' => 'id'])]
+        #[MapEntity(id: 'parent_comment_id')]
         ?EntryComment $parent,
         Request $request,
     ): Response {

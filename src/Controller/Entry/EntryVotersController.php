@@ -18,7 +18,7 @@ class EntryVotersController extends AbstractController
         string $type,
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['entry_id' => 'id'])]
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
     ): Response {

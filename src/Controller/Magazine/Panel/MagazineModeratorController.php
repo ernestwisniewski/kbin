@@ -54,7 +54,7 @@ class MagazineModeratorController extends AbstractController
     public function remove(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['moderator_id' => 'id'])]
+        #[MapEntity(id: 'moderator_id')]
         Moderator $moderator,
         Request $request
     ): Response

@@ -42,7 +42,7 @@ class MagazineReportController extends AbstractController
     public function reportApprove(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['report_id' => 'id'])]
+        #[MapEntity(id: 'report_id')]
         Report $report,
         ContentManagerFactory $managerFactory,
         Request $request
@@ -62,7 +62,7 @@ class MagazineReportController extends AbstractController
     public function reportReject(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['report_id' => 'id'])]
+        #[MapEntity(id: 'report_id')]
         Report $report,
         ReportManager $manager,
         Request $request

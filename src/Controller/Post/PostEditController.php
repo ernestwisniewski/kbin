@@ -29,7 +29,7 @@ class PostEditController extends AbstractController
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
-        #[MapEntity(mapping: ['post_id' => 'id'])]
+        #[MapEntity(id: 'post_id')]
         Post $post,
         Request $request,
         PostCommentRepository $repository
