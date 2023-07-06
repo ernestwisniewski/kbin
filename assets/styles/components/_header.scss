@@ -76,9 +76,9 @@
 
     .user-avatar{
       border-radius: 50%;
-      margin-left: 0.5em;
-      width: 25px;
-      height: 25px;
+      margin-right: 0.5em;
+      width: 20px;
+      height: 20px;
     }
 
     @include media-breakpoint-down(sm) {   
