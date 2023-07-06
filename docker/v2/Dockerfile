@@ -74,7 +74,6 @@ WORKDIR $KBIN_HOME
 
 # Copy required files
 COPY package.json $KBIN_HOME
-COPY package-lock.json $KBIN_HOME
 COPY yarn.lock $KBIN_HOME
 COPY --from=builder-composer --link $KBIN_HOME/vendor $KBIN_HOME/vendor
 
