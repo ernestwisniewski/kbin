@@ -21,8 +21,8 @@ class MagazineListController extends AbstractController
     public function __invoke(?string $sortBy, ?string $view, MagazineRepository $repository, Request $request): Response
     {
 
-        if ($q = $request->get('q')) {
-            $magazines = $this->searchManager->findMagazinesPaginated($q);
+        if ($q = $request->query->get('q')) {
+            $magazines = $this->searchManager->findMagazinesPaginated($q, $request->query->getInt('p', 1));
         } else {
             $magazines = $repository->findAllPaginated($this->getPageNb($request), (new MagazinePageView(1))->resolveSort($sortBy));
         }
