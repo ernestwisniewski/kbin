@@ -3,7 +3,7 @@ FROM php:8.2-fpm-alpine as base
 
 # Install php extensions, by docker-php-extension-installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions amqp pgsql pdo_pgsql gd curl simplexml dom xml redis intl
+RUN install-php-extensions amqp pgsql pdo_pgsql gd curl simplexml dom xml redis intl opcache apcu
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -74,7 +74,6 @@ WORKDIR $KBIN_HOME
 
 # Copy required files
 COPY package.json $KBIN_HOME
-COPY package-lock.json $KBIN_HOME
 COPY yarn.lock $KBIN_HOME
 COPY --from=builder-composer --link $KBIN_HOME/vendor $KBIN_HOME/vendor
 
