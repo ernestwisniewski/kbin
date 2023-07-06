@@ -12,6 +12,7 @@ use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,6 +177,7 @@ class EntryFrontController extends AbstractController
     }
 
     public function magazine(
+        #[MapEntity(expr: 'repository.findOneByName(name)')]
         Magazine $magazine,
         ?string $sortBy,
         ?string $time,
