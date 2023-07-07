@@ -45,7 +45,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
-                'form' => $this->createForm(PostType::class)->createView(),
+                'form' => $this->createForm(PostType::class)->setData(new PostDto())->createView(),
             ]
         );
     }
@@ -78,7 +78,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
-                'form' => $this->createForm(PostType::class)->createView(),
+                'form' => $this->createForm(PostType::class)->setData(new PostDto())->createView(),
             ]
         );
     }
@@ -111,7 +111,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
-                'form' => $this->createForm(PostType::class)->createView(),
+                'form' => $this->createForm(PostType::class)->setData(new PostDto())->createView(),
             ]
         );
     }
@@ -144,7 +144,7 @@ class PostFrontController extends AbstractController
             'post/front.html.twig',
             [
                 'posts' => $posts,
-                'form' => $this->createForm(PostType::class)->createView(),
+                'form' => $this->createForm(PostType::class)->setData(new PostDto())->createView(),
             ]
         );
     }

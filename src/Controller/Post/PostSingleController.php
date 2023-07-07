@@ -80,7 +80,13 @@ class PostSingleController extends AbstractController
                 'magazine' => $magazine,
                 'post' => $post,
                 'comments' => $comments,
-                'form' => $this->createForm(PostCommentType::class, $dto)->createView(),
+                'form' => $this->createForm(
+                    PostCommentType::class, 
+                    $dto,
+                    [
+                        'parentLanguage' => $post->lang,
+                    ]
+                )->createView(),
             ]
         );
     }
