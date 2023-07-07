@@ -21,7 +21,9 @@ class ModeratorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user')
+            ->add('user', options: [
+                'attr' => ['autocomplete' => 'new-password']
+            ])
             ->add('submit', SubmitType::class);
 
         $builder->get('user')->addModelTransformer(
