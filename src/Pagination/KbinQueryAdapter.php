@@ -4,16 +4,17 @@ namespace App\Pagination;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class KbinQueryAdapter extends QueryAdapter
 {
-    private int $count;
-
-    public function __construct(Query|QueryBuilder $query, bool $fetchJoinCollection = true, ?bool $useOutputWalkers = null, int $count = 0)
-    {
-        $this->count = $count;
-
+    public function __construct(
+        Query|QueryBuilder $query,
+        bool $fetchJoinCollection = true,
+        ?bool $useOutputWalkers = null,
+        private ?CacheInterface $cache = null,
+    ) {
         parent::__construct($query, $fetchJoinCollection, $useOutputWalkers);
     }
 
@@ -22,6 +23,20 @@ class KbinQueryAdapter extends QueryAdapter
      */
     public function getNbResults(): int
     {
-        return $this->count;
+        if (null === $this->cache) {
+            return \count($this->paginator);
+        }
+
+        $values = $this->paginator->getQuery()->getParameters()->map(function ($val) {
+            return $val->getValue();
+        });
+
+        $key = md5($this->paginator->getQuery()->getDQL()).md5(json_encode($values->toArray()));
+
+        return $this->cache->get(('pagination_count_'.$key), function (ItemInterface $item) {
+            $item->expiresAfter(60);
+
+            return \count($this->paginator);
+        });
     }
 }

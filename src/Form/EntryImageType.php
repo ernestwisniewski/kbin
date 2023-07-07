@@ -7,6 +7,7 @@ namespace App\Form;
 use App\DTO\EntryDto;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
+use App\Form\EventListener\DefaultLanguage;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\EventListener\RemoveFieldsOnEntryImageEdit;
@@ -27,6 +28,9 @@ class EntryImageType extends AbstractType
 {
     public function __construct(
         private readonly ImageListener $imageListener,
+        private readonly DefaultLanguage $defaultLanguage,
+        private readonly DisableFieldsOnEntryEdit $disableFieldsOnEntryEdit,
+        private readonly RemoveFieldsOnEntryImageEdit $removeFieldsOnEntryImageEdit,
     ) {
     }
 
@@ -77,8 +81,10 @@ class EntryImageType extends AbstractType
         $builder->get('tags')->addModelTransformer(
             new TagTransformer()
         );
-        $builder->addEventSubscriber(new RemoveFieldsOnEntryImageEdit());
-        $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
+
+        $builder->addEventSubscriber($this->defaultLanguage);
+        $builder->addEventSubscriber($this->removeFieldsOnEntryImageEdit);
+        $builder->addEventSubscriber($this->disableFieldsOnEntryEdit);
         $builder->addEventSubscriber($this->imageListener);
     }
 

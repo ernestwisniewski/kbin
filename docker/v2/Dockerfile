@@ -3,7 +3,7 @@ FROM php:8.2-fpm-alpine as base
 
 # Install php extensions, by docker-php-extension-installer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions amqp pgsql pdo_pgsql gd curl simplexml dom xml redis intl
+RUN install-php-extensions amqp pgsql pdo_pgsql gd curl simplexml dom xml redis intl opcache apcu
 
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -39,10 +39,11 @@ RUN chown -R $USER:$GROUP /usr/local/etc/php-fpm.d
 
 FROM caddy:2.7-builder-alpine AS builder-caddy
 
-# Build Caddy with the Mercure and Vulcain modules
+# Build Caddy with the Mercure and Vulcain and brotil cache modules
 RUN xcaddy build v2.6.4 \
 	--with github.com/dunglas/mercure/caddy \
-	--with github.com/dunglas/vulcain/caddy
+	--with github.com/dunglas/vulcain/caddy \
+	--with github.com/ueffel/caddy-brotli
 
 ####################
 
@@ -74,7 +75,6 @@ WORKDIR $KBIN_HOME
 
 # Copy required files
 COPY package.json $KBIN_HOME
-COPY package-lock.json $KBIN_HOME
 COPY yarn.lock $KBIN_HOME
 COPY --from=builder-composer --link $KBIN_HOME/vendor $KBIN_HOME/vendor
 

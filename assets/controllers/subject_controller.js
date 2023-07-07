@@ -20,14 +20,16 @@ export default class extends Controller {
         GLightbox(params);
 
         const self = this;
-        this.moreTarget.addEventListener('focusin', () => {
-            self.element.parentNode
-                .querySelectorAll('.z-5')
-                .forEach((el) => {
-                    el.classList.remove('z-5');
-                });
-            this.element.classList.add('z-5');
-        });
+        if (this.hasMoreTarget) {
+            this.moreTarget.addEventListener('focusin', () => {
+                self.element.parentNode
+                    .querySelectorAll('.z-5')
+                    .forEach((el) => {
+                        el.classList.remove('z-5');
+                    });
+                this.element.classList.add('z-5');
+            });
+        }
 
         if (this.element.classList.contains('show-preview')) {
             useIntersection(this)

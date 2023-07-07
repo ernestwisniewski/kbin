@@ -29,6 +29,32 @@
   
   }
 
+  &__layout{
+    li{
+      button{
+        border-bottom-left-radius: 0px!important;
+        border-bottom-right-radius: 0px!important;
+      }
+    }
+  }
+
+  &__filters{
+
+    li:first-of-type{
+      button{
+        border-bottom-left-radius: 0px!important;
+        border-bottom-right-radius: 0px!important;
+      }
+    }
+    li:last-of-type{
+      button{
+        border-bottom-left-radius: 0px!important;
+      }  
+    }
+    
+  }
+
+
   &--top {
     border-top: 0;
   }

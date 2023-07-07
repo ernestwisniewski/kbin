@@ -110,14 +110,15 @@ class EntryCommentCreateController extends AbstractController
             EntryCommentType::class,
             $dto,
             [
-                'action' => $this->generateUrl(
+                'action'         => $this->generateUrl(
                     'entry_comment_create',
                     [
-                        'magazine_name' => $entry->magazine->name,
-                        'entry_id' => $entry->getId(),
+                        'magazine_name'     => $entry->magazine->name,
+                        'entry_id'          => $entry->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),
+                'parentLanguage' => $parent?->lang ?? $entry->lang,
             ]
         );
     }
