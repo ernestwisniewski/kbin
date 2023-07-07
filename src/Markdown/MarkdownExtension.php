@@ -37,6 +37,7 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
             'renderer' => [
                 'soft_break' => "<br>\r\n",
             ],
+            'html_input' => 'escape'
         ]);
     }
 
