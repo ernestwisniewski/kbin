@@ -60,6 +60,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
                 $this->getEntryQueryBuilder($criteria),
                 false,
                 false,
+                $this->cache
             )
         );
 
