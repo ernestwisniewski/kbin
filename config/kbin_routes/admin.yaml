@@ -1,8 +1,3 @@
-admin_dashboard:
-  controller: App\Controller\Admin\AdminDashboardController
-  path: /admin
-  methods: [ GET ]
-
 admin_users:
   controller: App\Controller\Admin\AdminUserController
   path: /admin/users
@@ -28,3 +23,8 @@ admin_cc:
   path: /admin/cc
   methods: [ GET ]
 
+admin_dashboard:
+  controller: App\Controller\Admin\AdminDashboardController
+  path: /admin/{statsPeriod}/{withFederated}
+  defaults: { statsType: content, statsPeriod: -1, withFederated: false }
+  methods: [ GET ]

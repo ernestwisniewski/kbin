@@ -15,8 +15,26 @@ class AdminDashboardController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function __invoke()
+    public function __invoke(?int $statsPeriod, ?bool $withFederated)
     {
-        return $this->render('admin/dashboard.html.twig', $this->counter->count('-24 hours'));
+        if (!$statsPeriod) {
+            $statsPeriod = -1;
+        }
+
+        if (-1 === $statsPeriod) {
+            $statsPeriod = null;
+        }
+
+        if ($statsPeriod) {
+            $statsPeriod = min($statsPeriod, 365);
+        }
+        if ($withFederated === null) {
+            $withFederated = false;
+        }
+
+        return $this->render('admin/dashboard.html.twig', [
+                'period' => $statsPeriod,
+                'withFederated' => $withFederated,
+            ] + $this->counter->count($statsPeriod ? "-$statsPeriod days" : null, $withFederated));
     }
 }

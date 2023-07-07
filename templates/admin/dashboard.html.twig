@@ -15,18 +15,8 @@
 {% block body %}
     {% include 'admin/_options.html.twig' %}
     <div class="section">
-        <div class="flex">
-            <label class="select">
-                <select onchange="location = this.value;">
-                    <option value="">24h</option>
-                </select>
-            </label>
-            <label class="select mb-2">
-                <select>
-                    <option value="#">{{ 'federated'|trans|lower }}</option>
-                    <option value="#" disabled>{{ 'local'|trans|lower }}</option>
-                </select>
-            </label>
+        <div class="flex" style="margin-bottom: 1rem;">
+            {% include 'stats/_filters.html.twig' %}
         </div>
         <div class="stats-count">
             <div>
