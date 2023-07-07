@@ -23,13 +23,17 @@ class KbinQueryAdapter extends QueryAdapter
      */
     public function getNbResults(): int
     {
-        if(null === $this->cache)  {
+        if (null === $this->cache) {
             return \count($this->paginator);
         }
 
-        $query = $this->paginator->getQuery()->getDQL();
+        $values = $this->paginator->getQuery()->getParameters()->map(function ($val) {
+            return $val->getValue();
+        });
 
-        return $this->cache->get(('pagination_count_'.md5($query)), function (ItemInterface $item) {
+        $key = md5($this->paginator->getQuery()->getDQL()).md5(json_encode($values->toArray()));
+
+        return $this->cache->get(('pagination_count_'.$key), function (ItemInterface $item) {
             $item->expiresAfter(60);
 
             return \count($this->paginator);
