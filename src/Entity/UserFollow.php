@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -17,6 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: 'App\Repository\UserFollowRepository')]
 #[Table]
 #[UniqueConstraint(name: 'user_follows_idx', columns: ['follower_id', 'following_id'])]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class UserFollow
 {
     use CreatedAtTrait {

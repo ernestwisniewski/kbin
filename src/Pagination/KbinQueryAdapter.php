@@ -20,8 +20,8 @@ class KbinQueryAdapter extends QueryAdapter
     /**
      * @phpstan-return int<0, max>
      */
-    public function getNbResults(): int
-    {
-        return $this->count;
-    }
+//    public function getNbResults(): int
+//    {
+//        return $this->count;
+//    }
 }
