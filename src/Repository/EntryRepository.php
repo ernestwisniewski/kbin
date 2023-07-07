@@ -65,7 +65,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
                 $this->getEntryQueryBuilder($criteria),
                 false,
                 false,
-                $this->countAll($criteria)
             )
         );
 
