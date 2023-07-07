@@ -17,17 +17,14 @@ class AdminDashboardController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function __invoke(?int $statsPeriod, ?bool $withFederated)
     {
-        if (!$statsPeriod) {
-            $statsPeriod = -1;
-        }
-
-        if (-1 === $statsPeriod) {
+        if (!$statsPeriod or -1 === $statsPeriod) {
             $statsPeriod = null;
         }
 
         if ($statsPeriod) {
             $statsPeriod = min($statsPeriod, 365);
         }
+
         if ($withFederated === null) {
             $withFederated = false;
         }
