@@ -5,11 +5,11 @@
   font-size: .85rem;
   position: relative;
   z-index: 10;
+  height: 3.25rem;
+  line-height: normal;
 
   #logo {
-    height: 1.7rem;
-    position: relative;
-    top: 3px;
+    height: 1.75rem;
   }
 
   .dropdown:focus-within,
@@ -36,8 +36,8 @@
     display: grid;
     grid-template-areas: 'sr-nav brand magazine nav menu';
     grid-template-columns: min-content max-content max-content auto max-content;
-    padding: 0 .55rem 0 0.55rem;
     position: relative;
+    height: 100%;
   }
 
   .fixed-navbar & {
@@ -46,13 +46,17 @@
   }
 
   .topbar & {
-    padding-top: 1.14rem;
+    padding-top: 1.25rem;
+    height: 4.5rem;
   }
 
   .login,
   .counter a {
     font-weight: normal;
-    padding-bottom: .6rem;
+  }
+
+  .user-name {
+    height: 1.25rem;
   }
 
   .login{
@@ -60,11 +64,15 @@
     @include media-breakpoint-down(sm) {   
       
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100px;
-      padding-left: 5px;
-      padding-right: 5px;
+      max-width: 6.25rem;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      margin-right: .5rem;
+
+      .user-name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
 
     }
 
@@ -73,24 +81,18 @@
   .login.has-avatar{
     display: flex;
     align-items: center;
+    gap: .3rem;
 
-    .user-avatar{
+    .user-avatar {
       border-radius: 50%;
-      margin-right: 0.5em;
-      width: 20px;
-      height: 20px;
+      height: 1.5625rem;
+      width: 1.5625rem;
     }
 
     @include media-breakpoint-down(sm) {   
-      padding-left: 5px;
-      padding-right: 5px;
 
-      .user-name{
+      .user-name {
         display: none;
-      }
-
-      .user-avatar{
-        margin-left: 0px;
       }
     }
 
@@ -120,10 +122,9 @@
   }
 
   menu {
-    align-items: center;
-    display: grid;
     grid-area: menu;
-    grid-auto-flow: column;
+    display: flex;
+    align-items: center;
     list-style: none;
 
     .sidebar-link {
@@ -134,11 +135,20 @@
       font-size: .85rem;
     }
 
+    li {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+
     li a {
       border-bottom: 3px solid transparent;
-      display: block;
-      padding: 1rem 1rem .7rem;
-
+      padding: 3px 1rem 0px 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 3rem;
+      height: 100%;
     }
 
     li a:hover {
@@ -152,7 +162,6 @@
 
     .magazine {
       align-self: center;
-      grid-area: magazine;
       margin-left: 1rem;
       padding-top: .2rem;
 
@@ -197,164 +206,105 @@
   }
 
   .brand {
-    align-self: center;
-    font-size: 1.5rem;
-    font-weight: 400;
-    grid-area: brand;
-    margin-right: 0.5rem;
-    text-decoration: none;
     display: flex;
+    font-weight: 400;
+    text-decoration: none;
+    height: 100%;
 
     div {
       display: none;
       font-size: .9rem;
-      margin-right: 0.75rem;
-      position: relative;
       cursor: pointer;
     }
 
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+      height: 100%;
+
+      span {
+        font-size: clamp(.6875rem,3.5vw,1.5rem);
+        }
+    }
+
     @include media-breakpoint-down(sm) {
-      a {
-        font-size: 1.0rem;
-      }
       div {
-        top: 0px;
+        min-width: 2.5rem;
       }
     }
 
     @include media-breakpoint-down(lg) {
 
-      align-items: center;
-
       a {
-        align-items: center;
-        display: flex;
         gap: .5rem;
-        justify-content: center;
-        position: relative;
+        padding: 0;
 
         span {
-          top: -5px;
+          line-height: normal;
         }
       }
 
       #logo {
-        height: 2rem;
+        height: 1.5rem;
       }
 
       div {
-        display: inline-block;  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 3rem;
+        height: 100%;
       }
     }
-  }
-}
-
-.head-title {
-  align-items: center;
-  display: flex;
-
-  span {
-    font-weight: lighter;
-    font-size: .75rem;
-  }
-
-  a {
-    padding-left: 0 !important;
-
-    &:hover {
-      border-bottom-color: transparent !important;
-    }
-  }
-}
-
-@include media-breakpoint-down(lg) {
-
-  .head-nav {
-    position: relative;
-
-    #logo {
-      padding-bottom: .438rem;
-    }
-
-    menu {
-      grid-auto-flow: row !important;
-    }
-
-    &__menu {
-      background-color: var(--kbin-section-bg);
-      border: var(--kbin-section-border);
-      box-shadow: var(--kbin-shadow);
-      left: 8rem;
-      margin-bottom: 0;
-      margin-top: 0;
-      min-width: 15rem;
-      opacity: 1;
-      padding: .5rem 0;
-      position: absolute;
-      top: calc(100% - 0.25rem);
-      transform: rotateX(-90deg) translateX(-50%);
-      transform-origin: top center;
-      visibility: hidden;
-      z-index: 100;
-
-      .sidebar-link {
-        display: block !important;
-      }
-
-      li {
-        list-style: none;
-        padding: 0;
-      }
-
-      a, button {
-        color: var(--kbin-meta-link-color) !important;
-        font-weight: normal !important;
-        border: 0 !important;
-        display: block !important;
-        padding: .5rem 1rem !important;
-        text-decoration: none;
-        width: 100%;
-        text-align: left;
-
-        &:hover {
-          color: var(--kbin-meta-link-hover-color) !important;
-          background: var(--kbin-bg) !important;
-        }
-
-        &.active {
-          font-weight: bold !important;
-        }
-      }
-    }
-
-    //&:hover,
-    //&:focus-within {
-    //  .head-nav__menu {
-    //    opacity: 1;
-    //    transform: rotateX(0) translateX(-50%);
-    //    visibility: visible;
-    //  }
-    //}
   }
 
   .head-title {
-    color: var(--kbin-meta-text-color);
+    align-items: center;
+    display: flex;
+    height: 100%;
 
     span {
-      padding-left: 1rem;
+      font-weight: lighter;
+      font-size: .75rem;
     }
 
     a {
-      padding-left: 0 !important;
-      font-weight: bold !important;
+      padding-left: 0;
+  
+      &:hover {
+        border-bottom-color: transparent;
+      }
+    }
+
+    @include media-breakpoint-down(lg) {
+      color: var(--kbin-meta-text-color);
+
+      span {
+        padding-left: 1rem;
+      }
+
+      a {
+        padding-left: 0;
+        font-weight: bold;
+      }
     }
   }
-}
-
-@include media-breakpoint-up(lg) {
   .head-nav {
-    li a.active {
-      background: var(--kbin-header-link-active-bg);
+
+    @include media-breakpoint-down(lg) {
+
+      &__menu {
+        display: none;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+
+      li a.active {
+        background: var(--kbin-header-link-active-bg);
+      }
     }
   }
 }
