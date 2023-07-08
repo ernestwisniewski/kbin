@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'kbin_bot'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-bot{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'kbin_bot'|trans }}</h1>
+    <div id="content" class="section">
+        {{- 'bot_body_content'|trans }}
+    </div>
+{% endblock %}
