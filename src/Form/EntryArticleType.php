@@ -7,12 +7,12 @@ namespace App\Form;
 use App\DTO\EntryDto;
 use App\Form\Constraint\ImageConstraint;
 use App\Form\DataTransformer\TagTransformer;
+use App\Form\EventListener\DefaultLanguage;
 use App\Form\EventListener\DisableFieldsOnEntryEdit;
 use App\Form\EventListener\ImageListener;
 use App\Form\Type\BadgesType;
 use App\Form\Type\LanguageType;
 use App\Form\Type\MagazineAutocompleteType;
-use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -27,7 +27,8 @@ class EntryArticleType extends AbstractType
 {
     public function __construct(
         private readonly ImageListener $imageListener,
-        private readonly SettingsManager $settingsManager
+        private readonly DefaultLanguage $defaultLanguage,
+        private readonly DisableFieldsOnEntryEdit $disableFieldsOnEntryEdit,
     ) {
     }
 
@@ -80,7 +81,9 @@ class EntryArticleType extends AbstractType
         $builder->get('tags')->addModelTransformer(
             new TagTransformer()
         );
-        $builder->addEventSubscriber(new DisableFieldsOnEntryEdit());
+
+        $builder->addEventSubscriber($this->defaultLanguage);
+        $builder->addEventSubscriber($this->disableFieldsOnEntryEdit);
         $builder->addEventSubscriber($this->imageListener);
     }
 

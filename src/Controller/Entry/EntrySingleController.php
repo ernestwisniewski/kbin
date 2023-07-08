@@ -77,15 +77,16 @@ class EntrySingleController extends AbstractController
             [
                 'magazine' => $magazine,
                 'comments' => $comments,
-                'entry' => $entry,
-                'form' => $this->createForm(EntryCommentType::class, $dto, [
-                    'action' => $this->generateUrl(
+                'entry'    => $entry,
+                'form'     => $this->createForm(EntryCommentType::class, $dto, [
+                    'action'         => $this->generateUrl(
                         'entry_comment_create',
                         [
                             'magazine_name' => $entry->magazine->name,
-                            'entry_id' => $entry->getId(),
+                            'entry_id'      => $entry->getId(),
                         ]
                     ),
+                    'parentLanguage' => $entry->lang,
                 ])->createView(),
             ]
         );

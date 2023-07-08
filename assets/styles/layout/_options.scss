@@ -29,6 +29,15 @@
   
   }
 
+ &__layout{
+    li{
+      button{
+        border-bottom-left-radius: 0px!important;
+        border-bottom-right-radius: 0px!important;
+      }
+    }
+  }
+
   .scroll {
     position: static;
     align-self: center;
@@ -46,8 +55,21 @@
       &:hover,
       &:active{
         color: var(--kbin-button-secondary-text-hover-color);
+
+  &__filters{
+
+    li:first-of-type{
+      button{
+        border-bottom-left-radius: 0px!important;
+        border-bottom-right-radius: 0px!important;
       }
     }
+    li:last-of-type{
+      button{
+        border-bottom-left-radius: 0px!important;
+      }  
+    }
+    
   }
 
   &--top {
