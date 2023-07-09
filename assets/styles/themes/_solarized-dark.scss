@@ -34,17 +34,6 @@ $green: #859900;
     }
   }
 
-  .ts-dropdown {
-    background: var(--kbin-input-bg);
-    border-color: #373737;
-    color: var(--kbin-meta-text-color);
-
-    .active {
-      background: var(--kbin-options-bg);
-      color: var(--kbin-meta-text-color);
-    }
-  }
-
   .entry__domain,
   .entry__domain a {
     color: $yellow !important;

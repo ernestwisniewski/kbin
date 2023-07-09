@@ -1,11 +1,8 @@
 .theme--tokyo-night {
     .ts-dropdown {
-        background: var(--kbin-input-bg);
-        border-color: var(--kbin-main-border-color);
         color: var(--kbin-meta-text-color);
 
         .active {
-            background: var(--kbin-options-bg);
             color: var(--kbin-meta-text-color);
         }
     }

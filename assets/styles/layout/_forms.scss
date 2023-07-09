@@ -120,7 +120,6 @@ form {
   .clear-button {
     color: var(--kbin-meta-text-color);
     font-size: 1.5rem;
-    top: 1.2rem;
   }
 
   .ts-control {
@@ -133,6 +132,12 @@ form {
     padding: 1rem .5rem;
     width: 100%;
     line-height: normal;
+
+    input {
+      color: var(--kbin-input-text-color);
+      width: auto;
+      min-width: 8rem;
+    }
 
     & > * {
       font-size: .85rem;
@@ -151,10 +156,29 @@ form {
   .ts-dropdown {
     font-size: .85rem;
     line-height: normal;
+    margin: -1px 0 0;
+    border: var(--kbin-input-border);
+    border-top: 0;
+    background: var(--kbin-input-bg);
+    color: var(--kbin-meta-text-color);
+    box-shadow: var(--kbin-shadow);
+    overflow: clip;
+
+    .active {
+      color: var(--kbin-meta-text-color);
+    }
+    
+    &.single .active {
+      background: var(--kbin-options-bg);
+    }
+
+    &.multi .active {
+      background-color: var(--kbin-input-bg);
+    }
   }
 
-  .ts-control > input {
-    width: auto;
+  &.multi.has-items .ts-control {
+    padding: .5rem;
   }
 }
 
@@ -184,10 +208,6 @@ form {
 
   .ts-control {
     padding: .5rem;
-
-    .clear-button {
-      top: .75rem;
-    }
   }
 
   .ts-wrapper {
