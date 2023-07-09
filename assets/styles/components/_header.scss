@@ -38,6 +38,12 @@
     grid-template-columns: min-content max-content max-content auto max-content;
     position: relative;
     height: 100%;
+
+    & > menu {
+      @include media-breakpoint-down(lg) {
+        margin-right: .5rem;
+      }
+    }
   }
 
   .fixed-navbar & {
@@ -67,7 +73,6 @@
       max-width: 6.25rem;
       padding-left: .5rem;
       padding-right: .5rem;
-      margin-right: .5rem;
 
       .user-name {
         text-overflow: ellipsis;
@@ -99,13 +104,17 @@
   }
 
   .counter a {
-    padding-left: .1rem;
-    padding-right: .1rem;
+    padding-left: .125rem;
+    padding-right: .125rem;
+    min-width: unset;
   }
 
   .badge {
-    opacity: .8;
-    padding: .1rem .4em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 1.5625rem;
+    min-width: 1.5625rem;
   }
 
   a {
