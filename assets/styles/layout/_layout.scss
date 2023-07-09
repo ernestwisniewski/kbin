@@ -168,7 +168,8 @@ figure {
   .no-image-placeholder,
   .pagination__item,
   .no-avatar,
-  code {
+  code,
+  .ts-control > [data-value].item {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
