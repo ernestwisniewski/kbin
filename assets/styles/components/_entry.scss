@@ -221,6 +221,7 @@
     flex-wrap: wrap;
     grid-area: title;
     margin: var(--kbin-entry-element-spacing);
+    overflow-wrap: break-word;
 
     h2, h1 {
       font-size: 1.1rem;
