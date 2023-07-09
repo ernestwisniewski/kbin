@@ -210,6 +210,7 @@
     justify-content: center;
     margin-bottom: 2rem;
     align-items: flex-end;
+    flex-flow: row wrap;
 
     &:last-of-type {
       margin-bottom: 0;
@@ -217,8 +218,8 @@
 
     .theme {
       border: var(--kbin-avatar-border);
-      height: 25px;
-      width: 25px;
+      height: 1.5625rem;
+      width: 1.5625rem;
 
       &.light {
         background: #fafafa;

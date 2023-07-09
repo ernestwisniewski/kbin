@@ -132,6 +132,11 @@ form {
     display: block;
     padding: 1rem .5rem;
     width: 100%;
+    line-height: normal;
+
+    & > * {
+      font-size: .85rem;
+    }
   }
 
   &.single.input-active .ts-control input {
@@ -141,6 +146,11 @@ form {
 
   &.single .ts-control, .ts-dropdown.single {
     border: var(--kbin-input-border);
+  }
+  
+  .ts-dropdown {
+    font-size: .85rem;
+    line-height: normal;
   }
 
   .ts-control > input {
@@ -173,7 +183,7 @@ form {
   }
 
   .ts-control {
-    padding: 8px;
+    padding: .5rem;
 
     .clear-button {
       top: .75rem;
@@ -196,6 +206,7 @@ select {
   padding: 0.65rem;
   border-radius: 0;
   cursor: pointer;
+  font-size: .85rem;
 }
 
 .actions {
