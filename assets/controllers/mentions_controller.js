@@ -1,6 +1,6 @@
-import {Controller} from '@hotwired/stimulus';
+import { Controller } from '@hotwired/stimulus';
 import router from "../utils/routing";
-import {fetch, ok} from "../utils/http";
+import { fetch, ok } from "../utils/http";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -30,21 +30,20 @@ export default class extends Controller {
 
         //create a setTimeout callback to be executed when the user has hovered over the target for a set amount of time
         this.userPopupTimeout = setTimeout(this.trigger_user_popup, this.userPopupTimeoutDelay, event);
-        
     }
 
     /**
      * Called on mouseout, cancel the UI popup as the user has moved off the element
      * @param {*} event 
      */
-    async user_popup_out(event){
+    async user_popup_out(event) {
         clearTimeout(this.userPopupTimeout);
     }
 
     /**
      * Called when the user popup should open
      */
-    async trigger_user_popup(event){
+    async trigger_user_popup(event) {
 
         try {
             let param = event.params.username;
@@ -53,7 +52,7 @@ export default class extends Controller {
                 param = param.substring(1);
             }
             const username = param.includes('@') ? `@${param}` : param;
-            const url = router().generate('ajax_fetch_user_popup', {username: username});
+            const url = router().generate('ajax_fetch_user_popup', { username: username });
 
             this.loadingValue = true;
 
