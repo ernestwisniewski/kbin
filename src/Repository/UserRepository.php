@@ -233,7 +233,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             $builder->where('u.apId IS NULL');
         } else {
             $builder->where('u.apId IS NOT NULL');
-            $builder->orderBy('u.apId', 'DESC');
         }
         $query = $builder
             ->orderBy('u.createdAt', 'ASC')
