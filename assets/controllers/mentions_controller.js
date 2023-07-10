@@ -1,20 +1,50 @@
 import {Controller} from '@hotwired/stimulus';
-import {useDebounce} from 'stimulus-use';
 import router from "../utils/routing";
 import {fetch, ok} from "../utils/http";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static debounces = ['user_popup']
+    //static debounces = ['user_popup']
 
-    connect() {
-        useDebounce(this, {wait: 800});
-    }
+    /**
+     * Instance of setTimeout to be used for the display of the popup. This is cleared if the user 
+     * exits the target before the delay is reached
+     */
+    userPopupTimeout;
 
+    /**
+     * Delay to wait until the popup is displayed
+     */
+    userPopupTimeoutDelay = 1000;
+
+    /**
+     * Called on mouseover
+     * @param {*} event 
+     * @returns 
+     */
     async user_popup(event) {
+
         if (false === event.target.matches(':hover')) {
             return;
         }
+
+        //create a setTimeout callback to be executed when the user has hovered over the target for a set amount of time
+        this.userPopupTimeout = setTimeout(this.trigger_user_popup, this.userPopupTimeoutDelay, event);
+        
+    }
+
+    /**
+     * Called on mouseout, cancel the UI popup as the user has moved off the element
+     * @param {*} event 
+     */
+    async user_popup_out(event){
+        clearTimeout(this.userPopupTimeout);
+    }
+
+    /**
+     * Called when the user popup should open
+     */
+    async trigger_user_popup(event){
 
         try {
             let param = event.params.username;
