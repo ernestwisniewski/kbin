@@ -231,9 +231,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $builder = $this->createQueryBuilder('u');
         if ($onlyLocal) {
             $builder->where('u.apId IS NULL');
+        } else {
+            $builder->where('u.apId IS NOT NULL');
+            $builder->orderBy('u.apId', 'DESC');
         }
         $query = $builder
-            ->orderBy('u.apId', 'DESC')
             ->orderBy('u.createdAt', 'ASC')
             ->getQuery();
 
