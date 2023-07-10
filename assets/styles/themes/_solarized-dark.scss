@@ -16,29 +16,6 @@ $cyan: #2aa198;
 $green: #859900;
 
 .theme--solarized-dark {
-  #middle {
-    margin-top: 1rem;
-  }
-
-  .options--top, .section--top {
-    border: var(--kbin-options-border) !important;
-  }
-
-  &.rounded-edges {
-    .section--top, .options--top {
-      border-radius: .5rem !important;
-    }
-
-    .head-nav__menu li a {
-      border-radius: 0 0 .5rem .5rem;
-    }
-  }
-
-  .entry__domain,
-  .entry__domain a {
-    color: $yellow !important;
-  }
-
   --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --kbin-body-font-size: 1rem;
   --kbin-body-font-weight: 400;
@@ -155,4 +132,26 @@ $green: #859900;
   --kbin-footer-text-color: var(--kbin-text-color);
   --kbin-footer-link-color: var(--kbin-link-color);
   --kbin-footer-link-hover-color: var(--kbin-link-hover-color);
+
+  .options--top, 
+  .section--top {
+    border-top: var(--kbin-options-border) !important;
+    margin-top: 0.5rem !important;
+  }
+
+  &.rounded-edges {
+    .section--top,
+    .options--top {
+      border-radius: .5rem !important;
+    }
+
+    .head-nav__menu li a {
+      border-radius: 0 0 .5rem .5rem;
+    }
+  }
+
+  .entry__domain,
+  .entry__domain a {
+    color: $yellow !important;
+  }
 }
