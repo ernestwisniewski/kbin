@@ -15,7 +15,7 @@ export default class extends Controller {
     /**
      * Delay to wait until the popup is displayed
      */
-    userPopupTimeoutDelay = 1000;
+    userPopupTimeoutDelay = 1200;
 
     /**
      * Called on mouseover
