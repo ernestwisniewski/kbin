@@ -4,8 +4,7 @@ import { fetch, ok } from "../utils/http";
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    //static debounces = ['user_popup']
-
+    
     /**
      * Instance of setTimeout to be used for the display of the popup. This is cleared if the user 
      * exits the target before the delay is reached
