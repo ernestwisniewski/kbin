@@ -55,7 +55,8 @@
         span {
           width: 100%;
           height: 100%;
-          display: inline-block;
+          overflow: hidden;
+          display: block;
           padding: 0.5em 0.25em;
           font-weight: 100;
           color: var(--kbin-button-secondary-text-color);
