@@ -29,6 +29,7 @@
       font-weight: 800 !important;
     }
 
+    /** Enum Settings row **/
     .enum {
       border: var(--kbin-button-primary-border);
       border-radius: 0.5em;
@@ -84,7 +85,7 @@
       }
     }
 
-
+    /** Button Settings row **/
     button {
       background: var(--kbin-button-primary-bg);
       color: var(--kbin-button-primary-text-color);
@@ -98,6 +99,7 @@
       }
     }
 
+    /** Switch Settings row **/
     .switch {
       position: relative;
       display: inline-block;
