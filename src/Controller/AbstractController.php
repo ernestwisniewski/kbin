@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Repository\Criteria;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as BaseAbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -77,6 +79,12 @@ abstract class AbstractController extends BaseAbstractController
     protected function getPageNb(Request $request): int
     {
         return (int) $request->get('p', 1);
+    }
+
+    protected function getValueOfFederationCriteria(Request $request): string
+    {
+        return $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false'
+            ? Criteria::AP_LOCAL : Criteria::AP_ALL;
     }
 
     protected function redirectToEntry(Entry $entry): Response
