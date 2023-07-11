@@ -1,0 +1,170 @@
+.settings-row {
+  display: grid;
+  grid-template-areas: "name value" "description value";
+  grid-template-columns: auto;
+  align-items: center;
+  margin-bottom: 1em;
+
+  .title {
+    margin-right: 1em;
+    grid-area: name;
+
+  }
+
+  .description {
+    grid-area: description;
+    font-size: 0.8em;
+    font-weight: 100;
+    color: var(--kbin-secondary-text-color);
+  }
+
+  .value-container {
+    flex-grow: 1;
+    text-align: right;
+    grid-area: value;
+    margin-left: 1em;
+
+    .link-muted.active {
+      color: var(--kbin-primary);
+      font-weight: 800 !important;
+    }
+
+    .enum {
+      border: var(--kbin-button-primary-border);
+      border-radius: 0.5em;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      align-items: center;
+      text-align: center;
+      background-color: var(--kbin-button-secondary-bg);
+      overflow: hidden;
+      font-size: 0.8em;
+
+      input {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+        overflow: hidden;
+        display: none;
+      }
+
+      .value {
+        cursor: pointer;
+
+        span {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
+          padding: 0.5em 0.25em;
+          font-weight: 100;
+          color: var(--kbin-button-secondary-text-color);
+        }
+
+        &:not(:last-child) span {
+          border-right: var(--kbin-button-primary-border);
+        }
+
+        &:hover {
+          input:checked + span {
+            background: var(--kbin-button-primary-hover-bg);
+            color: var(--kbin-button-primary-hover-text-color);
+          }
+
+          span {
+            background: var(--kbin-button-secondary-hover-bg);
+            color: var(--kbin-button-secondary-hover-text-color);
+          }
+        }
+      }
+
+      input:checked + span {
+        background: var(--kbin-button-primary-bg);
+        color: var(--kbin-button-primary-text-color);
+        font-weight: 800 !important;
+      }
+    }
+
+
+    button {
+      background: var(--kbin-button-primary-bg);
+      color: var(--kbin-button-primary-text-color);
+      border: var(--kbin-button-primary-border);
+      cursor: pointer;
+      font-size: 0.8em;
+
+      &:hover {
+        background: var(--kbin-button-primary-hover-bg);
+        color: var(--kbin-button-primary-hover-text-color);
+      }
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 3em;
+      height: 1.5em;
+      border-radius: .75em;
+      overflow: hidden;
+      border: var(--kbin-button-primary-border);
+
+      input {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+      }
+
+      &:hover {
+        .slider {
+          background-color: var(--kbin-button-secondary-text-hover-color);
+
+          &:before {
+            background-color: var(--kbin-button-primary-text-hover-color);
+            border: .5em solid var(--kbin-button-primary-text-hover-color);
+          }
+        }
+
+        input:checked + .slider {
+          background-color: var(--kbin-button-primary-hover-bg);
+        }
+
+        input:checked + .slider:before {
+          background: var(--kbin-button-primary-hover-bg);
+        }
+      }
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--kbin-button-secondary-text-color);
+      transition: .25s;
+
+      &:before {
+        position: absolute;
+        content: "";
+        height: 100%;
+        width: fit-content;
+        aspect-ratio: 1;
+        left: 0;
+        bottom: 0;
+        background-color: var(--kbin-button-primary-text-color);
+        transition: .25s;
+        border-radius: 0.75em;
+        border: .5em solid var(--kbin-button-primary-text-color);
+      }
+    }
+
+    input:checked + .slider {
+      background-color: var(--kbin-button-primary-bg);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(1.5em);
+      background: var(--kbin-button-primary-bg);
+    }
+  }
+}
