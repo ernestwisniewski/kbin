@@ -60,6 +60,7 @@
           padding: 0.5em 0.25em;
           font-weight: 100;
           color: var(--kbin-button-secondary-text-color);
+          transition: color 0.25s, background-color 0.25s, font-weight 0.25s;
         }
 
         &:not(:last-child) span {
