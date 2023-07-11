@@ -19,15 +19,21 @@
     {% include 'magazine/_options.html.twig' %}
     <div class="section">
         <div class="container">
-            <form method="get">
-                <div class="flex" style="align-items: center">
-                    <input value="{{ q }}" type="text" name="q" class="form-control"
-                           placeholder="{{ 'type_search_term'|trans }}">
-                    <button class="btn btn__primary" type="submit" aria-label="{{ 'search'|trans }}">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </div>
-            </form>
+            {{ form_start(form) }}
+
+            <div class="flex" style="align-items: center">
+                {{ form_widget(form.query) }}
+                <button class="btn btn__primary" type="submit" aria-label="{{ 'search'|trans }}">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <div class="flex">
+                {{ form_widget(form.fields, {attr: {'aria-label': 'filter.fields.label'|trans}}) }}
+                {{ form_widget(form.federation, {attr: {'aria-label': 'filter.origin.label'|trans}}) }}
+                {{ form_widget(form.adult, {attr: {'aria-label': 'filter.adult.label'|trans}}) }}
+            </div>
+
+            {{ form_end(form) }}
         </div>
     </div>
     <div id="content">
