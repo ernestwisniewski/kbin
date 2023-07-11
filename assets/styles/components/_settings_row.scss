@@ -32,7 +32,6 @@
     /** Enum Settings row **/
     .enum {
       border: var(--kbin-button-primary-border);
-      border-radius: 0.5em;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
       align-items: center;
@@ -40,6 +39,10 @@
       background-color: var(--kbin-button-secondary-bg);
       overflow: hidden;
       font-size: 0.8em;
+
+      .rounded-edges & {
+        border-radius: var(--kbin-rounded-edges-radius);
+      }
 
       input {
         position: absolute;
@@ -97,6 +100,10 @@
       border: var(--kbin-button-primary-border);
       cursor: pointer;
       font-size: 0.8em;
+
+      .rounded-edges & {
+        border-radius: var(--kbin-rounded-edges-radius);
+      }
 
       &:hover {
         background: var(--kbin-button-primary-hover-bg);
@@ -165,7 +172,7 @@
         bottom: 0;
         background-color: var(--kbin-button-primary-text-color);
         transition: .25s;
-        border-radius: 0.75em;
+        border-radius: .75em;
         border: .5em solid var(--kbin-button-primary-text-color);
       }
     }
