@@ -42,11 +42,14 @@
       font-size: 0.8em;
 
       input {
-        width: 0;
-        height: 0;
-        visibility: hidden;
+        position: absolute;
         overflow: hidden;
-        display: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
       }
 
       .value {
@@ -112,9 +115,14 @@
       border: var(--kbin-button-primary-border);
 
       input {
-        width: 0;
-        height: 0;
-        visibility: hidden;
+        position: absolute;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        width: 1px;
+        margin: -1px;
+        padding: 0;
+        border: 0;
       }
 
       &:hover {
