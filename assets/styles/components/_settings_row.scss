@@ -1,18 +1,18 @@
 .settings-row {
   display: grid;
-  grid-template-areas: "name value" "description value";
+  grid-template-areas: "name value" "help value";
   grid-template-columns: auto;
   align-items: center;
   margin-bottom: 1em;
 
-  .title {
+  .label {
     margin-right: 1em;
     grid-area: name;
 
   }
 
-  .description {
-    grid-area: description;
+  .help {
+    grid-area: help;
     font-size: 0.8em;
     font-weight: 100;
     color: var(--kbin-secondary-text-color);

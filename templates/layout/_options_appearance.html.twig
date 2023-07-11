@@ -1,17 +1,17 @@
 <div class="settings-list">
     <strong>{{ 'general'|trans }}</strong>
-    {{ component('settings_row_switch', {title: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
-    {{ component('settings_row_enum', {title: 'sidebar_position'|trans, settingsKey: 'KBIN_GENERAL_SIDEBAR_POSITION', values: [ {name: 'left'|trans , value: 'LEFT'}, {name: 'right'|trans , value: 'RIGHT' } ], defaultValue: 'RIGHT' } ) }}
-    {{ component('settings_row_switch', {title: 'rounded_edges'|trans, settingsKey: 'KBIN_GENERAL_ROUNDED_EDGES'}) }}
-    {{ component('settings_row_switch', {title: 'infinite_scroll'|trans, description: 'infinite_scroll_desc'|trans ,  settingsKey: 'KBIN_GENERAL_INFINITE_SCROLL'}) }}
-    {{ component('settings_row_switch', {title: 'sticky_navbar'|trans, description: 'sticky_navbar_desc'|trans,  settingsKey: 'KBIN_GENERAL_FIXED_NAVBAR'}) }}
-    {{ component('settings_row_switch', {title: 'show_top_bar'|trans, settingsKey: 'KBIN_GENERAL_TOPBAR'}) }}
+    {{ component('settings_row_switch', {label: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
+    {{ component('settings_row_enum', {label: 'sidebar_position'|trans, settingsKey: 'KBIN_GENERAL_SIDEBAR_POSITION', values: [ {name: 'left'|trans , value: 'LEFT'}, {name: 'right'|trans , value: 'RIGHT' } ], defaultValue: 'RIGHT' } ) }}
+    {{ component('settings_row_switch', {label: 'rounded_edges'|trans, settingsKey: 'KBIN_GENERAL_ROUNDED_EDGES'}) }}
+    {{ component('settings_row_switch', {label: 'infinite_scroll'|trans, help: 'infinite_scroll_desc'|trans ,  settingsKey: 'KBIN_GENERAL_INFINITE_SCROLL'}) }}
+    {{ component('settings_row_switch', {label: 'sticky_navbar'|trans, help: 'sticky_navbar_desc'|trans,  settingsKey: 'KBIN_GENERAL_FIXED_NAVBAR'}) }}
+    {{ component('settings_row_switch', {label: 'show_top_bar'|trans, settingsKey: 'KBIN_GENERAL_TOPBAR'}) }}
     <strong>{{ 'threads'|trans }}</strong>
-    {{ component('settings_row_switch', {title: 'auto_preview'|trans, description: 'auto_preview_desc'|trans,  settingsKey: 'KBIN_ENTRIES_SHOW_PREVIEW'}) }}
-    {{ component('settings_row_switch', {title: 'compact_view'|trans, settingsKey: 'KBIN_ENTRIES_VIEW'}) }}
-    {{ component('settings_row_switch', {title: 'show_users_avatars'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_USERS_AVATARS'}) }}
-    {{ component('settings_row_switch', {title: 'show_magazines_icons'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'}) }}
-    {{ component('settings_row_switch', {title: 'show_thumbnails'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_THUMBNAILS', defaultValue: true}) }}
+    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_desc'|trans,  settingsKey: 'KBIN_ENTRIES_SHOW_PREVIEW'}) }}
+    {{ component('settings_row_switch', {label: 'compact_view'|trans, settingsKey: 'KBIN_ENTRIES_VIEW'}) }}
+    {{ component('settings_row_switch', {label: 'show_users_avatars'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_USERS_AVATARS'}) }}
+    {{ component('settings_row_switch', {label: 'show_magazines_icons'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'}) }}
+    {{ component('settings_row_switch', {label: 'show_thumbnails'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_THUMBNAILS', defaultValue: true}) }}
     <strong>{{ 'microblog'|trans }}</strong>
-    {{ component('settings_row_switch', {title: 'auto_preview'|trans, description: 'auto_preview_desc'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
+    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_desc'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
 </div>
