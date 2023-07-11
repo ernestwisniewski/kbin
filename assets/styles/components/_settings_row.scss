@@ -1,14 +1,14 @@
 .settings-row {
   display: grid;
-  grid-template-areas: "name value" "help value";
+  grid-template-areas: "label value" "help value";
   grid-template-columns: auto;
   align-items: center;
   margin-bottom: 1em;
+  width: 100%;
 
   .label {
     margin-right: 1em;
-    grid-area: name;
-
+    grid-area: label;
   }
 
   .help {
