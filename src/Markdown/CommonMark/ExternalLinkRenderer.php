@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Markdown\CommonMark\Node\ActivityPubMentionLink;
 use App\Markdown\CommonMark\Node\ActorSearchLink;
 use App\Markdown\CommonMark\Node\CommunityLink;
 use App\Markdown\CommonMark\Node\MentionLink;
+use App\Markdown\CommonMark\Node\RoutedMentionLink;
 use App\Markdown\CommonMark\Node\TagLink;
+use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
@@ -21,6 +25,7 @@ use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Util\RegexHelper;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class ExternalLinkRenderer implements NodeRendererInterface, ConfigurationAwareInterface
 {
@@ -29,7 +34,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     public function __construct(
         private readonly Embed $embed,
         private readonly EmbedRepository $embedRepository,
-        private readonly SettingsManager $settingsManager
+        private readonly SettingsManager $settingsManager,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -44,7 +50,20 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
         /** @var Link $node */
         Link::assertInstanceOf($node);
 
-        $url = $title = $node->getUrl();
+        $renderTarget = $this->config->get('kbin')[MarkdownConverter::RENDER_TARGET];
+
+        $url = $title = match ($node::class) {
+            RoutedMentionLink::class => $this->generateUrlForRoute($node, $renderTarget),
+            default                  => $node->getUrl()
+        };
+
+        if (RegexHelper::isLinkPotentiallyUnsafe($url)) {
+            return new HtmlElement(
+                'span',
+                ['class' => 'unsafe-link'],
+                $title
+            );
+        }
 
         if ($node->firstChild() instanceof Text) {
             $title = $childRenderer->renderNodes([$node->firstChild()]);
@@ -59,31 +78,16 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
             return EmbedElement::buildEmbed($url, $title);
         }
 
-        $attr = match ($node::class) {
-            ActorSearchLink::class => [],
-            CommunityLink::class   => $this->generateCommunityLinkAttr($node),
-            MentionLink::class     => $this->generateMentionLinkAttr($node),
-            TagLink::class         => [
-                'class' => 'hashtag tag', 
-                'rel'  =>  'tag',
-            ],
-            default => [
-                'class' => 'kbin-media-link', 
-                'rel'   => 'nofollow noopener noreferrer',
-            ],
-        };
+        // create attributes for link
+        $attr = $this->generateAttr($node, $renderTarget);
 
-        if (false !== filter_var($url, FILTER_VALIDATE_URL) && !$this->settingsManager->isLocalUrl($url)) {
+        // open non-local links in a new tab
+        if (false !== filter_var($url, FILTER_VALIDATE_URL) 
+            && !$this->settingsManager->isLocalUrl($url)
+            && RenderTarget::ActivityPub !== $renderTarget
+        ) {
             $attr['rel'] = 'noopener noreferrer nofollow';
             $attr['target'] = '_blank';
-        }
-
-        if (RegexHelper::isLinkPotentiallyUnsafe(trim($url))) {
-            return new HtmlElement(
-                'span',
-                [],
-                $title
-            );
         }
 
         return new HtmlElement(
@@ -91,6 +95,47 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
             ['href' => $url] + $attr,
             $title
         );
+    }
+
+    /**
+     * @param Link $node
+     * @param RenderTarget $renderTarget
+     * @return array{
+     *     class: string,
+     *     title?: string,
+     *     data-action?: string,
+     *     data-mentions-username-param?: string,
+     *     rel?: string,
+     * }
+     */
+    private function generateAttr(Link $node, RenderTarget $renderTarget): array 
+    {
+        $attr = match ($node::class) {
+            ActivityPubMentionLink::class => $this->generateMentionLinkAttr($node),
+            ActorSearchLink::class        => [],
+            CommunityLink::class          => $this->generateCommunityLinkAttr($node),
+            RoutedMentionLink::class      => $this->generateMentionLinkAttr($node),
+            TagLink::class                => [
+                'class' => 'hashtag tag', 
+                'rel'  =>  'tag',
+            ],
+            default                       => [
+                'class' => 'kbin-media-link', 
+            ],
+        };
+
+        if (RenderTarget::ActivityPub === $renderTarget) {
+            $attr = array_intersect_key(
+                $attr,
+                array_flip([
+                    'class',
+                    'title',
+                    'rel',
+                ])
+            );
+        }
+
+        return $attr;
     }
 
     /**
@@ -135,13 +180,24 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     private function generateCommunityLinkAttr(CommunityLink $link): array
     {
         $data = [
-            'class'                        => 'mention  mention--magazine',
+            'class'                        => 'mention mention--magazine',
             'title'                        => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
             'data-action'                  => 'mentions#navigate_magazine',
         ];
 
         return $data;    
+    }
+
+    private function generateUrlForRoute(RoutedMentionLink $routedMentionLink, RenderTarget $renderTarget): string 
+    {
+        return $this->urlGenerator->generate(
+            $routedMentionLink->getRoute(), 
+            [$routedMentionLink->getParamName() => $routedMentionLink->getUrl()],
+            RenderTarget::ActivityPub === $renderTarget
+                ? UrlGeneratorInterface::ABSOLUTE_URL
+                : UrlGeneratorInterface::ABSOLUTE_PATH
+        );
     }
 
     private function isEmbed(string $url, string $title): bool
@@ -157,9 +213,10 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     private function isMentionType(Link $link): bool 
     {
         $types = [
+            ActivityPubMentionLink::class,
             ActorSearchLink::class,
             CommunityLink::class,
-            MentionLink::class,
+            RoutedMentionLink::class,
             TagLink::class,
         ];
 
