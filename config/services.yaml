@@ -145,7 +145,7 @@ services:
           League\CommonMark\Extension\Autolink\UrlAutolinkParser: '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
           League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
           App\Markdown\MarkdownExtension: '@App\Markdown\MarkdownExtension'
-        $config: ['%commonmark.configuration%']
+        $config: '%commonmark.configuration%'
 
   # Language
   App\EventListener\LanguageListener:

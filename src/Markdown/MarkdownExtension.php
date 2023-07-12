@@ -34,14 +34,6 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
 
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
-        $builder->merge([
-            'renderer' => [
-                'soft_break' => "<br>\r\n",
-            ],
-            'html_input' => 'escape',
-            'allow_unsafe_links' => false
-        ]);
-        
         $builder->addSchema('kbin', Expect::structure([
             'render_target' => Expect::type(RenderTarget::class)
         ]));
