@@ -414,7 +414,7 @@ export default class extends Controller {
         // @todo temporary fix
         const adultBadge = this.element.querySelector('.danger');
         if (adultBadge && adultBadge.textContent === '+18') {
-            const image = this.element.querySelector('img');
+            const image = this.element.querySelector('.thumb-subject');
             if (image) {
                 image.style.filter = 'blur(8px)';
                 image.addEventListener('mouseenter', () => {
