@@ -348,15 +348,10 @@ p > code {
 }
 
 .no-avatar {
-  background: var(--kbin-bg);
   display: block;
   width: 40px;
   height: 40px;
-
-  @include media-breakpoint-down(sm){
-    width: 30px;
-    height: 30px;
-  }
+  border: var(--kbin-avatar-border);
 }
 
 :target {
