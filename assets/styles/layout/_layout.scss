@@ -159,7 +159,6 @@ figure {
   textarea,
   select,
   button,
-  .ts-wrapper .ts-control,
   .preview img,
   .preview iframe,
   .dropdown__menu,
@@ -169,8 +168,22 @@ figure {
   .no-image-placeholder,
   .pagination__item,
   .no-avatar,
-  code {
+  code,
+  .ts-control > [data-value].item {
     border-radius: var(--kbin-rounded-edges-radius) !important;
+  }
+
+  .ts-wrapper {
+    .ts-control {
+      border-radius: .5rem;
+    }
+
+    &.dropdown-active .ts-control {
+      border-radius: .5rem .5rem 0 0;
+    }
+  }
+  .ts-dropdown {
+    border-radius: 0 0 .5rem .5rem
   }
 
   .options {

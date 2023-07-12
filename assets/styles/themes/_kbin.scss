@@ -1,15 +1,4 @@
 .theme--kbin {
-  .ts-dropdown {
-    background: var(--kbin-input-bg);
-    border-color: #373737;
-    color: var(--kbin-meta-text-color);
-
-    .active {
-      background: var(--kbin-options-bg);
-      color: var(--kbin-meta-text-color);
-    }
-  }
-
   --kbin-body-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --kbin-body-font-size: 1rem;
   --kbin-body-font-weight: 400;
@@ -129,7 +118,7 @@
   .section--top,
   .options--top {
     border-top: var(--kbin-options-border) !important;
-    margin-top: 1rem !important;
+    margin-top: .5rem !important;
   }
 
   &.rounded-edges {
