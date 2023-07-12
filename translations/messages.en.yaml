@@ -466,6 +466,7 @@ sidebar: Sidebar
 auto_preview: Auto media preview
 auto_preview_help: Automatically expand media previews.
 dynamic_lists: Dynamic lists
+reload_to_apply: Reload page to apply changes
 banned_instances: Banned instances
 kbin_intro_title: Explore the Fediverse
 kbin_intro_desc: it's a decentralized platform for content aggregation and microblogging

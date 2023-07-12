@@ -12,6 +12,7 @@
                             {{ (app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey)) is same as constant('App\\Controller\\User\\ThemeSettingsController::' ~ value.value) or (defaultValue and constant('App\\Controller\\User\\ThemeSettingsController::' ~ defaultValue) is same as constant('App\\Controller\\User\\ThemeSettingsController::' ~ value.value) and not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey)))) ? 'checked' : '' }}
                            data-action="change->settings-row-enum#change"
                            data-settings-row-enum-action-path-param="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey), value: constant('App\\Controller\\User\\ThemeSettingsController::' ~ value.value)}) }}"
+                           data-settings-row-enum-reload-required-param="{{ reloadRequired }}"
                     />
                     <span>{{ value.name }}</span>
                 </label>

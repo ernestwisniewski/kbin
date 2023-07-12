@@ -1,4 +1,8 @@
 <div class="settings-list">
+    <div class="reload-required-section">
+        <button onclick="window.location.reload(); this.classList.add('spin');" class="btn btn-link"><i
+                    class="fa fa-refresh"></i> {{ 'reload_to_apply'|trans }}</button>
+    </div>
     <strong>{{ 'general'|trans }}</strong>
     {{ component('settings_row_switch', {label: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
     {{ component('settings_row_enum', {label: 'sidebar_position'|trans, settingsKey: 'KBIN_GENERAL_SIDEBAR_POSITION', values: [ {name: 'left'|trans , value: 'LEFT'}, {name: 'right'|trans , value: 'RIGHT' } ], defaultValue: 'RIGHT' } ) }}

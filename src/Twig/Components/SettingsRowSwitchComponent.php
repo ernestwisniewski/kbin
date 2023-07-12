@@ -13,4 +13,5 @@ class SettingsRowSwitchComponent
     public string $help = '';
     public string $settingsKey;
     public bool $defaultValue = false;
+    public bool $reloadRequired = true;
 }

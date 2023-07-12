@@ -254,6 +254,43 @@
     align-items: center;
     color: var(--kbin-meta-text-color);
 
+    &.reload-required .reload-required-section {
+      display: block;
+    }
+
+    .reload-required-section {
+      display: none;
+      text-align: center;
+      width: 100%;
+      animation: showReloadRequired .25s ease-in-out forwards;
+      @keyframes showReloadRequired {
+        0% {
+          opacity: 0;
+          transform: translateY(-.5em);
+        }
+        75% {
+          opacity: 1;
+          transform: translateY(.25em);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      /** Faster spin animation than fa-spin */
+      button.spin i {
+        animation: spin .5s linear infinite;
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      }
+    }
+
     strong {
       margin-top: .5rem;
       display: block;
@@ -291,7 +328,7 @@
           }
 
           &.link-muted:not(.active):hover {
-            color: var(--kbin-link-hover-color); 
+            color: var(--kbin-link-hover-color);
           }
         }
       }

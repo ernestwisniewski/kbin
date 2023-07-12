@@ -6,9 +6,15 @@ export default class extends Controller {
      * @param target {HTMLInputElement} - The checkbox element of the toggle that was clicked
      * @param truePath {string} - The path to the action to be called when the toggle is checked
      * @param falsePath {string} - The path to the action to be called when the toggle is unchecked
+     * @param reloadRequired {boolean} - Whether the page needs to be reloaded after the action is called
      */
-    toggle({target, params: {truePath, falsePath}}) {
+    toggle({target, params: {truePath, falsePath, reloadRequired}}) {
         const path = target.checked ? truePath : falsePath;
-        return fetch(path);
+        console.log(reloadRequired);
+        return fetch(path).then(() => {
+            if (reloadRequired) {
+                document.querySelector('.settings-list').classList.add('reload-required');
+            }
+        });
     }
 }

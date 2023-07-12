@@ -10,6 +10,7 @@
                    data-action="change->settings-row-switch#toggle"
                    data-settings-row-switch-true-path-param="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey), value: 'true'}) }}"
                    data-settings-row-switch-false-path-param="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey), value: 'false'}) }}"
+                   data-settings-row-switch-reload-required-param="{{ reloadRequired }}"
             />
             <span class="slider"></span>
         </label>

@@ -14,4 +14,5 @@ class SettingsRowEnumComponent
     public string $settingsKey;
     public array $values;
     public ?string $defaultValue = null;
+    public bool $reloadRequired = true;
 }
