@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Twig\Components;
 
@@ -8,8 +8,8 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class SettingsRowEnumComponent
 {
     public string $label;
-    public string $help;
+    public string $help = '';
     public string $settingsKey;
     public array $values;
-    public string $defaultValue;
+    public ?string $defaultValue = null;
 }

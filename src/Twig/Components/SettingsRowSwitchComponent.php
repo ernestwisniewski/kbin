@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Twig\Components;
 
@@ -8,7 +8,7 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 class SettingsRowSwitchComponent
 {
     public string $label;
-    public string $help;
+    public string $help = '';
     public string $settingsKey;
     public bool $defaultValue = false;
 }
