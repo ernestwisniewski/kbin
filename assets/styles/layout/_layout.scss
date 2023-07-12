@@ -350,9 +350,14 @@ p > code {
 
 .no-avatar {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: var(--kbin-avatar-border);
+
+  @include media-breakpoint-up(sm){
+    width: 40px;
+    height: 40px;
+  }
 }
 
 :target {
