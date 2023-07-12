@@ -56,6 +56,10 @@ $comment-margin-sm: .3rem;
     a {
       color: var(--kbin-meta-text-color);
       font-weight: bold;
+
+      time {
+        font-weight: normal;
+      }
     }
   }
 
