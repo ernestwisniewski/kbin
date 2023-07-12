@@ -6,8 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 use App\Repository\UserRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminUserController extends AbstractController
 {

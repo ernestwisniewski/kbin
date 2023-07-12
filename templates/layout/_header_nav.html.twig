@@ -4,7 +4,7 @@
     </li>
     <li>
         <a href="{{ navbar_threads_url() }}"
-           class="{{ html_classes({'active': not is_route_name_contains('user_') and (is_route_name_starts_with('front') or is_route_name_contains('_entries') or entry is defined and entry)}) }}">
+           class="{{ html_classes({'active': not is_route_name_contains('user_') and (is_route_name_starts_with('front') or is_route_name('root') or is_route_name_contains('_entries') or entry is defined and entry)}) }}">
             {{ 'threads'|trans }} {% if magazine is defined and magazine %}({{ magazine.entryCount }}){% endif %}
         </a>
     </li>

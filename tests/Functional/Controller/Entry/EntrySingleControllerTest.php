@@ -72,7 +72,7 @@ class EntrySingleControllerTest extends WebTestCase
         $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);
         $manager->toggle($this->getUserByUsername('JaneDoe'), $entry);
 
-        $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
+        $client->request('GET', "/m/acme/t/{$entry->getId()}/-/test-entry-1");
 
         $this->assertSelectorTextContains('.options-activity', 'Activity (2)');
     }

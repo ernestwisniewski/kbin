@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\VotableInterface;
 use App\Service\GenerateHtmlClassService;
 use App\Service\VoteManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class BoostController extends AbstractController
 {

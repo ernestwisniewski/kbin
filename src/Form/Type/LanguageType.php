@@ -30,7 +30,7 @@ class LanguageType extends AbstractType
         $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

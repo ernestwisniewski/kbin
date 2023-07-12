@@ -9,10 +9,10 @@ use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Repository\MagazineRepository;
 use App\Service\EntryManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryChangeMagazineController extends AbstractController
 {
@@ -22,11 +22,14 @@ class EntryChangeMagazineController extends AbstractController
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     #[IsGranted('moderate', subject: 'entry')]
-    public function __invoke(Magazine $magazine, Entry $entry, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(id: 'entry_id')]
+        Entry $entry,
+        Request $request
+    ): Response {
         $this->validateCsrf('change_magazine', $request->request->get('token'));
 
         $newMagazine = $this->repository->findOneByName($request->get('change_magazine')['new_magazine']);

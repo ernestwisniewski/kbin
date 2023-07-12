@@ -36,7 +36,7 @@ class AwesomeBotEntries extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('This command allows you to create awesome-bot entries.')

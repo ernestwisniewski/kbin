@@ -18,7 +18,7 @@ use App\Repository\EntryCommentRepository;
 use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,10 +27,10 @@ class EntrySingleController extends AbstractController
 {
     use PrivateContentTrait;
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
         ?string $sortBy,
         EntryCommentRepository $repository,
