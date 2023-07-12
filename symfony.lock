@@ -337,6 +337,15 @@
     "phpstan/phpdoc-parser": {
         "version": "0.4.9"
     },
+    "phpstan/phpstan": {
+        "version": "1.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "d74d4d719d5f53856c9c13544aa22d44144b1819"
+        }
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -363,18 +372,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "sensio/framework-extra-bundle": {
-        "version": "5.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.2",
-            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
-        },
-        "files": [
-            "config/packages/sensio_framework_extra.yaml"
-        ]
     },
     "slevomat/coding-standard": {
         "version": "6.4.1"

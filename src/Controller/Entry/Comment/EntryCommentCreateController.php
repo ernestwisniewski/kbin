@@ -11,16 +11,16 @@ use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
-use App\Service\IpResolver;
 use App\Service\EntryCommentManager;
+use App\Service\IpResolver;
 use App\Service\MentionManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryCommentCreateController extends AbstractController
 {
@@ -33,14 +33,14 @@ class EntryCommentCreateController extends AbstractController
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('parent', options: ['mapping' => ['parent_comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('comment', subject: 'entry')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
+        #[MapEntity(id: 'parent_comment_id')]
         ?EntryComment $parent,
         Request $request,
     ): Response {

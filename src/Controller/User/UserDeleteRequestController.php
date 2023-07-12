@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Service\IpResolver;
 use App\Service\SettingsManager;
 use App\Service\UserManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +16,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserDeleteRequestController extends AbstractController
 {

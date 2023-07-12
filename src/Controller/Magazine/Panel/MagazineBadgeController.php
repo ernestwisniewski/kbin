@@ -11,10 +11,10 @@ use App\Entity\Magazine;
 use App\Form\BadgeType;
 use App\Repository\MagazineRepository;
 use App\Service\BadgeManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineBadgeController extends AbstractController
 {
@@ -51,11 +51,16 @@ class MagazineBadgeController extends AbstractController
         );
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('badge', options: ['mapping' => ['badge_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function remove(Magazine $magazine, Badge $badge, BadgeManager $manager, Request $request): Response
+    public function remove(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(id: 'badge_id')]
+        Badge $badge,
+        BadgeManager $manager,
+        Request $request
+    ): Response
     {
         $this->validateCsrf('badge_remove', $request->request->get('token'));
 
