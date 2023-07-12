@@ -60,7 +60,7 @@ final class RelatedPostsComponent
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(php_sapi_name() === 'cli' ? 0 : 60);
+                $item->expiresAfter(60);
 
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),

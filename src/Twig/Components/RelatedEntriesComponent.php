@@ -61,7 +61,7 @@ final class RelatedEntriesComponent
         return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(php_sapi_name() === 'cli' ? 0 : 60);
+                $item->expiresAfter(60);
 
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),

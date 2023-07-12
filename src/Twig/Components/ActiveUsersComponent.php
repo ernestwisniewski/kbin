@@ -29,7 +29,7 @@ final class ActiveUsersComponent
         return $this->cache->get(
             "active_users_{$this->magazine?->getId()}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) {
-                $item->expiresAfter(php_sapi_name() === 'cli' ? 0 : 60);
+                $item->expiresAfter(60);
 
                 return $this->twig->render(
                     'components/active_users.html.twig',
