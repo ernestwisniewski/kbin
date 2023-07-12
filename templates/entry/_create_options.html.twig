@@ -4,26 +4,23 @@
     </div>
     <menu class="options__main">
         {% if magazine is defined and magazine %}
-            <li>
-                <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'article'}) }}"
-                   class="{{ html_classes({'active': route_has_param('type', 'article')}) }}">
-                    {{ 'type.article'|trans|lower }}
-                </a>
-            </li>
-            <li>
+             <li>
                 <a href="{{ path('magazine_entry_create', {name: magazine.name}) }}"
                    class="{{ html_classes({'active': route_has_param('type', 'link')}) }}">
                     {{ 'type.link'|trans|lower }}
                 </a>
             </li>
             <li>
+                <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'article'}) }}"
+                   class="{{ html_classes({'active': route_has_param('type', 'article')}) }}">
+                    {{ 'type.article'|trans|lower }}
+                </a>
+            </li>  
+            <li>
                 <a href="{{ path('magazine_entry_create', {name: magazine.name, type: 'photo'}) }}"
                    class="{{ html_classes({'active': route_has_param('type', 'photo')}) }}">
                     {{ 'type.photo'|trans|lower }}
                 </a>
-            </li>
-            <li>
-                <a href="#" class="link-disabled">{{ 'type.video'|trans|lower }}</a>
             </li>
             <li>
                 <a href="{{ path('magazine_create') }}"
@@ -33,17 +30,17 @@
             </li>
         {% else %}
             <li>
-                <a href="{{ path('entry_create', {type: 'article'}) }}"
-                   class="{{ html_classes({'active': route_has_param('type', 'article')}) }}">
-                    {{ 'type.article'|trans|lower }}
-                </a>
-            </li>
-            <li>
                 <a href="{{ path('entry_create') }}"
                    class="{{ html_classes({'active': route_has_param('type', 'link')}) }}">
                     {{ 'type.link'|trans|lower }}
                 </a>
             </li>
+            <li>
+                <a href="{{ path('entry_create', {type: 'article'}) }}"
+                   class="{{ html_classes({'active': route_has_param('type', 'article')}) }}">
+                    {{ 'type.article'|trans|lower }}
+                </a>
+            </li>    
             <li>
                 <a href="{{ path('entry_create', {type: 'photo'}) }}"
                    class="{{ html_classes({'active': route_has_param('type', 'photo')}) }}">
@@ -51,7 +48,9 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="link-disabled">{{ 'type.video'|trans|lower }}</a>
+                <a href="{{ path('posts_front') }}">
+                    {{ 'post'|trans|lower }}
+                </a>
             </li>
             <li>
                 <a href="{{ path('magazine_create') }}"
