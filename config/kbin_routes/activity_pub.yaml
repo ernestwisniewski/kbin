@@ -23,6 +23,12 @@ ap_instance:
   path: '/i/actor'
   methods: [ GET ]
 
+ap_instance_front:
+  controller: App\Controller\ActivityPub\InstanceController
+  path: '/'
+  methods: [ GET ]
+  condition: '%kbin_ap_route_condition%'
+
 ap_instance_inbox:
   controller: App\Controller\ActivityPub\SharedInboxController
   path: /i/inbox
@@ -30,7 +36,7 @@ ap_instance_inbox:
 
 ap_instance_outbox:
   controller: App\Controller\ActivityPub\InstanceOutboxController
-  path: /i/inbox
+  path: /i/outbox
   methods: [ POST ]
 
 ap_shared_inbox:

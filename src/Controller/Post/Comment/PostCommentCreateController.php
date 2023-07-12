@@ -121,7 +121,7 @@ class PostCommentCreateController extends AbstractController
             PostCommentType::class,
             $dto,
             [
-                'action' => $this->generateUrl(
+                'action'         => $this->generateUrl(
                     'post_comment_create',
                     [
                         'magazine_name' => $post->magazine->name,
@@ -129,6 +129,7 @@ class PostCommentCreateController extends AbstractController
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),
+                'parentLanguage' => $parent?->lang ?? $post->lang,
             ]
         );
     }

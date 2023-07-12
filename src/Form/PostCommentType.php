@@ -6,8 +6,10 @@ namespace App\Form;
 
 use App\DTO\PostCommentDto;
 use App\Form\Constraint\ImageConstraint;
+use App\Form\EventListener\DefaultLanguage;
 use App\Form\EventListener\ImageListener;
 use App\Form\Type\LanguageType;
+use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,15 +20,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostCommentType extends AbstractType
 {
-    public function __construct(private readonly ImageListener $imageListener)
-    {
+    public function __construct(
+        private readonly ImageListener $imageListener,
+        private readonly DefaultLanguage $defaultLanguage,
+        private readonly SettingsManager $settingsManager,
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('body', TextareaType::class, ['required' => false, 'empty_data' => ''])
-            ->add('lang', LanguageType::class)
+            ->add('lang', LanguageType::class, ['priorityLanguage' => $options['parentLanguage']])
             ->add(
                 'image',
                 FileType::class,
@@ -40,6 +45,7 @@ class PostCommentType extends AbstractType
             ->add('imageAlt', TextareaType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
+        $builder->addEventSubscriber($this->defaultLanguage);
         $builder->addEventSubscriber($this->imageListener);
     }
 
@@ -47,8 +53,11 @@ class PostCommentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => PostCommentDto::class,
+                'data_class'     => PostCommentDto::class,
+                'parentLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
             ]
         );
+
+        $resolver->addAllowedTypes('parentLanguage', 'string');
     }
 }

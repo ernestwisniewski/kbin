@@ -45,6 +45,12 @@
   img {
     border-radius: 50%;
     vertical-align: middle;
+    margin-right: 0.25rem;
+
+    @include media-breakpoint-down(sm){
+      width: 25px;
+      height: 25px;
+    }
   }
 }
 

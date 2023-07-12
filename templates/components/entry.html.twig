@@ -63,7 +63,7 @@
             {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                 {% if entry.body and showShortSentence %}
                     <div class="content short-desc">
-                        <p>{{ get_short_sentence(entry.body) }}</p>
+                        <p>{{ get_short_sentence(entry.body|markdown|raw, striptags = true) }}</p>
                     </div>
                 {% endif %}
                 {% if entry.body and showBody %}

@@ -6,11 +6,11 @@ namespace App\Form;
 
 use App\DTO\PostDto;
 use App\Form\Constraint\ImageConstraint;
+use App\Form\EventListener\DefaultLanguage;
 use App\Form\EventListener\ImageListener;
-use App\Form\EventListener\LanguageTypeSetField;
-use App\Form\EventListener\SetLanguageField;
 use App\Form\Type\LanguageType;
 use App\Form\Type\MagazineAutocompleteType;
+use App\Service\SettingsManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,8 +22,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostType extends AbstractType
 {
-    public function __construct(private readonly ImageListener $imageListener)
-    {
+    public function __construct(
+        private readonly ImageListener $imageListener,
+        private readonly DefaultLanguage $defaultLanguage,
+        private readonly SettingsManager $settingsManager,
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -46,6 +49,7 @@ class PostType extends AbstractType
             ->add('isAdult', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
+        $builder->addEventSubscriber($this->defaultLanguage); 
         $builder->addEventSubscriber($this->imageListener);
     }
 

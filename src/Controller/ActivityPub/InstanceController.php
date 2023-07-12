@@ -14,7 +14,8 @@ class InstanceController
 {
     public function __invoke(Request $request, InstanceFactory $instanceFactory, CacheInterface $cache): JsonResponse
     {
-        $instance = $cache->get('instance', function (ItemInterface $item) use ($instanceFactory) {
+        $instance = $cache->get('instance_actor', function (ItemInterface $item) use ($instanceFactory) {
+            $item->expiresAfter(7200);
             return $instanceFactory->create();
         });
 

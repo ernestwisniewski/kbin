@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Entity\Contracts\FavouriteInterface;
+use App\Entity\Contracts\VotableInterface;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\FavouriteEvent;
@@ -40,8 +41,8 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     public function onFavourite(FavouriteEvent $event): void
     {
         $subject = $event->subject;
-
-        if (FavouriteManager::TYPE_UNLIKE && $subject->isFavored($event->user)) {
+        $choice = ($event->subject->getUserVote($event->user))?->choice;
+        if (VotableInterface::VOTE_DOWN === $choice && $subject->isFavored($event->user)) {
             $this->voteManager->removeVote($subject, $event->user);
         }
 
