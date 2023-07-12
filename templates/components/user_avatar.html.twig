@@ -9,7 +9,7 @@
                  src="{{ asset(user.avatar.filePath) | imagine_filter('avatar_thumb') }}"
                  alt="{{ user.username ~' '~ 'avatar'|trans|lower }}">
         {% else %}
-            <div class="no-avatar" style="width: {{ width }}px; height: {{ height }}px;"></div>
+            <div class="no-avatar"></div>
         {% endif %}
         {% if asLink %}
     </a>

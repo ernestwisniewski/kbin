@@ -168,6 +168,7 @@ figure {
   #sidebar .user-list img,
   .no-image-placeholder,
   .pagination__item,
+  .no-avatar,
   code {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
@@ -348,8 +349,15 @@ p > code {
 }
 
 .no-avatar {
-  background: var(--kbin-bg);
   display: block;
+  width: 30px;
+  height: 30px;
+  border: var(--kbin-avatar-border);
+
+  @include media-breakpoint-up(sm){
+    width: 40px;
+    height: 40px;
+  }
 }
 
 :target {
