@@ -56,7 +56,7 @@
             {% include 'layout/_header_nav.html.twig' with {header_nav: header_nav} %}
         </menu>
     </div>
-    {% if not app.user and (is_route_name_contains('front') or is_route_name('magazine_list_all')) %}
+    {% if not app.user and (is_route_name_contains('front') or is_route_name('root')  or is_route_name('magazine_list_all')) %}
         <div class="section intro">
             <div class="container">
                 <h3>{{ 'kbin_intro_title'|trans }}</h3>

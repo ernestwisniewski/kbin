@@ -10,10 +10,10 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Service\VoteManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class VoteController extends AbstractController
 {

@@ -10,6 +10,7 @@ use App\Repository\PostRepository;
 use App\Service\PostManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,13 +26,14 @@ class MovePostsByTagCommand extends Command
 {
     public function __construct(
         private readonly PostManager $postManager,
+        private readonly EntityManagerInterface $entityManager,
         private readonly MagazineRepository $magazineRepository,
         private readonly PostRepository $postRepository
     ) {
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('magazine', InputArgument::REQUIRED)
             ->addArgument('tag', InputArgument::REQUIRED);

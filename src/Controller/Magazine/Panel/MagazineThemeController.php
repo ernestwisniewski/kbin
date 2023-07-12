@@ -9,9 +9,9 @@ use App\DTO\MagazineThemeDto;
 use App\Entity\Magazine;
 use App\Form\MagazineThemeType;
 use App\Service\MagazineManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineThemeController extends AbstractController
 {

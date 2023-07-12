@@ -9,20 +9,20 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Form\LangType;
 use App\Repository\PostCommentRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostModerateController extends AbstractController
 {
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'post')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'post_id')]
         Post $post,
         Request $request,
         PostCommentRepository $repository

@@ -56,11 +56,11 @@ class EntryFrontControllerTest extends WebTestCase
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->request('GET', '/');
 
-        $root_content = $client->getResponse()->getContent();
+        $root_content = $this->clearTokens($client->getResponse()->getContent());
 
         $client->request('GET', '/all');
 
-        $this->assertStringContainsString($root_content, $client->getResponse()->getContent());
+        $this->assertSame($root_content, $this->clearTokens($client->getResponse()->getContent()));
     }
 
     public function testFrontPage(): void
@@ -312,5 +312,14 @@ class EntryFrontControllerTest extends WebTestCase
     private function getSortOptions(): array
     {
         return ['top', 'hot', 'newest', 'active', 'commented'];
+    }
+
+    private function clearTokens(string $responseContent): string
+    {
+        return preg_replace(
+            '#name="token" value=".+"#',
+            '',
+            json_decode($responseContent, true, 512, JSON_THROW_ON_ERROR),
+        )['html'];
     }
 }

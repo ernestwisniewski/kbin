@@ -15,10 +15,8 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
     ) {
     }
 
-    public function navbarThreadsUrl(): string
+    public function navbarThreadsUrl(?Magazine $magazine): string
     {
-        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
-
         if ($magazine instanceof Magazine) {
             return $this->urlGenerator->generate('front_magazine', ['name' => $magazine->name]);
         }
@@ -49,10 +47,8 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('front');
     }
 
-    public function navbarPostsUrl(): string
+    public function navbarPostsUrl(?Magazine $magazine): string
     {
-        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
-
         if ($magazine instanceof Magazine) {
             return $this->urlGenerator->generate('magazine_posts', ['name' => $magazine->name]);
         }
@@ -79,10 +75,8 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('posts_front');
     }
 
-    public function navbarPeopleUrl(): string
+    public function navbarPeopleUrl(?Magazine $magazine): string
     {
-        $magazine = $this->requestStack->getCurrentRequest()->get('magazine');
-
         if (str_starts_with($this->getCurrentRouteName(), 'tag')) {
             return $this->urlGenerator->generate(
                 'tag_people',

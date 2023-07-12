@@ -15,12 +15,12 @@ use App\Repository\PostCommentRepository;
 use App\Service\IpResolver;
 use App\Service\MentionManager;
 use App\Service\PostCommentManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostCommentCreateController extends AbstractController
 {
@@ -34,14 +34,14 @@ class PostCommentCreateController extends AbstractController
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
-    #[ParamConverter('parent', options: ['mapping' => ['parent_comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('comment', subject: 'post')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'post_id')]
         Post $post,
+        #[MapEntity(id: 'parent_comment_id')]
         ?PostComment $parent,
         Request $request,
     ): Response {
