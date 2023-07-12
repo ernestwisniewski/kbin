@@ -7,6 +7,7 @@ namespace App\Factory\ActivityPub;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
 use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -64,7 +65,7 @@ class EntryPageFactory
                 ),
             ],
             'name' => $entry->title,
-            'content' => $entry->body ? $this->markdownConverter->convertToHtml($entry->body) : null,
+            'content' => $entry->body ? $this->markdownConverter->convertToHtml($entry->body, [MarkdownConverter::RENDER_TARGET => RenderTarget::ActivityPub]) : null,
             'summary' => $entry->getShortDesc().' '.implode(
                     ' ',
                     array_map(fn($val) => '#'.$val, $tags)
