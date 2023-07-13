@@ -2,11 +2,15 @@ import {Controller} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['federation', 'settings'];
+    static targets = ['federation', 'settings', 'actions'];
     static values = {
         initial: Boolean
     }
 
+    /**
+     * Handling toggling the federation section
+     * @param {*} event 
+     */
     toggleFederation(event) {
         event.preventDefault();
 
@@ -15,15 +19,19 @@ export default class extends Controller {
             this.federationTarget.style.display = 'block';
 
             this.removeActiveClass();
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
 
             this.initialValue = true;
         } else {
-            event.target.classList.remove('active');
+            event.currentTarget.classList.remove('active');
             this.federationTarget.style.display = 'none';
         }
     }
 
+    /**
+     * Handles toggling the settings section 
+     * @param {*} event 
+     */
     toggleSettings(event) {
         event.preventDefault();
 
@@ -32,27 +40,35 @@ export default class extends Controller {
             this.settingsTarget.style.display = 'block';
 
             this.removeActiveClass();
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
 
             this.initialValue = true;
         } else {
-            event.target.classList.remove('active');
+            event.currentTarget.classList.remove('active');
             this.settingsTarget.style.display = 'none';
         }
     }
 
     removeActiveClass() {
-        this.element.querySelector('.options')
-            .querySelectorAll('.active').forEach(element => {
+        this.actionsTarget.querySelectorAll('.active').forEach(element => {
             element.classList.remove('active');
-        });
+        });    
     }
 
+    /**
+     * Handles toggling the navigation closed
+     * @param {*} e 
+     */
     closeNav(e) {
         e.preventDefault();
         document.getElementById('sidebar').classList.remove('open');
     }
 
+    /**
+     * Handles the home button press
+     * @param {*} e 
+     * @returns 
+     */
     home(e){
         e.preventDefault();
         window.location = e.target.closest('a').href;
