@@ -97,7 +97,7 @@ class MentionManager
     private function byApPrefix(): array
     {
         preg_match_all(
-            '/\B@(\w{1,30})(@)(([\pL\pN\pS\pM\-\_]++\.)+[\pL\pN\pM]++|[a-z0-9\-\_]++)/',
+            '/(?<!\/)\B@(\w{1,30})(@)(([\pL\pN\pS\pM\-\_]++\.)+[\pL\pN\pM]++|[a-z0-9\-\_]++)/',
             $this->val,
             $matches
         );
@@ -107,7 +107,7 @@ class MentionManager
 
     private function byPrefix(): array
     {
-        preg_match_all("/\B@([a-zA-Z0-9_-]{1,30}@?)/", $this->val, $matches);
+        preg_match_all('/(?<!\/)\B@([a-zA-Z0-9_-]{1,30}@?)/', $this->val, $matches);
         $results = array_filter($matches[0], fn($val) => !str_ends_with($val, '@'));
 
         return count($results) ? array_unique(array_values($results)) : [];
