@@ -3,12 +3,17 @@
         <menu>
             <ul data-options-target="actions">
                 <li class='home-button'>
-                    <a href="/" data-action="options#home">          
+                    <a 
+                    href="/" 
+                    data-action="options#home"
+                    title="{{ 'homepage'|trans }}"
+                    aria-label="{{ 'homepage'|trans }}">          
                         <i class="fa-solid fa-home"></i>
                     </a>
                 </li>
                 <li class='federation-button'>
-                    <a href="#federation"
+                    <a 
+                    href="#federation"
                     data-action="options#toggleFederation"
                     title="{{ 'federation'|trans }}"
                     aria-label="{{ 'federation'|trans }}">
@@ -16,7 +21,8 @@
                     </a>
                 </li>
                 <li class='settings-button'>       
-                    <a href="#settings"
+                    <a 
+                    href="#settings"
                     data-action="options#toggleSettings"
                     title="{{ 'settings'|trans }}"
                     aria-label="{{ 'settings'|trans }}">
@@ -24,7 +30,11 @@
                     </a>
                 </li>     
                 <li class='close-button'>
-                    <a href="" data-action="options#closeNav">
+                    <a 
+                    href="" 
+                    data-action="options#closeNav"
+                    title="{{ 'close'|trans }}"
+                    aria-label="{{ 'close'|trans }}">
                         <i class="fa-solid fa-close"></i>
                     </a>
                 </li>
