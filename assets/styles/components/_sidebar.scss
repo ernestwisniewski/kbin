@@ -66,15 +66,12 @@
       li.close-button,
       li.home-button{
         display: none;
-      }
-
-    
+      }  
     }
 
     @include media-breakpoint-down(sm){
 
       menu{
-
         justify-content: flex-start;
 
         li.close-button,
@@ -85,10 +82,7 @@
         li.close-button{
           margin-left: auto;
         }
-
-      }
-
-      
+      } 
     }
   }
 
