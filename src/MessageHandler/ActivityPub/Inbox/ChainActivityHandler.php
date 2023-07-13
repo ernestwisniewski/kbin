@@ -52,7 +52,6 @@ class ChainActivityHandler
             return;
         }
 
-        // Create root object
         $entity = match ($this->getType($object)) {
             'Note' => $this->note->create($object),
             'Page' => $this->page->create($object),

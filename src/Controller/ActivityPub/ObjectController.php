@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ObjectController
 {
-    public function __invoke(int $id, Request $request): JsonResponse
+    public function __invoke(string|int $id, Request $request): JsonResponse
     {
         $response = new JsonResponse();
 

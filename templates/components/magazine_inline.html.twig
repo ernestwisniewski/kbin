@@ -1,15 +1,15 @@
 <a href="{{ path('front_magazine', {name: magazine.name}) }}"
    class="{{ html_classes('magazine-inline', {'stretched-link': stretchedLink }) }}"
    title="{{ ('@'~magazine.name)|username(true) }}">
-    {%- if magazine.icon and showAvatar -%}
+    {% if magazine.icon and showAvatar %}
         <img width="30" height="30"
              style="max-width: 30px; max-height: 30px;"
              src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
              alt="{{ magazine.name ~ ' avatar' }}">
-    {%- endif -%}
-    {%- if fullName -%}
+    {% endif %}
+    {% if fullName %}
         {{ magazine.name }} {% if magazine.isAdult %}<small class="badge danger">18+</small>{% endif %}
-    {%- else -%}
+    {% else %}
         {{ ('@'~magazine.name)|username(false) -}}
-    {%- endif -%}
+    {% endif %}
 </a>

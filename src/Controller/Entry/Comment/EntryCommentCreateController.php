@@ -29,7 +29,8 @@ class EntryCommentCreateController extends AbstractController
     public function __construct(
         private readonly EntryCommentManager $manager,
         private readonly RequestStack $requestStack,
-        private readonly IpResolver $ipResolver
+        private readonly IpResolver $ipResolver,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
@@ -86,7 +87,7 @@ class EntryCommentCreateController extends AbstractController
         $dto = new EntryCommentDto();
 
         if ($parent && $this->getUser()->addMentionsEntries) {
-            $handle = MentionManager::addHandle([$parent->user->username])[0];
+            $handle = $this->mentionManager->addHandle([$parent->user->username])[0];
 
             if ($parent->user !== $this->getUser()) {
                 $dto->body = $handle;
@@ -95,10 +96,12 @@ class EntryCommentCreateController extends AbstractController
             }
 
             if ($parent->mentions) {
-                $mentions = MentionManager::addHandle($parent->mentions);
+                $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
+                    fn(string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle(
+                            [$this->getUser()->username]
+                        )[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;
@@ -110,11 +113,11 @@ class EntryCommentCreateController extends AbstractController
             EntryCommentType::class,
             $dto,
             [
-                'action'         => $this->generateUrl(
+                'action' => $this->generateUrl(
                     'entry_comment_create',
                     [
-                        'magazine_name'     => $entry->magazine->name,
-                        'entry_id'          => $entry->getId(),
+                        'magazine_name' => $entry->magazine->name,
+                        'entry_id' => $entry->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),
