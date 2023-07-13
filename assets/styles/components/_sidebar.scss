@@ -259,6 +259,10 @@
     }
 
     .reload-required-section {
+      z-index: 1;
+      background: var(--kbin-section-bg);
+      position: sticky;
+      top: 0;
       display: none;
       text-align: center;
       width: 100%;
@@ -275,6 +279,18 @@
         100% {
           transform: translateY(0);
         }
+      }
+
+      .topbar & {
+        top: 1.25rem;
+      }
+
+      .fixed-navbar & {
+        top: 3.25rem;
+      }
+
+      .fixed-navbar.topbar & {
+        top: 4.5rem;
       }
 
       /** Faster spin animation than fa-spin */
