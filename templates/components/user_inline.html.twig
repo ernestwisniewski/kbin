@@ -1,5 +1,5 @@
 <a href="{{ path('user_overview', {username: user.username}) }}"
-   data-action="mouseover->mentions#user_popup"
+   data-action="mouseover->mentions#user_popup mouseout->mentions#user_popup_out"
    data-mentions-username-param="{{ user.username }}"
    class="user-inline"
    title="{{ user.username|username(true) }}">

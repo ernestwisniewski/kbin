@@ -11,6 +11,7 @@ use App\DTO\PostDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -87,6 +88,7 @@ trait FactoryTrait
         $user->showProfileFollowings = true;
         $user->showProfileSubscriptions = true;
         $user->hideAdult = $hideAdult;
+        $user->avatar = $this->createImage(bin2hex(random_bytes(20)).'.png');
 
         $manager->persist($user);
         $manager->flush();
@@ -304,5 +306,17 @@ trait FactoryTrait
         $dto->lang = 'en';
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+    }
+
+    public function createImage(string $fileName): Image
+    {
+        return new Image(
+            $fileName,
+            '/dev/random',
+            hash('sha256', $fileName),
+            100,
+            100,
+            null,
+        );
     }
 }

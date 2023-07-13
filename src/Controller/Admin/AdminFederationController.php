@@ -8,8 +8,8 @@ use App\Controller\AbstractController;
 use App\DTO\InstancesDto;
 use App\Form\InstancesType;
 use App\Service\SettingsManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminFederationController extends AbstractController
 {

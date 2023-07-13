@@ -11,16 +11,16 @@ use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
-use App\Service\IpResolver;
 use App\Service\EntryCommentManager;
+use App\Service\IpResolver;
 use App\Service\MentionManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryCommentCreateController extends AbstractController
 {
@@ -29,18 +29,19 @@ class EntryCommentCreateController extends AbstractController
     public function __construct(
         private readonly EntryCommentManager $manager,
         private readonly RequestStack $requestStack,
-        private readonly IpResolver $ipResolver
+        private readonly IpResolver $ipResolver,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('entry', options: ['mapping' => ['entry_id' => 'id']])]
-    #[ParamConverter('parent', options: ['mapping' => ['parent_comment_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('comment', subject: 'entry')]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'entry_id')]
         Entry $entry,
+        #[MapEntity(id: 'parent_comment_id')]
         ?EntryComment $parent,
         Request $request,
     ): Response {
@@ -86,7 +87,7 @@ class EntryCommentCreateController extends AbstractController
         $dto = new EntryCommentDto();
 
         if ($parent && $this->getUser()->addMentionsEntries) {
-            $handle = MentionManager::addHandle([$parent->user->username])[0];
+            $handle = $this->mentionManager->addHandle([$parent->user->username])[0];
 
             if ($parent->user !== $this->getUser()) {
                 $dto->body = $handle;
@@ -95,10 +96,12 @@ class EntryCommentCreateController extends AbstractController
             }
 
             if ($parent->mentions) {
-                $mentions = MentionManager::addHandle($parent->mentions);
+                $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
+                    fn(string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle(
+                            [$this->getUser()->username]
+                        )[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;
@@ -110,11 +113,11 @@ class EntryCommentCreateController extends AbstractController
             EntryCommentType::class,
             $dto,
             [
-                'action'         => $this->generateUrl(
+                'action' => $this->generateUrl(
                     'entry_comment_create',
                     [
-                        'magazine_name'     => $entry->magazine->name,
-                        'entry_id'          => $entry->getId(),
+                        'magazine_name' => $entry->magazine->name,
+                        'entry_id' => $entry->getId(),
                         'parent_comment_id' => $parent?->getId(),
                     ]
                 ),

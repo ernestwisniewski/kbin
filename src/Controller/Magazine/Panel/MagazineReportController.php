@@ -10,10 +10,10 @@ use App\Entity\Report;
 use App\Factory\ContentManagerFactory;
 use App\Repository\MagazineRepository;
 use App\Service\ReportManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineReportController extends AbstractController
 {
@@ -37,12 +37,12 @@ class MagazineReportController extends AbstractController
         );
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('report', options: ['mapping' => ['report_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
     public function reportApprove(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'report_id')]
         Report $report,
         ContentManagerFactory $managerFactory,
         Request $request
@@ -56,12 +56,17 @@ class MagazineReportController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('report', options: ['mapping' => ['report_id' => 'id']])]
+
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function reportReject(Magazine $magazine, Report $report, ReportManager $manager, Request $request): Response
-    {
+    public function reportReject(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(id: 'report_id')]
+        Report $report,
+        ReportManager $manager,
+        Request $request
+    ): Response {
         $this->validateCsrf('report_decline', $request->request->get('token'));
 
         $manager->reject($report);

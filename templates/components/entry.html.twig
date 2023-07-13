@@ -86,7 +86,8 @@
                             <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
                                rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
-                                <img src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                <img class="thumb-subject"
+                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
                         </figure>
@@ -95,7 +96,8 @@
                             <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
                                class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
-                                <img src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
+                                <img class="thumb-subject"
+                                     src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
                         </figure>

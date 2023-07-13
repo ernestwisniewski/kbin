@@ -18,7 +18,7 @@ use App\Repository\PostCommentRepository;
 use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,14 +27,15 @@ class PostSingleController extends AbstractController
 {
     use PrivateContentTrait;
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
+        #[MapEntity(id: 'post_id')]
         Post $post,
         ?string $sortBy,
         PostCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
+        MentionManager $mentionManager,
         Request $request
     ): Response {
         if ($post->magazine !== $magazine) {
@@ -71,7 +72,7 @@ class PostSingleController extends AbstractController
 
         $dto = new PostCommentDto();
         if ($this->getUser() && $this->getUser()->addMentionsPosts && $post->user !== $this->getUser()) {
-            $dto->body = MentionManager::addHandle([$post->user->username])[0];
+            $dto->body = $mentionManager->addHandle([$post->user->username])[0];
         }
 
         return $this->render(

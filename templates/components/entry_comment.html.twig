@@ -53,7 +53,8 @@
                     <figure>
                         <a href="{{ uploaded_asset(comment.image.filePath) }}"
                            class="thumb">
-                            <img src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
+                            <img class="thumb-subject"
+                                 src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
                                  alt="{{ comment.image.altText }}">
                         </a>
                     </figure>
