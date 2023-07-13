@@ -101,9 +101,10 @@ class UserEditControllerTest extends WebTestCase
 
         $this->assertEmailHeaderSame($email, 'To', 'acme@kbin.pub');
 
-        $verifyLink = $email->getContext()['signedUrl'];
+        $verifyLink = [];
+        preg_match('#<a href="(?P<link>.+)">#', $email->getHtmlBody(), $verifyLink);
 
-        $client->request('GET', $verifyLink);
+        $client->request('GET', $verifyLink['link']);
 
         $crawler = $client->followRedirect();
 

@@ -8,9 +8,9 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Repository\StatsRepository;
 use App\Service\StatsManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineStatsController extends AbstractController
 {
@@ -35,7 +35,7 @@ class MagazineStatsController extends AbstractController
         }
 
         if ($statsPeriod) {
-            $statsPeriod = min($statsPeriod, 256);
+            $statsPeriod = min($statsPeriod, 365);
             $start = (new \DateTime())->modify("-$statsPeriod days");
         }
         if ($withFederated === null) {

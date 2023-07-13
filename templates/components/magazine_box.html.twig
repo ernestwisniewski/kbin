@@ -17,7 +17,10 @@
         <header>
             <h4><a href="{{ path('front_magazine', {name: magazine.name}) }}"
                    class="{{ html_classes({'stretched-link': false}) }}">{{ computed.magazine.title }}</a></h4>
-            <p class="magazine__name">{{ ('@'~magazine.name)|username(true) }}</p>
+            <p class="magazine__name">
+                {{ ('@'~magazine.name)|username(true) }}
+                {% if magazine.isAdult %}<small class="badge danger">18+</small>{% endif %}
+            </p>
         </header>
     </div>
     {{ component('magazine_sub', {magazine: magazine}) }}

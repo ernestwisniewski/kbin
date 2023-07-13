@@ -29,8 +29,9 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         try {
-            $magazines = $this->repository
-                ->findAllPaginated((int) $this->request->getCurrentRequest()->get('p', 1));
+            return [];
+//            $magazines = $this->repository
+//                ->findPaginated((int) $this->request->getCurrentRequest()->get('p', 1));
         } catch (\Exception $e) {
             return [];
         }

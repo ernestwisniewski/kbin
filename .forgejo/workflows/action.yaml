@@ -1,0 +1,61 @@
+name: Kbin CI/CD pipeline
+on:
+  pull_request:
+  push:
+    branches:
+      - 'develop*'
+      - 'v*/main*'
+
+jobs:
+  build:
+    runs-on: docker
+    container:
+      image: danger89/kbin-image:0.1.0
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v3
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      #- uses: https://code.forgejo.org/actions/cache@v3
+      #  id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      #  with:
+      #    path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+      #    key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-yarn-
+
+      #- uses: https://code.forgejo.org/actions/cache@v3
+      #  with:
+      #    path: ${{ steps.composer-cache.outputs.dir }}
+      #    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-composer-
+
+      - run: cp .env.example .env
+      - name: Composer install
+        run: composer install
+      - name: Yarn install
+        run: yarn install
+
+      - name: Build frontend
+        run: yarn build
+
+  # Unit test is not fully isolated yet, disable for now
+  unit-test:
+    runs-on: docker
+    container:
+      image: danger89/kbin-image:0.1.0
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v3
+      - run: cp .env.example .env
+      - run: composer install --dev
+      - name: Run unit tests
+        run: |
+          SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit

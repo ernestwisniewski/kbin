@@ -171,7 +171,7 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
     {
-        Assert::greaterThan($dto->expiredAt, new \DateTime());
+        Assert::nullOrGreaterThan($dto->expiredAt, new \DateTime());
 
         $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 

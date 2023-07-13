@@ -226,10 +226,15 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
-    public function findAllPaginated(int $page): PagerfantaInterface
+    public function findAllPaginated(int $page, bool $onlyLocal = false): PagerfantaInterface
     {
-        $query = $this->createQueryBuilder('u')
-            ->orderBy('u.apId', 'DESC')
+        $builder = $this->createQueryBuilder('u');
+        if ($onlyLocal) {
+            $builder->where('u.apId IS NULL');
+        } else {
+            $builder->where('u.apId IS NOT NULL');
+        }
+        $query = $builder
             ->orderBy('u.createdAt', 'ASC')
             ->getQuery();
 

@@ -15,7 +15,8 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
     public function __construct(
         private readonly Security $security,
         private readonly ReputationRepository $reputationRepository,
-        private readonly CacheInterface $cache
+        private readonly CacheInterface $cache,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
@@ -37,15 +38,9 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
         return $this->security->getUser()->isBlocked($blocked);
     }
 
-    public static function username(string $value, ?bool $withApPostfix = false): string
+    public function username(string $value, ?bool $withApPostfix = false): string
     {
-        $value = MentionManager::addHandle([$value])[0];
-
-        if (true === $withApPostfix) {
-            return $value;
-        }
-
-        return explode('@', $value)[1];
+        return $this->mentionManager->getUsername($value, $withApPostfix);
     }
 
     public function getReputationTotal(User $user): int

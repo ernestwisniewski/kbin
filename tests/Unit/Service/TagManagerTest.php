@@ -34,7 +34,7 @@ class TagManagerTest extends WebTestCase
             ['#_123_ABC_', ['_123_abc_']],
             ['Teraz #zażółć #gęślą #jaźń', ['zazolc', 'gesla', 'jazn']],
             ['#Göbeklitepe #çarpıcı #eğlence #şarkı #ören', ['gobeklitepe', 'carpici', 'eglence', 'sarki', 'oren']],
-            ['#Viva #España', ['viva', 'espana']],
+            ['#Viva #España #senõr', ['viva', 'espana', 'senor']],
         ];
     }
 }

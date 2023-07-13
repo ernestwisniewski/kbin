@@ -56,6 +56,10 @@ $comment-margin-sm: .3rem;
     a {
       color: var(--kbin-meta-text-color);
       font-weight: bold;
+
+      time {
+        font-weight: normal;
+      }
     }
   }
 
@@ -81,12 +85,18 @@ $comment-margin-sm: .3rem;
   > figure {
     grid-area: avatar;
     margin: 0;
-    width: 40px;
+   
+
+    img{
+      width: 30px;
+      height: 30px;
+    }
 
     @include media-breakpoint-up(sm) {
       img {
-        position: absolute;
         border: var(--kbin-avatar-border);
+        width: 40px;
+        height: 40px;
       }
     }
   }

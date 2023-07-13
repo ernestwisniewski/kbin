@@ -8,6 +8,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\PageView\MagazinePageView;
 
 abstract class Criteria
 {
@@ -116,10 +117,10 @@ abstract class Criteria
         return $this;
     }
 
-    public function resolveSort(?string $value): string
+    protected function routes(): array
     {
         // @todo getRoute EntryManager
-        $routes = [
+        return [
             'top' => Criteria::SORT_TOP,
             'hot' => Criteria::SORT_HOT,
             'active' => Criteria::SORT_ACTIVE,
@@ -134,6 +135,11 @@ abstract class Criteria
             'najstarsze' => Criteria::SORT_OLD,
             'komentowane' => Criteria::SORT_COMMENTED,
         ];
+    }
+
+    public function resolveSort(?string $value): string
+    {
+        $routes = $this->routes();
 
         return $routes[$value] ?? $routes['hot'];
     }

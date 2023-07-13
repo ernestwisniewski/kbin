@@ -1,0 +1,18 @@
+<div class="settings-row" data-controller="settings-row-switch">
+    <span class="label" id="settings-row-label-{{ settingsKey }}">{{ label }}</span>
+    <span class="help" id="settings-row-help-{{ settingsKey }}">{{ help }}</span>
+    <div class="value-container">
+        <label class="switch" role="switch">
+            <input type="checkbox"
+                   aria-labelledby="settings-row-label-{{ settingsKey }}"
+                   aria-describedby="settings-row-label-{{ settingsKey }}"
+                    {{ (app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey)) is same as 'true' or (defaultValue and not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey)))) ? 'checked' : '' }}
+                   data-action="change->settings-row-switch#toggle"
+                   data-settings-row-switch-true-path-param="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey), value: 'true'}) }}"
+                   data-settings-row-switch-false-path-param="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::' ~ settingsKey), value: 'false'}) }}"
+                   data-settings-row-switch-reload-required-param="{{ reloadRequired }}"
+            />
+            <span class="slider"></span>
+        </label>
+    </div>
+</div>

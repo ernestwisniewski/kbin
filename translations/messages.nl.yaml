@@ -1,26 +1,26 @@
 show_profile_subscriptions: Tijdschriftabonnementen tonen
 notify_on_new_entry_comment_reply: Meldingen tonen bij reacties op een van mijn gespreksreacties
 notify_on_new_posts: Meldingen tonen bij nieuwe berichten in een tijdschriftabonnement
-solarized_light: Gepolariseerd licht
+solarized_light: Gepolariseerd Licht
 show_magazines_icons: Tijdschriftpictogrammen tonen
 removed_post_by: heeft een bericht verwijderd van
 flash_register_success: Welkom aan boord, je account is nu geregistreerd. Nog één
   stap! - Check je inbox voor een activatielink die je account tot leven zal brengen.
-type.article: Draad
+type.article: Gesprek
 type.photo: Foto
 type.video: Video
 type.smart_contract: Slim contract
 type.magazine: Tijdschrift
 thread: Gesprek
 microblog: Microblog
-people: Personen
+people: Persoon
 events: Evenementen
 magazine: Tijdschrift
 magazines: Tijdschriften
 search: Zoeken
 add: Toevoegen
 login: Inloggen
-top: Beste
+top: Top
 hot: Populair
 active: Actief
 newest: Nieuwste
@@ -53,7 +53,7 @@ activity: Activiteit
 cover: Omslag
 related_posts: Verwante berichten
 random_posts: Willekeurige berichten
-federated_user_info: Het profiel van deze server is mogelijk onvolledig.
+federated_user_info: Dit profiel is van een gefedereerde server en is mogelijk onvolledig.
 go_to_original_instance: Bekijk meer op de oorspronkelijke instantie.
 empty: Leeg
 subscribe: Abonneren
@@ -63,7 +63,7 @@ follow: Volgen
 unfollow: Ontvolgen
 login_or_email: Gebruikersnaam of e-mailadres
 password: Wachtwoord
-remember_me: Inloggegevens onthouden
+remember_me: Ingelogd blijven
 dont_have_account: Heb je nog geen account?
 already_have_account: Heb je al een account?
 register: Registreren
@@ -167,8 +167,8 @@ delete: Verwijderen
 edit_post: Bericht bewerken
 show_profile_followings: Gevolgde gebruikers tonen
 notify_on_new_entry_reply: Meldingen tonen bij reacties in een van mijn gesprekken
-notify_on_new_post_reply: Meldingen tonen bij reacties op een van berichten
-notify_on_new_post_comment_reply: Meldingen tonen bij reacties op een van mijn berichtreacties
+notify_on_new_post_reply: Meldingen tonen bij reacties op een van mijn berichten
+notify_on_new_post_comment_reply: Meldingen tonen bij reacties op een van mijn berichten
 notify_on_new_entry: Meldingen tonen bij nieuwe gesprekken in een tijdschriftabonnement
 save: Opslaan
 about: Over
@@ -184,9 +184,9 @@ blocked: Geblokkeerd
 new_password_repeat: Nieuw wachtwoord bevestigen
 notifications: Meldingen
 messages: Berichten
-appearance: Vormgeving
+appearance: Uiterlijk
 change_email: E-mailadres wijzigen
-homepage: Voorpagina
+homepage: Startpagina
 hide_adult: Inhoud voor volwassenen verbergen
 featured_magazines: Uitgelichte tijdschriften
 privacy: Privacy
@@ -200,7 +200,7 @@ theme: Thema
 dark: Donker
 light: Licht
 font_size: Tekstgrootte
-solarized_dark: Gepolariseerd donker
+solarized_dark: Gepolariseerd Donker
 size: Grootte
 show_users_avatars: Profielfoto's tonen
 yes: Ja
@@ -217,14 +217,15 @@ he_unbanned: Toelaten
 read_all: Alles als gelezen markeren
 show_all: Alles tonen
 ranking_disabled: Klassement is uitgeschakeld
-flash_thread_new_success: Het gesprek is aangemaakt en zichtbaar voor andere gebruikers.
-flash_thread_edit_success: Het gesprek is bewerkt.
+flash_thread_new_success: Het gesprek is succesvol aangemaakt en zichtbaar voor andere
+  gebruikers.
+flash_thread_edit_success: Het gesprek is succesvol bewerkt.
 bronze_article_desc: Dit gesprek is 5 keer omhoog gestemd
 bronze_photo_desc: Deze foto is 5 keer omhoog gestemd
 bronze_comment_desc: Deze reactie is 5 keer omhoog gestemd
-flash_thread_delete_success: Het gesprek is verwijderd.
-flash_thread_pin_success: Het gesprek is vastgemaakt.
-flash_thread_unpin_success: Het gesprek is losgemaakt.
+flash_thread_delete_success: Het gesprek is succesvol verwijderd.
+flash_thread_pin_success: Het gesprek is succesvol vastgemaakt.
+flash_thread_unpin_success: Het gesprek is succesvol losgemaakt.
 silver_article_desc: Dit gesprek is 10 keer omhoog gestemd
 silver_photo_desc: Deze foto is 10 keer omhoog gestemd
 silver_post_desc: Dit bericht is 10 keer omhoog gestemd
@@ -238,7 +239,8 @@ select_channel: Kies een kanaal
 comments_count: '{0}reacties|{1}reactie|]1,Inf[ reacties'
 replies: Antwoorden
 markdown_howto: Hoe werkt het bewerkveld?
-federated_magazine_info: Het tijdschrift van deze server is mogelijk onvolledig.
+federated_magazine_info: Dit tijdschrift is van een gefedereerde server en is mogelijk
+  onvolledig.
 unsubscribe: Deabonneren
 reply: Beantwoorden
 you_cant_login: Wachtwoord vergeten?
@@ -255,7 +257,7 @@ silver_link_desc: Dit bericht is 10 keer omhoog gestemd
 silver_comment_desc: Deze reactie is 10 keer omhoog gestemd
 gold_post_desc: Dit bericht is 15 keer omhoog gestemd
 tags: Labels
-is_adult: +18/NSFW
+is_adult: 18+/NSFW
 image_alt: Afbeeldingslabel
 ratio: Verhouding
 go_to_search: Ga naar zoeken
@@ -277,12 +279,12 @@ add_ban: Verbanning toekennen
 change_language: Taal wijzigen
 admin_panel: Beheerderspaneel
 type_search_term: Voer een zoekopdracht in
-add_mentions_entries: Vermeldingslabels toekennen aan items
+add_mentions_entries: Vermeldingslabels toekennen aan gesprekken
 related_entries: Verwante gesprekken
 delete_account_request_send: Je verwijderverzoek is verstuurd.
-flash_magazine_new_success: Het tijdschrift is aangemaakt. Je kunt inhoud toevoegen
-  of het beheerpaneel openen.
-flash_magazine_edit_success: Het tijdschrift is bewerkt.
+flash_magazine_new_success: Het tijdschrift is succesvol aangemaakt. Je kunt inhoud
+  toevoegen of het tijdschrift bekijken in het beheerpaneel.
+flash_magazine_edit_success: Het tijdschrift is succesvol bewerkt.
 too_many_requests: Het limiet is bereikt - probeer het later opnieuw.
 set_magazines_bar: Tijdschriftenbalk
 set_magazines_bar_desc: Voeg tijdschriftnamen toe achter de komma
@@ -369,14 +371,14 @@ gold_post_month: Bericht van de maand
 mod_remove_your_thread: Een moderator heeft je gesprek verwijderd
 added_new_thread: Gesprek toegevoegd
 edited_thread: Gesprek bewerkt
-added_new_comment: Reactie geplaatst
+added_new_comment: Plaats een nieuwe reactie
 edited_comment: Reactie bewerkt
 replied_to_your_comment: Heeft je reactie beantwoord
 mod_deleted_your_comment: Een moderator heeft je reactie verwijderd
 added_new_post: Bericht geplaatst
 edited_post: Bericht bewerkt
 mod_remove_your_post: Een moderator heeft je bericht verwijderd
-added_new_reply: Reactie geplaatst
+added_new_reply: Nieuwe reactie is geplaatst
 wrote_message: Bericht geschreven
 banned: Heeft je verbannen
 removed: Verwijderd door een moderator
@@ -464,8 +466,8 @@ magazine_panel_tags_info: Alleen als je inhoud van het fediverse op basis van la
 sidebar: Zijbalk
 auto_preview: Media automatisch voorvertonen
 dynamic_lists: Dynamische lijsten
-kbin_intro_title: Verken het Fediverse
-kbin_intro_desc: het is een gedecentraliseerd platform voor het verzamelen van inhoud
+kbin_intro_title: Ontdek de Fediverse
+kbin_intro_desc: is een gedecentraliseerd platform voor het verzamelen van inhoud
   en microbloggen dat opereert binnen het fediversenetwerk.
 kbin_promo_title: Zet je eigen instantie op
 kbin_promo_desc: '%link_start%Kloon de repo%link_end% en ontwikkel het fediverse'
@@ -475,3 +477,7 @@ browsing_one_thread: Je bekijkt slechts één gesprek binnen deze discussie. Je 
   alle reacties lezen op de berichtpagina.
 return: Terug
 boost: Omhoogstemmen
+mercure_enabled: Mercure ingeschakeld
+report_issue: Rapporteer probleem
+tokyo_night: Tokyo Night
+preferred_languages: Filter op talen van gesprekken en berichten

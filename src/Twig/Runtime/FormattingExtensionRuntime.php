@@ -18,9 +18,13 @@ class FormattingExtensionRuntime implements RuntimeExtensionInterface
         return $value ? $this->markdownConverter->convertToHtml($value) : '';
     }
 
-    public function getShortSentence(?string $val, $length = 330): string
+    public function getShortSentence(?string $val, $length = 330, $striptags = false): string
     {
-        $body = wordwrap($val ?? '', $length);
+        if (!$val) {
+            return '';
+        }
+        $body = $striptags ? strip_tags(html_entity_decode($val)) : $val;
+        $body = wordwrap(trim($body), $length);
         $body = explode("\n", $body);
 
         return trim($body[0]).(isset($body[1]) ? '...' : '');
