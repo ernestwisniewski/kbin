@@ -776,8 +776,8 @@ If you perform a kbin upgrade (eg. `git pull`), you need to be aware to _run the
 ```bash
 composer install --no-dev
 APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
-php bin/console cache:clear
 php bin/console doctrine:migrations:migrate
+composer clear-cache
 yarn
 yarn build
 ```
@@ -789,8 +789,8 @@ When you are running /kbin in development mode for some reason. Execute the foll
 ```bash
 composer install
 APP_ENV=dev APP_DEBUG=1 php bin/console cache:clear
-php bin/console cache:clear
 php bin/console doctrine:migrations:migrate
+composer clear-cache
 yarn
 yarn build
 ```
