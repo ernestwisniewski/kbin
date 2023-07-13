@@ -47,4 +47,15 @@ export default class extends Controller {
             element.classList.remove('active');
         });
     }
+
+    closeNav(e) {
+        e.preventDefault();
+        document.getElementById('sidebar').classList.remove('open');
+    }
+
+    home(e){
+        e.preventDefault();
+        window.location = e.target.closest('a').href;
+        return;
+    }
 }

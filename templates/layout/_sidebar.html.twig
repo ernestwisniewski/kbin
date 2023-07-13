@@ -1,25 +1,34 @@
 <div class="sidebar-options" data-controller="options">
-    <div class="section options--top mobile-close">
-        <button data-action="kbin#closeNav" class="btn btn__secondary"><i class="fa-solid fa-close"></i></button>
-        <a href="/" class="btn btn__secondary"><i class="fa-solid fa-home"></i></a>
-    </div>
-    <div class="options options--top">
+    <div class="section options--top options top-options">
         <menu>
-            <li>
-                <a href="#federation"
-                   data-action="options#toggleFederation"
-                   title="{{ 'federation'|trans }}"
-                   aria-label="{{ 'federation'|trans }}">
-                    <i class="fa-solid fa-circle-nodes"></i>
-                </a>
-            </li>
-            <li><a href="#settings"
-                   data-action="options#toggleSettings"
-                   title="{{ 'settings'|trans }}"
-                   aria-label="{{ 'settings'|trans }}">
-                    <i class="fa-solid fa-gear"></i>
-                </a>
-            </li>
+            <ul>
+                <li class='home-button'>
+                    <a href="/" data-action="options#home">          
+                        <i class="fa-solid fa-home"></i>
+                    </a>
+                </li>
+                <li class='federation-button'>
+                    <a href="#federation"
+                    data-action="options#toggleFederation"
+                    title="{{ 'federation'|trans }}"
+                    aria-label="{{ 'federation'|trans }}">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                    </a>
+                </li>
+                <li class='settings-button'>       
+                    <a href="#settings"
+                    data-action="options#toggleSettings"
+                    title="{{ 'settings'|trans }}"
+                    aria-label="{{ 'settings'|trans }}">
+                        <i class="fa-solid fa-gear"></i>
+                    </a>
+                </li>     
+                <li class='close-button'>
+                    <a href="" data-action="options#closeNav">
+                        <i class="fa-solid fa-close"></i>
+                    </a>
+                </li>
+            </ul>
         </menu>
     </div>
     <div id="settings" class="section" data-options-target="settings">
