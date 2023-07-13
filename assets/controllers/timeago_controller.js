@@ -21,6 +21,9 @@ export default class extends Controller {
                 timeago.register('de', de);
                 timeago.render(elems, 'de');
             } else if (lang === 'es') {
+                timeago.register('es', es);
+                timeago.render(elems, 'es');
+            } else if (lang === 'el') {
                 timeago.register('el', el);
                 timeago.render(elems, 'el');
             } else if (lang === 'fr') {

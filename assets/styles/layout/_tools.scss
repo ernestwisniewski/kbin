@@ -10,14 +10,14 @@
   }
 }
 
-.link-muted,
+a.link-muted,
 .text-muted {
-  color: var(--kbin-meta-text-color) !important;
-  font-weight: normal !important;
+  color: var(--kbin-meta-text-color);
+  font-weight: normal;
+}
 
-  &:hover {
-    color: var(--kbin-meta-text-color) !important;
-  }
+a.link-muted:hover {
+  color: var(--kbin-link-hover-color);
 }
 
 .mb-0 {

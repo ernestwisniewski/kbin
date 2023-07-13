@@ -9,6 +9,8 @@
 
 {$SERVER_NAME} {
     log
+    
+    encode br zstd gzip
 
     @static {
         path_regexp \.(ico|css|js|gif|jpg|webp|jpeg|png|svg|woff)$

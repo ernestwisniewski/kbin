@@ -6,8 +6,8 @@ namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
 use App\Repository\UserRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminUserController extends AbstractController
 {
@@ -16,14 +16,16 @@ class AdminUserController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function __invoke()
+    public function __invoke(?bool $withFederated = null)
     {
         return $this->render(
             'admin/users.html.twig',
             [
                 'users' => $this->repository->findAllPaginated(
-                    (int) $this->request->getCurrentRequest()->get('p', 1)
+                    (int)$this->request->getCurrentRequest()->get('p', 1),
+                    !($withFederated ?? false)
                 ),
+                'withFederated' => $withFederated,
             ]
         );
     }

@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\ParamConverter;
+namespace App\ArgumentValueResolver;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
-use JetBrains\PhpStorm\Pure;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class UsernameConverter implements ParamConverterInterface
+class UserResolver implements ValueResolverInterface
 {
     public function __construct(
         private readonly UserRepository $repository,
@@ -23,8 +22,12 @@ class UsernameConverter implements ParamConverterInterface
     ) {
     }
 
-    public function apply(Request $request, ParamConverter $configuration): void
+    public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
+        if ($argument->getType() !== User::class) {
+            return;
+        }
+
         if (!$username = $request->attributes->get('username') ?? $request->attributes->get('user')) {
             return;
         }
@@ -50,20 +53,6 @@ class UsernameConverter implements ParamConverterInterface
             throw new NotFoundHttpException();
         }
 
-        $request->attributes->set($configuration->getName(), $user);
-    }
-
-    #[Pure]
-    public function supports(ParamConverter $configuration): bool
-    {
-        if (null === $configuration->getClass()) {
-            return false;
-        }
-
-        if (User::class !== $configuration->getClass()) {
-            return false;
-        }
-
-        return true;
+        yield $user;
     }
 }

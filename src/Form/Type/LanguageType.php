@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\OptionsResolver\Options;
@@ -17,17 +18,30 @@ use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 #[AsEntityAutocompleteField]
 class LanguageType extends AbstractType
 {
+    private string $locale;
+    private string $priorityLanguage;
+    private array $preferredLanguages;
+
+
     public function __construct(
-        private readonly SettingsManager $settingsManager,
         private readonly Security $security,
+        private readonly RequestStack $requestStack,
     ) {
+        $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [
                 'choice_loader'     =>  function (Options $options) {
+                    $this->preferredLanguages = $this->security->getUser()?->preferredLanguages ?? [];
+                    $this->priorityLanguage   = $options['priorityLanguage'];    
+
+                    if (0 === count($this->preferredLanguages)) {
+                        $this->preferredLanguages = [$this->locale];
+                    }
+
                     return ChoiceList::loader($this, new CallbackChoiceLoader(function () {
                         foreach (Languages::getLanguageCodes() as $languageCode) {
                             try {
@@ -37,22 +51,22 @@ class LanguageType extends AbstractType
                         }
                         
                         return array_flip($choices);
-                    }));
+                    }), [$this->preferredLanguages, $this->priorityLanguage]);
                 },
                 'preferred_choices' => ChoiceList::preferred($this, function(string $choice): bool {
-                    $preferredLanguages = $this->security->getUser()?->preferredLanguages ?? [$this->settingsManager->get('KBIN_DEFAULT_LANG')];
-                    
-                    if (in_array($choice, $preferredLanguages)) {
+                    if (in_array($choice, $this->preferredLanguages) || $this->priorityLanguage === $choice) {
                         return true;
                     }
 
                     return false;
                 }),
-                'data'              => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
                 'required'          => true,
                 'autocomplete'      => false,
+                'priorityLanguage'  => '',
             ]
         );
+
+        $resolver->addAllowedTypes('priorityLanguage', 'string');
     }
 
     public function getParent(): string

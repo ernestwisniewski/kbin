@@ -18,10 +18,12 @@ class ModeratorType extends AbstractType
     {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user')
+            ->add('user', options: [
+                'attr' => ['autocomplete' => 'new-password']
+            ])
             ->add('submit', SubmitType::class);
 
         $builder->get('user')->addModelTransformer(
@@ -29,7 +31,7 @@ class ModeratorType extends AbstractType
         );
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             [

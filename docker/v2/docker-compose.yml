@@ -51,6 +51,8 @@ services:
     command: bin/console messenger:consume async --time-limit=3600
     healthcheck:
       test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
+    volumes:
+      - ./storage/media:/var/www/kbin/public/media
     env_file:
       - .env
     depends_on:
@@ -67,6 +69,8 @@ services:
     command: bin/console messenger:consume async_ap --time-limit=3600
     healthcheck:
       test: ["CMD-SHELL", "ps aux | grep 'messenger[:]consume' || exit 1"]
+    volumes:
+      - ./storage/media:/var/www/kbin/public/media
     env_file:
       - .env
     depends_on:

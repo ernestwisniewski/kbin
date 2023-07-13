@@ -29,18 +29,16 @@ $comment-margin-sm: .3rem;
   grid-gap: .5rem;
   grid-template-areas: "avatar header vote"
                          "avatar body body"
-                         "avatar meta meta"
                          "avatar footer footer";
   grid-template-columns: min-content auto min-content;
   margin: .5rem 0;
-  padding: 0.75rem;
+  padding: 0.5rem 0.75rem;
   position: relative;
   z-index: 2;
 
   @include media-breakpoint-down(sm) {
     grid-template-areas: "avatar header vote"
                          "body body body"
-                         "meta meta meta"
                          "footer footer footer";
   }
 
@@ -53,12 +51,15 @@ $comment-margin-sm: .3rem;
     color: var(--kbin-meta-text-color);
     font-size: .8rem;
     grid-area: header;
-    margin-bottom: .5rem;
     opacity: .75;
 
     a {
       color: var(--kbin-meta-text-color);
       font-weight: bold;
+
+      time {
+        font-weight: normal;
+      }
     }
   }
 
@@ -76,19 +77,26 @@ $comment-margin-sm: .3rem;
     grid-area: body;
 
     p {
-      margin-top: 0
+      margin-top: 0;
+      margin-bottom: 0.5rem;
     }
   }
 
   > figure {
     grid-area: avatar;
     margin: 0;
-    width: 40px;
+   
+
+    img{
+      width: 30px;
+      height: 30px;
+    }
 
     @include media-breakpoint-up(sm) {
       img {
-        position: absolute;
         border: var(--kbin-avatar-border);
+        width: 40px;
+        height: 40px;
       }
     }
   }

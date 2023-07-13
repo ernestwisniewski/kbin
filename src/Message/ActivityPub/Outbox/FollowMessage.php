@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Message\ActivityPub\Outbox;
 
-use App\Message\Contracts\AsyncApMessageInterface;
-
-class FollowMessage implements AsyncApMessageInterface
+class FollowMessage
 {
     public function __construct(
         public int $followerId,

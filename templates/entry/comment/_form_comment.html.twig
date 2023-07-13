@@ -1,3 +1,5 @@
+{% form_theme form.lang 'form/lang_select.html.twig' %}
+
 {% set hasImage = false %}
 {% if comment is defined and comment is not null and comment.image %}
     {% set hasImage = true %}

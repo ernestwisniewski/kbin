@@ -8,10 +8,10 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostChangeLangController extends AbstractController
 {
@@ -19,11 +19,14 @@ class PostChangeLangController extends AbstractController
     {
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('post', options: ['mapping' => ['post_id' => 'id']])]
     #[IsGranted('moderate', 'post')]
-    public function __invoke(Magazine $magazine, Post $post, Request $request): Response
-    {
+    public function __invoke(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(id: 'post_id')]
+        Post $post,
+        Request $request
+    ): Response {
         $post->lang = $request->get('lang')['lang'];
 
         $this->entityManager->flush();

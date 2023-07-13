@@ -20,14 +20,16 @@ export default class extends Controller {
         GLightbox(params);
 
         const self = this;
-        this.moreTarget.addEventListener('focusin', () => {
-            self.element.parentNode
-                .querySelectorAll('.z-5')
-                .forEach((el) => {
-                    el.classList.remove('z-5');
-                });
-            this.element.classList.add('z-5');
-        });
+        if (this.hasMoreTarget) {
+            this.moreTarget.addEventListener('focusin', () => {
+                self.element.parentNode
+                    .querySelectorAll('.z-5')
+                    .forEach((el) => {
+                        el.classList.remove('z-5');
+                    });
+                this.element.classList.add('z-5');
+            });
+        }
 
         if (this.element.classList.contains('show-preview')) {
             useIntersection(this)
@@ -412,7 +414,7 @@ export default class extends Controller {
         // @todo temporary fix
         const adultBadge = this.element.querySelector('.danger');
         if (adultBadge && adultBadge.textContent === '+18') {
-            const image = this.element.querySelector('img');
+            const image = this.element.querySelector('.thumb-subject');
             if (image) {
                 image.style.filter = 'blur(8px)';
                 image.addEventListener('mouseenter', () => {

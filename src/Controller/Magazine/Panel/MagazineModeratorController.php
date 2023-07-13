@@ -11,10 +11,10 @@ use App\Entity\Moderator;
 use App\Form\ModeratorType;
 use App\Repository\MagazineRepository;
 use App\Service\MagazineManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineModeratorController extends AbstractController
 {
@@ -49,11 +49,15 @@ class MagazineModeratorController extends AbstractController
         );
     }
 
-    #[ParamConverter('magazine', options: ['mapping' => ['magazine_name' => 'name']])]
-    #[ParamConverter('moderator', options: ['mapping' => ['moderator_id' => 'id']])]
     #[IsGranted('ROLE_USER')]
     #[IsGranted('edit', subject: 'magazine')]
-    public function remove(Magazine $magazine, Moderator $moderator, Request $request): Response
+    public function remove(
+        #[MapEntity(mapping: ['magazine_name' => 'name'])]
+        Magazine $magazine,
+        #[MapEntity(id: 'moderator_id')]
+        Moderator $moderator,
+        Request $request
+    ): Response
     {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));
 

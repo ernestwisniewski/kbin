@@ -9,13 +9,13 @@ use App\DTO\EntryDto;
 use App\Entity\Magazine;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Service\IpResolver;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class EntryCreateController extends AbstractController

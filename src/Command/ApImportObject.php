@@ -26,7 +26,7 @@ class ApImportObject extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('url', InputArgument::REQUIRED);
     }
