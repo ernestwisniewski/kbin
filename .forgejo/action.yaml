@@ -1,0 +1,13 @@
+on:
+  pull_request:
+  push:
+    branches:
+      - 'develop*'
+      - 'v*/main*'
+
+jobs:
+  test-job:
+    runs-on: docker
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v3
+      - run: echo All Good
