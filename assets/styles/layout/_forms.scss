@@ -27,8 +27,8 @@
     color: var(--kbin-button-secondary-text-color) !important;
 
     &:hover,
-    &:focus-visible,
-    &.active {
+    &:focus-visible
+    {
       background: var(--kbin-button-secondary-hover-bg);
       color: var(--kbin-button-secondary-text-hover-color) !important;
     }
@@ -40,8 +40,8 @@
     color: var(--kbin-button-secondary-text-color) !important;
 
     &:hover,
-    &:focus-visible,
-    &.active {
+    &:focus-visible
+    {
       background: var(--kbin-button-secondary-hover-bg);
       color: var(--kbin-button-secondary-text-hover-color) !important;
     }

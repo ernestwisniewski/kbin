@@ -49,6 +49,9 @@ export default class extends Controller {
         }
     }
 
+    /**
+     * Removes all active classes, ensuring only the current active item is highlighted 
+     */
     removeActiveClass() {
         this.actionsTarget.querySelectorAll('.active').forEach(element => {
             element.classList.remove('active');
