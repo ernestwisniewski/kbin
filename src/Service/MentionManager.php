@@ -128,7 +128,7 @@ class MentionManager
         return $body;
     }
 
-    public static function addHandle(array $mentions): array
+    public function addHandle(array $mentions): array
     {
         $res = array_map(
             fn($val) => substr_count($val, '@') === 0 ? '@'.$val : $val,
@@ -141,13 +141,24 @@ class MentionManager
         );
     }
 
+    public function getUsername(string $value, ?bool $withApPostfix = false): string
+    {
+        $value = $this->addHandle([$value])[0];
+
+        if (true === $withApPostfix) {
+            return $value;
+        }
+
+        return explode('@', $value)[1];
+    }
+
     public static function clearLocal(?array $mentions): array
     {
         if (null === $mentions) {
             return [];
         }
 
-        $domain = '@'. SettingsManager::getValue('KBIN_DOMAIN');
+        $domain = '@'.SettingsManager::getValue('KBIN_DOMAIN');
 
         $mentions = array_map(fn($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
 
@@ -162,7 +173,7 @@ class MentionManager
             return [];
         }
 
-        $domain = '@'. SettingsManager::getValue('KBIN_DOMAIN');
+        $domain = '@'.SettingsManager::getValue('KBIN_DOMAIN');
 
         $mentions = array_map(fn($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
 

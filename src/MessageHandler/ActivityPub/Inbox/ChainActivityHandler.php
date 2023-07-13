@@ -34,9 +34,6 @@ class ChainActivityHandler
             return;
         }
 
-        // Remove any null elements in message chain
-        $message->chain = array_filter($message->chain);
-
         $object = end($message->chain);
 
         // Handle parent objects
@@ -55,15 +52,11 @@ class ChainActivityHandler
             return;
         }
 
-        if ($object)
-        {
-            // Create root object
-            $entity = match ($this->getType($object)) {
-                    'Note' => $this->note->create($object),
-                    'Page' => $this->page->create($object),
-                    default => null
-            };
-        }
+        $entity = match ($this->getType($object)) {
+            'Note' => $this->note->create($object),
+            'Page' => $this->page->create($object),
+            default => null
+        };
 
         if (!$entity) {
             if ($message->announce && $message->announce['object'] === $object['object']) {

@@ -4,6 +4,7 @@ namespace App\Twig\Components;
 
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
+use App\Service\MentionManager;
 use App\Twig\Runtime\UserExtensionRuntime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -31,7 +32,8 @@ final class RelatedEntriesComponent
         private readonly EntryRepository $repository,
         private readonly CacheInterface $cache,
         private readonly Environment $twig,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
@@ -64,7 +66,7 @@ final class RelatedEntriesComponent
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
                     self::TYPE_MAGAZINE => $this->repository->findRelatedByTag(
-                        UserExtensionRuntime::username($this->magazine),
+                        $this->mentionManager->getUsername($this->magazine),
                         $this->limit + 20
                     ),
                     default => $this->repository->findLast($this->limit + 150),

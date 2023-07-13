@@ -35,6 +35,7 @@ class PostSingleController extends AbstractController
         ?string $sortBy,
         PostCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
+        MentionManager $mentionManager,
         Request $request
     ): Response {
         if ($post->magazine !== $magazine) {
@@ -71,7 +72,7 @@ class PostSingleController extends AbstractController
 
         $dto = new PostCommentDto();
         if ($this->getUser() && $this->getUser()->addMentionsPosts && $post->user !== $this->getUser()) {
-            $dto->body = MentionManager::addHandle([$post->user->username])[0];
+            $dto->body = $mentionManager->addHandle([$post->user->username])[0];
         }
 
         return $this->render(

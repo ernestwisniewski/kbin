@@ -120,7 +120,6 @@ form {
   .clear-button {
     color: var(--kbin-meta-text-color);
     font-size: 1.5rem;
-    top: 1.2rem;
   }
 
   .ts-control {
@@ -129,10 +128,61 @@ form {
     border-radius: 0;
     box-shadow: none !important;
     color: var(--kbin-input-text-color);
-    display: block;
+    display: flex;
+    flex-flow: row wrap;
+    gap: .5rem;
     padding: 1rem .5rem;
     width: 100%;
+    line-height: normal;
+
+    input {
+      color: var(--kbin-input-text-color);
+      width: auto;
+      min-width: 8rem;
+    }
+
+    & > * {
+      font-size: .85rem;
+    }
   }
+
+  &.multi {
+    .ts-control {
+      > [data-value].item,
+      > [data-value].active {
+        background-image: none;
+        background: var(--kbin-button-primary-bg);
+        color: var(--kbin-button-primary-text-color);
+        border: var(--kbin-button-primary-border);
+        border-radius: 0;
+        text-shadow: none;
+        box-shadow: none;
+        padding: 0 .5rem;
+        height: 2rem;
+        max-width: fit-content;
+        margin: 0;
+        overflow: clip;
+      }
+    }
+
+    &.plugin-remove_button:not(.rtl) .item > .remove {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      border-left: var(--kbin-button-primary-border);
+      margin-left: .5rem;
+      padding: 0 .5rem 0 .4375rem;
+      height: 100%;
+
+      &:hover {
+        background-color: var(--kbin-button-primary-hover-bg);
+        color: var(--kbin-button-primary-text-hover-color);
+      }
+    }
+  }
+
+
 
   &.single.input-active .ts-control input {
     color: var(--kbin-meta-text-color)
@@ -142,9 +192,33 @@ form {
   &.single .ts-control, .ts-dropdown.single {
     border: var(--kbin-input-border);
   }
+  
+  .ts-dropdown {
+    font-size: .85rem;
+    line-height: normal;
+    margin: -1px 0 0;
+    border: var(--kbin-input-border);
+    border-top: 0;
+    background: var(--kbin-input-bg);
+    color: var(--kbin-meta-text-color);
+    box-shadow: var(--kbin-shadow);
+    overflow: clip;
 
-  .ts-control > input {
-    width: auto;
+    .active {
+      color: var(--kbin-meta-text-color);
+    }
+    
+    &.single .active {
+      background: var(--kbin-options-bg);
+    }
+
+    &.multi .active {
+      background-color: var(--kbin-input-bg);
+    }
+  }
+
+  &.multi.has-items .ts-control {
+    padding: .5rem;
   }
 }
 
@@ -173,11 +247,7 @@ form {
   }
 
   .ts-control {
-    padding: 8px;
-
-    .clear-button {
-      top: .75rem;
-    }
+    padding: .5rem;
   }
 
   .ts-wrapper {
@@ -196,6 +266,7 @@ select {
   padding: 0.65rem;
   border-radius: 0;
   cursor: pointer;
+  font-size: .85rem;
 }
 
 .actions {

@@ -7,13 +7,16 @@
     color: var(--kbin-meta-link-color);
     font-weight: bold;
     padding: .5rem 0;
-    margin-left: 0.25rem;
+
+    img {
+      margin-left: 0.25rem;
+    }
 
     &:hover {
       color: var(--kbin-meta-link-hover-color);
     }
-    
-    &:first-of-type{
+
+    &:first-of-type {
       margin-left: 0rem;
     }
   }
