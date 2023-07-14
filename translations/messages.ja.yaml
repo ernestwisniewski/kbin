@@ -16,11 +16,11 @@ add: 追加
 select_channel: チャンネルを選択
 login: ログイン
 top: トップ
-hot: ホット
-active: 活発順
-newest: 最新
+hot: 人気
+active: 注目
+newest: 新着
 oldest: 古い順
-commented: コメント順
+commented: コメントの多い順
 change_view: 表示を変更
 filter_by_time: 時間でフィルター
 filter_by_type: 投稿でフィルター
@@ -50,7 +50,7 @@ enter_your_post: 投稿を入力してください
 activity: アクティビティ
 cover: プロフィールのバナー
 related_posts: 関連投稿
-random_posts: ランダムな投稿
+random_posts: 最近のコメント
 federated_user_info: 連合しているサーバーからプロフィールが受信されていない可能性があります。
 go_to_original_instance: 連合元インスタンスで表示する。
 empty: 投稿なし
@@ -64,7 +64,7 @@ dont_have_account: アカウントを持っていませんか？
 you_cant_login: パスワードを忘れていますか？
 already_have_account: すでにアカウントを持っていますか？
 register: 新規登録する
-show_more: もっと表示する
+show_more: もっと見る
 to: 雑誌
 in: 中に
 username: ユーザー名
@@ -438,7 +438,7 @@ Your account is not active: アカウントは無効です。
 firstname: 名前
 send: 送信する
 active_users: アクティブなユーザー
-random_entries: ランダムのスレッド
+random_entries: 最近のスレッド
 related_entries: 関連のスレッド
 delete_account: アカウントを削除する
 purge_account: アカウントを除去する
