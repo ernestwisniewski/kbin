@@ -1,173 +1,21 @@
 <div class="settings-list">
+    <div class="reload-required-section">
+        <button onclick="window.location.reload(); this.classList.add('spin');" class="btn btn-link"><i
+                    class="fa fa-refresh"></i> {{ 'reload_to_apply'|trans }}</button>
+    </div>
     <strong>{{ 'general'|trans }}</strong>
-    <div class="row">
-        <span>{{ 'dynamic_lists'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'sidebar_position'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT')}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION'), value: constant('App\\Controller\\User\\ThemeSettingsController::LEFT')}) }}">
-                {{ 'left'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::RIGHT')}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION'), value: constant('App\\Controller\\User\\ThemeSettingsController::RIGHT')}) }}">
-                {{ 'right'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'rounded_edges'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_ROUNDED_EDGES'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'infinite_scroll'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'sticky_navbar'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'show_top_bar'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
+    {{ component('settings_row_switch', {label: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
+    {{ component('settings_row_enum', {label: 'sidebar_position'|trans, settingsKey: 'KBIN_GENERAL_SIDEBAR_POSITION', values: [ {name: 'left'|trans , value: 'LEFT'}, {name: 'right'|trans , value: 'RIGHT' } ], defaultValue: 'RIGHT' } ) }}
+    {{ component('settings_row_switch', {label: 'rounded_edges'|trans, settingsKey: 'KBIN_GENERAL_ROUNDED_EDGES'}) }}
+    {{ component('settings_row_switch', {label: 'infinite_scroll'|trans, help: 'infinite_scroll_help'|trans ,  settingsKey: 'KBIN_GENERAL_INFINITE_SCROLL'}) }}
+    {{ component('settings_row_switch', {label: 'sticky_navbar'|trans, help: 'sticky_navbar_help'|trans,  settingsKey: 'KBIN_GENERAL_FIXED_NAVBAR'}) }}
+    {{ component('settings_row_switch', {label: 'show_top_bar'|trans, settingsKey: 'KBIN_GENERAL_TOPBAR'}) }}
     <strong>{{ 'threads'|trans }}</strong>
-    <div class="row">
-        <span>{{ 'auto_preview'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active':  app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'compact_view'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW'), value: constant('App\\Controller\\User\\ThemeSettingsController::CLASSIC')}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'show_users_avatars'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'show_magazines_icons'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <span>{{ 'show_thumbnails'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
+    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_help'|trans,  settingsKey: 'KBIN_ENTRIES_SHOW_PREVIEW'}) }}
+    {{ component('settings_row_switch', {label: 'compact_view'|trans, settingsKey: 'KBIN_ENTRIES_VIEW'}) }}
+    {{ component('settings_row_switch', {label: 'show_users_avatars'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_USERS_AVATARS'}) }}
+    {{ component('settings_row_switch', {label: 'show_magazines_icons'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'}) }}
+    {{ component('settings_row_switch', {label: 'show_thumbnails'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_THUMBNAILS', defaultValue: true}) }}
     <strong>{{ 'microblog'|trans }}</strong>
-    <div class="row">
-        <span>{{ 'auto_preview'|trans }}:</span>
-        <div>
-            <a class="{{ html_classes('link-muted', {'active':  app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW'), value: 'true'}) }}">
-                {{ 'yes'|trans }}
-            </a>
-            |
-            <a class="{{ html_classes('link-muted', {'active': not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'false'}) }}"
-               href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW'), value: 'false'}) }}">
-                {{ 'no'|trans }}
-            </a>
-        </div>
-    </div>
+    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_help'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
 </div>
