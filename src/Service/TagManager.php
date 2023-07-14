@@ -48,11 +48,8 @@ class TagManager
 
     public function transliterate(string $tag): string
     {
-        $transliterator = \Transliterator::createFromRules(
-            ':: NFD; :: [:Nonspacing Mark:] Remove; :: NFC;',
-            \Transliterator::FORWARD
-        );
-
-        return iconv('UTF-8', 'ASCII//TRANSLIT', $transliterator->transliterate($tag));
+        $transliterator = \Transliterator::create('Latin-ASCII');
+        $removerRule = \Transliterator::createFromRules(':: [:Nonspacing Mark:] Remove;');
+        return iconv('UTF-8', 'ASCII//TRANSLIT', $removerRule->transliterate($transliterator->transliterate($tag)));
     }
 }

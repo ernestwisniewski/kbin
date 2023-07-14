@@ -48,13 +48,14 @@ jobs:
         run: yarn build
 
   # Unit test is not fully isolated yet, disable for now
-  #unit-test:
-  #  runs-on: docker
-  #  container:
-  #    image: danger89/kbin-image:0.1.0
-  #  steps:
-  #    - uses: https://code.forgejo.org/actions/checkout@v3
-  #    - run: cp .env.example .env
-  #    - run: composer install --dev
-  #    - name: Run unit tests
-  #      run: php bin/phpunit tests/Unit
+  unit-test:
+    runs-on: docker
+    container:
+      image: danger89/kbin-image:0.1.0
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v3
+      - run: cp .env.example .env
+      - run: composer install --dev
+      - name: Run unit tests
+        run: |
+          SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit
