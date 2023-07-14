@@ -13,7 +13,7 @@ month: Miesiąc
 message: Wiadomość
 infinite_scroll: Nieskończone przewijanie
 show_top_bar: Pokaż top bar
-sticky_navbar: Przyklejający się pasek nawigacyjny
+sticky_navbar: Przyklejony pasek nawigacyjny
 subject_reported: Treść została zgłoszona.
 sidebar_position: Pozycja sidebara
 left: Lewo
@@ -485,3 +485,12 @@ sticky_navbar_help: Pasek nawigacyjny przyczepi się do góry strony, gdy przewi
   w dół.
 auto_preview_help: Automatycznie pokazuj podgląd mediów.
 reload_to_apply: Przeładuj stronę, żeby zaakceptować zmiany
+filter.origin.label: Wybierz pochodzenie
+filter.fields.label: Wybierz, które pola przeszukać
+filter.adult.only: Tylko NSFW
+filter.fields.only_names: Tylko nazwy
+filter.fields.names_and_descriptions: Nazwy i opis
+filter.adult.label: Wybierz, czy wyświetlać treści NSFW
+filter.adult.hide: Ukryj NSFW
+filter.adult.show: Pokaż NSFW
+local_and_federated: Lokalne i sfederowane
