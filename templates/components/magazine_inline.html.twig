@@ -8,7 +8,7 @@
              alt="{{ magazine.name ~ ' avatar' }}">
     {% endif %}
     {% if fullName %}
-        {{ magazine.name }}
+        {{ magazine.name }} {% if magazine.isAdult %}<small class="badge danger">18+</small>{% endif %}
     {% else %}
         {{ ('@'~magazine.name)|username(false) -}}
     {% endif %}
