@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Service;
 
 use App\Service\MentionManager;
+use App\Service\SettingsManager;
 use App\Tests\WebTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class MentionManagerTest extends WebTestCase
 {
@@ -15,6 +17,20 @@ class MentionManagerTest extends WebTestCase
     public function testExtract(string $input, ?array $output): void
     {
         $this->createClient();
+
+        // Create a SettingsManager mock
+        $settingsManagerMock = $this->createMock(SettingsManager::class);
+
+        // Configure the stubs
+        $settingsManagerMock->method('get')
+            ->with('KBIN_DOMAIN')
+            ->willReturn('domain.tld');
+        $settingsManagerMock->method('getValue')
+            ->with('KBIN_DOMAIN')
+            ->willReturn('domain.tld');
+
+        // Replace the actual setting service with the mock in the container
+        $this->getContainer()->set(SettingsManager::class, $settingsManagerMock);
 
         $manager = $this->getContainer()->get(MentionManager::class);
         $this->assertEquals($output, $manager->extract($input));
