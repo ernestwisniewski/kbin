@@ -53,8 +53,8 @@ activity: Activity
 cover: Cover
 related_posts: Related posts
 random_posts: Random posts
-federated_magazine_info: The magazine from the federated server may be incomplete.
-federated_user_info: The profile from the federated server may be incomplete.
+federated_magazine_info: This magazine is from a federated server and may be incomplete.
+federated_user_info: This profile is from a federated server and may be incomplete.
 go_to_original_instance: Browse more on the original instance.
 empty: Empty
 subscribe: Subscribe
@@ -100,14 +100,14 @@ useful: Useful
 help: Help
 check_email: Check your email
 reset_check_email_desc: If there is already an account associated with your email
-  address, you should shortly receive an email containing a link that you can use
+  address, you should receive an email shortly containing a link that you can use
   to reset your password. This link will expire in %expire%.
 reset_check_email_desc2: If you don't receive an email please check your spam folder.
 try_again: Try again
 up_vote: Boost
 down_vote: Reduce
 email_confirm_header: Hello! Confirm your email address.
-email_confirm_content: 'Ready to active your Kbin account? Click on the link below:'
+email_confirm_content: 'Ready to activate your /kbin account? Click on the link below:'
 email_verify: Confirm email address
 email_confirm_expire: Please note that the link will expire in an hour.
 email_confirm_title: Confirm your email address.
@@ -118,7 +118,7 @@ title: Title
 body: Body
 tags: Tags
 badges: Badges
-is_adult: +18 / NSFW
+is_adult: 18+ / NSFW
 eng: ENG
 oc: OC
 image: Image
@@ -158,7 +158,7 @@ cards_view: Cards view
 6h: 6h
 12h: 12h
 1d: 1d
-1w: 1t
+1w: 1w
 1m: 1m
 1y: 1y
 links: Links
@@ -167,8 +167,8 @@ photos: Photos
 videos: Videos
 report: Report
 share: Share
-copy_url: Copy url
-copy_url_to_fediverse: Copy url to Fediverse
+copy_url: Copy URL
+copy_url_to_fediverse: Copy URL to Fediverse
 share_on_fediverse: Share on Fediverse
 edit: Edit
 are_you_sure: Are you sure?
@@ -194,12 +194,13 @@ featured_magazines: Featured magazines
 privacy: Privacy
 show_profile_subscriptions: Show magazine subscriptions
 show_profile_followings: Show following users
-notify_on_new_entry_reply: Notify me of comments in my threads
-notify_on_new_entry_comment_reply: Notify me of replies to my threads comments
-notify_on_new_post_reply: Notify me of replies in my posts
-notify_on_new_post_comment_reply: Notify me of replies to my posts comments
-notify_on_new_entry: Notify me of new threads in a subscribed magazine
-notify_on_new_posts: Notify me of new posts in a subscribed magazine
+notify_on_new_entry_reply: Any level comments in threads I authored
+notify_on_new_entry_comment_reply: Replies to my comments in any threads
+notify_on_new_post_reply: Any level replies to posts I authored
+notify_on_new_post_comment_reply: Replies to my comments to any posts
+notify_on_new_entry: New threads (links or articles) in any magazine to which I'm
+  subscribed
+notify_on_new_posts: New posts in any magazine to which I'm subscribed
 save: Save
 about: About
 old_email: Current email
@@ -218,8 +219,8 @@ votes: Votes
 theme: Theme
 dark: Dark
 light: Light
-solarized_light: Solarized light
-solarized_dark: Solarized dark
+solarized_light: Solarized Light
+solarized_dark: Solarized Dark
 font_size: Font size
 size: Size
 boosts: Boosts
@@ -229,29 +230,28 @@ no: No
 show_magazines_icons: 'Show magazines’ icons'
 show_thumbnails: Show thumbnails
 rounded_edges: Rounded edges
-removed_thread_by: has removed thread by
-restored_thread_by: has restored thread by
-removed_comment_by: has removed comment by
+removed_thread_by: has removed a thread by
+restored_thread_by: has restored a thread by
+removed_comment_by: has removed a comment by
 restored_comment_by: has restored comment by
-removed_post_by: has removed post by
-restored_post_by: has restored post by
+removed_post_by: has removed a post by
+restored_post_by: has restored a post by
 he_banned: ban
 he_unbanned: unban
 read_all: Read all
 show_all: Show all
 ranking_disabled: Ranking is disabled
-flash_register_success: Welcome onboard, your account is now registered. One last
-  step! - Check your inbox for an activation link that will bring your account to
-  life.
-flash_thread_new_success: The thread has been created correctly and is now visible
+flash_register_success: Welcome aboard! Your account is now registered. One last step
+  - check your inbox for an activation link that will bring your account to life.
+flash_thread_new_success: The thread has been created successfully and is now visible
   to other users.
-flash_thread_edit_success: The thread has been correctly edited.
-flash_thread_delete_success: The thread has been correctly deleted.
-flash_thread_pin_success: The thread has been correctly pinned.
-flash_thread_unpin_success: The thread has been correctly unpinned.
-flash_magazine_new_success: The magazine has been created correctly. You can now add
-  new content or explore the magazines administration panel.
-flash_magazine_edit_success: The magazine has been correctly edited.
+flash_thread_edit_success: The thread has been successfully edited.
+flash_thread_delete_success: The thread has been successfully deleted.
+flash_thread_pin_success: The thread has been successfully pinned.
+flash_thread_unpin_success: The thread has been successfully unpinned.
+flash_magazine_new_success: The magazine has been created successfully. You can now
+  add new content or explore the magazine's administration panel.
+flash_magazine_edit_success: The magazine has been successfully edited.
 too_many_requests: Limit exceeded, please try again later.
 set_magazines_bar: Magazines bar
 set_magazines_bar_desc: add the magazine names after the comma
@@ -261,7 +261,7 @@ gold: Gold
 silver: Silver
 bronze: Bronze
 bronze_autobiographer: Autobiographer
-bronze_autobiographer_desc: For completing all fields in the profile
+bronze_autobiographer_desc: For completing all profile fields
 bronze_personality: Bronze personality
 bronze_personality_desc: 20 followers
 bronze_commentator: Bronze commentator
@@ -377,8 +377,10 @@ purge: Purge
 send_message: Send message
 message: Message
 infinite_scroll: Infinite scroll
+infinite_scroll_help: Automatically load more content when you reach the bottom of the page.
 show_top_bar: Show top bar
 sticky_navbar: Sticky navbar
+sticky_navbar_help: The navbar will stick to the top of the page when you scroll down.
 subject_reported: Content has been reported.
 sidebar_position: Sidebar position
 left: Left
@@ -438,10 +440,10 @@ FAQ: FAQ
 inactive: Inactive
 type_search_term: Type search term
 federation_enabled: Federation enabled
-registrations_enabled: Registrations enabled
+registrations_enabled: Registration enabled
 registration_disabled: Registration disabled
 restore: Restore
-add_mentions_entries: Add mention tags in entries
+add_mentions_entries: Add mention tags in threads
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.
 Your account is not active: Your account is not active.
@@ -462,10 +464,12 @@ magazine_panel_tags_info: Provide only if you want content from the fediverse to
   included in this magazine based on tags
 sidebar: Sidebar
 auto_preview: Auto media preview
+auto_preview_help: Automatically expand media previews.
 dynamic_lists: Dynamic lists
+reload_to_apply: Reload page to apply changes
 banned_instances: Banned instances
 kbin_intro_title: Explore the Fediverse
-kbin_intro_desc: it's a decentralized platform for content aggregation and microblogging
+kbin_intro_desc: is a decentralized platform for content aggregation and microblogging
   that operates within the Fediverse network.
 kbin_promo_title: Create your own instance
 kbin_promo_desc: '%link_start%Clone repo%link_end% and develop fediverse'

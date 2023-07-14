@@ -44,7 +44,7 @@ follow: Ακολούθησε
 reply: Απάντησε
 password: Κωδικός
 remember_me: Να με θυμάσαι
-top: Κορυφή
+top: Κορυφαία
 you_cant_login: Ξέχασες τον κωδικό σου;
 already_have_account: Έχεις ήδη λογαριασμό;
 register: Εγγραφή
@@ -82,7 +82,7 @@ url: URL
 title: Τίτλος
 tags: Ετικέτες
 badges: Σήματα
-is_adult: +18 / NSFW
+is_adult: 18+ / NSFW
 eng: ENG
 oc: OC
 image: Εικόνα
@@ -113,7 +113,8 @@ reset_check_email_desc: Αν υπάρχει ήδη λογαριασμός με �
 random_posts: Τυχαίες αναρτήσεις
 email_confirm_content: 'Έτοιμος να ενεργοποιήσεις τον λογαριασμό σου στο Kbin; Πάτησε
   στον παρακάτω σύνδεσμο:'
-federated_user_info: Το προφίλ από τον συνενωμένο server μπορεί να είναι ελλιπές.
+federated_user_info: Αυτό το προφίλ είναι από έναν συνενωμένο server και μπορεί να
+  είναι ελλιπές.
 email_confirm_expire: Λάβετε υπόψη ότι ο σύνδεσμος θα λήξει σε μία ώρα.
 description: Περιγραφή
 ratio: Αναλογία
@@ -162,12 +163,12 @@ reports: Αναφορές
 notifications: Ειδοποιήσεις
 messages: Μηνύματα
 appearance: Εμφάνιση
-hide_adult: Απόκρυψη περιεχομένου για ενηλίκους (NSFW)
+hide_adult: Απόκρυψη περιεχομένου για ενήλικες (NSFW)
 privacy: Ιδιωτικότητα
 show_profile_subscriptions: Εμφάνιση συνδρομών σε περιοδικά
-notify_on_new_entry_comment_reply: Ειδοποίησε με για απαντήσεις στα σχόλια των νημάτων
+notify_on_new_entry_comment_reply: Ειδοποίησέ με για απαντήσεις στα σχόλια του νήματος
   μου
-notify_on_new_post_reply: Ειδοποίησε με για απαντήσεις στις αναρτήσεις μου
+notify_on_new_post_reply: Ειδοποίησέ με για απαντήσεις στις αναρτήσεις μου
 notify_on_new_entry: Ειδοποίησε με για νέα νήματα σε ένα εγγεγραμμένο περιοδικό
 save: Αποθήκευση
 about: Σχετικά
@@ -186,7 +187,7 @@ votes: Ψήφοι
 theme: Θέμα
 dark: Σκοτεινό
 light: Φωτεινό
-solarized_light: Solarized φωτεινό
+solarized_light: Solarized Φωτεινό
 font_size: Μέγεθος γραμματοσειράς
 size: Μέγεθος
 boosts: Ενισχύσεις
@@ -230,7 +231,7 @@ bronze_post: Καλή ανάρτηση
 bronze_ranking: Νούμερο 3
 bronze_ranking_desc: 3η θέση στην κατάταξη
 bronze_popular_entry: Δημοφιλές Νήμα
-bronze_magazine: Δημοφιλές περιοδικό
+bronze_magazine: Διάσημο περιοδικό
 bronze_magazine_desc: Δημιούργησε περιοδικό με 20 ακολούθους
 silver_personality: Silver προσωπικότητα
 silver_personality_desc: 50 ακόλουθοι
@@ -331,7 +332,7 @@ Password is invalid: Ο κωδικός είναι μη έγκυρος.
 Your account has been banned: Ο λογαριασμός σας έχει αποκλειστεί.
 firstname: Όνομα
 send: Αποστολή
-active_users: Ενεργοί άνθρωποι
+active_users: Ενεργοί χρήστες
 random_entries: Τυχαία νήματα
 delete_account: Διαγραφή λογαριασμού
 purge_account: Εκκαθάριση λογαριασμού
@@ -347,10 +348,10 @@ boost: Ενίσχυση
 1d: 1 ημέρα
 edit: Επεξεργασία
 edit_article: Επεξεργασία νήματος
-notify_on_new_entry_reply: Ειδοποίησε με για σχόλια στα νήματά μου
+notify_on_new_entry_reply: Ειδοποίησέ με για σχόλια στα νήματά μου
 1y: 1 έτος
 general: Γενικά
-solarized_dark: Solarized σκοτεινό
+solarized_dark: Solarized Σκοτεινό
 share: Κοινοποίηση
 homepage: Αρχική
 notify_on_new_post_comment_reply: Ειδοποίησε με για απαντήσεις στα σχόλια των αναρτήσεων
@@ -362,7 +363,8 @@ restored_thread_by: έχει επαναφέρει το νήμα από
 new_password_repeat: Επιβεβαίωση νέου κωδικού πρόσβασης
 removed_post_by: έχει αφαιρέσει την ανάρτηση από
 bronze_link: Καλός σύνδεσμος
-flash_thread_new_success: Το νήμα δημιουργήθηκε σωστά και είναι ορατό σε άλλους χρήστες.
+flash_thread_new_success: Το νήμα δημιουργήθηκε επιτυχημένα και είναι ορατό σε άλλους
+  χρήστες.
 bronze_photo: Καλή φωτογραφία
 bronze_popular_entry_desc: Νήμα με 1000 επισκέψεις
 silver_commentator: Silver σχολιαστής
@@ -376,7 +378,7 @@ silver_entry_week_desc: Το καλύτερο νήμα της εβδομάδας
 silver_post_week_desc: Η καλύτερη ανάρτηση της εβδομάδας
 replied_to_your_comment: Απάντησε στο σχόλιό σου
 purge: Eκκαθάριση
-show_top_bar: Προβολή μπάρας κορυφής
+show_top_bar: Εμφάνιση μπάρας κορυφής
 approve: Αποδοχή
 trash: Διαγραμμένα
 change_magazine: Αλλαγή περιοδικού
@@ -414,14 +416,14 @@ comments_count: '{0}σχόλια|{1}σχόλιο|]1,Inf[ σχόλια'
 empty: Κενό
 unfollow: Κατάργηση ακολούθησης
 down_votes: Μειώσεις
-federated_magazine_info: Το περιοδικό από τον συνενωμένο server ενδέχεται να είναι
-  ελλιπές.
+federated_magazine_info: Αυτό το περιοδικό είναι από έναν συνενωμένο server και ενδέχεται
+  να είναι ελλιπές.
 go_to_original_instance: Περιηγηθείτε περισσότερο στο πρωτότυπο instance.
 login_or_email: Όνομα χρήστη ή email
 in: στο
 up_vote: Ενίσχυση
 down_vote: Μείωση
-moderated: Συντονισμένο
+moderated: Συντονισμένα
 reputation_points: Πόντοι φήμης
 body: Κείμενο
 following: Ακολουθεί
@@ -474,8 +476,12 @@ magazine_panel_tags_info: Παρέχετε μόνο εάν θέλετε περι
   περιλαμβάνεται σε αυτό το περιοδικό με βάση ετικέτες
 banned_instances: Instances σε απαγόρευση
 kbin_intro_title: Εξερευνήστε το Fediverse
-kbin_intro_desc: Eίναι μια αποκεντρωμένη πλατφόρμα για συγκέντρωση περιεχομένου και
+kbin_intro_desc: είναι μια αποκεντρωμένη πλατφόρμα για συγκέντρωση περιεχομένου και
   microblogging που λειτουργεί εντός του δικτύου Fediverse.
 kbin_promo_title: Δημιουργήστε το δικό σας instance
 kbin_promo_desc: '%link_start%Αντιγραφή clone repo%link_end% και ανάπτυξη fediverse'
 to: σε
+report_issue: Αναφορά προβλήματος
+tokyo_night: Tokyo Night
+mercure_enabled: Το Mercure είναι ενεργοποιημένο
+preferred_languages: Φιλτράρισμα γλωσσών των νημάτων και των αναρτήσεων
