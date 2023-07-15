@@ -1,6 +1,6 @@
-# Admin Bare Metal Guide
+# Admin Bare Metal/VM Guide
 
-Below is a step-by-step description of the process for creating your own instance from the moment a new VPS is created.
+Below is a step-by-step guide of the process for creating your own /kbin instance from the moment a new VPS/VM is created or directly on bare-metal.  
 This is a preliminary outline that will help you launch an instance for your own needs.
 
 For Docker see: [Admin Deployment Guide](./docker_deployment_guide.md).
