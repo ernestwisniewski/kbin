@@ -72,7 +72,7 @@
                 </table>
             </div>
             <div class="magazines magazine-list-mobile">
-                <div class="magazines__sortby">                     
+                <div class="magazines__sortby flex-wrap">
                     {% for column in ['threads', 'comments', 'posts', 'hot'] %}
                         <span>
                             <a href="{{ options_url('sortBy', column) }}" class="btn {{ (sortBy is same as column) ? 'btn__primary' : 'btn__secondary' }}">
