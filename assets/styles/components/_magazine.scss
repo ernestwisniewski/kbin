@@ -235,6 +235,7 @@ td {
   .magazines__sortby{
     display: flex;
     column-gap: 0.5rem;
+    row-gap: 0.5rem;
     align-items: center;
     margin-bottom: 1rem;
 
@@ -255,19 +256,23 @@ td {
 
     &__top{
       display: flex;
-      margin-bottom: 1rem;
       justify-content: flex-start;
       align-items: center;
-      margin-bottom: 1rem;
       column-gap: 1rem;
-
-      span:last-of-type{
-        margin-left: auto;
-      }
-
+      row-gap: 0.5rem;
+      flex-wrap: wrap;
     }
 
-    &__bottom{
+    &__inline{
+      width: 100%;
+      position: relative;
+    }
+
+    &__sub{
+      
+    }
+
+    &__information{
       justify-content: flex-start;
       display: flex;
       column-gap: 1rem;
@@ -284,6 +289,17 @@ td {
 
     }
 
+    &__info{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      
+      .value{
+        font-weight: bold;
+      }
+    }
+
     span{
       position: relative;
     }
@@ -293,8 +309,13 @@ td {
     }
   }
 
+  @include media-breakpoint-up(md){
+    border: solid 1px red;
+  }
 
   @include media-breakpoint-down(md){
     display: block;
   }
+
+
 }
