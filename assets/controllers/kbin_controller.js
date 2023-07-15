@@ -31,7 +31,7 @@ export default class extends ApplicationController {
         const area = container.querySelector('.options__main');
         const areaWidth = area.scrollWidth;
 
-        if (areaWidth > containerWidth) {
+        if (areaWidth > containerWidth && !area.nextElementSibling) {
             container.insertAdjacentHTML('beforeend', '<menu class="scroll"><li class="scroll-left"><i class="fa-solid fa-circle-left"></i></li><li class="scroll-right"><i class="fa-solid fa-circle-right"></i></li></menu>');
 
             const scrollLeft = container.querySelector('.scroll-left');
