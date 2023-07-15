@@ -43,12 +43,12 @@ jobs:
       - uses: https://code.forgejo.org/actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-composer-no-dev-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-no-dev-
 
       - run: cp .env.example .env
       - name: Composer install
-        run: composer install
+        run: composer install --no-dev --no-progress
       - name: Yarn install
         run: yarn install
 
@@ -80,7 +80,7 @@ jobs:
 
       - run: cp .env.example .env
       - name: Composer install
-        run: composer install
+        run: composer install --no-scripts --no-progress
 
       - name: Run unit tests
         run: |
