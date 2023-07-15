@@ -28,9 +28,6 @@
             "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
         }
     },
-    "dealerdirect/phpcodesniffer-composer-installer": {
-        "version": "v0.7.1"
-    },
     "debril/feed-io": {
         "version": "v5.0.10"
     },
@@ -372,18 +369,6 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
-    },
-    "slevomat/coding-standard": {
-        "version": "6.4.1"
-    },
-    "squizlabs/php_codesniffer": {
-        "version": "3.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "3.6",
-            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
-        }
     },
     "symfony/asset": {
         "version": "v5.3.2"
