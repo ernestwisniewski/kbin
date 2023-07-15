@@ -39,9 +39,6 @@ class ConvertMarkdown extends Event
         return $this->attributes[$key] ?? null;
     }
 
-    /**
-     * @param mixed $data
-     */
     public function addAttribute(string $key, $data): void
     {
         $this->attributes[$key] = $data;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Contracts\FavouriteInterface;
-use App\Entity\Contracts\VotableInterface;
 use App\Entity\Favourite;
 use App\Entity\User;
 use App\Event\FavouriteEvent;

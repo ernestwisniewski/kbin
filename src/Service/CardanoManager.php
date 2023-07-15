@@ -24,24 +24,24 @@ class CardanoManager
     }
 
     #[ArrayShape(['mnemonic' => 'string', 'address' => 'string', 'walletId' => 'string'])]
- public function createWallet(
+    public function createWallet(
         User $user,
-        ?string $mnemonic = null
+        string $mnemonic = null
     ): array {
-     if ($user->cardanoWalletId) {
-         $this->detachWallet($user);
-     }
+        if ($user->cardanoWalletId) {
+            $this->detachWallet($user);
+        }
 
-     $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
+        $walletInfo = $this->wallet->create($user->getPassword(), $mnemonic); // @todo
 
-     $user->cardanoWalletId = $walletInfo['walletId'];
-     $user->cardanoWalletAddress = $walletInfo['address'];
+        $user->cardanoWalletId = $walletInfo['walletId'];
+        $user->cardanoWalletAddress = $walletInfo['address'];
 
-     $this->entityManager->persist($user);
-     $this->entityManager->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
-     return $walletInfo;
- }
+        return $walletInfo;
+    }
 
     public function detachWallet(User $user): void
     {
@@ -60,7 +60,7 @@ class CardanoManager
         $this->entityManager->flush();
     }
 
-    public function txInit(ContentInterface $subject, string $sessionId, ?User $user = null)
+    public function txInit(ContentInterface $subject, string $sessionId, User $user = null)
     {
         $req = new EntryCardanoTxInit($subject, $sessionId, $user);
 
@@ -92,16 +92,16 @@ class CardanoManager
     }
 
     #[ArrayShape(['sum' => 'int', 'fee' => 'int'])]
- public function calculateFee(
+    public function calculateFee(
         string $receiverAddress,
         string $walletId,
         float $amount
     ): array {
-     $fee = $this->walletTransactions->calculateFee($receiverAddress, $walletId, $amount);
+        $fee = $this->walletTransactions->calculateFee($receiverAddress, $walletId, $amount);
 
-     return [
-         'sum' => ($this->walletTransactions->adaToLovelace($amount) + $fee['estimated_max']['quantity']) / 1000000,
-         'fee' => $fee['estimated_max']['quantity'] / 1000000,
-     ];
- }
+        return [
+            'sum' => ($this->walletTransactions->adaToLovelace($amount) + $fee['estimated_max']['quantity']) / 1000000,
+            'fee' => $fee['estimated_max']['quantity'] / 1000000,
+        ];
+    }
 }

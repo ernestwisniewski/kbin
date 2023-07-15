@@ -49,8 +49,7 @@ class EntryCommentDeleteController extends AbstractController
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
         Request $request
-    ): Response
-    {
+    ): Response {
         $this->validateCsrf('entry_comment_restore', $request->request->get('token'));
 
         $this->manager->restore($this->getUserOrThrow(), $comment);

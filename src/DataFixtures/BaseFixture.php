@@ -37,7 +37,7 @@ abstract class BaseFixture extends Fixture implements FixtureGroupInterface
         return Slugger::camelCase($value);
     }
 
-    protected function getRandomTime(?\DateTimeImmutable $from = null): \DateTimeImmutable
+    protected function getRandomTime(\DateTimeImmutable $from = null): \DateTimeImmutable
     {
         return new \DateTimeImmutable(
             $this->faker->dateTimeBetween(

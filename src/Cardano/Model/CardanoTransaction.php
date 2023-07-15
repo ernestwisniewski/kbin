@@ -6,6 +6,7 @@ namespace App\Cardano\Model;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoTransaction

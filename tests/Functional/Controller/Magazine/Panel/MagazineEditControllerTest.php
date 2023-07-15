@@ -8,7 +8,7 @@ use App\Tests\WebTestCase;
 
 class MagazineEditControllerTest extends WebTestCase
 {
-    public function testModCanSeePanelLink():void
+    public function testModCanSeePanelLink(): void
     {
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('JohnDoe'));

@@ -51,14 +51,14 @@ class UserOutboxController extends AbstractController
         'first' => 'string',
         'totalItems' => 'int',
     ])]
- private function getCollectionInfo(User $user): array
- {
-     return $this->collectionInfoWrapper->build(
-         'ap_user_outbox',
-         ['username' => $user->username],
-         $this->userRepository->countPublicActivity($user)
-     );
- }
+    private function getCollectionInfo(User $user): array
+    {
+        return $this->collectionInfoWrapper->build(
+            'ap_user_outbox',
+            ['username' => $user->username],
+            $this->userRepository->countPublicActivity($user)
+        );
+    }
 
     #[ArrayShape([
      '@context' => 'string',
@@ -68,24 +68,24 @@ class UserOutboxController extends AbstractController
      'totalItems' => 'int',
      'orderedItems' => 'array',
  ])]
- private function getCollectionItems(
+    private function getCollectionItems(
         User $user,
         int $page
     ): array {
-     $activity = $this->userRepository->findPublicActivity($page, $user);
+        $activity = $this->userRepository->findPublicActivity($page, $user);
 
-     $items = [];
-     foreach ($activity as $item) {
-         $items[] = $this->createWrapper->build($item);
-     }
+        $items = [];
+        foreach ($activity as $item) {
+            $items[] = $this->createWrapper->build($item);
+        }
 
-     return $this->collectionItemsWrapper->build(
-         'ap_user_outbox',
-         ['username' => $user->username],
-         $activity,
-         $items,
-         $page,
-         PostNoteFactory::getContext()
-     );
- }
+        return $this->collectionItemsWrapper->build(
+            'ap_user_outbox',
+            ['username' => $user->username],
+            $activity,
+            $items,
+            $page,
+            PostNoteFactory::getContext()
+        );
+    }
 }

@@ -15,7 +15,7 @@ class PostCommentReport extends Report
     #[JoinColumn(nullable: true)]
     public ?PostComment $postComment = null;
 
-    public function __construct(User $reporting, PostComment $comment, ?string $reason = null)
+    public function __construct(User $reporting, PostComment $comment, string $reason = null)
     {
         parent::__construct($reporting, $comment->user, $comment->magazine, $reason);
 

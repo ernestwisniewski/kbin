@@ -45,7 +45,6 @@ class ApHttpClient
         $resp = $this->cache->get('ap_'.hash('sha256', $url), function (ItemInterface $item) use ($url) {
             $this->logger->info("ApHttpClient:getActivityObject:url: {$url}");
 
-
             $client = new CurlHttpClient();
             $r = $client->request('GET', $url, [
                 'max_duration' => self::TIMEOUT,
@@ -53,7 +52,7 @@ class ApHttpClient
                 'headers' => $this->getInstanceHeaders($url),
             ]);
 
-            if (!str_starts_with((string)$r->getStatusCode(), '2')) {
+            if (!str_starts_with((string) $r->getStatusCode(), '2')) {
                 throw new InvalidApPostException("Get fail: {$url}, ".$r->getContent(false));
             }
 
@@ -90,7 +89,7 @@ class ApHttpClient
                         'timeout' => self::TIMEOUT,
                         'headers' => $this->getInstanceHeaders($apProfileId),
                     ]);
-                    if (str_starts_with((string)$r->getStatusCode(), '4')) {
+                    if (str_starts_with((string) $r->getStatusCode(), '4')) {
                         if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
                             $user->apDeletedAt = new \DateTime();
                             $this->userRepository->save($user, true);
@@ -122,7 +121,7 @@ class ApHttpClient
         return $resp ? json_decode($resp, true) : null;
     }
 
-    public function post(string $url, User|Magazine $actor, ?array $body = null): void
+    public function post(string $url, User|Magazine $actor, array $body = null): void
     {
         $cacheKey = 'ap_'.hash('sha256', $url.':'.$body['id']);
 
@@ -141,7 +140,7 @@ class ApHttpClient
             'headers' => $this->getHeaders($url, $actor, $body),
         ]);
 
-        if (!str_starts_with((string)$req->getStatusCode(), '2')) {
+        if (!str_starts_with((string) $req->getStatusCode(), '2')) {
             throw new InvalidApPostException("Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body));
         }
 
@@ -159,7 +158,7 @@ class ApHttpClient
         }, array_keys($headers), $headers);
     }
 
-    private function getHeaders(string $url, User|Magazine $actor, ?array $body = null): array
+    private function getHeaders(string $url, User|Magazine $actor, array $body = null): array
     {
         $headers = self::headersToSign($url, $body ? self::digest($body) : null);
         $stringToSign = self::headersToSigningString($headers);
@@ -182,7 +181,7 @@ class ApHttpClient
         return $headers;
     }
 
-    private function getInstanceHeaders(string $url, ?array $body = null, string $method = 'post')
+    private function getInstanceHeaders(string $url, array $body = null, string $method = 'post')
     {
         $keyId = 'https://'.$this->kbinDomain.'/i/actor#main-key';
         $privateKey = $this->getInstancePrivateKey();
@@ -209,11 +208,11 @@ class ApHttpClient
         'Accept' => 'string',
         'Digest' => 'string',
     ])]
-    protected static function headersToSign(string $url, ?string $digest = null, string $method = 'post'): array
+    protected static function headersToSign(string $url, string $digest = null, string $method = 'post'): array
     {
         $date = new \DateTime('UTC');
 
-        if(!in_array($method, ['post', 'get'])) {
+        if (!in_array($method, ['post', 'get'])) {
             throw new InvalidApPostException('Invalid method used to sign headers in ApHttpClient');
         }
         $headers = [
@@ -246,7 +245,7 @@ class ApHttpClient
 
     private function getInstancePrivateKey(): string
     {
-        return $this->cache->get(('instance_private_key'), function (ItemInterface $item) {
+        return $this->cache->get('instance_private_key', function (ItemInterface $item) {
             $item->expiresAt(new \DateTime('+1 day'));
 
             return $this->siteRepository->findAll()[0]->privateKey;
@@ -255,7 +254,7 @@ class ApHttpClient
 
     public function getInstancePublicKey(): string
     {
-        return $this->cache->get(('instance_public_key'), function (ItemInterface $item) {
+        return $this->cache->get('instance_public_key', function (ItemInterface $item) {
             $item->expiresAt(new \DateTime('+1 day'));
 
             return $this->siteRepository->findAll()[0]->publicKey;

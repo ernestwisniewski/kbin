@@ -7,7 +7,6 @@ namespace App\Tests\Unit\Service;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Tests\WebTestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
 class MentionManagerTest extends WebTestCase
 {

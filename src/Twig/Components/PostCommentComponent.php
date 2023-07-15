@@ -35,8 +35,8 @@ final class PostCommentComponent
     public function getLevel(): int
     {
         if (ThemeSettingsController::CLASSIC === $this->requestStack->getMainRequest()->cookies->get(
-                ThemeSettingsController::POST_COMMENTS_VIEW
-            )) {
+            ThemeSettingsController::POST_COMMENTS_VIEW
+        )) {
             return min($this->level, 2);
         }
 
@@ -45,11 +45,11 @@ final class PostCommentComponent
 
     public function canSeeTrashed(): bool
     {
-        if ($this->comment->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->comment->visibility) {
             return true;
         }
 
-        if ($this->comment->visibility === VisibilityInterface::VISIBILITY_TRASHED
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->comment->visibility
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->comment

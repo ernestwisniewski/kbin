@@ -17,7 +17,6 @@ use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
 use App\Factory\PostFactory;
 use App\Factory\UserFactory;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 

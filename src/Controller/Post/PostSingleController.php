@@ -55,8 +55,8 @@ class PostSingleController extends AbstractController
         $criteria->perPage = 25;
 
         if (ThemeSettingsController::CHAT === $request->cookies->get(
-                ThemeSettingsController::POST_COMMENTS_VIEW
-            )) {
+            ThemeSettingsController::POST_COMMENTS_VIEW
+        )) {
             $criteria->showSortOption(Criteria::SORT_OLD);
             $criteria->perPage = 100;
             $criteria->onlyParents = false;
@@ -82,7 +82,7 @@ class PostSingleController extends AbstractController
                 'post' => $post,
                 'comments' => $comments,
                 'form' => $this->createForm(
-                    PostCommentType::class, 
+                    PostCommentType::class,
                     $dto,
                     [
                         'parentLanguage' => $post->lang,

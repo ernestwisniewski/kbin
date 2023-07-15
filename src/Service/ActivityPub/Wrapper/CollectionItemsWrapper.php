@@ -24,36 +24,36 @@ class CollectionItemsWrapper
         'orderedItems' => "\Pagerfanta\PagerfantaInterface",
         'next' => 'string',
     ])]
- public function build(
+    public function build(
         string $routeName,
         array $routeParams,
         PagerfantaInterface $pagerfanta,
         array $items,
         int $page,
-        ?array $context = null
+        array $context = null
     ): array {
-     $result = [
-         '@context' => $context ? array_merge([ActivityPubActivityInterface::CONTEXT_URL], [$context])
-             : ActivityPubActivityInterface::CONTEXT_URL,
-         'type' => 'OrderedCollectionPage',
-         'partOf' => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
-         'id' => $this->urlGenerator->generate(
-             $routeName,
-             $routeParams + ['page' => $page],
-             UrlGeneratorInterface::ABSOLUTE_URL
-         ),
-         'totalItems' => $pagerfanta->getNbResults(),
-         'orderedItems' => $items,
-     ];
+        $result = [
+            '@context' => $context ? array_merge([ActivityPubActivityInterface::CONTEXT_URL], [$context])
+                : ActivityPubActivityInterface::CONTEXT_URL,
+            'type' => 'OrderedCollectionPage',
+            'partOf' => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
+            'id' => $this->urlGenerator->generate(
+                $routeName,
+                $routeParams + ['page' => $page],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            'totalItems' => $pagerfanta->getNbResults(),
+            'orderedItems' => $items,
+        ];
 
-     if ($pagerfanta->hasNextPage()) {
-         $result['next'] = $this->urlGenerator->generate(
-             $routeName,
-             $routeParams + ['page' => $pagerfanta->getNextPage()],
-             UrlGeneratorInterface::ABSOLUTE_URL
-         );
-     }
+        if ($pagerfanta->hasNextPage()) {
+            $result['next'] = $this->urlGenerator->generate(
+                $routeName,
+                $routeParams + ['page' => $pagerfanta->getNextPage()],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            );
+        }
 
-     return $result;
- }
+        return $result;
+    }
 }

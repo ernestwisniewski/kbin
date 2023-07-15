@@ -19,8 +19,8 @@ class BadRequestDtoException extends \Exception
         parent::__construct($message);
     }
 
-       public function getErrors(): ConstraintViolationList
-       {
-           return $this->errors;
-       }
+    public function getErrors(): ConstraintViolationList
+    {
+        return $this->errors;
+    }
 }

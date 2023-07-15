@@ -56,7 +56,6 @@ class MagazineReportController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
     public function reportReject(

@@ -10,8 +10,8 @@ use App\Event\Post\PostHasBeenSeenEvent;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class PostShowSubscriber implements EventSubscriberInterface
 {
@@ -23,12 +23,12 @@ class PostShowSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([PostHasBeenSeenEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         PostHasBeenSeenEvent::class => 'onShowEntry',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            PostHasBeenSeenEvent::class => 'onShowEntry',
+        ];
+    }
 
     public function onShowEntry(PostHasBeenSeenEvent $event): void
     {

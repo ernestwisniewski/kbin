@@ -6,7 +6,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent ('settings_row_enum', template: 'components/_settings_row_enum.html.twig')]
+#[AsTwigComponent('settings_row_enum', template: 'components/_settings_row_enum.html.twig')]
 class SettingsRowEnumComponent
 {
     public string $label;

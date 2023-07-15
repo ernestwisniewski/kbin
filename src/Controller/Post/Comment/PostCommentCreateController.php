@@ -105,7 +105,7 @@ class PostCommentCreateController extends AbstractController
                 $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn(string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle([$this->getUser()->username])[0]
+                    fn (string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle([$this->getUser()->username])[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;
@@ -121,7 +121,7 @@ class PostCommentCreateController extends AbstractController
             PostCommentType::class,
             $dto,
             [
-                'action'         => $this->generateUrl(
+                'action' => $this->generateUrl(
                     'post_comment_create',
                     [
                         'magazine_name' => $post->magazine->name,

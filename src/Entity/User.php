@@ -203,8 +203,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         string $email,
         string $username,
         string $password,
-        ?string $apProfileId = null,
-        ?string $apId = null
+        string $apProfileId = null,
+        string $apId = null
     ) {
         $this->email = $email;
         $this->password = $password;
@@ -265,7 +265,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -284,7 +284,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
-//         $this->plainPassword = null;
+        //         $this->plainPassword = null;
     }
 
     public function getModeratedMagazines(): Collection
@@ -296,7 +296,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $tokens = $this->moderatorTokens->matching($criteria);
 
         // Magazines
-        $magazines = $tokens->map(fn($token) => $token->magazine);
+        $magazines = $tokens->map(fn ($token) => $token->magazine);
         $criteria = Criteria::create()
             ->orderBy(['lastActive' => Criteria::DESC]);
 
@@ -578,7 +578,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     {
         return $this->notifications
             ->matching($this->getNewNotificationsCriteria())
-            ->filter(fn($notification) => 'message_notification' !== $notification->getType())
+            ->filter(fn ($notification) => 'message_notification' !== $notification->getType())
             ->count();
     }
 
@@ -589,7 +589,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
 
         return $this->notifications
             ->matching($criteria)
-            ->filter(fn($notification) => 'message_notification' === $notification->getType())
+            ->filter(fn ($notification) => 'message_notification' === $notification->getType())
             ->count();
     }
 

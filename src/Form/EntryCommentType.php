@@ -53,7 +53,7 @@ class EntryCommentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'     => EntryCommentDto::class,
+                'data_class' => EntryCommentDto::class,
                 'parentLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
             ]
         );

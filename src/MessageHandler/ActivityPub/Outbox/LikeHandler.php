@@ -73,7 +73,7 @@ class LikeHandler
 
             $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
 
-            if($this->settingsManager->isBannedInstance($inboxUrl)) {
+            if ($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;
             }
 

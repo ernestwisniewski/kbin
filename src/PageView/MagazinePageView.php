@@ -27,15 +27,14 @@ class MagazinePageView extends Criteria
         public string $sortOption,
         public string $federation,
         public string $adult,
-    )
-    {
+    ) {
         parent::__construct($page);
         $this->resolveSort($sortOption);
     }
 
     public function showOnlyLocalMagazines(): bool
     {
-        return $this->federation === self::AP_LOCAL;
+        return self::AP_LOCAL === $this->federation;
     }
 
     protected function routes(): array

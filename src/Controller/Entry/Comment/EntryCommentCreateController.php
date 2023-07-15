@@ -82,7 +82,7 @@ class EntryCommentCreateController extends AbstractController
         );
     }
 
-    private function getForm(Entry $entry, ?EntryComment $parent = null): FormInterface
+    private function getForm(Entry $entry, EntryComment $parent = null): FormInterface
     {
         $dto = new EntryCommentDto();
 
@@ -99,9 +99,9 @@ class EntryCommentCreateController extends AbstractController
                 $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn(string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle(
-                            [$this->getUser()->username]
-                        )[0]
+                    fn (string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle(
+                        [$this->getUser()->username]
+                    )[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;

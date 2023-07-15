@@ -29,7 +29,7 @@ final class DefaultLanguage implements EventSubscriberInterface
 
         if (null !== $dto && null === $dto->lang) {
             $dto->lang = $event->getForm()->getConfig()->getOption('parentLanguage', $this->locale);
-            
+
             $event->setData($dto);
         }
     }

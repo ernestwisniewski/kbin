@@ -65,7 +65,7 @@ class MentionManager
 
         return array_filter(
             $result,
-            fn($val) => !in_array(
+            fn ($val) => !in_array(
                 $val,
                 [
                     '@'.$activity->user->username,
@@ -89,7 +89,7 @@ class MentionManager
             self::REMOTE => $this->byApPrefix()
         };
 
-        $result = array_map(fn($val) => trim($val), $result);
+        $result = array_map(fn ($val) => trim($val), $result);
 
         return count($result) ? array_unique($result) : null;
     }
@@ -108,7 +108,7 @@ class MentionManager
     private function byPrefix(): array
     {
         preg_match_all('/(?<!\/)\B@([a-zA-Z0-9_-]{1,30}@?)/', $this->val, $matches);
-        $results = array_filter($matches[0], fn($val) => !str_ends_with($val, '@'));
+        $results = array_filter($matches[0], fn ($val) => !str_ends_with($val, '@'));
 
         return count($results) ? array_unique(array_values($results)) : [];
     }
@@ -131,12 +131,12 @@ class MentionManager
     public function addHandle(array $mentions): array
     {
         $res = array_map(
-            fn($val) => substr_count($val, '@') === 0 ? '@'.$val : $val,
+            fn ($val) => 0 === substr_count($val, '@') ? '@'.$val : $val,
             $mentions
         );
 
         return array_map(
-            fn($val) => substr_count($val, '@') < 2 ? $val.'@'.SettingsManager::getValue('KBIN_DOMAIN') : $val,
+            fn ($val) => substr_count($val, '@') < 2 ? $val.'@'.SettingsManager::getValue('KBIN_DOMAIN') : $val,
             $res
         );
     }
@@ -160,11 +160,11 @@ class MentionManager
 
         $domain = '@'.SettingsManager::getValue('KBIN_DOMAIN');
 
-        $mentions = array_map(fn($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
+        $mentions = array_map(fn ($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
 
-        $mentions = array_map(fn($val) => ltrim($val, '@'), $mentions);
+        $mentions = array_map(fn ($val) => ltrim($val, '@'), $mentions);
 
-        return array_filter($mentions, fn($val) => !str_contains($val, '@'));
+        return array_filter($mentions, fn ($val) => !str_contains($val, '@'));
     }
 
     public static function getRoute(?array $mentions): array
@@ -175,10 +175,10 @@ class MentionManager
 
         $domain = '@'.SettingsManager::getValue('KBIN_DOMAIN');
 
-        $mentions = array_map(fn($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
+        $mentions = array_map(fn ($val) => preg_replace('/'.preg_quote($domain, '/').'$/', '', $val), $mentions);
 
-        $mentions = array_map(fn($val) => ltrim($val, '@'), $mentions);
+        $mentions = array_map(fn ($val) => ltrim($val, '@'), $mentions);
 
-        return array_map(fn($val) => ltrim($val, '@'), $mentions);
+        return array_map(fn ($val) => ltrim($val, '@'), $mentions);
     }
 }

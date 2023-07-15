@@ -103,15 +103,15 @@ class PersonFactory
         'PropertyValue' => 'string',
         'value' => 'string',
     ])]
- public function getContext(): array
- {
-     return [
-         'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
-         'schema' => 'http://schema.org#',
-         'PropertyValue' => 'schema:PropertyValue',
-         'value' => 'schema:value',
-     ];
- }
+    public function getContext(): array
+    {
+        return [
+            'manuallyApprovesFollowers' => 'as:manuallyApprovesFollowers',
+            'schema' => 'http://schema.org#',
+            'PropertyValue' => 'schema:PropertyValue',
+            'value' => 'schema:value',
+        ];
+    }
 
     public function getActivityPubId(User $user): string
     {

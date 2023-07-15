@@ -44,6 +44,6 @@ class BoostController extends AbstractController
             );
         }
 
-        return $this->redirectToRefererOrHome($request, ($this->classService)->fromEntity($subject));
+        return $this->redirectToRefererOrHome($request, $this->classService->fromEntity($subject));
     }
 }

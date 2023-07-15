@@ -52,7 +52,7 @@ class DeleteHandler
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
         if (Entry::class === get_class($object)) {
             $fn = 'deleteEntry';
@@ -73,22 +73,22 @@ class DeleteHandler
         $this->$fn($object, $actor);
     }
 
-    private function deleteEntry(Entry $entry, User $user):void
+    private function deleteEntry(Entry $entry, User $user): void
     {
         $this->entryManager->delete($user, $entry);
     }
 
-    private function deleteEntryComment(EntryComment $comment, User $user):void
+    private function deleteEntryComment(EntryComment $comment, User $user): void
     {
         $this->entryCommentManager->delete($user, $comment);
     }
 
-    private function deletePost(Post $post, User $user):void
+    private function deletePost(Post $post, User $user): void
     {
         $this->postManager->delete($user, $post);
     }
 
-    private function deletePostComment(PostComment $comment, User $user):void
+    private function deletePostComment(PostComment $comment, User $user): void
     {
         $this->postCommentManager->delete($user, $comment);
     }

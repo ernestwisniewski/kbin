@@ -17,11 +17,10 @@ use Symfony\Contracts\Cache\CacheInterface;
 class EntryCommentDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly CacheInterface      $cache,
+        private readonly CacheInterface $cache,
         private readonly MessageBusInterface $bus,
-        private readonly DeleteWrapper       $deleteWrapper
-    )
-    {
+        private readonly DeleteWrapper $deleteWrapper
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -34,14 +33,14 @@ class EntryCommentDeleteSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
-        $this->cache->invalidateTags(['entry_comment_' . $event->comment->root?->getId() ?? $event->comment->getId()]);
+        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
     }
 
     public function onEntryCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
     {
-        $this->cache->invalidateTags(['entry_comment_' . $event->comment->root?->getId() ?? $event->comment->getId()]);
+        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
 

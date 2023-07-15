@@ -42,11 +42,11 @@ final class EntryComponent
 
     public function canSeeTrashed(): bool
     {
-        if ($this->entry->visibility === VisibilityInterface::VISIBILITY_VISIBLE) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->entry->visibility) {
             return true;
         }
 
-        if ($this->entry->visibility === VisibilityInterface::VISIBILITY_TRASHED
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->entry->visibility
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->entry

@@ -24,7 +24,7 @@ class LoginControllerTest extends WebTestCase
             )
         );
 
-        $crawler= $client->followRedirect();
+        $crawler = $client->followRedirect();
 
         $this->assertSelectorTextContains('#header', 'JohnDoe');
     }

@@ -67,7 +67,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $subject);

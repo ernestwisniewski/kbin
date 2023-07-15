@@ -33,7 +33,7 @@ class StatsController extends AbstractController
             $start = (new \DateTime())->modify("-$statsPeriod days");
         }
 
-        if ($withFederated == null) {
+        if (null == $withFederated) {
             $withFederated = false;
         }
 

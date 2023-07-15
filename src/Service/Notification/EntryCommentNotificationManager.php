@@ -177,7 +177,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn($user) => !in_array($user, $exclude));
+            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {

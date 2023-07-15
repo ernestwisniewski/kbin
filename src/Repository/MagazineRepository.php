@@ -78,7 +78,7 @@ class MagazineRepository extends ServiceEntityRepository
             }
 
             $qb->andWhere($restrictions)
-                ->setParameter('q', '%' . trim($criteria->query) . '%');
+                ->setParameter('q', '%'.trim($criteria->query).'%');
         }
 
         if ($criteria->showOnlyLocalMagazines()) {
@@ -268,18 +268,18 @@ class MagazineRepository extends ServiceEntityRepository
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -290,7 +290,7 @@ class MagazineRepository extends ServiceEntityRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -300,9 +300,9 @@ class MagazineRepository extends ServiceEntityRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 
     public function findAudience(Magazine $magazine): array
@@ -317,7 +317,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->setParameter('magazine', $magazine)
             ->getResult();
 
-        return array_map(fn($item) => $item['apInboxUrl'], $res);
+        return array_map(fn ($item) => $item['apInboxUrl'], $res);
     }
 
     public function findWithoutKeys(): array

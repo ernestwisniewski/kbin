@@ -5,7 +5,6 @@ namespace App\Twig\Components;
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
 use App\Service\MentionManager;
-use App\Twig\Runtime\UserExtensionRuntime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -72,7 +71,7 @@ final class RelatedEntriesComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
-                $entries = array_filter($entries, fn(Entry $e) => !$e->isAdult && !$e->magazine->isAdult);
+                $entries = array_filter($entries, fn (Entry $e) => !$e->isAdult && !$e->magazine->isAdult);
 
                 if (count($entries) > $this->limit) {
                     shuffle($entries); // randomize the order

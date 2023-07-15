@@ -128,7 +128,7 @@ class AwesomeBotFixtures extends Command
 
             $io->info("(m/{$entry->magazine->name}) {$entry->title}");
 
-//            sleep(rand(2,30));
+            //            sleep(rand(2,30));
         }
 
         return Command::SUCCESS;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Markdown\Factory;
 
-use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\ConverterInterface;
+use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\MarkdownConverter;
 
 class ConverterFactory

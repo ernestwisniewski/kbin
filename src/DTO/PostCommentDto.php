@@ -62,7 +62,7 @@ class PostCommentDto
             ->addViolation();
     }
 
-    public function createWithParent(Post $post, ?PostComment $parent, ?Image $image = null, ?string $body = null): self
+    public function createWithParent(Post $post, ?PostComment $parent, Image $image = null, string $body = null): self
     {
         $this->post = $post;
         $this->parent = $parent;

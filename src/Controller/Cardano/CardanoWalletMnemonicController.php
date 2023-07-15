@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoWalletMnemonicController extends CardanoController

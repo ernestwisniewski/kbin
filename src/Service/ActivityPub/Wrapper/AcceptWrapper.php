@@ -24,28 +24,28 @@ class AcceptWrapper
         'actor' => 'string',
         'object' => 'string',
     ])]
- public function build(
+    public function build(
         string $user,
         string $actor,
         string $remoteId,
     ): array {
-     $id = Uuid::v4()->toRfc4122();
+        $id = Uuid::v4()->toRfc4122();
 
-     return [
-         '@context' => ActivityPubActivityInterface::CONTEXT_URL,
-         'id' => $this->urlGenerator->generate(
-             'ap_object',
-             ['id' => $id],
-             UrlGeneratorInterface::ABSOLUTE_URL
-         ).'#accept',
-         'type' => 'Accept',
-         'actor' => $user,
-         'object' => [
-             'id' => $remoteId,
-             'type' => 'Follow',
-             'actor' => $actor,
-             'object' => $user,
-         ],
-     ];
- }
+        return [
+            '@context' => ActivityPubActivityInterface::CONTEXT_URL,
+            'id' => $this->urlGenerator->generate(
+                'ap_object',
+                ['id' => $id],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ).'#accept',
+            'type' => 'Accept',
+            'actor' => $user,
+            'object' => [
+                'id' => $remoteId,
+                'type' => 'Follow',
+                'actor' => $actor,
+                'object' => $user,
+            ],
+        ];
+    }
 }

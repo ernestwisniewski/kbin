@@ -2,7 +2,6 @@
 
 namespace App\Form\Type;
 
-use App\Service\SettingsManager;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
@@ -22,7 +21,6 @@ class LanguageType extends AbstractType
     private string $priorityLanguage;
     private array $preferredLanguages;
 
-
     public function __construct(
         private readonly Security $security,
         private readonly RequestStack $requestStack,
@@ -34,9 +32,9 @@ class LanguageType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'choice_loader'     =>  function (Options $options) {
+                'choice_loader' => function (Options $options) {
                     $this->preferredLanguages = $this->security->getUser()?->preferredLanguages ?? [];
-                    $this->priorityLanguage   = $options['priorityLanguage'];    
+                    $this->priorityLanguage = $options['priorityLanguage'];
 
                     if (0 === count($this->preferredLanguages)) {
                         $this->preferredLanguages = [$this->locale];
@@ -49,20 +47,20 @@ class LanguageType extends AbstractType
                             } catch (MissingResourceException) {
                             }
                         }
-                        
+
                         return array_flip($choices);
                     }), [$this->preferredLanguages, $this->priorityLanguage]);
                 },
-                'preferred_choices' => ChoiceList::preferred($this, function(string $choice): bool {
+                'preferred_choices' => ChoiceList::preferred($this, function (string $choice): bool {
                     if (in_array($choice, $this->preferredLanguages) || $this->priorityLanguage === $choice) {
                         return true;
                     }
 
                     return false;
                 }),
-                'required'          => true,
-                'autocomplete'      => false,
-                'priorityLanguage'  => '',
+                'required' => true,
+                'autocomplete' => false,
+                'priorityLanguage' => '',
             ]
         );
 

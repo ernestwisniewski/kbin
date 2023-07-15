@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
-use App\Entity\Contracts\VotableInterface;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class EntryModerateControllerTest extends WebTestCase

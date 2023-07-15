@@ -53,8 +53,8 @@ class EntrySingleController extends AbstractController
         $criteria->entry = $entry;
 
         if (ThemeSettingsController::CHAT === $request->cookies->get(
-                ThemeSettingsController::ENTRY_COMMENTS_VIEW
-            )) {
+            ThemeSettingsController::ENTRY_COMMENTS_VIEW
+        )) {
             $criteria->showSortOption(Criteria::SORT_OLD);
             $criteria->perPage = 100;
             $criteria->onlyParents = false;
@@ -78,13 +78,13 @@ class EntrySingleController extends AbstractController
             [
                 'magazine' => $magazine,
                 'comments' => $comments,
-                'entry'    => $entry,
-                'form'     => $this->createForm(EntryCommentType::class, $dto, [
-                    'action'         => $this->generateUrl(
+                'entry' => $entry,
+                'form' => $this->createForm(EntryCommentType::class, $dto, [
+                    'action' => $this->generateUrl(
                         'entry_comment_create',
                         [
                             'magazine_name' => $entry->magazine->name,
-                            'entry_id'      => $entry->getId(),
+                            'entry_id' => $entry->getId(),
                         ]
                     ),
                     'parentLanguage' => $entry->lang,

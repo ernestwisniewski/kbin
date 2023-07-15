@@ -21,16 +21,13 @@ use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -143,7 +140,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     {
         $user = $this->security->getUser();
 
-        if ($criteria->federation === Criteria::AP_LOCAL) {
+        if (Criteria::AP_LOCAL === $criteria->federation) {
             $qb->andWhere('e.apId IS NULL');
         }
 
@@ -163,7 +160,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         if ($criteria->tag) {
-            $qb->andWhere("JSONB_CONTAINS(e.tags, '\"" . $criteria->tag . "\"') = true");
+            $qb->andWhere("JSONB_CONTAINS(e.tags, '\"".$criteria->tag."\"') = true");
         }
 
         if ($criteria->domain) {
@@ -173,11 +170,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         if ($criteria->subscribed) {
             $qb->andWhere(
-                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM ' . MagazineSubscription::class . ' ms WHERE ms.user = :user) 
+                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
                 OR 
-                e.user IN (SELECT IDENTITY(uf.following) FROM ' . UserFollow::class . ' uf WHERE uf.follower = :user)
+                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
                 OR 
-                e.domain IN (SELECT IDENTITY(ds.domain) FROM ' . DomainSubscription::class . ' ds WHERE ds.user = :user)
+                e.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)
                 OR
                 e.user = :user'
             )
@@ -186,14 +183,14 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         if ($criteria->moderated) {
             $qb->andWhere(
-                'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM ' . Moderator::class . ' mm WHERE mm.user = :user)'
+                'e.magazine IN (SELECT IDENTITY(mm.magazine) FROM '.Moderator::class.' mm WHERE mm.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->favourite) {
             $qb->andWhere(
-                'e.id IN (SELECT IDENTITY(mf.entry) FROM ' . EntryFavourite::class . ' mf WHERE mf.user = :user)'
+                'e.id IN (SELECT IDENTITY(mf.entry) FROM '.EntryFavourite::class.' mf WHERE mf.user = :user)'
             );
             $qb->setParameter('user', $this->security->getUser());
         }
@@ -223,7 +220,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM ' . DomainBlock::class . ' db WHERE db.user = :domainBlocker)'
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
                 );
                 $qb->setParameter('domainBlocker', $user);
             }
@@ -256,7 +253,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             default:
         }
 
-        $qb->addOrderBy('e.createdAt', $criteria->sortOption === Criteria::SORT_OLD ? 'ASC' : 'DESC');
+        $qb->addOrderBy('e.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
         $qb->addOrderBy('e.id', 'DESC');
 
         return $qb;
@@ -344,7 +341,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $qb = $this->createQueryBuilder('e');
 
         return $qb
-            ->andWhere("JSONB_CONTAINS(e.tags, '\"" . $tag . "\"') = true")
+            ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
             ->andWhere('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
             ->andWhere('m.isAdult = false')
@@ -400,7 +397,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     private function countAll(EntryPageView|Criteria $criteria): int
     {
-        return $this->cache->get('entries_count_' . $criteria->magazine?->name, function (ItemInterface $item) use ($criteria): int {
+        return $this->cache->get('entries_count_'.$criteria->magazine?->name, function (ItemInterface $item) use ($criteria): int {
             $item->expiresAfter(60);
 
             if (!$criteria->magazine) {

@@ -27,7 +27,6 @@ class SearchRepository
     {
     }
 
-
     public function countModerated(User $user): int
     {
         $dql =
@@ -156,7 +155,7 @@ class SearchRepository
         ORDER BY created_at DESC
         ";
         $stmt = $conn->prepare($sql);
-        $stmt->bindValue('url', "%".$url."%");
+        $stmt->bindValue('url', '%'.$url.'%');
         $stmt = $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(
@@ -177,24 +176,24 @@ class SearchRepository
         $result = $pagerfanta->getCurrentPageResults();
 
         $objects = [];
-        if ($this->getOverviewIds((array)$result, 'entry')) {
+        if ($this->getOverviewIds((array) $result, 'entry')) {
             $objects = $this->entityManager->getRepository(Entry::class)->findBy(
-                ['id' => $this->getOverviewIds((array)$result, 'entry')]
+                ['id' => $this->getOverviewIds((array) $result, 'entry')]
             );
         }
-        if ($this->getOverviewIds((array)$result, 'entry_comment')) {
+        if ($this->getOverviewIds((array) $result, 'entry_comment')) {
             $objects = $this->entityManager->getRepository(EntryComment::class)->findBy(
-                ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+                ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
             );
         }
-        if ($this->getOverviewIds((array)$result, 'post')) {
+        if ($this->getOverviewIds((array) $result, 'post')) {
             $objects = $this->entityManager->getRepository(Post::class)->findBy(
-                ['id' => $this->getOverviewIds((array)$result, 'post')]
+                ['id' => $this->getOverviewIds((array) $result, 'post')]
             );
         }
-        if ($this->getOverviewIds((array)$result, 'post_comment')) {
+        if ($this->getOverviewIds((array) $result, 'post_comment')) {
             $objects = $this->entityManager->getRepository(Post::class)->findBy(
-                ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+                ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
             );
         }
 
@@ -203,28 +202,28 @@ class SearchRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 
     private function buildResult(array $result, $page, $countAll)
     {
         $entries = $this->entityManager->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
         $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
         $post = $this->entityManager->getRepository(Post::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post')]
+            ['id' => $this->getOverviewIds((array) $result, 'post')]
         );
         $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -235,7 +234,7 @@ class SearchRepository
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }

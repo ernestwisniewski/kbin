@@ -23,7 +23,7 @@ class EntryVotersController extends AbstractController
         Request $request
     ): Response {
         $votes = $entry->votes->filter(
-            fn($e) => $e->choice === ('up' === $type ? VotableInterface::VOTE_UP : VotableInterface::VOTE_DOWN)
+            fn ($e) => $e->choice === ('up' === $type ? VotableInterface::VOTE_UP : VotableInterface::VOTE_DOWN)
         );
 
         return $this->render('entry/voters.html.twig', [

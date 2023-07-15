@@ -58,17 +58,17 @@ class EntryPageFactory
                 $entry->apId
                     ? ($this->client->getActorObject($entry->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                    'ap_user_followers',
-                    ['username' => $entry->user->username],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+                        'ap_user_followers',
+                        ['username' => $entry->user->username],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
             ],
             'name' => $entry->title,
             'content' => $entry->body ? $this->markdownConverter->convertToHtml($entry->body) : null,
             'summary' => $entry->getShortDesc().' '.implode(
-                    ' ',
-                    array_map(fn($val) => '#'.$val, $tags)
-                ),
+                ' ',
+                array_map(fn ($val) => '#'.$val, $tags)
+            ),
             'mediaType' => 'text/html',
             'url' => $this->getUrl($entry),
             'tag' => array_merge(

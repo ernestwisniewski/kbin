@@ -53,7 +53,7 @@ class PostCommentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class'     => PostCommentDto::class,
+                'data_class' => PostCommentDto::class,
                 'parentLanguage' => $this->settingsManager->get('KBIN_DEFAULT_LANG'),
             ]
         );

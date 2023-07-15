@@ -19,15 +19,14 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class CreateHandler
 {
     public function __construct(
-        private readonly MessageBusInterface    $bus,
-        private readonly UserRepository         $userRepository,
-        private readonly MagazineRepository     $magazineRepository,
-        private readonly CreateWrapper          $createWrapper,
+        private readonly MessageBusInterface $bus,
+        private readonly UserRepository $userRepository,
+        private readonly MagazineRepository $magazineRepository,
+        private readonly CreateWrapper $createWrapper,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ActivityPubManager     $activityPubManager,
-        private readonly SettingsManager        $settingsManager
-    )
-    {
+        private readonly ActivityPubManager $activityPubManager,
+        private readonly SettingsManager $settingsManager
+    ) {
     }
 
     public function __invoke(CreateMessage $message): void
@@ -57,7 +56,7 @@ class CreateHandler
 
             $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
 
-            if($this->settingsManager->isBannedInstance($inboxUrl)) {
+            if ($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;
             }
 

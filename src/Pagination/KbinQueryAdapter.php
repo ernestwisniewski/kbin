@@ -12,7 +12,7 @@ class KbinQueryAdapter extends QueryAdapter
     public function __construct(
         Query|QueryBuilder $query,
         bool $fetchJoinCollection = true,
-        ?bool $useOutputWalkers = null,
+        bool $useOutputWalkers = null,
         private ?CacheInterface $cache = null,
     ) {
         parent::__construct($query, $fetchJoinCollection, $useOutputWalkers);
@@ -33,7 +33,7 @@ class KbinQueryAdapter extends QueryAdapter
 
         $key = md5($this->paginator->getQuery()->getDQL()).md5(json_encode($values->toArray()));
 
-        return $this->cache->get(('pagination_count_'.$key), function (ItemInterface $item) {
+        return $this->cache->get('pagination_count_'.$key, function (ItemInterface $item) {
             $item->expiresAfter(60);
 
             return \count($this->paginator);

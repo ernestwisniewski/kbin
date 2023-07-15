@@ -31,7 +31,7 @@ class ImageManager
     {
         $urlExt = pathinfo($url, PATHINFO_EXTENSION);
 
-        $types = array_map(fn($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
+        $types = array_map(fn ($type) => str_replace('image/', '', $type), self::IMAGE_MIMETYPES);
 
         return in_array($urlExt, $types);
     }

@@ -65,8 +65,7 @@ class EntryDeleteController extends AbstractController
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
         Request $request
-    ): Response
-    {
+    ): Response {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
         $this->manager->purge($entry);

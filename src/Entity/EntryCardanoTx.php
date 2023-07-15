@@ -21,7 +21,7 @@ class EntryCardanoTx extends CardanoTx
         int $amount,
         string $txHash,
         \DateTimeImmutable $createdAt,
-        ?User $sender = null,
+        User $sender = null,
     ) {
         parent::__construct($entry->magazine, $amount, $txHash, $createdAt, $sender);
         $this->entry = $entry;

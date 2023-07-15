@@ -24,22 +24,22 @@ class CreateWrapper
         'cc' => 'mixed',
         'object' => 'array',
     ])]
- public function build(ActivityPubActivityInterface $item): array
- {
-     $item = $this->factory->create($item, true);
+    public function build(ActivityPubActivityInterface $item): array
+    {
+        $item = $this->factory->create($item, true);
 
-     $context = $item['@context'];
-     unset($item['@context']);
+        $context = $item['@context'];
+        unset($item['@context']);
 
-     return [
-         '@context' => $context,
-         'id' => $item['id'],
-         'type' => 'Create',
-         'actor' => $item['attributedTo'],
-         'published' => $item['published'],
-         'to' => $item['to'],
-         'cc' => $item['cc'],
-         'object' => $item,
-     ];
- }
+        return [
+            '@context' => $context,
+            'id' => $item['id'],
+            'type' => 'Create',
+            'actor' => $item['attributedTo'],
+            'published' => $item['published'],
+            'to' => $item['to'],
+            'cc' => $item['cc'],
+            'object' => $item,
+        ];
+    }
 }

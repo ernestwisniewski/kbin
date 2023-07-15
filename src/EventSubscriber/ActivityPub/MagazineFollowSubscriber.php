@@ -17,12 +17,12 @@ class MagazineFollowSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([MagazineSubscribedEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         MagazineSubscribedEvent::class => 'onMagazineFollow',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            MagazineSubscribedEvent::class => 'onMagazineFollow',
+        ];
+    }
 
     public function onMagazineFollow(MagazineSubscribedEvent $event): void
     {

@@ -8,6 +8,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoWalletTransactions

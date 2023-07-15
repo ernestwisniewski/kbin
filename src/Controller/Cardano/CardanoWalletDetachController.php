@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoWalletDetachController extends CardanoController

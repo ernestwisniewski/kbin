@@ -8,7 +8,7 @@ use App\Repository\ReputationRepository;
 
 class ReputationManager
 {
-    public function resolveType(?string $value, ?string $default = null): string
+    public function resolveType(?string $value, string $default = null): string
     {
         $routes = [
             'threads' => ReputationRepository::TYPE_ENTRY,

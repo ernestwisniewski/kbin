@@ -23,11 +23,11 @@ use App\Repository\EntryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -148,7 +148,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         bool $isAdult,
         ?bool $isOc,
         ?string $lang,
-        ?string $ip = null
+        string $ip = null
     ) {
         $this->title = $title;
         $this->url = $url;
@@ -388,7 +388,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string)$amount : '';
+        return $amount > 0 ? (string) $amount : '';
     }
 
     public function isAdult(): bool

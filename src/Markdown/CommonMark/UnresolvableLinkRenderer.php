@@ -24,7 +24,7 @@ final class UnresolvableLinkRenderer implements NodeRendererInterface
         return new HtmlElement(
             'span',
             [
-                'class' => 'mention mention--unresolvable'
+                'class' => 'mention mention--unresolvable',
             ],
             $node->getLiteral(),
         );

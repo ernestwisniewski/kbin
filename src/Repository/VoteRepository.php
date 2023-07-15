@@ -12,7 +12,7 @@ class VoteRepository
     {
     }
 
-    public function count(?\DateTimeImmutable $date = null, ?bool $withFederated = null): int
+    public function count(\DateTimeImmutable $date = null, bool $withFederated = null): int
     {
         $conn = $this->entityManager->getConnection();
         $sql = "
@@ -31,17 +31,18 @@ class VoteRepository
         return $stmt->rowCount();
     }
 
-    private function where(?\DateTimeImmutable $date = null, ?bool $withFederated = null): string
+    private function where(\DateTimeImmutable $date = null, bool $withFederated = null): string
     {
         $dateWhere = $date ? "created_at > '{$date->format('Y-m-d H:i:s')}'" : '';
-        $withoutFederationWhere = "EXISTS (SELECT * FROM public.user WHERE public.user.ap_id IS NULL and public.user.id=user_id)";
-        if ($date and !$withFederated)
+        $withoutFederationWhere = 'EXISTS (SELECT * FROM public.user WHERE public.user.ap_id IS NULL and public.user.id=user_id)';
+        if ($date and !$withFederated) {
             return "WHERE $dateWhere AND $withoutFederationWhere";
-        else if ($date and $withFederated === true)
+        } elseif ($date and true === $withFederated) {
             return "WHERE $dateWhere";
-        else if (!$date and !$withFederated)
+        } elseif (!$date and !$withFederated) {
             return "WHERE $withoutFederationWhere";
-        else
+        } else {
             return '';
+        }
     }
 }

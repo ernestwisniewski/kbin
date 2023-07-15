@@ -87,19 +87,19 @@ class MagazineManager
     {
         $user->unblockMagazine($magazine);
 
-//        if ($magazine->apId && $createRequest) {
-//            if ($this->requestRepository->findOneby(['user' => $user, 'magazine' => $magazine])) {
-//                return;
-//            }
-//
-//            $request = new MagazineSubscriptionRequest($user, $magazine);
-//            $this->entityManager->persist($request);
-//            $this->entityManager->flush();
-//
-//            $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
-//
-//            return;
-//        }
+        //        if ($magazine->apId && $createRequest) {
+        //            if ($this->requestRepository->findOneby(['user' => $user, 'magazine' => $magazine])) {
+        //                return;
+        //            }
+        //
+        //            $request = new MagazineSubscriptionRequest($user, $magazine);
+        //            $this->entityManager->persist($request);
+        //            $this->entityManager->flush();
+        //
+        //            $this->dispatcher->dispatch(new MagazineSubscribedEvent($magazine, $user));
+        //
+        //            return;
+        //        }
 
         $magazine->subscribe($user);
 

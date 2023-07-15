@@ -13,7 +13,7 @@ class VoteEvent
         public VotableInterface $votable,
         public Vote $vote,
         public bool $votedAgain,
-        ?string $apId = null
+        string $apId = null
     ) {
     }
 }

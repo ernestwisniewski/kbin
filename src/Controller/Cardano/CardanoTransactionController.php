@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoTransactionController extends CardanoController

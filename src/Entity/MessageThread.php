@@ -51,68 +51,68 @@ class MessageThread
         $this->messages = new ArrayCollection();
     }
 
-       public function getId(): ?int
-       {
-           return $this->id;
-       }
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-       public function getOtherParticipants(User $self): array
-       {
-           return $this->participants->filter(
-               static function (User $user) use ($self) {
-                   return $user !== $self;
-               }
-           )->getValues();
-       }
+    public function getOtherParticipants(User $self): array
+    {
+        return $this->participants->filter(
+            static function (User $user) use ($self) {
+                return $user !== $self;
+            }
+        )->getValues();
+    }
 
-       public function getNewMessages(User $user): Collection
-       {
-           $criteria = Criteria::create()
-               ->where(Criteria::expr()->eq('status', Message::STATUS_NEW))
-               ->andWhere(Criteria::expr()->neq('sender', $user));
+    public function getNewMessages(User $user): Collection
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', Message::STATUS_NEW))
+            ->andWhere(Criteria::expr()->neq('sender', $user));
 
-           return $this->messages->matching($criteria);
-       }
+        return $this->messages->matching($criteria);
+    }
 
-       public function countNewMessages(User $user): int
-       {
-           $criteria = Criteria::create()
-               ->where(Criteria::expr()->eq('status', Message::STATUS_NEW))
-               ->andWhere(Criteria::expr()->neq('sender', $user));
+    public function countNewMessages(User $user): int
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', Message::STATUS_NEW))
+            ->andWhere(Criteria::expr()->neq('sender', $user));
 
-           return $this->messages->matching($criteria)->count();
-       }
+        return $this->messages->matching($criteria)->count();
+    }
 
-       public function addMessage(Message $message): void
-       {
-           if (!$this->messages->contains($message)) {
-               if (!$this->userIsParticipant($message->sender)) {
-                   throw new \DomainException('Sender is not allowed to participate');
-               }
+    public function addMessage(Message $message): void
+    {
+        if (!$this->messages->contains($message)) {
+            if (!$this->userIsParticipant($message->sender)) {
+                throw new \DomainException('Sender is not allowed to participate');
+            }
 
-               $this->messages->add($message);
-           }
-       }
+            $this->messages->add($message);
+        }
+    }
 
-       public function userIsParticipant($user): bool
-       {
-           return $this->participants->contains($user);
-       }
+    public function userIsParticipant($user): bool
+    {
+        return $this->participants->contains($user);
+    }
 
-       public function removeMessage(Message $message): void
-       {
-           $this->messages->removeElement($message);
-       }
+    public function removeMessage(Message $message): void
+    {
+        $this->messages->removeElement($message);
+    }
 
-       public function getTitle(): string
-       {
-           $body = $this->messages[0]->body;
-           $firstLine = preg_replace('/^# |\R.*/', '', $body);
+    public function getTitle(): string
+    {
+        $body = $this->messages[0]->body;
+        $firstLine = preg_replace('/^# |\R.*/', '', $body);
 
-           if (grapheme_strlen($firstLine) <= 80) {
-               return $firstLine;
-           }
+        if (grapheme_strlen($firstLine) <= 80) {
+            return $firstLine;
+        }
 
-           return grapheme_substr($firstLine, 0, 80).'…';
-       }
+        return grapheme_substr($firstLine, 0, 80).'…';
+    }
 }

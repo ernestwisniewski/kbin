@@ -11,7 +11,6 @@ use App\Markdown\CommonMark\Node\UnresolvableLink;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
 use App\Service\SettingsManager;
-use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Parser\Inline\InlineParserInterface;
 use League\CommonMark\Parser\Inline\InlineParserMatch;
@@ -41,56 +40,59 @@ class MentionLinkParser implements InlineParserInterface
         $cursor = $ctx->getCursor();
         $cursor->advanceBy($ctx->getFullMatchLength());
 
-        $matches  = $ctx->getSubMatches();
+        $matches = $ctx->getSubMatches();
         $username = $matches['0'];
-        $domain   = $matches['1'] ?? $this->settingsManager->get('KBIN_DOMAIN');
+        $domain = $matches['1'] ?? $this->settingsManager->get('KBIN_DOMAIN');
 
-        $fullUsername = $username . '@' . $domain;
+        $fullUsername = $username.'@'.$domain;
 
         [$type, $data] = $this->resolveType($username, $domain);
 
         if ($data instanceof User && $data->apPublicUrl) {
             $ctx->getContainer()->appendChild(
                 $this->generateNode(
-                    $data->apPublicUrl, 
-                    '@' . $username, 
-                    '@' . $data->apId, 
-                    '@' . $data->apId, 
+                    $data->apPublicUrl,
+                    '@'.$username,
+                    '@'.$data->apId,
+                    '@'.$data->apId,
                     MentionType::RemoteUser,
                 )
             );
+
             return true;
         }
 
         if ($data instanceof Magazine && $data->apPublicUrl) {
             $ctx->getContainer()->appendChild(
                 $this->generateNode(
-                    $data->apPublicUrl, 
-                    '@' . $username, 
-                    '@' . $data->apId, 
-                    $data->apId, 
+                    $data->apPublicUrl,
+                    '@'.$username,
+                    '@'.$data->apId,
+                    $data->apId,
                     MentionType::RemoteMagazine,
                 )
             );
+
             return true;
         }
-        
+
         [$url, $value, $title, $kbinUsername] = match ($type) {
-            MentionType::RemoteUser     => [$this->resolveUrl($type, '@' . $fullUsername), '@' . $username, '@' . $fullUsername, '@' . $fullUsername],
-            MentionType::RemoteMagazine => [$this->resolveUrl($type, $fullUsername), '@' . $username, '@' . $fullUsername, $fullUsername],
-            MentionType::Magazine       => [$this->resolveUrl($type, $username), '@' . $username, '@' . $fullUsername, $username],
-            MentionType::Search         => [$this->resolveUrl($type, $fullUsername), '@' . $username, '@' . $fullUsername, $fullUsername],
-            MentionType::Unresolvable   => ['', '@' . $username, '@' . $username, $username],
-            MentionType::User           => [$this->resolveUrl($type, $username), '@' . $username, '@' . $fullUsername, $username],
+            MentionType::RemoteUser => [$this->resolveUrl($type, '@'.$fullUsername), '@'.$username, '@'.$fullUsername, '@'.$fullUsername],
+            MentionType::RemoteMagazine => [$this->resolveUrl($type, $fullUsername), '@'.$username, '@'.$fullUsername, $fullUsername],
+            MentionType::Magazine => [$this->resolveUrl($type, $username), '@'.$username, '@'.$fullUsername, $username],
+            MentionType::Search => [$this->resolveUrl($type, $fullUsername), '@'.$username, '@'.$fullUsername, $fullUsername],
+            MentionType::Unresolvable => ['', '@'.$username, '@'.$username, $username],
+            MentionType::User => [$this->resolveUrl($type, $username), '@'.$username, '@'.$fullUsername, $username],
         };
-        
+
         $ctx->getContainer()->appendChild($this->generateNode($url, $value, $title, $kbinUsername, $type));
+
         return true;
     }
 
     private function generateNode(string $url, string $value, string $title, string $kbinUsername, MentionType $type): Node
     {
-        if ($type === MentionType::Unresolvable) {
+        if (MentionType::Unresolvable === $type) {
             return new UnresolvableLink($value);
         }
 
@@ -101,21 +103,21 @@ class MentionLinkParser implements InlineParserInterface
     {
         return $domain !== $this->settingsManager->get('KBIN_DOMAIN');
     }
-    
+
     /**
      * @return array{type: MentionType, data: User|Magazine|null}
      */
     private function resolveType(string $handle, ?string $domain): array
     {
         if ($this->isRemoteMention($domain)) {
-            return $this->resolveRemoteType($handle . '@' . $domain);
+            return $this->resolveRemoteType($handle.'@'.$domain);
         }
 
-        if ($this->userRepository->findOneByUsername($handle) !== null) {
+        if (null !== $this->userRepository->findOneByUsername($handle)) {
             return [MentionType::User, null];
         }
 
-        if ($this->magazineRepository->findOneByName($handle) !== null) {
+        if (null !== $this->magazineRepository->findOneByName($handle)) {
             return [MentionType::Magazine, null];
         }
 
@@ -127,7 +129,7 @@ class MentionLinkParser implements InlineParserInterface
      */
     private function resolveRemoteType($fullyQualifiedHandle): array
     {
-        $user = $this->userRepository->findOneByUsername('@' . $fullyQualifiedHandle);
+        $user = $this->userRepository->findOneByUsername('@'.$fullyQualifiedHandle);
         // we're aware of this account, link to it directly
         if ($user && $user->apPublicUrl) {
             return [MentionType::RemoteUser, $user];
@@ -143,14 +145,14 @@ class MentionLinkParser implements InlineParserInterface
         return [MentionType::Search, null];
     }
 
-    private function resolveUrl(MentionType $type, string $slug): string 
+    private function resolveUrl(MentionType $type, string $slug): string
     {
-        [$route, $param] = match($type) {
-            MentionType::Magazine       => ['front_magazine', 'name'],
+        [$route, $param] = match ($type) {
+            MentionType::Magazine => ['front_magazine', 'name'],
             MentionType::RemoteMagazine => ['front_magazine', 'name'],
-            MentionType::RemoteUser     => ['user_overview', 'username'],
-            MentionType::Search         => ['search', 'q'],
-            MentionType::User           => ['user_overview', 'username'],
+            MentionType::RemoteUser => ['user_overview', 'username'],
+            MentionType::Search => ['search', 'q'],
+            MentionType::User => ['user_overview', 'username'],
         };
 
         return $this->urlGenerator->generate($route, [$param => $slug], UrlGeneratorInterface::ABSOLUTE_URL);

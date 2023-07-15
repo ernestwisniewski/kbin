@@ -46,7 +46,7 @@ final class VotersInlineComponent
                     'components/voters_inline.html.twig',
                     [
                         'attributes' => new ComponentAttributes($attributes->all()),
-                        'voters' => array_map(fn($vote) => $vote->user->username, $votes),
+                        'voters' => array_map(fn ($vote) => $vote->user->username, $votes),
                         'count' => $this->subject->countUpVotes(),
                         'url' => $this->url,
                     ]

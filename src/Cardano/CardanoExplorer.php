@@ -8,6 +8,7 @@ use GraphQL\Client;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoExplorer

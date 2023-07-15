@@ -12,12 +12,12 @@ use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
-use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\RegexHelper;
 
 final class ExternalLinkRenderer implements NodeRendererInterface
@@ -33,7 +33,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         Node $node,
         ChildNodeRendererInterface $childRenderer
     ): HtmlElement {
-        /** @var Link $node */
+        /* @var Link $node */
         Link::assertInstanceOf($node);
 
         $url = $title = $node->getUrl();
@@ -43,8 +43,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         }
 
         if (
-            ! $this->isMentionType($node)
-                && (ImageManager::isImageUrl($url) 
+            !$this->isMentionType($node)
+                && (ImageManager::isImageUrl($url)
                     || $this->isEmbed($url, $title)
                 )
         ) {
@@ -53,15 +53,15 @@ final class ExternalLinkRenderer implements NodeRendererInterface
 
         $attr = match ($node::class) {
             ActorSearchLink::class => [],
-            CommunityLink::class   => $this->generateCommunityLinkData($node),
-            MentionLink::class     => $this->generateMentionLinkData($node),
-            TagLink::class         => [
-                'class' => 'hashtag tag', 
-                'rel'  =>  'tag',
+            CommunityLink::class => $this->generateCommunityLinkData($node),
+            MentionLink::class => $this->generateMentionLinkData($node),
+            TagLink::class => [
+                'class' => 'hashtag tag',
+                'rel' => 'tag',
             ],
             default => [
-                'class' => 'kbin-media-link', 
-                'rel'   => 'nofollow noopener noreferrer',
+                'class' => 'kbin-media-link',
+                'rel' => 'nofollow noopener noreferrer',
             ],
         };
 
@@ -86,7 +86,6 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     }
 
     /**
-     * @param MentionLink $link
      * @return array{
      *     class: string,
      *     title: string,
@@ -97,26 +96,25 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     private function generateMentionLinkData(MentionLink $link): array
     {
         $data = [
-            'class'                        => 'mention',
-            'title'                        => $link->getTitle(),
+            'class' => 'mention',
+            'title' => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
         ];
 
-        if ($link->getType() === MentionType::Magazine || $link->getType() === MentionType::RemoteMagazine) {
-            $data['class']       = $data['class'] . ' mention--magazine';
+        if (MentionType::Magazine === $link->getType() || MentionType::RemoteMagazine === $link->getType()) {
+            $data['class'] = $data['class'].' mention--magazine';
             $data['data-action'] = 'mentions#navigate_magazine';
         }
 
-        if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
-            $data['class']       = $data['class'] . ' u-url mention--user';
+        if (MentionType::User === $link->getType() || MentionType::RemoteUser === $link->getType()) {
+            $data['class'] = $data['class'].' u-url mention--user';
             $data['data-action'] = 'mouseover->mentions#user_popup mentions#navigate_user';
         }
 
-        return $data;    
+        return $data;
     }
 
     /**
-     * @param CommunityLink $link
      * @return array{
      *     class: string,
      *     title: string,
@@ -127,13 +125,13 @@ final class ExternalLinkRenderer implements NodeRendererInterface
     private function generateCommunityLinkData(CommunityLink $link): array
     {
         $data = [
-            'class'                        => 'mention  mention--magazine',
-            'title'                        => $link->getTitle(),
+            'class' => 'mention  mention--magazine',
+            'title' => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
-            'data-action'                  => 'mentions#navigate_magazine',
+            'data-action' => 'mentions#navigate_magazine',
         ];
 
-        return $data;    
+        return $data;
     }
 
     private function isEmbed(string $url, string $title): bool
@@ -146,7 +144,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
         return (bool) $embed;
     }
 
-    private function isMentionType(Link $link): bool 
+    private function isMentionType(Link $link): bool
     {
         $types = [
             ActorSearchLink::class,

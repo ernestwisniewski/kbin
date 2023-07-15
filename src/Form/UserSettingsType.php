@@ -43,10 +43,10 @@ class UserSettingsType extends AbstractType
             )
             ->add('featuredMagazines', TextareaType::class, ['required' => false])
             ->add('preferredLanguages', LanguageType::class, [
-                'required'                => false,
-                'preferred_choices'       => [$this->translator->getLocale()],
-                'autocomplete'            => true,
-                'multiple'                => true,
+                'required' => false,
+                'preferred_choices' => [$this->translator->getLocale()],
+                'autocomplete' => true,
+                'multiple' => true,
                 'choice_self_translation' => true,
             ])
             ->add(

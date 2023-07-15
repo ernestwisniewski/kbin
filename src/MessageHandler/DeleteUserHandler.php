@@ -97,7 +97,7 @@ class DeleteUserHandler
                 ->getRepository(User::class)
                 ->find($message->id);
 
-            if ($this->op === 'purge') {
+            if ('purge' === $this->op) {
                 $this->entityManager->remove($this->user);
                 $this->entityManager->flush();
             } else {
@@ -396,12 +396,12 @@ class DeleteUserHandler
 
         return $retry;
 
-//        $em = $this->entityManager;
-//        $query = $em->createQuery('DELETE FROM '.Message::class.' m WHERE m.sender = :userId');
-//        $query->setParameter('userId', $this->user->getId());
-//        $query->execute();
-//
-//        $this->entityManager->flush();
+        //        $em = $this->entityManager;
+        //        $query = $em->createQuery('DELETE FROM '.Message::class.' m WHERE m.sender = :userId');
+        //        $query->setParameter('userId', $this->user->getId());
+        //        $query->execute();
+        //
+        //        $this->entityManager->flush();
     }
 
     private function removeFavourites(): bool
@@ -476,8 +476,7 @@ class DeleteUserHandler
     {
         foreach ([Entry::class, Post::class, EntryComment::class, PostComment::class] as $subjectClass) {
             $query = $this->entityManager->createQuery(
-                'DELETE FROM '.$subjectClass.'Vote'.' v WHERE v.user = :user OR v.author = :user'
-            );
+                'DELETE FROM '.$subjectClass.'Vote v WHERE v.user = :user OR v.author = :user');
             $query->setParameter('user', $this->user);
             $query->execute();
         }

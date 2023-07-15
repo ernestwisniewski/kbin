@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -35,7 +35,7 @@ class TagLinkParser implements InlineParserInterface
             UrlGeneratorInterface::ABSOLUTE_URL,
         );
 
-        $ctx->getContainer()->appendChild(new TagLink($url, '#' . $tag));
+        $ctx->getContainer()->appendChild(new TagLink($url, '#'.$tag));
 
         return true;
     }

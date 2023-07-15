@@ -40,7 +40,7 @@ abstract class AbstractController extends BaseAbstractController
         }
     }
 
-    protected function redirectToRefererOrHome(Request $request, ?string $element = null): Response
+    protected function redirectToRefererOrHome(Request $request, string $element = null): Response
     {
         if (!$request->headers->has('Referer')) {
             return $this->redirectToRoute('front'.($element ? '#'.$element : ''));
@@ -62,7 +62,7 @@ abstract class AbstractController extends BaseAbstractController
     protected function getJsonFormResponse(
         FormInterface $form,
         string $template,
-        ?array $variables = null
+        array $variables = null
     ): JsonResponse {
         return new JsonResponse(
             [
@@ -83,7 +83,7 @@ abstract class AbstractController extends BaseAbstractController
 
     protected function getValueOfFederationCriteria(Request $request): string
     {
-        return $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) === 'false'
+        return 'false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true)
             ? Criteria::AP_LOCAL : Criteria::AP_ALL;
     }
 
@@ -111,7 +111,7 @@ abstract class AbstractController extends BaseAbstractController
         );
     }
 
-    protected function redirectToMagazine(Magazine $magazine, ?string $sortBy = null): Response
+    protected function redirectToMagazine(Magazine $magazine, string $sortBy = null): Response
     {
         return $this->redirectToRoute(
             'front_magazine',

@@ -28,7 +28,7 @@ class TagManager
         return $body;
     }
 
-    public function extract(string $val, ?string $magazineName = null): ?array
+    public function extract(string $val, string $magazineName = null): ?array
     {
         preg_match_all(RegPatterns::LOCAL_TAG, $val, $matches);
 
@@ -50,6 +50,7 @@ class TagManager
     {
         $transliterator = \Transliterator::create('Latin-ASCII');
         $removerRule = \Transliterator::createFromRules(':: [:Nonspacing Mark:] Remove;');
+
         return iconv('UTF-8', 'ASCII//TRANSLIT', $removerRule->transliterate($transliterator->transliterate($tag)));
     }
 }

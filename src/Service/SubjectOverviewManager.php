@@ -16,11 +16,11 @@ class SubjectOverviewManager
     {
         $postsAndEntries = array_filter(
             $activity->getCurrentPageResults(),
-            fn($val) => $val instanceof Entry || $val instanceof Post
+            fn ($val) => $val instanceof Entry || $val instanceof Post
         );
         $comments = array_filter(
             $activity->getCurrentPageResults(),
-            fn($val) => $val instanceof EntryComment || $val instanceof PostComment
+            fn ($val) => $val instanceof EntryComment || $val instanceof PostComment
         );
 
         $results = [];
@@ -28,20 +28,20 @@ class SubjectOverviewManager
             if ($parent instanceof Entry) {
                 $children = array_filter(
                     $comments,
-                    fn($val) => $val instanceof EntryComment && $val->entry === $parent
+                    fn ($val) => $val instanceof EntryComment && $val->entry === $parent
                 );
                 $comments = array_filter(
                     $comments,
-                    fn($val) => $val instanceof PostComment || $val instanceof EntryComment && $val->entry !== $parent
+                    fn ($val) => $val instanceof PostComment || $val instanceof EntryComment && $val->entry !== $parent
                 );
             } else {
                 $children = array_filter(
                     $comments,
-                    fn($val) => $val instanceof PostComment && $val->post === $parent
+                    fn ($val) => $val instanceof PostComment && $val->post === $parent
                 );
                 $comments = array_filter(
                     $comments,
-                    fn($val) => $val instanceof EntryComment || $val instanceof PostComment && $val->post !== $parent
+                    fn ($val) => $val instanceof EntryComment || $val instanceof PostComment && $val->post !== $parent
                 );
             }
 
@@ -72,12 +72,12 @@ class SubjectOverviewManager
 
         $merged = array_merge($results, $parents);
 
-        uasort($merged, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($merged, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $results = [];
         foreach ($merged as $entry) {
             $results[] = $entry;
-            uasort($entry->children, fn($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
+            uasort($entry->children, fn ($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
             foreach ($entry->children as $child) {
                 $results[] = $child;
             }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Markdown\Listener;
 
-use App\Markdown\Event\ConfigureCommonMark;
 use App\Markdown\Event\ConvertMarkdown;
 use App\Markdown\Factory\ConverterFactory;
 use App\Markdown\Factory\EnvironmentFactory;

@@ -10,8 +10,8 @@ use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
 
 class EntryShowSubscriber implements EventSubscriberInterface
@@ -25,12 +25,12 @@ class EntryShowSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([EntryHasBeenSeenEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         EntryHasBeenSeenEvent::class => 'onShowEntry',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            EntryHasBeenSeenEvent::class => 'onShowEntry',
+        ];
+    }
 
     public function onShowEntry(EntryHasBeenSeenEvent $event): void
     {

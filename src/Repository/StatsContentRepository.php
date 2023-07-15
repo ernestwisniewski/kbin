@@ -16,11 +16,10 @@ class StatsContentRepository extends StatsRepository
 {
     #[ArrayShape(['entries' => 'array', 'comments' => 'array', 'posts' => 'array', 'replies' => 'array'])]
     public function getOverallStats(
-        User     $user = null,
+        User $user = null,
         Magazine $magazine = null,
-        ?bool    $onlyLocal = null
-    ): array
-    {
+        bool $onlyLocal = null
+    ): array {
         $this->user = $user;
         $this->magazine = $magazine;
         $this->onlyLocal = $onlyLocal;
@@ -95,7 +94,7 @@ class StatsContentRepository extends StatsRepository
     }
 
     #[ArrayShape(['entries' => 'array', 'comments' => 'array', 'posts' => 'array', 'replies' => 'array'])]
-    public function getStatsByTime(\DateTime $start, ?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): array
+    public function getStatsByTime(\DateTime $start, User $user = null, Magazine $magazine = null, bool $onlyLocal = null): array
     {
         $this->start = $start;
         $this->user = $user;
@@ -115,20 +114,20 @@ class StatsContentRepository extends StatsRepository
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        $onlyLocalWhere = $this->onlyLocal ? " AND e.ap_id IS NULL" : "";
+        $onlyLocalWhere = $this->onlyLocal ? ' AND e.ap_id IS NULL' : '';
         if ($this->user) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM " . $type . " e 
-                    WHERE e.created_at >= '" . $this->start->format(
-                    'Y-m-d H:i:s'
-                ) . "' AND e.user_id = " . $this->user->getId() . $onlyLocalWhere . ' GROUP BY 1';
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
+                    WHERE e.created_at >= '".$this->start->format(
+                'Y-m-d H:i:s'
+            )."' AND e.user_id = ".$this->user->getId().$onlyLocalWhere.' GROUP BY 1';
         } elseif ($this->magazine) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM " . $type . " e 
-                    WHERE e.created_at >= '" . $this->start->format(
-                    'Y-m-d H:i:s'
-                ) . "' AND e.magazine_id = " . $this->magazine->getId() . $onlyLocalWhere . ' GROUP BY 1';
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
+                    WHERE e.created_at >= '".$this->start->format(
+                'Y-m-d H:i:s'
+            )."' AND e.magazine_id = ".$this->magazine->getId().$onlyLocalWhere.' GROUP BY 1';
         } else {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM " . $type . " e 
-                    WHERE e.created_at >= '" . $this->start->format('Y-m-d H:i:s') . "'" . $onlyLocalWhere . " GROUP BY 1";
+            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
+                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."'".$onlyLocalWhere.' GROUP BY 1';
         }
 
         $stmt = $conn->prepare($sql);
@@ -179,7 +178,7 @@ class StatsContentRepository extends StatsRepository
         return $entryComments + $postComments;
     }
 
-    public function countUsers(?\DateTime $startDate = null): int
+    public function countUsers(\DateTime $startDate = null): int
     {
         $users = $this->_em->createQueryBuilder()
             ->select('COUNT(u.id)')

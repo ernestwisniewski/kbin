@@ -112,9 +112,9 @@ class FollowHandler
             $this->userManager->acceptFollow($object, $actor);
         }
 
-//        if ($object instanceof Magazine) {
-//            $this->magazineManager->acceptFollow($actor, $object);
-//        }
+        //        if ($object instanceof Magazine) {
+        //            $this->magazineManager->acceptFollow($actor, $object);
+        //        }
     }
 
     private function handleReject(User $actor, User|Magazine $object): void

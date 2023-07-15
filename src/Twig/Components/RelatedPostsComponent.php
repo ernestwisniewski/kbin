@@ -5,7 +5,6 @@ namespace App\Twig\Components;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Service\MentionManager;
-use App\Twig\Runtime\UserExtensionRuntime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -57,6 +56,7 @@ final class RelatedPostsComponent
     {
         $postId = $this->post?->getId();
         $magazine = str_replace('@', '', $this->magazine ?? '');
+
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
@@ -71,7 +71,7 @@ final class RelatedPostsComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
-                $posts = array_filter($posts, fn(Post $p) => !$p->isAdult && !$p->magazine->isAdult);
+                $posts = array_filter($posts, fn (Post $p) => !$p->isAdult && !$p->magazine->isAdult);
 
                 if (count($posts) > $this->limit) {
                     shuffle($posts); // randomize the order

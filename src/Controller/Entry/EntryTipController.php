@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class EntryTipController extends AbstractController

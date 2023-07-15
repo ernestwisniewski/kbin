@@ -19,7 +19,7 @@ class BadgeDto
     public ?string $name = null;
     private ?int $id = null;
 
-    public function create(Magazine $magazine, string $name, ?int $id = null): self
+    public function create(Magazine $magazine, string $name, int $id = null): self
     {
         $this->id = $id;
         $this->magazine = $magazine;

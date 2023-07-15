@@ -21,18 +21,18 @@ class FollowWrapper
         'actor' => 'string',
         'object' => 'string',
     ])]
- public function build(
+    public function build(
         string $follower,
         string $following,
     ): array {
-     $id = Uuid::v4()->toRfc4122();
+        $id = Uuid::v4()->toRfc4122();
 
-     return [
-         '@context' => 'https://www.w3.org/ns/activitystreams',
-         'id' => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
-         'type' => 'Follow',
-         'actor' => $follower,
-         'object' => $following,
-     ];
- }
+        return [
+            '@context' => 'https://www.w3.org/ns/activitystreams',
+            'id' => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
+            'type' => 'Follow',
+            'actor' => $follower,
+            'object' => $following,
+        ];
+    }
 }

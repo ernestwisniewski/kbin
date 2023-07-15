@@ -51,18 +51,18 @@ class UserFollowersController
         'first' => 'string',
         'totalItems' => 'int',
     ])]
- private function getCollectionInfo(User $user, string $type): array
- {
-     $routeName = "ap_user_{$type}";
+    private function getCollectionInfo(User $user, string $type): array
+    {
+        $routeName = "ap_user_{$type}";
 
-     if (ActivityPubActivityInterface::FOLLOWING === $type) {
-         $count = $this->userRepository->findFollowing(1, $user)->getNbResults();
-     } else {
-         $count = $this->userRepository->findFollowers(1, $user)->getNbResults();
-     }
+        if (ActivityPubActivityInterface::FOLLOWING === $type) {
+            $count = $this->userRepository->findFollowing(1, $user)->getNbResults();
+        } else {
+            $count = $this->userRepository->findFollowers(1, $user)->getNbResults();
+        }
 
-     return $this->collectionInfoWrapper->build($routeName, ['username' => $user->username], $count);
- }
+        return $this->collectionInfoWrapper->build($routeName, ['username' => $user->username], $count);
+    }
 
     #[ArrayShape([
      '@context' => 'string',
@@ -72,29 +72,29 @@ class UserFollowersController
      'totalItems' => 'int',
      'orderedItems' => 'array',
  ])]
- private function getCollectionItems(User $user, int $page, string $type): array
- {
-     $routeName = "ap_user_{$type}";
+    private function getCollectionItems(User $user, int $page, string $type): array
+    {
+        $routeName = "ap_user_{$type}";
 
-     if (ActivityPubActivityInterface::FOLLOWING === $type) {
-         $actors = $this->userRepository->findFollowing($page, $user);
-     } else {
-         $actors = $this->userRepository->findFollowers($page, $user);
-     }
+        if (ActivityPubActivityInterface::FOLLOWING === $type) {
+            $actors = $this->userRepository->findFollowing($page, $user);
+        } else {
+            $actors = $this->userRepository->findFollowers($page, $user);
+        }
 
-     $items = [];
-     foreach ($actors as $actor) {
-         $items[] = $this->manager->getActorProfileId($actor);
-     }
+        $items = [];
+        foreach ($actors as $actor) {
+            $items[] = $this->manager->getActorProfileId($actor);
+        }
 
-     return $this->collectionItemsWrapper->build(
-         $routeName,
-         ['username' => $user->username],
-         $actors,
-         $items,
-         $page
-     );
- }
+        return $this->collectionItemsWrapper->build(
+            $routeName,
+            ['username' => $user->username],
+            $actors,
+            $items,
+            $page
+        );
+    }
 
     public function following(User $user, Request $request): JsonResponse
     {

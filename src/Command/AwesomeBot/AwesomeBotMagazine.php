@@ -80,27 +80,27 @@ class AwesomeBotMagazine extends Command
     }
 
     #[Pure]
- private function createBadges(Magazine $magazine, string $url, array $tags): Collection
- {
-     $browser = new HttpBrowser(HttpClient::create());
-     $crawler = $browser->request('GET', $url);
+    private function createBadges(Magazine $magazine, string $url, array $tags): Collection
+    {
+        $browser = new HttpBrowser(HttpClient::create());
+        $crawler = $browser->request('GET', $url);
 
-     $content = $crawler->filter('.markdown-body')->first()->children();
+        $content = $crawler->filter('.markdown-body')->first()->children();
 
-     $labels = [];
-     foreach ($content as $elem) {
-         if (in_array($elem->nodeName, $tags)) {
-             $labels[] = $elem->nodeValue;
-         }
-     }
+        $labels = [];
+        foreach ($content as $elem) {
+            if (in_array($elem->nodeName, $tags)) {
+                $labels[] = $elem->nodeValue;
+            }
+        }
 
-     $badges = [];
-     foreach ($labels as $label) {
-         $this->badgeManager->create(
-             (new BadgeDto())->create($magazine, $label)
-         );
-     }
+        $badges = [];
+        foreach ($labels as $label) {
+            $this->badgeManager->create(
+                (new BadgeDto())->create($magazine, $label)
+            );
+        }
 
-     return new ArrayCollection($badges);
- }
+        return new ArrayCollection($badges);
+    }
 }

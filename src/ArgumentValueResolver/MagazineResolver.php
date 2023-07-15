@@ -18,7 +18,7 @@ class MagazineResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
-        if ($argument->getType() !== Magazine::class) {
+        if (Magazine::class !== $argument->getType()) {
             return;
         }
 

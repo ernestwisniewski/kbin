@@ -42,7 +42,7 @@ class Question
     private function createEntryComment(
         array $object,
         ActivityPubActivityInterface $parent,
-        ?ActivityPubActivityInterface $root = null
+        ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
         $dto = new EntryCommentDto();
         if ($parent instanceof EntryComment) {
@@ -123,17 +123,17 @@ class Question
         $dto->lastActive = new \DateTime($date);
     }
 
-    public function create(array $object, ?array $root = null): ActivityPubActivityInterface
+    public function create(array $object, array $root = null): ActivityPubActivityInterface
     {
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
         }
 
         if (isset($object['inReplyTo']) && $replyTo = $object['inReplyTo']) {
             // Create post or entry comment
             $parent = $this->repository->findByObjectId($replyTo);
-            $parent = $this->entityManager->getRepository($parent['type'])->find((int)$parent['id']);
+            $parent = $this->entityManager->getRepository($parent['type'])->find((int) $parent['id']);
 
             $root = null;
             $fn = null;
@@ -213,7 +213,7 @@ class Question
     private function createPostComment(
         array $object,
         ActivityPubActivityInterface $parent,
-        ?ActivityPubActivityInterface $root = null
+        ActivityPubActivityInterface $root = null
     ): ActivityPubActivityInterface {
         $dto = new PostCommentDto();
         if ($parent instanceof PostComment) {

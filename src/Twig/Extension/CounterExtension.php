@@ -4,7 +4,6 @@ namespace App\Twig\Extension;
 
 use App\Twig\Runtime\CounterExtensionRuntime;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Twig\TwigFunction;
 
 class CounterExtension extends AbstractExtension

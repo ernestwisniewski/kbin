@@ -22,7 +22,7 @@ trait EntryCommentResponseTrait
         EntryCommentPageView $criteria,
         FormInterface $form,
         Request $request,
-        ?EntryComment $parent = null,
+        EntryComment $parent = null,
     ): Response {
         if ($request->isXmlHttpRequest()) {
             $this->getJsonFormResponse($form, 'entry/comment/_form.html.twig');

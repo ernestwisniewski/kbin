@@ -60,8 +60,7 @@ class MagazineBadgeController extends AbstractController
         Badge $badge,
         BadgeManager $manager,
         Request $request
-    ): Response
-    {
+    ): Response {
         $this->validateCsrf('badge_remove', $request->request->get('token'));
 
         $manager->delete($badge);

@@ -39,7 +39,7 @@ class RemoveDuplicatesCommand extends Command
     private function removePosts()
     {
         $conn = $this->entityManager->getConnection();
-        $sql = "
+        $sql = '
                 SELECT *
                 FROM post
                 WHERE ap_id IN (
@@ -48,7 +48,7 @@ class RemoveDuplicatesCommand extends Command
                   GROUP BY ap_id
                   HAVING COUNT(*) > 1
                  )
-        ";
+        ';
         $stmt = $conn->prepare($sql);
         $stmt = $stmt->executeQuery();
 
@@ -83,18 +83,18 @@ class RemoveDuplicatesCommand extends Command
         $results = $stmt->fetchAllAssociative();
 
         foreach ($results as $item) {
-//            $this->entityManager->beginTransaction();
+            //            $this->entityManager->beginTransaction();
 
             try {
                 $user = $this->entityManager->getRepository(User::class)->find($item['id']);
                 if ($user->posts->count() || $user->postComments->count() || $user->follows->count(
-                    ) || $user->followers->count()) {
+                ) || $user->followers->count()) {
                     continue;
                 }
                 $this->entityManager->remove($user);
                 $this->entityManager->flush();
             } catch (\Exception $e) {
-//                $this->entityManager->rollback();
+                //                $this->entityManager->rollback();
 
                 var_dump($e->getMessage());
             }
