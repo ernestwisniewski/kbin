@@ -6,6 +6,7 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,7 +22,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_ENTRIES_SHOW_MAGAZINES_ICONS = 'kbin_entries_show_magazines_icons';
     public const KBIN_ENTRIES_SHOW_THUMBNAILS = 'kbin_entries_show_thumbnails';
     public const KBIN_ENTRIES_SHOW_PREVIEW = 'kbin_entries_show_preview';
-    public const KBIN_ENTRIES_VIEW = 'kbin_entries_view';
+    public const KBIN_ENTRIES_COMPACT = 'kbin_entries_compact';
     public const KBIN_POSTS_SHOW_PREVIEW = 'kbin_posts_show_preview';
     public const KBIN_GENERAL_ROUNDED_EDGES = 'kbin_general_rounded_edges';
     public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
@@ -55,7 +56,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_ENTRIES_SHOW_USERS_AVATARS,
         self::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS,
         self::KBIN_ENTRIES_SHOW_THUMBNAILS,
-        self::KBIN_ENTRIES_VIEW,
+        self::KBIN_ENTRIES_COMPACT,
         self::KBIN_GENERAL_ROUNDED_EDGES,
         self::KBIN_GENERAL_INFINITE_SCROLL,
         self::KBIN_GENERAL_TOPBAR,
@@ -102,6 +103,10 @@ class ThemeSettingsController extends AbstractController
 
         if (self::KBIN_LANG === $key) {
             $response->headers->setCookie(new Cookie(self::KBIN_LANG, $value, strtotime('+1 year')));
+        }
+
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(['success' => true]);
         }
 
         return new \Symfony\Component\HttpFoundation\RedirectResponse(
