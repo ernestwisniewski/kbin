@@ -27,7 +27,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            <div class="flex">
+            <div class="flex flex-wrap">
                 {{ form_widget(form.fields, {attr: {'aria-label': 'filter.fields.label'|trans}}) }}
                 {{ form_widget(form.federation, {attr: {'aria-label': 'filter.origin.label'|trans}}) }}
                 {{ form_widget(form.adult, {attr: {'aria-label': 'filter.adult.label'|trans}}) }}

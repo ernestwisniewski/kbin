@@ -16,7 +16,7 @@ body {
   background: var(--kbin-bg);
   padding-bottom: 3rem;
   z-index: 5;
-  position :relative;
+  position: relative;
 
   .kbin-container {
     display: grid;
@@ -182,6 +182,7 @@ figure {
       border-radius: .5rem .5rem 0 0;
     }
   }
+
   .ts-dropdown {
     border-radius: 0 0 .5rem .5rem
   }
@@ -310,6 +311,10 @@ figure {
   gap: .25rem;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 pre, code {
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -367,7 +372,7 @@ p > code {
   height: 30px;
   border: var(--kbin-avatar-border);
 
-  @include media-breakpoint-up(sm){
+  @include media-breakpoint-up(sm) {
     width: 40px;
     height: 40px;
   }
