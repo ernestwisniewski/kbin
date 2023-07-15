@@ -14,6 +14,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Report;
 use App\Entity\User;
+use App\PageView\MagazinePageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -62,37 +63,48 @@ class MagazineRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllPaginated(?int $page, string $sortBy): PagerfantaInterface
+    public function findPaginated(MagazinePageView $criteria): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->orderBy('CASE WHEN m.apId IS NULL THEN 1 ELSE 0 END', 'DESC');
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+        ;
 
-        if ($sortBy) {
-            switch ($sortBy) {
-                case 'hot':
-                    $qb = $qb->addOrderBy('m.subscriptionsCount', 'DESC');
-                    break;
-                case 'active':
-                    $qb = $qb->addOrderBy('m.lastActive', 'DESC');
-                    break;
-                case 'newest':
-                    $qb = $qb->addOrderBy('m.createdAt', 'DESC');
-                    break;
+        if ($criteria->query) {
+            $restrictions = 'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q)';
+
+            if ($criteria->fields === $criteria::FIELDS_NAMES_DESCRIPTIONS) {
+                $restrictions .= ' OR LOWER(m.description) LIKE LOWER(:q)';
             }
+
+            $qb->andWhere($restrictions)
+                ->setParameter('q', '%' . trim($criteria->query) . '%');
         }
 
-        $qb = $qb->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+        if ($criteria->showOnlyLocalMagazines()) {
+            $qb->andWhere('m.apId IS NULL');
+        }
 
-        $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $qb
-            )
-        );
+        match ($criteria->adult) {
+            $criteria::ADULT_HIDE => $qb->andWhere('m.isAdult = false'),
+            $criteria::ADULT_ONLY => $qb->andWhere('m.isAdult = true'),
+            $criteria::ADULT_SHOW => true,
+        };
+
+        match ($criteria->sortOption) {
+            default => $qb->addOrderBy('m.subscriptionsCount', 'DESC'),
+            $criteria::SORT_ACTIVE => $qb->addOrderBy('m.lastActive', 'DESC'),
+            $criteria::SORT_NEW => $qb->addOrderBy('m.createdAt', 'DESC'),
+            $criteria::SORT_THREADS => $qb->addOrderBy('m.entryCount', 'DESC'),
+            $criteria::SORT_COMMENTS => $qb->addOrderBy('m.entryCommentCount', 'DESC'),
+            $criteria::SORT_POSTS => $qb->addOrderBy('m.postCount + m.postCommentCount', 'DESC'),
+        };
+
+        $pagerfanta = new Pagerfanta(new QueryAdapter($qb));
 
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-            $pagerfanta->setCurrentPage($page);
+            $pagerfanta->setCurrentPage($criteria->page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -348,33 +360,6 @@ class MagazineRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    public function search(string $magazine, int $page): Pagerfanta
-    {
-        $qb = $this->createQueryBuilder('m')
-            ->andWhere('m.visibility = :visibility')
-            ->andWhere(
-                'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)'
-            )
-            ->orderBy('m.apId', 'DESC')
-            ->orderBy('m.subscriptionsCount', 'DESC')
-            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'q' => '%'.$magazine.'%']);
-
-        $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $qb
-            )
-        );
-
-        try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-            $pagerfanta->setCurrentPage($page);
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
-
-        return $pagerfanta;
     }
 
     public function findRandom(): array

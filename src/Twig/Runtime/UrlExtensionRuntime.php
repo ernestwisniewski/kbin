@@ -256,6 +256,7 @@ class UrlExtensionRuntime implements RuntimeExtensionInterface
     {
         $route = $this->requestStack->getCurrentRequest()->attributes->get('_route');
         $params = $this->requestStack->getCurrentRequest()->attributes->all()['_route_params'];
+        $params = [...$params, ...$this->requestStack->getCurrentRequest()->query->all()];
 
         $params[$name] = $value;
 

@@ -46,7 +46,7 @@ trait FactoryTrait
         $this->loadExampleUsers();
 
         foreach ($this->provideMagazines() as $data) {
-            $this->createMagazine($data['name'], $data['title'], $data['user']);
+            $this->createMagazine($data['name'], $data['title'], $data['user'], $data['isAdult'], $data['description']);
         }
     }
 
@@ -104,12 +104,32 @@ trait FactoryTrait
             'name' => 'acme',
             'title' => 'Magazyn polityczny',
             'user' => $this->getUserByUsername('JohnDoe'),
+            'isAdult' => false,
+            'description' => 'Foobar',
         ];
 
         yield [
             'name' => 'kbin',
             'title' => 'kbin devlog',
             'user' => $this->getUserByUsername('adminUser'),
+            'isAdult' => false,
+            'description' => 'development process in detail',
+        ];
+
+        yield [
+            'name' => 'adult',
+            'title' => 'Adult only',
+            'user' => $this->getUserByUsername('JohnDoe'),
+            'isAdult' => true,
+            'description' => 'Not for kids',
+        ];
+
+        yield [
+            'name' => 'starwarsmemes@republic.new',
+            'title' => 'starwarsmemes@republic.new',
+            'user' => $this->getUserByUsername('adminUser'),
+            'isAdult' => false,
+            'description' => "It's a trap",
         ];
     }
 
@@ -145,8 +165,13 @@ trait FactoryTrait
         $manager->refresh($user);
     }
 
-    private function createMagazine(string $name, string $title = null, User $user = null, bool $isAdult = false): Magazine
-    {
+    private function createMagazine(
+        string $name,
+        string $title = null,
+        User $user = null,
+        bool $isAdult = false,
+        string $description = null
+    ): Magazine {
         /**
          * @var $manager MagazineManager
          */
@@ -156,6 +181,13 @@ trait FactoryTrait
         $dto->name = $name;
         $dto->title = $title ?? 'Magazine title';
         $dto->isAdult = $isAdult;
+        $dto->description = $description;
+
+        if (str_contains($name, '@')) {
+            [$name, $host] = explode('@', $name);
+            $dto->apId = $name;
+            $dto->apProfileId = "https://{$host}/m/{$name}";
+        }
 
         $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
 

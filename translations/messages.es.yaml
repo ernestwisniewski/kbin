@@ -1,126 +1,126 @@
 type.link: Enlace
 type.article: Hilo
-type.photo: Fotografía
+type.photo: Foto
 type.video: Vídeo
 type.smart_contract: Contrato inteligente
-type.magazine: Magazin
+type.magazine: Revista
 thread: Hilo
 threads: Hilos
 microblog: Microblog
 people: Gente
 events: Eventos
-magazine: Magazín
+magazine: Revista
 magazines: Revistas
 search: Búsqueda
 add: Añadir
 select_channel: Elegir un canal
-login: Iniciar Sesión
-top: Mejores
+login: Iniciar sesión
+top: Destacado
 hot: Popular
-active: Activos
-newest: Más recientes
-oldest: Más antiguos
+active: Activo
+newest: Más reciente
+oldest: Más antiguo
 commented: Comentado
 change_view: Cambiar vista
-filter_by_time: Ordenar por tiempo
+filter_by_time: Ordenar por orden cronológico
 filter_by_type: Ordenar por tipo
 comments_count: '{0}comentarios|{1}comentario|]1,Inf[ comentarios'
 favourites: Favoritos
 favourite: Favorito
 more: Otros
 avatar: Avatar
-added: Agregado
+added: Añadido
 general: General
 views: Visualizaciones
 created_at: Creado
 owner: Propietaria/o
 subscribers: Suscriptores/as
-down_votes: Voto negativo
-no_comments: Sin comentarios
-online: Online
+down_votes: Votos negativos
+no_comments: No hay comentarios
+online: En linea
 comments: Comentarios
 posts: Publicaciones
 replies: Respuestas
 moderators: Moderadores/as
 mod_log: Registro de moderación
-add_comment: Insertar un comentario
+add_comment: Añadir un comentario
 add_post: Añadir una publicación
-add_media: Agregar contenido multimedia
-markdown_howto: Cómo se utiliza el editor?
+add_media: Añadir contenido multimedia
+markdown_howto: ¿Cómo se utiliza el editor?
 enter_your_comment: Introduce tu comentario
-enter_your_post: Intruduce tu publicación
+enter_your_post: Introduce tu publicación
 activity: Actividad
 cover: Portada
 related_posts: Entradas relacionadas
 random_posts: Publicaciones al azar
-federated_magazine_info: El magazin del servidor federado puede estar incompleto.
-federated_user_info: El perfil en el servidor federado puede estar incompleto.
+federated_magazine_info: Esta revista es de un servidor federado y podría estar incompleta.
+federated_user_info: Este perfil es de un servidor federado y podría estar incompleto.
 go_to_original_instance: Explorar más contenido en la instancia original.
 empty: Vacío
-subscribe: Subscribirse
-unsubscribe: Cancelar subscripción
+subscribe: Suscribirse
+unsubscribe: Cancelar suscripción
 follow: Seguir
 unfollow: Dejar de seguir
 reply: Responder
-login_or_email: Login o correo electrónico
+login_or_email: Iniciar sesión o correo electrónico
 password: Contraseña
 remember_me: Recordar mi sesión
-dont_have_account: No tienes una cuenta?
-you_cant_login: Has olvidado tu contraseña?
+dont_have_account: ¿No tienes una cuenta?
+you_cant_login: ¿Has olvidado tu contraseña?
 register: Registrarse
-reset_password: Reinicializar la contraseña
+reset_password: Restablecer la contraseña
 show_more: Mostrar más
 to: a
 in: en
 username: Nombre del usuario
-email: Email
+email: Correo electrónico
 repeat_password: Repetir la contraseña
 terms: Condiciones de uso
 privacy_policy: Política de privacidad
-about_instance: A propósito
-all_magazines: Todos los magazines
+about_instance: Acerca de
+all_magazines: Todos las revistas
 stats: Estadísticas
 fediverse: Fediverso
 awards: Premios
 ranking: Ránking
-create_new_magazine: Crear un nuevo magazin
+create_new_magazine: Crear una nueva revista
 add_new_article: Agregar un nuevo hilo
 add_new_link: Añadir un nuevo enlace
-add_new_photo: Añadir una nueva fotografía
-add_new_post: Añadir nueva publicación
-add_new_video: Añadir nuevo vídeo
+add_new_photo: Añadir una nueva foto
+add_new_post: Añadir una nueva publicación
+add_new_video: Añadir un nuevo vídeo
 contact: Contacto
 faq: Preguntas frecuentes
 rss: RSS
-change_theme: Cambiar tema
-useful: Util
+change_theme: Cambiar estilo
+useful: Útil
 help: Ayuda
-check_email: Verifica tu e-mail
-reset_check_email_desc: Si existe una cuenta que asociada con su correo electrónico,
-  recibirás un correo electrónico que contiene un enlace que puedes usar para restablecer
-  tu contraseña. Este enlace expirará en %expire%.
-reset_check_email_desc2: Si no has recibido un e-mail, por favor verifica tu carpeta
-  de spam.
-try_again: Intenta de nuevo
-email_confirm_header: Hola! Confirma du dirección e-mail.
-email_confirm_content: 'Deseas activar tu cuenta? Haz clic en el enlace que se encuentra
-  a continuación:'
-email_verify: Confirma la dirección e-mail
-email_confirm_expire: El enlace expira en una hora.
-select_magazine: Selecciona un magazin
-add_new: Agrega nuevo
-url: URL
+check_email: Verifica tu correo electrónico
+reset_check_email_desc: Si ya existe una cuenta asociada con tu correo electrónico,
+  recibirás un correo electrónico a la brevedad que contiene un enlace que puedes
+  usar para restablecer tu contraseña. Este enlace expirará en %expire%.
+reset_check_email_desc2: Si no has recibido un correo electrónico, por favor verifica
+  tu carpeta de spam.
+try_again: Intentar de nuevo
+email_confirm_header: ¡Hola! Confirma tu dirección de correo electrónico.
+email_confirm_content: '¿Deseas activar tu cuenta de /kbin? Haz clic en el enlace
+  que se encuentra a continuación:'
+email_verify: Confirma la dirección de correo electrónico
+email_confirm_expire: Ten en cuenta que el enlace caducará en una hora.
+select_magazine: Selecciona una revista
+add_new: Añadir nuevo
+url: Enlace
 title: Título
-already_have_account: Tienes una cuenta?
+already_have_account: ¿Tienes una cuenta?
 agree_terms: Consentimiento para %terms_link_start%Terms and Conditions%terms_link_end%
   and %policy_link_start%Privacy Policy%policy_link_end%
-email_confirm_title: Confirma tu dirección e-mail.
+email_confirm_title: Confirma tu dirección de correo electrónico.
 1w: 1 semana
-down_vote: Voto negativo
+down_vote: Votos negativos
 body: Contenido
 tags: Etiquetas
 badges: Distintivos
-is_adult: +18 / NSFW
+is_adult: 18+ / NSFW
 eng: ENG
 oc: OC
 image: Imagen
@@ -131,7 +131,7 @@ rules: Reglas
 domain: Dominio
 followers: Seguidores
 following: Siguiendo
-subscriptions: Subscripciones
+subscriptions: Suscripciones
 overview: Vista general
 cards: Cartas
 columns: Columnas
@@ -147,9 +147,9 @@ go_to_content: Ir al contenido
 go_to_filters: Ir a los filtros
 go_to_search: Ir a la búsqueda
 go_to_footer: Ir al pie de página
-subscribed: Subscrito
+subscribed: Suscrito
 all: Todo
-logout: Desconectarse
+logout: Cerrar sesión
 classic_view: Vista clásica
 compact_view: Vista compacta
 chat_view: Vista chat
@@ -164,26 +164,26 @@ cards_view: Vista en cartas
 1m: 1 mes
 links: Enlaces
 articles: Hilos
-photos: Fotografías
+photos: Fotos
 videos: Vídeos
-report: Reporte
+report: Reportar
 share: Compartir
-copy_url: Copiar la URL
-copy_url_to_fediverse: Copiar la URL al Fediverso
+copy_url: Copiar enlace
+copy_url_to_fediverse: Copiar enlace al Fediverso
 share_on_fediverse: Compartir en el Fediverso
 edit: Editar
-are_you_sure: Estas segura/o?
+are_you_sure: ¿Estás segura/o?
 moderate: Moderar
 reason: Motivo
 edit_link: Editar enlace
 edit_article: Editar hilo
-edit_photo: Editar fotografía
+edit_photo: Editar foto
 delete: Borrar
 edit_post: Editar publicación
 show_users_avatars: Mostrar el avatar del/a usuario/a
 yes: Sí
 no: No
-show_magazines_icons: Mostrar iconos de los magazines
+show_magazines_icons: Mostrar iconos de las revistas
 show_thumbnails: Mostrar las miniaturas
 rounded_edges: Bordes redondeados
 restored_comment_by: ha restaurado el comentario de
@@ -197,27 +197,27 @@ he_unbanned: cancelar la suspensión
 read_all: Leer todo
 show_all: Mostrar todo
 ranking_disabled: Ránking desactivado
-flash_register_success: Bienvenida/o. Tu cuenta ha sido registrada. Revisa tu e-mail,
-  hemos enviado un enlace de activación.
-flash_thread_new_success: El hilo ha sido creado correctamente y ahora es visible
-  para otras/os usuarias/os.
-flash_thread_edit_success: El hilo ha sido editado correctamente.
-flash_thread_delete_success: El hilo ha sido borrado correctamente.
-flash_thread_pin_success: El hilo ha sido anclado correctamente.
-flash_thread_unpin_success: El hilo ha sido desanclado correctamente.
-flash_magazine_new_success: El magazin ha sido creado correctamente. Ahora puedes
-  agregar nuevo contenido o explorar el panel de administración.
-flash_magazine_edit_success: El magazin ha sido editado correctamente.
-too_many_requests: Límite excedido, por favor intentar de nuevo.
-set_magazines_bar: Barra de magazines
-set_magazines_bar_desc: añade el nombre del magazín tras la coma
-set_magazines_bar_empty_desc: si el campo está vacío, los magazines activos se mostrarán
+flash_register_success: Bienvenida/o, tu cuenta ha sido registrada. Un último paso!
+  Revisa tu correo electrónico donde te hemos enviado un enlace de activación.
+flash_thread_new_success: El hilo ha sido creado con éxito y ahora es visible para
+  otras/os usuarias/os.
+flash_thread_edit_success: El hilo ha sido editado con éxito.
+flash_thread_delete_success: El hilo ha sido borrado con éxito.
+flash_thread_pin_success: El hilo ha sido anclado con éxito.
+flash_thread_unpin_success: El hilo ha sido desanclado con éxito.
+flash_magazine_new_success: La revista ha sido creado con éxito. Ahora puedes añadir
+  nuevo contenido o explorar el panel de administración.
+flash_magazine_edit_success: La revista ha sido editado con éxito.
+too_many_requests: Límite excedido, por favor, inténtalo de nuevo más tarde.
+set_magazines_bar: Barra de revistas
+set_magazines_bar_desc: añade el nombre de la revista tras la coma
+set_magazines_bar_empty_desc: si el campo está vacío, las revistas activas se mostrarán
   en la barra.
 gold: Oro
 silver: Plata
 bronze: Bronce
 bronze_autobiographer: Autobiografía
-up_votes: Mejoras
+up_votes: Votos positivos
 silver_article: Hilo medalla de plata
 silver_popular_entry_desc: Hilo visitado 5000 veces
 silver_comment_week_desc: El mejor comentario de la semana
@@ -231,83 +231,82 @@ reports: Reportes
 notifications: Notificaciones
 messages: Mensajes
 appearance: Apariencia
-homepage: Portada
-hide_adult: Ocultar contenido para adultos
-featured_magazines: Magazines destacados
+homepage: Página de inicio
+hide_adult: Ocultar contenido para adultos (NSFW)
+featured_magazines: Revistas destacadas
 privacy: Privacidad
-show_profile_subscriptions: Mostrar subscripciones a magazines
+show_profile_subscriptions: Mostrar suscripciones a revistas
 show_profile_followings: Mostrar usuarios/as seguidos/as
-notify_on_new_entry_reply: Recibir notificaciones de comentarios en mis hilos
-notify_on_new_entry_comment_reply: Recibir notificaciones de respuestas a los comentarios
-  en mis hilos
-notify_on_new_post_reply: Recibir notificaciones de respuestas a mis publicaciones
-notify_on_new_post_comment_reply: Recibir notificaciones de respuestas a los comentarios
-  en mis publicaciones
-notify_on_new_entry: Recibir notificaciones sobre nuevos hilos en un magazin subscrito
-notify_on_new_posts: Recibir notificaciones sobre nuevas pyblicaciones en un magazin
-  subscrito
+notify_on_new_entry_reply: Cualquier nivel de comentarios en los hilos que he creado
+notify_on_new_entry_comment_reply: Respuestas a mis comentarios en cualquier hilo
+notify_on_new_post_reply: Cualquier nivel de respuestas a las publicaciones que he
+  creado
+notify_on_new_post_comment_reply: Respuestas a mis comentarios en cualquier publicación
+notify_on_new_entry: Nuevos hilos (enlaces o artículos) en cualquier revista a la
+  que me haya suscripto
+notify_on_new_posts: Nuevas publicaciones en cualquier revista a la que me haya suscripto
 save: Guardar
 about: Acerca de
-old_email: e-mail actual
-new_email: nuevo e-mail
-new_email_repeat: Confirmación del nuevo e-mail
+old_email: Correo electrónico actual
+new_email: Nuevo correo electrónico
+new_email_repeat: Confirmar nuevo correo electrónico
 current_password: Contraseña actual
 new_password: Nueva contraseña
 new_password_repeat: Confirmar la nueva contraseña
-change_email: Cambiar e-mail
+change_email: Cambiar correo electrónico
 change_password: Cambiar contraseña
 expand: Expandir
 collapse: Plegar
 domains: Dominios
 error: Error
 votes: Votos
-theme: Tema
+theme: Aspecto
 dark: Oscuro
 light: Claro
-solarized_light: Claro solarizado
-solarized_dark: Oscuro solarizado
+solarized_light: Claro Solarizado
+solarized_dark: Oscuro Solarizado
 font_size: Tamaño de la fuente
 size: Tamaño
 bronze_autobiographer_desc: Para rellenar todos los campos del perfil
 bronze_personality_desc: 20 seguidoras/es
-bronze_commentator_desc: 10 buenos comentarios
+bronze_commentator_desc: 10 comentarios buenos
 bronze_scout_desc: 10 enlaces buenos
-bronze_redactor_desc: 10 buenos hilos
-bronze_poster_desc: 10 buenas publicaciones
+bronze_redactor_desc: 10 hilos buenos
+bronze_poster_desc: 10 publicaciones buenas
 bronze_link: Buen enlace
-bronze_article: Hilo bronce
+bronze_article: Hilo de bronce
 bronze_photo: Buena foto
 bronze_comment: Buen comentario
 bronze_post: Buena publicación
 bronze_ranking: Número 3
 bronze_ranking_desc: Tercer puesto en el ranking
 bronze_popular_entry: Hilo popular
-bronze_poster: Publicador medalla de bronce
-bronze_redactor: Redactor medalla de bronce
-bronze_scout: Explorador medalla de bronce
+bronze_poster: Medalla de bronce de publicador
+bronze_redactor: Medalla de bronce de redactor
+bronze_scout: Medalla de bronce de explorador
 bronze_commentator: Comentador medalla de bronce
 bronze_personality: Personalidad medalla de bronce
 bronze_popular_entry_desc: Hilo visitado 1000 veces
-bronze_magazine: Magazin famoso
-bronze_magazine_desc: 20 seguidoras/es han creado un magazin
-silver_personality: Personalidad plata
+bronze_magazine: Revista famosa
+bronze_magazine_desc: 20 seguidoras/es han creado una revista
+silver_personality: Personalidad de plata
 silver_personality_desc: 50 seguidoras/es
-silver_commentator_desc: 10 buenos comentarios
-silver_scout: Explorador medalla de plata
-silver_commentator: Comentador/a medalla de plata
-silver_scout_desc: 10 excelentes enlaces
-silver_redactor: Redactor medalla de plata
-silver_redactor_desc: 10 excelentes hilos
-silver_poster: Publicador medalla de plata
-silver_poster_desc: 10 excelentes publicaciones
-silver_link: Excelente link
-silver_photo: Muy buena fotografía
+silver_commentator_desc: 10 comentarios buenos
+silver_scout: Medalla de plata de explorador
+silver_commentator: Medalla de plata de comentador/a
+silver_scout_desc: 10 enlaces excelentes
+silver_redactor: Medalla de plata de redactor
+silver_redactor_desc: 10 hilos excelentes
+silver_poster: Medalla de plata de publicador
+silver_poster_desc: 10 publicaciones excelentes
+silver_link: Enlace excelente
+silver_photo: Muy buena foto
 silver_comment: Muy buen comentario
 silver_post: Muy buena publicación
 silver_ranking: Número 2
 silver_ranking_desc: Segundo puesto en el ranking
 silver_popular_entry: Hilo popular
-silver_magazine: Magazin popular
+silver_magazine: Revista popular
 silver_magazine_desc: 50 seguidores han creado este magazin
 silver_entry_week: Hilo de la semana
 silver_entry_week_desc: El mejor hilo de la semana
@@ -331,8 +330,8 @@ gold_ranking: Número 1
 gold_ranking_desc: Primer puesto en el ranking
 gold_popular_entry: Hilo popular
 gold_popular_entry_desc: Hilo visitado 10000 veces
-gold_magazine: Magazín popular
-gold_magazine_desc: 100 seguidoras/es han creado este magazín
+gold_magazine: Revista popular
+gold_magazine_desc: 100 seguidoras/es han creado esta revista
 gold_entry_month: Hilo del mes
 gold_entry_month_desc: El mejor hilo del mes
 gold_comment_month: Comentario del mes
@@ -380,12 +379,12 @@ off: Inactivo
 instances: Instancias
 upload_file: Cargar archivo
 from_url: de una URL
-magazine_panel: Panel del magazín
+magazine_panel: Panel de la revista
 reject: Rechazar
 approve: Aprovar
 ban: Suspender
 filters: Filtros
-approved: Aprovado
+approved: Aprobado
 rejected: Rechazado
 add_moderator: Añadir un/a moderador/a
 add_badge: Añadir un distintivo
@@ -400,7 +399,7 @@ icon: Icono
 done: Hecho
 unpin: Desanclar
 pin: Anclar
-change_magazine: Cambiar de magazín
+change_magazine: Cambiar de revista
 change_language: Cambiar de lenguaje
 change: Cambio
 pinned: Anclado
@@ -431,12 +430,12 @@ type_search_term: Escribir término de búsqueda
 federation_enabled: Federación activada
 registration_disabled: Inscripciones desactivadas
 restore: Restaurar
-add_mentions_entries: Añadir etiquetas de mención en las entradas
+add_mentions_entries: Añadir etiquetas de mención en los hilos
 add_mentions_posts: Añadir etiquetas de mención en las publicaciones
 Password is invalid: La contraseña no es válida.
 Your account is not active: Tu cuenta no es activa.
 Your account has been banned: Tu cuenta ha sido suspendida.
-firstname: Nombre
+firstname: Primer nombre
 send: Enviar
 active_users: Personas activas
 random_entries: Hilos al azar
@@ -448,13 +447,13 @@ unban_account: Desbloquear la cuenta
 delete_account_request_send: Tu solicitud para eliminar de la cuenta ha sido enviada.
 related_magazines: Magazines relacionados
 random_magazines: Magazines al azar
-magazine_panel_tags_info: Inserir solo si deseas que se incluya contenido del Fediverso
-  en este magazín en base a las etiquetas
+magazine_panel_tags_info: Indícalo sólo si deseas que el contenido del Fediverso se
+  incluya en esta revista en función de las etiquetas
 sidebar: Barra lateral
 auto_preview: Vista previa de contenido multimedia
 dynamic_lists: Listas dinámicas
 banned_instances: Instancias bloqueadas
-kbin_intro_title: Explorar el Fediverso
+kbin_intro_title: Explora el Fediverso
 kbin_intro_desc: es una plataforma descentralizada para la agregación de contenido
   y microblogging que opera en la red Fediverso.
 kbin_promo_title: Crea tu propia instancia
@@ -463,9 +462,9 @@ header_logo: Logo del encabezado
 browsing_one_thread: Estás viendo solo un hilo de la discusión! En la página de la
   publicación puedes encontrar todos los comentarios.
 return: Ir atrás
-kbin_promo_desc: '%link_start%Clonar repositorio%link_end% y desarrollar el Fediverso'
+kbin_promo_desc: '%link_start%Clona el repositorio%link_end% y desarrolla el Fediverso'
 bronze_link_desc: Esta publicación ha sido promocionada 5 veces
-boosts: Repostear
+boosts: Reposts
 bronze_photo_desc: La foto ha sido reposteada 5 veces
 bronze_comment_desc: El comentario ha sido reposteado 5 veces
 bronze_post_desc: La publicación ha sido reposteada 5 veces
@@ -480,3 +479,7 @@ gold_post_desc: La publicación ha sido reposteada 15 veces
 boost: Repostear
 silver_link_desc: La publicación ha sido reposteada 10 veces
 silver_photo_desc: La foto ha sido reposteada 10 veces
+mercure_enabled: Mercure habilitado
+report_issue: Informar de un problema
+tokyo_night: Noche de Tokio
+preferred_languages: Filtrar idiomas de hilos y publicaciones
