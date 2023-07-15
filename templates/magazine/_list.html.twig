@@ -71,6 +71,40 @@
                     </tbody>
                 </table>
             </div>
+            <div class="magazines magazine-list-mobile">
+                <div class="magazines__sortby">                     
+                    {% for column in ['threads', 'comments', 'posts', 'hot'] %}
+                        <span>
+                            <a href="{{ options_url('sortBy', column) }}" class="btn {{ (sortBy is same as column) ? 'btn__primary' : 'btn__secondary' }}">
+                                
+                                {% if(column is same as 'hot')%}
+                                    {{ 'subscriptions'|trans }}
+                                {% else %}
+                                    {{ column|trans }}
+                                {% endif %}
+                                
+                                {% if sortBy is same as column %}
+                                    <i class="fa-solid fa-sort-amount-desc" aria-sort="descending"></i>
+                                {% endif %}
+                            </a>
+                            
+                        </span>
+                    {% endfor %}
+                </div>
+                {% for magazine in magazines %}
+                        <div class="magazine">
+                            <div class="magazine__top">
+                                <span>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</span>
+                                <span>{{ component('magazine_sub', {magazine: magazine}) }}</span>
+                            </div>
+                            <div class="magazine__bottom">                  
+                                <span>{{ magazine.entryCount }} <span class="label">{{ 'threads'|trans }}</span></span>
+                                <span>{{ magazine.entryCommentCount }} <span class="label">{{ 'comments'|trans }}</span></span>
+                                <span>{{ magazine.postCount + magazine.postCommentCount }} <span class="label">{{ 'posts'|trans }}</span></span>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
     {% if(magazines.haveToPaginate is defined and magazines.haveToPaginate) %}
