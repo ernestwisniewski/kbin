@@ -18,25 +18,33 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
+      - name: Calculate yarn.lock hash
+        id: yarn-lock-hash
+        run: |
+          echo "hash=$(md5sum yarn.lock)" >> $GITHUB_OUTPUT
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
-      #- uses: https://code.forgejo.org/actions/cache@v3
-      #  id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      #  with:
-      #    path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-      #    key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-yarn-
+      - name: Calculate composer.lock hash
+        id: composer-lock-hash
+        run: |
+          echo "hash=$(md5sum composer.lock)" >> $GITHUB_OUTPUT
 
-      #- uses: https://code.forgejo.org/actions/cache@v3
-      #  with:
-      #    path: ${{ steps.composer-cache.outputs.dir }}
-      #    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-composer-
+      - uses: https://code.forgejo.org/actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ steps.yarn-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - uses: https://code.forgejo.org/actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - run: cp .env.example .env
       - name: Composer install
@@ -47,15 +55,35 @@ jobs:
       - name: Build frontend
         run: yarn build
 
-  # Unit test is not fully isolated yet, disable for now
   unit-test:
     runs-on: docker
     container:
       image: danger89/kbin-image:0.1.0
     steps:
       - uses: https://code.forgejo.org/actions/checkout@v3
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Calculate composer.lock hash
+        id: composer-lock-hash
+        run: |
+          echo "hash=$(md5sum composer.lock)" >> $GITHUB_OUTPUT
+
+      - uses: https://code.forgejo.org/actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-
+
       - run: cp .env.example .env
-      - run: composer install --dev
+      - name: Composer install
+        run: composer install
+
       - name: Run unit tests
         run: |
           SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit
+
+# TODO: Integration tests
