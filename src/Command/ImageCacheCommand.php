@@ -44,16 +44,16 @@ class ImageCacheCommand extends Command
     private function buildUsersCache(): void
     {
         $repo = $this->entityManager->getRepository(User::class);
-        $res = $repo->createQueryBuilder('u')->select('u')
+        $res = $repo->createQueryBuilder('u')->select('i.filePath')
             ->join('u.avatar', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $user) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$user->avatar->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['avatar_thumb'],
             ];
 
@@ -65,16 +65,16 @@ class ImageCacheCommand extends Command
     private function buildEntriesCache(): void
     {
         $repo = $this->entityManager->getRepository(Entry::class);
-        $res = $repo->createQueryBuilder('e')->select('e')
+        $res = $repo->createQueryBuilder('e')->select('i.filePath')
             ->join('e.image', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $entry) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$entry->image->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['entry_thumb'],
             ];
 
@@ -86,16 +86,16 @@ class ImageCacheCommand extends Command
     private function buildEntryCommentsCache(): void
     {
         $repo = $this->entityManager->getRepository(EntryComment::class);
-        $res = $repo->createQueryBuilder('c')->select('c')
+        $res = $repo->createQueryBuilder('c')->select('i.filePath')
             ->join('c.image', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $comment) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$comment->image->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -107,16 +107,16 @@ class ImageCacheCommand extends Command
     private function buildPostsCache(): void
     {
         $repo = $this->entityManager->getRepository(Post::class);
-        $res = $repo->createQueryBuilder('p')->select('p')
+        $res = $repo->createQueryBuilder('p')->select('i.filePath')
             ->join('p.image', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $post) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$post->image->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -128,16 +128,16 @@ class ImageCacheCommand extends Command
     private function buildPostCommentsCache(): void
     {
         $repo = $this->entityManager->getRepository(PostComment::class);
-        $res = $repo->createQueryBuilder('c')->select('c')
+        $res = $repo->createQueryBuilder('c')->select('i.filePath')
             ->join('c.image', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $comment) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$comment->image->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['post_thumb'],
             ];
 
@@ -149,16 +149,16 @@ class ImageCacheCommand extends Command
     private function buildMagazinesCache(): void
     {
         $repo = $this->entityManager->getRepository(Magazine::class);
-        $res = $repo->createQueryBuilder('m')->select('m')
+        $res = $repo->createQueryBuilder('m')->select('i.filePath')
             ->join('m.icon', 'i')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
 
-        foreach ($res as $magazine) {
+        foreach ($res as $image) {
             $command = $this->getApplication()->find('liip:imagine:cache:resolve');
 
             $arguments = [
-                'paths' => [$magazine->icon->filePath],
+                'paths' => [$image['filePath']],
                 '--filter' => ['post_thumb'],
             ];
 

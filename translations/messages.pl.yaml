@@ -11,9 +11,9 @@ pin: Przypnij
 unpin: Odepnij
 month: Miesiąc
 message: Wiadomość
-infinite_scroll: Infinite scroll
+infinite_scroll: Nieskończone przewijanie
 show_top_bar: Pokaż top bar
-sticky_navbar: Sticky navbar
+sticky_navbar: Przyklejony pasek nawigacyjny
 subject_reported: Treść została zgłoszona.
 sidebar_position: Pozycja sidebara
 left: Lewo
@@ -41,7 +41,7 @@ perm: Perm
 expired_at: Wygasa
 add_ban: Dodaj ban
 reports: Zgłoszenia
-notifications: Notyfikacje
+notifications: Powiadomienia
 messages: Wiadomości
 appearance: Wygląd
 homepage: Strona główna
@@ -50,7 +50,7 @@ featured_magazines: Polecane magazyny
 privacy: Prywatność
 show_profile_subscriptions: Pokaż w profilu obserwowane magazyny
 show_profile_followings: Pokaż w profilu obserwowanych ludzi
-notify_on_new_entry_reply: Powiadom mnie o komentarzu w mojej treści
+notify_on_new_entry_reply: Powiadom mnie o nowym komentarzu w moich treściach
 notify_on_new_entry_comment_reply: Powiadom mnie o odpowiedzi na moje komentarze w
   treściach
 notify_on_new_post_reply: Powiadom mnie o odpowiedzi na moje posty
@@ -74,8 +74,8 @@ votes: Głosy
 theme: Wygląd
 dark: Ciemny
 light: Jasny
-solarized_light: Solarized light
-solarized_dark: Solarized dark
+solarized_light: Solarized Light
+solarized_dark: Solarized Dark
 font_size: Rozmiar czcionki
 size: Rozmiar
 boosts: Podbicia
@@ -148,7 +148,7 @@ owner: Właściciel
 subscribers: Obserwujący
 online: Online
 comments: Komentarze
-posts: Posty
+posts: Wpisy
 replies: Odpowiedzi
 mod_log: Log moderatorski
 add_comment: Dodaj komentarz
@@ -170,7 +170,7 @@ unfollow: Obserwujesz
 reply: Odpowiedz
 password: Hasło
 remember_me: Zapamiętaj mnie
-you_cant_login: Nie możesz się zalogować?
+you_cant_login: Nie pamiętasz hasła?
 already_have_account: Masz już konto?
 register: Zarejestruj
 reset_password: Przypomnij hasło
@@ -189,7 +189,7 @@ awards: Odznaczenia
 ranking: Ranking
 create_new_magazine: Utwórz nowy magazyn
 add_new_video: Dodaj video
-add_new_article: Dodaj artykuł
+add_new_article: Dodaj nowy wątek
 add_new_link: Dodaj link
 add_new_post: Dodaj wpis na mikroblogu
 contact: Kontakt
@@ -204,7 +204,7 @@ try_again: Spróbuj ponownie
 up_vote: Podbij
 down_vote: Zminusuj
 email_confirm_header: Cześć! Potwierdź adres email.
-email_confirm_content: 'Jeśli chcesz aktywować swoje konto, kliknij poniższy link:'
+email_confirm_content: 'Chcesz aktywować swoje konto Kbin? Kliknij poniższy link:'
 email_verify: Potwierdź adres email
 email_confirm_expire: Link wygaśnie za godzinę.
 email_confirm_title: Potwierdź adres email.
@@ -231,7 +231,7 @@ columns: Kolumny
 user: Użytkownik
 joined: Dołączył
 moderated: Moderowane
-ratio: Ratio
+ratio: Współczynnik
 people_local: Lokalne
 people_federated: Sfederowane
 related_tags: Powiązane tagi
@@ -254,7 +254,7 @@ cards_view: Widok kart
 1w: 1t
 1m: 1m
 links: Linki
-articles: Artykuły
+articles: Wątki
 photos: Obrazy
 videos: Video
 report: Zgłoś
@@ -266,7 +266,7 @@ are_you_sure: Jesteś pewien?
 moderate: Moderuj
 reason: Powód
 edit_link: Edytuj link
-edit_article: Edytuj artykuł
+edit_article: Edytuj wątek
 edit_photo: Edytuj obraz
 delete: Usuń
 edit_post: Edytuj post
@@ -366,7 +366,7 @@ post: Post
 purge: Wyczyść
 send_message: Wyślij wiadomość
 type.article: Artykuł
-type.smart_contract: Smart contract
+type.smart_contract: Inteligentny kontrakt
 magazines: Magazyny
 filter_by_time: Wybierz zakres
 up_votes: Podbicia
@@ -378,8 +378,8 @@ dont_have_account: Nie masz konta?
 repeat_password: Powtórz hasło
 agree_terms: Zgadzam się z %terms_link_start%Regulaminem%terms_link_end% i %policy_link_start%Polityką
   prywatności%policy_link_end%
-reset_check_email_desc: Jeśli istnieje konto pasujące do twojego adresu e-mail, to
-  właśnie wysłano e-mail zawierający link, który możesz użyć do zresetowania hasła.
+reset_check_email_desc: Jeśli już istnieje konto powiązane z twoim adresem email,
+  to wkrótce otrzymasz email zawierający link, który możesz użyć do zresetowania hasła.
   Ten link wygaśnie za %expire%.
 image_alt: Alternatywny tekst opisujący obraz
 subscriptions: Subskrypcje
@@ -460,7 +460,7 @@ delete_account_request_send: Twój zlecenie usunięcia konta zostało przesłane
 related_magazines: Powiązane magazyny
 random_magazines: Losowe magazyny
 magazine_panel_tags_info: Wprowadź tylko wtedy, gdy chcesz żeby treści z fediwersum
-  były umieszczane w tym magazynie na podstawie tagów.
+  były umieszczane w tym magazynie na podstawie tagów
 sidebar: Menu boczne
 auto_preview: Pogląd mediów
 dynamic_lists: Dynamiczne listy
@@ -471,8 +471,26 @@ kbin_intro_desc: to zdecentralizowana platforma służąca do agregowania treśc
 kbin_promo_title: Utwórz własną instancję
 kbin_promo_desc: '%link_start%Sklonuj repo%link_end% i rozwijaj fediverse'
 captcha_enabled: Captcha włączona
-header_logo: Header logo
+header_logo: Logo w nagłówku
 return: Wróć
 browsing_one_thread: Przeglądasz tylko jeden wątek w dyskusji! Wszystkie Komentarze
   dostępne są na stronie posta.
 boost: Podbij
+report_issue: Zgłoś błąd
+mercure_enabled: Włączono Mercure
+tokyo_night: Tokyo Nocą
+preferred_languages: Filtruj język wątków i wpisów
+infinite_scroll_help: Automatycznie wczytuj więcej treści, gdy dotrzesz do końca strony.
+sticky_navbar_help: Pasek nawigacyjny przyczepi się do góry strony, gdy przewijasz
+  w dół.
+auto_preview_help: Automatycznie pokazuj podgląd mediów.
+reload_to_apply: Przeładuj stronę, żeby zaakceptować zmiany
+filter.origin.label: Wybierz pochodzenie
+filter.fields.label: Wybierz, które pola przeszukać
+filter.adult.only: Tylko NSFW
+filter.fields.only_names: Tylko nazwy
+filter.fields.names_and_descriptions: Nazwy i opis
+filter.adult.label: Wybierz, czy wyświetlać treści NSFW
+filter.adult.hide: Ukryj NSFW
+filter.adult.show: Pokaż NSFW
+local_and_federated: Lokalne i sfederowane

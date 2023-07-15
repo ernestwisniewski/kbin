@@ -4,6 +4,7 @@ namespace App\Twig\Components;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use App\Service\MentionManager;
 use App\Twig\Runtime\UserExtensionRuntime;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -31,7 +32,8 @@ final class RelatedPostsComponent
         private readonly PostRepository $repository,
         private readonly CacheInterface $cache,
         private readonly Environment $twig,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly MentionManager $mentionManager
     ) {
     }
 
@@ -55,7 +57,6 @@ final class RelatedPostsComponent
     {
         $postId = $this->post?->getId();
         $magazine = str_replace('@', '', $this->magazine ?? '');
-
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
@@ -64,7 +65,7 @@ final class RelatedPostsComponent
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
                     self::TYPE_MAGAZINE => $this->repository->findRelatedByTag(
-                        UserExtensionRuntime::username($this->magazine),
+                        $this->mentionManager->getUsername($this->magazine),
                         $this->limit + 20
                     ),
                     default => $this->repository->findLast($this->limit + 150),

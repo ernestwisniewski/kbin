@@ -38,7 +38,7 @@
                 </div>
                 <div class="checkbox">
                     <label for="remember">{{ 'remember_me'|trans }}</label>
-                    <input type="checkbox" name="_remember_me" id="remember">
+                    <input type="checkbox" name="_remember_me" id="remember" checked>
                 </div>
                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                 <div class="float-end">

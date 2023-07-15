@@ -7,11 +7,11 @@ thread: Thread
 people: Persone
 events: Eventi
 magazine: Rivista
-magazines: Magazine
+magazines: Riviste
 search: Cerca
 add: Aggiungi
 select_channel: Seleziona un canale
-threads: Tread
+threads: Thread
 hot: Popolari
 active: Attivi
 newest: Più recenti
@@ -24,14 +24,14 @@ more: Altro
 avatar: Avatar
 added: Aggiunto
 up_votes: Boost
-down_votes: Voto negativo
+down_votes: Voti negativi
 created_at: Creato
 owner: Proprietario
 online: Online
 comments: Commenti
-posts: Pubblica
+posts: Post
 replies: Risposte
-markdown_howto: Come si usa l'editor?
+markdown_howto: Come funziona l'editor?
 moderators: Moderatori
 add_comment: Aggiungi commento
 add_post: Aggiungi post
@@ -41,7 +41,7 @@ enter_your_post: Inserisci il tuo post
 activity: Attività
 cover: Copertina
 related_posts: Post correlati
-random_posts: Post a caso
+random_posts: Post casuali
 go_to_original_instance: Sfoglia più contenuti sull'istanza originale.
 empty: Vuoto
 subscribe: Iscriviti
@@ -60,27 +60,28 @@ email_confirm_content: 'Sei pronto ad attivare il tuo account Kbin? Clicca sul l
 reset_check_email_desc2: Se non vedi alcuna e-mail, controlla nella cartella della
   posta indesiderata.
 email_confirm_expire: Ricorda che il link scade tra un ora.
-email_confirm_header: Ciao! Conferma il tuo indirizzo e-mail.
+email_confirm_header: Ciao! Conferma il tuo indirizzo email.
 subscriptions: Iscrizioni
 subscribed: Iscritto
-notify_on_new_posts: Avvisami sui nuovi post nel magazine sottoscritto
+notify_on_new_posts: Avvisami di nuovi post nelle riviste a cui sono iscritto
 notify_on_new_post_comment_reply: Avvisami in caso di risposte ai commenti dei miei
   post
-notify_on_new_entry_reply: Avvisami in caso di commenti in una delle mie conversazioni
+notify_on_new_entry_reply: Avvisami in caso di commenti nei miei thread
 notify_on_new_post_reply: Avvisami in caso di risposte ai miei post
-show_profile_subscriptions: Mostra le iscrizioni al magazine
-flash_thread_new_success: Il thread è stato creato correttamente ed è ora visibile
+show_profile_subscriptions: Mostra le iscrizioni alla rivista
+flash_thread_new_success: Il thread è stato creato con successo ed è ora visibile
   agli altri utenti.
-set_magazines_bar_desc: aggiungi il nome dei magazine dopo la virgola
+set_magazines_bar_desc: aggiungi il nome della rivista dopo la virgola
 bronze_autobiographer_desc: Per aver completato tutti i campi del profilo
 bronze_link_desc: Il post è stato potenziato 5 volte
 bronze_article_desc: Il thread è stato potenziato 5 volte
 bronze_photo_desc: La foto è stata potenziata 5 volte
 bronze_comment_desc: Il commento è stato potenziato 5 volte
 bronze_post_desc: Il post è stato potenziato 5 volte
-flash_thread_delete_success: Il thread è stato correttamente eliminato.
-flash_thread_unpin_success: Il thread non risulta più in evidenza.
-flash_magazine_edit_success: Il magazine è stato modificato correttamente.
+flash_thread_delete_success: Il thread è stato eliminato con successo.
+flash_thread_unpin_success: Il thread è stato rimosso dai fissati in evidenza con
+  successo.
+flash_magazine_edit_success: La rivista è stata modificata con successo.
 too_many_requests: Limite superato, riprova più tardi.
 bronze_ranking_desc: 3° posto in classifica
 silver_article_desc: Il thread è stato potenziato 10 volte
@@ -90,7 +91,7 @@ silver_entry_week_desc: Il miglior thread della settimana
 silver_comment_week_desc: Il miglior commento della settimana
 silver_ranking_desc: 2° posto in classifica
 gold_link_desc: Il post è stato potenziato 15 volte
-gold_article_desc: L'articolo è stato condiviso 15 volte
+gold_article_desc: Il thread è stato potenziato 15 volte
 gold_photo_desc: La foto è stata potenziata 15 volte
 gold_comment_desc: Il commento è stato potenziato 15 volte
 gold_entry_month_desc: Il miglior thread del mese
@@ -98,22 +99,23 @@ gold_comment_month_desc: Il miglior commento del mese
 gold_post_month_desc: Il miglior post del mese
 gold_ranking_desc: 1° posto in classifica
 mod_remove_your_thread: Un moderatore ha rimosso il tuo thread
-add_mentions_posts: Aggiungi un tag di menzione degli utenti nei post
+add_mentions_posts: Aggiungi tag di menzione degli utenti nei post
 Your account is not active: Il tuo account non è attivo.
 Your account has been banned: Il tuo account è stato sospeso.
 magazine_panel_tags_info: Da inserire solo se si desidera che i contenuti del fediverso
-  vengano aggiunti a questo magazine in base ai tag
+  vengano aggiunti a questa rivista in base ai tag
 browsing_one_thread: Stai visualizzando solo uno dei thread nella discussione! Nella
   pagina del post specifico potrai trovare tutti commenti.
 kbin_intro_desc: è una piattaforma decentralizzata per l'aggregazione di contenuti
-  e il microblogging che opera all'interno della rete del Fediverso.
-delete_account_request_send: La tua richiesta di eliminare l'account è stata inviata.
+  e microblogging che opera all'interno della rete del Fediverso.
+delete_account_request_send: La tua richiesta di eliminazione dell'account è stata
+  inviata.
 kbin_promo_desc: '%link_start%Clona il repository%link_end% e sviluppa il fediverso'
 type.link: Link
 login: Accedi
-register: Iscriviti
-flash_register_success: "Benvenuto a bordo, il tuo account è stato registrato. Un
-  ultimo passo! Controlla la tua casella email per il link di attivazione del tuo
+register: Registrati
+flash_register_success: "Benvenuto a bordo. Il tuo account è stato registrato. Un
+  ultimo passo, controlla la tua casella email per il link di attivazione del tuo
   account."
 microblog: Microblog
 top: Migliori
@@ -123,21 +125,21 @@ favourites: Preferiti
 unfollow: Non seguire
 you_cant_login: Hai dimenticato la password?
 reset_check_email_desc: Se esiste un account associato al tuo indirizzo email, dovresti
-  ricevere a breve un'email contenente un link che puoi usare per reimpostare la tua
+  a breve ricevere un'email contenente un link che puoi usare per reimpostare la tua
   password. Tra %expire% il link non sarà più attivo.
-flash_magazine_new_success: Il magazine è stato creato correttamente. Ora puoi aggiungere
-  nuovi contenuti o esplorare il pannello di amministrazione dei magazine.
+flash_magazine_new_success: La rivista è stata creata con successo. Ora puoi aggiungere
+  nuovi contenuti o esplorare il pannello di amministrazione delle riviste.
 mod_log: Registro di moderazione
 mod_log_alert: ATTENZIONE - Il registro di moderazione potrebbe contenere contenuti
   non piacevoli o angoscianti che sono stati rimossi dai moderatori. Per favore procedi
   con cautela.
-set_magazines_bar_empty_desc: se il campo è vuoto, nella barra vengono visualizzati
-  i magazine attivi.
-federated_magazine_info: 'Il magazine è su un server federato: alcuni contenuti potrebbero
-  non risultare visibili.'
-federated_user_info: 'Il profilo appartiene a un server federato: alcuni contenuti
-  potrebbero non risultare visibili.'
-notify_on_new_entry: Avvisami sulle nuove discussioni nel magazine sottoscritto
+set_magazines_bar_empty_desc: se il campo è vuoto, nella barra vengono visualizzate
+  le riviste attive.
+federated_magazine_info: 'La rivista appartiene a un server federato e potrebbe essere
+  incompleta.'
+federated_user_info: 'Il profilo appartiene a un server federato e potrebbe essere
+  incompleto.'
+notify_on_new_entry: Avvisami di nuovi thread nelle riviste a cui sono iscritto
 agree_terms: Acconsenti ai %terms_link_start%Termini e condizioni%terms_link_end%
   e all'%policy_link_start%Informativa sulla privacy%policy_link_end%
 notify_on_new_entry_comment_reply: Avvisami in caso di risposte ai commenti dei miei
@@ -145,13 +147,13 @@ notify_on_new_entry_comment_reply: Avvisami in caso di risposte ai commenti dei 
 silver_link_desc: Il post è stato potenziato 10 volte
 silver_photo_desc: La foto è stata potenziata 10 volte
 gold_post_desc: Il post è stato potenziato 15 volte
-flash_thread_edit_success: Il thread è stato modificato correttamente.
-flash_thread_pin_success: Il thread è stato fissato correttamente in evidenza.
+flash_thread_edit_success: Il thread è stato modificato con successo.
+flash_thread_pin_success: Il thread è stato fissato in evidenza con successo.
 silver_post_week_desc: Il miglior post della settimana
 mod_deleted_your_comment: Un moderatore ha cancellato il tuo commento
 mod_remove_your_post: Un moderatore ha rimosso il tuo post
-add_mentions_entries: Aggiungi un tag di menzione degli utenti nei contenuti
-email_confirm_title: Conferma il tuo indirizzo e-mail.
+add_mentions_entries: Aggiungi tag di menzione degli utenti nei contenuti
+email_confirm_title: Conferma il tuo indirizzo email.
 copy_url_to_fediverse: Copia l'url univoco nel fediverso
 views: Visualizzazioni
 no_comments: Non ci sono commenti
@@ -165,12 +167,12 @@ repeat_password: Ripeti la password
 terms: Termini di servizio
 privacy_policy: Politica della privacy
 about_instance: A proposito
-all_magazines: Tutti i magazine
+all_magazines: Tutte le riviste
 stats: Statistiche
 fediverse: Fediverso
 awards: Riconoscimenti
 ranking: Graduatoria
-create_new_magazine: Crea un nuovo magazine
+create_new_magazine: Crea una nuova rivista
 add_new_article: Aggiungi un nuovo thread
 add_new_link: Aggiungi un nuovo link
 add_new_photo: Aggiungi una nuova foto
@@ -185,13 +187,13 @@ help: Aiuto
 try_again: Riprova
 down_vote: Riduci
 email_verify: Conferma l’indirizzo email
-select_magazine: Seleziona un magazine
+select_magazine: Seleziona una rivista
 add_new: Aggiungi nuovo
 url: URL
 title: Titolo
 tags: Etichette
 badges: Distintivi
-is_adult: +18 / NSFW
+is_adult: 18+ / Contenuti espliciti
 eng: ENG
 oc: OC
 image: Immagine
@@ -232,9 +234,9 @@ cards_view: Vista a schede
 links: Collegamenti
 articles: Thread
 photos: Foto
-report: Rapporti
+report: Rapporto
 share: Condividi
-copy_url: Copia l’URL
+copy_url: Copia l’url
 share_on_fediverse: Condividi sul Fediverso
 edit: Modifica
 are_you_sure: Confermi?
@@ -272,14 +274,14 @@ error: Errore
 votes: Voti
 dark: Scuro
 light: Chiaro
-solarized_light: Chiaro solarizzato
-solarized_dark: Scuro solarizzato
+solarized_light: Solarized Light
+solarized_dark: Solarized Dark
 font_size: Dimensione carattere
 size: Dimensione
 boosts: Boost
 yes: Si
 no: No
-show_magazines_icons: Mostra le icone dei magazine
+show_magazines_icons: Mostra le icone delle riviste
 show_thumbnails: Mostra le miniature
 rounded_edges: Angoli arrotondati
 removed_thread_by: ha rimosso un thread di
@@ -305,7 +307,7 @@ bronze_post: Buon post
 bronze_ranking: Numero 3
 bronze_popular_entry: Thread popolare
 bronze_popular_entry_desc: Thread visitato 1000 volte
-bronze_magazine: Magazine popolare
+bronze_magazine: Rivista famosa
 Password is invalid: La password non è valida.
 check_email: Controlla la tua email
 joined: Iscritto
@@ -320,61 +322,61 @@ removed_comment_by: ha rimosso un commento di
 body: Contenuto
 up_vote: Boost
 moderate: Moderare
-featured_magazines: Magazine in primo piano
+featured_magazines: Riviste in primo piano
 he_banned: sospendi
 he_unbanned: rimuovi sospensione
-set_magazines_bar: Barra dei magazine
-bronze_autobiographer: Bio
+set_magazines_bar: Barra delle riviste
+bronze_autobiographer: Autobiografo
 bronze_personality: Personalità medaglia di bronzo
-bronze_commentator: Commento medaglia di bronzo
+bronze_commentator: Commentatore di bronzo
 bronze_scout: Scout medaglia di bronzo
 bronze_redactor: Redattore medaglia di bronzo
-bronze_poster: Poster medaglia di bronzo
+bronze_poster: Postatore medaglia di bronzo
 bronze_article: Articolo medaglia di bronzo
 silver_personality: Personalità medaglia d'argento
-silver_personality_desc: 50 follower
-bronze_magazine_desc: 20 follower hanno creato un magazine
+silver_personality_desc: 50 seguaci
+bronze_magazine_desc: 20 seguaci hanno creato una rivista
 silver_commentator: Commentatore medaglia d'argento
 silver_commentator_desc: 10 ottimi commenti
 silver_scout: Scout medaglia d'argento
 silver_scout_desc: 10 ottimi link
 silver_redactor: Redattore medaglia d'argento
 silver_redactor_desc: 10 ottimi thread
-silver_poster: Poster medaglia d'argento
+silver_poster: Postatore medaglia d'argento
 silver_poster_desc: 10 ottimi post
 silver_link: Link ottimi
-silver_article: Articolo medaglia d'argento
+silver_article: Thread medaglia d'argento
 silver_photo: Foto ottima
 silver_comment: Commento ottimo
 silver_post: Post ottimo
 silver_ranking: Numero 2
 silver_popular_entry: Thread popolari
 silver_popular_entry_desc: Thread visitato 5000 volte
-silver_magazine: Magazine popolare
-silver_magazine_desc: 50 follower hanno creato questo magazine
+silver_magazine: Rivista popolare
+silver_magazine_desc: 50 seguaci hanno creato una rivista
 silver_entry_week: Thread della settimana
 silver_comment_week: Commento della settimana
 silver_post_week: Post della settimana
 gold_personality: Personalità medaglia d'oro
-gold_personality_desc: 100 follower
+gold_personality_desc: 100 seguaci
 gold_commentator: Commentatore medaglia d'oro
 gold_commentator_desc: 10 commenti eccellenti
 gold_scout: Scout medaglia d'oro
 gold_scout_desc: 10 link eccellenti
 gold_redactor: Redattore medaglia d'oro
 gold_redactor_desc: 10 thread eccellenti
-gold_poster: Poster medaglia d'oro
+gold_poster: Postatore medaglia d'oro
 gold_poster_desc: 10 post eccellenti
 gold_link: Link eccellente
-gold_article: Articolo medaglia d'oro
+gold_article: Thread medaglia d'oro
 gold_photo: Foto eccellente
 gold_comment: Commento eccellente
 gold_post: Post eccellente
 gold_ranking: Numero 1
 gold_popular_entry: Thread popolare
 gold_popular_entry_desc: Thread visitato 10000 volte
-gold_magazine: Magazine popolare
-gold_magazine_desc: 100 follower hanno creato questo magazine
+gold_magazine: Rivista popolare
+gold_magazine_desc: 100 seguaci hanno creato una rivista
 gold_entry_month: Thread del mese
 gold_comment_month: Commento del mese
 gold_post_month: Post del mese
@@ -408,12 +410,12 @@ off: Spento
 instances: Istanze
 upload_file: Carica file
 from_url: Da url
-magazine_panel: Pannello magazine
+magazine_panel: Pannello della rivista
 reject: Rifiuta
 ban: Sospendi
 filters: Filtri
 approved: Approvato
-add_moderator: Aggiungi modratore
+add_moderator: Aggiungi moderatore
 add_badge: Aggiungi distintivo
 bans: Sospensioni
 created: Creato
@@ -426,7 +428,7 @@ icon: Icona
 done: Fatto
 pin: Fissa
 change: Modifica
-change_magazine: Modifica magazine
+change_magazine: Modifica rivista
 change_language: Modifica lingua
 pinned: Fissato
 preview: Anteprima
@@ -443,15 +445,15 @@ year: Anno
 federated: Federato
 local: Locale
 dashboard: Pannello di controllo
-contact_email: E-mail di contatto
+contact_email: Email di contatto
 meta: Meta
 instance: Istanza
 pages: Pagine
 FAQ: FAQ
 inactive: Inattivo
 federation_enabled: Federazione abilitata
-registrations_enabled: Iscrizioni abilitate
-registration_disabled: Iscrizioni disabilitate
+registrations_enabled: Registrazioni abilitate
+registration_disabled: Registrazioni disabilitate
 restore: Ripristina
 firstname: Nome
 send: Invia
@@ -460,11 +462,11 @@ related_entries: Thread correlati
 delete_account: Elimina account
 purge_account: Rimuovi account
 ban_account: Sospendi account
-random_entries: Thread scelti a caso
+random_entries: Thread casuali
 sidebar: Barra laterale
 unban_account: Rimuovi sospensione all'account
-related_magazines: Magazine correlati
-random_magazines: Magazine scelti a caso
+related_magazines: Riviste correlate
+random_magazines: Riviste casuali
 auto_preview: Anteprima automatica media
 dynamic_lists: Elenco dinamico
 banned_instances: Istanze sospese
@@ -475,7 +477,7 @@ header_logo: Logo di intestazione
 return: Indietro
 added_new_reply: Ha aggiunto una nuova risposta
 show_top_bar: Mostra la barra superiore
-status: Status
+status: Stato
 approve: Approva
 rejected: Respinto
 unpin: Non fissare
@@ -484,3 +486,5 @@ admin_panel: Pannello di amministrazione
 mercure_enabled: Mercure abilitato
 report_issue: Segnala un problema
 tokyo_night: Tokyo Night
+boost: Boost
+preferred_languages: Filtra le lingue dei thread e dei post

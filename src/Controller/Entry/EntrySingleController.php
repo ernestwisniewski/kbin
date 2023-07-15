@@ -35,6 +35,7 @@ class EntrySingleController extends AbstractController
         ?string $sortBy,
         EntryCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
+        MentionManager $mentionManager,
         Request $request
     ): Response {
         if ($entry->magazine !== $magazine) {
@@ -69,7 +70,7 @@ class EntrySingleController extends AbstractController
 
         $dto = new EntryCommentDto();
         if ($this->getUser() && $this->getUser()->addMentionsEntries && $entry->user !== $this->getUser()) {
-            $dto->body = MentionManager::addHandle([$entry->user->username])[0];
+            $dto->body = $mentionManager->addHandle([$entry->user->username])[0];
         }
 
         return $this->render(

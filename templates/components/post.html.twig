@@ -52,7 +52,8 @@
                 {% if post.image %}
                     <figure>
                         <a class="thumb" href="{{ uploaded_asset(post.image.filePath) }}">
-                            <img src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
+                            <img class="thumb-subject"
+                                 src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
                                  alt="{{ post.image.altText }}">
                         </a>
                     </figure>

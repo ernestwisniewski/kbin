@@ -16,7 +16,7 @@ body {
   background: var(--kbin-bg);
   padding-bottom: 3rem;
   z-index: 5;
-  position :relative;
+  position: relative;
 
   .kbin-container {
     display: grid;
@@ -159,7 +159,6 @@ figure {
   textarea,
   select,
   button,
-  .ts-wrapper .ts-control,
   .preview img,
   .preview iframe,
   .dropdown__menu,
@@ -168,8 +167,24 @@ figure {
   #sidebar .user-list img,
   .no-image-placeholder,
   .pagination__item,
-  code {
+  .no-avatar,
+  code,
+  .ts-control > [data-value].item {
     border-radius: var(--kbin-rounded-edges-radius) !important;
+  }
+
+  .ts-wrapper {
+    .ts-control {
+      border-radius: .5rem;
+    }
+
+    &.dropdown-active .ts-control {
+      border-radius: .5rem .5rem 0 0;
+    }
+  }
+
+  .ts-dropdown {
+    border-radius: 0 0 .5rem .5rem
   }
 
   .options {
@@ -296,6 +311,10 @@ figure {
   gap: .25rem;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 pre, code {
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -348,8 +367,15 @@ p > code {
 }
 
 .no-avatar {
-  background: var(--kbin-bg);
   display: block;
+  width: 30px;
+  height: 30px;
+  border: var(--kbin-avatar-border);
+
+  @include media-breakpoint-up(sm) {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 :target {

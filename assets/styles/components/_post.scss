@@ -57,6 +57,10 @@
     a {
       color: var(--kbin-meta-link-color);
       font-weight: bold;
+
+      time {
+        font-weight: normal;
+      }
     }
   }
 

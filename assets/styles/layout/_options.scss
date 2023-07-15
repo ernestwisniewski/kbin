@@ -29,11 +29,32 @@
   
   }
 
-  &__layout{
+ &__layout{
     li{
       button{
         border-bottom-left-radius: 0px!important;
         border-bottom-right-radius: 0px!important;
+      }
+    }
+  }
+
+  .scroll {
+    position: static;
+    align-self: center;
+    border-left: var(--kbin-options-border);
+    border-radius: 0;
+    height: 100%;
+    padding: 0px;
+
+    .scroll-left,
+    .scroll-right{
+      padding: 0.5rem;
+      cursor: pointer;   
+      color: var(--kbin-button-secondary-text-color);
+
+      &:hover,
+      &:active{
+        color: var(--kbin-button-secondary-text-hover-color);
       }
     }
   }
@@ -53,7 +74,6 @@
     }
     
   }
-
 
   &--top {
     border-top: 0;

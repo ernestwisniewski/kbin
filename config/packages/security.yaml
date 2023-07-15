@@ -26,7 +26,8 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
-                path: /
+                token_provider:
+                    doctrine: true
         login:
             pattern: ^/api/login
             stateless: true

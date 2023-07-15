@@ -93,7 +93,7 @@ class PostCommentCreateController extends AbstractController
         $dto = new PostCommentDto();
 
         if ($parent && $this->getUser()->addMentionsPosts) {
-            $handle = MentionManager::addHandle([$parent->user->username])[0];
+            $handle = $this->mentionManager->addHandle([$parent->user->username])[0];
 
             if ($parent->user !== $this->getUser()) {
                 $dto->body = $handle;
@@ -102,10 +102,10 @@ class PostCommentCreateController extends AbstractController
             }
 
             if ($parent->mentions) {
-                $mentions = MentionManager::addHandle($parent->mentions);
+                $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn(string $mention) => $mention !== $handle && $mention !== MentionManager::addHandle([$this->getUser()->username])[0]
+                    fn(string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle([$this->getUser()->username])[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;
@@ -113,7 +113,7 @@ class PostCommentCreateController extends AbstractController
             }
         } elseif ($this->getUser()->addMentionsPosts) {
             if ($post->user !== $this->getUser()) {
-                $dto->body = MentionManager::addHandle([$post->user->username])[0];
+                $dto->body = $this->mentionManager->addHandle([$post->user->username])[0];
             }
         }
 

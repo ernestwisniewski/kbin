@@ -70,7 +70,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface
             $attr['target'] = '_blank';
         }
 
-        if (RegexHelper::isLinkPotentiallyUnsafe($url)) {
+        if (RegexHelper::isLinkPotentiallyUnsafe(trim($url))) {
             return new HtmlElement(
                 'span',
                 [],

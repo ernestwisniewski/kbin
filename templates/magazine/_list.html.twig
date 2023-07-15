@@ -28,15 +28,34 @@
                 </ul>
             </div>
         {% else %}
+            {% set sortBy = criteria.sortOption %}
             <div class="magazines table-responsive">
                 <table>
                     <thead>
                     <tr>
-                        <td>{{ 'name'|trans }}</td>
-                        <td>{{ 'threads'|trans }}</td>
-                        <td>{{ 'comments'|trans }}</td>
-                        <td>{{ 'posts'|trans }}</td>
-                        <td></td>
+                        <th>{{ 'name'|trans }}</th>
+                        {% for column in ['threads', 'comments', 'posts'] %}
+                            <th>
+                                {% if sortBy is same as column %}
+                                    {{ column|trans }}
+                                    <i class="fa-solid fa-sort-amount-desc" aria-sort="descending"></i>
+                                {% else %}
+                                    <a href="{{ options_url('sortBy', column) }}">
+                                        {{ column|trans }}
+                                    </a>
+                                {% endif %}
+                            </th>
+                        {% endfor %}
+                        <th style="text-align: center">
+                            {% if sortBy is same as 'hot' %}
+                                {{ 'subscriptions'|trans }}
+                                <i class="fa-solid fa-sort-amount-desc" aria-sort="descending"></i>
+                            {% else %}
+                                <a href="{{ options_url('sortBy', 'hot') }}">
+                                    {{ 'subscriptions'|trans }}
+                                </a>
+                            {% endif %}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -51,6 +70,40 @@
                     {% endfor %}
                     </tbody>
                 </table>
+            </div>
+            <div class="magazines magazine-list-mobile">
+                <div class="magazines__sortby flex-wrap">
+                    {% for column in ['threads', 'comments', 'posts', 'hot'] %}
+                        <span>
+                            <a href="{{ options_url('sortBy', column) }}" class="btn {{ (sortBy is same as column) ? 'btn__primary' : 'btn__secondary' }}">
+                                
+                                {% if(column is same as 'hot')%}
+                                    {{ 'subscriptions'|trans }}
+                                {% else %}
+                                    {{ column|trans }}
+                                {% endif %}
+                                
+                                {% if sortBy is same as column %}
+                                    <i class="fa-solid fa-sort-amount-desc" aria-sort="descending"></i>
+                                {% endif %}
+                            </a>
+                            
+                        </span>
+                    {% endfor %}
+                </div>
+                {% for magazine in magazines %}
+                        <div class="magazine">
+                            <div class="magazine__top">
+                                <span>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</span>
+                                <span>{{ component('magazine_sub', {magazine: magazine}) }}</span>
+                            </div>
+                            <div class="magazine__bottom">                  
+                                <span>{{ magazine.entryCount }} <span class="label">{{ 'threads'|trans }}</span></span>
+                                <span>{{ magazine.entryCommentCount }} <span class="label">{{ 'comments'|trans }}</span></span>
+                                <span>{{ magazine.postCount + magazine.postCommentCount }} <span class="label">{{ 'posts'|trans }}</span></span>
+                            </div>
+                        </div>
+                {% endfor %}
             </div>
         {% endif %}
     </div>
