@@ -163,6 +163,9 @@
         ],
         "auto-scripts": {
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+        },
+        "codestyle:fix": [
+            "tools/vendor/bin/php-cs-fixer fix"
+        ]
     }
 }
