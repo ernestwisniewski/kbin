@@ -66,7 +66,7 @@
     <div class="kbin-container">
         <main id="main"
               data-controller="lightbox timeago"
-              class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::COMPACT')}) }}">
+              class="{{ html_classes({'view-compact': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_COMPACT')) is same as 'true'}) }}">
             {% block body %}{% endblock %}
         </main>
         <aside id="sidebar">
