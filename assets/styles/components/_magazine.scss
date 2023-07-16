@@ -273,13 +273,15 @@ td {
     }
 
     &__information{
-      justify-content: flex-start;
+      justify-content: space-evenly;
       display: flex;
       column-gap: 1rem;
+      width: 100%;
 
       > span{
         border-left:  var(--kbin-section-border);
         padding-left: 1rem;
+        margin-right: auto;
 
         &:first-child{
           padding-left: 0px;
