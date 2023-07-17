@@ -7,6 +7,7 @@ namespace App\Service\ActivityPub;
 use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
 use App\Service\TagManager;
+use League\HTMLToMarkdown\Converter\TableConverter;
 use League\HTMLToMarkdown\HtmlConverter;
 
 class MarkdownConverter
@@ -21,6 +22,7 @@ class MarkdownConverter
     public function convert(string $value): string
     {
         $converter = new HtmlConverter(['strip_tags' => true]);
+        $converter->getEnvironment()->addConverter(new TableConverter());
         $value = stripslashes($converter->convert($value));
 
         preg_match_all('/\[([^]]*)\] *\(([^)]*)\)/i', $value, $matches, PREG_SET_ORDER);
