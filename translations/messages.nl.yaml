@@ -154,8 +154,8 @@ articles: Artikelen
 photos: Foto's
 report: Melden
 share: Delen
-copy_url: Url kopiëren
-copy_url_to_fediverse: Url kopiëren naar fediverse
+copy_url: URL kopiëren
+copy_url_to_fediverse: URL kopiëren naar fediverse
 share_on_fediverse: Delen op fediverse
 edit: Bewerken
 moderate: Modereren
@@ -444,7 +444,7 @@ pages: Pagina's
 FAQ: Veelgestelde vragen
 inactive: Inactief
 federation_enabled: Verspreiding is ingeschakeld
-registrations_enabled: Registraties zijn ingeschakeld
+registrations_enabled: Registratie zijn ingeschakeld
 registration_disabled: Registraties zijn uitgeschakeld
 restore: Herstellen
 add_mentions_posts: Vermeldingslabels toekennen aan berichten
@@ -481,3 +481,29 @@ mercure_enabled: Mercure ingeschakeld
 report_issue: Rapporteer probleem
 tokyo_night: Tokyo Night
 preferred_languages: Filter op talen van gesprekken en berichten
+infinite_scroll_help: Laad automatisch meer content zodra je de onderkant van de pagina
+  hebt bereikt.
+sticky_navbar_help: De navigatiebalk blijft bovenaan de pagina staan wanneer u naar
+  beneden scrolt.
+auto_preview_help: Vouw mediavoorbeelden automatisch uit.
+reload_to_apply: Laad de pagina opnieuw om wijzigingen toe te passen
+filter.origin.label: Kies herkomst
+filter.fields.label: Kies in welke velden u wilt zoeken
+filter.adult.hide: NSFW verbergen
+filter.adult.show: NSFW weergeven
+filter.adult.only: Enkel NSFW
+filter.fields.only_names: Enkel op namen
+filter.fields.names_and_descriptions: Namen en beschrijvingen
+filter.adult.label: Kies of u NSFW (niet veilig voor werk) wilt weergeven
+local_and_federated: Lokaal en gefedereerd
+kbin_bot: /kbin Bot
+bot_body_content: "Welkom bij de /kbin Bot! Deze bot speelt een cruciale rol bij het
+  inschakelen van de ActivityPub-functionaliteit binnen /kbin. Het zorgt ervoor dat
+  /kbin kan communiceren en federeren met andere instanties in de fediverse.\n\nActivityPub
+  is een open standaardprotocol waarmee gedecentraliseerde sociale netwerkplatforms
+  met elkaar kunnen communiceren en interacteren. Het stelt gebruikers in staat om
+  op verschillende instanties (servers) inhoud te volgen, te gebruiken en te delen
+  via het gefedereerde sociale netwerk dat bekend staat als het fediverse. Het biedt
+  een gestandaardiseerde manier voor gebruikers om inhoud te publiceren, andere gebruikers
+  te volgen en deel te nemen aan sociale interacties zoals liken, delen en reageren
+  op threads of berichten."

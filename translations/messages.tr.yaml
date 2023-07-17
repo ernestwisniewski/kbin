@@ -48,8 +48,8 @@ rss: RSS
 change_theme: Temayı değiştir
 help: Yardım
 check_email: E-postanızı kontrol edin
-email_confirm_content: 'Eğer hesabınızı etkinleştirmek istiyorsanız aşağıdaki bağlantıya
-  tıklayın:'
+email_confirm_content: '/kbin hesabınızı etkinleştirmeye hazır mısınız? Aşağıdaki
+  bağlantıya tıklayın:'
 type.link: Bağlantı
 select_channel: Bir kanal seç
 markdown_howto: Editör nasıl çalışır?
@@ -60,12 +60,12 @@ username: Kullanıcı adı
 contact: İletişim
 email_confirm_header: Merhaba! E-posta adresinizi doğrulayın.
 type.smart_contract: Akıllı sözleşme
-type.magazine: Dergi
+type.magazine: Magazin
 people: İnsanlar
 magazine: Magazin
 magazines: Dergiler
 active: Aktif
-commented: Yorumlanmış
+commented: Yorum yapıldı
 change_view: Görünümü değiştir
 comments_count: '{0}yorum|{1}yorum|]1,Inf[ yorumlar'
 favourite: Favori
@@ -89,12 +89,12 @@ add_new_photo: Yeni fotoğraf ekle
 add_new_post: Yeni gönderi ekle
 add_new_video: Yeni video ekle
 useful: Kullanışlı
-reset_check_email_desc: E-posta adresinizle ilişkilendirilmiş bir hesap varsa, kısa
-  süre içinde parolanızı sıfırlamak için kullanabileceğiniz bir bağlantı içeren bir
-  e-posta alacaksınız. Bu bağlantı %expire% içinde geçerliliğini yitirecek.
+reset_check_email_desc: Halihazırda e-posta adresinizle ilişkilendirilmiş bir hesap
+  varsa, kısa süre içinde parolanızı sıfırlamak için kullanabileceğiniz bir bağlantı
+  içeren bir e-posta alacaksınız. Bu bağlantı %expire% içinde geçerliliğini yitirecek.
 reset_check_email_desc2: Bir e-posta almazsanız, lütfen spam klasörünüzü kontrol edin.
 try_again: Yeniden dene
-up_vote: Boost
+up_vote: Yükselt
 url: URL
 eng: ENG
 oc: Oİ
@@ -111,7 +111,7 @@ add_new: Yenisini ekle
 title: Başlık
 tags: Etiketler
 badges: Rozetler
-email_confirm_title: E-posta adresinizi onaylayın
+email_confirm_title: E-posta adresinizi onaylayın.
 subscriptions: Abonelikler
 overview: Genel bakış
 cards: Kartlar
@@ -198,7 +198,7 @@ silver_post_desc: Gönderi 10 defa boost'landı
 silver_post: Çok iyi gönderi
 silver_comment_desc: Yorum 10 defa boost'landı
 silver_comment: Çok iyi yorum
-subject_reported: İçerik raporlandı.
+subject_reported: İçerik rapor edildi.
 show_top_bar: Üst çubuğu göster
 infinite_scroll: Sonsuz kaydırma
 message: Mesaj
@@ -280,7 +280,7 @@ instances: Örnekler
 status: Durum
 right: Sağ
 left: Sol
-boost: Boost
+boost: Yükselt
 return: Geri dön
 kbin_intro_title: Fediverse'ü keşfet
 dynamic_lists: Dinamik listeler
@@ -324,11 +324,10 @@ show_users_avatars: Kullanıcı avatarını göster
 silver_magazine_desc: 50 takipçi dergi oluşturdu
 body: Gövde
 rules: Kurallar
-notify_on_new_post_reply: Benim gönderilerimdeki cevaplardan beni haberdar et
-notify_on_new_post_comment_reply: Benim gönderilerimdeki yorumlara gelen cevaplardan
-  beni haberdar et
+notify_on_new_post_reply: Gönderilerimdeki bütün cevaplar
+notify_on_new_post_comment_reply: Gönderilerdeki yorumlarıma gelen cevaplar
 he_banned: ban
-he_unbanned: unban
+he_unbanned: yasağı kaldır
 ranking_disabled: Sıralama devre dışı bırakıldı
 show_all: Hepsini göster
 about: Hakkında
@@ -355,45 +354,46 @@ flash_register_success: Aramıza hoş geldin! Hesabın başarıyla kaydedildi. S
 bronze_article: Bronz başlık
 flash_thread_new_success: Başlık başarıyla oluşturuldu ve artık diğer kullanıcılara
   görünebilir durumda.
-flash_magazine_new_success: Dergi başarıyla oluşturuldu. Artık yeni içerik ekleyebilirsiniz
-  veya derginin yonetici panelini keşfedebilirsiniz.
+flash_magazine_new_success: Magazin başarıyla oluşturuldu. Artık yeni içerik ekleyebilirsiniz
+  veya magazinin yonetici panelini keşfedebilirsiniz.
 type.article: İçerik
-thread: İçerik
-threads: İçerikler
+thread: Başlık
+threads: Başlıklar
 top: Üst
 hot: Sıcak
-federated_magazine_info: Federe sunucudan gelen dergi eksik olabilir.
-federated_user_info: Federe sunucudan alınan profil eksik olabilir.
+federated_magazine_info: Bu magazin federe bir sunucudan geliyor ve eksik olabilir.
+federated_user_info: Bu profil federe bir sunucudan geliyor ve eksik olabilir.
 go_to_original_instance: Özgün oluşuma daha fazla göz atın.
 agree_terms: '%terms_link_start%Kullanım şartlarını%terms_link_end% ve %policy_link_start%Gizlilik
   Politikasını%policy_link_end% onayla'
-add_new_article: Yeni içerikler ekle
+add_new_article: Yeni başlık ekle
 domain: Alan
-joined: Katıldı
+joined: Katılanlar
 people_federated: Birleştirilmiş
 go_to_footer: Alt bilgiye git
-edit_article: İçeriği düzenle
-notify_on_new_entry_reply: Benim içeriklerimdeki yorumları bana bildir
-notify_on_new_entry_comment_reply: Gönderi yorumlarıma gelen yanıtları bana bildir
-notify_on_new_entry: Abone olduğum magazinlerdeki yeni içerikleri bana bildir
-notify_on_new_posts: Abone olduğum dergilerideki yeni gönderileri bana bildir
+edit_article: Başlığı düzenle
+notify_on_new_entry_reply: Başlıklarımdaki bütün yorumlar
+notify_on_new_entry_comment_reply: Herhangi bir başlıkta yorumlarıma gelen yanıtlar
+notify_on_new_entry: Abone olduğum magazinlerdeki yeni başlıklar (bağlantılar veya
+  makaleler)
+notify_on_new_posts: Abone olduğum magazinlerdeki yeni gönderiler
 save: Kayıt et
 collapse: Daralt
 domains: Alanlar
 boosts: Boost'lar
 show_magazines_icons: Dergilerin simgelerini göster
-restored_thread_by: 'konu, tarafından canlandırıldı:'
-removed_thread_by: 'konu, tarafından kaldırıldı:'
-removed_comment_by: 'yorum, tarafından kaldırıldı:'
-restored_comment_by: 'yorum, tarafından canlandırıldı:'
-removed_post_by: 'gönderi, tarafından kaldırıldı:'
-restored_post_by: 'gönderi, tarafından canlandırıldı:'
+restored_thread_by: 'tarafından açılan başlık canlandırıldı:'
+removed_thread_by: 'tarafından açılan başlık kaldırıldı:'
+removed_comment_by: 'tarafından paylaşılan yorum kaldırıldı:'
+restored_comment_by: 'tarafından paylaşılan yorum canlandırıldı:'
+removed_post_by: 'tarafından paylaşılan gönderi kaldırıldı:'
+restored_post_by: 'tarafından paylaşılan gönderi canlandırıldı:'
 read_all: Hepsini oku
-flash_magazine_edit_success: Dergi başarılı bir şekilde düzenlendi.
+flash_magazine_edit_success: Magazin başarılı bir şekilde düzenlendi.
 set_magazines_bar: Derginin bar'ları
-set_magazines_bar_desc: virgülden sonra dergi ismini ekle
+set_magazines_bar_desc: virgülden sonra magazin isimlerini ekle
 bronze_autobiographer: Otobiyografici
-bronze_autobiographer_desc: Profilde tüm alanların doldurulması için
+bronze_autobiographer_desc: Tüm profil alanlarının doldurulması için
 bronze_commentator: Bronz yorumcu
 bronze_scout: Bronz izci
 bronze_scout_desc: 10 iyi bağlantı
@@ -435,7 +435,7 @@ gold_poster: Altın kullanıcı
 gold_link_desc: Gönderi 15 defa boost'landı
 gold_article: Altın konu
 gold_article_desc: Konu 15 defa boost'landı
-articles: İçerikler
+articles: Başlıklar
 gold_redactor_desc: 10 mükemmel konu
 sidebar_position: Yanbar pozisyonu
 federation: Federasyon
@@ -461,17 +461,17 @@ related_entries: Alakalı konular
 browsing_one_thread: Tartışmadaki sadece bir konuya bakıyorsunuz! Tüm yorumlar gönderi
   sayfasında mevcut.
 kbin_promo_desc: "%link_start%Repo'yu klonlayın%link_end% ve Fediverse'ı geliştirin"
-article: Konu
-kbin_intro_desc: Bu, Fediverse ağı içinde işleyen içerik biriktirme ve mikrobloglama
-  için merkezi olmayan bir platformdur.
+article: Başlık
+kbin_intro_desc: Fediverse ağı içinde işleyen ve merkezi olmayan, içerik biriktirme
+  ve mikrobloglama platformudur.
 to: ile
 in: içinde
-solarized_light: Solarize ışık
-solarized_dark: Solarize karanlık
+solarized_light: Solarize Işık
+solarized_dark: Solarize Karanlık
 on: Açık
 off: Kapalı
 meta: Meta
-add_mentions_entries: Girdilere bahsetme etiketi ekle
+add_mentions_entries: Başlıklara bahsetme etiketi ekle
 banned_instances: Engellenmiş sunucular
 magazine_panel_tags_info: Bu bilgiyi sadece fediverse'ten etiketler aracılığıyla içerik
   gelmesini istiyorsanız girin
@@ -480,3 +480,9 @@ header_logo: Header logosu
 mercure_enabled: Merkür etkinleştir
 report_issue: Sorun bildir
 tokyo_night: Tokyo Gecesi
+infinite_scroll_help: Sayfanın en altına ulaştığınızda otomatik olarak daha fazla
+  içerik yükleyin.
+sticky_navbar_help: Navigasyon paneli aşağı kaydırdığınızda sayfanın üst kısmına yapışacaktır.
+auto_preview_help: Medya önizlemelerini otomatik olarak genişletin.
+reload_to_apply: Değişiklikleri uygulamak için sayfayı yeniden yükleyin
+preferred_languages: Başlıkların ve gönderilerin dillerini filtreleyin
