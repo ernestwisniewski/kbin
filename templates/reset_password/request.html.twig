@@ -39,7 +39,7 @@
                                 href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
                 {% endif %}
             </div>
-            {% include 'user/_login_socials.html.twig' %}
+            {{ component('login_socials') }}
         </div>
     </div>
 {% endblock %}
