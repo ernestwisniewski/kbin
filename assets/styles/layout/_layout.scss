@@ -116,6 +116,7 @@ table {
   -webkit-overflow-scrolling: touch;
   overflow-x: auto;
   width: 100%;
+  border: var(--kbin-section-border);
 }
 
 table thead tr {
@@ -123,10 +124,15 @@ table thead tr {
   text-align: left;
 }
 
+table th{
+  background-color: var(--kbin-bg);
+}
+
 table th,
 table td {
   padding: 1.5rem 1rem;
   position: relative;
+  border: var(--kbin-section-border);
 }
 
 table tbody tr {
