@@ -7,6 +7,7 @@ namespace App\Factory\ActivityPub;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\EntryComment;
 use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -65,7 +66,7 @@ class EntryCommentNoteFactory
                         UrlGeneratorInterface::ABSOLUTE_URL
                     ),
             ],
-            'content' => $this->markdownConverter->convertToHtml($comment->body),
+            'content' => $this->markdownConverter->convertToHtml($comment->body, [MarkdownConverter::RENDER_TARGET => RenderTarget::ActivityPub]),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),
             'tag' => array_merge(

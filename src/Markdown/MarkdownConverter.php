@@ -9,6 +9,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 
 class MarkdownConverter
 {
+    public const RENDER_TARGET = 'render_target';
+
     public function __construct(private readonly EventDispatcherInterface $dispatcher)
     {
     }

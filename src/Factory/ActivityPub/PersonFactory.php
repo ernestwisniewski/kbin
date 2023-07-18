@@ -7,6 +7,7 @@ namespace App\Factory\ActivityPub;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
 use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use App\Service\ImageManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -75,7 +76,10 @@ class PersonFactory
         );
 
         if ($user->about) {
-            $person['summary'] = $this->markdownConverter->convertToHtml($user->about);
+            $person['summary'] = $this->markdownConverter->convertToHtml(
+                $user->about,
+                [MarkdownConverter::RENDER_TARGET => RenderTarget::ActivityPub],
+            );
         }
 
         if ($user->cover) {

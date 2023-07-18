@@ -7,6 +7,7 @@ namespace App\Factory\ActivityPub;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\PostComment;
 use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
@@ -67,6 +68,7 @@ class PostCommentNoteFactory
             'sensitive' => $comment->post->isAdult(),
             'content' => $this->markdownConverter->convertToHtml(
                 $comment->body,
+                [MarkdownConverter::RENDER_TARGET => RenderTarget::ActivityPub],
             ),
             'mediaType' => 'text/html',
             'url' => $this->getActivityPubId($comment),

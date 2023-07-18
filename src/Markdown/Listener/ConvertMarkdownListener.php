@@ -7,6 +7,7 @@ namespace App\Markdown\Listener;
 use App\Markdown\Event\ConvertMarkdown;
 use App\Markdown\Factory\ConverterFactory;
 use App\Markdown\Factory\EnvironmentFactory;
+use App\Markdown\RenderTarget;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -28,7 +29,7 @@ final class ConvertMarkdownListener implements EventSubscriberInterface
 
     public function onConvertMarkdown(ConvertMarkdown $event): void
     {
-        $environment = $this->environmentFactory->createEnvironment();
+        $environment = $this->environmentFactory->createEnvironment($event->getRenderTarget());
 
         $converter = $this->converterFactory->createConverter($environment);
         $html = $converter->convert($event->getMarkdown());

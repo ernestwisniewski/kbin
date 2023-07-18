@@ -14,6 +14,7 @@ class BuildCacheContext
     public function __construct(private readonly ConvertMarkdown $convertMarkdownEvent)
     {
         $this->addToContext('content', $convertMarkdownEvent->getMarkdown());
+        $this->addToContext('target', $convertMarkdownEvent->getRenderTarget()->name);
     }
 
     public function addToContext(string $key, string $value = null): void
