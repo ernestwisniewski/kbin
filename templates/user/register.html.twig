@@ -70,7 +70,7 @@
                             class="font-weight-bold"
                             href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
             </div>
-            {% include 'user/_login_socials.html.twig' %}
+            {{ component('login_socials') }}
         </div>
     </div>
 {% endblock %}
