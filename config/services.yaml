@@ -144,6 +144,8 @@ services:
         $container: !service_locator
           League\CommonMark\Extension\Autolink\UrlAutolinkParser: '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
           League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
+          League\CommonMark\Extension\Strikethrough\StrikethroughExtension: '@League\CommonMark\Extension\Strikethrough\StrikethroughExtension'
+          League\CommonMark\Extension\Table\TableExtension: '@League\CommonMark\Extension\Table\TableExtension'
           App\Markdown\MarkdownExtension: '@App\Markdown\MarkdownExtension'
         $config: '%commonmark.configuration%'
 

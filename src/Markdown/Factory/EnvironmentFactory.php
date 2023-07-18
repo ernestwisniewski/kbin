@@ -10,6 +10,8 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\Extension\Autolink\UrlAutolinkParser;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
+use League\CommonMark\Extension\Table\TableExtension;
 use Psr\Container\ContainerInterface;
 
 class EnvironmentFactory
@@ -28,6 +30,8 @@ class EnvironmentFactory
 
         $env->addInlineParser($this->container->get(UrlAutolinkParser::class))
             ->addExtension($this->container->get(CommonMarkCoreExtension::class))
+            ->addExtension($this->container->get(StrikethroughExtension::class))
+            ->addExtension($this->container->get(TableExtension::class))
             ->addExtension($this->container->get(KbinMarkdownExtension::class));
 
         return $env;

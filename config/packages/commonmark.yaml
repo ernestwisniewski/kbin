@@ -16,4 +16,5 @@ services:
         arguments:
             $allowedProtocols: "%commonmark.allowed_schemes%"
     League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: ~
-    
+    League\CommonMark\Extension\Strikethrough\StrikethroughExtension: ~
+    League\CommonMark\Extension\Table\TableExtension: ~
