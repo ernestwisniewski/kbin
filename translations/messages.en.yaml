@@ -503,3 +503,4 @@ bot_body_content: "Welcome to the /kbin Bot! This bot plays a crucial role in en
   fediverse. It provides a standardized way for users to publish content, follow other
   users, and engage in social interactions such as liking, sharing, and commenting
   on threads or posts."
+password_confirm_header: Confirm your password change request.
