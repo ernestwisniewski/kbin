@@ -9,7 +9,7 @@ use App\Service\MagazineManager;
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
 
-class MagazineCollectionDataProviderTest extends ApiTestCase
+class MagazineCollectionDataProviderTestDeprecated extends ApiTestCase
 {
     use FactoryTrait;
 

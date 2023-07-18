@@ -72,7 +72,7 @@ class PostCreateControllerTest extends WebTestCase
         $this->assertResponseRedirects('/m/acme/microblog/newest');
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('blockquote header .danger', '+18');
+        $this->assertSelectorTextContains('blockquote header .danger', '18+');
     }
 
     public function testPostCreatedInAdultMagazineIsAutomaticallyMarkedAsForAdults(): void
@@ -95,6 +95,6 @@ class PostCreateControllerTest extends WebTestCase
         $this->assertResponseRedirects('/m/adult/microblog/newest');
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('blockquote header .danger', '+18');
+        $this->assertSelectorTextContains('blockquote header .danger', '18+');
     }
 }

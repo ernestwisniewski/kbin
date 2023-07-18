@@ -111,7 +111,7 @@ reset_check_email_desc: Αν υπάρχει ήδη λογαριασμός με �
   email που θα περιέχει σύνδεσμο ώστε να επαναφέρετε τον κωδικό σας. Ο σύνδεσμος θα
   λήξει σε %expire%.
 random_posts: Τυχαίες αναρτήσεις
-email_confirm_content: 'Έτοιμος να ενεργοποιήσεις τον λογαριασμό σου στο Kbin; Πάτησε
+email_confirm_content: 'Έτοιμος να ενεργοποιήσεις τον λογαριασμό σου στο /kbin; Πάτησε
   στον παρακάτω σύνδεσμο:'
 federated_user_info: Αυτό το προφίλ είναι από έναν συνενωμένο server και μπορεί να
   είναι ελλιπές.
@@ -146,8 +146,8 @@ articles: Νήματα
 photos: Φωτογραφίες
 videos: Βίντεο
 report: Αναφορά
-copy_url: Αντιγραφή url
-copy_url_to_fediverse: Αντιγραφή url στο Fediverse
+copy_url: Αντιγραφή URL
+copy_url_to_fediverse: Αντιγραφή URL στο Fediverse
 share_on_fediverse: Κοινοποίηση στο Fediverse
 are_you_sure: Είσαι σίγουρος;
 reason: Αιτιολογία
@@ -166,10 +166,10 @@ appearance: Εμφάνιση
 hide_adult: Απόκρυψη περιεχομένου για ενήλικες (NSFW)
 privacy: Ιδιωτικότητα
 show_profile_subscriptions: Εμφάνιση συνδρομών σε περιοδικά
-notify_on_new_entry_comment_reply: Ειδοποίησέ με για απαντήσεις στα σχόλια του νήματος
-  μου
+notify_on_new_entry_comment_reply: Απαντήσεις στα σχόλια μου σε οποιοδήποτε νήμα
 notify_on_new_post_reply: Ειδοποίησέ με για απαντήσεις στις αναρτήσεις μου
-notify_on_new_entry: Ειδοποίησε με για νέα νήματα σε ένα εγγεγραμμένο περιοδικό
+notify_on_new_entry: Νέα νήματα (σύνδεσμοι ή άρθρα) σε οποιοδήποτε περιοδικό στο οποίο
+  έχω εγγραφεί
 save: Αποθήκευση
 about: Σχετικά
 old_email: Τρέχον email
@@ -354,10 +354,9 @@ general: Γενικά
 solarized_dark: Solarized Σκοτεινό
 share: Κοινοποίηση
 homepage: Αρχική
-notify_on_new_post_comment_reply: Ειδοποίησε με για απαντήσεις στα σχόλια των αναρτήσεων
-  μου
+notify_on_new_post_comment_reply: Απαντήσεις στα σχόλια μου σε οποιεσδήποτε αναρτήσεις
 featured_magazines: Επίλεκτα περιοδικά
-notify_on_new_posts: Ειδοποίησε με για νέες αναρτήσεις σε ένα εγγεγραμμένο περιοδικό
+notify_on_new_posts: Νέες αναρτήσεις σε οποιοδήποτε περιοδικό στο οποίο έχω εγγραφεί
 show_magazines_icons: Εμφάνιση εικονιδίων περιοδικών
 restored_thread_by: έχει επαναφέρει το νήμα από
 new_password_repeat: Επιβεβαίωση νέου κωδικού πρόσβασης
@@ -394,7 +393,7 @@ gold_comment: Εξαιρετικό σχόλιο
 edited_post: Επεξεργάστηκε μια ανάρτηση
 sidebar_position: Θέση πλευρικής γραμμής
 add_badge: Προσθήκη σήματος
-add_mentions_entries: Προσθήκη ετικετών αναφοράς σε καταχωρήσεις
+add_mentions_entries: Προσθήκη ετικετών αναφοράς σε νήματα
 unban_account: Κατάργηση αποκλεισμού λογαριασμού
 browsing_one_thread: Περιηγείστε μόνο ένα νήμα στη συζήτηση! Όλα τα σχόλια είναι διαθέσιμα
   στη σελίδα ανάρτησης.
@@ -485,3 +484,16 @@ report_issue: Αναφορά προβλήματος
 tokyo_night: Tokyo Night
 mercure_enabled: Το Mercure είναι ενεργοποιημένο
 preferred_languages: Φιλτράρισμα γλωσσών των νημάτων και των αναρτήσεων
+infinite_scroll_help: Φόρτωσε αυτόματα περισσότερο περιεχόμενο όταν φτάσεις το τέλος
+  της σελίδας.
+sticky_navbar_help: Η γραμμή πλοήγησης θα καρφιτσωθεί στην κορυφή της σελίδας όταν
+  κάνετε κύλιση προς τα κάτω.
+auto_preview_help: Αυτόματη επέκταση των προεπισκοπήσεων πολυμέσων.
+reload_to_apply: Ανανέωση σελίδας για να εφαρμοστούν οι αλλαγές
+filter.fields.label: Επιλογή πεδίων για αναζήτηση
+filter.fields.only_names: Μόνο ονόματα
+filter.fields.names_and_descriptions: Ονόματα και περιγραφές
+filter.adult.hide: Απόκρυψη περιεχομένου για ενήλικες (NSFW)
+filter.adult.show: Εμφάνιση περιεχομένου για ενήλικες (NSFW)
+filter.adult.label: Επιλογή εμφάνισης περιεχομένου για ενήλικες (NSFW)
+filter.adult.only: Μόνο περιεχόμενο για ενήλικες (NSFW)

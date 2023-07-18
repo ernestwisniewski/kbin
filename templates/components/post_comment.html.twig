@@ -19,7 +19,7 @@
                 data-subject-parent-value="{{ comment.parent ? comment.parent.id : '' }}"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
-                {% if comment.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {% if comment.isAdult %}<span class="badge danger">18+</span>{% endif %}
                 {{ component('user_inline', {user: comment.user, showAvatar: false}) }},
                 {% if dateAsUrl %}
                     <a href="{{ post_url(comment.post) ~ '#post-comment-' ~ comment.id }}"

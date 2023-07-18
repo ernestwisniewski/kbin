@@ -94,14 +94,15 @@
                 {% for magazine in magazines %}
                         <div class="magazine">
                             <div class="magazine__top">
-                                <span>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</span>
-                                <span>{{ component('magazine_sub', {magazine: magazine}) }}</span>
+                                <div class="magazine__inline">{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</div>         
+                                <div class="magazine__information">                  
+                                    <span class="magazine__info"><span class="value">{{ magazine.entryCount }}</span><span class="label">{{ 'threads'|trans }}</span></span>
+                                    <span class="magazine__info"><span class="value">{{ magazine.entryCommentCount }}</span><span class="label">{{ 'comments'|trans }}</span></span>
+                                    <span class="magazine__info"><span class="value">{{ magazine.postCount + magazine.postCommentCount }}</span><span class="label">{{ 'posts'|trans }}</span></span>
+                                </div>
+                                <div class="magazine__sub">{{ component('magazine_sub', {magazine: magazine}) }}</div>
                             </div>
-                            <div class="magazine__bottom">                  
-                                <span>{{ magazine.entryCount }} <span class="label">{{ 'threads'|trans }}</span></span>
-                                <span>{{ magazine.entryCommentCount }} <span class="label">{{ 'comments'|trans }}</span></span>
-                                <span>{{ magazine.postCount + magazine.postCommentCount }} <span class="label">{{ 'posts'|trans }}</span></span>
-                            </div>
+                            
                         </div>
                 {% endfor %}
             </div>

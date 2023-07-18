@@ -493,3 +493,14 @@ filter.adult.only: Only NSFW
 local_and_federated: Local and federated
 filter.fields.only_names: Only names
 filter.fields.names_and_descriptions: Names and descriptions
+kbin_bot: /kbin Bot
+bot_body_content: "Welcome to the /kbin Bot! This bot plays a crucial role in enabling
+  ActivityPub functionality within /kbin. It ensures that /kbin can communicate and
+  federate with other instances in the fediverse.\n\nActivityPub is an open standard
+  protocol that allows decentralized social networking platforms to communicate and
+  interact with each other. It enables users on different instances (servers) to follow,
+  interact with, and share content across the federated social network known as the
+  fediverse. It provides a standardized way for users to publish content, follow other
+  users, and engage in social interactions such as liking, sharing, and commenting
+  on threads or posts."
+password_confirm_header: Confirm your password change request.

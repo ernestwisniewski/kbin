@@ -122,6 +122,6 @@ class EntryCreateControllerTest extends WebTestCase
         $client->followRedirect();
 
         $this->assertSelectorTextContains('article h2', 'Test entry 1');
-        $this->assertSelectorTextContains('article h2 .danger', '+18');
+        $this->assertSelectorTextContains('article h2 .danger', '18+');
     }
 }

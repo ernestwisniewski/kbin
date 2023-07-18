@@ -18,7 +18,7 @@
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {% if isSingle %}
                         <h1>
-                            {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
+                            {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
                             {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             {% if entry.url %}
                                 <a rel="{{ get_rel(entry.url) }}"
@@ -39,7 +39,7 @@
                         </h1>
                     {% else %}
                         <h2>
-                            {% if entry.isAdult %}<small class="badge danger">+18</small>{% endif %}
+                            {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
                             {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                             {% if entry.domain %}
