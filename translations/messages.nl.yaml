@@ -1,6 +1,7 @@
 show_profile_subscriptions: Tijdschriftabonnementen tonen
-notify_on_new_entry_comment_reply: Meldingen tonen bij reacties op een van mijn gespreksreacties
-notify_on_new_posts: Meldingen tonen bij nieuwe berichten in een tijdschriftabonnement
+notify_on_new_entry_comment_reply: Stel me op de hoogte van reacties op alle gesprekken
+notify_on_new_posts: Stel me op de hoogte van nieuwe berichten in een tijdschrift
+  waarop ik geabonneerd ben
 solarized_light: Gepolariseerd Licht
 show_magazines_icons: Tijdschriftpictogrammen tonen
 removed_post_by: heeft een bericht verwijderd van
@@ -166,10 +167,13 @@ edit_photo: Foto bewerken
 delete: Verwijderen
 edit_post: Bericht bewerken
 show_profile_followings: Gevolgde gebruikers tonen
-notify_on_new_entry_reply: Meldingen tonen bij reacties in een van mijn gesprekken
-notify_on_new_post_reply: Meldingen tonen bij reacties op een van mijn berichten
-notify_on_new_post_comment_reply: Meldingen tonen bij reacties op een van mijn berichten
-notify_on_new_entry: Meldingen tonen bij nieuwe gesprekken in een tijdschriftabonnement
+notify_on_new_entry_reply: Stel me op de hoogte van reacties in gesprekken die ik
+  heb geschreven
+notify_on_new_post_reply: Stel me op de hoogte van reacties op berichten die ik heb
+  geschreven
+notify_on_new_post_comment_reply: Stel me op de hoogte van reacties op elke alle berichten
+notify_on_new_entry: Stel me op de hoogte van nieuwe gesprekken (links of artikelen)
+  in elk tijdschrift waarop ik op ben geabonneerd
 save: Opslaan
 about: Over
 old_email: Huidig e-mailadres
@@ -507,3 +511,4 @@ bot_body_content: "Welkom bij de /kbin Bot! Deze bot speelt een cruciale rol bij
   een gestandaardiseerde manier voor gebruikers om inhoud te publiceren, andere gebruikers
   te volgen en deel te nemen aan sociale interacties zoals liken, delen en reageren
   op threads of berichten."
+password_confirm_header: Bevestig het verzoek om je wachtwoord te wijzigingen.
