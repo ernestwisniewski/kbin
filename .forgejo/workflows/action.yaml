@@ -86,9 +86,7 @@ jobs:
         run: |
           SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit
 
-# TODO: Integration tests
-
-  php-cs-fixer:
+  fixer-dry-run:
     runs-on: docker
     container:
       image: danger89/kbin-image:0.1.0
@@ -100,13 +98,24 @@ jobs:
         run: |
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
+      - name: Calculate tools/composer.lock hash
+        id: composer-lock-hash
+        run: |
+          echo "hash=$(md5sum tools/composer.lock)" >> $GITHUB_OUTPUT
+
       - uses: https://code.forgejo.org/actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-composer-tools-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-tools-
 
-      - name: Composer install
+      - name: Composer tools install
         run: composer -d tools install --no-scripts --no-progress
 
-      - run: tools/vendor/bin/php-cs-fixer fix --dry-run
+      - name: php-cs-fixer dry-run
+        run: tools/vendor/bin/php-cs-fixer fix --dry-run
+
+# TODO: PHP-CS-Fixer is a fixer. Not really a linter.
+# Introduce PHPCS for linting?
+
+# TODO: Integration tests
