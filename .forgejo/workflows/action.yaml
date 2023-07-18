@@ -86,8 +86,6 @@ jobs:
         run: |
           SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit
 
-# TODO: Integration tests
-
   php-cs-fixer:
     runs-on: docker
     container:
@@ -110,3 +108,5 @@ jobs:
         run: composer -d tools install --no-scripts --no-progress
 
       - run: tools/vendor/bin/php-cs-fixer fix --dry-run
+
+# TODO: Integration tests
