@@ -13,7 +13,8 @@ final class LoginSocialsComponent
         private readonly string $oauthGoogleId,
         #[Autowire(env: 'OAUTH_FACEBOOK_ID')]
         private readonly string $oauthFacebookId,
-    ) {}
+    ) {
+    }
 
     public function googleEnabled(): bool
     {

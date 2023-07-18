@@ -174,7 +174,7 @@ class ApHttpClient
         $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
-        $headers['User-Agent'] = 'kbinBot/0.1 (+https://' . $this->kbinDomain . '/bot)';
+        $headers['User-Agent'] = 'kbinBot/0.1 (+https://'.$this->kbinDomain.'/bot)';
         $headers['Accept'] = 'application/activity+json, application/ld+json';
         $headers['Content-Type'] = 'application/activity+json';
 
@@ -194,7 +194,7 @@ class ApHttpClient
         $signatureHeader = 'keyId="'.$keyId.'",headers="'.$signedHeaders.'",algorithm="rsa-sha256",signature="'.$signature.'"';
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
-        $headers['User-Agent'] = 'kbinBot/0.1 (+https://' . $this->kbinDomain . '/bot)';
+        $headers['User-Agent'] = 'kbinBot/0.1 (+https://'.$this->kbinDomain.'/bot)';
         $headers['Accept'] = 'application/activity+json, application/ld+json';
         $headers['Content-Type'] = 'application/activity+json';
 
