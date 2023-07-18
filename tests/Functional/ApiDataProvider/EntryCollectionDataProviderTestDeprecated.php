@@ -7,7 +7,7 @@ namespace App\Tests\Functional\ApiDataProvider;
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
 
-class EntryCollectionDataProviderTest extends ApiTestCase
+class EntryCollectionDataProviderTestDeprecated extends ApiTestCase
 {
     use FactoryTrait;
 

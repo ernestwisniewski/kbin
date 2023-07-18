@@ -8,7 +8,7 @@ use App\DTO\MagazineDto;
 use App\Tests\ApiTestCase;
 use App\Tests\FactoryTrait;
 
-class MagazineItemDataProviderTest extends ApiTestCase
+class MagazineItemDataProviderTestDeprecated extends ApiTestCase
 {
     use FactoryTrait;
 

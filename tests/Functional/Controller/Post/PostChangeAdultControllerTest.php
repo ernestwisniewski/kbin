@@ -17,19 +17,19 @@ class PostChangeAdultControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/-/moderate");
         $client->submit(
-            $crawler->filter('.moderate-panel')->selectButton('+18 / nsfw')->form([
+            $crawler->filter('.moderate-panel')->selectButton('18+ / nsfw')->form([
                 'adult' => true,
             ])
         );
         $client->followRedirect();
-        $this->assertSelectorTextContains('#main .post .badge', '+18');
+        $this->assertSelectorTextContains('#main .post .badge', '18+');
 
         $client->submit(
-            $crawler->filter('.moderate-panel')->selectButton('+18 / nsfw')->form([
+            $crawler->filter('.moderate-panel')->selectButton('18+ / nsfw')->form([
                 'adult' => false,
             ])
         );
         $client->followRedirect();
-        $this->assertSelectorTextNotContains('#main .post', '+18');
+        $this->assertSelectorTextNotContains('#main .post', '18+');
     }
 }

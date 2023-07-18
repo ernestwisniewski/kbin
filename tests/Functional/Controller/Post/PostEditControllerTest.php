@@ -57,6 +57,6 @@ class PostEditControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('blockquote header .danger', '+18');
+        $this->assertSelectorTextContains('blockquote header .danger', '18+');
     }
 }

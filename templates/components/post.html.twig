@@ -14,7 +14,7 @@
                 data-controller="post subject mentions"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
-                {% if post.isAdult %}<span class="badge danger">+18</span>{% endif %}
+                {% if post.isAdult %}<span class="badge danger">18+</span>{% endif %}
                 {{ component('user_inline', {user: post.user, showAvatar: false}) }},
                 {% if dateAsUrl %}
                     <a href="{{ post_url(post) }}"

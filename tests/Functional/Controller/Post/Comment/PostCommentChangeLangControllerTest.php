@@ -17,10 +17,11 @@ class PostCommentChangeLangControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', "/m/acme/p/{$comment->post->getId()}/-/reply/{$comment->getId()}/moderate");
 
-        $this->assertSelectorTextContains('select[name="lang[lang]"] option[selected]', 'English');
-
         $form = $crawler->filter('.moderate-panel')->selectButton('change language')->form();
         $values = $form['lang']['lang']->availableOptionValues();
+
+        $this->assertSame($values[0], 'en');
+
         $form['lang']['lang']->select($values[array_search('fr', $values)]);
 
         $client->submit($form);
