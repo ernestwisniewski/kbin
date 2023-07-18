@@ -24,7 +24,7 @@ class MagazineListControllerTest extends WebTestCase
 
         $this->assertSame(
             $expectedMagazines,
-            $crawler->filter('#content .table-responsive .magazine-inline')->each(fn(Crawler $node) => $node->innerText()),
+            $crawler->filter('#content .table-responsive .magazine-inline')->each(fn (Crawler $node) => $node->innerText()),
         );
     }
 

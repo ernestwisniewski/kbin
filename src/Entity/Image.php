@@ -96,10 +96,10 @@ class Image
         return $this->fileName;
     }
 
-//    public function getSha256(): string
-//    {
-//        return bin2hex($this->sha256);
-//    }
+    //    public function getSha256(): string
+    //    {
+    //        return bin2hex($this->sha256);
+    //    }
 
     public function __sleep()
     {

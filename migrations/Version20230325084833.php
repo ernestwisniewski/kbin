@@ -28,7 +28,6 @@ final class Version20230325084833 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_378C2FE454B9D732 ON magazine (icon_id)');
         $this->addSql('ALTER TABLE post_comment ALTER is_adult DROP DEFAULT');
         $this->addSql('ALTER TABLE "user" DROP hide_images');
-
     }
 
     public function down(Schema $schema): void

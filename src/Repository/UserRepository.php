@@ -120,18 +120,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $result = $pagerfanta->getCurrentPageResults();
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry')]
         );
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'entry_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
         );
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array)$result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array)$result, 'post_comment')]
+            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -142,7 +142,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         try {
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int)ceil($countAll / self::PER_PAGE)) : 1);
+            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -152,9 +152,9 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 
     public function findFollowing(int $page, User $user): PagerfantaInterface
@@ -205,7 +205,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->setParameter('user', $user)
             ->getResult();
 
-        return array_map(fn($item) => $item['apInboxUrl'], $res);
+        return array_map(fn ($item) => $item['apInboxUrl'], $res);
     }
 
     public function findBlockedUsers(int $page, User $user): PagerfantaInterface
@@ -382,16 +382,16 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         $output = [];
         foreach ($counter as $item) {
-            $user_id = $item["user_id"];
-            $count = $item["count"];
+            $user_id = $item['user_id'];
+            $count = $item['count'];
             if (isset($output[$user_id])) {
-                $output[$user_id]["count"] += $count;
+                $output[$user_id]['count'] += $count;
             } else {
-                $output[$user_id] = ["count" => $count, "user_id" => $user_id];
+                $output[$user_id] = ['count' => $count, 'user_id' => $user_id];
             }
         }
 
-        $user = array_map(fn($item) => $item['user_id'], $output);
+        $user = array_map(fn ($item) => $item['user_id'], $output);
 
         $qb = $this->createQueryBuilder('u', 'u.id');
         $qb->andWhere($qb->expr()->in('u.id', $user))
@@ -431,7 +431,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $res;
     }
 
-    public function findActiveUsers(?Magazine $magazine = null)
+    public function findActiveUsers(Magazine $magazine = null)
     {
         if ($magazine) {
             $results = $this->findPeople($magazine, null, 35);

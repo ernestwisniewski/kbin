@@ -45,12 +45,12 @@ class MagazineFollowersController
         'first' => 'string',
         'totalItems' => 'int',
     ])]
- private function getCollectionInfo(Magazine $magazine): array
- {
-     $count = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine)->count();
+    private function getCollectionInfo(Magazine $magazine): array
+    {
+        $count = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine)->count();
 
-     return $this->collectionInfoWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $count);
- }
+        return $this->collectionInfoWrapper->build('ap_magazine_followers', ['name' => $magazine->name], $count);
+    }
 
     #[ArrayShape([
      '@context' => 'string',
@@ -61,22 +61,22 @@ class MagazineFollowersController
      'orderedItems' => 'array',
      'next' => 'string',
  ])]
- private function getCollectionItems(Magazine $magazine, int $page): array
- {
-     $subscriptions = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine);
-     $actors = array_map(fn ($sub) => $sub->user, iterator_to_array($subscriptions->getCurrentPageResults()));
+    private function getCollectionItems(Magazine $magazine, int $page): array
+    {
+        $subscriptions = $this->magazineSubscriptionRepository->findMagazineSubscribers(1, $magazine);
+        $actors = array_map(fn ($sub) => $sub->user, iterator_to_array($subscriptions->getCurrentPageResults()));
 
-     $items = [];
-     foreach ($actors as $actor) {
-         $items[] = $this->manager->getActorProfileId($actor);
-     }
+        $items = [];
+        foreach ($actors as $actor) {
+            $items[] = $this->manager->getActorProfileId($actor);
+        }
 
-     return $this->collectionItemsWrapper->build(
-         'ap_magazine_followers',
-         ['name' => $magazine->name],
-         $subscriptions,
-         $items,
-         $page
-     );
- }
+        return $this->collectionItemsWrapper->build(
+            'ap_magazine_followers',
+            ['name' => $magazine->name],
+            $subscriptions,
+            $items,
+            $page
+        );
+    }
 }

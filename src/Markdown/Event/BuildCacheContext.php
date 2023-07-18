@@ -17,7 +17,7 @@ class BuildCacheContext
         $this->addToContext('target', $convertMarkdownEvent->getRenderTarget()->name);
     }
 
-    public function addToContext(string $key, ?string $value = null): void
+    public function addToContext(string $key, string $value = null): void
     {
         $this->context[$key] = $value;
     }
@@ -34,7 +34,7 @@ class BuildCacheContext
         return hash('sha256', json_encode($this->context));
     }
 
-    public function hasContext(string $key, ?string $value = null): bool
+    public function hasContext(string $key, string $value = null): bool
     {
         if (!\array_key_exists($key, $this->context)) {
             return false;

@@ -57,8 +57,7 @@ class MagazineModeratorController extends AbstractController
         #[MapEntity(id: 'moderator_id')]
         Moderator $moderator,
         Request $request
-    ): Response
-    {
+    ): Response {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));
 
         $this->manager->removeModerator($moderator);

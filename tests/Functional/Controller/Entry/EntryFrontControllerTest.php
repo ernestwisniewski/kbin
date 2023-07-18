@@ -170,7 +170,6 @@ class EntryFrontControllerTest extends WebTestCase
         }
     }
 
-
     public function testXmlSubPage(): void
     {
         $client = $this->createClient();

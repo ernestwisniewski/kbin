@@ -28,9 +28,6 @@ final class DtoPaginator implements \IteratorAggregate, PaginatorInterface
         $this->totalItems = $totalItems;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCurrentPage(): float
     {
         if (0 >= $this->maxResults) {
@@ -40,9 +37,6 @@ final class DtoPaginator implements \IteratorAggregate, PaginatorInterface
         return floor($this->firstResult / $this->maxResults) + 1.;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastPage(): float
     {
         if (0 >= $this->maxResults) {
@@ -52,33 +46,21 @@ final class DtoPaginator implements \IteratorAggregate, PaginatorInterface
         return ceil($this->totalItems / $this->maxResults) ?: 1.;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getItemsPerPage(): float
     {
         return (float) $this->maxResults;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTotalItems(): float
     {
         return (float) $this->totalItems;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(): int
     {
         return iterator_count($this->iterator);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator(): \Traversable
     {
         return $this->iterator;

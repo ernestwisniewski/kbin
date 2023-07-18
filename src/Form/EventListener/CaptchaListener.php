@@ -12,7 +12,6 @@ use Symfony\Component\Form\FormEvents;
 
 final class CaptchaListener implements EventSubscriberInterface
 {
-
     public function __construct(private readonly SettingsManager $settingsManager)
     {
     }
@@ -22,7 +21,6 @@ final class CaptchaListener implements EventSubscriberInterface
         return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
-
     public function preSetData(FormEvent $event): void
     {
         if (!$this->settingsManager->get('KBIN_CAPTCHA_ENABLED')) {
@@ -31,10 +29,8 @@ final class CaptchaListener implements EventSubscriberInterface
 
         $form = $event->getForm();
 
-
         $form->add('captcha', HCaptchaType::class, [
             'label' => 'Captcha',
         ]);
     }
-
 }

@@ -16,8 +16,8 @@ class UserNotificationControllerTest extends WebTestCase
 
         $actor = $this->getUserByUsername('actor');
 
-        ($this->getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $owner);
-        ($this->getContainer()->get(MagazineManager::class))->subscribe($this->getMagazineByName('acme'), $actor);
+        $this->getContainer()->get(MagazineManager::class)->subscribe($this->getMagazineByName('acme'), $owner);
+        $this->getContainer()->get(MagazineManager::class)->subscribe($this->getMagazineByName('acme'), $actor);
 
         $this->loadNotificationsFixture();
 
@@ -42,11 +42,11 @@ class UserNotificationControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+        $this->getContainer()->get(MagazineManager::class)->subscribe(
             $this->getMagazineByName('acme'),
             $this->getUserByUsername('owner')
         );
-        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+        $this->getContainer()->get(MagazineManager::class)->subscribe(
             $this->getMagazineByName('acme'),
             $this->getUserByUsername('actor')
         );
@@ -72,11 +72,11 @@ class UserNotificationControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($this->getUserByUsername('owner'));
 
-        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+        $this->getContainer()->get(MagazineManager::class)->subscribe(
             $this->getMagazineByName('acme'),
             $this->getUserByUsername('owner')
         );
-        ($this->getContainer()->get(MagazineManager::class))->subscribe(
+        $this->getContainer()->get(MagazineManager::class)->subscribe(
             $this->getMagazineByName('acme'),
             $this->getUserByUsername('actor')
         );

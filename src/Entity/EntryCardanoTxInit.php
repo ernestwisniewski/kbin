@@ -16,7 +16,7 @@ class EntryCardanoTxInit extends CardanoTxInit
     #[JoinColumn(nullable: true)]
     public Entry|ContentInterface|null $entry = null;
 
-    public function __construct(ContentInterface $entry, string $sessionId, ?User $user = null)
+    public function __construct(ContentInterface $entry, string $sessionId, User $user = null)
     {
         parent::__construct($entry->magazine, $sessionId, $user);
 

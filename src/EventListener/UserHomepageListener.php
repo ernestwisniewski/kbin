@@ -18,13 +18,13 @@ readonly class UserHomepageListener
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$event->isMainRequest() || $event->getRequest()->getPathInfo() !== '/') {
+        if (!$event->isMainRequest() || '/' !== $event->getRequest()->getPathInfo()) {
             return;
         }
 
         $user = $this->security->getUser();
 
-        if ($user instanceof User && $user->homepage !== User::HOMEPAGE_ALL) {
+        if ($user instanceof User && User::HOMEPAGE_ALL !== $user->homepage) {
             $event->setResponse(new RedirectResponse($this->urlGenerator->generate($user->homepage)));
         }
     }

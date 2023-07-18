@@ -29,7 +29,6 @@ trait FactoryTrait
 {
     public function createVote(int $choice, VotableInterface $subject, User $user): void
     {
-
         $manager = $this->getContainer()->get(EntityManagerInterface::class);
 
         if (VotableInterface::VOTE_UP === $choice) {
@@ -222,7 +221,7 @@ trait FactoryTrait
         );
     }
 
-    protected function getMagazineByName(string $name, ?User $user = null, bool $isAdult = false): Magazine
+    protected function getMagazineByName(string $name, User $user = null, bool $isAdult = false): Magazine
     {
         $magazine = $this->magazines->filter(
             static function (Magazine $magazine) use ($name) {
@@ -235,10 +234,10 @@ trait FactoryTrait
 
     protected function getEntryByTitle(
         string $title,
-        ?string $url = null,
-        ?string $body = null,
-        ?Magazine $magazine = null,
-        ?User $user = null
+        string $url = null,
+        string $body = null,
+        Magazine $magazine = null,
+        User $user = null
     ): Entry {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
@@ -259,7 +258,7 @@ trait FactoryTrait
         string $title,
         Magazine $magazine,
         User $user,
-        ?string $url = null,
+        string $url = null,
         ?string $body = 'Test entry content'
     ): Entry {
         /**
@@ -284,9 +283,9 @@ trait FactoryTrait
 
     public function createEntryComment(
         string $body,
-        ?Entry $entry = null,
-        ?User $user = null,
-        ?EntryComment $parent = null
+        Entry $entry = null,
+        User $user = null,
+        EntryComment $parent = null
     ): EntryComment {
         /**
          * @var $manager EntryCommentManager
@@ -310,7 +309,7 @@ trait FactoryTrait
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPost(string $body, ?Magazine $magazine = null, ?User $user = null): Post
+    public function createPost(string $body, Magazine $magazine = null, User $user = null): Post
     {
         /**
          * @var $manager PostManager
@@ -325,7 +324,7 @@ trait FactoryTrait
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPostComment(string $body, ?Post $post = null, ?User $user = null): PostComment
+    public function createPostComment(string $body, Post $post = null, User $user = null): PostComment
     {
         /**
          * @var $manager PostCommentManager

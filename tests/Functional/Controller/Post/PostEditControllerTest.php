@@ -20,7 +20,7 @@ class PostEditControllerTest extends WebTestCase
 
         $this->assertSelectorExists('#main .post');
         $this->assertSelectorTextContains('#post_body', 'test post 1');
-//        $this->assertEquals('disabled', $crawler->filter('#post_magazine_autocomplete')->attr('disabled')); @todo
+        //        $this->assertEquals('disabled', $crawler->filter('#post_magazine_autocomplete')->attr('disabled')); @todo
 
         $client->submit(
             $crawler->filter('form[name=post]')->selectButton('Edit post')->form(

@@ -33,7 +33,7 @@ class LikeHandler
             $activity = $this->repository->findByObjectId($message->payload['object']);
 
             if ($activity) {
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
             } else {
                 $object = $this->apHttpClient->getActivityObject($message->payload['object']);
 
@@ -50,21 +50,21 @@ class LikeHandler
         if ('Undo' === $message->payload['type']) {
             if ('Like' === $message->payload['object']['type']) {
                 $activity = $this->repository->findByObjectId($message->payload['object']['object']);
-                $entity = $this->entityManager->getRepository($activity['type'])->find((int)$activity['id']);
+                $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
                 $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
                 $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_UNLIKE);
             }
         }
 
-//        if (null === $entity->magazine->apId) {
-//            $this->bus->dispatch(
-//                new \App\Message\ActivityPub\Outbox\LikeMessage(
-//                    $actor->getId(),
-//                    $entity->getId(),
-//                    get_class($entity)
-//                )
-//            );
-//        }
+        //        if (null === $entity->magazine->apId) {
+        //            $this->bus->dispatch(
+        //                new \App\Message\ActivityPub\Outbox\LikeMessage(
+        //                    $actor->getId(),
+        //                    $entity->getId(),
+        //                    get_class($entity)
+        //                )
+        //            );
+        //        }
     }
 }

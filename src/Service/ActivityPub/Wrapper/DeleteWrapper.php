@@ -25,21 +25,21 @@ class DeleteWrapper
         'to' => 'mixed',
         'cc' => 'mixed',
     ])]
- public function build(ActivityPubActivityInterface $item, string $id): array
- {
-     $item = $this->factory->create($item);
+    public function build(ActivityPubActivityInterface $item, string $id): array
+    {
+        $item = $this->factory->create($item);
 
-     return [
-         '@context' => ActivityPubActivityInterface::CONTEXT_URL,
-         'id' => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
-         'type' => 'Delete',
-         'actor' => $item['attributedTo'],
-         'object' => [
-             'id' => $item['id'],
-             'type' => 'Tombstone',
-         ],
-         'to' => $item['to'],
-         'cc' => $item['cc'],
-     ];
- }
+        return [
+            '@context' => ActivityPubActivityInterface::CONTEXT_URL,
+            'id' => $this->urlGenerator->generate('ap_object', ['id' => $id], UrlGeneratorInterface::ABSOLUTE_URL),
+            'type' => 'Delete',
+            'actor' => $item['attributedTo'],
+            'object' => [
+                'id' => $item['id'],
+                'type' => 'Tombstone',
+            ],
+            'to' => $item['to'],
+            'cc' => $item['cc'],
+        ];
+    }
 }

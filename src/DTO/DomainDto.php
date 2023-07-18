@@ -10,7 +10,7 @@ class DomainDto
     public ?int $entryCount = null;
     private ?int $id;
 
-    public function create(string $name, ?int $entryCount, ?int $id = null): self
+    public function create(string $name, ?int $entryCount, int $id = null): self
     {
         $this->id = $id;
         $this->name = $name;

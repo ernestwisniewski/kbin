@@ -38,7 +38,7 @@ class MagazineStatsController extends AbstractController
             $statsPeriod = min($statsPeriod, 365);
             $start = (new \DateTime())->modify("-$statsPeriod days");
         }
-        if ($withFederated === null) {
+        if (null === $withFederated) {
             $withFederated = false;
         }
         $results = match ($statsType) {

@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Markdown;
 
-use App\Markdown\CommonMark\{
-    CommunityLinkParser,
-    ExternalImagesRenderer,
-    ExternalLinkRenderer,
-    MentionLinkParser,
-    TagLinkParser,
-    UnresolvableLinkRenderer,
-};
+use App\Markdown\CommonMark\CommunityLinkParser;
+use App\Markdown\CommonMark\ExternalImagesRenderer;
+use App\Markdown\CommonMark\ExternalLinkRenderer;
+use App\Markdown\CommonMark\MentionLinkParser;
 use App\Markdown\CommonMark\Node\UnresolvableLink;
+use App\Markdown\CommonMark\TagLinkParser;
+use App\Markdown\CommonMark\UnresolvableLinkRenderer;
 use League\CommonMark\Environment\EnvironmentBuilderInterface;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Image;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
@@ -35,7 +33,7 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
     public function configureSchema(ConfigurationBuilderInterface $builder): void
     {
         $builder->addSchema('kbin', Expect::structure([
-            'render_target' => Expect::type(RenderTarget::class)
+            'render_target' => Expect::type(RenderTarget::class),
         ]));
     }
 
@@ -44,7 +42,7 @@ final class MarkdownExtension implements ConfigurableExtensionInterface
         $environment->addInlineParser($this->communityLinkParser);
         $environment->addInlineParser($this->mentionLinkParser);
         $environment->addInlineParser($this->tagLinkParser);
-        
+
         $environment->addRenderer(Link::class, $this->linkRenderer, 1);
         $environment->addRenderer(Image::class, $this->imagesRenderer, 1);
         $environment->addRenderer(UnresolvableLink::class, $this->unresolvableLinkRenderer, 1);

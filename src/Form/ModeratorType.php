@@ -22,7 +22,7 @@ class ModeratorType extends AbstractType
     {
         $builder
             ->add('user', options: [
-                'attr' => ['autocomplete' => 'new-password']
+                'attr' => ['autocomplete' => 'new-password'],
             ])
             ->add('submit', SubmitType::class);
 

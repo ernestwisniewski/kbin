@@ -46,5 +46,4 @@ class LocalMagazineApProfile extends Command
 
         return Command::SUCCESS;
     }
-
 }

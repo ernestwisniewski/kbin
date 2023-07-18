@@ -10,7 +10,6 @@ use App\Service\SettingsManager;
 use Embed\Embed as BaseEmbed;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
-use TypeError;
 
 class Embed
 {
@@ -49,14 +48,14 @@ class Embed
                 $this->url = $url;
                 $this->title = $embed->title;
                 $this->description = $embed->description;
-                $this->image = (string)$embed->image;
+                $this->image = (string) $embed->image;
                 $this->html = $this->cleanIframe($oembed->html('html'));
 
                 try {
                     if (!$this->html && $embed->code) {
                         $this->html = $this->cleanIframe($embed->code->html);
                     }
-                } catch (TypeError $e) {
+                } catch (\TypeError $e) {
                 }
 
                 $c = clone $this;
@@ -76,17 +75,17 @@ class Embed
 
         return $html;
 
-//        $types = [
-//            str_starts_with($html, '<iframe'),
-//            str_starts_with($html, '<video'),
-//            str_starts_with($html, '<img'),
-//        ];
-//
-//        if (count(array_unique($types)) === 1) {
-//            return null;
-//        }
-//
-//        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
+        //        $types = [
+        //            str_starts_with($html, '<iframe'),
+        //            str_starts_with($html, '<video'),
+        //            str_starts_with($html, '<img'),
+        //        ];
+        //
+        //        if (count(array_unique($types)) === 1) {
+        //            return null;
+        //        }
+        //
+        //        return preg_replace('/(height)(=)"([\d]+)"/', '${1}${2}"auto"', $html);
     }
 
     public function getType(): string

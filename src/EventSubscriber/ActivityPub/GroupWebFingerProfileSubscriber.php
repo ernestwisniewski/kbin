@@ -25,12 +25,12 @@ class GroupWebFingerProfileSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([WebfingerResponseEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         WebfingerResponseEvent::class => ['buildResponse', 999],
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            WebfingerResponseEvent::class => ['buildResponse', 999],
+        ];
+    }
 
     public function buildResponse(WebfingerResponseEvent $event): void
     {

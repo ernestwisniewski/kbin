@@ -9,6 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @codeCoverageIgnore
+ *
  * @deprecated
  */
 class CardanoWallet
@@ -18,23 +19,23 @@ class CardanoWallet
     }
 
     #[ArrayShape(['mnemonic' => 'string', 'address' => 'string', 'walletId' => 'string'])]
- public function create(
+    public function create(
         string $passphrase,
-        ?string $mnemonic = null
+        string $mnemonic = null
     ): array {
-     $mnemonic = $mnemonic ? explode(' ', $mnemonic) : BIP39::Generate(15)->words;
+        $mnemonic = $mnemonic ? explode(' ', $mnemonic) : BIP39::Generate(15)->words;
 
-     $wallet = $this->createWallet($mnemonic, $passphrase);
-     $walletId = $wallet['id'];
+        $wallet = $this->createWallet($mnemonic, $passphrase);
+        $walletId = $wallet['id'];
 
-     $addresses = $this->client->request('GET', "$this->cardanoWalletUrl/wallets/$walletId/addresses");
+        $addresses = $this->client->request('GET', "$this->cardanoWalletUrl/wallets/$walletId/addresses");
 
-     return [
-         'mnemonic' => implode(' ', $mnemonic),
-         'address' => $addresses->toArray()[0]['id'],
-         'walletId' => $walletId,
-     ];
- }
+        return [
+            'mnemonic' => implode(' ', $mnemonic),
+            'address' => $addresses->toArray()[0]['id'],
+            'walletId' => $walletId,
+        ];
+    }
 
     public function createWallet(array $mnemonic, string $passphrase): array
     {

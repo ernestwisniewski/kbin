@@ -45,7 +45,7 @@ class EntryCommentModerateController extends AbstractController
                     'magazine' => $magazine,
                     'entry' => $entry,
                     'comment' => $comment,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
                 ]),
             ]);
         }
@@ -54,7 +54,7 @@ class EntryCommentModerateController extends AbstractController
             'magazine' => $magazine,
             'entry' => $entry,
             'comment' => $comment,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

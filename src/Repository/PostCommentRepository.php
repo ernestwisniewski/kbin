@@ -19,9 +19,8 @@ use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
-use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method PostComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -44,11 +43,11 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
 
     public function findByCriteria(PostCommentPageView $criteria)
     {
-//        return $this->createQueryBuilder('pc')
-//            ->orderBy('pc.createdAt', 'DESC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult();
+        //        return $this->createQueryBuilder('pc')
+        //            ->orderBy('pc.createdAt', 'DESC')
+        //            ->setMaxResults(10)
+        //            ->getQuery()
+        //            ->getResult();
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
                 $this->getCommentQueryBuilder($criteria),

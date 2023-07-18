@@ -15,7 +15,7 @@ class EntryReport extends Report
     #[JoinColumn(nullable: true)]
     public ?Entry $entry = null;
 
-    public function __construct(User $reporting, Entry $entry, ?string $reason = null)
+    public function __construct(User $reporting, Entry $entry, string $reason = null)
     {
         parent::__construct($reporting, $entry->user, $entry->magazine, $reason);
 

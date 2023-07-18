@@ -16,6 +16,7 @@ class InstanceController
     {
         $instance = $cache->get('instance_actor', function (ItemInterface $item) use ($instanceFactory) {
             $item->expiresAfter(7200);
+
             return $instanceFactory->create();
         });
 

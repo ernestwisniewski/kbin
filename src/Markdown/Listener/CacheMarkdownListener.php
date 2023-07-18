@@ -53,7 +53,7 @@ final class CacheMarkdownListener implements EventSubscriberInterface
                 return;
             }
         }
-        
+
         if (!$event->getAttribute(self::ATTR_NO_CACHE_STORE)) {
             $event->addAttribute(self::ATTR_CACHE_ITEM, $item);
         }

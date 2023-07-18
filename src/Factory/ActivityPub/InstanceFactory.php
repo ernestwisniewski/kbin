@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Factory\ActivityPub;
 
-use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Service\ActivityPub\ApHttpClient;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 

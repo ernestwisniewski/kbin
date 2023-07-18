@@ -124,7 +124,7 @@ class UserFrontController extends AbstractController
         foreach ($parents as $postOrComment) {
             $results[] = $postOrComment;
             $children = $postOrComment->children;
-            usort($children, fn($a, $b) => $a->createdAt < $b->createdAt ? -1 : 1);
+            usort($children, fn ($a, $b) => $a->createdAt < $b->createdAt ? -1 : 1);
             foreach ($children as $child) {
                 $results[] = $child;
             }
@@ -147,7 +147,7 @@ class UserFrontController extends AbstractController
             [
                 'view' => 'list',
                 'user' => $user,
-                'magazines' => $repository->findModeratedMagazines($user, (int)$request->get('p', 1)),
+                'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
             ]
         );
     }

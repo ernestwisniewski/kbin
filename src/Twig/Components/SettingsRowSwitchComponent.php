@@ -6,7 +6,7 @@ namespace App\Twig\Components;
 
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent ('settings_row_switch', template: 'components/_settings_row_switch.html.twig')]
+#[AsTwigComponent('settings_row_switch', template: 'components/_settings_row_switch.html.twig')]
 class SettingsRowSwitchComponent
 {
     public string $label;

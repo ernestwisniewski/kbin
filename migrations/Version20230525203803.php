@@ -25,11 +25,11 @@ final class Version20230525203803 extends AbstractMigration
         $this->addSql("ALTER TABLE post_comment ADD COLUMN body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english', body)) STORED;");
         $this->addSql("ALTER TABLE entry_comment ADD COLUMN body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english', body)) STORED;");
 
-        $this->addSql("CREATE INDEX entry_title_ts_idx ON entry USING GIN (title_ts);");
-        $this->addSql("CREATE INDEX entry_body_ts_idx ON entry USING GIN (body_ts);");
-        $this->addSql("CREATE INDEX post_body_ts_idx ON post USING GIN (body_ts);");
-        $this->addSql("CREATE INDEX post_comment_body_ts_idx ON post_comment USING GIN (body_ts);");
-        $this->addSql("CREATE INDEX entry_comment_body_ts_idx ON entry_comment USING GIN (body_ts);");
+        $this->addSql('CREATE INDEX entry_title_ts_idx ON entry USING GIN (title_ts);');
+        $this->addSql('CREATE INDEX entry_body_ts_idx ON entry USING GIN (body_ts);');
+        $this->addSql('CREATE INDEX post_body_ts_idx ON post USING GIN (body_ts);');
+        $this->addSql('CREATE INDEX post_comment_body_ts_idx ON post_comment USING GIN (body_ts);');
+        $this->addSql('CREATE INDEX entry_comment_body_ts_idx ON entry_comment USING GIN (body_ts);');
     }
 
     public function down(Schema $schema): void

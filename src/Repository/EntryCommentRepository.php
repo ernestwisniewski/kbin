@@ -25,8 +25,8 @@ use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method EntryComment|null find($id, $lockMode = null, $lockVersion = null)
@@ -113,7 +113,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
     {
         $user = $this->security->getUser();
 
-        if ($criteria->federation === Criteria::AP_LOCAL) {
+        if (Criteria::AP_LOCAL === $criteria->federation) {
             $qb->andWhere('c.apId IS NULL');
         }
 

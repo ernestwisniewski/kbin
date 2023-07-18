@@ -33,39 +33,42 @@ class CommunityLinkParser implements InlineParserInterface
         $cursor = $ctx->getCursor();
         $cursor->advanceBy($ctx->getFullMatchLength());
 
-        $matches  = $ctx->getSubMatches();
+        $matches = $ctx->getSubMatches();
         $handle = $matches['0'];
-        $domain   = $matches['1'] ?? $this->settingsManager->get('KBIN_DOMAIN');
+        $domain = $matches['1'] ?? $this->settingsManager->get('KBIN_DOMAIN');
 
-        $fullHandle = $handle . '@' . $domain;
-        $isRemote   = $this->isRemoteCommunity($domain);
+        $fullHandle = $handle.'@'.$domain;
+        $isRemote = $this->isRemoteCommunity($domain);
 
         if ($isRemote) {
             if ($magazine = $this->magazineRepository->findOneByName($fullHandle)) {
                 $ctx->getContainer()->appendChild(
                     new CommunityLink(
                         $magazine->apPublicUrl,
-                        '!' . $handle,
-                        '!' . $magazine->apId,
+                        '!'.$handle,
+                        '!'.$magazine->apId,
                         $magazine->apId,
                         MentionType::RemoteMagazine,
                     ),
                 );
+
                 return true;
             }
 
             $ctx->getContainer()->appendChild(
                 new ActorSearchLink(
                     $this->urlGenerator->generate('search', ['q' => $fullHandle], UrlGeneratorInterface::ABSOLUTE_URL),
-                    '!' . $handle,
-                    '!' . $fullHandle,
+                    '!'.$handle,
+                    '!'.$fullHandle,
                 )
             );
+
             return true;
         }
 
         // unable to resolve a local '!' link so don't even try.
-        $ctx->getContainer()->appendChild(new UnresolvableLink('!' . $handle));
+        $ctx->getContainer()->appendChild(new UnresolvableLink('!'.$handle));
+
         return true;
     }
 

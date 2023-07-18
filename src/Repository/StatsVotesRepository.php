@@ -12,11 +12,10 @@ class StatsVotesRepository extends StatsRepository
 {
     #[ArrayShape(['entries' => 'array', 'comments' => 'array', 'posts' => 'array', 'replies' => 'array'])]
     public function getOverallStats(
-        User     $user = null,
+        User $user = null,
         Magazine $magazine = null,
-        ?bool    $onlyLocal = null
-    ): array
-    {
+        bool $onlyLocal = null
+    ): array {
         $this->user = $user;
         $this->magazine = $magazine;
         $this->onlyLocal = $onlyLocal;
@@ -64,25 +63,25 @@ class StatsVotesRepository extends StatsRepository
         ];
     }
 
-    private function getMonthlyStats(string $table, ?string $relation = null): array
+    private function getMonthlyStats(string $table, string $relation = null): array
     {
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        $onlyLocalWhere = $this->onlyLocal ? " WHERE EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)" : "";
+        $onlyLocalWhere = $this->onlyLocal ? ' WHERE EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)' : '';
         if ($this->user) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year,
-                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . '
-                    e WHERE e.user_id = ' . $this->user->getId() . $onlyLocalWhere . ' GROUP BY 1,2';
+                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
+                    e WHERE e.user_id = '.$this->user->getId().$onlyLocalWhere.' GROUP BY 1,2';
         } elseif ($this->magazine) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, 
-                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . '
-                    e INNER JOIN ' . str_replace('_vote', '', $table) . ' AS parent ON ' . $relation . ' = parent.id AND
-                    parent.magazine_id = ' . $this->magazine->getId() . $onlyLocalWhere . ' GROUP BY 1,2';
+                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
+                    e INNER JOIN '.str_replace('_vote', '', $table).' AS parent ON '.$relation.' = parent.id AND
+                    parent.magazine_id = '.$this->magazine->getId().$onlyLocalWhere.' GROUP BY 1,2';
         } else {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, 
-                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . '
-                    e ' . $onlyLocalWhere . ' GROUP BY 1,2';
+                    COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
+                    e '.$onlyLocalWhere.' GROUP BY 1,2';
         }
 
         $stmt = $conn->prepare($sql);
@@ -132,7 +131,7 @@ class StatsVotesRepository extends StatsRepository
     }
 
     #[ArrayShape(['entries' => 'array', 'comments' => 'array', 'posts' => 'array', 'replies' => 'array'])]
-    public function getStatsByTime(\DateTime $start, ?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): array
+    public function getStatsByTime(\DateTime $start, User $user = null, Magazine $magazine = null, bool $onlyLocal = null): array
     {
         $this->start = $start;
         $this->user = $user;
@@ -178,34 +177,34 @@ class StatsVotesRepository extends StatsRepository
         return $results;
     }
 
-    private function getDailyStats(string $table, ?string $relation = null): array
+    private function getDailyStats(string $table, string $relation = null): array
     {
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        $onlyLocalWhere = $this->onlyLocal ? "AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL) " : "";
+        $onlyLocalWhere = $this->onlyLocal ? 'AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL) ' : '';
         if ($this->user) {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up, 
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . " e 
-                    WHERE e.created_at >= '" . $this->start->format(
-                    'Y-m-d H:i:s'
-                ) . "' AND e.user_id = " . $this->user->getId() . "
-                    " . $onlyLocalWhere . '
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table." e 
+                    WHERE e.created_at >= '".$this->start->format(
+                'Y-m-d H:i:s'
+            )."' AND e.user_id = ".$this->user->getId().'
+                    '.$onlyLocalWhere.'
                     GROUP BY 1';
         } elseif ($this->magazine) {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up, 
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . ' e 
-                    INNER JOIN ' . str_replace('_vote', '', $table) . ' AS parent 
-                    ON ' . $relation . ' = parent.id AND parent.magazine_id = ' . $this->magazine->getId() . "
-                    WHERE e.created_at >= '" . $this->start->format('Y-m-d H:i:s') . "' 
-                    " . $onlyLocalWhere . "
-                    GROUP BY 1";
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.' e 
+                    INNER JOIN '.str_replace('_vote', '', $table).' AS parent 
+                    ON '.$relation.' = parent.id AND parent.magazine_id = '.$this->magazine->getId()."
+                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."' 
+                    ".$onlyLocalWhere.'
+                    GROUP BY 1';
         } else {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up,
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM " . $table . " e 
-                    WHERE e.created_at >= '" . $this->start->format('Y-m-d H:i:s') . "' 
-                    " . $onlyLocalWhere . "
-                    GROUP BY 1";
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table." e 
+                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."' 
+                    ".$onlyLocalWhere.'
+                    GROUP BY 1';
         }
 
         $stmt = $conn->prepare($sql);

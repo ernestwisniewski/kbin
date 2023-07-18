@@ -7,9 +7,9 @@ namespace App\EventListener;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class UserActivityListener
 {
@@ -18,19 +18,19 @@ class UserActivityListener
     }
 
     #[NoReturn]
- public function onKernelController(ControllerEvent $event): void
- {
-     if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
-         return;
-     }
+    public function onKernelController(ControllerEvent $event): void
+    {
+        if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
+            return;
+        }
 
-     if ($this->security->getToken()) {
-         $user = $this->security->getToken()->getUser();
+        if ($this->security->getToken()) {
+            $user = $this->security->getToken()->getUser();
 
-         if (($user instanceof User) && !$user->isActiveNow()) {
-             $user->lastActive = new \DateTime();
-             $this->entityManager->flush();
-         }
-     }
- }
+            if (($user instanceof User) && !$user->isActiveNow()) {
+                $user->lastActive = new \DateTime();
+                $this->entityManager->flush();
+            }
+        }
+    }
 }

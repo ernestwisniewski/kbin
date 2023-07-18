@@ -43,7 +43,6 @@ class MagazineSubController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine);
-
         }
 
         return $this->redirectToRefererOrHome($request);

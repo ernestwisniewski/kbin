@@ -87,3 +87,26 @@ jobs:
           SYMFONY_DEPRECATIONS_HELPER=disabled php bin/phpunit tests/Unit
 
 # TODO: Integration tests
+
+  php-cs-fixer:
+    runs-on: docker
+    container:
+      image: danger89/kbin-image:0.1.0
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v3
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - uses: https://code.forgejo.org/actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Composer install
+        run: composer -d tools install --no-scripts --no-progress
+
+      - run: tools/vendor/bin/php-cs-fixer fix --dry-run

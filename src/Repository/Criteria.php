@@ -8,7 +8,6 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\PageView\MagazinePageView;
 
 abstract class Criteria
 {

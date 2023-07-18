@@ -63,7 +63,7 @@ class UserFollowControllerTest extends WebTestCase
         $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Follow')->form());
         $crawler = $client->followRedirect();
 
-        //Unfollow
+        // Unfollow
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->submit($crawler->filter('#sidebar .entry-info')->selectButton('Unfollow')->form());
 

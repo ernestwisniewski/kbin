@@ -17,20 +17,19 @@ use Symfony\UX\Chartjs\Model\Chart;
 class StatsManager
 {
     public function __construct(
-        private readonly StatsViewsRepository   $viewsRepository,
-        private readonly StatsVotesRepository   $votesRepository,
+        private readonly StatsViewsRepository $viewsRepository,
+        private readonly StatsVotesRepository $votesRepository,
         private readonly StatsContentRepository $contentRepository,
-        private readonly ChartBuilderInterface  $chartBuilder,
-        private readonly TranslatorInterface    $translator,
-    )
-    {
+        private readonly ChartBuilderInterface $chartBuilder,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
-    public function drawMonthlyContentChart(?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawMonthlyContentChart(User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->contentRepository->getOverallStats($user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => ($val['month'] < 10 ? '0' : '') . $val['month'] . '/' . $val['year'],
+        $labels = array_map(fn ($val) => ($val['month'] < 10 ? '0' : '').$val['month'].'/'.$val['year'],
             $stats['entries']);
 
         return $this->createGeneralDataset($stats, $labels);
@@ -40,24 +39,24 @@ class StatsManager
     {
         $dataset = [
             [
-                'label' => $this->translator->trans("threads"),
+                'label' => $this->translator->trans('threads'),
                 'borderColor' => '#4382AD',
-                'data' => array_map(fn($val) => $val['count'], $stats['entries']),
+                'data' => array_map(fn ($val) => $val['count'], $stats['entries']),
             ],
             [
-                'label' => $this->translator->trans("comments"),
+                'label' => $this->translator->trans('comments'),
                 'borderColor' => '#6253ac',
-                'data' => array_map(fn($val) => $val['count'], $stats['comments']),
+                'data' => array_map(fn ($val) => $val['count'], $stats['comments']),
             ],
             [
-                'label' => $this->translator->trans("posts"),
+                'label' => $this->translator->trans('posts'),
                 'borderColor' => '#ac5353',
-                'data' => array_map(fn($val) => $val['count'], $stats['posts']),
+                'data' => array_map(fn ($val) => $val['count'], $stats['posts']),
             ],
             [
-                'label' => $this->translator->trans("replies"),
+                'label' => $this->translator->trans('replies'),
                 'borderColor' => '#09a084',
-                'data' => array_map(fn($val) => $val['count'], $stats['replies']),
+                'data' => array_map(fn ($val) => $val['count'], $stats['replies']),
             ],
         ];
 
@@ -69,20 +68,20 @@ class StatsManager
         ]);
     }
 
-    public function drawDailyContentStatsByTime(\DateTime $start, ?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawDailyContentStatsByTime(\DateTime $start, User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->contentRepository->getStatsByTime($start, $user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => $val['day']->format('Y-m-d'), $stats['entries']);
+        $labels = array_map(fn ($val) => $val['day']->format('Y-m-d'), $stats['entries']);
 
         return $this->createGeneralDataset($stats, $labels);
     }
 
-    public function drawMonthlyViewsChart(?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawMonthlyViewsChart(User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->viewsRepository->getOverallStats($user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => ($val['month'] < 10 ? '0' : '') . $val['month'] . '/' . $val['year'], $stats);
+        $labels = array_map(fn ($val) => ($val['month'] < 10 ? '0' : '').$val['month'].'/'.$val['year'], $stats);
 
         return $this->createViewsDataset($stats, $labels);
     }
@@ -91,9 +90,9 @@ class StatsManager
     {
         $dataset = [
             [
-                'label' => $this->translator->trans("views"),
+                'label' => $this->translator->trans('views'),
                 'borderColor' => '#4382AD',
-                'data' => array_map(fn($val) => $val['count'], $stats),
+                'data' => array_map(fn ($val) => $val['count'], $stats),
             ],
         ];
 
@@ -105,20 +104,20 @@ class StatsManager
         ]);
     }
 
-    public function drawDailyViewsStatsByTime(\DateTime $start, ?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawDailyViewsStatsByTime(\DateTime $start, User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->viewsRepository->getStatsByTime($start, $user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => $val['day']->format('Y-m-d'), $stats);
+        $labels = array_map(fn ($val) => $val['day']->format('Y-m-d'), $stats);
 
         return $this->createViewsDataset($stats, $labels);
     }
 
-    public function drawMonthlyVotesChart(?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawMonthlyVotesChart(User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->votesRepository->getOverallStats($user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => ($val['month'] < 10 ? '0' : '') . $val['month'] . '/' . $val['year'],
+        $labels = array_map(fn ($val) => ($val['month'] < 10 ? '0' : '').$val['month'].'/'.$val['year'],
             $stats['entries']);
 
         return $this->createVotesDataset($stats, $labels);
@@ -136,14 +135,14 @@ class StatsManager
 
         $dataset = [
             [
-                'label' => $this->translator->trans("up_votes"),
+                'label' => $this->translator->trans('up_votes'),
                 'borderColor' => '#3c5211',
-                'data' => array_map(fn($val) => $val['up'], $results),
+                'data' => array_map(fn ($val) => $val['up'], $results),
             ],
             [
-                'label' => $this->translator->trans("down_votes"),
+                'label' => $this->translator->trans('down_votes'),
                 'borderColor' => '#8f0b00',
-                'data' => array_map(fn($val) => $val['down'], $results),
+                'data' => array_map(fn ($val) => $val['down'], $results),
             ],
         ];
 
@@ -155,16 +154,16 @@ class StatsManager
         ]);
     }
 
-    public function drawDailyVotesStatsByTime(\DateTime $start, ?User $user = null, ?Magazine $magazine = null, ?bool $onlyLocal = null): Chart
+    public function drawDailyVotesStatsByTime(\DateTime $start, User $user = null, Magazine $magazine = null, bool $onlyLocal = null): Chart
     {
         $stats = $this->votesRepository->getStatsByTime($start, $user, $magazine, $onlyLocal);
 
-        $labels = array_map(fn($val) => $val['day']->format('Y-m-d'), $stats['entries']);
+        $labels = array_map(fn ($val) => $val['day']->format('Y-m-d'), $stats['entries']);
 
         return $this->createVotesDataset($stats, $labels);
     }
 
-    public function resolveType(?string $value, ?string $default = null): string
+    public function resolveType(?string $value, string $default = null): string
     {
         $routes = [
             'general' => StatsRepository::TYPE_GENERAL,

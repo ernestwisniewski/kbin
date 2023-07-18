@@ -52,7 +52,7 @@ abstract class CardanoTx
         int $amount,
         string $txHash,
         \DateTimeImmutable $createdAt,
-        ?User $sender = null,
+        User $sender = null,
     ) {
         $this->magazine = $magazine;
         $this->sender = $sender;

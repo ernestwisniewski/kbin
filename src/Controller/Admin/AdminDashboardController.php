@@ -25,7 +25,7 @@ class AdminDashboardController extends AbstractController
             $statsPeriod = min($statsPeriod, 365);
         }
 
-        if ($withFederated === null) {
+        if (null === $withFederated) {
             $withFederated = false;
         }
 

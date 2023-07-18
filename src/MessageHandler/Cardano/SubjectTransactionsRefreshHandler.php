@@ -79,7 +79,7 @@ class SubjectTransactionsRefreshHandler
 
             $sender = $this->userRepository->findOneBy(['cardanoWalletAddress' => $senderAddress]);
 
-            return new EntryCardanoTx($subject, (int)$amount, $txHash, $createdAt, $sender);
+            return new EntryCardanoTx($subject, (int) $amount, $txHash, $createdAt, $sender);
         }
 
         return null;

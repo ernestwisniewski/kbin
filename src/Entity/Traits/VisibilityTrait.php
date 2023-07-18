@@ -19,24 +19,24 @@ trait VisibilityTrait
         return VisibilityInterface::VISIBILITY_VISIBLE === $this->getVisibility();
     }
 
-       public function getVisibility(): string
-       {
-           return $this->visibility;
-       }
+    public function getVisibility(): string
+    {
+        return $this->visibility;
+    }
 
-       #[Pure]
+    #[Pure]
     public function isSoftDeleted(): bool
     {
         return VisibilityInterface::VISIBILITY_SOFT_DELETED === $this->getVisibility();
     }
 
-       #[Pure]
+    #[Pure]
     public function isTrashed(): bool
     {
         return VisibilityInterface::VISIBILITY_TRASHED === $this->getVisibility();
     }
 
-       #[Pure]
+    #[Pure]
     public function isPrivate(): bool
     {
         return VisibilityInterface::VISIBILITY_PRIVATE === $this->getVisibility();

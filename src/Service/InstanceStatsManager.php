@@ -29,11 +29,11 @@ class InstanceStatsManager
     ) {
     }
 
-    public function count(?string $period = null, bool $withFederated = false)
+    public function count(string $period = null, bool $withFederated = false)
     {
         $periodDate = $period ? \DateTimeImmutable::createFromMutable(new \DateTime($period)) : null;
 
-        return $this->cache->get('instance_stats', function (ItemInterface $item) use ($period, $periodDate, $withFederated) {
+        return $this->cache->get('instance_stats', function (ItemInterface $item) use ($periodDate, $withFederated) {
             $item->expiresAfter(0);
 
             $criteria = Criteria::create();
@@ -63,8 +63,8 @@ class InstanceStatsManager
                 'entries' => $this->entryRepository->matching($criteria)->count(),
                 'comments' => $this->entryCommentRepository->matching($criteria)->count(),
                 'posts' => $this->postRepository->matching($criteria)->count() + $this->postCommentRepository->matching(
-                        $criteria
-                    )->count(),
+                    $criteria
+                )->count(),
                 'votes' => $this->voteRepository->count($periodDate, $withFederated),
             ];
         });

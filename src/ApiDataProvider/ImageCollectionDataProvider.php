@@ -11,9 +11,9 @@ use App\DTO\ImageDto;
 final class ImageCollectionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-//        private ImageRepository $repository,
-//        private ImageFactory $factory,
-//        private RequestStack $request
+        //        private ImageRepository $repository,
+        //        private ImageFactory $factory,
+        //        private RequestStack $request
     ) {
     }
 

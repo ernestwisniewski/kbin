@@ -34,7 +34,7 @@ class EntryItemDataProviderTestDeprecated extends ApiTestCase
 
         $this->assertCount(21, $response->toArray());
 
-//        $this->assertMatchesResourceItemJsonSchema(EntryDto::class); // @todo image
+        //        $this->assertMatchesResourceItemJsonSchema(EntryDto::class); // @todo image
 
         $this->assertJsonEquals([
             '@context' => '/api/contexts/entry',

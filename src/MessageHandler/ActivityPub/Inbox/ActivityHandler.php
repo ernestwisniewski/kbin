@@ -36,7 +36,7 @@ class ActivityHandler
         $payload = @json_decode($message->payload, true);
 
         if ($message->headers) {
-//            $this->signatureValidator->validate($message->payload, $message->headers);
+            //            $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
         if (isset($payload['payload'])) {
@@ -85,7 +85,7 @@ class ActivityHandler
             case 'Article':
             case 'Question':
                 $this->bus->dispatch(new CreateMessage($payload));
-            // no break
+                // no break
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;

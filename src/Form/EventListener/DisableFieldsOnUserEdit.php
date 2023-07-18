@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Form\EventListener;
 
 use App\Repository\UserRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Bundle\SecurityBundle\Security;
 
 final class DisableFieldsOnUserEdit implements EventSubscriberInterface
 {

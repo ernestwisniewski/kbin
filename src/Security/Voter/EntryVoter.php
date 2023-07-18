@@ -82,9 +82,9 @@ class EntryVoter extends Voter
 
     private function canVote(Entry $entry, User $user): bool
     {
-//        if ($entry->user === $user) {
-//            return false;
-//        }
+        //        if ($entry->user === $user) {
+        //            return false;
+        //        }
 
         if ($entry->magazine->isBanned($user)) {
             return false;

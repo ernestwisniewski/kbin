@@ -15,8 +15,6 @@ final class ExternalImagesRenderer implements NodeRendererInterface
 {
     /**
      * @param Image $node
-     * @param ChildNodeRendererInterface $childRenderer
-     * @return HtmlElement
      */
     public function render(
         Node $node,

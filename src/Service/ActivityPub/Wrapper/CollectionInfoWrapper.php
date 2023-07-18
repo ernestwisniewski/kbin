@@ -21,18 +21,18 @@ class CollectionInfoWrapper
         'first' => 'string',
         'totalItems' => 'int',
     ])]
- public function build(string $routeName, array $routeParams, int $count): array
- {
-     return [
-         '@context' => ActivityPubActivityInterface::CONTEXT_URL,
-         'type' => 'OrderedCollection',
-         'id' => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
-         'first' => $this->urlGenerator->generate(
-             $routeName,
-             $routeParams + ['page' => 1],
-             UrlGeneratorInterface::ABSOLUTE_URL
-         ),
-         'totalItems' => $count,
-     ];
- }
+    public function build(string $routeName, array $routeParams, int $count): array
+    {
+        return [
+            '@context' => ActivityPubActivityInterface::CONTEXT_URL,
+            'type' => 'OrderedCollection',
+            'id' => $this->urlGenerator->generate($routeName, $routeParams, UrlGeneratorInterface::ABSOLUTE_URL),
+            'first' => $this->urlGenerator->generate(
+                $routeName,
+                $routeParams + ['page' => 1],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            ),
+            'totalItems' => $count,
+        ];
+    }
 }

@@ -2,12 +2,11 @@
 *.iml
 .idea/
 .DS_Store
-.php_cs.cache
 supervisord.log
 supervisord.pid
-/bin/php-cs-fixer/*
 reports/
 .php-cs-fixer.cache
+tools/vendor/
 
 ###> symfony/framework-bundle ###
 /.env.local

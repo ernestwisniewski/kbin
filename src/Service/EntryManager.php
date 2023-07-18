@@ -76,7 +76,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -149,7 +149,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $dto->image;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

@@ -18,10 +18,9 @@ class PostDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MessageBusInterface $bus,
-        private readonly PostRepository      $postRepository,
-        private readonly DeleteWrapper       $deleteWrapper,
-    )
-    {
+        private readonly PostRepository $postRepository,
+        private readonly DeleteWrapper $deleteWrapper,
+    ) {
     }
 
     public static function getSubscribedEvents(): array

@@ -11,7 +11,6 @@ use App\Factory\ImageFactory;
 use App\Factory\PostCommentFactory;
 use App\Factory\UserFactory;
 use App\Repository\PostRepository;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 

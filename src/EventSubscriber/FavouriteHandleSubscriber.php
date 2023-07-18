@@ -12,7 +12,6 @@ use App\Event\FavouriteEvent;
 use App\Message\ActivityPub\Outbox\LikeMessage;
 use App\Message\Notification\FavouriteNotificationMessage;
 use App\Service\CacheService;
-use App\Service\FavouriteManager;
 use App\Service\VoteManager;
 use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
@@ -41,7 +40,7 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     public function onFavourite(FavouriteEvent $event): void
     {
         $subject = $event->subject;
-        $choice = ($event->subject->getUserVote($event->user))?->choice;
+        $choice = $event->subject->getUserVote($event->user)?->choice;
         if (VotableInterface::VOTE_DOWN === $choice && $subject->isFavored($event->user)) {
             $this->voteManager->removeVote($subject, $event->user);
         }

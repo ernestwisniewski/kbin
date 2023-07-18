@@ -27,7 +27,7 @@ class AdminFederationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto->instances = array_map(
-                fn(string $instance) => trim(str_replace('www.', '', $instance)),
+                fn (string $instance) => trim(str_replace('www.', '', $instance)),
                 $dto->instances
             );
 

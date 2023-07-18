@@ -42,7 +42,7 @@ abstract class CardanoTxInit
     #[Column(type: 'integer')]
     private int $id;
 
-    public function __construct(Magazine $magazine, string $sessionId, ?User $user = null)
+    public function __construct(Magazine $magazine, string $sessionId, User $user = null)
     {
         $this->user = $user;
         $this->magazine = $magazine;

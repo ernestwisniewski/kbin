@@ -39,8 +39,8 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine(
-                $event->entry->magazine
-            ) - 1;
+            $event->entry->magazine
+        ) - 1;
 
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
 

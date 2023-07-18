@@ -82,9 +82,9 @@ class PostVoter extends Voter
 
     private function canVote(Post $post, User $user): bool
     {
-//        if ($post->user === $user) {
-//            return false;
-//        }
+        //        if ($post->user === $user) {
+        //            return false;
+        //        }
 
         if ($post->magazine->isBanned($user)) {
             return false;

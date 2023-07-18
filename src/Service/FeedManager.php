@@ -96,7 +96,7 @@ class FeedManager
     {
         /** @var $entry Entry */
         foreach ($entries as $entry) {
-            $link = 'https://' . $this->settings->get('KBIN_DOMAIN') .
+            $link = 'https://'.$this->settings->get('KBIN_DOMAIN').
                 $this->router->generate('entry_single', [
                     'magazine_name' => $entry->magazine->name,
                     'entry_id' => $entry->getId(),

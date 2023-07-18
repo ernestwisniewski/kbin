@@ -42,8 +42,8 @@ class MagazineBan
         Magazine $magazine,
         User $user,
         User $bannedBy,
-        ?string $reason = null,
-        ?\DateTimeInterface $expiredAt = null
+        string $reason = null,
+        \DateTimeInterface $expiredAt = null
     ) {
         $this->magazine = $magazine;
         $this->user = $user;

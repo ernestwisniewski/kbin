@@ -24,7 +24,7 @@ class UserResolver implements ValueResolverInterface
 
     public function resolve(Request $request, ArgumentMetadata $argument): \Generator
     {
-        if ($argument->getType() !== User::class) {
+        if (User::class !== $argument->getType()) {
             return;
         }
 

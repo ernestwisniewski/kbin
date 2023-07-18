@@ -66,14 +66,14 @@ class UserDto implements UserDtoInterface
 
     public function create(
         string $username,
-        ?string $email = null,
-        Image|ImageDto|null $avatar = null,
-        Image|ImageDto|null $cover = null,
-        ?string $about = null,
-        ?array $fields = null,
-        ?string $apId = null,
-        ?string $apProfileId = null,
-        ?int $id = null
+        string $email = null,
+        Image|ImageDto $avatar = null,
+        Image|ImageDto $cover = null,
+        string $about = null,
+        array $fields = null,
+        string $apId = null,
+        string $apProfileId = null,
+        int $id = null
     ): self {
         $this->id = $id;
         $this->username = $username;

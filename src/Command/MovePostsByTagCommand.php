@@ -59,7 +59,7 @@ class MovePostsByTagCommand extends Command
         $posts = $qb->getQuery()->getResult();
 
         foreach ($posts as $post) {
-            $output->writeln((string)$post->getId());
+            $output->writeln((string) $post->getId());
             $this->postManager->changeMagazine($post, $magazine);
         }
 

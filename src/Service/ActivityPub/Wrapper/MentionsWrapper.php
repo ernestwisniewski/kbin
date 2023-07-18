@@ -19,7 +19,7 @@ class MentionsWrapper
     ) {
     }
 
-    public function build(?array $mentions, ?string $body = null): array
+    public function build(?array $mentions, string $body = null): array
     {
         $mentions = array_unique(array_merge($mentions ?? [], $this->mentionManager->extract($body ?? '') ?? []));
 

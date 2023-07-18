@@ -30,7 +30,7 @@ class EntryCollectionDataProviderTestDeprecated extends ApiTestCase
         $this->assertCount(3, $response->toArray()['hydra:member'][0]['user']);
         $this->assertCount(3, $response->toArray()['hydra:member'][0]['domain']);
 
-//        $this->assertMatchesResourceCollectionJsonSchema(EntryDto::class); // todo image
+        //        $this->assertMatchesResourceCollectionJsonSchema(EntryDto::class); // todo image
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/entry',

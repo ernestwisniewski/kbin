@@ -30,8 +30,8 @@ final class MagazineCollectionDataProvider implements ContextAwareCollectionData
     {
         try {
             return [];
-//            $magazines = $this->repository
-//                ->findPaginated((int) $this->request->getCurrentRequest()->get('p', 1));
+            //            $magazines = $this->repository
+            //                ->findPaginated((int) $this->request->getCurrentRequest()->get('p', 1));
         } catch (\Exception $e) {
             return [];
         }

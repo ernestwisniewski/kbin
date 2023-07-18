@@ -7,8 +7,8 @@ namespace App\Controller;
 use App\DTO\ContactDto;
 use App\Form\ContactType;
 use App\Repository\SiteRepository;
-use App\Service\IpResolver;
 use App\Service\ContactManager;
+use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

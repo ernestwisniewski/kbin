@@ -20,10 +20,10 @@ class PostCommentVoter extends Voter
     protected function supports(string $attribute, $subject): bool
     {
         return $subject instanceof PostComment && \in_array(
-                $attribute,
-                [self::EDIT, self::DELETE, self::PURGE, self::VOTE, self::MODERATE],
-                true
-            );
+            $attribute,
+            [self::EDIT, self::DELETE, self::PURGE, self::VOTE, self::MODERATE],
+            true
+        );
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -73,9 +73,9 @@ class PostCommentVoter extends Voter
 
     private function canVote(PostComment $comment, User $user): bool
     {
-//        if ($comment->user === $user) {
-//            return false;
-//        }
+        //        if ($comment->user === $user) {
+        //            return false;
+        //        }
 
         if ($comment->post->magazine->isBanned($user)) {
             return false;

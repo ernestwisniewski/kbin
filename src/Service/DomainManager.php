@@ -89,6 +89,6 @@ class DomainManager
     {
         $domainsWithRatio = ['youtube.com', 'streamable.com', 'youtu.be', 'm.youtube.com'];
 
-        return (bool)array_filter($domainsWithRatio, fn($item) => str_contains($domain, $item));
+        return (bool) array_filter($domainsWithRatio, fn ($item) => str_contains($domain, $item));
     }
 }

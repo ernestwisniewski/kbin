@@ -15,9 +15,8 @@ class PostCommentBeforeDeleteSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly MessageBusInterface $bus,
-        private readonly DeleteWrapper       $deleteWrapper,
-    )
-    {
+        private readonly DeleteWrapper $deleteWrapper,
+    ) {
     }
 
     public static function getSubscribedEvents(): array

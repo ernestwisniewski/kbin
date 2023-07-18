@@ -64,7 +64,7 @@ class UpdateHandler
             return;
         }
 
-        $object = $this->entityManager->getRepository($object['type'])->find((int)$object['id']);
+        $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
         if (Entry::class === get_class($object)) {
             $fn = 'editEntry';
@@ -84,15 +84,15 @@ class UpdateHandler
 
         $this->$fn($object, $actor);
 
-//        if (null === $object->magazine->apId) {
-//            $this->bus->dispatch(
-//                new \App\Message\ActivityPub\Outbox\UpdateMessage(
-//                    $actor->getId(),
-//                    $object->getId(),
-//                    get_class($object)
-//                )
-//            );
-//        }
+        //        if (null === $object->magazine->apId) {
+        //            $this->bus->dispatch(
+        //                new \App\Message\ActivityPub\Outbox\UpdateMessage(
+        //                    $actor->getId(),
+        //                    $object->getId(),
+        //                    get_class($object)
+        //                )
+        //            );
+        //        }
     }
 
     private function editEntry(Entry $entry, User $user)

@@ -10,7 +10,7 @@ class ImageDto
     public ?int $width = null;
     public ?int $height = null;
 
-    public function create(string $filePath, ?int $width = null, ?int $height = null, ?int $id = null): self
+    public function create(string $filePath, int $width = null, int $height = null, int $id = null): self
     {
         $this->id = $id;
         $this->filePath = $filePath;

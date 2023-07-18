@@ -62,7 +62,7 @@ abstract class Report
     #[Column(type: 'integer')]
     private int $id;
 
-    public function __construct(User $reporting, User $reported, Magazine $magazine, ?string $reason = null)
+    public function __construct(User $reporting, User $reported, Magazine $magazine, string $reason = null)
     {
         $this->reporting = $reporting;
         $this->reported = $reported;

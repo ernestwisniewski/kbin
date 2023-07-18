@@ -45,7 +45,7 @@ class ActorUpdateCommand extends Command
                 $this->bus->dispatch(new UpdateActorMessage($u->apProfileId));
                 $io->info($u->username);
             }
-        } elseif($input->getOption('magazines')){
+        } elseif ($input->getOption('magazines')) {
             foreach ($this->magazineRepository->findRemoteForUpdate() as $u) {
                 $this->bus->dispatch(new UpdateActorMessage($u->apProfileId));
                 $io->info($u->name);

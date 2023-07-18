@@ -31,7 +31,7 @@ class PostCollectionDataProviderTestDeprecated extends ApiTestCase
         $this->assertCount(16, $response->toArray()['hydra:member'][0]);
         $this->assertCount(4, $response->toArray()['hydra:member'][0]['user']);
 
-//        $this->assertMatchesResourceCollectionJsonSchema(PostDto::class); // todo image
+        //        $this->assertMatchesResourceCollectionJsonSchema(PostDto::class); // todo image
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/post',

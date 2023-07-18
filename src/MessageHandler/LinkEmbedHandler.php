@@ -27,7 +27,6 @@ class LinkEmbedHandler
     {
         preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $message->body, $match);
 
-
         DriverManager::getConnection(
             $this->entityManager->getConnection()->getParams(),
             $this->entityManager->getConfiguration()
@@ -53,4 +52,3 @@ class LinkEmbedHandler
         $this->markdownCache->deleteItem(hash('sha256', json_encode(['content' => $message->body])));
     }
 }
-

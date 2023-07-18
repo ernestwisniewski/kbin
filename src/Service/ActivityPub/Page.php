@@ -37,7 +37,7 @@ class Page
 
         $current = $this->repository->findByObjectId($object['id']);
         if ($current) {
-            return $this->entityManager->getRepository($current['type'])->find((int)$current['id']);
+            return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
         }
 
         if (is_string($object['to'])) {
@@ -114,15 +114,14 @@ class Page
             if (is_array($attachment)) {
                 $link = array_filter(
                     $attachment,
-                    fn($val) => in_array($val['type'], ['Link'])
+                    fn ($val) => in_array($val['type'], ['Link'])
                 );
 
-                if(is_array($link)) {
-                        $dto->url = $link[0]['href'];
+                if (is_array($link)) {
+                    $dto->url = $link[0]['href'];
                 } else {
-                        $dto->url = $link['href'];
-                };
-
+                    $dto->url = $link['href'];
+                }
             }
         } catch (\Exception $e) {
         }

@@ -26,10 +26,10 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
-use Doctrine\ORM\Mapping\Index;
 use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostRepository::class)]
@@ -104,7 +104,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         Magazine $magazine,
         User $user,
         bool $isAdult,
-        ?string $ip = null
+        string $ip = null
     ) {
         $this->body = $body;
         $this->magazine = $magazine;
@@ -145,7 +145,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         return $this->id;
     }
 
-    public function getBestComments(?User $user = null): Collection
+    public function getBestComments(User $user = null): Collection
     {
         $criteria = Criteria::create()
             ->orderBy(['upVotes' => 'DESC', 'createdAt' => 'ASC']);
@@ -154,7 +154,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $comments = $this->handlePrivateComments($comments, $user);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
-        if (!count(array_filter($comments->toArray(), fn($comment) => $comment->countUpVotes() > 0))) {
+        if (!count(array_filter($comments->toArray(), fn ($comment) => $comment->countUpVotes() > 0))) {
             return $this->getLastComments();
         }
 
@@ -177,7 +177,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         });
     }
 
-    public function getLastComments(?User $user = null): Collection
+    public function getLastComments(User $user = null): Collection
     {
         $criteria = Criteria::create()
             ->orderBy(['createdAt' => 'ASC']);

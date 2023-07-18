@@ -63,7 +63,7 @@ final class RelatedMagazinesComponent
                     default => $this->repository->findRandom(),
                 };
 
-                $magazines = array_filter($magazines, fn($m) => $m->name !== $this->magazine);
+                $magazines = array_filter($magazines, fn ($m) => $m->name !== $this->magazine);
 
                 return $this->twig->render(
                     'components/related_magazines.html.twig',

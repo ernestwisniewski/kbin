@@ -49,7 +49,7 @@ class PostType extends AbstractType
             ->add('isAdult', CheckboxType::class, ['required' => false])
             ->add('submit', SubmitType::class);
 
-        $builder->addEventSubscriber($this->defaultLanguage); 
+        $builder->addEventSubscriber($this->defaultLanguage);
         $builder->addEventSubscriber($this->imageListener);
     }
 

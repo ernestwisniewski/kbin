@@ -18,8 +18,7 @@ class MagazineListController extends AbstractController
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
         private readonly MagazineRepository $repository,
-    )
-    {
+    ) {
     }
 
     public function __invoke(string $sortBy, string $view, Request $request): Response

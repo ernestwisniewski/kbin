@@ -47,8 +47,8 @@ class ApKeysUpdateCommand extends Command
         $site = $this->siteRepository->findAll()[0];
         $privateKey = RSA::createKey(4096);
 
-        $site->publicKey = (string)$privateKey->getPublicKey();
-        $site->privateKey = (string)$privateKey;
+        $site->publicKey = (string) $privateKey->getPublicKey();
+        $site->privateKey = (string) $privateKey;
 
         $this->entityManager->flush();
 

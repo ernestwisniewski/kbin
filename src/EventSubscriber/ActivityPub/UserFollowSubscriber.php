@@ -20,12 +20,12 @@ class UserFollowSubscriber implements EventSubscriberInterface
     }
 
     #[ArrayShape([UserFollowEvent::class => 'string'])]
- public static function getSubscribedEvents(): array
- {
-     return [
-         UserFollowEvent::class => 'onUserFollow',
-     ];
- }
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            UserFollowEvent::class => 'onUserFollow',
+        ];
+    }
 
     public function onUserFollow(UserFollowEvent $event): void
     {

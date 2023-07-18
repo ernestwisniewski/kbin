@@ -28,7 +28,7 @@ class Settings
     {
         $this->name = $name;
 
-        if(is_array($value)) {
+        if (is_array($value)) {
             $this->json = $value;
         } else {
             $this->value = $value;
