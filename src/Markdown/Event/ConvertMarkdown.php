@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Markdown\Event;
 
+use App\Markdown\MarkdownConverter;
+use App\Markdown\RenderTarget;
 use League\CommonMark\Output\RenderedContentInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -29,6 +31,11 @@ class ConvertMarkdown extends Event
     public function setRenderedContent(RenderedContentInterface $renderedContent): void
     {
         $this->renderedContent = $renderedContent;
+    }
+
+    public function getRenderTarget(): RenderTarget
+    {
+        return $this->getAttribute(MarkdownConverter::RENDER_TARGET) ?? RenderTarget::Page;
     }
 
     /**

@@ -12,28 +12,9 @@ services:
         autowire: true
         public: false
 
-    App\Markdown\MarkdownExtension:
-        lazy: true
-
     League\CommonMark\Extension\Autolink\UrlAutolinkParser:
         arguments:
             $allowedProtocols: "%commonmark.allowed_schemes%"
     League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension: ~
     League\CommonMark\Extension\Strikethrough\StrikethroughExtension: ~
     League\CommonMark\Extension\Table\TableExtension: ~
-
-    League\CommonMark\Environment\EnvironmentBuilderInterface:
-        class: League\CommonMark\Environment\Environment
-        arguments: 
-            $config: ['%commonmark.configuration%']
-        calls:
-            - addInlineParser:
-                - '@League\CommonMark\Extension\Autolink\UrlAutolinkParser'
-            - addExtension:
-                - '@League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension'
-            - addExtension:
-                - '@League\CommonMark\Extension\Strikethrough\StrikethroughExtension'
-            - addExtension:
-                - '@League\CommonMark\Extension\Table\TableExtension'
-            - addExtension:
-                - '@App\Markdown\MarkdownExtension'
