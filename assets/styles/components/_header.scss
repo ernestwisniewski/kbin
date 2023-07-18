@@ -27,9 +27,15 @@
 
   }
 
-  menu .dropdown__menu {
-    left: -3.75rem;
-    opacity: 1;
+  menu {
+    .dropdown__menu {
+      left: -3.75rem;
+      opacity: 1;
+    }
+
+    .dropdown:last-of-type .dropdown__menu {
+      left: auto;
+    }
   }
 
   .kbin-container {
