@@ -16,12 +16,12 @@ use App\Repository\EmbedRepository;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use App\Utils\Embed;
-use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
 use League\CommonMark\Renderer\ChildNodeRendererInterface;
 use League\CommonMark\Renderer\NodeRendererInterface;
+use League\CommonMark\Util\HtmlElement;
 use League\CommonMark\Util\RegexHelper;
 use League\Config\ConfigurationAwareInterface;
 use League\Config\ConfigurationInterface;
@@ -39,7 +39,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     ) {
     }
 
-    public function setConfiguration(ConfigurationInterface $configuration): void { 
+    public function setConfiguration(ConfigurationInterface $configuration): void
+    {
         $this->config = $configuration;
     }
 
@@ -47,14 +48,14 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
         Node $node,
         ChildNodeRendererInterface $childRenderer
     ): HtmlElement {
-        /** @var Link $node */
+        /* @var Link $node */
         Link::assertInstanceOf($node);
 
         $renderTarget = $this->config->get('kbin')[MarkdownConverter::RENDER_TARGET];
 
         $url = $title = match ($node::class) {
             RoutedMentionLink::class => $this->generateUrlForRoute($node, $renderTarget),
-            default                  => $node->getUrl()
+            default => $node->getUrl()
         };
 
         if (RegexHelper::isLinkPotentiallyUnsafe($url)) {
@@ -70,8 +71,8 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
         }
 
         if (
-            ! $this->isMentionType($node)
-                && (ImageManager::isImageUrl($url) 
+            !$this->isMentionType($node)
+                && (ImageManager::isImageUrl($url)
                     || $this->isEmbed($url, $title)
                 )
         ) {
@@ -82,7 +83,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
         $attr = $this->generateAttr($node, $renderTarget);
 
         // open non-local links in a new tab
-        if (false !== filter_var($url, FILTER_VALIDATE_URL) 
+        if (false !== filter_var($url, FILTER_VALIDATE_URL)
             && !$this->settingsManager->isLocalUrl($url)
             && RenderTarget::ActivityPub !== $renderTarget
         ) {
@@ -98,8 +99,6 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     }
 
     /**
-     * @param Link $node
-     * @param RenderTarget $renderTarget
      * @return array{
      *     class: string,
      *     title?: string,
@@ -108,19 +107,19 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
      *     rel?: string,
      * }
      */
-    private function generateAttr(Link $node, RenderTarget $renderTarget): array 
+    private function generateAttr(Link $node, RenderTarget $renderTarget): array
     {
         $attr = match ($node::class) {
             ActivityPubMentionLink::class => $this->generateMentionLinkAttr($node),
-            ActorSearchLink::class        => [],
-            CommunityLink::class          => $this->generateCommunityLinkAttr($node),
-            RoutedMentionLink::class      => $this->generateMentionLinkAttr($node),
-            TagLink::class                => [
-                'class' => 'hashtag tag', 
-                'rel'  =>  'tag',
+            ActorSearchLink::class => [],
+            CommunityLink::class => $this->generateCommunityLinkAttr($node),
+            RoutedMentionLink::class => $this->generateMentionLinkAttr($node),
+            TagLink::class => [
+                'class' => 'hashtag tag',
+                'rel' => 'tag',
             ],
-            default                       => [
-                'class' => 'kbin-media-link', 
+            default => [
+                'class' => 'kbin-media-link',
             ],
         };
 
@@ -139,7 +138,6 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     }
 
     /**
-     * @param MentionLink $link
      * @return array{
      *     class: string,
      *     title: string,
@@ -150,26 +148,25 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     private function generateMentionLinkAttr(MentionLink $link): array
     {
         $data = [
-            'class'                        => 'mention',
-            'title'                        => $link->getTitle(),
+            'class' => 'mention',
+            'title' => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
         ];
 
-        if ($link->getType() === MentionType::Magazine || $link->getType() === MentionType::RemoteMagazine) {
-            $data['class']       = $data['class'] . ' mention--magazine';
+        if (MentionType::Magazine === $link->getType() || MentionType::RemoteMagazine === $link->getType()) {
+            $data['class'] = $data['class'].' mention--magazine';
             $data['data-action'] = 'mentions#navigate_magazine';
         }
 
-        if ($link->getType() === MentionType::User || $link->getType() === MentionType::RemoteUser) {
-            $data['class']       = $data['class'] . ' u-url mention--user';
+        if (MentionType::User === $link->getType() || MentionType::RemoteUser === $link->getType()) {
+            $data['class'] = $data['class'].' u-url mention--user';
             $data['data-action'] = 'mouseover->mentions#user_popup mentions#navigate_user';
         }
 
-        return $data;    
+        return $data;
     }
 
     /**
-     * @param CommunityLink $link
      * @return array{
      *     class: string,
      *     title: string,
@@ -180,19 +177,19 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     private function generateCommunityLinkAttr(CommunityLink $link): array
     {
         $data = [
-            'class'                        => 'mention mention--magazine',
-            'title'                        => $link->getTitle(),
+            'class' => 'mention mention--magazine',
+            'title' => $link->getTitle(),
             'data-mentions-username-param' => $link->getKbinUsername(),
-            'data-action'                  => 'mentions#navigate_magazine',
+            'data-action' => 'mentions#navigate_magazine',
         ];
 
-        return $data;    
+        return $data;
     }
 
-    private function generateUrlForRoute(RoutedMentionLink $routedMentionLink, RenderTarget $renderTarget): string 
+    private function generateUrlForRoute(RoutedMentionLink $routedMentionLink, RenderTarget $renderTarget): string
     {
         return $this->urlGenerator->generate(
-            $routedMentionLink->getRoute(), 
+            $routedMentionLink->getRoute(),
             [$routedMentionLink->getParamName() => $routedMentionLink->getUrl()],
             RenderTarget::ActivityPub === $renderTarget
                 ? UrlGeneratorInterface::ABSOLUTE_URL
@@ -210,7 +207,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
         return (bool) $embed;
     }
 
-    private function isMentionType(Link $link): bool 
+    private function isMentionType(Link $link): bool
     {
         $types = [
             ActivityPubMentionLink::class,

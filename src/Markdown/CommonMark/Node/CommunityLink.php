@@ -9,8 +9,8 @@ use App\Markdown\CommonMark\MentionType;
 class CommunityLink extends ActivityPubMentionLink
 {
     public function __construct(
-        string $url, 
-        string $label, 
+        string $url,
+        string $label,
         string $title,
         private string $kbinUsername,
         private MentionType $type,

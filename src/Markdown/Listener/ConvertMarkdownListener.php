@@ -7,7 +7,6 @@ namespace App\Markdown\Listener;
 use App\Markdown\Event\ConvertMarkdown;
 use App\Markdown\Factory\ConverterFactory;
 use App\Markdown\Factory\EnvironmentFactory;
-use App\Markdown\RenderTarget;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

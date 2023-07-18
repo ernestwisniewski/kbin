@@ -9,6 +9,8 @@ use App\Markdown\CommonMark\MentionType;
 interface MentionLink
 {
     public function getKbinUsername(): string;
+
     public function getTitle(): ?string;
+
     public function getType(): MentionType;
 }

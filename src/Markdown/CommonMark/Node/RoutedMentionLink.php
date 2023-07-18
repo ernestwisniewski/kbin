@@ -13,7 +13,7 @@ class RoutedMentionLink extends Link implements MentionLink
         private string $route,
         private string $paramName,
         private string $slug,
-        string $label, 
+        string $label,
         string $title,
         private string $kbinUsername,
         private MentionType $type,
@@ -25,14 +25,14 @@ class RoutedMentionLink extends Link implements MentionLink
     {
         return $this->kbinUsername;
     }
-    
+
     public function getRoute(): string
     {
         return $this->route;
     }
 
-    public function getParamName(): string 
-    { 
+    public function getParamName(): string
+    {
         return $this->paramName;
     }
 

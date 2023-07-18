@@ -10,8 +10,8 @@ use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 class ActivityPubMentionLink extends Link implements MentionLink
 {
     public function __construct(
-        string $activityPubUrl, 
-        string $label, 
+        string $activityPubUrl,
+        string $label,
         string $title,
         private string $kbinUsername,
         private MentionType $type,
