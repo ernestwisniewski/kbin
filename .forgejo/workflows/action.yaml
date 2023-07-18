@@ -101,8 +101,8 @@ jobs:
       - uses: https://code.forgejo.org/actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ steps.composer-lock-hash.outputs.hash }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-composer-tools-${{ steps.composer-lock-hash.outputs.hash }}
+          restore-keys: ${{ runner.os }}-composer-tools-
 
       - name: Composer install
         run: composer -d tools install --no-scripts --no-progress
