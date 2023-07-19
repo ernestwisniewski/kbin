@@ -245,6 +245,25 @@
         background: #2A2A3C;
       }
     }
+
+    &.font-size-settings{
+
+      .font-size{
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-width: 3px;
+        align-items: center;
+        box-sizing: content-box;
+      }
+
+      .font-size.active{
+        border: var(--kbin-avatar-border);     
+      }
+
+    }
   }
 
   .settings-list {
