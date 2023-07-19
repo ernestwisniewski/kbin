@@ -31,6 +31,11 @@ class UserFrontController extends AbstractController
 
     public function front(User $user, Request $request, UserRepository $repository): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $activity = $repository->findPublicActivity($this->getPageNb($request), $user);
 
         return $this->render(
@@ -39,12 +44,18 @@ class UserFrontController extends AbstractController
                 'user' => $user,
                 'results' => $this->overviewManager->buildList($activity),
                 'pagination' => $activity,
-            ]
+            ],
+            $response
         );
     }
 
     public function entries(User $user, Request $request, EntryRepository $repository): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
@@ -54,12 +65,18 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'entries' => $repository->findByCriteria($criteria),
-            ]
+            ],
+            $response
         );
     }
 
     public function comments(User $user, Request $request, EntryCommentRepository $repository): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
@@ -72,12 +89,18 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'comments' => $comments,
-            ]
+            ],
+            $response
         );
     }
 
     public function posts(User $user, Request $request, PostRepository $repository): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
@@ -89,12 +112,18 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'posts' => $posts,
-            ]
+            ],
+            $response
         );
     }
 
     public function replies(User $user, Request $request, PostCommentRepository $repository): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->onlyParents = false;
@@ -136,24 +165,36 @@ class UserFrontController extends AbstractController
                 'user' => $user,
                 'results' => $results,
                 'pagination' => $comments,
-            ]
+            ],
+            $response
         );
     }
 
     public function moderated(User $user, MagazineRepository $repository, Request $request): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         return $this->render(
             'user/moderated.html.twig',
             [
                 'view' => 'list',
                 'user' => $user,
                 'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
-            ]
+            ],
+            $response
         );
     }
 
     public function subscriptions(User $user, MagazineRepository $repository, Request $request): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         if (!$user->showProfileSubscriptions) {
             if ($user !== $this->getUser()) {
                 throw new AccessDeniedException();
@@ -165,23 +206,35 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'magazines' => $repository->findSubscribedMagazines($this->getPageNb($request), $user),
-            ]
+            ],
+            $response
         );
     }
 
     public function followers(User $user, UserRepository $repository, Request $request): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         return $this->render(
             'user/followers.html.twig',
             [
                 'user' => $user,
                 'users' => $repository->findFollowers($this->getPageNb($request), $user),
-            ]
+            ],
+            $response
         );
     }
 
     public function following(User $user, UserRepository $manager, Request $request): Response
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         if (!$user->showProfileFollowings && !$user->apId) {
             if ($user !== $this->getUser()) {
                 throw new AccessDeniedException();
@@ -193,12 +246,18 @@ class UserFrontController extends AbstractController
             [
                 'user' => $user,
                 'users' => $manager->findFollowing($this->getPageNb($request), $user),
-            ]
+            ],
+            $response
         );
     }
 
     public function boosts(User $user, Request $request, SearchRepository $repository)
     {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $activity = $repository->findBoosts($this->getPageNb($request), $user);
 
         return $this->render(
@@ -207,7 +266,8 @@ class UserFrontController extends AbstractController
                 'user' => $user,
                 'results' => $this->overviewManager->buildList($activity),
                 'pagination' => $activity,
-            ]
+            ],
+            $response
         );
     }
 }

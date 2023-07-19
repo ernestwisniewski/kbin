@@ -46,6 +46,11 @@ class EntrySingleController extends AbstractController
             );
         }
 
+        $response = new Response();
+        if ($entry->apId && $entry->user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $this->handlePrivateContent($entry);
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));
@@ -89,7 +94,8 @@ class EntrySingleController extends AbstractController
                     ),
                     'parentLanguage' => $entry->lang,
                 ])->createView(),
-            ]
+            ],
+            $response
         );
     }
 

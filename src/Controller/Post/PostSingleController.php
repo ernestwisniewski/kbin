@@ -46,6 +46,11 @@ class PostSingleController extends AbstractController
             );
         }
 
+        $response = new Response();
+        if ($post->apId && $post->user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $this->handlePrivateContent($post);
 
         $criteria = new PostCommentPageView($this->getPageNb($request));
@@ -88,7 +93,8 @@ class PostSingleController extends AbstractController
                         'parentLanguage' => $post->lang,
                     ]
                 )->createView(),
-            ]
+            ],
+            $response
         );
     }
 
