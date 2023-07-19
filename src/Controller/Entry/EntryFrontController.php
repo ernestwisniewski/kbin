@@ -184,6 +184,11 @@ class EntryFrontController extends AbstractController
         ?string $type,
         Request $request
     ): Response {
+        $response = new Response();
+        if ($magazine->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
         $criteria = (new EntryPageView($this->getPageNb($request)));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
@@ -214,7 +219,8 @@ class EntryFrontController extends AbstractController
             [
                 'magazine' => $magazine,
                 'entries' => $listing,
-            ]
+            ],
+            $response
         );
     }
 
