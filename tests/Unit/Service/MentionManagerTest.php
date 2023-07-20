@@ -31,7 +31,7 @@ class MentionManagerTest extends WebTestCase
         // Replace the actual setting service with the mock in the container
         $this->getContainer()->set(SettingsManager::class, $settingsManagerMock);
 
-        $manager = $this->getContainer()->get(MentionManager::class);
+        $manager = $this->getService(MentionManager::class);
         $this->assertEquals($output, $manager->extract($input));
     }
 

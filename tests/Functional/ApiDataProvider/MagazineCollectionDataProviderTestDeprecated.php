@@ -20,7 +20,7 @@ class MagazineCollectionDataProviderTestDeprecated extends ApiTestCase
         $this->createEntryComment('test entry comment');
         $this->createPostComment('test post comment');
 
-        $this->getContainer()->get(MagazineManager::class)->subscribe(
+        $this->getService(MagazineManager::class)->subscribe(
             $this->getMagazineByName('acme'),
             $this->getUserByUsername('JaneDoe')
         );

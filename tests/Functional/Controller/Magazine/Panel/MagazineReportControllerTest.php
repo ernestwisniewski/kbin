@@ -20,7 +20,7 @@ class MagazineReportControllerTest extends WebTestCase
         $postComment = $this->createPostComment('Test post 1');
 
         foreach ([$entryComment, $postComment, $entryComment->entry, $postComment->post] as $subject) {
-            $this->getContainer()->get(ReportManager::class)->report(
+            $this->getService(ReportManager::class)->report(
                 (new ReportDto())->create($subject, 'test reason'),
                 $user
             );

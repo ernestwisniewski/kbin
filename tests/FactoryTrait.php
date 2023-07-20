@@ -29,13 +29,11 @@ trait FactoryTrait
 {
     public function createVote(int $choice, VotableInterface $subject, User $user): void
     {
-        $manager = $this->getContainer()->get(EntityManagerInterface::class);
-
         if (VotableInterface::VOTE_UP === $choice) {
-            $favManager = $this->getContainer()->get(FavouriteManager::class);
+            $favManager = $this->getService(FavouriteManager::class);
             $favManager->toggle($user, $subject);
         } else {
-            $voteManager = $this->getContainer()->get(VoteManager::class);
+            $voteManager = $this->getService(VoteManager::class);
             $voteManager->vote($choice, $subject, $user);
         }
     }
@@ -73,7 +71,7 @@ trait FactoryTrait
 
     private function createUser(string $username, string $email = null, string $password = null, $active = true, $hideAdult = true): User
     {
-        $manager = $this->getContainer()->get(EntityManagerInterface::class);
+        $manager = $this->getService(EntityManagerInterface::class);
 
         $user = new User($email ?: $username.'@example.com', $username, $password ?: 'secret');
 
@@ -144,7 +142,7 @@ trait FactoryTrait
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];
-            $manager = $this->getContainer()->get(EntityManagerInterface::class);
+            $manager = $this->getService(EntityManagerInterface::class);
 
             $manager->persist($user);
             $manager->flush();
@@ -156,7 +154,7 @@ trait FactoryTrait
     protected function setAdmin(User $user): void
     {
         $user->roles = ['ROLE_ADMIN'];
-        $manager = $this->getContainer()->get(EntityManagerInterface::class);
+        $manager = $this->getService(EntityManagerInterface::class);
 
         $manager->persist($user);
         $manager->flush();
@@ -171,10 +169,7 @@ trait FactoryTrait
         bool $isAdult = false,
         string $description = null
     ): Magazine {
-        /**
-         * @var $manager MagazineManager
-         */
-        $manager = $this->getContainer()->get(MagazineManager::class);
+        $manager = $this->getService(MagazineManager::class);
 
         $dto = new MagazineDto();
         $dto->name = $name;
@@ -205,15 +200,15 @@ trait FactoryTrait
 
         $entry = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $regular);
-        $this->getContainer()->get(EntryCommentManager::class)->delete($owner, $comment);
-        $this->getContainer()->get(EntryManager::class)->delete($owner, $entry);
+        $this->getService(EntryCommentManager::class)->delete($owner, $comment);
+        $this->getService(EntryManager::class)->delete($owner, $entry);
 
         $post = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $regular);
-        $this->getContainer()->get(PostCommentManager::class)->delete($owner, $comment);
-        $this->getContainer()->get(PostManager::class)->delete($owner, $post);
+        $this->getService(PostCommentManager::class)->delete($owner, $comment);
+        $this->getService(PostManager::class)->delete($owner, $post);
 
-        $this->getContainer()->get(MagazineManager::class)->ban(
+        $this->getService(MagazineManager::class)->ban(
             $magazine,
             $actor,
             $owner,
@@ -261,10 +256,7 @@ trait FactoryTrait
         string $url = null,
         ?string $body = 'Test entry content'
     ): Entry {
-        /**
-         * @var $manager EntryManager
-         */
-        $manager = $this->getContainer()->get(EntryManager::class);
+        $manager = $this->getService(EntryManager::class);
 
         $dto = new EntryDto();
         $dto->magazine = $magazine;
@@ -287,10 +279,7 @@ trait FactoryTrait
         User $user = null,
         EntryComment $parent = null
     ): EntryComment {
-        /**
-         * @var $manager EntryCommentManager
-         */
-        $manager = $this->getContainer()->get(EntryCommentManager::class);
+        $manager = $this->getService(EntryCommentManager::class);
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent(
@@ -311,11 +300,7 @@ trait FactoryTrait
 
     public function createPost(string $body, Magazine $magazine = null, User $user = null): Post
     {
-        /**
-         * @var $manager PostManager
-         */
-        $manager = $this->getContainer()->get(PostManager::class);
-
+        $manager = $this->getService(PostManager::class);
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
         $dto->body = $body;
@@ -326,10 +311,7 @@ trait FactoryTrait
 
     public function createPostComment(string $body, Post $post = null, User $user = null): PostComment
     {
-        /**
-         * @var $manager PostCommentManager
-         */
-        $manager = $this->getContainer()->get(PostCommentManager::class);
+        $manager = $this->getService(PostCommentManager::class);
 
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');

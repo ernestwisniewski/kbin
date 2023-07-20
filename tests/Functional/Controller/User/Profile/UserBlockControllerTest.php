@@ -17,7 +17,7 @@ class UserBlockControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
         $magazine = $this->getMagazineByName('acme');
 
-        $this->getContainer()->get(MagazineManager::class)->block($magazine, $user);
+        $this->getService(MagazineManager::class)->block($magazine, $user);
 
         $crawler = $client->request('GET', '/settings/blocked/magazines');
         $client->click($crawler->filter('#main .pills')->selectLink('Magazines')->link());
@@ -31,7 +31,7 @@ class UserBlockControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
 
-        $this->getContainer()->get(UserManager::class)->block($user, $this->getUserByUsername('JohnDoe'));
+        $this->getService(UserManager::class)->block($user, $this->getUserByUsername('JohnDoe'));
 
         $crawler = $client->request('GET', '/settings/blocked/people');
         $client->click($crawler->filter('#main .pills')->selectLink('People')->link());
@@ -47,7 +47,7 @@ class UserBlockControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test1', 'https://kbin.pub');
 
-        $this->getContainer()->get(DomainManager::class)->block($entry->domain, $user);
+        $this->getService(DomainManager::class)->block($entry->domain, $user);
 
         $crawler = $client->request('GET', '/settings/blocked/domains');
         $client->click($crawler->filter('#main .pills')->selectLink('Domains')->link());
