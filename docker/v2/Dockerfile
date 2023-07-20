@@ -100,9 +100,8 @@ COPY --link docker/v2/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY --chmod=755 --link docker/v2/docker-entrypoint ./
 
 RUN mkdir -p public/media /data /config && \
+    chown -R $USER:$GROUP public/media /data /config .env && \
     chmod 777 public/media
-
-RUN chown -R $USER:$GROUP .env public/media /data /config
 
 # Switch user
 USER $USER:$GROUP
