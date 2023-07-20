@@ -146,8 +146,9 @@ MAILER_DSN=sendmail://default
 MAILER_DSN=gmail://username:password@localhost?encryption=tls&auth_mode=oauth
 
 # Mercure (assuming you are using Mercure Caddy on port 3000)
-MERCURE_URL=http://localhost:3000/.well-known/mercure
-MERCURE_PUBLIC_URL=https://domain.tld/.well-known/mercure
+MERCURE_HOST=localhost:3000
+MERCURE_URL=http://${MERCURE_HOST}/.well-known/mercure
+MERCURE_PUBLIC_URL=https://${KBIN_DOMAIN}/.well-known/mercure
 ```
 
 ## Service Configuration
@@ -253,8 +254,9 @@ sudo systemctl restart redis.service
 Within your `.env` file, change the redis host to `127.0.0.1` (localhost), proper IP or use socket file:
 
 ```conf
+REDIS_HOST=127.0.0.1:6379
 REDIS_PASSWORD={!SECRET!!KEY!-32_1-!}
-REDIS_DNS=redis://${REDIS_PASSWORD}@127.0.0.1
+REDIS_DNS=redis://${REDIS_PASSWORD}@${REDIS_HOST}
 
 # Or if you want to use socket file:
 #REDIS_DNS=redis://${REDIS_PASSWORD}/var/run/redis/redis-server.sock
@@ -584,10 +586,11 @@ nano .env
 
 ```conf
 # Use RabbitMQ (recommended):
+RABBITMQ_HOST=127.0.0.1:5672
 RABBITMQ_PASSWORD=!ChangeThisRabbitPass!
-MESSENGER_TRANSPORT_DSN=amqp://kbin:${RABBITMQ_PASSWORD}@127.0.0.1:5672/%2f/messages
+MESSENGER_TRANSPORT_DSN=amqp://kbin:${RABBITMQ_PASSWORD}@${RABBITMQ_HOST}/%2f/messages
 # or Redis:
-MESSENGER_TRANSPORT_DSN=redis://${REDIS_PASSWORD}@127.0.0.1:6379/messages
+MESSENGER_TRANSPORT_DSN=redis://${REDIS_PASSWORD}@${REDIS_HOST}/messages
 # or database:
 MESSENGER_TRANSPORT_DSN=doctrine://default
 ```
