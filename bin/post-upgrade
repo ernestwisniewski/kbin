@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -e
+BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+printf 'Do you want to proceed with the upgrade? (y/N)? '
+read answer
+if [ "$answer" != "${answer#[Yy]}" ]; then
+    # Retrieve prod or dev
+    ENV=$(php ${BIN_DIR}/console about | grep -i Environment | awk '{print $NF}')
+    if [[ "$ENV" == "prod" ]]; then
+        # Production
+        echo -e "INFO: Environment detected: Production\n"
+
+        cd "$BIN_DIR/.."
+        echo "INFO: Install/update PHP packages"
+        composer install --no-dev
+        echo "INFO: Clear application cache"
+        APP_ENV=prod APP_DEBUG=0 php ${BIN_DIR}/console cache:clear -n
+        echo "INFO: Perform database migration"
+        APP_ENV=prod php ${BIN_DIR}/console doctrine:migrations:migrate -n
+        echo "INFO: Clear composer cache"
+        composer clear-cache
+        echo "INFO: Install/update JS packages"
+        # Note: Yarn install also require dev dependencies for the build step
+        yarn install
+        echo "INFO: Build frontend"
+        yarn build
+    else
+        # Development
+        echo -e "INFO: Environment detected: Development\n"
+
+        cd "$BIN_DIR/.."
+        echo "INFO: Install/update PHP packages"
+        composer install
+        echo "INFO: Clear application cache"
+        APP_ENV=dev APP_DEBUG=1 php ${BIN_DIR}/console cache:clear -n
+        echo "INFO: Perform database migration"
+        APP_ENV=dev php ${BIN_DIR}/console doctrine:migrations:migrate -n
+        echo "INFO: Clear composer cache"
+        composer clear-cache
+        echo "INFO: Install/update JS packages"
+        NODE_ENV=development yarn install
+        echo "INFO: Build frontend"
+        yarn dev
+    fi
+
+    echo -e "INFO: Upgrade successfully completed!\n"
+    echo "INFO: You might want to clear your Redis cache (redis-cli FLUSHDB).
+    If you have OPCache enabled also reload your PHP FPM service, to clear the PHP cache."
+fi
