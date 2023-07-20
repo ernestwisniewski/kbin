@@ -22,4 +22,16 @@ abstract class WebTestCase extends BaseWebTestCase
         $this->magazines = new ArrayCollection();
         $this->entries = new ArrayCollection();
     }
+
+    /**
+     * @template T
+     *
+     * @param class-string<T> $className
+     *
+     * @return T
+     */
+    public function getService(string $className)
+    {
+        return $this->getContainer()->get($className);
+    }
 }

@@ -16,7 +16,7 @@ class TagManagerTest extends WebTestCase
     {
         $this->createClient();
 
-        $manager = $this->getContainer()->get(TagManager::class);
+        $manager = $this->getService(TagManager::class);
         $this->assertEquals($output, $manager->extract($input, 'kbin'));
     }
 

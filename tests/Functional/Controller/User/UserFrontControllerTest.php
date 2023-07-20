@@ -77,7 +77,7 @@ class UserFrontControllerTest extends WebTestCase
         $this->getMagazineByName('kbin');
         $this->getMagazineByName('mag', $this->getUserByUsername('JaneDoe'));
 
-        $manager = $this->getContainer()->get(MagazineManager::class);
+        $manager = $this->getService(MagazineManager::class);
         $manager->subscribe($this->getMagazineByName('mag'), $user);
 
         $client->loginUser($user);
@@ -96,7 +96,7 @@ class UserFrontControllerTest extends WebTestCase
         $user1 = $this->getUserByUsername('JohnDoe');
         $user2 = $this->getUserByUsername('JaneDoe');
 
-        $manager = $this->getContainer()->get(UserManager::class);
+        $manager = $this->getService(UserManager::class);
         $manager->follow($user2, $user1);
 
         $client->loginUser($user1);
@@ -115,7 +115,7 @@ class UserFrontControllerTest extends WebTestCase
         $user1 = $this->getUserByUsername('JohnDoe');
         $user2 = $this->getUserByUsername('JaneDoe');
 
-        $manager = $this->getContainer()->get(UserManager::class);
+        $manager = $this->getService(UserManager::class);
         $manager->follow($user1, $user2);
 
         $client->loginUser($user1);

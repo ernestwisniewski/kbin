@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Magazine;
 
 use App\Tests\WebTestCase;
+use Doctrine\ORM\EntityManagerInterface;
 
 class MagazinePeopleControllerTest extends WebTestCase
 {
@@ -16,7 +17,7 @@ class MagazinePeopleControllerTest extends WebTestCase
         $this->createPost('test post content');
 
         $user->about = 'Loerm ipsum';
-        $this->getContainer()->get('doctrine')->getManager()->flush();
+        $this->getService(EntityManagerInterface::class)->flush();
 
         $crawler = $client->request('GET', '/m/acme/people');
 

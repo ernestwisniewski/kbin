@@ -48,7 +48,7 @@ class UserEditControllerTest extends WebTestCase
     {
         $client = RegisterControllerTest::register(true);
 
-        $client->loginUser($this->getContainer()->get(UserRepository::class)->findOneBy(['username' => 'JohnDoe']));
+        $client->loginUser($this->getService(UserRepository::class)->findOneBy(['username' => 'JohnDoe']));
 
         $crawler = $client->request('GET', '/settings/password');
         $this->assertSelectorTextContains('#main .options__main a.active', 'password');
@@ -81,7 +81,7 @@ class UserEditControllerTest extends WebTestCase
     {
         $client = RegisterControllerTest::register(true);
 
-        $client->loginUser($this->getContainer()->get(UserRepository::class)->findOneBy(['username' => 'JohnDoe']));
+        $client->loginUser($this->getService(UserRepository::class)->findOneBy(['username' => 'JohnDoe']));
 
         $crawler = $client->request('GET', '/settings/email');
         $this->assertSelectorTextContains('#main .options__main a.active', 'email');

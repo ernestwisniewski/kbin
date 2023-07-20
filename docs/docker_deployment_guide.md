@@ -67,63 +67,22 @@ Create config files and storage directories:
 cd docker/v2
 cp ../../.env.example .env
 cp docker-compose.prod.yml docker-compose.override.yml
-mkdir -p storage/media storage/caddy_condig storage/caddy_data
-sudo chown 1000:82 storage/media storage/caddy_condig storage/caddy_data
+mkdir -p storage/media storage/caddy_config storage/caddy_data
+sudo chown 1000:82 storage/media storage/caddy_config storage/caddy_data
 ```
 
 ### Configure `.env`
 
 1. Choose your Redis password, PostgreSQL password, RabbitMQ password, and Mercure password.
 2. Place them in the corresponding variables in both `.env` and `docker-compose.override.yml`.
-3. In `.env`, change the following line:
+3. Change the values in your `.env` file as followings. (If you change the service names and the listening ports of the services in your `docker-compose.yml`, update the following values correspondingly.)
 
-   ```env
-   DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"
-   ```
-
-   to:
-
-   ```env
-   DATABASE_URL="postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?serverVersion=${POSTGRES_VERSION}&charset=utf8"
-   ```
-
-4. In `.env`, change the following two lines
-
-   ```env
-   MERCURE_URL=http://localhost:3000/.well-known/mercure
-   MERCURE_PUBLIC_URL=https://yourdomain.tld/.well-known/mercure
-   ```
-
-   to:
-
-   ```env
-   MERCURE_URL=http://www:80/.well-known/mercure
-   MERCURE_PUBLIC_URL=https://${SERVER_NAME}/.well-known/mercure
-   ```
-
-5. In `.env`, change the following line:
-
-   ```env
-   REDIS_DNS=redis://${REDIS_PASSWORD}@127.0.0.1
-   ```
-
-   to:
-
-   ```env
-   REDIS_DNS=redis://${REDIS_PASSWORD}@redis
-   ```
-
-6. In `.env`, change the following line:
-
-   ```env
-   MESSENGER_TRANSPORT_DSN=amqp://kbin:${RABBITMQ_PASSWORD}@127.0.0.1:5672/%2f/messages
-   ```
-
-   to:
-
-   ```env
-   MESSENGER_TRANSPORT_DSN=amqp://kbin:${RABBITMQ_PASSWORD}@rabbitmq:5672/%2f/messages
-   ```
+```env
+REDIS_HOST=redis:6379
+POSTGRES_HOST=db:5432
+RABBITMQ_HOST=rabbitmq:5672
+MERCURE_HOST=www:80
+```
 
 ### Running the containers
 

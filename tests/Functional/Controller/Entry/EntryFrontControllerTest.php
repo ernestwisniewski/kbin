@@ -242,7 +242,7 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager = $this->getService(FavouriteManager::class);
         $favouriteManager->toggle(
             $this->getUserByUsername('Actor'),
             $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
@@ -277,7 +277,7 @@ class EntryFrontControllerTest extends WebTestCase
 
         $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager = $this->getService(FavouriteManager::class);
         $favouriteManager->toggle(
             $this->getUserByUsername('Actor'),
             $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
