@@ -49,18 +49,14 @@ RUN xcaddy build v2.6.4 \
 
 FROM base as builder-composer
 
-ENV KBIN_HOME=/var/www/kbin \
-    USER=kbin \
-    GROUP=www-data
-
 # Composer: install package
-COPY --chown=$USER:$GROUP composer.* $KBIN_HOME
-COPY --chown=$USER:$GROUP symfony.lock $KBIN_HOME
+COPY composer.* $KBIN_HOME
+COPY symfony.lock $KBIN_HOME
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress
 
 # Copy repository
-COPY --chown=$USER:$GROUP --link ./ $KBIN_HOME
+COPY --link ./ $KBIN_HOME
 RUN cp .env.example .env
 
 # Dump-autoload and run post-install script
@@ -73,31 +69,25 @@ RUN composer run-script --no-dev post-install-cmd && \
 FROM node:alpine as builder-yarn
 
 # Setup environment
-ENV KBIN_HOME=/var/www/kbin \
-    USER=kbin \
-    GROUP=www-data
+ENV KBIN_HOME=/var/www/kbin
 RUN mkdir -p $KBIN_HOME
 WORKDIR $KBIN_HOME
 
 # Copy required files
-COPY --chown=$USER:$GROUP package.json $KBIN_HOME
-COPY --chown=$USER:$GROUP yarn.lock $KBIN_HOME
-COPY --from=builder-composer --chown=$USER:$GROUP --link $KBIN_HOME/vendor $KBIN_HOME/vendor
+COPY package.json $KBIN_HOME
+COPY yarn.lock $KBIN_HOME
+COPY --from=builder-composer --link $KBIN_HOME/vendor $KBIN_HOME/vendor
 
 # Yarn: install package
 RUN yarn install --lock-frozen
 
 # Yarn: build
-COPY --chown=$USER:$GROUP --link ./ $KBIN_HOME
+COPY --link ./ $KBIN_HOME
 RUN yarn build --mode production
 
 ####################
 
 FROM base as runner
-
-ENV KBIN_HOME=/var/www/kbin \
-    USER=kbin \
-    GROUP=www-data
 
 COPY --chown=$USER:$GROUP --link ./ $KBIN_HOME
 RUN cp .env.example .env
@@ -111,6 +101,8 @@ COPY --chmod=755 --link docker/v2/docker-entrypoint ./
 
 RUN mkdir -p public/media /data /config && \
     chmod 777 public/media
+
+RUN chown -R $USER:$GROUP /data /config
 
 # Switch user
 USER $USER:$GROUP
