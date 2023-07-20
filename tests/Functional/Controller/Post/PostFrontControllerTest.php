@@ -66,7 +66,7 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $magazineManager = $this->getContainer()->get(MagazineManager::class);
+        $magazineManager = $this->getService(MagazineManager::class);
         $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
 
         $client->loginUser($this->getUserByUsername('Actor'));
@@ -128,7 +128,7 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager = $this->getService(FavouriteManager::class);
         $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->createPost('test post 3'));
 
         $client->loginUser($this->getUserByUsername('Actor'));

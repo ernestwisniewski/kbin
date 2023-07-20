@@ -125,7 +125,7 @@ class EntryCommentFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $favouriteManager = $this->getContainer()->get(FavouriteManager::class);
+        $favouriteManager = $this->getService(FavouriteManager::class);
         $favouriteManager->toggle(
             $this->getUserByUsername('Actor'),
             $this->createEntryComment('test comment 1', $this->getEntryByTitle('test entry 1'))
