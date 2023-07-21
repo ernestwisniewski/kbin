@@ -479,6 +479,7 @@ mercure_enabled: Mercure enabled
 report_issue: Report issue
 tokyo_night: Tokyo Night
 preferred_languages: Filter languages of threads and posts
+close: Close
 infinite_scroll_help: Automatically load more content when you reach the bottom of
   the page.
 sticky_navbar_help: The navbar will stick to the top of the page when you scroll down.
