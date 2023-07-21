@@ -89,7 +89,7 @@ RUN yarn build --mode production
 
 FROM base as runner
 
-COPY --link ./ $KBIN_HOME
+COPY --chown=$USER:$GROUP --link ./ $KBIN_HOME
 RUN cp .env.example .env
 
 COPY --from=builder-caddy --link /usr/bin/caddy /usr/sbin/caddy
@@ -100,9 +100,8 @@ COPY --link docker/v2/caddy/Caddyfile /etc/caddy/Caddyfile
 COPY --chmod=755 --link docker/v2/docker-entrypoint ./
 
 RUN mkdir -p public/media /data /config && \
+    chown -R $USER:$GROUP public/media /data /config .env && \
     chmod 777 public/media
-
-RUN chown -R $USER:$GROUP $KBIN_HOME /data /config
 
 # Switch user
 USER $USER:$GROUP
