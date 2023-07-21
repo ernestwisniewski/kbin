@@ -35,6 +35,7 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['up_votes'], name: 'post_comment_up_votes_idx')]
 #[Index(columns: ['last_active'], name: 'post_comment_last_active_at_idx')]
 #[Index(columns: ['created_at'], name: 'post_comment_created_at_idx')]
+#[Index(columns: ['body_ts'], name: 'post_comment_body_ts_idx')]
 class PostComment implements VotableInterface, VisibilityInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
@@ -99,6 +100,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
+    #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
+    private $bodyTs;
 
     public function __construct(string $body, ?Post $post, User $user, PostComment $parent = null, string $ip = null)
     {
