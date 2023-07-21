@@ -70,13 +70,12 @@
     @include media-breakpoint-down(sm) {   
       
       white-space: nowrap;
-      max-width: 6.25rem;
-      padding-left: .5rem;
-      padding-right: .5rem;
 
       .user-name {
         text-overflow: ellipsis;
         overflow: hidden;
+        max-width: 12vw;
+        padding: 0 .25rem
       }
 
     }
@@ -104,8 +103,6 @@
   }
 
   .counter a {
-    padding-left: .125rem;
-    padding-right: .125rem;
     min-width: unset;
   }
 
@@ -152,12 +149,17 @@
 
     li a {
       border-bottom: 3px solid transparent;
-      padding: 3px 1rem 0px 1rem;
+      padding: 3px 1rem 0;
       display: flex;
       align-items: center;
       justify-content: center;
       min-width: 3rem;
       height: 100%;
+
+      @include media-breakpoint-down(sm) {
+        padding: 3px 0 0;
+        min-width: 2.5rem;
+      }
     }
 
     li a:hover {
