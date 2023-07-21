@@ -47,7 +47,7 @@
     vertical-align: middle;
     margin-right: 0.25rem;
 
-    @include media-breakpoint-down(sm){
+    @include media-breakpoint-down(sm) {
       width: 25px;
       height: 25px;
     }
@@ -263,7 +263,7 @@
 .page-settings {
   .container {
     margin: 0 auto;
-    max-width: 30rem;
+    max-width: 32.7rem;
   }
 }
 
