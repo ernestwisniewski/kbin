@@ -33,56 +33,54 @@
     padding: .5rem .5rem 1rem;
   }
 
-  .sidebar-options{
-
-    .top-options.section{
+  .sidebar-options {
+    .top-options.section {
       padding: 0px;
       overflow: hidden;
-    }
 
-    menu{
-      display: flex;
-      overflow: hidden;
-
-      ul{
-        list-style-type: none;
+      menu {
         display: flex;
-        flex-direction: row;
-        column-gap: 0.5rem;
-        padding: 0px;
-        margin: 0px;
-        width: 100%;
-      }
+        overflow: hidden;
 
-      li{
-        display: flex;
-        justify-content: center;
-
-        a{
-          flex-grow: 1;
+        ul {
+          list-style-type: none;
+          display: flex;
+          flex-direction: row;
+          column-gap: 0.5rem;
+          padding: 0px;
+          margin: 0px;
+          width: 100%;
         }
-      }
 
-      li.close-button,
-      li.home-button{
-        display: none;
-      }  
-    }
+        li {
+          display: flex;
+          justify-content: center;
 
-    @include media-breakpoint-down(sm){
-
-      menu{
-        justify-content: flex-start;
+          a {
+            flex-grow: 1;
+          }
+        }
 
         li.close-button,
-        li.home-button{
-          display: flex;
+        li.home-button {
+          display: none;
         }
+      }
 
-        li.close-button{
-          margin-left: auto;
+      @include media-breakpoint-down(lg) {
+        menu {
+          justify-content: flex-start;
+
+          li.close-button,
+          li.home-button {
+            display: flex;
+          }
+
+          li.close-button {
+            margin-left: auto;
+          }
         }
-      } 
+      }
     }
   }
 
