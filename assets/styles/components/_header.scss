@@ -12,11 +12,16 @@
     height: 1.75rem;
   }
 
+  .dropdown__menu {
+    display: none;
+  }
+
   .dropdown:focus-within,
   .dropdown:hover {
+    .dropdown__menu {
+      display: block;
 
-    .dropdown__menu{
-      @include media-breakpoint-down(sm){
+      @include media-breakpoint-down(sm) {
         left: auto;
         top: 100%;
         transform: none;
@@ -71,10 +76,10 @@
     height: 1.25rem;
   }
 
-  .login{
+  .login {
 
-    @include media-breakpoint-down(sm) {   
-      
+    @include media-breakpoint-down(sm) {
+
       white-space: nowrap;
 
       .user-name {
@@ -88,7 +93,7 @@
 
   }
 
-  .login.has-avatar{
+  .login.has-avatar {
     display: flex;
     align-items: center;
     gap: .3rem;
@@ -99,7 +104,7 @@
       width: 1.5625rem;
     }
 
-    @include media-breakpoint-down(sm) {   
+    @include media-breakpoint-down(sm) {
 
       .user-name {
         display: none;
@@ -242,8 +247,8 @@
       height: 100%;
 
       span {
-        font-size: clamp(.6875rem,3.5vw,1.5rem);
-        }
+        font-size: clamp(.6875rem, 3.5vw, 1.5rem);
+      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -289,7 +294,7 @@
 
     a {
       padding-left: 0;
-  
+
       &:hover {
         border-bottom-color: transparent;
       }
@@ -308,6 +313,7 @@
       }
     }
   }
+
   .head-nav {
 
     @include media-breakpoint-down(lg) {
