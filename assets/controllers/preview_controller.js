@@ -1,6 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
+import { useThrottle } from 'stimulus-use'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -8,7 +9,16 @@ export default class extends Controller {
         loading: Boolean,
     }
 
+    static throttles = ['show']
+
+    connect(){
+        useThrottle(this, {wait: 1000});
+    }
+
     async show(event) {
+
+        console.log("SHOW");
+
         event.preventDefault();
 
         let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
