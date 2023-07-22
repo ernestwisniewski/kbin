@@ -16,9 +16,6 @@ export default class extends Controller {
     }
 
     async show(event) {
-
-        console.log("SHOW");
-
         event.preventDefault();
 
         let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
