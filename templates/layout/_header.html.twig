@@ -126,6 +126,13 @@
                         </a>
                     </li>
                 {% endif %}
+                {% if app.user.countNewMessages %}
+                    <li class="counter">
+                        <a href="{{ path('messages_front') }}">
+                            <span class="badge danger-bg">{{ app.user.countNewMessages }}</span>
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="dropdown">
                     <a class="{{ app.user.avatar ? 'has-avatar' : '' }} {{ html_classes('login', {'active': is_route_name_contains('settings')}) }}"
                        href="{{ path('user_overview', {username: app.user.username}) }}">
@@ -176,13 +183,6 @@
                         <li><a href="{{ path('app_logout') }}">{{ 'logout'|trans }}</a></li>
                     </ul>
                 </li>
-                {% if app.user.countNewMessages %}
-                    <li class="counter">
-                        <a href="{{ path('messages_front') }}">
-                            <span class="badge danger-bg">{{ app.user.countNewMessages }}</span>
-                        </a>
-                    </li>
-                {% endif %}
             {% else %}
                 <li>
                     <a class="{{ html_classes('login', {'active': is_route_name('app_login')}) }}"
