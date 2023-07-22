@@ -83,7 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public ?string $oauthFacebookId = null;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $hideAdult = true;
-    #[Column(type: 'json', nullable: false, options: ['jsonb' => true])]
+    #[Column(type: 'json', nullable: false, options: ['jsonb' => true, 'default' => '[]'])]
     public array $preferredLanguages = [];
     #[Column(type: 'array', nullable: true)]
     public ?array $featuredMagazines = null;
