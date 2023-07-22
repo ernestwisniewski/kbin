@@ -775,29 +775,13 @@ Next, log in and create a magazine named "random" to which unclassified content 
 
 ### Upgrades
 
-If you perform a kbin upgrade (eg. `git pull`), you need to be aware to _run the following commands after each upgrade_:
+If you perform a kbin upgrade (eg. `git pull`), be aware to _always_ execute the following Bash script:
 
 ```bash
-composer install --no-dev
-APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
-php bin/console doctrine:migrations:migrate
-composer clear-cache
-yarn
-yarn build
+./bin/post-upgrade
 ```
 
-And when needed also: `sudo redis-cli FLUSHDB` to get rid of Redis cache issues.
-
-When you are running /kbin in development mode for some reason. Execute the following instead after an update:
-
-```bash
-composer install
-APP_ENV=dev APP_DEBUG=1 php bin/console cache:clear
-php bin/console doctrine:migrations:migrate
-composer clear-cache
-yarn
-yarn build
-```
+And when needed also execute: `sudo redis-cli FLUSHDB` to get rid of Redis cache issues. And reload the PHP FPM service if you have OPCache enabled.
 
 ### Backup and restore
 
