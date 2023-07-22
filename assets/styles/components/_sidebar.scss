@@ -254,9 +254,15 @@
         justify-content: center;
         width: 30px;
         height: 30px;
-        border-width: 3px;
         align-items: center;
         box-sizing: content-box;
+        border: solid 3px transparent;
+
+        i{
+          height: 50%;
+          display: flex;
+          align-items: flex-end;
+        }
       }
 
       .font-size.active{
