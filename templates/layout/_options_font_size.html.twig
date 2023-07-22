@@ -1,23 +1,30 @@
-<div class="settings">
+<div class="settings font-size-settings">
     <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '150'}) }}"
-       class="link-muted"
+       class="link-muted font-size {{ app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE')) is same as '150' ? 'active' : ''}}"
        title="150% {{ 'size'|trans }}"
        aria-label="150% {{ 'size'|trans }}"
        rel="nofollow">
         <i style="font-size:150%" class="fa-solid fa-font"></i>
     </a>
     <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '120'}) }}"
-       class="link-muted"
+       class="link-muted font-size {{ app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE')) is same as '120' ? 'active' : ''}}"
        title="120% {{ 'size'|trans }}"
        aria-label="120% {{ 'size'|trans }}"
        rel="nofollow">
         <i style="font-size:120%" class="fa-solid fa-font"></i>
     </a>
     <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '100'}) }}"
-       class="link-muted"
+       class="link-muted font-size {{ app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE')) is null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE')) is same as '100'? 'active' : ''}}"
        title="100% {{ 'size'|trans }}"
        aria-label="100% {{ 'size'|trans }}"
        rel="nofollow">
         <i class="fa-solid fa-font"></i>
+    </a>
+    <a href="{{ path('theme_settings', {key: constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE'), value: '80'}) }}"
+       class="link-muted font-size {{ app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_FONT_SIZE')) is same as '80' ? 'active' : ''}}"
+       title="80% {{ 'size'|trans }}"
+       aria-label="80% {{ 'size'|trans }}"
+       rel="nofollow">
+        <i style="font-size:80%" class="fa-solid fa-font"></i>
     </a>
 </div>
