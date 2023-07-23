@@ -84,6 +84,7 @@ class ThemeSettingsController extends AbstractController
         self::FALSE,
         self::LEFT,
         self::RIGHT,
+        '80',
         '100',
         '120',
         '150',

@@ -259,7 +259,7 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     align-items: flex-end;
     flex-flow: row wrap;
 
@@ -295,6 +295,31 @@
       &.tokyo-night {
         background: #2A2A3C;
       }
+    }
+
+    &.font-size-settings{
+
+      .font-size{
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        box-sizing: content-box;
+        border: solid 3px transparent;
+
+        i{
+          height: 50%;
+          display: flex;
+          align-items: flex-end;
+        }
+      }
+
+      .font-size.active{
+        border: var(--kbin-avatar-border);     
+      }
+
     }
   }
 

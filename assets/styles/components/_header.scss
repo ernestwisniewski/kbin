@@ -12,11 +12,16 @@
     height: 1.75rem;
   }
 
+  .dropdown__menu {
+    display: none;
+  }
+
   .dropdown:focus-within,
   .dropdown:hover {
+    .dropdown__menu {
+      display: block;
 
-    .dropdown__menu{
-      @include media-breakpoint-down(sm){
+      @include media-breakpoint-down(sm) {
         left: auto;
         top: 100%;
         transform: none;
@@ -27,9 +32,15 @@
 
   }
 
-  menu .dropdown__menu {
-    left: -3.75rem;
-    opacity: 1;
+  menu {
+    .dropdown__menu {
+      left: -3.75rem;
+      opacity: 1;
+    }
+
+    .dropdown:last-of-type .dropdown__menu {
+      left: auto;
+    }
   }
 
   .kbin-container {
@@ -65,25 +76,24 @@
     height: 1.25rem;
   }
 
-  .login{
+  .login {
 
-    @include media-breakpoint-down(sm) {   
-      
+    @include media-breakpoint-down(sm) {
+
       white-space: nowrap;
-      max-width: 6.25rem;
-      padding-left: .5rem;
-      padding-right: .5rem;
 
       .user-name {
         text-overflow: ellipsis;
         overflow: hidden;
+        max-width: 12vw;
+        padding: 0 .25rem
       }
 
     }
 
   }
 
-  .login.has-avatar{
+  .login.has-avatar {
     display: flex;
     align-items: center;
     gap: .3rem;
@@ -94,7 +104,7 @@
       width: 1.5625rem;
     }
 
-    @include media-breakpoint-down(sm) {   
+    @include media-breakpoint-down(sm) {
 
       .user-name {
         display: none;
@@ -104,8 +114,6 @@
   }
 
   .counter a {
-    padding-left: .125rem;
-    padding-right: .125rem;
     min-width: unset;
   }
 
@@ -152,12 +160,17 @@
 
     li a {
       border-bottom: 3px solid transparent;
-      padding: 3px 1rem 0px 1rem;
+      padding: 3px 1rem 0;
       display: flex;
       align-items: center;
       justify-content: center;
       min-width: 3rem;
       height: 100%;
+
+      @include media-breakpoint-down(sm) {
+        padding: 3px 0 0;
+        min-width: 2.5rem;
+      }
     }
 
     li a:hover {
@@ -234,8 +247,8 @@
       height: 100%;
 
       span {
-        font-size: clamp(.6875rem,3.5vw,1.5rem);
-        }
+        font-size: clamp(.6875rem, 3.5vw, 1.5rem);
+      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -281,7 +294,7 @@
 
     a {
       padding-left: 0;
-  
+
       &:hover {
         border-bottom-color: transparent;
       }
@@ -300,6 +313,7 @@
       }
     }
   }
+
   .head-nav {
 
     @include media-breakpoint-down(lg) {
