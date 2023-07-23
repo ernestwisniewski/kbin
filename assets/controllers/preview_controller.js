@@ -1,11 +1,18 @@
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import router from "../utils/routing";
+import { useThrottle } from 'stimulus-use'
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {
         loading: Boolean,
+    }
+
+    static throttles = ['show']
+
+    connect(){
+        useThrottle(this, {wait: 1000});
     }
 
     async show(event) {
