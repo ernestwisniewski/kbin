@@ -10,7 +10,6 @@ export default class extends Controller {
      */
     toggle({target, params: {truePath, falsePath, reloadRequired}}) {
         const path = target.checked ? truePath : falsePath;
-        console.log(reloadRequired);
         return fetch(path).then(() => {
             if (reloadRequired) {
                 document.querySelector('.settings-list').classList.add('reload-required');
