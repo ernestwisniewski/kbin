@@ -65,7 +65,7 @@ Create config files and storage directories:
 
 ```bash
 cd docker/v2
-cp ../../.env.example .env
+cp ../../.env.example_v2 .env
 cp docker-compose.prod.yml docker-compose.override.yml
 mkdir -p storage/media storage/caddy_config storage/caddy_data
 sudo chown 1000:82 storage/media storage/caddy_config storage/caddy_data

@@ -109,10 +109,10 @@ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
 
 ### The `.env` file
 
-Make a copy of the `.env.example` the and edit the `.env` configure file:
+Make a copy of the `.env.example_v2` the and edit the `.env` configure file:
 
 ```
-cp .env.example .env
+cp .env.example_v2 .env
 nano .env
 ```
 
