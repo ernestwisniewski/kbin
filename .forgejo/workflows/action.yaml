@@ -3,8 +3,8 @@ on:
   pull_request:
   push:
     branches:
-      - 'develop*'
-      - 'v*/main*'
+      - develop
+      - main
 
 jobs:
   build:
