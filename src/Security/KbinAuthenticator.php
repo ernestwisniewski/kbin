@@ -34,12 +34,11 @@ class KbinAuthenticator extends AbstractLoginFormAuthenticator
     public function authenticate(Request $request): Passport
     {
         $email = trim($request->request->get('email', ''));
-        $password = trim($request->request->get('password', ''));
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($password),
+            new PasswordCredentials($request->request->get('password', '')),
             [
                 new RememberMeBadge(),
                 new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
