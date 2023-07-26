@@ -92,17 +92,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->leftJoin('e.domain', 'd');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
-            $followings = $this->getEntityManager()->getRepository(UserFollow::class)->findUserFollowIds($user);
-            if (count($followings)) {
-                $qb->orWhere(
-                    'e.user IN (:eUser) AND e.visibility = :eVisibility'
-                )
-                    ->setParameter('eVisibility', VisibilityInterface::VISIBILITY_PRIVATE)
-                    ->setParameter(
-                        'eUser',
-                        $followings
-                    );
-            }
+            $qb->orWhere(
+                'e.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND e.visibility = :pVisibility)'
+            )
+                ->setParameter('pUser', $user)
+                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
         }
 
         $qb->setParameter('e_visibility', $criteria->visibility)
