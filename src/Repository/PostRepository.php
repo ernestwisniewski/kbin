@@ -88,17 +88,11 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere('m.visibility = :m_visibility');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
-            $followings = $this->getEntityManager()->getRepository(UserFollow::class)->findUserFollowIds($user);
-            if (count($followings)) {
-                $qb->orWhere(
-                    'p.user IN (:pUser) AND p.visibility = :pVisibility'
-                )
-                    ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE)
-                    ->setParameter(
-                        'pUser',
-                        $followings
-                    );
-            }
+            $qb->orWhere(
+                'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND p.visibility = :pVisibility)'
+            )
+                ->setParameter('pUser', $user)
+                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
         }
 
         $qb->setParameter('p_visibility', $criteria->visibility)
