@@ -162,27 +162,15 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
-            $blockers = $this->getEntityManager()->getRepository(UserBlock::class)->findUserBlocksIds($user);
-            if (count($blockers)) {
-                $qb->andWhere(
-                    'p.user NOT IN (:blocker)'
-                );
-                $qb->setParameter(
-                    'blocker',
-                    $blockers
-                );
-            }
+            $qb->andWhere(
+                'p.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
+            $qb->setParameter('blocker', $user);
 
-            $magazineBlockers = $this->getEntityManager()->getRepository(MagazineBlock::class)->findMagazineBlocksIds($user);
-            if (count($magazineBlockers)) {
-                $qb->andWhere(
-                    'p.magazine NOT IN (:magazineBlocker)'
-                );
-                $qb->setParameter(
-                    'magazineBlocker',
-                    $magazineBlockers
-                );
-            }
+            $qb->andWhere(
+                'p.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
+            );
+            $qb->setParameter('magazineBlocker', $user);
         }
 
         if (!$user || $user->hideAdult) {
