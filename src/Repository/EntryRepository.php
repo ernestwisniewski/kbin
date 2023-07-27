@@ -190,34 +190,21 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
-            $blockers = $this->getEntityManager()->getRepository(UserBlock::class)->findUserBlocksIds($user);
-            if (count($blockers)) {
-                $qb->andWhere(
-                    'e.user NOT IN (:blocker)'
-                );
-                $qb->setParameter(
-                    'blocker',
-                    $blockers
-                );
-            }
+            $qb->andWhere(
+                'e.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
+            );
 
-            $magazineBlockers = $this->getEntityManager()->getRepository(MagazineBlock::class)->findMagazineBlocksIds($user);
-            if (count($magazineBlockers)) {
-                $qb->andWhere(
-                    'e.magazine NOT IN (:magazineBlocker)'
-                );
-                $qb->setParameter(
-                    'magazineBlocker',
-                    $magazineBlockers
-                );
-            }
+            $qb->andWhere(
+                'e.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :blocker)'
+            );
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :domainBlocker)'
+                    'e.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
                 );
-                $qb->setParameter('domainBlocker', $user);
             }
+
+            $qb->setParameter('blocker', $user);
         }
 
         if (!$user || $user->hideAdult) {
