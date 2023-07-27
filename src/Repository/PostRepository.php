@@ -332,6 +332,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb
             ->where('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('p.apId IS NULL')
             ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
