@@ -151,6 +151,10 @@
       margin: .5rem 0;
       max-width: 600px;
       max-height: 400px;
+
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
     }
 
     button {
