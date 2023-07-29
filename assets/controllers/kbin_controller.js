@@ -24,26 +24,26 @@ export default class extends ApplicationController {
     }
 
     handleOptionsBarScroll() {
-
         const container = document.getElementById('options');
-        const containerWidth = container.clientWidth;
+        if (container) {
+            const containerWidth = container.clientWidth;
+            const area = container.querySelector('.options__main');
+            const areaWidth = area.scrollWidth;
 
-        const area = container.querySelector('.options__main');
-        const areaWidth = area.scrollWidth;
+            if (areaWidth > containerWidth && !area.nextElementSibling) {
+                container.insertAdjacentHTML('beforeend', '<menu class="scroll"><li class="scroll-left"><i class="fa-solid fa-circle-left"></i></li><li class="scroll-right"><i class="fa-solid fa-circle-right"></i></li></menu>');
 
-        if (areaWidth > containerWidth && !area.nextElementSibling) {
-            container.insertAdjacentHTML('beforeend', '<menu class="scroll"><li class="scroll-left"><i class="fa-solid fa-circle-left"></i></li><li class="scroll-right"><i class="fa-solid fa-circle-right"></i></li></menu>');
+                const scrollLeft = container.querySelector('.scroll-left');
+                const scrollRight = container.querySelector('.scroll-right');
+                const scrollArea = container.querySelector('.options__main');
 
-            const scrollLeft = container.querySelector('.scroll-left');
-            const scrollRight = container.querySelector('.scroll-right');
-            const scrollArea = container.querySelector('.options__main');
-
-            scrollRight.addEventListener('click', () => {
-                scrollArea.scrollLeft += 100;
-            });
-            scrollLeft.addEventListener('click', () => {
-                scrollArea.scrollLeft -= 100;
-            });
+                scrollRight.addEventListener('click', () => {
+                    scrollArea.scrollLeft += 100;
+                });
+                scrollLeft.addEventListener('click', () => {
+                    scrollArea.scrollLeft -= 100;
+                });
+            }
         }
     }
 
