@@ -53,6 +53,12 @@ a.link-muted:hover {
   overflow-x: auto;
 }
 
+.user-content-table-responsive {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 .badge {
   border-radius: 20px;
   padding: .5rem;
