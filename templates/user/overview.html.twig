@@ -11,36 +11,34 @@
 {% endblock %}
 
 {% block sidebar_top %}
-    {% if is_granted('ROLE_ADMIN') %}
-        {% if(app.user != user) %}
-            <div class="section magazine">
-                <h3>{{ 'admin_panel'|trans }}</h3>
-                <div class="panel">
-                    <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
-                        method="POST"
-                        onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                        <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
-                        <button type="submit" class="btn btn__secondary">
-                            <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}
-                        </button>
-                    </form>
-                    <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
-                        onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                        <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
-                        <button type="submit" class="btn btn__secondary">
-                            <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
-                        </button>
-                    </form>
-                    <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
-                        onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                        <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
-                        <button type="submit" class="btn btn__secondary">
-                            <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
-                        </button>
-                    </form>
-                </div>
+    {% if is_granted('ROLE_ADMIN') and app.user != user %}
+        <div class="section magazine">
+            <h3>{{ 'admin_panel'|trans }}</h3>
+            <div class="panel">
+                <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
+                    method="POST"
+                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
+                    <button type="submit" class="btn btn__secondary">
+                        <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}
+                    </button>
+                </form>
+                <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
+                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+                    <button type="submit" class="btn btn__secondary">
+                        <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
+                    </button>
+                </form>
+                <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
+                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
+                    <button type="submit" class="btn btn__secondary">
+                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
+                    </button>
+                </form>
             </div>
-        {% endif %}
+        </div>
     {% endif %}
 {% endblock %}
 
