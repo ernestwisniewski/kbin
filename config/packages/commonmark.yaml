@@ -5,6 +5,12 @@ parameters:
         max_nesting_level: 25
         renderer:
             soft_break: "<br/>\r\n"
+        table:
+            wrap:
+                enabled: true
+                tag: "div"
+                attributes:
+                    class: "user-content-table-responsive"
     commonmark.allowed_schemes: [http, https]
 
 services:
