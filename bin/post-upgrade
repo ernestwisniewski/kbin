@@ -3,10 +3,10 @@ set -e
 BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 printf 'Do you want to proceed with the upgrade? (y/N)? '
-read answer
+read -r answer
 if [ "$answer" != "${answer#[Yy]}" ]; then
     # Retrieve prod or dev
-    ENV=$(php ${BIN_DIR}/console about | grep -i Environment | awk '{print $NF}')
+    ENV=$(php "${BIN_DIR}"/console about | grep -i Environment | awk '{print $NF}')
     if [[ "$ENV" == "prod" ]]; then
         # Production
         echo -e "INFO: Environment detected: Production\n"
@@ -15,9 +15,9 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
         echo "INFO: Install/update PHP packages"
         composer install --no-dev
         echo "INFO: Clear application cache"
-        APP_ENV=prod APP_DEBUG=0 php ${BIN_DIR}/console cache:clear -n
+        APP_ENV=prod APP_DEBUG=0 php "${BIN_DIR}"/console cache:clear -n
         echo "INFO: Perform database migration"
-        APP_ENV=prod php ${BIN_DIR}/console doctrine:migrations:migrate -n
+        APP_ENV=prod php "${BIN_DIR}"/console doctrine:migrations:migrate -n
         echo "INFO: Clear composer cache"
         composer clear-cache
         echo "INFO: Install/update JS packages"
@@ -33,9 +33,9 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
         echo "INFO: Install/update PHP packages"
         composer install
         echo "INFO: Clear application cache"
-        APP_ENV=dev APP_DEBUG=1 php ${BIN_DIR}/console cache:clear -n
+        APP_ENV=dev APP_DEBUG=1 php "${BIN_DIR}"/console cache:clear -n
         echo "INFO: Perform database migration"
-        APP_ENV=dev php ${BIN_DIR}/console doctrine:migrations:migrate -n
+        APP_ENV=dev php "${BIN_DIR}"/console doctrine:migrations:migrate -n
         echo "INFO: Clear composer cache"
         composer clear-cache
         echo "INFO: Install/update JS packages"
