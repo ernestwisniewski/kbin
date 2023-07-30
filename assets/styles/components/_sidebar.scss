@@ -167,8 +167,11 @@
       justify-content: space-between;
       min-height: 3rem;
       padding: .5rem;
-
       position: relative;
+
+      &:last-of-type{
+        border-bottom: 0px;
+      }
 
       &:first-child {
         border-top: var(--kbin-meta-border);
@@ -183,6 +186,12 @@
         padding: 0;
       }
 
+    }
+
+    &:last-of-type{
+      li{
+        border-bottom: var(--kbin-meta-border);
+      }
     }
   }
 
