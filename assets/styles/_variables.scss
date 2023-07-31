@@ -126,6 +126,11 @@ $aspect-ratios: (
   --kbin-alert-danger-text-color: var(--kbin-danger-color);
   --kbin-alert-danger-link-color: var(--kbin-danger-color);
 
+  --kbin-alert-success-bg: var(--kbin-success-color);
+  --kbin-alert-success-border: 1px solid var(--kbin-success-color);
+  --kbin-alert-success-text-color: #fff;
+  --kbin-alert-success-link-color: #fff;
+
   //entry
   --kbin-entry-link-visited-color: #7e8f99;
 
