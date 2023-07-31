@@ -87,6 +87,12 @@ $aspect-ratios: (
   --kbin-button-secondary-text-hover-color: var(--kbin-text-color);
   --kbin-button-secondary-border: 1px dashed #e5eaec;
 
+  --kbin-button-danger-bg:  #842029;
+  --kbin-button-danger-hover-bg: #921d27;
+  --kbin-button-danger-text-color: #fff;
+  --kbin-button-danger-text-hover-color: #fff;
+  --kbin-button-danger-border: 1px dashed #842029;
+
   // header
   --kbin-header-bg: #110045;
   --kbin-header-text-color: #fff;

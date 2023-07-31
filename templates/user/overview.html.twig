@@ -33,7 +33,7 @@
                 <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
                     onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
-                    <button type="submit" class="btn btn__secondary">
+                    <button type="submit" class="btn btn__danger">
                         <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
                     </button>
                 </form>

@@ -4,6 +4,24 @@
   padding: .7rem;
   cursor: pointer;
 
+  &__danger{
+    background: var(--kbin-button-danger-bg);;
+    border: var(--kbin-button-danger-border);
+    color: var(--kbin-button-danger-text-color) !important;
+    font-weight: bold;
+
+    &:hover,
+    &:focus-visible {
+      background: var(--kbin-button-danger-hover-bg);
+      color: var(--kbin-button-danger-text-hover-color) !important;
+    }
+
+    a, a:hover {
+      color: var(--kbin-button-danger-text-hover-color) !important;
+    }
+
+  }
+
   &__primary {
     background: var(--kbin-button-primary-bg);;
     border: var(--kbin-button-primary-border);
