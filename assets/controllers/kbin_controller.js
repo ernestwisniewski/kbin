@@ -64,17 +64,6 @@ export default class extends ApplicationController {
     }
 
     /**
-     * Handles interaction with the top nav bar menu items
-     * @param {*} e 
-     * @returns 
-     */
-    handleNavBarItemClick(e){
-        e.preventDefault();
-        window.location = e.target.closest('a').href;
-        return;
-    }
-
-    /**
      * Handles interaction with the mobile nav button, opening the sidebar
      * @param {*} e 
      */
