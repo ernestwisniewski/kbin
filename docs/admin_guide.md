@@ -838,6 +838,7 @@ S3_KEY=
 S3_SECRET=
 S3_BUCKET=media.karab.in
 S3_REGION=eu-central-1
+S3_ENDPOINT=
 S3_VERSION=latest
 ```
 
@@ -867,17 +868,14 @@ oneup_flysystem:
 
 ### Captcha (optional)
 
-Go to https://www.hcaptcha.com/ and create a free account. Make a sitekey and a secret. Add domain.tld to the sitekey.
+Go to [hcaptcha.com](https://www.hcaptcha.com) and create a free account. Make a sitekey and a secret. Add domain.tld to the sitekey.
 
 Edit your `.env` file:
 
 ```conf
-# Captcha (also enable in admin panel/settings)
 KBIN_CAPTCHA_ENABLED=true
-###> meteo-concept/hcaptcha-bundle ###
 HCAPTCHA_SITE_KEY=sitekey
 HCAPTCHA_SECRET=secret
-###< meteo-concept/hcaptcha-bundle ###
 ```
 
 ```
@@ -888,7 +886,7 @@ or
 composer dump-env dev
 ```
 
-Go to the admin panel, check `Captcha enabled`
+Go to the admin panel, then to settings tab and check "Captcha enabled" and press "Save".
 
 ## Performance hints
 
