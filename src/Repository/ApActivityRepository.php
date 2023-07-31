@@ -68,22 +68,24 @@ class ApActivityRepository extends ServiceEntityRepository
         $postCommentClass = PostComment::class;
 
         $conn = $this->_em->getConnection();
-        $sql = "
-        (SELECT id, '{$entryClass}' AS type FROM entry 
-        WHERE ap_id = '{$apId}') 
-        UNION 
-        (SELECT id, '{$entryCommentClass}' AS type FROM entry_comment
-        WHERE ap_id = '{$apId}')
-        UNION 
-        (SELECT id, '{$postClass}' AS type FROM post
-        WHERE ap_id = '{$apId}')
-        UNION 
-        (SELECT id, '{$postCommentClass}' AS type FROM post_comment 
-        WHERE ap_id = '{$apId}')
-        ";
-
+        $sql = '
+            (SELECT id, :entryClass AS type FROM entry
+            WHERE ap_id = :apId)
+            UNION
+            (SELECT id, :entryCommentClass AS type FROM entry_comment
+            WHERE ap_id = :apId)
+            UNION
+            (SELECT id, :postClass AS type FROM post
+            WHERE ap_id = :apId)
+            UNION
+            (SELECT id, :postCommentClass AS type FROM post_comment
+            WHERE ap_id = :apId)';
         $stmt = $conn->prepare($sql);
-
+        $stmt->bindValue('entryClass', $entryClass);
+        $stmt->bindValue('entryCommentClass', $entryCommentClass);
+        $stmt->bindValue('postClass', $postClass);
+        $stmt->bindValue('postCommentClass', $postCommentClass);
+        $stmt->bindValue('apId', $apId);
         $results = $stmt->executeQuery()->fetchAllAssociative();
 
         return count($results) ? $results[0] : null;
