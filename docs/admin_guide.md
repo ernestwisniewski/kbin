@@ -865,6 +865,31 @@ oneup_flysystem:
 // todo thumbnails
 ```
 
+### Captcha (optional)
+
+Go to https://www.hcaptcha.com/ and create a free account. Make a sitekey and a secret. Add domain.tld to the sitekey.
+
+Edit your `.env` file:
+
+```conf
+# Captcha (also enable in admin panel/settings)
+KBIN_CAPTCHA_ENABLED=true
+###> meteo-concept/hcaptcha-bundle ###
+HCAPTCHA_SITE_KEY=sitekey
+HCAPTCHA_SECRET=secret
+###< meteo-concept/hcaptcha-bundle ###
+```
+
+```
+composer dump-env prod
+```
+or
+```
+composer dump-env dev
+```
+
+Go to the admin panel, check `Captcha enabled`
+
 ## Performance hints
 
 - [Resolve cache images in background](https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger)
