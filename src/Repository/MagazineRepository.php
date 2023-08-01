@@ -237,18 +237,19 @@ class MagazineRepository extends ServiceEntityRepository
     {
         // @todo union adapter
         $conn = $this->_em->getConnection();
-        $sql = "
-        (SELECT id, last_active, magazine_id, 'entry' AS type FROM entry WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed') 
-        UNION 
-        (SELECT id, last_active, magazine_id, 'entry_comment' AS type FROM entry_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
-        UNION 
-        (SELECT id, last_active, magazine_id, 'post' AS type FROM post WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
-        UNION 
-        (SELECT id, last_active, magazine_id, 'post_comment' AS type FROM post_comment WHERE magazine_id = {$magazine->getId()} AND visibility = 'trashed')
-        ORDER BY last_active DESC
-        ";
+
+        $magazineId = $magazine->getId();
+        $sql = '
+            (SELECT id, last_active, magazine_id, \'entry\' AS type FROM entry WHERE magazine_id = :magazineId AND visibility = \'trashed\')
+            UNION
+            (SELECT id, last_active, magazine_id, \'entry_comment\' AS type FROM entry_comment WHERE magazine_id = :magazineId AND visibility = \'trashed\')
+            UNION
+            (SELECT id, last_active, magazine_id, \'post\' AS type FROM post WHERE magazine_id = :magazineId AND visibility = \'trashed\')
+            UNION
+            (SELECT id, last_active, magazine_id, \'post_comment\' AS type FROM post_comment WHERE magazine_id = :magazineId AND visibility = \'trashed\')
+            ORDER BY last_active DESC';
         $stmt = $conn->prepare($sql);
-        $stmt = $stmt->executeQuery();
+        $stmt = $stmt->executeQuery(['magazineId' => $magazineId]);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
