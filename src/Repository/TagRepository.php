@@ -29,17 +29,17 @@ class TagRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT id, created_at, 'entry' AS type FROM entry WHERE tags @> :tag = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, 'entry' AS type FROM entry WHERE tags @> :tag = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE tags @> :tag = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, 'entry_comment' AS type FROM entry_comment WHERE tags @> :tag = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, 'post' AS type FROM post WHERE tags @> :tag = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
+        (SELECT id, created_at, 'post' AS type FROM post WHERE tags @> :tag = true AND visibility = :visibility)
         UNION
-        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE tags @> :tag = true AND visibility = '".VisibilityInterface::VISIBILITY_VISIBLE."')
-        ORDER BY created_at DESC
-        ";
+        (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE tags @> :tag = true AND visibility = :visibility)
+        ORDER BY created_at DESC";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('tag', "\"$tag\"");
+        $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
         $stmt = $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(

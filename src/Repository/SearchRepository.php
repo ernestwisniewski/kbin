@@ -45,15 +45,14 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
-        UNION 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1)
+        UNION
         (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
-        UNION 
+        UNION
         (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
-        UNION 
+        UNION
         (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId AND choice = 1)
-        ORDER BY created_at DESC
-        ";
+        ORDER BY created_at DESC";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('userId', $user->getId());
@@ -67,15 +66,14 @@ class SearchRepository
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
         $sql = "
-        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1) 
-        UNION 
+        (SELECT entry_id as id, created_at, 'entry' AS type FROM entry_vote WHERE user_id = :userId AND choice = 1)
+        UNION
         (SELECT comment_id as id, created_at, 'entry_comment' AS type FROM entry_comment_vote WHERE user_id = :userId AND choice = 1)
-        UNION 
+        UNION
         (SELECT post_id as id, created_at, 'post' AS type FROM post_vote WHERE user_id = :userId AND choice = 1)
-        UNION 
+        UNION
         (SELECT comment_id as id, created_at, 'post_comment' AS type FROM post_comment_vote WHERE user_id = :userId AND choice = 1)
-        ORDER BY created_at DESC
-        ";
+        ORDER BY created_at DESC";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('userId', $user->getId());
@@ -113,8 +111,7 @@ class SearchRepository
         (SELECT id, created_at, visibility, 'post' AS type FROM post WHERE body_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
         UNION
         (SELECT id, created_at, visibility, 'post_comment' AS type FROM post_comment WHERE body_ts @@ plainto_tsquery( :query ) = true AND visibility = :visibility)
-        ORDER BY created_at DESC
-        ";
+        ORDER BY created_at DESC";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('query', $query);
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);

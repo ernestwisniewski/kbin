@@ -74,16 +74,21 @@ class StatsContentRepository extends StatsRepository
 
         if ($this->user) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count 
-                    FROM ".$table.' e WHERE e.user_id = '.$this->user->getId().' GROUP BY 1,2';
+                    FROM ".$table.' e WHERE e.user_id = :userId GROUP BY 1,2';
         } elseif ($this->magazine) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count 
-                    FROM ".$table.' e WHERE e.magazine_id = '.$this->magazine->getId().' GROUP BY 1,2';
+                    FROM ".$table.' e WHERE e.magazine_id = :magazineId GROUP BY 1,2';
         } else {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, COUNT(e.id) as count 
                     FROM ".$table.' e GROUP BY 1,2';
         }
 
         $stmt = $conn->prepare($sql);
+        if ($this->user) {
+            $stmt->bindValue('userId', $this->user->getId());
+        } elseif ($this->magazine) {
+            $stmt->bindValue('magazineId', $this->magazine->getId());
+        }
         $stmt = $stmt->executeQuery();
 
         return array_map(fn ($val) => [
@@ -109,28 +114,30 @@ class StatsContentRepository extends StatsRepository
         ];
     }
 
-    private function getDailyStats(string $type): array
+    private function getDailyStats(string $table): array
     {
         $conn = $this->getEntityManager()
             ->getConnection();
 
         $onlyLocalWhere = $this->onlyLocal ? ' AND e.ap_id IS NULL' : '';
         if ($this->user) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
-                    WHERE e.created_at >= '".$this->start->format(
-                'Y-m-d H:i:s'
-            )."' AND e.user_id = ".$this->user->getId().$onlyLocalWhere.' GROUP BY 1';
+            $sql = "SELECT date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$table.' e
+                    WHERE e.created_at >= :startDate AND e.user_id = :userId '.$onlyLocalWhere.' GROUP BY 1';
         } elseif ($this->magazine) {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
-                    WHERE e.created_at >= '".$this->start->format(
-                'Y-m-d H:i:s'
-            )."' AND e.magazine_id = ".$this->magazine->getId().$onlyLocalWhere.' GROUP BY 1';
+            $sql = "SELECT date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$table.' e
+                    WHERE e.created_at >= :startDate AND e.magazine_id = :magazineId '.$onlyLocalWhere.' GROUP BY 1';
         } else {
-            $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$type." e 
-                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."'".$onlyLocalWhere.' GROUP BY 1';
+            $sql = "SELECT date_trunc('day', e.created_at) as day, COUNT(e.id) as count FROM ".$table.' e
+                    WHERE e.created_at >= :startDate '.$onlyLocalWhere.' GROUP BY 1';
         }
 
         $stmt = $conn->prepare($sql);
+        if ($this->user) {
+            $stmt->bindValue('userId', $this->user->getId());
+        } elseif ($this->magazine) {
+            $stmt->bindValue('magazineId', $this->magazine->getId());
+        }
+        $stmt->bindValue('startDate', $this->start->format('Y-m-d H:i:s'));
         $stmt = $stmt->executeQuery();
 
         $results = $stmt->fetchAllAssociative();

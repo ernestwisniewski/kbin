@@ -72,12 +72,12 @@ class StatsVotesRepository extends StatsRepository
         if ($this->user) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year,
                     COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
-                    e WHERE e.user_id = '.$this->user->getId().$onlyLocalWhere.' GROUP BY 1,2';
+                    e WHERE e.user_id = :userId '.$onlyLocalWhere.' GROUP BY 1,2';
         } elseif ($this->magazine) {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, 
                     COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
                     e INNER JOIN '.str_replace('_vote', '', $table).' AS parent ON '.$relation.' = parent.id AND
-                    parent.magazine_id = '.$this->magazine->getId().$onlyLocalWhere.' GROUP BY 1,2';
+                    parent.magazine_id = :magazineId '.$onlyLocalWhere.' GROUP BY 1,2';
         } else {
             $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, 
                     COUNT(case e.choice when 1 then 1 else null end) as up, COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.'
@@ -85,6 +85,11 @@ class StatsVotesRepository extends StatsRepository
         }
 
         $stmt = $conn->prepare($sql);
+        if ($this->user) {
+            $stmt->bindValue('userId', $this->user->getId());
+        } elseif ($this->magazine) {
+            $stmt->bindValue('magazineId', $this->magazine->getId());
+        }
         $stmt = $stmt->executeQuery();
 
         return array_map(fn ($val) => [
@@ -185,29 +190,33 @@ class StatsVotesRepository extends StatsRepository
         $onlyLocalWhere = $this->onlyLocal ? 'AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL) ' : '';
         if ($this->user) {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up, 
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table." e 
-                    WHERE e.created_at >= '".$this->start->format(
-                'Y-m-d H:i:s'
-            )."' AND e.user_id = ".$this->user->getId().'
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.' e
+                    WHERE e.created_at >= :startDate AND e.user_id = :userId
                     '.$onlyLocalWhere.'
                     GROUP BY 1';
         } elseif ($this->magazine) {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up, 
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.' e 
-                    INNER JOIN '.str_replace('_vote', '', $table).' AS parent 
-                    ON '.$relation.' = parent.id AND parent.magazine_id = '.$this->magazine->getId()."
-                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."' 
-                    ".$onlyLocalWhere.'
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.' e
+                    INNER JOIN '.str_replace('_vote', '', $table).' AS parent
+                    ON '.$relation.' = parent.id AND parent.magazine_id = :magazineId
+                    WHERE e.created_at >= :startDate
+                    '.$onlyLocalWhere.'
                     GROUP BY 1';
         } else {
             $sql = "SELECT  date_trunc('day', e.created_at) as day, COUNT(case e.choice when 1 then 1 else null end) as up,
-                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table." e 
-                    WHERE e.created_at >= '".$this->start->format('Y-m-d H:i:s')."' 
-                    ".$onlyLocalWhere.'
+                    COUNT(case e.choice when -1 then 1 else null end) as down FROM ".$table.' e
+                    WHERE e.created_at >= :startDate
+                    '.$onlyLocalWhere.'
                     GROUP BY 1';
         }
 
         $stmt = $conn->prepare($sql);
+        if ($this->user) {
+            $stmt->bindValue('userId', $this->user->getId());
+        } elseif ($this->magazine) {
+            $stmt->bindValue('magazineId', $this->magazine->getId());
+        }
+        $stmt->bindValue('startDate', $this->start->format('Y-m-d H:i:s'));
         $stmt = $stmt->executeQuery();
 
         $results = $stmt->fetchAllAssociative();

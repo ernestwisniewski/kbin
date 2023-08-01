@@ -36,10 +36,10 @@ class ReputationRepository extends ServiceEntityRepository
         $table = $this->getEntityManager()->getClassMetadata($className)->getTableName().'_vote';
 
         $sql = "SELECT date_trunc('day', v.created_at) as day, sum(v.choice) as points FROM ".$table.' v 
-                WHERE v.author_id = '.$user->getId().' GROUP BY day ORDER BY day DESC';
+                WHERE v.author_id = :userId GROUP BY day ORDER BY day DESC';
 
         $stmt = $conn->prepare($sql);
-
+        $stmt->bindValue('userId', $user->getId());
         $stmt = $stmt->executeQuery();
 
         $pagerfanta = new Pagerfanta(
