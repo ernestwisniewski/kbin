@@ -28,22 +28,27 @@ class StatsViewsRepository extends StatsRepository
 
         $onlyLocalWhere = $this->onlyLocal ? ' AND e.ap_id IS NULL' : '';
         if ($this->user) {
-            $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e 
-                    WHERE e.user_id = ".$this->user->getId().$onlyLocalWhere.' GROUP BY 1,2';
+            $sql = 'SELECT to_char(e.created_at,\'Mon\') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e
+                    WHERE e.user_id = :userId '.$onlyLocalWhere.' GROUP BY 1,2';
         } elseif ($this->magazine) {
-            $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e 
-                    WHERE e.magazine_id = ".$this->magazine->getId().$onlyLocalWhere.' GROUP BY 1,2';
+            $sql = 'SELECT to_char(e.created_at,\'Mon\') as month, extract(year from e.created_at) as year, SUM(e.views) as count FROM entry e
+                    WHERE e.magazine_id = :magazineId '.$onlyLocalWhere.' GROUP BY 1,2';
         } else {
             if (!$this->onlyLocal) {
-                $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count 
-                    FROM entry e GROUP BY 1,2";
+                $sql = 'SELECT to_char(e.created_at,\'Mon\') as month, extract(year from e.created_at) as year, SUM(e.views) as count
+                    FROM entry e GROUP BY 1,2';
             } else {
-                $sql = "SELECT to_char(e.created_at,'Mon') as month, extract(year from e.created_at) as year, SUM(e.views) as count 
-                    FROM entry e WHERE e.ap_id IS NULL GROUP BY 1,2";
+                $sql = 'SELECT to_char(e.created_at,\'Mon\') as month, extract(year from e.created_at) as year, SUM(e.views) as count
+                    FROM entry e WHERE e.ap_id IS NULL GROUP BY 1,2';
             }
         }
 
         $stmt = $conn->prepare($sql);
+        if ($this->user) {
+            $stmt->bindValue('userId', $this->user->getId());
+        } elseif ($this->magazine) {
+            $stmt->bindValue('magazineId', $this->magazine->getId());
+        }
         $stmt = $stmt->executeQuery();
 
         return array_map(fn ($val) => [
