@@ -28,7 +28,7 @@ class AdminFederationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto->instances = array_map(
                 fn (string $instance) => trim(str_replace('www.', '', $instance)),
-                $dto->instances
+                $dto->instances ?? [],
             );
 
             $this->settingsManager->set('KBIN_BANNED_INSTANCES', $dto->instances);

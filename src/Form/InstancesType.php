@@ -20,6 +20,7 @@ class InstancesType extends AbstractType
             ->add('submit', SubmitType::class)
             ->add('instances', TextType::class, [
                 'autocomplete' => true,
+                'required' => false,
                 'tom_select_options' => [
                     'create' => true,
                     'createOnBlur' => true,

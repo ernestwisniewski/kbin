@@ -6,7 +6,7 @@ namespace App\DTO;
 
 class InstancesDto
 {
-    public function __construct(public array $instances)
+    public function __construct(public ?array $instances)
     {
     }
 }
