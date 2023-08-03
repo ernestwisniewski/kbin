@@ -23,6 +23,14 @@ services:
     volumes:
       - ./public:/srv/app/public:ro
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+#  MailHog is an email testing tool useful during development
+#  All sent emails will be available in its web UI at http://localhost:8025/
+#  After uncommenting lines below set MAILER_DSN=smtp://mailhog:1025 in .env file
+#  mailhog:
+#    image: mailhog/mailhog
+#    ports:
+#      - 1025:1025
+#      - 8025:8025
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
