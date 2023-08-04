@@ -483,3 +483,14 @@ mercure_enabled: Mercure habilitado
 report_issue: Informar de un problema
 tokyo_night: Noche de Tokio
 preferred_languages: Filtrar idiomas de hilos y publicaciones
+toolbar.bold: Negrita
+toolbar.italic: Cursiva
+toolbar.strikethrough: Tachado
+toolbar.header: Encabezado
+toolbar.quote: Cita
+toolbar.code: Código
+toolbar.link: Enlace
+toolbar.image: Imagen
+toolbar.unordered_list: Lista sin ordenar
+toolbar.ordered_list: Lista ordenada
+toolbar.mention: Mención
