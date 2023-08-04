@@ -355,3 +355,17 @@ select {
 .actions select {
   max-width: 6.4rem;
 }
+
+markdown-toolbar{
+
+  > *{
+    @include cursor-pointer;
+    @include simple-transition;
+
+    &:focus,
+    &:hover{
+      color: var(--kbin-section-link-hover-color);
+    }
+  }
+
+}

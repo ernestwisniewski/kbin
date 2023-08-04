@@ -18,3 +18,11 @@
     color: var(--kbin-meta-link-hover-color);
   }
 }
+
+@mixin cursor-pointer{
+  cursor: pointer;
+}
+
+@mixin simple-transition{
+  transition: all 150ms ease-in;
+}
