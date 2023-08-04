@@ -4,7 +4,9 @@
                     class="fa fa-refresh"></i> {{ 'reload_to_apply'|trans }}</button>
     </div>
     <strong>{{ 'general'|trans }}</strong>
-    {{ component('settings_row_switch', {label: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
+    {% if kbin_mercure_enabled() %}
+        {{ component('settings_row_switch', {label: 'dynamic_lists'|trans, settingsKey: 'KBIN_GENERAL_DYNAMIC_LISTS'}) }}
+    {% endif %}
     {{ component('settings_row_enum', {label: 'sidebar_position'|trans, settingsKey: 'KBIN_GENERAL_SIDEBAR_POSITION', values: [ {name: 'left'|trans , value: 'LEFT'}, {name: 'right'|trans , value: 'RIGHT' } ], defaultValue: 'RIGHT' } ) }}
     {{ component('settings_row_switch', {label: 'rounded_edges'|trans, settingsKey: 'KBIN_GENERAL_ROUNDED_EDGES'}) }}
     {{ component('settings_row_switch', {label: 'infinite_scroll'|trans, help: 'infinite_scroll_help'|trans ,  settingsKey: 'KBIN_GENERAL_INFINITE_SCROLL'}) }}
