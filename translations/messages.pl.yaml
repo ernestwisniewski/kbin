@@ -494,3 +494,18 @@ filter.adult.label: Wybierz, czy wyświetlać treści NSFW
 filter.adult.hide: Ukryj NSFW
 filter.adult.show: Pokaż NSFW
 local_and_federated: Lokalne i sfederowane
+bot_body_content: "Witaj w Bocie /kbin! Ten bot odgrywa kluczową rolę w umożliwianiu
+  funkcji ActivityPub w obrębie /kbin. Zapewnia, że /kbin może komunikować się i federować
+  z innymi instancjami w fediverse.\n\nActivityPub to otwarty standardowy protokół,
+  który umożliwia komunikację i interakcje między zdecentralizowanymi platformami
+  społecznościowymi. Umożliwia użytkownikom na różnych instancjach (serwerach) śledzenie,
+  współdziałanie i udostępnianie treści w ramach federowanej sieci społecznościowej
+  znanej jako fediverse. Daje standaryzowany sposób na publikowanie treści, śledzenie
+  innych użytkowników oraz angażowanie się w interakcje społeczne, takie jak polubienia,
+  udostępnianie i komentowanie wątków lub wpisów."
+kbin_bot: Bot /kbin
+password_confirm_header: Potwierdzi żądanie zmiany hasła.
+your_account_is_not_active: Twoje konto nie zostało aktywowane. Proszę sprawdź swój
+  email i kliknij na link aktywacyjny, żeby kontynuować
+your_account_has_been_banned: Twoje konto zostało zbanowane
+toolbar.bold: Pogrubienie

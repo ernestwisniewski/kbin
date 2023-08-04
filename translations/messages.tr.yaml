@@ -486,3 +486,23 @@ sticky_navbar_help: Navigasyon paneli aşağı kaydırdığınızda sayfanın ü
 auto_preview_help: Medya önizlemelerini otomatik olarak genişletin.
 reload_to_apply: Değişiklikleri uygulamak için sayfayı yeniden yükleyin
 preferred_languages: Başlıkların ve gönderilerin dillerini filtreleyin
+filter.adult.show: NSFW Göster
+bot_body_content: "/Kbin Botuna hoş geldiniz! Bu bot, ActivityPub işlevselliğini /kbin
+  içinde etkinleştirmede çok önemli bir rol oynar. Bu, /kbin ’in fediverse’deki diğer
+  örneklerle iletişim kurabilmesini ve federasyon kurabilmesini sağlar.\n\nActivityPub,
+  Merkezi olmayan sosyal ağ platformlarının birbirleriyle iletişim kurmasını ve etkileşimde
+  bulunmasını sağlayan açık standart bir protokoldür. Farklı örneklerdeki (sunucular)
+  kullanıcıların Fediverse olarak bilinen birleşik sosyal ağdaki içeriği takip etmelerini,
+  etkileşimde bulunmalarını ve paylaşmalarını sağlar. Kullanıcıların içerik yayınlamaları,
+  diğer kullanıcıları takip etmeleri ve konuları veya gönderileri beğenme, paylaşma
+  ve yorum yapma gibi sosyal etkileşimlere katılmaları için standart bir yol sağlar."
+filter.origin.label: Kaynak seç
+filter.fields.label: Hangi alanları aracağınızı seçin
+filter.adult.label: NSFW’nin görüntülenip görüntülenmeyeceğini seçin
+filter.adult.hide: NSFW Gizle
+filter.adult.only: Sadece NSFW
+local_and_federated: Yerel ve federe
+filter.fields.only_names: Sadece isimler
+filter.fields.names_and_descriptions: İsimler ve açıklamalar
+kbin_bot: /kbin Bot
+password_confirm_header: Parola değiştirme isteğinizi onaylayın.

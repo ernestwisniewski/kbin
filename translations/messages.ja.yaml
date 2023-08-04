@@ -39,7 +39,7 @@ subscribers: 購読者
 online: オンライン
 comments: コメント
 posts: 投稿
-replies: リプライ
+replies: 返信
 moderators: モデレーター
 mod_log: モデレーターの記録
 add_comment: コメントする
@@ -57,7 +57,7 @@ empty: 投稿なし
 subscribe: 購読する
 unsubscribe: 購読を解除
 follow: フォロー
-reply: リプライ
+reply: 返信
 login_or_email: ユーザー名またはメールアドレス
 password: パスワード
 dont_have_account: アカウントを持っていませんか？

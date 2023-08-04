@@ -25,8 +25,8 @@ change_view: Change view
 filter_by_time: Filter by time
 filter_by_type: Filter by type
 comments_count: '{0}comments|{1}comment|]1,Inf[ comments'
-favourites: Favourites
-favourite: Favourite
+favourites: Favorites
+favourite: Favorite
 more: More
 avatar: Avatar
 added: Added
@@ -167,8 +167,8 @@ photos: Photos
 videos: Videos
 report: Report
 share: Share
-copy_url: Copy URL
-copy_url_to_fediverse: Copy URL to Fediverse
+copy_url: Copy /kbin URL
+copy_url_to_fediverse: Copy original URL
 share_on_fediverse: Share on Fediverse
 edit: Edit
 are_you_sure: Are you sure?
@@ -179,7 +179,7 @@ edit_article: Edit thread
 edit_photo: Edit photo
 delete: Delete
 edit_post: Edit post
-edit_comment: Edit comment
+edit_comment: Save changes
 settings: Settings
 general: General
 profile: Profile
@@ -197,7 +197,7 @@ show_profile_followings: Show following users
 notify_on_new_entry_reply: Any level comments in threads I authored
 notify_on_new_entry_comment_reply: Replies to my comments in any threads
 notify_on_new_post_reply: Any level replies to posts I authored
-notify_on_new_post_comment_reply: Replies to my comments to any posts
+notify_on_new_post_comment_reply: Replies to my comments on any posts
 notify_on_new_entry: New threads (links or articles) in any magazine to which I'm
   subscribed
 notify_on_new_posts: New posts in any magazine to which I'm subscribed
@@ -376,7 +376,7 @@ ban_expired: Ban expired
 purge: Purge
 send_message: Send message
 message: Message
-infinite_scroll: Infinite scroll
+infinite_scroll: Infinite scrolling
 show_top_bar: Show top bar
 sticky_navbar: Sticky navbar
 subject_reported: Content has been reported.
@@ -444,8 +444,8 @@ restore: Restore
 add_mentions_entries: Add mention tags in threads
 add_mentions_posts: Add mention tags in posts
 Password is invalid: Password is invalid.
-your_account_is_not_active: Your account has not been activated. Please check your email and click on the activation link to continue
-your_account_has_been_banned: Your account has been banned
+Your account is not active: Your account is not active.
+Your account has been banned: Your account has been banned.
 firstname: First name
 send: Send
 active_users: Active people
@@ -479,7 +479,6 @@ mercure_enabled: Mercure enabled
 report_issue: Report issue
 tokyo_night: Tokyo Night
 preferred_languages: Filter languages of threads and posts
-close: Close
 infinite_scroll_help: Automatically load more content when you reach the bottom of
   the page.
 sticky_navbar_help: The navbar will stick to the top of the page when you scroll down.
@@ -505,3 +504,17 @@ bot_body_content: "Welcome to the /kbin Bot! This bot plays a crucial role in en
   users, and engage in social interactions such as liking, sharing, and commenting
   on threads or posts."
 password_confirm_header: Confirm your password change request.
+your_account_is_not_active: Your account has not been activated. Please check your
+  email and click on the activation link to continue
+your_account_has_been_banned: Your account has been banned
+toolbar.bold: Bold
+toolbar.italic: Italic
+toolbar.strikethrough: Strikethrough
+toolbar.header: Header
+toolbar.quote: Quote
+toolbar.code: Code
+toolbar.link: Link
+toolbar.image: Image
+toolbar.unordered_list: Unordered List
+toolbar.ordered_list: Ordered List
+toolbar.mention: Mention

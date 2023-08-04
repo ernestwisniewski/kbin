@@ -155,8 +155,8 @@ articles: Artikelen
 photos: Foto's
 report: Melden
 share: Delen
-copy_url: URL kopiëren
-copy_url_to_fediverse: URL kopiëren naar fediverse
+copy_url: Kopieer /kbin URL
+copy_url_to_fediverse: Kopieer origineel URL
 share_on_fediverse: Delen op fediverse
 edit: Bewerken
 moderate: Modereren
@@ -171,7 +171,7 @@ notify_on_new_entry_reply: Stel me op de hoogte van reacties in gesprekken die i
   heb geschreven
 notify_on_new_post_reply: Stel me op de hoogte van reacties op berichten die ik heb
   geschreven
-notify_on_new_post_comment_reply: Stel me op de hoogte van reacties op elke alle berichten
+notify_on_new_post_comment_reply: Stel me op de hoogte van reacties op alle berichten
 notify_on_new_entry: Stel me op de hoogte van nieuwe gesprekken (links of artikelen)
   in elk tijdschrift waarop ik op ben geabonneerd
 save: Opslaan
@@ -268,7 +268,7 @@ go_to_search: Ga naar zoeken
 table_view: Tabelweergave
 videos: Video's
 are_you_sure: Weet je het zeker?
-edit_comment: Reactie bewerken
+edit_comment: Wijzigingen opslaan
 reports: Gemelde berichten
 banned_instances: Verbannen instanties
 gold_entry_month: Gesprek van de maand
@@ -512,3 +512,17 @@ bot_body_content: "Welkom bij de /kbin Bot! Deze bot speelt een cruciale rol bij
   te volgen en deel te nemen aan sociale interacties zoals liken, delen en reageren
   op threads of berichten."
 password_confirm_header: Bevestig het verzoek om je wachtwoord te wijzigingen.
+your_account_is_not_active: Je account is niet geactiveerd. Controleer uw e-mail en
+  klik op de activeringslink om door te gaan
+your_account_has_been_banned: Je account is verbannen
+toolbar.bold: Vetgedrukt
+toolbar.italic: Cursief
+toolbar.header: Koptekst
+toolbar.quote: Citaat
+toolbar.code: Code
+toolbar.link: Koppeling
+toolbar.image: Afbeelding
+toolbar.strikethrough: Doorhalen
+toolbar.unordered_list: Ongeordende lijst
+toolbar.ordered_list: Geordende lijst
+toolbar.mention: Vermelding

@@ -107,12 +107,12 @@ reply: Antworten
 show_more: Mehr anzeigen
 to: zu
 in: in
-all_magazines: Alle Magazine
+all_magazines: Alle Communities
 stats: Statistiken
 fediverse: Fediverse
 ranking: Rangfolge
 add_new_link: Neuen Link hinzufügen
-create_new_magazine: Neues Magazin hinzufügen
+create_new_magazine: Neue Community hinzufügen
 contact: Kontakt
 faq: FAQ
 rss: RSS
@@ -208,7 +208,7 @@ messages: Nachrichten
 privacy: Datenschutz
 notify_on_new_entry_reply: Kommentare aller Ebenen in Themen die ich verfasst habe
 notify_on_new_entry_comment_reply: Antworten zu meinen Kommentaren in allen Themen
-notify_on_new_post_comment_reply: Antworten zu meinen Kommentare zu jeglichen Beiträgen
+notify_on_new_post_comment_reply: Antworten zu meinen Kommentaren zu jeglichen Beiträgen
 notify_on_new_entry: Neue Themen (Links und Artikel) in sämtlichen Magazinen die ich
   abonniert habe
 save: Speichern
@@ -481,6 +481,43 @@ gold_magazine_desc: 100 Personen beteiligten sich an dem Magazin
 silver_magazine_desc: 50 Personen beteiligten sich an dem Magazin
 ban_expired: Sperre abgelaufen
 mercure_enabled: Mercure aktiviert
-report_issue: Problem melden
+report_issue: Fehler melden
 tokyo_night: Tokyo Night
 preferred_languages: Sprachen von Threads und Beiträgen filtern
+infinite_scroll_help: Automatisch mehr Inhalte laden, wenn du das Ende der Seite erreichst.
+sticky_navbar_help: Die Navigationsleiste wird oben an der Seite angeheftet bleiben
+  während du nach unten scrollst.
+auto_preview_help: Medien-Vorschau automatisch aufklappen.
+reload_to_apply: Seite neu laden, um Änderungen anzuwenden
+filter.origin.label: Ursprung auswählen
+filter.adult.label: Wähle ob NSFW soll gezeigt werden
+filter.adult.hide: NSFW verbergen
+filter.adult.show: NSFW anzeigen
+filter.adult.only: Nur NSFW
+local_and_federated: Lokal und föderiert
+filter.fields.only_names: Nur Namen
+filter.fields.names_and_descriptions: Namen und Beschreibungen
+kbin_bot: /kbin Bot
+filter.fields.label: Wähle Felder für die Suche
+bot_body_content: "Willkommen beim /kbin Bot! Der Bot spielt eine entscheidende Rolle
+  um die ActivityPub-Funktionalität für /kbin bereitzustellen. Er stellt sicher, dass
+  /kbin mit anderen Instanzen des Fediverse kommunizieren und föderieren kann.\n\n
+  ActivityPub ist ein offenes Protokoll dass dezentralen sozialen Netzwerken ermöglicht
+  miteinander zu kommunizieren und zu interagieren. Es ermöglicht Nutzern auf unterschiedlichen
+  Instanzen (Servern) anderen Nutzern zu folgen, mit ihnen zu interagieren und Inhalte
+  innerhalb des föderierten sozialen Netzwerk, bekannt als das Fediverse zu teilen.
+  Es stellt eine standardisierte Schnittstelle bereit über die Nutzer Inhalte veröffentlichen,
+  anderen Nutzern folgen, und mit ihnen interagieren können indem sie Inhalte favorisieren,
+  teilen oder kommentieren."
+password_confirm_header: Bestätige deine Passwortänderungsanfrage.
+toolbar.bold: Fett
+toolbar.italic: Kursiv
+toolbar.strikethrough: Durchgestrichen
+toolbar.header: Überschrift
+toolbar.quote: Zitat
+toolbar.code: Code
+toolbar.link: Link
+toolbar.image: Bild
+toolbar.unordered_list: Liste
+toolbar.mention: Erwähnen
+toolbar.ordered_list: Geordnete Liste
