@@ -57,6 +57,9 @@ cd kbin-core
 
 Build the Docker image:
 
+> **Note** 
+> If you're using a version of Docker Engine earlier than 23.0, run `export DOCKER_BUILDKIT=1`, prior to building the image.  This does not apply to users running Docker Desktop.  More info can be found [here](https://docs.docker.com/build/buildkit/#getting-started)
+
 ```bash
 docker build -t kbin -f docker/v2/Dockerfile .
 ```
