@@ -280,6 +280,7 @@
       border: var(--kbin-avatar-border);
       height: 1.5625rem;
       width: 1.5625rem;
+      transition: all 150ms ease-in;
 
       &.light {
         background: #fafafa;
@@ -304,6 +305,12 @@
       &.tokyo-night {
         background: #2A2A3C;
       }
+
+      &.active,
+      &:active,
+      &:hover{
+        border: var(--kbin-avatar-border-active);
+      }
     }
 
     &.font-size-settings{
@@ -317,6 +324,7 @@
         align-items: center;
         box-sizing: content-box;
         border: solid 3px transparent;
+        transition: all 150ms ease-in;
 
         i{
           height: 50%;
@@ -325,9 +333,16 @@
         }
       }
 
-      .font-size.active{
-        border: var(--kbin-avatar-border);     
+      .font-size:active,
+      .font-size:hover{
+        border: var(--kbin-avatar-border); 
       }
+
+      .font-size.active{
+        border: var(--kbin-avatar-border-active); 
+      }
+
+      
 
     }
   }

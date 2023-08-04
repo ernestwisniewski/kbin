@@ -55,8 +55,9 @@ $green: #859900;
   --kbin-meta-text-color: #{$base1};
   --kbin-meta-link-color: #{$base01};
   --kbin-meta-link-hover-color: #{$base1};
-  --kbin-meta-border: 1px dashed #e7dfc6;;
+  --kbin-meta-border: 1px dashed #e7dfc6;
   --kbin-avatar-border: 3px solid #d8cda9;
+  --kbin-avatar-border-active: 3px solid #c2b691;
   --kbin-blockquote-color: #{$green};
 
   // options
