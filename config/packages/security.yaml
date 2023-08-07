@@ -20,6 +20,7 @@ security:
                 - App\Security\FacebookAuthenticator
                 - App\Security\GoogleAuthenticator
                 - App\Security\GithubAuthenticator
+                - App\Security\KeycloakAuthenticator
             logout:
                 path: app_logout
             user_checker: App\Security\UserChecker

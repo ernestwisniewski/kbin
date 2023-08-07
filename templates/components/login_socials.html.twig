@@ -8,4 +8,8 @@
         <a href="{{ path('oauth_facebook_connect') }}" class="btn btn__secondary"><i class="fa-brands fa-facebook"></i>
             Facebook</a>
     {% endif %}
+    {% if this.keycloakEnabled %}
+        <a href="{{ path('oauth_keycloak_connect') }}" class="btn btn__secondary"><i class="fa-solid fa-lock"></i>
+            Keycloak</a>
+    {% endif %}
 </div>

@@ -13,6 +13,8 @@ final class LoginSocialsComponent
         private readonly string $oauthGoogleId,
         #[Autowire(env: 'OAUTH_FACEBOOK_ID')]
         private readonly string $oauthFacebookId,
+        #[Autowire(env: 'OAUTH_KEYCLOAK_ID')]
+        private readonly string $oauthKeycloakId,
     ) {
     }
 
@@ -24,5 +26,10 @@ final class LoginSocialsComponent
     public function facebookEnabled(): bool
     {
         return !empty($this->oauthFacebookId);
+    }
+
+    public function keycloakEnabled(): bool
+    {
+        return !empty($this->oauthKeycloakId);
     }
 }

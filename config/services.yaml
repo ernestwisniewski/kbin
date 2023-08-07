@@ -181,6 +181,7 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.controller_arguments }
 
+
   # Feeds
   debril.rss_atom.provider:
     class: App\Feed\Provider

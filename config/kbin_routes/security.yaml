@@ -63,3 +63,13 @@ oauth_github_verify:
   controller: App\Controller\Security\GithubController::verify
   path: /oauth/github/verify
   methods: [ GET ]
+
+oauth_keycloak_connect:
+  controller: App\Controller\Security\KeycloakController::connect
+  path: /oauth/keycloak/connect
+  methods: [ GET ]
+
+oauth_keycloak_verify:
+  controller: App\Controller\Security\KeycloakController::verify
+  path: /oauth/keycloak/verify
+  methods: [ GET ]

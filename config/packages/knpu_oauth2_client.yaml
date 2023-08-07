@@ -19,3 +19,12 @@ knpu_oauth2_client:
       client_secret: '%env(OAUTH_GITHUB_SECRET)%'
       redirect_route: oauth_github_verify
       redirect_params: { }
+    keycloak:
+      type: keycloak
+      client_id: '%env(OAUTH_KEYCLOAK_ID)%'
+      client_secret: '%env(OAUTH_KEYCLOAK_SECRET)%'
+      auth_server_url: '%env(OAUTH_KEYCLOAK_URI)%'
+      realm: '%env(OAUTH_KEYCLOAK_REALM)%'
+      version: '%env(OAUTH_KEYCLOAK_VERSION)%'
+      redirect_route: oauth_keycloak_verify
+      redirect_params: { }
