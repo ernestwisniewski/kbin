@@ -26,8 +26,8 @@
                             {% else %}
                                 {{ entry.title }}
                             {% endif %}
-                            {% if entry.lang is not same as kbin_default_lang() %}
-                                <small class="badge">{{ entry.lang }}</small>
+                            {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
+                                <small class="badge-lang">{{ entry.lang|language_name }}</small>
                             {% endif %}
                             {% if entry.domain %}
                                 <span class="entry__domain">
@@ -49,8 +49,8 @@
                                     }) }}">{{ entry.domain.name }}</a>)
                                 </span>
                             {% endif %}
-                            {% if entry.lang is not same as kbin_default_lang() %}
-                                <small class="badge kbin-bg">{{ entry.lang }}</small>
+                            {% if entry.lang is not same as app.request.locale and post.lang is not same as kbin_default_lang() %}
+                                <small class="badge-lang kbin-bg">{{ entry.lang|language_name }}</small>
                             {% endif %}
                         </h2>
                     {% endif %}

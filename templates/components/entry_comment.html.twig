@@ -26,8 +26,8 @@
                 {% endif %}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
                 {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
-                {% if comment.lang is not same as kbin_default_lang() %}
-                    <small hidden class="badge">{{ comment.lang }}</small>
+                {% if comment.lang is not same as app.request.locale and comment.lang is not same as kbin_default_lang() %}
+                    <small hidden class="badge-lang">{{ comment.lang|language_name }}</small>
                 {% endif %}
             </header>
             {{ component('user_avatar', {
