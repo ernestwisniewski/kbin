@@ -49,7 +49,7 @@
                                     }) }}">{{ entry.domain.name }}</a>)
                                 </span>
                             {% endif %}
-                            {% if entry.lang is not same as app.request.locale and post.lang is not same as kbin_default_lang() %}
+                            {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
                                 <small class="badge-lang kbin-bg">{{ entry.lang|language_name }}</small>
                             {% endif %}
                         </h2>

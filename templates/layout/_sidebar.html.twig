@@ -71,7 +71,8 @@
         </div>
     </div>
     <div class="section mobile-nav">
-        <menu>
+        {% include 'layout/_header_bread.html.twig' %}
+        <menu class="info">
             {% include 'layout/_header_nav.html.twig' with {header_nav: header_nav} %}
         </menu>
     </div>

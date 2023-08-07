@@ -1,8 +1,5 @@
 {% if header_nav is empty %}
     <li>
-        {% include 'layout/_header_bread.html.twig' %}
-    </li>
-    <li>
         <a href="{{ navbar_threads_url(magazine ?? null) }}"
            class="{{ html_classes({'active': not is_route_name_contains('user_') and (is_route_name_starts_with('front') or is_route_name('root') or is_route_name_contains('_entries') or entry is defined and entry)}) }}">
             {{ 'threads'|trans }} {% if magazine is defined and magazine %}({{ magazine.entryCount }}){% endif %}
@@ -14,11 +11,6 @@
             {{ 'microblog'|trans }} {% if magazine is defined and magazine %}({{ magazine.postCount }}){% endif %}
         </a>
     </li>
-    {#                <li> #}
-    {#                    <a href="#"> #}
-    {#                        {{ 'events'|trans }} #}
-    {#                    </a> #}
-    {#                </li> #}
     <li>
         <a href="{{ navbar_people_url(magazine ?? null) }}"
            class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">
