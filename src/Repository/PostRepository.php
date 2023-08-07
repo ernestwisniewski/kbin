@@ -399,10 +399,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
             if (!$criteria->magazine) {
                 $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility')
-                    ->setParameter('visibility', 'visible');
+                    ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
             } else {
                 $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility AND p.magazine = :magazine')
-                    ->setParameters(['visibility' => 'visible', 'magazine' => $criteria->magazine]);
+                    ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'magazine' => $criteria->magazine]);
             }
 
             try {
