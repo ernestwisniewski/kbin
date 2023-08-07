@@ -7,7 +7,7 @@
 # Build Caddy with the Mercure and Vulcain modules
 FROM caddy:2.7-builder-alpine AS app_caddy_builder
 
-RUN xcaddy build v2.7.2 \
+RUN xcaddy build v2.7.3 \
 	--with github.com/dunglas/mercure/caddy \
 	--with github.com/dunglas/vulcain/caddy
 
