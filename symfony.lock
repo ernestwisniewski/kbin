@@ -20,13 +20,16 @@
         "version": "1.11.99.1"
     },
     "dama/doctrine-test-bundle": {
-        "version": "4.0",
+        "version": "7.2",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "4.0",
-            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
-        }
+            "ref": "2c920f73a217f30bd4a37833c91071f4d3dc1ecd"
+        },
+        "files": [
+            "config/packages/test/dama_doctrine_test_bundle.yaml"
+        ]
     },
     "debril/feed-io": {
         "version": "v5.0.10"
@@ -45,16 +48,14 @@
         ]
     },
     "doctrine/annotations": {
-        "version": "1.0",
+        "version": "1.14",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
+            "branch": "main",
+            "version": "1.10",
+            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
         },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
+        "files": []
     },
     "doctrine/cache": {
         "version": "2.1.1"
@@ -233,25 +234,29 @@
         "version": "4.0.0"
     },
     "lexik/jwt-authentication-bundle": {
-        "version": "2.5",
+        "version": "2.19",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "2.5",
-            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
         },
         "files": [
             "config/packages/lexik_jwt_authentication.yaml"
         ]
     },
     "liip/imagine-bundle": {
-        "version": "1.8",
+        "version": "2.11",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "1.8",
-            "ref": "5a5bdc2d0e2533ed6935d5ae562f2b318a8fc1ee"
-        }
+            "ref": "d1227d002b70d1a1f941d91845fcd7ac7fbfc929"
+        },
+        "files": [
+            "config/packages/liip_imagine.yaml",
+            "config/routes/liip_imagine.yaml"
+        ]
     },
     "meteo-concept/hcaptcha-bundle": {
         "version": "3.3",
@@ -507,12 +512,12 @@
         ]
     },
     "symfony/mailer": {
-        "version": "4.3",
+        "version": "6.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
+            "branch": "main",
             "version": "4.3",
-            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+            "ref": "2bf89438209656b85b9a49238c4467bff1b1f939"
         },
         "files": [
             "config/packages/mailer.yaml"
@@ -540,12 +545,12 @@
         "version": "v0.4.1"
     },
     "symfony/mercure-bundle": {
-        "version": "0.2",
+        "version": "0.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "0.2",
-            "ref": "9c94631c3fc2e9ab2302380ebb36b5942f5be676"
+            "branch": "main",
+            "version": "0.3",
+            "ref": "851667ac03fd113c5bd2215fb743974f6709bc62"
         },
         "files": [
             "config/packages/mercure.yaml"
@@ -642,12 +647,12 @@
         "version": "v5.3.0"
     },
     "symfony/routing": {
-        "version": "5.3",
+        "version": "6.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.3",
-            "ref": "44633353926a0382d7dfb0530922c5c0b30fae11"
+            "branch": "main",
+            "version": "6.2",
+            "ref": "e0a11b4ccb8c9e70b574ff5ad3dfdcd41dec5aa6"
         },
         "files": [
             "config/packages/routing.yaml",
@@ -719,12 +724,12 @@
         "version": "v5.3.3"
     },
     "symfony/twig-bundle": {
-        "version": "5.3",
+        "version": "6.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.3",
-            "ref": "3dd530739a4284e3272274c128dbb7a8140a66f1"
+            "branch": "main",
+            "version": "6.3",
+            "ref": "b7772eb20e92f3fb4d4fe756e7505b4ba2ca1a2c"
         },
         "files": [
             "config/packages/twig.yaml",
