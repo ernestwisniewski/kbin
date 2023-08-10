@@ -1,80 +1,53 @@
-import {Controller} from '@hotwired/stimulus';
+import {Controller, ActionEvent} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = ['federation', 'settings', 'actions'];
     static values = {
-        initial: Boolean
+        activeTab: String
     }
 
-    /**
-     * Handling toggling the federation section
-     * @param {*} event 
-     */
-    toggleFederation(event) {
-        event.preventDefault();
+    connect() {
+        const activeTabFragment = window.location.hash;
 
-        if (false === this.initialValue || this.federationTarget.style.display === 'none') {
-            this.settingsTarget.style.display = 'none';
-            this.federationTarget.style.display = 'block';
+        if (activeTabFragment) {
+            this.actionsTarget.querySelector(`a[href="${activeTabFragment}"]`).classList.add('active');
 
-            this.removeActiveClass();
-            event.currentTarget.classList.add('active');
-
-            this.initialValue = true;
-        } else {
-            event.currentTarget.classList.remove('active');
-            this.federationTarget.style.display = 'none';
+            this.activeTabValue = activeTabFragment.substring(1);
         }
     }
 
-    /**
-     * Handles toggling the settings section 
-     * @param {*} event 
-     */
-    toggleSettings(event) {
-        event.preventDefault();
+    /** @param {ActionEvent} e */
+    toggleTab(e) {
+        const selectedTab = e.params.tab;
 
-        if (false === this.initialValue || this.settingsTarget.style.display === 'none') {
-            this.federationTarget.style.display = 'none';
-            this.settingsTarget.style.display = 'block';
+        this.actionsTarget.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
 
-            this.removeActiveClass();
-            event.currentTarget.classList.add('active');
-
-            this.initialValue = true;
+        if (selectedTab === this.activeTabValue) {
+            this.activeTabValue = 'none';
         } else {
-            event.currentTarget.classList.remove('active');
-            this.settingsTarget.style.display = 'none';
+            this.activeTabValue = selectedTab;
+
+            e.currentTarget.classList.add('active');
         }
     }
 
-    /**
-     * Removes all active classes, ensuring only the current active item is highlighted 
-     */
-    removeActiveClass() {
-        this.actionsTarget.querySelectorAll('.active').forEach(element => {
-            element.classList.remove('active');
-        });    
+    activeTabValueChanged(selectedTab) {
+        if (selectedTab === 'none') {
+            this.federationTarget.style.display = 'none';
+            this.settingsTarget.style.display = 'none';
+
+            return;
+        }
+
+        this[`${selectedTab}Target`].style.display = 'block';
+
+        const otherTab = selectedTab === 'settings' ? 'federation' : 'settings';
+
+        this[`${otherTab}Target`].style.display = 'none';
     }
 
-    /**
-     * Handles toggling the navigation closed
-     * @param {*} e 
-     */
-    closeNav(e) {
-        e.preventDefault();
+    closeMobileSidebar() {
         document.getElementById('sidebar').classList.remove('open');
-    }
-
-    /**
-     * Handles the home button press
-     * @param {*} e 
-     * @returns 
-     */
-    home(e){
-        e.preventDefault();
-        window.location = e.target.closest('a').href;
-        return;
     }
 }

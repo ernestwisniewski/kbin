@@ -1,11 +1,11 @@
-<div class="sidebar-options" data-controller="options">
+<div class="sidebar-options" data-controller="options" data-options-active-tab-value="none">
     <div class="section options--top options top-options">
         <menu>
             <ul data-options-target="actions">
                 <li class='close-button'>
                     <a
                             href=""
-                            data-action="options#closeNav"
+                            data-action="options#closeMobileSidebar:prevent"
                             title="{{ 'close'|trans }}"
                             aria-label="{{ 'close'|trans }}">
                         <i class="fa-solid fa-close"></i>
@@ -14,7 +14,8 @@
                 <li class='federation-button'>
                     <a 
                     href="#federation"
-                    data-action="options#toggleFederation"
+                    data-action="options#toggleTab:prevent"
+                    data-options-tab-param="federation"
                     title="{{ 'federation'|trans }}"
                     aria-label="{{ 'federation'|trans }}">
                         <i class="fa-solid fa-circle-nodes"></i>
@@ -23,7 +24,8 @@
                 <li class='settings-button'>       
                     <a 
                     href="#settings"
-                    data-action="options#toggleSettings"
+                    data-action="options#toggleTab:prevent"
+                    data-options-tab-param="settings"
                     title="{{ 'settings'|trans }}"
                     aria-label="{{ 'settings'|trans }}">
                         <i class="fa-solid fa-gear"></i>
