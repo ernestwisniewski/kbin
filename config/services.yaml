@@ -29,6 +29,21 @@ parameters:
   hcaptcha_site_key: '%env(resolve:HCAPTCHA_SITE_KEY)%'
   hcaptcha_secret: '%env(resolve:HCAPTCHA_SECRET)%'
 
+  oauth_facebook_id: '%env(default::OAUTH_FACEBOOK_ID)%'
+  oauth_facebook_secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+
+  oauth_google_id: '%env(default::OAUTH_GOOGLE_ID)%'
+  oauth_google_secret: '%env(OAUTH_GOOGLE_SECRET)%'
+
+  oauth_github_id: '%env(default::OAUTH_GITHUB_ID)%'
+  oauth_github_secret: '%env(OAUTH_GITHUB_SECRET)%'
+
+  oauth_keycloak_id: '%env(default::OAUTH_KEYCLOAK_ID)%'
+  oauth_keycloak_secret: '%env(OAUTH_KEYCLOAK_SECRET)%'
+  oauth_keycloak_uri: '%env(OAUTH_KEYCLOAK_URI)%'
+  oauth_keycloak_realm: '%env(OAUTH_KEYCLOAK_REALM)%'
+  oauth_keycloak_version: '%env(OAUTH_KEYCLOAK_VERSION)%'
+
   router.request_context.host: '%env(KBIN_DOMAIN)%'
   router.request_context.scheme: https
 
@@ -46,18 +61,6 @@ parameters:
 
   mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
   mercure_subscriptions_token: '%env(MERCURE_JWT_SECRET)%'
-
-  google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
-
-  env(MONGODB_URL): ''
-  env(MONGODB_DB): ''
-
-  #  elastica_enabled: '%env(bool:ELASTICSEARCH_ENABLED)%'
-  #  #  elastica_enabled: false
-  #  elastica_listener:
-  #    insert: '%elastica_enabled%'
-  #    update: '%elastica_enabled%'
-  #    delete: '%elastica_enabled%'
 
   cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
   cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'

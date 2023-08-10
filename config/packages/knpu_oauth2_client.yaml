@@ -2,29 +2,29 @@ knpu_oauth2_client:
   clients:
     facebook:
       type: facebook
-      client_id: '%env(OAUTH_FACEBOOK_ID)%'
-      client_secret: '%env(OAUTH_FACEBOOK_SECRET)%'
+      client_id: '%oauth_facebook_id%'
+      client_secret: '%oauth_facebook_secret%'
       redirect_route: oauth_facebook_verify
       redirect_params: { }
       graph_api_version: v2.12
     google:
       type: google
-      client_id: '%env(OAUTH_GOOGLE_ID)%'
-      client_secret: '%env(OAUTH_GOOGLE_SECRET)%'
+      client_id: '%oauth_google_id%'
+      client_secret: '%oauth_google_secret%'
       redirect_route: oauth_google_verify
       redirect_params: { }
     github:
       type: github
-      client_id: '%env(OAUTH_GITHUB_ID)%'
-      client_secret: '%env(OAUTH_GITHUB_SECRET)%'
+      client_id: '%oauth_github_id%'
+      client_secret: '%oauth_github_secret%'
       redirect_route: oauth_github_verify
       redirect_params: { }
     keycloak:
       type: keycloak
-      client_id: '%env(OAUTH_KEYCLOAK_ID)%'
-      client_secret: '%env(OAUTH_KEYCLOAK_SECRET)%'
-      auth_server_url: '%env(OAUTH_KEYCLOAK_URI)%'
-      realm: '%env(OAUTH_KEYCLOAK_REALM)%'
-      version: '%env(OAUTH_KEYCLOAK_VERSION)%'
+      client_id: '%oauth_keycloak_id%'
+      client_secret: '%oauth_keycloak_secret%'
+      auth_server_url: '%oauth_keycloak_uri%'
+      realm: '%oauth_keycloak_realm%'
+      version: '%oauth_keycloak_version%'
       redirect_route: oauth_keycloak_verify
       redirect_params: { }
