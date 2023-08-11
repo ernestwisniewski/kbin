@@ -20,7 +20,7 @@
                     onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
                     <button type="submit" class="btn btn__secondary">
-                        <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account': 'ban_account'|trans }}
+                        <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}
                     </button>
                 </form>
                 <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
