@@ -27,6 +27,6 @@ class EntryCommentChangeLangControllerTest extends WebTestCase
         $client->submit($form);
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main .badge', 'fr');
+        $this->assertSelectorTextContains('#main .badge-lang', 'French');
     }
 }
