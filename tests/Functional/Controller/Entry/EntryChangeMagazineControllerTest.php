@@ -36,7 +36,7 @@ class EntryChangeMagazineControllerTest extends WebTestCase
         $client->followRedirect();
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('#header .head-title', 'kbin');
+        $this->assertSelectorTextContains('.head-title', 'kbin');
     }
 
     public function testUnauthorizedUserCantChangeMagazine(): void
