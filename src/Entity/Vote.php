@@ -32,7 +32,7 @@ class Vote implements VoteInterface
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
-    private int $id;
+    protected int $id;
 
     public function __construct(int $choice, User $user, User $author)
     {
