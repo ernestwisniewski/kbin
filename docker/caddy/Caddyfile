@@ -9,18 +9,25 @@
 
 log
 
-@static {
+@static_files {
     path_regexp \.(ico|css|js|gif|jpg|webp|jpeg|png|svg|woff)$
 }
-header @static Cache-Control max-age=259200
-
-handle_path /media/cache/resolve* {
-    header Cache-Control "public" max-age=259200
-    try_files {uri} {uri}/ /index.php?{query_string}
-}
+header @static_files Cache-Control max-age=259200
 
 route {
     root * /srv/app/public
+    
+    @supports_webp {
+        header_regexp Accept image/webp
+        path_regexp image_path /media/cache/resolve(?P<image_file>.*)$
+    }
+    handle @supports_webp {
+        try_files /media/cache/{re.image_path.image_file}.webp
+    }
+    handle_path /media/cache/resolve* {
+        try_files /media/cache{path}
+    }
+
     mercure {
         # Transport to use (default to Bolt)
         transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
