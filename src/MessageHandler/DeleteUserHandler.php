@@ -10,6 +10,7 @@ use App\Entity\DomainSubscription;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Favourite;
+use App\Entity\MagazineBan;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\Message;
@@ -92,6 +93,8 @@ class DeleteUserHandler
             $this->removeDomainBlocks();
             $this->purgeVotes();
             $this->removeMod();
+            $this->removeBans();
+            $this->removeMessagesParticipants();
 
             $this->user = $this->entityManager
                 ->getRepository(User::class)
@@ -476,9 +479,31 @@ class DeleteUserHandler
     {
         foreach ([Entry::class, Post::class, EntryComment::class, PostComment::class] as $subjectClass) {
             $query = $this->entityManager->createQuery(
-                'DELETE FROM '.$subjectClass.'Vote v WHERE v.user = :user OR v.author = :user');
-            $query->setParameter('user', $this->user);
+                'DELETE FROM '.$subjectClass.'Vote v WHERE v.user = :user OR v.author = :user'
+            );
+            $query->setParameter('user', $this->user->getId());
             $query->execute();
         }
+    }
+
+    private function removeBans(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.MagazineBan::class.' b WHERE b.user = :userId OR b.bannedBy = :userId'
+        );
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeMessagesParticipants(): void
+    {
+        $conn = $this->entityManager->getConnection();
+        $sql = 'DELETE FROM message_thread_participants AS mp WHERE mp.user_id = :userId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('userId', $this->user->getId());
+
+        $stmt->executeQuery();
     }
 }
