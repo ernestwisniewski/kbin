@@ -82,7 +82,7 @@ class RegisterControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('.alert__danger', 'Your account is not active.');
+        $this->assertSelectorTextContains('.alert__danger', 'Your account has not been activated.');
     }
 
     public static function register($active = false): KernelBrowser

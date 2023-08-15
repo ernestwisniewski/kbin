@@ -24,7 +24,7 @@ class PostCommentEditControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#post_comment_body', 'test comment 1');
 
         $client->submit(
-            $crawler->filter('form[name=post_comment]')->selectButton('Edit comment')->form(
+            $crawler->filter('form[name=post_comment]')->selectButton('Save changes')->form(
                 [
                     'post_comment[body]' => 'test comment 2 body',
                 ]

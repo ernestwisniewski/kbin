@@ -25,7 +25,7 @@ class EntryCommentEditControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#main .entry-comment', 'test comment 1');
 
         $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Edit comment')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Save changes')->form(
                 [
                     'entry_comment[body]' => 'test comment 2 body',
                 ]
