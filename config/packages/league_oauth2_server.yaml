@@ -1,0 +1,144 @@
+league_oauth2_server:
+    authorization_server:
+        private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'
+        private_key_passphrase: '%env(resolve:OAUTH_PASSPHRASE)%'
+        encryption_key: '%env(resolve:OAUTH_ENCRYPTION_KEY)%'
+        access_token_ttl: PT1H
+        refresh_token_ttl: P1M
+        auth_code_ttl: PT10M
+        enable_client_credentials_grant: true
+        enable_password_grant: false
+        enable_refresh_token_grant: true
+        enable_auth_code_grant: true
+        require_code_challenge_for_public_clients: true
+    client:
+        classname: App\Entity\Client
+    resource_server:
+        public_key: '%env(resolve:OAUTH_PUBLIC_KEY)%'
+    scopes:
+        available: [
+            'read',
+            'write',
+            'delete',
+            'subscribe',
+            'block',
+            'vote',
+            'report',
+            'domain',
+            'domain:subscribe',
+            'domain:block',
+            'entry',
+            'entry:create',
+            'entry:edit',
+            'entry:delete',
+            'entry:vote',
+            'entry:report',
+            'entry_comment',
+            'entry_comment:create',
+            'entry_comment:edit',
+            'entry_comment:delete',
+            'entry_comment:vote',
+            'entry_comment:report',
+            'magazine',
+            'magazine:subscribe',
+            'magazine:block',
+            'post',
+            'post:create',
+            'post:edit',
+            'post:delete',
+            'post:vote',
+            'post:report',
+            'post_comment',
+            'post_comment:create',
+            'post_comment:edit',
+            'post_comment:delete',
+            'post_comment:vote',
+            'post_comment:report',
+            'user', 
+            'user:profile', 
+            'user:profile:read', 
+            'user:profile:edit', 
+            'user:message', 
+            'user:message:read', 
+            'user:message:create', 
+            'user:notification', 
+            'user:notification:read', 
+            'user:notification:delete',
+            'user:oauth_clients',
+            'user:oauth_clients:read',
+            'user:oauth_clients:edit',
+            'user:follow',
+            'user:block',
+            'moderate',
+            'moderate:entry',
+            'moderate:entry:language',
+            'moderate:entry:pin',
+            'moderate:entry:set_adult',
+            'moderate:entry:trash',
+            'moderate:entry_comment',
+            'moderate:entry_comment:language',
+            'moderate:entry_comment:set_adult',
+            'moderate:entry_comment:trash',
+            'moderate:post',
+            'moderate:post:language',
+            'moderate:post:set_adult',
+            'moderate:post:trash',
+            'moderate:post_comment',
+            'moderate:post_comment:language',
+            'moderate:post_comment:set_adult',
+            'moderate:post_comment:trash',
+            'moderate:magazine',
+            'moderate:magazine:ban',
+            'moderate:magazine:ban:read',
+            'moderate:magazine:ban:create',
+            'moderate:magazine:ban:delete',
+            'moderate:magazine:list',
+            'moderate:magazine:reports',
+            'moderate:magazine:reports:read',
+            'moderate:magazine:reports:action',
+            'moderate:magazine:trash:read',
+            'moderate:magazine_admin',
+            'moderate:magazine_admin:create',
+            'moderate:magazine_admin:delete',
+            'moderate:magazine_admin:update',
+            'moderate:magazine_admin:theme',
+            'moderate:magazine_admin:moderators',
+            'moderate:magazine_admin:badges',
+            'moderate:magazine_admin:tags',
+            'moderate:magazine_admin:stats',
+            'admin',
+            'admin:entry:purge',
+            'admin:entry_comment:purge',
+            'admin:post:purge',
+            'admin:post_comment:purge',
+            'admin:magazine',
+            'admin:magazine:move_entry',
+            'admin:magazine:purge',
+            'admin:user',
+            'admin:user:ban',
+            'admin:user:verify',
+            'admin:user:delete',
+            'admin:user:purge',
+            'admin:instance',
+            'admin:instance:stats',
+            'admin:instance:settings',
+            'admin:instance:settings:read',
+            'admin:instance:settings:edit',
+            'admin:instance:information:edit',
+            'admin:federation',
+            'admin:federation:read',
+            'admin:federation:update',
+            'admin:oauth_clients',
+            'admin:oauth_clients:read',
+            'admin:oauth_clients:revoke',
+        ]
+        default: ['read']
+    persistence:
+        doctrine:
+            entity_manager: default
+
+when@test:
+    league_oauth2_server:
+        persistence:
+            doctrine:
+                entity_manager: default

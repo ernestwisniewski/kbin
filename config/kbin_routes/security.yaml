@@ -29,6 +29,11 @@ app_login:
   path: /login
   methods: [ GET, POST ]
 
+app_consent:
+  controller: App\Controller\Security\LoginController::consent
+  path: /consent
+  methods: [ GET, POST ]
+
 app_logout:
   controller: App\Controller\Security\LogoutController
   path: /logout
@@ -73,3 +78,27 @@ oauth_keycloak_verify:
   controller: App\Controller\Security\KeycloakController::verify
   path: /oauth/keycloak/verify
   methods: [ GET ]
+
+oauth_create_client:
+  controller: App\Controller\Api\OAuth2\CreateClientApi
+  path: /api/client
+  methods: [ POST ]
+  format: json
+
+oauth_create_client_image:
+  controller: App\Controller\Api\OAuth2\CreateClientApi::uploadImage
+  path: /api/client-with-logo
+  methods: [ POST ]
+  format: json
+
+oauth_revoke_token:
+  controller: App\Controller\Api\OAuth2\RevokeTokenApi
+  path: /api/revoke
+  methods: [ POST ]
+  format: json
+
+oauth_delete_client:
+  controller: App\Controller\Api\OAuth2\DeleteClientApi
+  path: /api/client
+  methods: [ DELETE ]
+  format: json

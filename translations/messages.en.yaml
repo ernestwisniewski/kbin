@@ -479,6 +479,17 @@ mercure_enabled: Mercure enabled
 report_issue: Report issue
 tokyo_night: Tokyo Night
 preferred_languages: Filter languages of threads and posts
+close: Close
+oauth.consent.title: OAuth2 Consent Form
+oauth.consent.grant_permissions: Grant Permissions
+oauth.consent.app_requesting_permissions: would like to perform the following actions on your behalf
+oauth.consent.app_has_permissions: can already perform the following actions
+oauth.consent.to_allow_access: To allow this access, click the 'Allow' button below
+oauth.consent.allow: Allow
+oauth.consent.deny: Deny
+oauth.client_identifier.invalid: Invalid OAuth Client ID!
+oauth.client_not_granted_message_read_permission: This app has not received permission to read your messages.
+restrict_oauth_clients: Restrict OAuth2 Client creation to Admins
 infinite_scroll_help: Automatically load more content when you reach the bottom of
   the page.
 sticky_navbar_help: The navbar will stick to the top of the page when you scroll down.

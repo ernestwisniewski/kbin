@@ -7,6 +7,12 @@ supervisord.pid
 reports/
 .php-cs-fixer.cache
 tools/vendor/
+# VSCode
+.vscode/
+*.session.sql
+
+# Keys
+*.pem
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -44,3 +50,7 @@ package-lock.json
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> league/oauth2-server-bundle ###
+/config/jwt/*.pem
+###< league/oauth2-server-bundle ###

@@ -8,10 +8,20 @@ security:
             entity:
                 class: App\Entity\User
 
+    enable_authenticator_manager: true
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api_token:
+            pattern: ^/token$
+            security: false
+        api:
+            pattern:   ^/api
+            security: true
+            stateless: true
+            oauth2: true
         main:
             lazy: true
             provider: app_user_provider
@@ -27,24 +37,206 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
-                token_provider:
-                    doctrine: true
-        login:
-            pattern: ^/api/login
-            stateless: true
-            json_login:
-                check_path: /api/login_check
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        api:
-            pattern:   ^/api
-            stateless: true
-            jwt: ~
+                path: /
         image_resolver:
             pattern: ^/media/cache/resolve
             security: false
 
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-#        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/api,       roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/authorize, roles: PUBLIC_ACCESS }
+        - { path: ^/token, roles: PUBLIC_ACCESS }
+        - { path: ^/api/doc, roles: PUBLIC_ACCESS }
+        - { path: ^/api/client, roles: PUBLIC_ACCESS }
+
+    role_hierarchy:
+        ROLE_OAUTH2_WRITE: [
+            'ROLE_OAUTH2_ENTRY:CREATE',
+            'ROLE_OAUTH2_ENTRY:EDIT',
+            'ROLE_OAUTH2_ENTRY_COMMENT:CREATE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:EDIT',
+            'ROLE_OAUTH2_POST:CREATE',
+            'ROLE_OAUTH2_POST:EDIT',
+            'ROLE_OAUTH2_POST_COMMENT:CREATE',
+            'ROLE_OAUTH2_POST_COMMENT:EDIT'
+        ]
+        ROLE_OAUTH2_DELETE: [
+            'ROLE_OAUTH2_ENTRY:DELETE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:DELETE',
+            'ROLE_OAUTH2_POST:DELETE',
+            'ROLE_OAUTH2_POST_COMMENT:DELETE'
+        ]
+        ROLE_OAUTH2_REPORT: [
+            'ROLE_OAUTH2_ENTRY:REPORT',
+            'ROLE_OAUTH2_ENTRY_COMMENT:REPORT',
+            'ROLE_OAUTH2_POST:REPORT',
+            'ROLE_OAUTH2_POST_COMMENT:REPORT'
+        ]
+        ROLE_OAUTH2_VOTE: [
+            'ROLE_OAUTH2_ENTRY:VOTE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:VOTE',
+            'ROLE_OAUTH2_POST:VOTE',
+            'ROLE_OAUTH2_POST_COMMENT:VOTE',
+        ]
+        ROLE_OAUTH2_SUBSCRIBE: [
+            'ROLE_OAUTH2_DOMAIN:SUBSCRIBE',
+            'ROLE_OAUTH2_MAGAZINE:SUBSCRIBE',
+            'ROLE_OAUTH2_USER:FOLLOW'
+        ]
+        ROLE_OAUTH2_BLOCK: [
+            'ROLE_OAUTH2_DOMAIN:BLOCK',
+            'ROLE_OAUTH2_MAGAZINE:BLOCK',
+            'ROLE_OAUTH2_USER:BLOCK'
+        ]
+        ROLE_OAUTH2_DOMAIN: [
+            'ROLE_OAUTH2_DOMAIN:SUBSCRIBE', 
+            'ROLE_OAUTH2_DOMAIN:BLOCK'
+        ]
+        ROLE_OAUTH2_ENTRY: [
+            'ROLE_OAUTH2_ENTRY:CREATE',
+            'ROLE_OAUTH2_ENTRY:EDIT',
+            'ROLE_OAUTH2_ENTRY:DELETE',
+            'ROLE_OAUTH2_ENTRY:VOTE',
+            'ROLE_OAUTH2_ENTRY:REPORT'
+        ]
+        ROLE_OAUTH2_ENTRY_COMMENT: [
+            'ROLE_OAUTH2_ENTRY_COMMENT:CREATE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:EDIT',
+            'ROLE_OAUTH2_ENTRY_COMMENT:DELETE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:VOTE',
+            'ROLE_OAUTH2_ENTRY_COMMENT:REPORT'
+        ]
+        ROLE_OAUTH2_MAGAZINE: [
+            'ROLE_OAUTH2_MAGAZINE:SUBSCRIBE',
+            'ROLE_OAUTH2_MAGAZINE:BLOCK'
+        ]
+        ROLE_OAUTH2_POST: [
+            'ROLE_OAUTH2_POST:CREATE',
+            'ROLE_OAUTH2_POST:EDIT',
+            'ROLE_OAUTH2_POST:DELETE',
+            'ROLE_OAUTH2_POST:VOTE',
+            'ROLE_OAUTH2_POST:REPORT'
+        ]
+        ROLE_OAUTH2_POST_COMMENT: [
+            'ROLE_OAUTH2_POST_COMMENT:CREATE',
+            'ROLE_OAUTH2_POST_COMMENT:EDIT',
+            'ROLE_OAUTH2_POST_COMMENT:DELETE',
+            'ROLE_OAUTH2_POST_COMMENT:VOTE',
+            'ROLE_OAUTH2_POST_COMMENT:REPORT'
+        ]
+        ROLE_OAUTH2_USER: [
+            'ROLE_OAUTH2_USER:PROFILE',
+            'ROLE_OAUTH2_USER:MESSAGE',
+            'ROLE_OAUTH2_USER:NOTIFICATION',
+            'ROLE_OAUTH2_USER:OAUTH_CLIENTS',
+            'ROLE_OAUTH2_USER:FOLLOW',
+            'ROLE_OAUTH2_USER:BLOCK'
+        ]
+        "ROLE_OAUTH2_USER:PROFILE": [
+            'ROLE_OAUTH2_USER:PROFILE:READ',
+            'ROLE_OAUTH2_USER:PROFILE:EDIT'
+        ]
+        "ROLE_OAUTH2_USER:MESSAGE": [
+            'ROLE_OAUTH2_USER:MESSAGE:READ',
+            'ROLE_OAUTH2_USER:MESSAGE:CREATE'
+        ]
+        "ROLE_OAUTH2_USER:NOTIFICATION": [
+            'ROLE_OAUTH2_USER:NOTIFICATION:READ',
+            'ROLE_OAUTH2_USER:NOTIFICATION:DELETE'
+        ]
+        "ROLE_OAUTH2_USER:OAUTH_CLIENTS": [
+            'ROLE_OAUTH2_USER:OAUTH_CLIENTS:READ',
+            'ROLE_OAUTH2_USER:OAUTH_CLIENTS:EDIT'
+        ]
+        "ROLE_OAUTH2_MODERATE": [
+            'ROLE_OAUTH2_MODERATE:ENTRY',
+            'ROLE_OAUTH2_MODERATE:ENTRY_COMMENT',
+            'ROLE_OAUTH2_MODERATE:POST',
+            'ROLE_OAUTH2_MODERATE:POST_COMMENT',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN'
+        ]
+        "ROLE_OAUTH2_MODERATE:ENTRY": [
+            'ROLE_OAUTH2_MODERATE:ENTRY:LANGUAGE',
+            'ROLE_OAUTH2_MODERATE:ENTRY:PIN',
+            'ROLE_OAUTH2_MODERATE:ENTRY:SET_ADULT',
+            'ROLE_OAUTH2_MODERATE:ENTRY:TRASH'
+        ]
+        "ROLE_OAUTH2_MODERATE:ENTRY_COMMENT": [
+            'ROLE_OAUTH2_MODERATE:ENTRY_COMMENT:LANGUAGE',
+            'ROLE_OAUTH2_MODERATE:ENTRY_COMMENT:SET_ADULT',
+            'ROLE_OAUTH2_MODERATE:ENTRY_COMMENT:TRASH'
+        ]
+        "ROLE_OAUTH2_MODERATE:POST": [
+            'ROLE_OAUTH2_MODERATE:POST:LANGUAGE',
+            'ROLE_OAUTH2_MODERATE:POST:SET_ADULT',
+            'ROLE_OAUTH2_MODERATE:POST:TRASH'
+        ]
+        "ROLE_OAUTH2_MODERATE:POST_COMMENT": [
+            'ROLE_OAUTH2_MODERATE:POST_COMMENT:LANGUAGE',
+            'ROLE_OAUTH2_MODERATE:POST_COMMENT:SET_ADULT',
+            'ROLE_OAUTH2_MODERATE:POST_COMMENT:TRASH'
+        ]
+        "ROLE_OAUTH2_MODERATE:MAGAZINE": [
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:BAN',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:LIST',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:REPORTS',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:TRASH:READ'
+        ]
+        "ROLE_OAUTH2_MODERATE:MAGAZINE:BAN": [
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:BAN:READ',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:BAN:CREATE',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:BAN:DELETE'
+        ]
+        "ROLE_OAUTH2_MODERATE:MAGAZINE:REPORTS": [
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:REPORTS:READ',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE:REPORTS:ACTION'
+        ]
+        "ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN": [
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:CREATE',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:DELETE',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:UPDATE',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:THEME',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:MODERATORS',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:BADGES',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:TAGS',
+            'ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:STATS'
+        ]
+        "ROLE_OAUTH2_ADMIN": [
+            'ROLE_OAUTH2_ADMIN:ENTRY:PURGE',
+            'ROLE_OAUTH2_ADMIN:ENTRY_COMMENT:PURGE',
+            'ROLE_OAUTH2_ADMIN:POST:PURGE',
+            'ROLE_OAUTH2_ADMIN:POST_COMMENT:PURGE',
+            'ROLE_OAUTH2_ADMIN:MAGAZINE',
+            'ROLE_OAUTH2_ADMIN:USER',
+            'ROLE_OAUTH2_ADMIN:INSTANCE',
+            'ROLE_OAUTH2_ADMIN:FEDERATION',
+            'ROLE_OAUTH2_ADMIN:OAUTH_CLIENTS'
+        ]
+        "ROLE_OAUTH2_ADMIN:MAGAZINE": [
+            'ROLE_OAUTH2_ADMIN:MAGAZINE:MOVE_ENTRY',
+            'ROLE_OAUTH2_ADMIN:MAGAZINE:PURGE'
+        ]
+        "ROLE_OAUTH2_ADMIN:USER": [
+            'ROLE_OAUTH2_ADMIN:USER:BAN',
+            'ROLE_OAUTH2_ADMIN:USER:VERIFY',
+            'ROLE_OAUTH2_ADMIN:USER:DELETE',
+            'ROLE_OAUTH2_ADMIN:USER:PURGE'
+        ]
+        "ROLE_OAUTH2_ADMIN:INSTANCE": [
+            'ROLE_OAUTH2_ADMIN:INSTANCE:STATS',
+            'ROLE_OAUTH2_ADMIN:INSTANCE:SETTINGS',
+            'ROLE_OAUTH2_ADMIN:INSTANCE:INFORMATION:EDIT'
+        ]
+        "ROLE_OAUTH2_ADMIN:INSTANCE:SETTINGS": [
+            'ROLE_OAUTH2_ADMIN:INSTANCE:SETTINGS:READ',
+            'ROLE_OAUTH2_ADMIN:INSTANCE:SETTINGS:EDIT'
+        ]
+        "ROLE_OAUTH2_ADMIN:FEDERATION": [
+            'ROLE_OAUTH2_ADMIN:FEDERATION:READ',
+            'ROLE_OAUTH2_ADMIN:FEDERATION:UPDATE'
+        ]
+        "ROLE_OAUTH2_ADMIN:OAUTH_CLIENTS": [
+            'ROLE_OAUTH2_ADMIN:OAUTH_CLIENTS:READ',
+            'ROLE_OAUTH2_ADMIN:OAUTH_CLIENTS:REVOKE'
+        ]

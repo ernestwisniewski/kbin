@@ -1,5 +1,73 @@
 framework:
   rate_limiter:
+    anonymous_api_read:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_oauth_client:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_oauth_token_revoke:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_oauth_client_delete:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_delete:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_message:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_report:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_read:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_update:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_vote:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_entry:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_image:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_post:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_comment:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_magazine:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_notification:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
+    api_moderate:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 second'
     vote:
       policy: 'sliding_window'
       limit: 1000

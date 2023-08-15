@@ -233,6 +233,19 @@
     "league/oauth2-google": {
         "version": "4.0.0"
     },
+    "league/oauth2-server-bundle": {
+        "version": "0.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "0.4",
+            "ref": "7f26963037fce3b69c1b3f6a75a3265edb1e1caa"
+        },
+        "files": [
+            "config/packages/league_oauth2_server.yaml",
+            "config/routes/league_oauth2_server.yaml"
+        ]
+    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.19",
         "recipe": {
@@ -278,6 +291,19 @@
     },
     "neitanod/forceutf8": {
         "version": "v2.0.4"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "4.11",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
+        ]
     },
     "nelmio/cors-bundle": {
         "version": "1.5",
@@ -346,7 +372,10 @@
             "branch": "main",
             "version": "1.0",
             "ref": "d74d4d719d5f53856c9c13544aa22d44144b1819"
-        }
+        },
+        "files": [
+            "phpstan.neon"
+        ]
     },
     "psr/cache": {
         "version": "1.0.1"

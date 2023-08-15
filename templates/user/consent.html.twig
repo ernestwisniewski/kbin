@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'oauth.consent.title'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-login{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ app_name }} - {{ 'oauth.consent.grant_permissions'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container">
+            <div>
+                {% if image %}
+                    <figure>
+                        <img class="thumb-subject oauth-client-logo"
+                                src="{{ asset(image.filePath) |imagine_filter('entry_thumb') }}"
+                                alt="{{ image.altText }}">
+                    </figure>
+                {% endif %}
+                <p><strong>{{ app_name }}</strong> {{ 'oauth.consent.app_requesting_permissions'|trans }}:</p>
+                <ul>
+                    {% for scope in scopes %}
+                    <li id="{{ scope }}">{{ scope|trans({}, 'security') }}</li>
+                    {% endfor %}
+                </ul>
+                {% if has_existing_scopes %}
+                <p><strong>{{ app_name }}</strong> {{ 'oauth.consent.app_has_permissions'|trans }}:</p>
+                <ul>
+                    {% for scope in existing_scopes %}
+                    <li id="{{ scope }}">{{ scope|trans({}, 'security') }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <p>{{ 'oauth.consent.to_allow_access'|trans }}</p>
+            </div>
+            <form method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('consent') }}">
+                <div class="float-end">
+                    <button class="btn btn__primary" type="submit" name="consent" value="yes">{{ 'oauth.consent.allow'|trans }}</button>
+                    <button class="btn btn__primary" type="submit" name="consent" value="no">{{ 'oauth.consent.deny'|trans }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

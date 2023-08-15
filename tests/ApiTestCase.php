@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 abstract class ApiTestCase extends BaseApiTestCase
 {
     use FactoryTrait;
+    use OAuth2FlowTrait;
 
     protected ArrayCollection $users;
     protected ArrayCollection $magazines;

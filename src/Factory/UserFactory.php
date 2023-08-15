@@ -17,16 +17,19 @@ class UserFactory
             $user->avatar,
             $user->cover,
             $user->about,
+            $user->lastActive,
             $user->fields,
             $user->apId,
             $user->apProfileId,
             $user->getId(),
+            $user->followersCount,
+            $user->isBot
         );
     }
 
     public function createDtoFromAp($apProfileId, $apId): UserDto
     {
-        $dto = (new UserDto())->create('@'.$apId, $apId, null, null, null, null, $apId, $apProfileId);
+        $dto = (new UserDto())->create(username: '@'.$apId, email: $apId, apId: $apId, apProfileId: $apProfileId);
         $dto->plainPassword = bin2hex(random_bytes(20));
 
         return $dto;

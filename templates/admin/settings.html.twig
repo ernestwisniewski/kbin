@@ -47,6 +47,10 @@
                 {{ form_label(form.KBIN_MERCURE_ENABLED, 'mercure_enabled') }}
                 {{ form_widget(form.KBIN_MERCURE_ENABLED) }}
             </div>
+            <div class="checkbox">
+                {{ form_label(form.KBIN_ADMIN_ONLY_OAUTH_CLIENTS, 'restrict_oauth_clients') }}
+                {{ form_widget(form.KBIN_ADMIN_ONLY_OAUTH_CLIENTS) }}
+            </div>
             <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>

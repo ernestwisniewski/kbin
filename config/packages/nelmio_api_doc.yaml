@@ -1,0 +1,332 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: /kbin API
+            description: Documentation for interacting with content on /kbin through the API
+            version: 0.1.0
+        paths:
+            /authorize:
+                get:
+                    tags:
+                        - oauth
+                    summary: Begin an oauth2 authorization_code grant flow
+                    parameters:
+                        - name: response_type
+                          in: query
+                          schema:
+                            type: string
+                            default: code
+                            enum:
+                                - code
+                          required: true
+                        - name: client_id
+                          in: query
+                          schema:
+                            type: string
+                          required: true
+                        - name: redirect_uri
+                          in: query
+                          description: One of the valid redirect_uris that were registered for your client during client creation.
+                          schema:
+                            type: string
+                            format: uri
+                          required: true
+                        - name: scope
+                          in: query
+                          description: A space delimited list of requested scopes
+                          schema:
+                            type: string
+                          required: true
+                        - name: state
+                          in: query
+                          description: A randomly generated state variable to be used to prevent CSRF attacks
+                          schema:
+                            type: string
+                          required: true
+                        - name: code_challenge
+                          in: query
+                          description: Required for public clients, begins PKCE flow when present
+                          schema:
+                            type: string
+                        - name: code_challenge_method
+                          in: query
+                          description: Required for public clients, sets the type of code challenge used
+                          schema:
+                            type: string
+                            enum:
+                                - S256
+                                - plain
+            /token:
+                post:
+                    tags:
+                        - oauth
+                    summary: Used to retrieve a Bearer token after recieving consent from the user
+                    requestBody:
+                        content:
+                            multipart/form-data:
+                                schema:
+                                    required:
+                                      - grant_type
+                                      - client_id
+                                    properties:
+                                        grant_type:
+                                            type: string
+                                            description: One of the three grant types available
+                                            enum:
+                                                - authorization_code
+                                                - refresh_token
+                                                - client_credentials
+                                        client_id:
+                                            type: string
+                                        client_secret:
+                                            type: string
+                                            description: Required if using the client_credentials or authorization_code flow with a confidential client
+                                        code_verifier:
+                                            type: string
+                                            description: Required if using the PKCE extension to authorization_code flow
+                                        code:
+                                            type: string
+                                            description: Required during authorization_code flow. The code retrieved after redirect during authorization_code flow.
+                                        refresh_token:
+                                            type: string
+                                            description: Required during refresh_token flow. This is the refresh token obtained after a successful authorization_code flow.
+                                        redirect_uri:
+                                            type: string
+                                            description: Required during authorization_code flow. One of the valid redirect_uris that were registered for your client during client creation.
+                                        scope:
+                                            type: string
+                                            description: Required during client_credentials flow. A space-delimited list of scopes the client token will be provided.
+        components:
+            securitySchemes:
+                oauth2:
+                    type: oauth2
+                    flows:
+                        clientCredentials:
+                            tokenUrl: /token
+                            scopes:
+                                read:  Read all content you have access to.
+                                write:  Create or edit any of your threads, posts, or comments.
+                                delete:  Delete any of your threads, posts, or comments.
+                                subscribe:  Report threads, posts, or comments.
+                                block:  Upvote, downvote, or boost threads, posts, or comments.
+                                vote:  Subscribe or follow any magazine, domain, or user, and view the magazines, domains, and users you subscribe to.
+                                report:  Block or unblock any magazine, domain, or user, and view the magazines, domains, and users you have blocked.
+                                domain:  Subscribe to or block domains, and view the domains you subscribe to or block.
+                                domain:subscribe:  Subscribe or unsubscribe to domains and view the domains you subscribe to.
+                                domain:block:  Block or unblock domains and view the domains you have blocked.
+                                entry:  Create, edit, or delete your threads, and vote, boost, or report any thread.
+                                entry:create:  Create new threads.
+                                entry:edit:  Edit your existing threads.
+                                entry:delete:  Delete your existing threads.
+                                entry:report:  Report any thread.
+                                entry_comment:  Create, edit, or delete your comments in threads, and vote, boost, or report any comment in a thread.
+                                entry_comment:create:  Create new comments in threads.
+                                entry_comment:edit:  Edit your existing comments in threads.
+                                entry_comment:delete:  Delete your existing comments in threads.
+                                entry_comment:report:  Report any comment in a thread.
+                                magazine:  Subscribe to or block magazines, and view the magazines you subscribe to or block.
+                                magazine:subscribe:  Subscribe or unsubscribe to magazines and view the magazines you subscribe to.
+                                magazine:block:  Block or unblock magazines and view the magazines you have blocked.
+                                post:  Create, edit, or delete your microblogs, and vote, boost, or report any microblog.
+                                post:create:  Create new posts.
+                                post:edit:  Edit your existing posts.
+                                post:delete:  Delete your existing posts.
+                                post:report:  Report any post.
+                                post_comment:  Create, edit, or delete your comments on posts, and vote, boost, or report any comment on a post.
+                                post_comment:create:  Create new comments on posts.
+                                post_comment:edit:  Edit your existing comments on posts.
+                                post_comment:delete:  Delete your existing comments on posts.
+                                post_comment:report:  Report any comment on a post.
+                                user:  Read and edit your profile, messages, notifications; follow or block other users; view lists of users you follow or block.
+                                user:profile: Read and edit your profile.
+                                user:profile:read: Read your profile.
+                                user:profile:edit: Edit your profile.
+                                user:message: Read your messages and send messages to other users.
+                                user:message:read: Read your messages.
+                                user:message:create: Send messages to other users.
+                                user:notification: Read and clear your notifications.
+                                user:notification:read: Read your notifications, including message notifications.
+                                user:notification:delete: Clear notifications.
+                                user:follow:  Follow or unfollow users, and read a list of users you follow.
+                                user:block:  Block or unblock users, and read a list of users you block.
+                                moderate:  Perform any moderation action you have permission to perform in your moderated magazines.
+                                moderate:entry: Moderate threads in your moderated magazines.
+                                moderate:entry:language: Change the language of threads in your moderated magazines.
+                                moderate:entry:pin: Pin threads to the top of your moderated magazines.
+                                moderate:entry:set_adult: Mark threads as NSFW in your moderated magazines.
+                                moderate:entry:trash: Trash or restore threads in your moderated magazines.
+                                moderate:entry_comment: Moderate comments in threads in your moderated magazines.
+                                moderate:entry_comment:language: Change the language of comments in threads in your moderated magazines.
+                                moderate:entry_comment:set_adult: Mark comments in threads as NSFW in your moderated magazines.
+                                moderate:entry_comment:trash: Trash or restore comments in threads in your moderated magazines.
+                                moderate:post: Moderate posts in your moderated magazines.
+                                moderate:post:language: Change the language of posts in your moderated magazines.
+                                moderate:post:set_adult: Mark posts as NSFW in your moderated magazines.
+                                moderate:post:trash: Trash or restore posts in your moderated magazines.
+                                moderate:post_comment: Moderate comments on posts in your moderated magazines.
+                                moderate:post_comment:language: Change the language of comments on posts in your moderated magazines.
+                                moderate:post_comment:set_adult: Mark comments on posts as NSFW in your moderated magazines.
+                                moderate:post_comment:trash: Trash or restore comments on posts in your moderated magazines.
+                                moderate:magazine: Manage bans, reports, and view trashed items in your moderated magazines.
+                                moderate:magazine:ban: Manage banned users in your moderated magazines.
+                                moderate:magazine:ban:read: View banned users in your moderated magazines.
+                                moderate:magazine:ban:create: Ban users in your moderated magazines.
+                                moderate:magazine:ban:delete: Unban users in your moderated magazines.
+                                moderate:magazine:list: Read a list of your moderated magazines.
+                                moderate:magazine:reports: Manage reports in your moderated magazines.
+                                moderate:magazine:reports:read: Read reports in your moderated magazines.
+                                moderate:magazine:reports:action: Accept or reject reports in your moderated magazines.
+                                moderate:magazine:trash:read: View trashed content in your moderated magazines.
+                                moderate:magazine_admin: Create, edit, or delete your owned magazines.
+                                moderate:magazine_admin:create: Create new magazines.
+                                moderate:magazine_admin:delete: Delete any of your owned magazines.
+                                moderate:magazine_admin:update: Edit any of your owned magazines' rules, description, NSFW status, or icon.
+                                moderate:magazine_admin:theme: Edit the custom CSS of any of your owned magazines.
+                                moderate:magazine_admin:moderators: Add or remove moderators of any of your owned magazines.
+                                moderate:magazine_admin:badges: Create or remove badges from your owned magazines.
+                                moderate:magazine_admin:tags: Create or remove tags from your owned magazines.
+                                moderate:magazine_admin:stats: View the content, vote, and view stats of your owned magazines.
+                                admin:  Perform any administrative action on your instance.
+                                admin:entry:purge: Completely delete any thread from your instance.
+                                admin:entry_comment:purge: Completely delete any comment in a thread from your instance.
+                                admin:post:purge: Completely delete any post from your instance.
+                                admin:post_comment:purge: Completely delete any comment on a post from your instance.
+                                admin:magazine: Move threads between or completely delete magazines on your instance.
+                                admin:magazine:move_entry: Move threads between magazines on your instance.
+                                admin:magazine:purge: Completely delete magazines on your instance.
+                                admin:user: Ban, verify, or completely delete users on your instance.
+                                admin:user:ban: Ban or unban users from your instance.
+                                admin:user:verify: Verify users on your instance.
+                                admin:user:delete: Delete a user from your instance, leaving a record of their username.
+                                admin:user:purge: Completely delete a user from your instance.
+                                admin:instance: View your instance's stats and settings, or update instance settings or information.
+                                admin:instance:stats: View your instance's stats.
+                                admin:instance:settings: View or update settings on your instance.
+                                admin:instance:settings:read: View settings on your instance.
+                                admin:instance:settings:edit: Update settings on your instance.
+                                admin:instance:information:edit: Update the About, FAQ, Contact, Terms of Service, and Privacy Policy on your instance.
+                                admin:federation: View and update current (de)federation settings of other instances on your instance.
+                                admin:federation:read: View a list of defederated instances on your instance.
+                                admin:federation:update: Add or remove instances to the list of defederated instances.
+                                admin:oauth_clients: View or revoke OAuth2 clients that exist on your instance.
+                                admin:oauth_clients:read: View the OAuth2 clients that exist on your instance, and their usage stats.
+                                admin:oauth_clients:revoke: Revoke access to OAuth2 clients on your instance.
+                        authorizationCode:
+                            authorizationUrl: /authorize
+                            tokenUrl: /token
+                            scopes:
+                                read:  Read all content you have access to.
+                                write:  Create or edit any of your threads, posts, or comments.
+                                delete:  Delete any of your threads, posts, or comments.
+                                subscribe:  Report threads, posts, or comments.
+                                block:  Upvote, downvote, or boost threads, posts, or comments.
+                                vote:  Subscribe or follow any magazine, domain, or user, and view the magazines, domains, and users you subscribe to.
+                                report:  Block or unblock any magazine, domain, or user, and view the magazines, domains, and users you have blocked.
+                                domain:  Subscribe to or block domains, and view the domains you subscribe to or block.
+                                domain:subscribe:  Subscribe or unsubscribe to domains and view the domains you subscribe to.
+                                domain:block:  Block or unblock domains and view the domains you have blocked.
+                                entry:  Create, edit, or delete your threads, and vote, boost, or report any thread.
+                                entry:create:  Create new threads.
+                                entry:edit:  Edit your existing threads.
+                                entry:delete:  Delete your existing threads.
+                                entry:vote:  Upvote, boost, or downvote any thread.
+                                entry:report:  Report any thread.
+                                entry_comment:  Create, edit, or delete your comments in threads, and vote, boost, or report any comment in a thread.
+                                entry_comment:create:  Create new comments in threads.
+                                entry_comment:edit:  Edit your existing comments in threads.
+                                entry_comment:delete:  Delete your existing comments in threads.
+                                entry_comment:vote:  Upvote, boost, or downvote any comment in a thread.
+                                entry_comment:report:  Report any comment in a thread.
+                                magazine:  Subscribe to or block magazines, and view the magazines you subscribe to or block.
+                                magazine:subscribe:  Subscribe or unsubscribe to magazines and view the magazines you subscribe to.
+                                magazine:block:  Block or unblock magazines and view the magazines you have blocked.
+                                post:  Create, edit, or delete your microblogs, and vote, boost, or report any microblog.
+                                post:create:  Create new posts.
+                                post:edit:  Edit your existing posts.
+                                post:delete:  Delete your existing posts.
+                                post:vote:  Upvote, boost, or downvote any post.
+                                post:report:  Report any post.
+                                post_comment:  Create, edit, or delete your comments on posts, and vote, boost, or report any comment on a post.
+                                post_comment:create:  Create new comments on posts.
+                                post_comment:edit:  Edit your existing comments on posts.
+                                post_comment:delete:  Delete your existing comments on posts.
+                                post_comment:vote:  Upvote, boost, or downvote any comment on a post.
+                                post_comment:report:  Report any comment on a post.
+                                user:  Read and edit your profile, messages, notifications; follow or block other users; view lists of users you follow or block.
+                                user:profile: Read and edit your profile.
+                                user:profile:read: Read your profile.
+                                user:profile:edit: Edit your profile.
+                                user:message: Read your messages and send messages to other users.
+                                user:message:read: Read your messages.
+                                user:message:create: Send messages to other users.
+                                user:notification: Read and clear your notifications.
+                                user:notification:read: Read your notifications, including message notifications.
+                                user:notification:delete: Clear notifications.
+                                user:follow:  Follow or unfollow users, and read a list of users you follow.
+                                user:block:  Block or unblock users, and read a list of users you block.
+                                moderate:  Perform any moderation action you have permission to perform in your moderated magazines.
+                                moderate:entry: Moderate threads in your moderated magazines.
+                                moderate:entry:language: Change the language of threads in your moderated magazines.
+                                moderate:entry:pin: Pin threads to the top of your moderated magazines.
+                                moderate:entry:set_adult: Mark threads as NSFW in your moderated magazines.
+                                moderate:entry:trash: Trash or restore threads in your moderated magazines.
+                                moderate:entry_comment: Moderate comments in threads in your moderated magazines.
+                                moderate:entry_comment:language: Change the language of comments in threads in your moderated magazines.
+                                moderate:entry_comment:set_adult: Mark comments in threads as NSFW in your moderated magazines.
+                                moderate:entry_comment:trash: Trash or restore comments in threads in your moderated magazines.
+                                moderate:post: Moderate posts in your moderated magazines.
+                                moderate:post:language: Change the language of posts in your moderated magazines.
+                                moderate:post:set_adult: Mark posts as NSFW in your moderated magazines.
+                                moderate:post:trash: Trash or restore posts in your moderated magazines.
+                                moderate:post_comment: Moderate comments on posts in your moderated magazines.
+                                moderate:post_comment:language: Change the language of comments on posts in your moderated magazines.
+                                moderate:post_comment:set_adult: Mark comments on posts as NSFW in your moderated magazines.
+                                moderate:post_comment:trash: Trash or restore comments on posts in your moderated magazines.
+                                moderate:magazine: Manage bans, reports, and view trashed items in your moderated magazines.
+                                moderate:magazine:ban: Manage banned users in your moderated magazines.
+                                moderate:magazine:ban:read: View banned users in your moderated magazines.
+                                moderate:magazine:ban:create: Ban users in your moderated magazines.
+                                moderate:magazine:ban:delete: Unban users in your moderated magazines.
+                                moderate:magazine:list: Read a list of your moderated magazines.
+                                moderate:magazine:reports: Manage reports in your moderated magazines.
+                                moderate:magazine:reports:read: Read reports in your moderated magazines.
+                                moderate:magazine:reports:action: Accept or reject reports in your moderated magazines.
+                                moderate:magazine:trash:read: View trashed content in your moderated magazines.
+                                moderate:magazine_admin: Create, edit, or delete your owned magazines.
+                                moderate:magazine_admin:create: Create new magazines.
+                                moderate:magazine_admin:delete: Delete any of your owned magazines.
+                                moderate:magazine_admin:update: Edit any of your owned magazines' rules, description, NSFW status, or icon.
+                                moderate:magazine_admin:theme: Edit the custom CSS of any of your owned magazines.
+                                moderate:magazine_admin:moderators: Add or remove moderators of any of your owned magazines.
+                                moderate:magazine_admin:badges: Create or remove badges from your owned magazines.
+                                moderate:magazine_admin:tags: Create or remove tags from your owned magazines.
+                                moderate:magazine_admin:stats: View the content, vote, and view stats of your owned magazines.
+                                admin:  Perform any administrative action on your instance.
+                                admin:entry:purge: Completely delete any thread from your instance.
+                                admin:entry_comment:purge: Completely delete any comment in a thread from your instance.
+                                admin:post:purge: Completely delete any post from your instance.
+                                admin:post_comment:purge: Completely delete any comment on a post from your instance.
+                                admin:magazine: Move threads between or completely delete magazines on your instance.
+                                admin:magazine:move_entry: Move threads between magazines on your instance.
+                                admin:magazine:purge: Completely delete magazines on your instance.
+                                admin:user: Ban, verify, or completely delete users on your instance.
+                                admin:user:ban: Ban or unban users from your instance.
+                                admin:user:verify: Verify users on your instance.
+                                admin:user:delete: Delete a user from your instance, leaving a record of their username.
+                                admin:user:purge: Completely delete a user from your instance.
+                                admin:instance: View your instance's stats and settings, or update instance settings or information.
+                                admin:instance:stats: View your instance's stats.
+                                admin:instance:settings: View or update settings on your instance.
+                                admin:instance:settings:read: View settings on your instance.
+                                admin:instance:settings:edit: Update settings on your instance.
+                                admin:instance:information:edit: Update the About, FAQ, Contact, Terms of Service, and Privacy Policy on your instance.
+                                admin:federation: View and update current (de)federation settings of other instances on your instance.
+                                admin:federation:read: View a list of defederated instances on your instance.
+                                admin:federation:update: Add or remove instances to the list of defederated instances.
+                                admin:oauth_clients: View or revoke OAuth2 clients that exist on your instance.
+                                admin:oauth_clients:read: View the OAuth2 clients that exist on your instance, and their usage stats.
+                                admin:oauth_clients:revoke: Revoke access to OAuth2 clients on your instance.
+
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!(/doc$|/\.well-known.*|/docs.*|/doc\.json$|/\{index\}|/contexts.*)) # Accepts routes under /api except /api/doc

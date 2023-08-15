@@ -1,5 +1,85 @@
 framework:
   rate_limiter:
+    # 1 anonymous read per second
+    anonymous_api_read:
+      policy: 'sliding_window'
+      limit: 60
+      interval: '60 seconds'
+    # 2 API clients created every 6 hours per IP
+    api_oauth_client:
+      policy: 'sliding_window'
+      limit: 2
+      interval: '360 minutes'
+    # 2 tokens revoked every second, bursting up to 60
+    api_oauth_token_revoke:
+      policy: 'sliding_window'
+      limit: 60
+      interval: '30 seconds'
+    # 1 clients deleted every minute, bursting up to 5
+    api_oauth_client_delete:
+      policy: 'sliding_window'
+      limit: 5
+      interval: '5 minutes'
+    # 2 deletes per second, bursting up to 240 in 2 minutes
+    api_delete:
+      policy: 'sliding_window'
+      limit: 240
+      interval: '2 minutes'
+    # 2 messages per second, bursting up to 120
+    api_message:
+      policy: 'sliding_window'
+      limit: 120
+      interval: '60 seconds'
+    # 2 reports per minute, bursting up to 10
+    api_report:
+      policy: 'sliding_window'
+      limit: 10
+      interval: '300 seconds'
+    # 2 reads per second, bursting up to 240
+    api_read:
+      policy: 'sliding_window'
+      limit: 240
+      interval: '2 minutes'
+    # 1 update per second, bursting up to 120
+    api_update:
+      policy: 'sliding_window'
+      limit: 120
+      interval: '2 minutes'
+    # 3.6 votes per minute, bursting up to 220 every hour
+    api_vote:
+      policy: 'sliding_window'
+      limit: 220
+      interval: '60 minutes'
+    # 1 entry per 3 minutes, bursting up to 2 (same rate as normal user)
+    api_entry:
+      policy: 'sliding_window'
+      limit: 2
+      interval: '6 minutes'
+    # 1 post/microblog per 2 minutes, bursting up to 10
+    api_post:
+      policy: 'sliding_window'
+      limit: 10
+      interval: '20 minutes'
+    # 1 image upload every 6 minutes, bursting up to 5 in 30 minutes
+    api_image:
+      policy: 'sliding_window'
+      limit: 5
+      interval: '30 minutes'
+    # 2 post or entry comments per minute, bursting up to 20
+    api_comment:
+      policy: 'sliding_window'
+      limit: 20
+      interval: '10 minutes'
+    # 2 notification reads/updates/deletes per second, bursting up to 240
+    api_notification:
+      policy: 'sliding_window'
+      limit: 240
+      interval: '2 minutes'
+    # 3 moderation actions per second, bursting up to 360
+    api_moderate:
+      policy: 'sliding_window'
+      limit: 360
+      interval: '2 minutes'
     vote:
       policy: 'sliding_window'
       limit: 220

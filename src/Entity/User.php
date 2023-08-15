@@ -40,6 +40,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const THEME_LIGHT = 'light';
     public const THEME_DARK = 'dark';
     public const THEME_AUTO = 'auto';
+    public const THEME_OPTIONS = [
+        self::THEME_AUTO,
+        self::THEME_DARK,
+        self::THEME_LIGHT,
+    ];
 
     public const MODE_NORMAL = 'normal';
     public const MODE_TURBO = 'turbo';
@@ -48,6 +53,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
     public const HOMEPAGE_FAV = 'front_favourite';
+    public const HOMEPAGE_OPTIONS = [
+        self::HOMEPAGE_ALL,
+        self::HOMEPAGE_SUB,
+        self::HOMEPAGE_MOD,
+        self::HOMEPAGE_FAV,
+    ];
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
@@ -115,6 +126,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public bool $isVerified = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isDeleted = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $isBot = false;
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
     #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
@@ -201,6 +214,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[Column(type: 'string', nullable: false)]
     private string $password;
 
+    #[OneToMany(mappedBy: 'user', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]
+    private Collection $oAuth2UserConsents;
+
     public function __construct(
         string $email,
         string $username,
@@ -237,6 +253,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->awards = new ArrayCollection();
         $this->lastActive = new \DateTime();
         $this->createdAtTraitConstruct();
+        $this->oAuth2UserConsents = new ArrayCollection();
     }
 
     public function getId(): int
@@ -669,5 +686,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         }
 
         return $this->showProfileSubscriptions;
+    }
+
+    /**
+     * @return Collection<int, OAuth2UserConsent>
+     */
+    public function getOAuth2UserConsents(): Collection
+    {
+        return $this->oAuth2UserConsents;
+    }
+
+    public function addOAuth2UserConsent(OAuth2UserConsent $oAuth2UserConsent): self
+    {
+        if (!$this->oAuth2UserConsents->contains($oAuth2UserConsent)) {
+            $this->oAuth2UserConsents->add($oAuth2UserConsent);
+            $oAuth2UserConsent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOAuth2UserConsent(OAuth2UserConsent $oAuth2UserConsent): self
+    {
+        if ($this->oAuth2UserConsents->removeElement($oAuth2UserConsent)) {
+            // set the owning side to null (unless already changed)
+            if ($oAuth2UserConsent->getUser() === $this) {
+                $oAuth2UserConsent->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

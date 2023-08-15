@@ -6,8 +6,11 @@ use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
+use App\DTO\OAuth2ClientDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
+use App\DTO\UserDto;
+use App\Entity\Client;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
@@ -22,8 +25,13 @@ use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
+use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
+use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
+use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
+use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
 
 trait FactoryTrait
 {
@@ -69,7 +77,7 @@ trait FactoryTrait
         ];
     }
 
-    private function createUser(string $username, string $email = null, string $password = null, $active = true, $hideAdult = true): User
+    private function createUser(string $username, string $email = null, string $password = null, $active = true, $hideAdult = true, $about = null): User
     {
         $manager = $this->getService(EntityManagerInterface::class);
 
@@ -85,6 +93,7 @@ trait FactoryTrait
         $user->showProfileFollowings = true;
         $user->showProfileSubscriptions = true;
         $user->hideAdult = $hideAdult;
+        $user->about = $about;
         $user->avatar = $this->createImage(bin2hex(random_bytes(20)).'.png');
 
         $manager->persist($user);
@@ -93,6 +102,63 @@ trait FactoryTrait
         $this->users->add($user);
 
         return $user;
+    }
+
+    public static function createOAuth2AuthCodeClient(): void
+    {
+        /** @var ClientManagerInterface $manager */
+        $manager = self::getContainer()->get(ClientManagerInterface::class);
+
+        $client = new Client('/kbin Test Client', 'testclient', 'testsecret');
+        $client->setDescription('An OAuth2 client for testing purposes');
+        $client->setContactEmail('test@kbin.test');
+        $client->setScopes(...array_map(fn (string $scope) => new Scope($scope), OAuth2ClientDto::AVAILABLE_SCOPES));
+        $client->setGrants(new Grant('authorization_code'), new Grant('refresh_token'));
+        $client->setRedirectUris(new RedirectUri('https://localhost:3001'));
+
+        $manager->save($client);
+    }
+
+    public static function createOAuth2PublicAuthCodeClient(): void
+    {
+        /** @var ClientManagerInterface $manager */
+        $manager = self::getContainer()->get(ClientManagerInterface::class);
+
+        $client = new Client('/kbin Test Client', 'testpublicclient', null);
+        $client->setDescription('An OAuth2 public client for testing purposes');
+        $client->setContactEmail('test@kbin.test');
+        $client->setScopes(...array_map(fn (string $scope) => new Scope($scope), OAuth2ClientDto::AVAILABLE_SCOPES));
+        $client->setGrants(new Grant('authorization_code'), new Grant('refresh_token'));
+        $client->setRedirectUris(new RedirectUri('https://localhost:3001'));
+
+        $manager->save($client);
+    }
+
+    public static function createOAuth2ClientCredsClient(): void
+    {
+        /** @var ClientManagerInterface $clientManager */
+        $clientManager = self::getContainer()->get(ClientManagerInterface::class);
+
+        /** @var UserManager $userManager */
+        $userManager = self::getContainer()->get(UserManager::class);
+
+        $client = new Client('/kbin Test Client', 'testclient', 'testsecret');
+
+        $userDto = new UserDto();
+        $userDto->username = 'test_bot';
+        $userDto->email = 'test@kbin.test';
+        $userDto->plainPassword = hash('sha512', random_bytes(32));
+        $userDto->isBot = true;
+        $user = $userManager->create($userDto, false, false);
+        $client->setUser($user);
+
+        $client->setDescription('An OAuth2 client for testing purposes');
+        $client->setContactEmail('test@kbin.test');
+        $client->setScopes(...array_map(fn (string $scope) => new Scope($scope), OAuth2ClientDto::AVAILABLE_SCOPES));
+        $client->setGrants(new Grant('client_credentials'));
+        $client->setRedirectUris(new RedirectUri('https://localhost:3001'));
+
+        $clientManager->save($client);
     }
 
     private function provideMagazines(): iterable
@@ -130,7 +196,7 @@ trait FactoryTrait
         ];
     }
 
-    protected function getUserByUsername(string $username, bool $isAdmin = false, bool $hideAdult = true): User
+    protected function getUserByUsername(string $username, bool $isAdmin = false, bool $hideAdult = true, string $about = null, bool $active = true): User
     {
         $user = $this->users->filter(
             static function (User $user) use ($username) {
@@ -138,7 +204,7 @@ trait FactoryTrait
             }
         )->first();
 
-        $user = $user ?: $this->createUser($username, hideAdult: $hideAdult);
+        $user = $user ?: $this->createUser($username, hideAdult: $hideAdult, about: $about, active: $active);
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];

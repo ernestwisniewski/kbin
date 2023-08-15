@@ -13,6 +13,7 @@ use App\Event\VoteEvent;
 use App\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
@@ -33,6 +34,10 @@ class VoteManager
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
+        }
+
+        if ($user->isBot) {
+            throw new AccessDeniedHttpException('Bots are not allowed to vote on items!');
         }
 
         $vote = $votable->getUserVote($user);
@@ -87,6 +92,10 @@ class VoteManager
 
     public function upvote(VotableInterface $votable, User $user): Vote
     {
+        if ($user->isBot) {
+            throw new AccessDeniedHttpException('Bots are not allowed to vote on items!');
+        }
+
         // @todo save activity pub object id
         $vote = $votable->getUserVote($user);
 
@@ -117,6 +126,10 @@ class VoteManager
 
     public function removeVote(VotableInterface $votable, User $user): ?Vote
     {
+        if ($user->isBot) {
+            throw new AccessDeniedHttpException('Bots are not allowed to vote on items!');
+        }
+
         // @todo save activity pub object id
         $vote = $votable->getUserVote($user);
 

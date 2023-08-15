@@ -29,6 +29,7 @@ class UserDto implements UserDtoInterface
     public ?string $plainPassword = null; // @todo move password and agreeTerms to RegisterDto
     #[Assert\Length(min: 2, max: 512)]
     public ?string $about = null;
+    public ?\DateTime $lastActive = null;
     public ?string $fields = null;
     public Image|ImageDto|null $avatar = null;
     public Image|ImageDto|null $cover = null;
@@ -37,6 +38,8 @@ class UserDto implements UserDtoInterface
     public ?string $apId = null;
     public ?string $apProfileId = null;
     public ?int $id = null;
+    public ?int $followersCount = 0;
+    public ?bool $isBot = null;
 
     #[Assert\Callback]
     public function validate(
@@ -70,10 +73,13 @@ class UserDto implements UserDtoInterface
         Image|ImageDto $avatar = null,
         Image|ImageDto $cover = null,
         string $about = null,
+        \DateTime $lastActive = null,
         array $fields = null,
         string $apId = null,
         string $apProfileId = null,
-        int $id = null
+        int $id = null,
+        ?int $followersCount = 0,
+        bool $isBot = null,
     ): self {
         $this->id = $id;
         $this->username = $username;
@@ -81,9 +87,12 @@ class UserDto implements UserDtoInterface
         $this->avatar = $avatar;
         $this->cover = $cover;
         $this->about = $about;
+        $this->lastActive = $lastActive;
         $this->fields = $fields;
         $this->apId = $apId;
         $this->apProfileId = $apProfileId;
+        $this->followersCount = $followersCount;
+        $this->isBot = $isBot;
 
         return $this;
     }

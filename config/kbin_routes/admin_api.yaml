@@ -1,0 +1,18 @@
+api_admin_retrieve_client_stats:
+  controller: App\Controller\Api\OAuth2\Admin\RetrieveClientStatsApi
+  path: /api/clients/stats
+  methods: [ GET ]
+  format: json
+
+api_admin_retrieve_client:
+  controller: App\Controller\Api\OAuth2\Admin\RetrieveClientApi
+  path: /api/clients/{client_identifier}
+  methods: [ GET ]
+  format: json
+
+api_admin_retrieve_client_collection:
+  controller: App\Controller\Api\OAuth2\Admin\RetrieveClientApi::collection
+  path: /api/clients
+  methods: [ GET ]
+  format: json
+

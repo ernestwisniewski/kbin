@@ -1,0 +1,39 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    header::before {
+        display: none;
+    }
+    </style>
+    {{ encore_entry_link_tags('app') }}
+    <style>
+    .swagger-ui code {
+        color: inherit;
+        display: inherit;
+        background: inherit;
+        padding: inherit;
+        overflow: inherit;
+    }
+    </style>
+{% endblock %}
+
+{% block header_block %}
+    <header id="header" class="header">
+        <div class="kbin-container">
+            <nav class="head-nav"  data-action="click->kbin#toggleNav">
+                <div class="brand">
+                    <div><i class="fa-solid fa-bars"></i></div>
+                    <a href="{{ app.user ? path(app.user.homepage) : '/' }}">
+                        {% if kbin_header_logo() %}
+                            <img id="logo" src="{{ asset('kbin_logo.svg') }}" alt="{{ kbin_title() }}">
+                        {% else %}
+                            <span>{{ kbin_title() }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+{% endblock %}
