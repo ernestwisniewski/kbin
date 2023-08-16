@@ -32,5 +32,12 @@ services:
 #      - 1025:1025
 #      - 8025:8025
 
+  nodejs:
+    image: node:18-alpine
+    command: sh -c "yarn && yarn watch"
+    volumes:
+      - ./:/srv/app
+    working_dir: "/srv/app"
+
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
