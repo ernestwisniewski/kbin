@@ -165,7 +165,7 @@ figure {
   .alert,
   .btn,
   figure img,
-  input,
+  input:not([type='radio']),
   textarea,
   select,
   button,

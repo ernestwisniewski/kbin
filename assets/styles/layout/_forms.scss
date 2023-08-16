@@ -87,6 +87,42 @@ textarea {
   width: 100%;
 }
 
+input[type=radio]{
+  border-radius:  50%;
+}
+
+input[type=checkbox],
+input[type=radio]{
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 0.9rem;
+  display: grid;
+  margin: 0px;
+  width: 1.5rem;
+  height: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  cursor: pointer;
+
+  &::before{
+    font-family: var(--kbin-font-awesome-font-family);
+    content: "\f00c";
+    transform: scale(0);
+    transition: 100ms transform ease-in;
+  }
+
+  &:checked::before{
+    transform: scale(1);
+  }
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+}
+
 label {
   display: block;
 }
