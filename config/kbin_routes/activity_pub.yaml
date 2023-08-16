@@ -15,8 +15,9 @@ ap_node_info:
 
 ap_node_info_v2:
   controller: App\Controller\ActivityPub\NodeInfoController::nodeInfoV2
-  path: '/nodeinfo/2.0'
+  path: '/nodeinfo/2.0.{_format}'
   methods: [ GET ]
+  format: json
 
 ap_instance:
   controller: App\Controller\ActivityPub\InstanceController
