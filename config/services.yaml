@@ -65,7 +65,7 @@ parameters:
   cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
   cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
 
-  sso_only_mode: '%env(bool:SSO_ONLY_MODE)'
+  sso_only_mode: '%env(bool:default::SSO_ONLY_MODE)%'
 
 services:
   _defaults:
