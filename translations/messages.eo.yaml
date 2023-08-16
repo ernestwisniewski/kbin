@@ -1,0 +1,509 @@
+type.article: Fadeno
+type.photo: Foto
+type.video: Filmeto
+type.smart_contract: Inteligenta kontrakto
+type.magazine: Revuo
+people: Homoj
+events: Eventoj
+magazine: Revuo
+magazines: Revuoj
+search: Serĉi
+add: Aldoni
+select_channel: Elektu kanalon
+login: Ensaluti
+top: Supro
+hot: Furora
+active: Aktiva
+newest: Plej nova
+commented: Komentis
+change_view: Ŝanĝi aspekton
+filter_by_time: Filtri laŭ tempo
+filter_by_type: Filtri laŭ tipo
+favourites: Plej ŝatatoj
+favourite: Igi plej ŝatata
+added: Aldonis
+up_votes: Akceloj
+down_votes: Reduktoj
+created_at: Kreita
+owner: Proprulo
+subscribers: Abonantoj
+replies: Respondoj
+empty: Malplena
+unsubscribe: Malaboni
+remember_me: Memoru min
+unfollow: Malsekvi
+terms: Servadokondiĉoj
+privacy_policy: Privateca politiko
+awards: Premioj
+ranking: Rangolisto
+add_new_article: Aldoni novan fadenon
+change_theme: Ŝanĝi etoson
+useful: Utila
+help: Helpo
+cards_view: Kartoj aspekto
+3h: 3h
+6h: 6h
+12h: 12h
+1d: 1t
+1w: 1s
+1m: 1m
+articles: Fadenoj
+photos: Fotoj
+videos: Filmetoj
+share: Kunhavigi
+copy_url: Kopii /kbin URL
+copy_url_to_fediverse: Kopii originala URL
+share_on_fediverse: Kunhavigi en Fediverso
+are_you_sure: Ĉu vi certas?
+type.link: Ligilo
+thread: Fadeno
+threads: Fadenoj
+microblog: Mikroblogo
+oldest: Plej malnova
+more: Pli
+avatar: Avataro
+views: Rigardoj
+no_comments: Sen komentoj
+online: Reta
+comments: Komentoj
+posts: Afiŝoj
+moderators: Moderigantoj
+federated_magazine_info: Ĉi tiu revuo estas el federaciita servilo kaj povas esti
+  nekompleta.
+federated_user_info: Ĉi tiu profilo estas el federaciita servilo kaj povas esti nekompleta.
+go_to_original_instance: Foliumi pli en la originala nodo.
+reset_check_email_desc: Se jam estas konto asociita kun via retpoŝtadreso, vi baldaŭ
+  ricevu retpoŝton enhavantan ligilon, kiun vi povas uzi por reagordi vian pasvorton.
+  Ĉi tiu ligilo eksvalidiĝos en %expire%.
+login_or_email: Uzantnomo aŭ retpoŝtadreso
+agree_terms: Konsentu al %terms_link_start%Kondiĉoj%terms_link_end% kaj %policy_link_start%Privateca
+  Politiko%policy_link_end%
+reset_check_email_desc2: Se vi ne ricevas retmesaĝon, bonvolu kontroli vian spam-dosierujon.
+check_email: Kontrolu vian retpoŝton
+table_view: Tablo aspekto
+theme: Etoso
+1y: 1j
+comment: Komento
+post: Afiŝo
+links: Ligiloj
+all: Ĉiuj
+report: Raporti
+infinite_scroll: Senfina rulumado
+edit: Redakti
+add_post: Aldoni afiŝon
+add_media: Aldoni aŭdvidaĵon
+enter_your_post: Enigu vian afiŝon
+activity: Aktiveco
+password: Pasvorto
+already_have_account: Ĉu vi jam havas konton?
+reset_password: Reagordi pasvorton
+to: al
+username: Uzantnomo
+email: Retpoŝtadreso
+repeat_password: Ripetu pasvorton
+stats: Statistikoj
+fediverse: Fediverso
+add_new_link: Aldoni novan ligilon
+add_new_photo: Aldoni novan foton
+add_new_video: Aldoni novan filmeton
+contact: Kontakto
+faq: Oftaj demandoj
+rss: RSS
+random_magazines: Hazardaj revuoj
+kbin_promo_title: Krei vian propran nodon
+comments_count: '{0}komentoj|{1}komento|]1,Inf[ komentoj'
+add_comment: Aldoni komenton
+markdown_howto: Kiel la redaktilo funkcias?
+enter_your_comment: Enigu vian komenton
+cover: Kovrilo
+related_posts: Rilataj afiŝoj
+random_posts: Hazardaj afiŝoj
+subscribe: Aboni
+follow: Sekvi
+reply: Respondi
+dont_have_account: Ĉu vi ne havas konton?
+you_cant_login: Ĉu vi forgesis vian pasvorton?
+register: Registriĝi
+show_more: Montri pli
+in: en
+about_instance: Pri
+all_magazines: Ĉiuj revuoj
+create_new_magazine: Krei novan revuon
+add_new_post: Aldoni novan afiŝon
+tokyo_night: Tokia Nokto
+captcha_enabled: «Captcha» ebligita
+up_vote: Akceli
+down_vote: Redukti
+email_confirm_content: 'Ĉu vi pretas aktivigi vian /kbin-konton? Alklaku la suban
+  ligilon:'
+email_verify: Konfirmu la retpoŝtadreson
+select_magazine: Elektu revuon
+add_new: Aldoni novan
+url: URL
+image: Bildo
+title: Titolo
+body: Korpo
+tags: Etikedoj
+badges: Insignoj
+is_adult: 18+ / NSPL
+domain: Domajno
+name: Nomo
+description: Priskribo
+following: Sekvado
+subscriptions: Abonoj
+overview: Superrigardo
+cards: Kartoj
+columns: Kolumnoj
+user: Uzanto
+joined: Aliĝis
+ratio: Rilatumo
+people_federated: Federaciita
+related_tags: Rilataj etikedoj
+go_to_content: Iri al enhavo
+go_to_search: Iri al serĉi
+go_to_footer: Iri al piedo
+subscribed: Abonita
+logout: Elsaluti
+classic_view: Klasika aspekto
+compact_view: Kompacta aspekto
+chat_view: Babilo aspekto
+tree_view: Arba aspekto
+moderate: Kontroli
+reason: Kialo
+edit_article: Redakti fadenon
+delete: Forigi
+edit_post: Redakti afiŝon
+edit_photo: Redakti foton
+settings: Agordoj
+general: Ĝenerala
+reports: Raportoj
+messages: Mesaĝojn
+appearance: Aspekto
+homepage: Hejmpaĝo
+hide_adult: Kaŝi NSPL-enhavon
+privacy: Privateco
+show_profile_subscriptions: Montri revuon abonojn
+show_profile_followings: Montri sekvajn uzantojn
+notify_on_new_entry_comment_reply: Respondoj al miaj komentoj en iuj fadenoj
+notify_on_new_post_reply: Respondoj je ajna nivelo al afiŝoj, kiujn mi verkis
+notify_on_new_post_comment_reply: Respondoj al miaj komentoj pri iuj afiŝoj
+notify_on_new_entry: Novaj fadenoj (ligiloj aŭ artikoloj) en iu ajn revuo, al kiu
+  mi estas abonita
+save: Konservi
+about: Pri
+old_email: Nuna retpoŝtadreso
+new_email: Nova retpoŝtadreso
+new_email_repeat: Konfirmu novan retpoŝtadreson
+current_password: Nuna pasvorto
+new_password: Nova pasvorto
+new_password_repeat: Konfirmu novan pasvorton
+expand: Vastigi
+collapse: Kolapsi
+domains: Domajnoj
+error: Eraro
+votes: Voĉdonoj
+dark: Malhela
+font_size: Tipara grando
+size: Grando
+boosts: Akceloj
+show_users_avatars: Montri avatarojn de uzantoj
+yes: Jes
+no: Ne
+show_magazines_icons: Montri ikonojn de revuoj
+show_thumbnails: Montri bildetojn
+rounded_edges: Rondigitaj randoj
+restored_thread_by: restaŭris fadenon de
+removed_post_by: forigis afiŝon de
+restored_comment_by: restaŭris komenton de
+restored_post_by: restaŭris afiŝon de
+read_all: Legi ĉion
+show_all: Montri ĉion
+ranking_disabled: Rango estas malŝaltita
+set_magazines_bar: Revuoj breto
+set_magazines_bar_desc: aldonu la revuonomojn post la komo
+gold: Oro
+silver: Arĝento
+bronze: Bronzo
+flash_thread_new_success: La fadeno estis kreita sukcese kaj nun videblas por aliaj
+  uzantoj.
+flash_thread_edit_success: La fadeno estas sukcese redaktita.
+flash_thread_delete_success: La fadeno estas sukcese forigita.
+flash_thread_pin_success: La fadeno estas sukcese alpinglita.
+flash_thread_unpin_success: La fadeno estas sukcese depinglita.
+flash_magazine_edit_success: La revuo estas sukcese redaktita.
+rules: Reguloj
+followers: Sekvantoj
+oc: OE
+image_alt: Bildo alternativa teksto
+email_confirm_title: Konfirmu vian retpoŝtadreson.
+email_confirm_header: Saluton! Konfirmu vian retpoŝtadreson.
+email_confirm_expire: Bonvolu noti, ke la ligilo eksvalidiĝos post horo.
+removed_comment_by: forigis komenton de
+removed_thread_by: forigis fadenon de
+too_many_requests: Limo superita, bonvolu provi denove poste.
+set_magazines_bar_empty_desc: se la kampo estas malplena, aktivaj revuoj estas montrataj
+  sur la breto.
+bronze_autobiographer: Aŭtobiografiisto
+edit_link: Redakti ligilon
+edit_comment: Konservi ŝanĝojn
+profile: Profilo
+mod_log: Kontrol-protokolo
+flash_register_success: Bonvenon surŝipe! Via konto nun estas registrita. Unu fina
+  paŝo - kontrolu vian enirkeston por aktiviga ligilo, kiu vivigos vian konton.
+people_local: Loka
+reputation_points: Reputaciopoentoj
+flash_magazine_new_success: La revuo estas sukcese kreita. Vi nun povas aldoni novan
+  enhavon aŭ esplori la administran panelon de la revuo.
+go_to_filters: Iri al filtriloj
+notifications: Sciigoj
+featured_magazines: Elstaraj revuoj
+notify_on_new_entry_reply: Komentoj je ajna nivelo en fadenoj kiujn mi verkis
+notify_on_new_posts: Novaj afiŝoj en iu ajn revuo, al kiu mi estas abonita
+change_email: Ŝanĝi retpoŝtadreson
+change_password: Ŝanĝi pasvorton
+light: Hela
+try_again: Provu denove
+blocked: Blokita
+he_banned: forbari
+he_unbanned: malforbari
+bronze_commentator_desc: 10 bonaj komentoj
+bronze_redactor_desc: 10 bonaj fadenoj
+bronze_link: Bona ligilo
+bronze_post: Bona afiŝo
+bronze_magazine_desc: 20 sekvantoj kreis revuon
+silver_personality_desc: 50 sekvantoj
+silver_scout_desc: 10 bonegaj ligiloj
+gold_scout_desc: 10 elstaraj ligiloj
+gold_link: Elstara ligilo
+gold_photo: Elstara foto
+banned: Forbaris vin
+deleted: Forigita de la aŭtoro
+mentioned_you: Menciis vin
+send_message: Sendi mesaĝon
+message: Mesaĝo
+from_url: El URL
+users: Uzantoj
+content: Enhavo
+week: Semajno
+weeks: Semajnoj
+months: Monatoj
+year: Jaro
+pages: Paĝoj
+FAQ: Oftaj demandoj
+Your account is not active: Via konto ne estas aktiva.
+related_entries: Rilataj fadenoj
+related_magazines: Rilataj revuoj
+banned_instances: Forbaritaj nodoj
+bronze_personality_desc: 20 sekvantoj
+bronze_scout_desc: 10 bonaj ligiloj
+bronze_poster_desc: 10 bonaj afiŝoj
+bronze_photo: Bona foto
+bronze_comment: Bona komento
+bronze_popular_entry: Populara fadeno
+silver_commentator_desc: 10 bonegaj komentoj
+silver_redactor_desc: 10 bonegaj fadenoj
+silver_poster_desc: 10 bonegaj afiŝoj
+silver_link: Bonega ligilo
+silver_photo: Bonega foto
+silver_comment: Bonega komento
+silver_post: Bonega afiŝo
+silver_magazine_desc: 50 sekvantoj kreis revuon
+gold_personality_desc: 100 sekvantoj
+gold_redactor_desc: 10 elstaraj fadenoj
+gold_poster_desc: 10 elstaraj afiŝoj
+gold_comment: Elstara komento
+gold_post: Elstara afiŝo
+gold_magazine_desc: 100 sekvantoj kreis revuon
+wrote_message: Skribis mesaĝon
+instances: Nodoj
+upload_file: Alŝuti dosieron
+ban: Forbari
+change_language: 'Ŝanĝi lingvon'
+article: Fadeno
+reputation: Reputacio
+month: Monato
+instance: Nodo
+inactive: Neaktiva
+Password is invalid: Pasvorto nevalidas.
+Your account has been banned: Via konto estis forbarita.
+send: Sendi
+random_entries: Hazardaj fadenoj
+delete_account: Forigi konton
+ban_account: Forbari konton
+unban_account: Malforbari konton
+moderated: Moderigita
+bronze_personality: Bronza personeco
+bronze_commentator: Bronza komentisto
+bronze_autobiographer_desc: Por plenigi ĉiujn profilokampojn
+solarized_light: Hele sunlumigita
+solarized_dark: Malhele Sunlumigita
+bronze_ranking_desc: 3-a loko en la rangolisto
+bronze_popular_entry_desc: Fadeno 1000-foje vizitita
+bronze_magazine: Fama revuo
+silver_personality: Arĝenta karaktero
+silver_commentator: Arĝenta komentanto
+silver_scout: Arĝenta skolto
+silver_redactor: Arĝenta redaktoro
+silver_poster: Arĝenta afiŝanto
+silver_link_desc: La afiŝo estis 10-foje diskonigita
+silver_article: Arĝenta fadeno
+silver_article_desc: La fadeno estis 10-foje diskonigita
+silver_photo_desc: La foto estis 10-foje diskonigita
+silver_post_desc: La afiŝo estis 10-foje diskonigita
+silver_comment_desc: La komento estis 10-foje diskonigita
+bronze_scout: Bronza skolto
+bronze_redactor: Bronza redaktoro
+bronze_article: Bronza fadeno
+bronze_article_desc: La fadeno estis akcelita 5 fojojn
+bronze_photo_desc: La foto estis akcelita 5 fojojn
+bronze_comment_desc: La komento estis akcelita 5 fojojn
+silver_ranking: 2-a
+silver_ranking_desc: 2-a loko en la rangolisto
+bronze_poster: Bronza afiŝanto
+bronze_link_desc: La afiŝo estis akcelita 5 fojojn
+bronze_post_desc: La afiŝo estis akcelita 5 fojojn
+bronze_ranking: Numero 3
+gold_ranking: 1-a
+gold_ranking_desc: 1-a loko en la rangolisto
+silver_popular_entry: Populara fadeno
+silver_popular_entry_desc: Fadeno 5000-foje vizitita
+silver_magazine: Populara revuo
+silver_entry_week: Fadeno de la semajno
+silver_comment_week: Komento de la semajno
+silver_comment_week_desc: La plej bona komento de la semajno
+silver_post_week: Afiŝo de la semajno
+silver_post_week_desc: La plej bona afiŝo de la semajno
+gold_personality: Ora karaktero
+gold_commentator: Ora komentanto
+gold_scout: Ora skolto
+gold_redactor: Ora redaktoro
+gold_poster: Ora afiŝanto
+gold_link_desc: La afiŝo estis 15-foje diskonigita
+gold_article: Ora fadeno
+gold_article_desc: La fadeno estis 15-foje diskonigita
+gold_photo_desc: La foto estis 15-foje diskonigita
+gold_comment_desc: La komento estis 15-foje diskonigita
+gold_popular_entry: Populara fadeno
+gold_magazine: Populara revuo
+gold_entry_month: Fadeno de la monato
+gold_comment_month: Komento de la monato
+gold_comment_month_desc: La plej bona komento de la monato
+gold_post_month: Afiŝo de la monato
+gold_post_month_desc: La plej bona afiŝo de la monato
+silver_entry_week_desc: La plej bona fadeno de la semajno
+gold_commentator_desc: 10 elstaraj komentoj
+gold_post_desc: La afiŝo estis 15-foje diskonigita
+gold_popular_entry_desc: Fadeno 10000-foje vizitita
+gold_entry_month_desc: La plej bona fadeno de la monato
+mod_log_alert: AVERTO - La kontrol-protokolo povus enhavi malagrablan aŭ afliktan
+  enhavon, kiu estis forigita de moderigantoj. Bonvolu esti singarda.
+added_new_thread: Aldonis novan fadenon
+boost: Diskonigi
+edited_thread: Redaktis fadenon
+added_new_comment: Aldonis novan komenton
+edited_comment: Redaktis komenton
+mod_deleted_your_comment: Moderiganto forigis vian komenton
+edited_post: Redaktis afiŝon
+mod_remove_your_post: Moderiganto forigis vian afiŝon
+added_new_reply: Aldonis novan respondon
+mod_remove_your_thread: Moderiganto forigis vian fadenon
+replied_to_your_comment: Respondis al via komento
+added_new_post: Aldonis novan afiŝon
+removed: Forigita de moderiganto
+ban_expired: Forbaro eksvalidiĝis
+purge: Viŝi
+add_moderator: Aldoni moderiganton
+sticky_navbar: Gluita naviga breto
+show_top_bar: Montri supran breton
+eng: ENG
+subject_reported: La enhavo estis raportita.
+left: Maldekstre
+right: Dekstre
+approve: Aprobi
+approved: Aprobita
+trash: Rubujo
+federation: Federacio
+filters: Filtriloj
+sidebar_position: Flanka kolumno pozicio
+status: Stato
+off: Malŝalta
+magazine_panel: Revua panelo
+reject: Malakcepti
+rejected: Malakceptita
+add_badge: Aldoni insignon
+perm: Permanenta
+expired_at: Eksvalidiĝis je
+add_ban: Aldoni forbaron
+icon: Ikono
+done: Farita
+pin: Alpingli
+unpin: Depingli
+change_magazine: Ŝanĝi revuon
+change: Ŝanĝi
+pinned: Alpinglita
+preview: Antaŭrigardi
+note: Noton
+writing: Skribado
+federated: Federaciita
+local: Loka
+admin_panel: Administra panelo
+dashboard: Panelo
+contact_email: Kontakta retpoŝtadreso
+meta: Meta
+federation_enabled: Federado ebligita
+registration_disabled: Aliĝo malebligita
+restore: Restarigi
+add_mentions_posts: Aldoni mencioetikedojn en afiŝoj
+firstname: Persona nomo
+active_users: Aktivaj homoj
+delete_account_request_send: Via peto forigi la konton estas sendita.
+sidebar: Flanka kolumno
+auto_preview: Aŭtomata aŭdvidaĵa antaŭvido
+dynamic_lists: Dinamikaj listoj
+kbin_intro_title: Esplori la Fediverso
+kbin_promo_desc: '%link_start%Kloni la deponejon%link_end% kaj programi la fediverson'
+header_logo: Kapa emblemo
+return: Reveni
+browsing_one_thread: Vi nur foliumas unu fadenon en la diskuto! Ĉiuj komentoj disponeblas
+  en la afiŝa paĝo.
+report_issue: Raporti problemon
+mercure_enabled: Mercure ebligita
+preferred_languages: Filtri lingvoj de fadenoj kaj afiŝoj
+type_search_term: Tajpu serĉterminon
+registrations_enabled: Registrado ebligita
+add_mentions_entries: Aldoni mencioetikedojn en fadenoj
+purge_account: Viŝi konton
+magazine_panel_tags_info: Provizu nur se vi volas, ke enhavo de la fediverso estu
+  inkluzivita en ĉi tiu revuo bazita sur etikedoj
+on: Ŝalta
+bans: Forbaroj
+created: Kreita
+expires: Eksvalidiĝas
+kbin_intro_desc: estas malcentra platformo por enhavo-kolektado kaj mikroblogado,
+  kiu funkcias ene de la Fediversa reto.
+infinite_scroll_help: Aŭtomate ŝarĝi pli da enhavo kiam vi atingas la malsupron de
+  la paĝo.
+sticky_navbar_help: La navigadbreto algluiĝos al la supro de la paĝo kiam vi rulumas
+  malsupren.
+auto_preview_help: Aŭtomate vastigi aŭdvidaĵajn antaŭrigardojn.
+reload_to_apply: Reŝargi paĝon por apliki ŝanĝojn
+filter.origin.label: Elekti originon
+filter.fields.label: Elekti kiujn kampojn por serĉi
+filter.adult.label: Elekti ĉu montri NSPL
+filter.adult.hide: Kaŝi NSPL
+filter.adult.only: Nur NSPL
+filter.fields.only_names: Nur nomoj
+filter.fields.names_and_descriptions: Nomoj kaj priskriboj
+kbin_bot: /kbin Roboto
+filter.adult.show: Montri NSPL
+local_and_federated: Loka kaj federaciata
+bot_body_content: "Bonvenon al la /kbin Roboto! Ĉi tiu roboto ludas decidan rolon
+  en ebligado de ActivityPub-funkcio ene de /kbin. Ĝi certigas, ke /kbin povas komuniki
+  kaj federacii kun aliaj nodoj en la fediverso.\n\nActivityPub estas malferma norma
+  protokolo, kiu permesas al malcentraj sociaj retaj platformoj komuniki kaj interagi
+  unu kun la alia. Ĝi ebligas al uzantoj en malsamaj nodoj (serviloj) sekvi, interagi
+  kun, kaj dividi enhavon tra la federacia socia reto konata kiel la fediverso. Ĝi
+  provizas normigitan manieron por uzantoj publikigi enhavon, sekvi aliajn uzantojn,
+  kaj okupiĝi pri sociaj interagoj kiel ŝatado, kundivido kaj komentado pri fadenoj
+  aŭ afiŝoj."
+password_confirm_header: Konfirmu vian peton de ŝanĝo de pasvorto.
