@@ -135,6 +135,49 @@ input[type=password] {
   width: 100%;
 }
 
+.password-preview{
+  display: grid;
+  grid-template-areas:
+      "label label"
+      "password preview";
+  justify-items: start;
+  align-items: end;
+  grid-template-columns: 2fr 0fr;
+
+  label{
+    grid-area: label;
+  }
+
+  input[type=password],
+  input[type=text]{
+    grid-area: password;
+    width: 100%;
+
+    .rounded-edges &{
+      border-top-right-radius: 0px!important;
+      border-bottom-right-radius: 0px!important;
+    }
+  }
+
+  .password-preview-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: preview;
+    width: 40px;
+    cursor: pointer;
+    height: 100%;
+    margin: 0;
+
+    .rounded-edges &{
+      border-top-left-radius: 0px!important;
+      border-bottom-left-radius: 0px!important;
+    }
+  }
+}
+
+
+
 form {
   div {
     margin-bottom: 1rem;

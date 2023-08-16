@@ -36,7 +36,13 @@ class UserEmailType extends AbstractType
                 'first_options' => ['label' => 'new_email'],
                 'second_options' => ['label' => 'new_email_repeat'],
             ])
-            ->add('currentPassword', PasswordType::class, ['mapped' => false])
+            ->add('currentPassword', PasswordType::class, [
+                'mapped' => false,
+                'row_attr' => [
+                    'class' => 'password-preview',
+                    'data-controller' => 'password-preview',
+                ],
+                ])
             ->add('submit', SubmitType::class);
     }
 

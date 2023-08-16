@@ -39,8 +39,20 @@ class UserRegisterType extends AbstractType
                 [
                     'type' => PasswordType::class,
                     'required' => true,
-                    'first_options' => ['label' => 'password'],
-                    'second_options' => ['label' => 'repeat_password'],
+                    'first_options' => [
+                        'label' => 'password',
+                        'row_attr' => [
+                            'class' => 'password-preview',
+                            'data-controller' => 'password-preview',
+                        ],
+                    ],
+                    'second_options' => [
+                        'label' => 'repeat_password',
+                        'row_attr' => [
+                            'class' => 'password-preview',
+                            'data-controller' => 'password-preview',
+                        ],
+                    ],
                 ]
             )
             ->add(

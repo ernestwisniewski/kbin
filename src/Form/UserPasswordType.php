@@ -17,15 +17,34 @@ class UserPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('currentPassword', PasswordType::class, ['label' => 'current_password', 'mapped' => false])
+            ->add('currentPassword', PasswordType::class, [
+                    'label' => 'current_password',
+                    'mapped' => false,
+                    'row_attr' => [
+                        'class' => 'password-preview',
+                        'data-controller' => 'password-preview',
+                    ],
+                ])
             ->add(
                 'plainPassword',
                 RepeatedType::class,
                 [
                     'type' => PasswordType::class,
                     'required' => true,
-                    'first_options' => ['label' => 'new_password'],
-                    'second_options' => ['label' => 'new_password_repeat'],
+                    'first_options' => [
+                        'label' => 'new_password',
+                        'row_attr' => [
+                            'class' => 'password-preview',
+                            'data-controller' => 'password-preview',
+                        ],
+                    ],
+                    'second_options' => [
+                        'label' => 'new_password_repeat',
+                        'row_attr' => [
+                            'class' => 'password-preview',
+                            'data-controller' => 'password-preview',
+                        ],
+                    ],
                 ]
             )
             ->add('submit', SubmitType::class);
