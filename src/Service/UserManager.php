@@ -15,6 +15,7 @@ use App\Message\DeleteImageMessage;
 use App\Message\DeleteUserMessage;
 use App\Message\UserCreatedMessage;
 use App\Message\UserUpdatedMessage;
+use App\Repository\ImageRepository;
 use App\Repository\UserFollowRepository;
 use App\Repository\UserFollowRequestRepository;
 use App\Security\EmailVerifier;
@@ -44,6 +45,7 @@ class UserManager
         private readonly RateLimiterFactory $userRegisterLimiter,
         private readonly UserFollowRequestRepository $requestRepository,
         private readonly UserFollowRepository $userFollowRepository,
+        private readonly ImageRepository $imageRepository,
         private readonly Security $security,
     ) {
     }
@@ -127,9 +129,9 @@ class UserManager
         $this->dispatcher->dispatch(new UserFollowEvent($follower, $following, true));
     }
 
-    public function create(UserDto $dto, bool $verifyUserEmail = true, $limiter = true): User
+    public function create(UserDto $dto, bool $verifyUserEmail = true, $rateLimit = true): User
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->userRegisterLimiter->create($dto->ip);
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -169,12 +171,14 @@ class UserManager
 
             $oldAvatar = $user->avatar;
             if ($dto->avatar) {
-                $user->avatar = $dto->avatar;
+                $image = $this->imageRepository->find($dto->avatar->id);
+                $user->avatar = $image;
             }
 
             $oldCover = $user->cover;
             if ($dto->cover) {
-                $user->cover = $dto->cover;
+                $image = $this->imageRepository->find($dto->cover->id);
+                $user->cover = $image;
             }
 
             if ($dto->plainPassword) {

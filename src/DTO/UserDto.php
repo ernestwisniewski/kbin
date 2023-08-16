@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\DTO\Contracts\UserDtoInterface;
-use App\Entity\Image;
 use App\Utils\RegPatterns;
 use App\Validator\Unique;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +28,10 @@ class UserDto implements UserDtoInterface
     public ?string $plainPassword = null; // @todo move password and agreeTerms to RegisterDto
     #[Assert\Length(min: 2, max: 512)]
     public ?string $about = null;
-    public ?\DateTime $lastActive = null;
+    public ?\DateTimeImmutable $createdAt = null;
     public ?string $fields = null;
-    public Image|ImageDto|null $avatar = null;
-    public Image|ImageDto|null $cover = null;
+    public ?ImageDto $avatar = null;
+    public ?ImageDto $cover = null;
     public bool $agreeTerms = false;
     public ?string $ip = null;
     public ?string $apId = null;
@@ -40,6 +39,9 @@ class UserDto implements UserDtoInterface
     public ?int $id = null;
     public ?int $followersCount = 0;
     public ?bool $isBot = null;
+    public ?bool $isFollowedByUser = null;
+    public ?bool $isFollowerOfUser = null;
+    public ?bool $isBlockedByUser = null;
 
     #[Assert\Callback]
     public function validate(
@@ -67,13 +69,13 @@ class UserDto implements UserDtoInterface
         return $this->id;
     }
 
-    public function create(
+    public static function create(
         string $username,
         string $email = null,
-        Image|ImageDto $avatar = null,
-        Image|ImageDto $cover = null,
+        ImageDto $avatar = null,
+        ImageDto $cover = null,
         string $about = null,
-        \DateTime $lastActive = null,
+        \DateTimeImmutable $createdAt = null,
         array $fields = null,
         string $apId = null,
         string $apProfileId = null,
@@ -81,19 +83,20 @@ class UserDto implements UserDtoInterface
         ?int $followersCount = 0,
         bool $isBot = null,
     ): self {
-        $this->id = $id;
-        $this->username = $username;
-        $this->email = $email;
-        $this->avatar = $avatar;
-        $this->cover = $cover;
-        $this->about = $about;
-        $this->lastActive = $lastActive;
-        $this->fields = $fields;
-        $this->apId = $apId;
-        $this->apProfileId = $apProfileId;
-        $this->followersCount = $followersCount;
-        $this->isBot = $isBot;
+        $dto = new UserDto();
+        $dto->id = $id;
+        $dto->username = $username;
+        $dto->email = $email;
+        $dto->avatar = $avatar;
+        $dto->cover = $cover;
+        $dto->about = $about;
+        $dto->createdAt = $createdAt;
+        $dto->fields = $fields;
+        $dto->apId = $apId;
+        $dto->apProfileId = $apProfileId;
+        $dto->followersCount = $followersCount;
+        $dto->isBot = $isBot;
 
-        return $this;
+        return $dto;
     }
 }

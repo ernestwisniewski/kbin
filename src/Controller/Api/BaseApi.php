@@ -7,11 +7,12 @@ namespace App\Controller\Api;
 use App\Controller\AbstractController;
 use App\DTO\EntryCommentResponseDto;
 use App\DTO\EntryResponseDto;
-use App\DTO\MagazineLogResponseDto;
 use App\DTO\PostCommentResponseDto;
 use App\DTO\PostResponseDto;
 use App\DTO\ReportDto;
 use App\DTO\ReportRequestDto;
+use App\DTO\UserDto;
+use App\DTO\UserResponseDto;
 use App\Entity\Client;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\ReportInterface;
@@ -23,6 +24,12 @@ use App\Entity\OAuth2ClientAccess;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Exception\SubjectHasBeenReportedException;
+use App\Factory\EntryCommentFactory;
+use App\Factory\EntryFactory;
+use App\Factory\ImageFactory;
+use App\Factory\MagazineFactory;
+use App\Factory\PostCommentFactory;
+use App\Factory\PostFactory;
 use App\Form\Constraint\ImageConstraint;
 use App\Repository\Criteria;
 use App\Repository\ImageRepository;
@@ -59,6 +66,12 @@ class BaseApi extends AbstractController
         protected readonly SerializerInterface $serializer,
         protected readonly ValidatorInterface $validator,
         protected readonly EntityManagerInterface $entityManager,
+        protected readonly ImageFactory $imageFactory,
+        protected readonly PostFactory $postFactory,
+        protected readonly PostCommentFactory $postCommentFactory,
+        protected readonly EntryFactory $entryFactory,
+        protected readonly EntryCommentFactory $entryCommentFactory,
+        protected readonly MagazineFactory $magazineFactory,
         protected readonly RequestStack $request,
         private readonly ImageRepository $imageRepository,
         private readonly ReportManager $reportManager,
@@ -151,28 +164,32 @@ class BaseApi extends AbstractController
                 /**
                  * @var Entry $content
                  */
-                $toReturn = (new EntryResponseDto($content))->jsonSerialize();
+                $dto = $this->entryFactory->createDto($content);
+                $toReturn = (new EntryResponseDto($dto))->jsonSerialize();
                 $toReturn['type'] = 'entry';
                 break;
             case EntryComment::class:
                 /**
                  * @var EntryComment $content
                  */
-                $toReturn = (new EntryCommentResponseDto($content))->jsonSerialize();
+                $dto = $this->entryCommentFactory->createDto($content);
+                $toReturn = (new EntryCommentResponseDto($dto))->jsonSerialize();
                 $toReturn['type'] = 'entry_comment';
                 break;
             case Post::class:
                 /**
                  * @var Post $content
                  */
-                $toReturn = (new PostResponseDto($content))->jsonSerialize();
+                $dto = $this->postFactory->createDto($content);
+                $toReturn = (new PostResponseDto($dto))->jsonSerialize();
                 $toReturn['type'] = 'post';
                 break;
             case PostComment::class:
                 /**
                  * @var PostComment $content
                  */
-                $toReturn = (new PostCommentResponseDto($content))->jsonSerialize();
+                $dto = $this->postCommentFactory->createDto($content);
+                $toReturn = (new PostCommentResponseDto($dto))->jsonSerialize();
                 $toReturn['type'] = 'post_comment';
                 break;
             default:
@@ -189,7 +206,28 @@ class BaseApi extends AbstractController
      */
     protected function serializeLogItem(MagazineLog $log)
     {
-        $response = new MagazineLogResponseDto($log);
+        $response = $this->magazineFactory->createLogDto($log);
+        $response->setSubject(
+            $log->getSubject(),
+            $this->entryFactory,
+            $this->entryCommentFactory,
+            $this->postFactory,
+            $this->postCommentFactory,
+        );
+
+        return $response->jsonSerialize();
+    }
+
+    /**
+     * Serialize a single user to JSON.
+     *
+     * @param UserDto $dto The UserDto to serialize
+     *
+     * @return array An associative array representation of the user's safe fields, to be used as JSON
+     */
+    protected function serializeUser(UserDto $dto)
+    {
+        $response = new UserResponseDto($dto);
 
         return $response->jsonSerialize();
     }

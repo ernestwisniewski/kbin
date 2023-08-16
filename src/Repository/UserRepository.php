@@ -14,6 +14,7 @@ use App\Entity\User;
 use App\Entity\UserFollow;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Result;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Doctrine\Collections\CollectionAdapter;
@@ -39,6 +40,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public const USERS_ALL = 'all';
     public const USERS_LOCAL = 'local';
     public const USERS_REMOTE = 'remote';
+    public const USERS_OPTIONS = [
+        self::USERS_ALL,
+        self::USERS_LOCAL,
+        self::USERS_REMOTE,
+    ];
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -158,7 +164,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return array_map(fn ($subject) => $subject['id'], $result);
     }
 
-    public function findFollowing(int $page, User $user): PagerfantaInterface
+    public function findFollowing(int $page, User $user, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new CollectionAdapter(
@@ -167,7 +173,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -176,7 +182,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
-    public function findFollowers(int $page, User $user): PagerfantaInterface
+    public function findFollowers(int $page, User $user, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new CollectionAdapter(
@@ -185,7 +191,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -209,7 +215,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return array_map(fn ($item) => $item['apInboxUrl'], $res);
     }
 
-    public function findBlockedUsers(int $page, User $user): PagerfantaInterface
+    public function findBlockedUsers(int $page, User $user, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new CollectionAdapter(
@@ -218,7 +224,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -317,7 +323,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getResult();
     }
 
-    public function findWithAbout(string $group = self::USERS_ALL): array
+    private function findWithAboutQueryBuilder(string $group): QueryBuilder
     {
         $qb = $this->createQueryBuilder('u')
             ->andWhere('u.about IS NOT NULL')
@@ -335,10 +341,70 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         }
 
         return $qb->orderBy('u.lastActive', 'DESC')
-            ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-7 days')])
-            ->setMaxResults(28)
-            ->getQuery()
-            ->getResult();
+            ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-7 days')]);
+    }
+
+    public function findWithAboutPaginated(int $page, string $group = self::USERS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
+    {
+        $query = $this->findWithAboutQueryBuilder($group)->getQuery();
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($perPage);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findWithAbout(string $group = self::USERS_ALL): array
+    {
+        return $this->findWithAboutQueryBuilder($group)->setMaxResults(28)->getQuery()->getResult();
+    }
+
+    private function findBannedQueryBuilder(string $group): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u.isBanned = true');
+
+        switch ($group) {
+            case self::USERS_LOCAL:
+                $qb->andWhere('u.apId IS NULL');
+                break;
+            case self::USERS_REMOTE:
+                $qb->andWhere('u.apId IS NOT NULL')
+                    ->andWhere('u.apDiscoverable = true');
+                break;
+        }
+
+        return $qb->orderBy('u.lastActive', 'DESC');
+    }
+
+    public function findBannedPaginated(int $page, string $group = self::USERS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
+    {
+        $query = $this->findBannedQueryBuilder($group)->getQuery();
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($perPage);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 
     public function findAdmin(): User

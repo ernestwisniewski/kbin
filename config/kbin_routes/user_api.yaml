@@ -1,0 +1,137 @@
+api_users_collection:
+  controller: App\Controller\Api\User\UserRetrieveApi::collection
+  path: /api/users
+  methods: [ GET ]
+  format: json
+
+api_user_blocked:
+  controller: App\Controller\Api\User\UserRetrieveApi::blocked
+  path: /api/users/blocked
+  methods: [ GET ]
+  format: json
+
+api_current_user_followed:
+  controller: App\Controller\Api\User\UserRetrieveApi::followedByCurrent
+  path: /api/users/followed
+  methods: [ GET ]
+  format: json
+
+api_current_user_followers:
+  controller: App\Controller\Api\User\UserRetrieveApi::followersOfCurrent
+  path: /api/users/followers
+  methods: [ GET ]
+  format: json
+
+api_user_retrieve_self:
+  controller: App\Controller\Api\User\UserRetrieveApi::me
+  path: /api/users/me
+  methods: [ GET ]
+  format: json
+
+api_user_retrieve_oauth_consent:
+  controller: App\Controller\Api\User\UserRetrieveOAuthConsentsApi
+  path: /api/users/consents/{consent_id}
+  methods: [ GET ]
+  format: json
+
+api_user_update_oauth_consent:
+  controller: App\Controller\Api\User\UserUpdateOAuthConsentsApi
+  path: /api/users/consents/{consent_id}
+  methods: [ PUT ]
+  format: json
+
+api_user_retrieve_oauth_consents:
+  controller: App\Controller\Api\User\UserRetrieveOAuthConsentsApi::collection
+  path: /api/users/consents
+  methods: [ GET ]
+  format: json
+
+api_user_update_profile:
+  controller: App\Controller\Api\User\UserUpdateApi::profile
+  path: /api/users/profile
+  methods: [ PUT ]
+  format: json
+
+api_user_retrieve_settings:
+  controller: App\Controller\Api\User\UserRetrieveApi::settings
+  path: /api/users/settings
+  methods: [ GET ]
+  format: json
+
+api_user_update_settings:
+  controller: App\Controller\Api\User\UserUpdateApi::settings
+  path: /api/users/settings
+  methods: [ PUT ]
+  format: json
+
+api_user_update_avatar:
+  controller: App\Controller\Api\User\UserUpdateImagesApi::avatar
+  path: /api/users/avatar
+  methods: [ POST ]
+  format: json
+
+api_user_update_cover:
+  controller: App\Controller\Api\User\UserUpdateImagesApi::cover
+  path: /api/users/cover
+  methods: [ POST ]
+  format: json
+
+api_user_delete_avatar:
+  controller: App\Controller\Api\User\UserDeleteImagesApi::avatar
+  path: /api/users/avatar
+  methods: [ DELETE ]
+  format: json
+
+api_user_delete_cover:
+  controller: App\Controller\Api\User\UserDeleteImagesApi::cover
+  path: /api/users/cover
+  methods: [ DELETE ]
+  format: json
+
+api_user_retrieve:
+  controller: App\Controller\Api\User\UserRetrieveApi
+  path: /api/users/{user_id}
+  methods: [ GET ]
+  format: json
+
+api_user_retrieve_by_name:
+  controller: App\Controller\Api\User\UserRetrieveApi::username
+  path: /api/users/name/{username}
+  methods: [ GET ]
+  format: json
+
+api_user_followed:
+  controller: App\Controller\Api\User\UserRetrieveApi::followed
+  path: /api/users/{user_id}/followed
+  methods: [ GET ]
+  format: json
+
+api_user_followers:
+  controller: App\Controller\Api\User\UserRetrieveApi::followers
+  path: /api/users/{user_id}/followers
+  methods: [ GET ]
+  format: json
+
+api_user_block:
+  controller: App\Controller\Api\User\UserBlockApi::block
+  path: /api/users/{user_id}/block
+  methods: [ PUT ]
+  format: json
+
+api_user_unblock:
+  controller: App\Controller\Api\User\UserBlockApi::unblock
+  path: /api/users/{user_id}/unblock
+  methods: [ PUT ]
+  format: json
+
+api_user_follow:
+  controller: App\Controller\Api\User\UserFollowApi::follow
+  path: /api/users/{user_id}/follow
+  methods: [ PUT ]
+  format: json
+
+api_user_unfollow:
+  controller: App\Controller\Api\User\UserFollowApi::unfollow
+  path: /api/users/{user_id}/unfollow
+  methods: [ PUT ]
+  format: json

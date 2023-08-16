@@ -1,3 +1,39 @@
+api_admin_user_retrieve_banned:
+  controller: App\Controller\Api\User\Admin\UserRetrieveBannedApi::collection
+  path: /api/admin/users/banned
+  methods: [ GET ]
+  format: json
+
+api_admin_user_ban:
+  controller: App\Controller\Api\User\Admin\UserBanApi::ban
+  path: /api/admin/users/{user_id}/ban
+  methods: [ POST ]
+  format: json
+
+api_admin_user_unban:
+  controller: App\Controller\Api\User\Admin\UserBanApi::unban
+  path: /api/admin/users/{user_id}/unban
+  methods: [ POST ]
+  format: json
+
+api_admin_user_delete:
+  controller: App\Controller\Api\User\Admin\UserDeleteApi
+  path: /api/admin/users/{user_id}/delete
+  methods: [ DELETE ]
+  format: json
+
+api_admin_user_purge:
+  controller: App\Controller\Api\User\Admin\UserPurgeApi
+  path: /api/admin/users/{user_id}/purge
+  methods: [ DELETE ]
+  format: json
+
+api_admin_user_verify:
+  controller: App\Controller\Api\User\Admin\UserVerifyApi
+  path: /api/admin/users/{user_id}/verify
+  methods: [ PUT ]
+  format: json
+
 api_admin_retrieve_client_stats:
   controller: App\Controller\Api\OAuth2\Admin\RetrieveClientStatsApi
   path: /api/clients/stats

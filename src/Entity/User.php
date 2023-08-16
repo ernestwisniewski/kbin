@@ -494,6 +494,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this;
     }
 
+    /**
+     * Returns whether or not the given user is blocked by the user this method is called on.
+     */
     public function isBlocked(User $user): bool
     {
         $criteria = Criteria::create()
