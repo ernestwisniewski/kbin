@@ -53,7 +53,7 @@
                 }) }}
             {% endif %}
             <footer>
-                {% if comment.image %}
+                {% if (comment.visibility in ['visible', 'private'] or comment.visibility is same as 'trashed' and this.canSeeTrashed) and comment.image %}
                     <figure>
                         <a href="{{ uploaded_asset(comment.image.filePath) }}"
                            class="thumb">
