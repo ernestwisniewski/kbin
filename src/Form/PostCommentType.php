@@ -67,6 +67,6 @@ class PostCommentType extends AbstractType
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars['id'] .= '_' . uniqid('', true);
+        $view->vars['id'] .= '_'.uniqid('', true);
     }
 }
