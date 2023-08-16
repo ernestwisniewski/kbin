@@ -31,6 +31,25 @@ class UserCommandTest extends KernelTestCase
         $this->assertInstanceOf(User::class, $this->repository->findOneByUsername('actor'));
     }
 
+    public function testCreateAdminUser(): void
+    {
+        $tester = new CommandTester($this->command);
+        $tester->execute(
+            [
+                'username' => 'actor',
+                'email' => 'contact@example.com',
+                'password' => 'secret',
+                '--admin' => true,
+            ],
+        );
+
+        $this->assertStringContainsString('A user has been created.', $tester->getDisplay());
+
+        $actor = $this->repository->findOneByUsername('actor');
+        $this->assertInstanceOf(User::class, $actor);
+        $this->assertTrue($actor->isAdmin());
+    }
+
     protected function setUp(): void
     {
         $application = new Application(self::bootKernel());

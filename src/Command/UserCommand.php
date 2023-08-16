@@ -16,7 +16,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'kbin:user:create')]
+#[AsCommand(
+    name: 'kbin:user:create',
+    description: 'This command allows you to create user, optionally granting administrator privileges.',
+)]
 class UserCommand extends Command
 {
     public function __construct(
@@ -32,7 +35,8 @@ class UserCommand extends Command
         $this->addArgument('username', InputArgument::REQUIRED)
             ->addArgument('email', InputArgument::REQUIRED)
             ->addArgument('password', InputArgument::REQUIRED)
-            ->addOption('remove', 'r', InputOption::VALUE_NONE, 'Remove user');
+            ->addOption('remove', 'r', InputOption::VALUE_NONE, 'Remove user')
+            ->addOption('admin', null, InputOption::VALUE_NONE, 'Grant administrator privileges');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -68,6 +72,10 @@ class UserCommand extends Command
         $dto->plainPassword = $input->getArgument('password');
 
         $user = $this->manager->create($dto, false);
+
+        if ($input->getOption('admin')) {
+            $user->setOrRemoveAdminRole();
+        }
 
         $user->isVerified = true;
         $this->entityManager->flush();
