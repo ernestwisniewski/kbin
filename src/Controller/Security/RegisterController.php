@@ -18,6 +18,10 @@ class RegisterController extends AbstractController
         Request $request,
         IpResolver $ipResolver
     ): Response {
+        if ($this->getParameter('sso_only_mode')) {
+            return $this->redirectToRoute('app_login');
+        }
+
         if ($this->getUser()) {
             return $this->redirectToRoute('front_subscribed');
         }

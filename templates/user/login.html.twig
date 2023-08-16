@@ -17,6 +17,7 @@
     {% include 'layout/_flash.html.twig' %}
     <div id="content" class="section">
         <div class="container">
+            {% if not_sso_only_mode %}
             <form method="post">
                 {% if error %}
                     <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -56,6 +57,8 @@
                             class="font-weight-bold"
                             href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
             </div>
+            {% endif %}
+
             {{ component('login_socials') }}
         </div>
     </div>
