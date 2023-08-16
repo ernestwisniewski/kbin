@@ -529,3 +529,4 @@ toolbar.image: Image
 toolbar.unordered_list: Unordered List
 toolbar.ordered_list: Ordered List
 toolbar.mention: Mention
+federated_search_only_loggedin: Federated search limited if not logged in
