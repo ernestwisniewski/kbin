@@ -529,4 +529,7 @@ toolbar.image: Image
 toolbar.unordered_list: Unordered List
 toolbar.ordered_list: Ordered List
 toolbar.mention: Mention
+request_account_deletion_title: Account Deletion
+request_account_deletion_description: The administrator will be notified that you want your account deleted.
+request_account_deletion_button: Request Account Deletion
 federated_search_only_loggedin: Federated search limited if not logged in
