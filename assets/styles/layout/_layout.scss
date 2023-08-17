@@ -392,3 +392,9 @@ p > code {
 :target {
   scroll-margin-top: 8rem;
 }
+
+.boost-link {
+  &.active{
+    color: var(--kbin-boosted-color);
+  }
+}

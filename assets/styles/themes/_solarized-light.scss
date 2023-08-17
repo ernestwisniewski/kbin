@@ -114,6 +114,9 @@ $green: #859900;
   --kbin-upvoted-color: #{$green};
   --kbin-downvoted-color: #{$red};
 
+   //boost
+   --kbin-boosted-color: var(--kbin-upvoted-color);
+
   // alerts
   --kbin-alert-info-bg: #fff3cd;
   --kbin-alert-info-border: 1px solid #ffe69c;

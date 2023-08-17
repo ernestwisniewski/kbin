@@ -96,6 +96,9 @@
   --kbin-upvoted-color: #24b270;
   --kbin-downvoted-color: #dc2f3f;
 
+   //boost
+   --kbin-boosted-color: var(--kbin-upvoted-color);
+
   // alerts
   --kbin-alert-info-bg: rgba(153,116,4,0.15);
   --kbin-alert-info-border: 1px solid rgba(153,116,4,0.4);

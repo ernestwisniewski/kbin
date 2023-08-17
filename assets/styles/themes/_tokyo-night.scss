@@ -96,6 +96,9 @@
   --kbin-upvoted-color: var(--kbin-success-color);
   --kbin-downvoted-color: var(--kbin-danger-color);
 
+   //boost
+   --kbin-boosted-color: var(--kbin-upvoted-color);
+
   // alerts
   --kbin-alert-info-bg: #fff3cc;
   --kbin-alert-info-border: 1px solid #fff3cc;

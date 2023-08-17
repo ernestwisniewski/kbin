@@ -121,6 +121,9 @@ $aspect-ratios: (
   --kbin-vote-text-hover-color: #000;
   --kbin-upvoted-color: #0f5132;
   --kbin-downvoted-color: #842029;
+  
+  //boost
+  --kbin-boosted-color: var(--kbin-upvoted-color);
 
   // alerts
   --kbin-alert-info-bg: #fff3cd;
