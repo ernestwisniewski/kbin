@@ -77,6 +77,10 @@ textarea {
   color: var(--kbin-input-text-color);
   font-family: var(--kbin-body-font-family);
   font-size: .9rem;
+
+  &::placeholder{
+    color: var(--kbin-input-placeholder-text-color)!important;
+  }
 }
 
 textarea {
@@ -129,7 +133,8 @@ label {
 
 input[type=text],
 input[type=email],
-input[type=password] {
+input[type=password],
+input[type=select-one] {
   display: block;
   padding: 1rem .5rem;
   width: 100%;
