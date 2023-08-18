@@ -4,7 +4,7 @@
              style="z-index:3; position:relative;margin-bottom:0;">
             Private
         </div>
-    {% else %}
+    {% else %}      
         <article{{ attributes.defaults({
             class: html_classes('entry section subject', {
                 'no-image': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
@@ -13,7 +13,7 @@
             })}).without('id') }}
                 id="entry-{{ entry.id }}"
                 data-controller="subject preview mentions"
-                data-action="notifications:Notification@window->subject#notification">
+                data-action="notifications:Notification@window->subject#notification">          
             <header>
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {% if isSingle %}
@@ -29,26 +29,17 @@
                             {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
                                 <small class="badge-lang">{{ entry.lang|language_name }}</small>
                             {% endif %}
-                            {% if entry.domain %}
-                                <span class="entry__domain">
-                        (<a href="{{ path('domain_entries', {
-                                        name: entry.domain.name
-                                    }) }}">{{ entry.domain.name }}</a>)
-                    </span>
-                            {% endif %}
                         </h1>
                     {% else %}
                         <h2>
                             {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
                             {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
-                            {% if entry.domain %}
-                                <span class="entry__domain">
-                                    (<a href="{{ path('domain_entries', {
-                                        name: entry.domain.name
-                                    }) }}">{{ entry.domain.name }}</a>)
-                                </span>
+                           
+                            {% if entry.url %}
+                                <span class="entry__domain">(<a href="{{entry.url}}">{{ entry.domain.name }}</a>)</span>
                             {% endif %}
+
                             {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
                                 <small class="badge-lang kbin-bg">{{ entry.lang|language_name }}</small>
                             {% endif %}
@@ -168,6 +159,10 @@
                                         {{ 'activity'|trans|lower }}
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{'more_from_domain'|trans|lower}}</a>
+                                </li>
+
                                 <li>
                                     <a data-action="clipboard#copy"
                                        href="{{ entry_url(entry) }}">{{ 'copy_url'|trans|lower }}</a>
