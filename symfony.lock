@@ -158,9 +158,6 @@
     "furqansiddiqui/bip39-mnemonic-php": {
         "version": "0.1.4"
     },
-    "fzaninotto/faker": {
-        "version": "1.9-dev"
-    },
     "gmostafa/php-graphql-client": {
         "version": "v1.13"
     },

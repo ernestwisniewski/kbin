@@ -25,7 +25,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     ) {
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             EntryFixtures::class,

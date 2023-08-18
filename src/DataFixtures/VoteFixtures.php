@@ -24,11 +24,11 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         }
     }
 
-    private function entries(int $u)
+    private function entries(int $u): void
     {
         $randomNb = $this->getUniqueNb(
             EntryFixtures::ENTRIES_COUNT,
-            intval(rand(0, 155))
+            rand(0, 155),
         );
 
         foreach ($randomNb as $e) {
@@ -54,11 +54,11 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         return array_slice($numbers, 0, $quantity);
     }
 
-    private function entryComments(int $u)
+    private function entryComments(int $u): void
     {
         $randomNb = $this->getUniqueNb(
             EntryCommentFixtures::COMMENTS_COUNT,
-            intval(rand(0, 155))
+            rand(0, 155),
         );
 
         foreach ($randomNb as $c) {
@@ -76,11 +76,11 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         }
     }
 
-    private function posts(int $u)
+    private function posts(int $u): void
     {
         $randomNb = $this->getUniqueNb(
             PostFixtures::ENTRIES_COUNT,
-            intval(rand(0, 155))
+            rand(0, 155),
         );
 
         foreach ($randomNb as $e) {
@@ -98,11 +98,11 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         }
     }
 
-    private function postComments(int $u)
+    private function postComments(int $u): void
     {
         $randomNb = $this->getUniqueNb(
             PostCommentFixtures::COMMENTS_COUNT,
-            intval(rand(0, 155))
+            rand(0, 155),
         );
 
         foreach ($randomNb as $c) {
