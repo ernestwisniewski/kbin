@@ -21,7 +21,7 @@ class PostCommentEditControllerTest extends WebTestCase
         $crawler = $client->click($crawler->filter('#main .post-comment')->selectLink('edit')->link());
 
         $this->assertSelectorExists('#main .post-comment');
-        $this->assertSelectorTextContains('#post_comment_body', 'test comment 1');
+        $this->assertSelectorTextContains('textarea[name="post_comment[body]"]', 'test comment 1');
 
         $client->submit(
             $crawler->filter('form[name=post_comment]')->selectButton('Save changes')->form(
