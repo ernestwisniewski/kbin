@@ -22,6 +22,7 @@ class FederationController extends AbstractController
             ->select('u.apDomain AS apDomain')
             ->where('u.apDomain IS NOT NULL')
             ->groupBy('u.apDomain')
+            ->orderBy('COUNT(u.id)', 'DESC')
             ->getQuery()
             ->getSingleColumnResult();
 
