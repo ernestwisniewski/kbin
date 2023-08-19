@@ -34,6 +34,7 @@
                 <li><a href="{{ path('page_faq') }}">{{ 'faq'|trans }}</a></li>
                 <li><a href="{{ path('page_terms') }}">{{ 'terms'|trans }}</a></li>
                 <li><a href="{{ path('page_privacy_policy') }}">{{ 'privacy_policy'|trans }}</a></li>
+                {% if kbin_federation_page_enabled() %}<li><a href="{{ path('page_federation') }}">{{ 'federation'|trans }}</a></li>{% endif %} 
             </menu>
         </section>
         <section>

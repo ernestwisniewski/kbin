@@ -34,3 +34,9 @@ ranking:
   controller: App\Controller\RankingController
   path: /ranking
   methods: [ GET ]
+
+page_federation:
+  controller: App\Controller\FederationController
+  path: /federation
+  methods: [ GET ]
+

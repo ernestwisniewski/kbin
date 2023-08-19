@@ -529,6 +529,9 @@ toolbar.image: Image
 toolbar.unordered_list: Unordered List
 toolbar.ordered_list: Ordered List
 toolbar.mention: Mention
+federation_page_enabled: Federation page enabled
+federation_page_allowed_description: Known instances we federate with
+federation_page_disallowed_description: Instances we do not federate with
 more_from_domain: More from domain
 request_account_deletion_title: Account Deletion
 request_account_deletion_description: The administrator will be notified that you want your account deleted.

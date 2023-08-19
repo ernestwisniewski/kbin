@@ -26,6 +26,7 @@ class SettingsDto implements \JsonSerializable
         public bool $KBIN_HEADER_LOGO,
         public bool $KBIN_CAPTCHA_ENABLED,
         public bool $KBIN_MERCURE_ENABLED,
+        public bool $KBIN_FEDERATION_PAGE_ENABLED,
         public bool $KBIN_ADMIN_ONLY_OAUTH_CLIENTS,
         public bool $KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN
     ) {
@@ -49,6 +50,7 @@ class SettingsDto implements \JsonSerializable
             'KBIN_HEADER_LOGO' => $this->KBIN_HEADER_LOGO,
             'KBIN_CAPTCHA_ENABLED' => $this->KBIN_CAPTCHA_ENABLED,
             'KBIN_MERCURE_ENABLED' => $this->KBIN_MERCURE_ENABLED,
+            'KBIN_FEDERATION_PAGE_ENABLED' => $this->KBIN_FEDERATION_PAGE_ENABLED,
             'KBIN_ADMIN_ONLY_OAUTH_CLIENTS' => $this->KBIN_ADMIN_ONLY_OAUTH_CLIENTS,
             'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN' => $this->KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN,
         ];

@@ -69,6 +69,11 @@ class SettingsExtensionRuntime implements RuntimeExtensionInterface
         return $this->settings->get('KBIN_MERCURE_ENABLED');
     }
 
+    public function kbinFederationPageEnabled(): bool
+    {
+        return $this->settings->get('KBIN_FEDERATION_PAGE_ENABLED');
+    }
+
     public function kbinFederatedSearchOnlyLoggedIn(): bool
     {
         return $this->settings->get('KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN');

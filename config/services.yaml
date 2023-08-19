@@ -142,6 +142,7 @@ services:
       $kbinRegistrationsEnabled: '%env(bool:KBIN_REGISTRATIONS_ENABLED)%'
       $kbinHeaderLogo: '%env(bool:KBIN_HEADER_LOGO)%'
       $kbinCaptchaEnabled: '%env(bool:KBIN_CAPTCHA_ENABLED)%'
+      $kbinFederationPageEnabled: '%env(bool:KBIN_FEDERATION_PAGE_ENABLED)%'
       $kbinAdminOnlyOauthClients: '%env(bool:KBIN_ADMIN_ONLY_OAUTH_CLIENTS)%'
 
   # Markdown

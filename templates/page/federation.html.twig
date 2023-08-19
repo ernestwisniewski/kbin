@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'federation'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-federation{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'federation'|trans }}</h1>
+    <div id="content" class="section">
+
+        {% if allowedInstances is not empty %}
+            <p>{{'federation_page_allowed_description'|trans}}</p>
+            <ul>
+            {% for instance in allowedInstances %}
+                <li>{{instance}}</li>
+            {% endfor %}
+           </ul>
+        {% endif %}
+        {% if defederatedInstances is not empty %}
+            <p>{{'federation_page_disallowed_description'|trans}}</p>
+            <ul>
+            {% for instance in defederatedInstances %}
+                <li>{{instance}}</li>
+            {% endfor %}
+           </ul>
+        {% endif %}
+    </div>
+{% endblock %}
