@@ -14,7 +14,17 @@ use App\Exception\InvalidApSignatureException;
 
 class HttpSignature
 {
-    public static function parseSignatureHeader($signature): array
+    /**
+     * Splits a signature header string into component pieces.
+     *
+     * @return array{
+     *   keyId: string,
+     *   algorithm: string,
+     *   headers: string,
+     *   signature: string,
+     * }
+     */
+    public static function parseSignatureHeader(string $signature): array
     {
         $parts = explode(',', $signature);
         $signatureData = [];

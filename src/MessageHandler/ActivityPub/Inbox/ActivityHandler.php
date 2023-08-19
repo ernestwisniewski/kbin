@@ -36,7 +36,7 @@ class ActivityHandler
         $payload = @json_decode($message->payload, true);
 
         if ($message->headers) {
-            //            $this->signatureValidator->validate($message->payload, $message->headers);
+            $this->signatureValidator->validate($message->payload, $message->headers);
         }
 
         if (isset($payload['payload'])) {
