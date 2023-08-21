@@ -28,7 +28,8 @@ class FederationController extends AbstractController
 
         $allowedInstances = [];
         $defederatedInstances = $settings->get('KBIN_BANNED_INSTANCES');
-        if (!empty($apDomains) && (!empty($defederatedInstances))) {
+
+        if (!empty($apDomains)) {
             $allowedInstances = array_diff($apDomains, $defederatedInstances);
         }
 

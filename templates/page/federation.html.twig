@@ -20,7 +20,7 @@
             <p>{{'federation_page_allowed_description'|trans}}</p>
             <ul>
             {% for instance in allowedInstances %}
-                <li><a href="https://{{ instance }}" rel="noopener noreferrer nofollow">{{instance}}</li>
+                <li><a href="https://{{ instance }}" rel="noopener noreferrer nofollow">{{instance}}</a></li>
             {% endfor %}
            </ul>
         {% endif %}
