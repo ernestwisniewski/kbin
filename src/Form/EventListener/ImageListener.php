@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
+use App\Factory\ImageFactory;
 use App\Repository\ImageRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Event\PostSubmitEvent;
@@ -13,8 +14,10 @@ final class ImageListener implements EventSubscriberInterface
 {
     private string $fieldName;
 
-    public function __construct(private readonly ImageRepository $images)
-    {
+    public function __construct(
+        private readonly ImageRepository $images,
+        private readonly ImageFactory $factory,
+    ) {
     }
 
     public static function getSubscribedEvents(): array
@@ -42,7 +45,7 @@ final class ImageListener implements EventSubscriberInterface
 
         if ($upload) {
             $image = $this->images->findOrCreateFromUpload($upload);
-            $data->$fieldName = $image;
+            $data->$fieldName = $this->factory->createDto($image);
         }
     }
 
