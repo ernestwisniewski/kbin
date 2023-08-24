@@ -59,7 +59,7 @@
         "predis/predis": "^2.1",
         "scienta/doctrine-json-functions": "^5.2",
         "stevenmaguire/oauth2-keycloak": "*",
-        "symfony/amqp-messenger": "6.3.*",
+        "symfony/amqp-messenger": "6.3.x-dev#24e5cc90da041e0e1b7bbe15b82ad7f27a508c01",
         "symfony/asset": "6.3.*",
         "symfony/cache": "6.3.*",
         "symfony/console": "6.3.*",

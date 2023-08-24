@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c48b582511de6a8142b7e818b209c00e",
+    "content-hash": "12b01b95675071063ebdcdcf24819572",
     "packages": [
         {
             "name": "api-platform/core",
@@ -7501,16 +7501,16 @@
         },
         {
             "name": "symfony/amqp-messenger",
-            "version": "v6.3.0",
+            "version": "6.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/amqp-messenger.git",
-                "reference": "54a04a295f52e8c5567e11748b4d5c06724cadb5"
+                "reference": "24e5cc90da041e0e1b7bbe15b82ad7f27a508c01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/54a04a295f52e8c5567e11748b4d5c06724cadb5",
-                "reference": "54a04a295f52e8c5567e11748b4d5c06724cadb5",
+                "url": "https://api.github.com/repos/symfony/amqp-messenger/zipball/24e5cc90da041e0e1b7bbe15b82ad7f27a508c01",
+                "reference": "24e5cc90da041e0e1b7bbe15b82ad7f27a508c01",
                 "shasum": ""
             },
             "require": {
@@ -7524,6 +7524,7 @@
                 "symfony/property-access": "^5.4|^6.0",
                 "symfony/serializer": "^5.4|^6.0"
             },
+            "default-branch": true,
             "type": "symfony-messenger-bridge",
             "autoload": {
                 "psr-4": {
@@ -7550,7 +7551,7 @@
             "description": "Symfony AMQP extension Messenger Bridge",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/amqp-messenger/tree/v6.3.0"
+                "source": "https://github.com/symfony/amqp-messenger/tree/6.3"
             },
             "funding": [
                 {
@@ -7566,7 +7567,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-03-10T10:08:00+00:00"
+            "time": "2023-08-14T14:06:04+00:00"
         },
         {
             "name": "symfony/asset",
@@ -15793,7 +15794,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "symfony/amqp-messenger": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
