@@ -37,7 +37,7 @@
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
                            
                             {% if entry.url %}
-                                <span class="entry__domain">(<a href="{{entry.url}}">{{ entry.domain.name }}</a>)</span>
+                                <span class="entry__domain">(<a rel="{{ get_rel(entry.url) }}" href="{{ entry.url }}">{{ get_url_domain(entry.url) }}</a>)</span>
                             {% endif %}
 
                             {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
@@ -159,9 +159,12 @@
                                         {{ 'activity'|trans|lower }}
                                     </a>
                                 </li>
+
+                                {% if entry.domain %}
                                 <li>
                                     <a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{'more_from_domain'|trans|lower}}</a>
                                 </li>
+                                {% endif %}
 
                                 <li>
                                     <a data-action="clipboard#copy"

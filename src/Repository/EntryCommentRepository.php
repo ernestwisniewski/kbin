@@ -196,7 +196,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
 
             if (!$criteria->domain) {
                 $qb->andWhere(
-                    'ce.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
+                    'ce.domain IS null OR ce.domain NOT IN (SELECT IDENTITY(db.domain) FROM '.DomainBlock::class.' db WHERE db.user = :blocker)'
                 );
             }
 

@@ -30,4 +30,15 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
 
         return $service->fromEntity($content);
     }
+
+    public function getLinkDomain(string $url): string
+    {
+        $domain = parse_url($url, PHP_URL_HOST);
+
+        if (null === $domain) {
+            return $this->settingsManager->get('KBIN_DOMAIN');
+        }
+
+        return $domain;
+    }
 }
