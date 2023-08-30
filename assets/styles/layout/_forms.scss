@@ -83,6 +83,17 @@ textarea {
   }
 }
 
+input,
+textarea,
+select,
+button{
+
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
 textarea {
   box-sizing: border-box;
   height: 5rem;

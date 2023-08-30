@@ -268,9 +268,21 @@ figure {
   height: 28px;
   text-align: center;
   width: 28px;
+  line-height: 1;
+  margin: auto;
 
   span {
     visibility: hidden;
+  }
+
+  &.hide{
+    display: none;
+  }
+
+  &.small{
+    width: 14px;
+    height: 14px;
+    border-width: 3px;
   }
 }
 

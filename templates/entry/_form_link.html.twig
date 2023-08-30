@@ -7,7 +7,17 @@
     {% set hasImage = true %}
 {% endif %}
 {{ form_start(form, {attr: {class: edit ? 'entry-edit' : 'entry-create'}}) }}
-    {{ form_row(form.url, {label: 'url', attr: {'data-action': 'entry-link-create#fetchLink', 'data-entry-link-create-target': 'url'}}) }}
+   
+    <div>
+        {% set label %}
+            URL       
+            <div data-entry-link-create-target='loader' class="loader small" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        {% endset %}
+        {{ form_label(form.url, label, {'label_html': true}) }}
+        {{ form_widget(form.url, {attr: {'data-action': 'entry-link-create#fetchLink', 'data-entry-link-create-target': 'url'}}) }}
+    </div>
     {{ form_row(form.title, {label: 'title', attr: {'data-entry-link-create-target': 'title'}}) }}
     {{ component('editor_toolbar', {id: 'entry_link_body'}) }}
     {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea', 'data-entry-link-create-target': 'description'}}) }}

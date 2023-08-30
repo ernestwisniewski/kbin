@@ -1,17 +1,19 @@
-import {ApplicationController, useDebounce} from 'stimulus-use'
-import {fetch, ok} from "../utils/http";
+import {ApplicationController,useThrottle} from 'stimulus-use'
+import {fetch,ok} from "../utils/http";
 import router from "../utils/routing";
 
 /* stimulusFetch: 'lazy' */
 export default class extends ApplicationController {
-    static debounces = ['fetchLink']
-    static targets = ['title', 'description', 'url'];
+    static throttles = ['fetchLink']
+    static targets = ['title', 'description', 'url', 'loader'];
     static values = {
         loading: Boolean
     };
 
     connect() {
-        useDebounce(this, {wait: 800});
+        useThrottle(this, {
+            wait: 1000
+        })
 
         let params = new URLSearchParams(window.location.search);
         let url = params.get('url');
@@ -22,26 +24,32 @@ export default class extends ApplicationController {
     }
 
     async fetchLink(event) {
+
         if (!event.target.value) {
             return
         }
 
         try {
+
             this.loadingValue = true;
 
-            await this.fetchDuplicates(event);
             await this.fetchTitleAndDescription(event);
 
             this.loadingValue = false;
         } catch (e) {
             this.loadingValue = false;
-        } finally {
-        }
+        } finally {}
     }
 
     loadingValueChanged(val) {
         this.titleTarget.disabled = val;
         this.descriptionTarget.disabled = val;
+
+        if (val) {
+            this.loaderTarget.classList.remove('hide');
+        } else {
+            this.loaderTarget.classList.add('hide');
+        }
     }
 
     async fetchTitleAndDescription(event) {
@@ -49,23 +57,20 @@ export default class extends ApplicationController {
             return;
         }
 
+
+
         const url = router().generate('ajax_fetch_title');
-        let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': event.target.value})});
+        let response = await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                'url': event.target.value
+            })
+        });
 
         response = await ok(response);
         response = await response.json();
 
         this.titleTarget.value = response.title;
         this.descriptionTarget.value = response.description;
-    }
-
-    async fetchDuplicates(event) {
-        // const url = router().generate('ajax_fetch_duplicates');
-        // let response = await fetch(url, {method: 'POST', body: JSON.stringify({'url': event.target.value})});
-
-        // response = await ok(response);
-        // response = await response.json();
-        //
-        // console.log(response);
     }
 }
