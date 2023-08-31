@@ -3,3 +3,4 @@ debril_rss_atom:
     private: false
     # switch to true if you need to always send status 200
     force_refresh: true
+    content_type_xml: application/rss+xml
