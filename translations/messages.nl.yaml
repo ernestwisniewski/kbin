@@ -14,7 +14,7 @@ type.smart_contract: Slim contract
 type.magazine: Tijdschrift
 thread: Gesprek
 microblog: Microblog
-people: Persoon
+people: Mensen
 events: Evenementen
 magazine: Tijdschrift
 magazines: Tijdschriften
@@ -82,7 +82,7 @@ stats: Statistieken
 fediverse: Fediverse
 awards: Bekroningen
 ranking: Klassement
-create_new_magazine: Tijdschrift samenstellen
+create_new_magazine: Nieuw tijdschrift maken
 add_new_article: Artikel toevoegen
 add_new_link: Link toevoegen
 add_new_photo: Foto toevoegen
@@ -106,7 +106,7 @@ email_confirm_content: 'Klaar om je account te activeren? Klik dan op onderstaan
 email_verify: E-mailadres bevestigen
 email_confirm_expire: 'Let op: de link is 1 uur geldig.'
 email_confirm_title: Bevestig je e-mailadres.
-select_magazine: Kies een tijdschrift
+select_magazine: Selecteer een tijdschrift
 add_new: Toevoegen
 url: Url
 title: Titel
@@ -129,7 +129,7 @@ user: Gebruiker
 joined: Lid
 moderated: Met moderatie
 people_local: Lokaal
-people_federated: Verspreidt
+people_federated: Gefedereerd
 reputation_points: Aantal reputatiepunten
 related_tags: Verwante labels
 go_to_content: Ga naar inhoud
@@ -319,7 +319,7 @@ bronze_ranking_desc: 3e plaats in het klassement
 bronze_popular_entry: Populair gesprek
 bronze_popular_entry_desc: Het gesprek is 1000 keer bekeken
 bronze_magazine: Beroemd tijdschrift
-bronze_magazine_desc: 20 volgers hebben een tijdschrift samengesteld
+bronze_magazine_desc: 20 volgers hebben tijdschrift gemaakt
 silver_personality: Zilveren persoonlijkheid
 silver_personality_desc: 50 volgers
 silver_commentator: Zilveren reageerder
@@ -340,7 +340,7 @@ silver_ranking_desc: 2e plaats in het klassement
 silver_popular_entry: Populair gesprek
 silver_popular_entry_desc: Het gesprek is 5000 keer bekeken
 silver_magazine: Populair tijdschrift
-silver_magazine_desc: 50 volgers hebben een tijdschrift samengesteld
+silver_magazine_desc: 50 volgers hebben tijdschrift gemaakt
 silver_entry_week: Gesprek van de week
 silver_entry_week_desc: Het beste gesprek van de week
 silver_comment_week: Reactie van de week
@@ -367,7 +367,7 @@ gold_ranking_desc: 1e plaats in het klassement
 gold_popular_entry: Populair gesprek
 gold_popular_entry_desc: Het gesprek is 10.000 keer bekeken
 gold_magazine: Populair tijdschrift
-gold_magazine_desc: 100 volgers hebben een tijdschrift samengesteld
+gold_magazine_desc: 100 volgers hebben tijdschrift gemaakt
 gold_entry_month_desc: Het beste gesprek van de maand
 gold_comment_month: Reactie van de maand
 gold_comment_month_desc: De beste reactie van de maand
@@ -457,7 +457,7 @@ Your account is not active: Je account is inactief.
 Your account has been banned: Je account is verbannen.
 firstname: Voornaam
 send: Versturen
-active_users: Actieve personen
+active_users: Actieve mensen
 random_entries: Willekeurige gesprekken
 delete_account: Account verwijderen
 purge_account: Account vernietigen

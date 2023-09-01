@@ -103,8 +103,8 @@ reset_check_email_desc2: Si no has recibido un correo electrónico, por favor ve
   tu carpeta de spam.
 try_again: Intentar de nuevo
 email_confirm_header: ¡Hola! Confirma tu dirección de correo electrónico.
-email_confirm_content: '¿Deseas activar tu cuenta de /kbin? Haz clic en el enlace
-  que se encuentra a continuación:'
+email_confirm_content: '¿Listo para activar tu cuenta /kbin? Haga clic en el siguiente
+  enlace:'
 email_verify: Confirma la dirección de correo electrónico
 email_confirm_expire: Ten en cuenta que el enlace caducará en una hora.
 select_magazine: Selecciona una revista
@@ -117,7 +117,7 @@ agree_terms: Consentimiento para %terms_link_start%Terms and Conditions%terms_li
 email_confirm_title: Confirma tu dirección de correo electrónico.
 1w: 1 semana
 down_vote: Votos negativos
-body: Contenido
+body: Cuerpo
 tags: Etiquetas
 badges: Distintivos
 is_adult: 18+ / NSFW
@@ -168,8 +168,8 @@ photos: Fotos
 videos: Vídeos
 report: Reportar
 share: Compartir
-copy_url: Copiar enlace
-copy_url_to_fediverse: Copiar enlace al Fediverso
+copy_url: Copia la URL de /kbin
+copy_url_to_fediverse: Copia la URL original
 share_on_fediverse: Compartir en el Fediverso
 edit: Editar
 are_you_sure: ¿Estás segura/o?
@@ -187,7 +187,7 @@ show_magazines_icons: Mostrar iconos de las revistas
 show_thumbnails: Mostrar las miniaturas
 rounded_edges: Bordes redondeados
 restored_comment_by: ha restaurado el comentario de
-removed_thread_by: ha borrado el hilo de
+removed_thread_by: ha eliminado un hilo de
 restored_thread_by: ha restaurado el hilo de
 removed_comment_by: ha borrado el comentario de
 removed_post_by: ha borrado la publicación de
@@ -197,8 +197,9 @@ he_unbanned: cancelar la suspensión
 read_all: Leer todo
 show_all: Mostrar todo
 ranking_disabled: Ránking desactivado
-flash_register_success: Bienvenida/o, tu cuenta ha sido registrada. Un último paso!
-  Revisa tu correo electrónico donde te hemos enviado un enlace de activación.
+flash_register_success: ¡Bienvenida/o a bordo! Su cuenta ya está registrada. Un último
+  paso - consulte su bandeja de entrada para recibir un enlace de activación que dará
+  vida a su cuenta.
 flash_thread_new_success: El hilo ha sido creado con éxito y ahora es visible para
   otras/os usuarias/os.
 flash_thread_edit_success: El hilo ha sido editado con éxito.
@@ -223,7 +224,7 @@ silver_popular_entry_desc: Hilo visitado 5000 veces
 silver_comment_week_desc: El mejor comentario de la semana
 gold_scout_desc: 10 enlaces excelentes
 gold_article: Hilo medalla de oro
-edit_comment: Editar comentario
+edit_comment: Guardar cambios
 settings: Configuración
 profile: Perfil
 blocked: Bloqueados
@@ -339,7 +340,7 @@ gold_comment_month_desc: El mejor comentario del mes
 gold_post_month: Publicación del mes
 gold_post_month_desc: La mejor publicación del mes
 up_vote: Impulsar
-bronze_article_desc: El hilo ha sido promocionado 5 veces
+bronze_article_desc: El hilo ha sido impulsado 5 veces
 mod_log_alert: En el registro de moderación podrás encontrar contenido desagradable
   u ofensivo eliminado por los/as moderadores/as. Asegúrate de saber lo que estás
   haciendo.
@@ -365,7 +366,7 @@ ban_expired: Suspensión expirada
 purge: Eliminar
 send_message: Enviar un mensaje
 message: Mensaje
-infinite_scroll: Scroll infinito
+infinite_scroll: Desplazamiento infinito
 show_top_bar: Mostrar la barra superior
 sticky_navbar: Barra de navegación fija
 subject_reported: El contenido ha sido reportado.
@@ -422,7 +423,7 @@ dashboard: Panel de control
 contact_email: e-mail de contacto
 meta: Meta
 instance: Instancia
-registrations_enabled: Inscripciones activadas
+registrations_enabled: Registro activado
 pages: Páginas
 FAQ: FAQ
 inactive: Inactivo
@@ -454,8 +455,8 @@ auto_preview: Vista previa de contenido multimedia
 dynamic_lists: Listas dinámicas
 banned_instances: Instancias bloqueadas
 kbin_intro_title: Explora el Fediverso
-kbin_intro_desc: es una plataforma descentralizada para la agregación de contenido
-  y microblogging que opera en la red Fediverso.
+kbin_intro_desc: es una plataforma descentralizada de agregación de contenidos y microblogging
+  que opera dentro de la red Fediverse.
 kbin_promo_title: Crea tu propia instancia
 captcha_enabled: Captcha activado
 header_logo: Logo del encabezado
@@ -463,16 +464,16 @@ browsing_one_thread: Estás viendo solo un hilo de la discusión! En la página 
   publicación puedes encontrar todos los comentarios.
 return: Ir atrás
 kbin_promo_desc: '%link_start%Clona el repositorio%link_end% y desarrolla el Fediverso'
-bronze_link_desc: Esta publicación ha sido promocionada 5 veces
+bronze_link_desc: La publicación ha sido impulsada 5 veces
 boosts: Reposts
-bronze_photo_desc: La foto ha sido reposteada 5 veces
-bronze_comment_desc: El comentario ha sido reposteado 5 veces
-bronze_post_desc: La publicación ha sido reposteada 5 veces
+bronze_photo_desc: La foto ha sido impulsada 5 veces
+bronze_comment_desc: El comentario ha sido impulsado 5 veces
+bronze_post_desc: El post ha sido impulsado 5 veces
 silver_article_desc: El hilo ha sido reposteado 10 veces
 silver_comment_desc: El comentario ha sido reposteado 10 veces
 silver_post_desc: La publicación ha sido reposteada 10 veces
 gold_link_desc: La publicación ha sido reposteada 15 veces
-gold_article_desc: El hilo ha sido reposteado 15 veces
+gold_article_desc: El hilo ha sido impulsado 15 veces
 gold_photo_desc: La foto ha sido reposteada 15 veces
 gold_comment_desc: El comentario ha sido reposteado 15 veces
 gold_post_desc: La publicación ha sido reposteada 15 veces
@@ -494,3 +495,41 @@ toolbar.image: Imagen
 toolbar.unordered_list: Lista sin ordenar
 toolbar.ordered_list: Lista ordenada
 toolbar.mention: Mención
+reload_to_apply: Recargar la página para aplicar los cambios
+local_and_federated: Locales y federados
+bot_body_content: "¡Bienvenido al Bot de /kbin! Este bot juega un papel crucial en
+  la habilitación de la funcionalidad ActivityPub dentro de /kbin. Asegura que /kbin
+  pueda comunicarse y federarse con otras instancias en el fediverso.\n\nActivityPub
+  es un protocolo estándar abierto que permite a las plataformas de redes sociales
+  descentralizadas comunicarse e interactuar entre sí. Permite a los usuarios de diferentes
+  instancias (servidores) seguir, interactuar y compartir contenidos a través de la
+  red social federada conocida como fediverso. Proporciona a los usuarios una forma
+  estandarizada de publicar contenidos, seguir a otros usuarios y participar en interacciones
+  sociales como gustar, compartir y comentar hilos o mensajes."
+your_account_is_not_active: Su cuenta no ha sido activada. Compruebe su correo electrónico
+  y haga clic en el enlace de activación para continuar
+more_from_domain: Más del dominio
+your_account_has_been_banned: Tu cuenta ha sido bloqueada
+infinite_scroll_help: Cargue automáticamente más contenido cuando llegue al final
+  de la página.
+sticky_navbar_help: La barra de navegación se pegará a la parte superior de la página
+  cuando se desplace hacia abajo.
+auto_preview_help: Ampliar automáticamente las previsualizaciones multimedia.
+filter.origin.label: Elegir origen
+filter.fields.label: Elija los campos que desea buscar
+filter.adult.label: Elija si desea mostrar NSFW
+filter.adult.hide: Ocultar NSFW
+filter.adult.show: Mostrar NSFW
+filter.adult.only: Sólo NSFW
+filter.fields.only_names: Sólo nombres
+filter.fields.names_and_descriptions: Nombres y descripciones
+kbin_bot: Bot de /kbin
+password_confirm_header: Confirme su solicitud de cambio de contraseña.
+federation_page_enabled: Página de la Federación activada
+federation_page_allowed_description: Instancias conocidas con las que nos federamos
+federation_page_disallowed_description: Instancias con las que no nos federamos
+federated_search_only_loggedin: Búsqueda federada limitada si no se ha iniciado sesión
+request_account_deletion_title: Eliminación de la cuenta
+request_account_deletion_description: Se notificará al administrador que desea eliminar
+  su cuenta.
+request_account_deletion_button: Solicitar la eliminación de la cuenta

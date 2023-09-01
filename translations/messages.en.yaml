@@ -479,17 +479,6 @@ mercure_enabled: Mercure enabled
 report_issue: Report issue
 tokyo_night: Tokyo Night
 preferred_languages: Filter languages of threads and posts
-close: Close
-oauth.consent.title: OAuth2 Consent Form
-oauth.consent.grant_permissions: Grant Permissions
-oauth.consent.app_requesting_permissions: would like to perform the following actions on your behalf
-oauth.consent.app_has_permissions: can already perform the following actions
-oauth.consent.to_allow_access: To allow this access, click the 'Allow' button below
-oauth.consent.allow: Allow
-oauth.consent.deny: Deny
-oauth.client_identifier.invalid: Invalid OAuth Client ID!
-oauth.client_not_granted_message_read_permission: This app has not received permission to read your messages.
-restrict_oauth_clients: Restrict OAuth2 Client creation to Admins
 infinite_scroll_help: Automatically load more content when you reach the bottom of
   the page.
 sticky_navbar_help: The navbar will stick to the top of the page when you scroll down.
@@ -515,12 +504,9 @@ bot_body_content: "Welcome to the /kbin Bot! This bot plays a crucial role in en
   users, and engage in social interactions such as liking, sharing, and commenting
   on threads or posts."
 password_confirm_header: Confirm your password change request.
-resend_account_activation_email_question: Inactive account?
-resend_account_activation_email: Re-send account activation email
-resend_account_activation_email_error: There was an issue submitting this request. There may be no account associated with that email or perhaps it is already activated
-resend_account_activation_email_success: If an account associated with that email exists, we will send out a new activation email.
-resend_account_activation_email_description: Enter the email address associated with your account. We will send out another activation email for you.
-your_account_is_not_active: Your account has not been activated. Please check your email and click on the activation link to continue. </br></br> %link_start%(Click here to request a new account activation email)%link_end% 
+your_account_is_not_active: Your account has not been activated. Please check your
+  email for account activation instructions or <a href="%link_target%">request a new
+  account activation email.</a>
 your_account_has_been_banned: Your account has been banned
 toolbar.bold: Bold
 toolbar.italic: Italic
@@ -536,14 +522,28 @@ toolbar.mention: Mention
 federation_page_enabled: Federation page enabled
 federation_page_allowed_description: Known instances we federate with
 federation_page_disallowed_description: Instances we do not federate with
-more_from_domain: More from domain
-request_account_deletion_title: Account Deletion
-request_account_deletion_description: The administrator will be notified that you want your account deleted.
-request_account_deletion_button: Request Account Deletion
 federated_search_only_loggedin: Federated search limited if not logged in
+request_account_deletion_title: Account Deletion
+request_account_deletion_description: The administrator will be notified that you
+  want your account deleted.
+request_account_deletion_button: Request Account Deletion
+more_from_domain: More from domain
 errors.server500.title: 500 Server error
-errors.server500.description: Sorry, something went wrong on our end. We're working on resolving this issue, please check back soon
+errors.server500.description: Sorry, something went wrong on our end. We're working
+  on resolving this issue, please check back soon.
 errors.server429.title: 429 Too Many Requests
 errors.server404.title: 404 Not found
 errors.server403.title: 403 Forbidden
-
+email_confirm_button_text: Confirm your password change request
+email_confirm_link_help: Alternatively you can copy and paste the following into your
+  browser
+email.delete.title: User account deletion request
+email.delete.description: The following user has requested that their account be deleted
+resend_account_activation_email_question: Inactive account?
+resend_account_activation_email: Re-send account activation email
+resend_account_activation_email_error: There was an issue submitting this request.
+  There may be no account associated with that email or perhaps it is already activated.
+resend_account_activation_email_success: If an account associated with that email
+  exists, we will send out a new activation email.
+resend_account_activation_email_description: Enter the email address associated with
+  your account. We will send out another activation email for you.

@@ -27,7 +27,7 @@ class UserChecker implements UserCheckerInterface
 
         if (!$user->isVerified) {
             $resendEmailActivationUrl = $this->urlGenerator->generate('app_resend_email_activation');
-            throw new CustomUserMessageAccountStatusException($this->translator->trans('your_account_is_not_active', ['%link_start%' => sprintf('<a href="%s">', $resendEmailActivationUrl), '%link_end%' => '</a>']));
+            throw new CustomUserMessageAccountStatusException($this->translator->trans('your_account_is_not_active', ['%link_target%' => $resendEmailActivationUrl]));
         }
 
         if ($user->isBanned) {
