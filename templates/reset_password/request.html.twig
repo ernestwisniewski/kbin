@@ -28,17 +28,7 @@
                 <button class="btn btn__primary" type="submit">{{ 'reset_password'|trans }}</button>
             </div>
             {{ form_end(form) }}
-
-            <div class="actions">
-                <p>{{ 'already_have_account'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>
-                {% if kbin_registrations_enabled() %}
-                    <p>{{ 'dont_have_account'|trans }} <a
-                                class="font-weight-bold"
-                                href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
-                {% endif %}
-            </div>
+            {{ component('user_form_actions', {showLogin: true, showRegister: true, showResendEmail: true}) }}
             {{ component('login_socials') }}
         </div>
     </div>

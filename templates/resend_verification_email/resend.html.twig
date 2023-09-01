@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'resend_account_activation_email'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-resend-activation-email{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'resend_account_activation_email'|trans }}</h1>
+    <div id="content" class="section">
+        <div class="container">
+            <p>{{ 'resend_account_activation_email_description'|trans }}</p>      
+
+            {{ form_start(form) }}         
+            {% for flash_error in app.flashes('error') %}
+                <div class="alert alert__danger">{{ flash_error|trans }}</div>
+            {% endfor %}
+            {% for flash_success in app.flashes('success') %}
+                <div class="alert alert__success">{{ flash_success|trans }}</div>
+            {% endfor %}
+
+            {{ form_row(form.email) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+
+            {{ component('user_form_actions', {showRegister: true, showPasswordReset: true, showResendEmail: true}) }}
+        </div>
+    </div>
+{% endblock %}

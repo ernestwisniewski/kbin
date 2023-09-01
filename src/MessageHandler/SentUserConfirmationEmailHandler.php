@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
+use App\Entity\User;
 use App\Message\Contracts\SendConfirmationEmailInterface;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
@@ -30,12 +31,20 @@ class SentUserConfirmationEmailHandler
     public function __invoke(SendConfirmationEmailInterface $message)
     {
         $user = $this->repository->find($message->userId);
-
         if (!$user) {
             throw new UnrecoverableMessageHandlingException('User not found');
         }
 
-        // @todo
+        $this->sendConfirmationEmail($user);
+    }
+
+    /**
+     * @param User $user user that will be sent the confirmation email
+     *
+     * @return void
+     */
+    public function sendConfirmationEmail(User $user)
+    {
         try {
             $this->emailVerifier->sendEmailConfirmation(
                 'app_verify_email',
@@ -49,6 +58,7 @@ class SentUserConfirmationEmailHandler
                     ->htmlTemplate('_email/confirmation_email.html.twig')
             );
         } catch (\Exception $e) {
+            throw $e;
         }
     }
 }

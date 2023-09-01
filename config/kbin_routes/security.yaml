@@ -29,6 +29,10 @@ app_login:
   path: /login
   methods: [ GET, POST ]
 
+app_resend_email_activation:
+  controller: App\Controller\Security\ResendActivationEmailController::resend
+  path: /resend-email-activation/
+  
 app_consent:
   controller: App\Controller\Security\LoginController::consent
   path: /consent

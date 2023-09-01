@@ -20,7 +20,7 @@
             {% if not_sso_only_mode %}
             <form method="post">
                 {% if error %}
-                    <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                    <div class="alert alert__danger">{{ error.messageKey|trans(error.messageData, 'security')|raw }}</div>
                 {% endif %}
                 <div>
                     <label for="email">{{ 'login_or_email'|trans }}</label>
@@ -46,19 +46,8 @@
                     <button class="btn btn__primary" type="submit">{{ 'login'|trans }}</button>
                 </div>
             </form>
-
-            <div class="actions">
-                {% if kbin_registrations_enabled() %}
-                <p>{{ 'dont_have_account'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_register') }}">{{ 'register'|trans }}</a></p>
-                {% endif %}
-                <p>{{ 'you_cant_login'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
-            </div>
+            {{ component('user_form_actions', {showRegister: true, showPasswordReset: true, showResendEmail: true}) }}
             {% endif %}
-
             {{ component('login_socials') }}
         </div>
     </div>

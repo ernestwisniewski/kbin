@@ -515,8 +515,12 @@ bot_body_content: "Welcome to the /kbin Bot! This bot plays a crucial role in en
   users, and engage in social interactions such as liking, sharing, and commenting
   on threads or posts."
 password_confirm_header: Confirm your password change request.
-your_account_is_not_active: Your account has not been activated. Please check your
-  email and click on the activation link to continue
+resend_account_activation_email_question: Inactive account?
+resend_account_activation_email: Re-send account activation email
+resend_account_activation_email_error: There was an issue submitting this request. There may be no account associated with that email or perhaps it is already activated
+resend_account_activation_email_success: If an account associated with that email exists, we will send out a new activation email.
+resend_account_activation_email_description: Enter the email address associated with your account. We will send out another activation email for you.
+your_account_is_not_active: Your account has not been activated. Please check your email and click on the activation link to continue. </br></br> %link_start%(Click here to request a new account activation email)%link_end% 
 your_account_has_been_banned: Your account has been banned
 toolbar.bold: Bold
 toolbar.italic: Italic

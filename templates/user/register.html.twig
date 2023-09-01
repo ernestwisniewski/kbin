@@ -61,15 +61,7 @@
             {% else %}
                 <h3 class="text-muted">{{ 'registration_disabled'|trans }}</h3>
             {% endif %}
-            <div class="actions">
-                <p>{{ 'already_have_account'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_login') }}">{{ 'login'|trans }}</a></p>
-
-                <p>{{ 'you_cant_login'|trans }} <a
-                            class="font-weight-bold"
-                            href="{{ path('app_forgot_password_request') }}">{{ 'reset_password'|trans }}</a></p>
-            </div>
+            {{ component('user_form_actions', {showLogin: true, showPasswordReset: true, showResendEmail: true}) }}
             {{ component('login_socials') }}
         </div>
     </div>
