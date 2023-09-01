@@ -20,6 +20,7 @@ use App\Exception\UserBannedException;
 use App\Factory\EntryFactory;
 use App\Message\DeleteImageMessage;
 use App\Repository\EntryRepository;
+use App\Repository\ImageRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
 use App\Utils\UrlCleaner;
@@ -49,6 +50,7 @@ class EntryManager implements ContentManagerInterface
         private readonly TranslatorInterface $translator,
         private readonly EntityManagerInterface $entityManager,
         private readonly EntryRepository $entryRepository,
+        private readonly ImageRepository $imageRepository,
         private readonly CacheInterface $cache
     ) {
     }
@@ -71,7 +73,7 @@ class EntryManager implements ContentManagerInterface
         $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult || $entry->magazine->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
-        $entry->image = $dto->image;
+        $entry->image = $dto->image ? $this->imageRepository->find($dto->image->id) : null;
         if ($entry->image && !$entry->image->altText) {
             $entry->image->altText = $dto->imageAlt;
         }
@@ -146,7 +148,7 @@ class EntryManager implements ContentManagerInterface
         $entry->visibility = $dto->visibility;
         $oldImage = $entry->image;
         if ($dto->image) {
-            $entry->image = $dto->image;
+            $entry->image = $this->imageRepository->find($dto->image->id);
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
             implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),

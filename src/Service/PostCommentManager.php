@@ -18,6 +18,7 @@ use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Exception\UserBannedException;
 use App\Factory\PostCommentFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\ImageRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -32,6 +33,7 @@ class PostCommentManager implements ContentManagerInterface
         private readonly TagManager $tagManager,
         private readonly MentionManager $mentionManager,
         private readonly PostCommentFactory $factory,
+        private readonly ImageRepository $imageRepository,
         private readonly EventDispatcherInterface $dispatcher,
         private readonly RateLimiterFactory $postCommentLimiter,
         private readonly MessageBusInterface $bus,
@@ -57,7 +59,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->magazine = $dto->post->magazine;
         $comment->lang = $dto->lang;
         $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
-        $comment->image = $dto->image;
+        $comment->image = $dto->image ? $this->imageRepository->find($dto->image->id) : null;
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
         }
@@ -94,7 +96,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $oldImage = $comment->image;
         if ($dto->image) {
-            $comment->image = $dto->image;
+            $comment->image = $this->imageRepository->find($dto->image->id);
         }
         $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body

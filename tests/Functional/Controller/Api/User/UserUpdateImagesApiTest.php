@@ -109,7 +109,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['avatar']);
         self::assertSame(96, $jsonData['avatar']['width']);
         self::assertSame(96, $jsonData['avatar']['height']);
-        self::assertEquals('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $jsonData['avatar']['filePath']);
+        self::assertEquals(self::KIBBY_PNG_URL_RESULT, $jsonData['avatar']['filePath']);
 
         // Clean up test data as well as checking that DELETE works
         //      This isn't great, but since people could have their media directory
@@ -153,7 +153,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['cover']);
         self::assertSame(96, $jsonData['cover']['width']);
         self::assertSame(96, $jsonData['cover']['height']);
-        self::assertEquals('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $jsonData['cover']['filePath']);
+        self::assertEquals(self::KIBBY_PNG_URL_RESULT, $jsonData['cover']['filePath']);
 
         // Clean up test data as well as checking that DELETE works
         //      This isn't great, but since people could have their media directory

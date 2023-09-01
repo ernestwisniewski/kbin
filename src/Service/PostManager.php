@@ -18,6 +18,7 @@ use App\Event\Post\PostRestoredEvent;
 use App\Exception\UserBannedException;
 use App\Factory\PostFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\ImageRepository;
 use App\Repository\PostRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use App\Utils\Slugger;
@@ -45,6 +46,7 @@ class PostManager implements ContentManagerInterface
         private readonly TranslatorInterface $translator,
         private readonly EntityManagerInterface $entityManager,
         private readonly PostRepository $postRepository,
+        private readonly ImageRepository $imageRepository,
         private readonly CacheInterface $cache
     ) {
     }
@@ -67,7 +69,7 @@ class PostManager implements ContentManagerInterface
         $post->lang = $dto->lang;
         $post->isAdult = $dto->isAdult || $post->magazine->isAdult;
         $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
-        $post->image = $dto->image;
+        $post->image = $dto->image ? $this->imageRepository->find($dto->image->id) : null;
         if ($post->image && !$post->image->altText) {
             $post->image->altText = $dto->imageAlt;
         }
@@ -101,7 +103,7 @@ class PostManager implements ContentManagerInterface
         $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $oldImage = $post->image;
         if ($dto->image) {
-            $post->image = $dto->image;
+            $post->image = $this->imageRepository->find($dto->image->id);
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

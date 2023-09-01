@@ -68,7 +68,7 @@ class UserEditControllerTest extends WebTestCase
         $client->submit($form);
 
         $user = $repository->find($user->getId());
-        $this->assertStringContainsString('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $user->avatar->filePath);
+        $this->assertStringContainsString(self::KIBBY_PNG_URL_RESULT, $user->avatar->filePath);
     }
 
     public function testUserCanUploadCover(): void
@@ -87,7 +87,7 @@ class UserEditControllerTest extends WebTestCase
         $client->submit($form);
 
         $user = $repository->find($user->getId());
-        $this->assertStringContainsString('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $user->cover->filePath);
+        $this->assertStringContainsString(self::KIBBY_PNG_URL_RESULT, $user->cover->filePath);
     }
 
     public function testUserCanChangePassword(): void

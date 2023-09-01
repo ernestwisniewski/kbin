@@ -18,6 +18,7 @@ use App\Event\EntryComment\EntryCommentRestoredEvent;
 use App\Exception\UserBannedException;
 use App\Factory\EntryCommentFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\ImageRepository;
 use App\Service\Contracts\ContentManagerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -35,7 +36,8 @@ class EntryCommentManager implements ContentManagerInterface
         private readonly RateLimiterFactory $entryCommentLimiter,
         private readonly EventDispatcherInterface $dispatcher,
         private readonly MessageBusInterface $bus,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly ImageRepository $imageRepository,
     ) {
     }
 
@@ -57,7 +59,7 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->magazine = $dto->entry->magazine;
         $comment->lang = $dto->lang;
         $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
-        $comment->image = $dto->image;
+        $comment->image = $dto->image ? $this->imageRepository->find($dto->image->id) : null;
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
         }
