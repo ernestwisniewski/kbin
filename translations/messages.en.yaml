@@ -537,3 +537,9 @@ request_account_deletion_title: Account Deletion
 request_account_deletion_description: The administrator will be notified that you want your account deleted.
 request_account_deletion_button: Request Account Deletion
 federated_search_only_loggedin: Federated search limited if not logged in
+errors.server500.title: 500 Server error
+errors.server500.description: Sorry, something went wrong on our end. We're working on resolving this issue, please check back soon
+errors.server429.title: 429 Too Many Requests
+errors.server404.title: 404 Not found
+errors.server403.title: 403 Forbidden
+
