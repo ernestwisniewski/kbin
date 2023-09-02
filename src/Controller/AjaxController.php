@@ -54,11 +54,16 @@ class AjaxController extends AbstractController
         );
     }
 
+    /**
+     * Returns an embeded objects html value, to be used for front-end insertion.
+     */
     public function fetchEmbed(Embed $embed, Request $request): JsonResponse
     {
+        $data = $embed->fetch($request->get('url'));
+
         return new JsonResponse(
             [
-                'html' => '<div class="preview">'.$embed->fetch($request->get('url'))->html.'</div>',
+                'html' => sprintf('<a href="%s" class="embed-link"><div class="preview">%s</div></a>', $data->url, $data->html),
             ]
         );
     }
