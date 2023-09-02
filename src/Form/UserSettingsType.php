@@ -49,6 +49,14 @@ class UserSettingsType extends AbstractType
                 'multiple' => true,
                 'choice_self_translation' => true,
             ])
+            ->add('customCss', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add(
+                'ignoreMagazinesCustomCss',
+                CheckboxType::class,
+                ['required' => false]
+            )
             ->add(
                 'showProfileSubscriptions',
                 CheckboxType::class,
@@ -99,10 +107,6 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
-            ->add('customCss', TextareaType::class, [
-                'required' => false,
-                'help' => $this->translator->trans('user.settings.custom_css.description'),
-                ])
             ->add('submit', SubmitType::class);
 
         $builder->get('featuredMagazines')->addModelTransformer(

@@ -2,3 +2,4 @@ framework:
   default_locale: '%env(KBIN_DEFAULT_LANG)%'
   translator:
     default_path: '%kernel.project_dir%/translations'
+    fallbacks: ['en']

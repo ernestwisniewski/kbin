@@ -29,8 +29,9 @@
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
         {% if kbin_mercure_enabled() %}
-            {#        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script> #}
-            <script type="application/json" id="mercure-url">{{- 'https://' ~ kbin_domain() ~ '/.well-known/mercure' }}</script>
+        {#        <script type="application/json" id="mercure-url">{{ mercure()|raw }}</script> #}
+        <script type="application/json"
+                id="mercure-url">{{- 'https://' ~ kbin_domain() ~ '/.well-known/mercure' }}</script>
         {% endif %}
         <script>
             window.KBIN_USER = "{{ app.user ? app.user.username : null }}";
@@ -47,17 +48,17 @@
         </script>
     {% endblock %}
 
-    {% if magazine is defined and magazine %}
-        <style>
-            {{ magazine.customCss }}
-        </style>
+    {% if not app.user or not app.user.ignoreMagazinesCustomCss %}
+        {% if magazine is defined and magazine %}
+            <style>
+                {{ magazine.customCss }}
+            </style>
+        {% endif %}
     {% endif %}
-    {% if app.user is defined %}
-        {% if app.user.customCss %}
+    {% if app.user and app.user.customCss %}
         <style>
             {{ app.user.customCss }}
         </style>
-        {% endif %}
     {% endif %}
 </head>
 <body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
@@ -67,7 +68,7 @@
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
         'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
-    }) }}" data-controller="kbin notifications">    
+    }) }}" data-controller="kbin notifications">
 {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
 <div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">

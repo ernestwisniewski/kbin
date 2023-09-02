@@ -547,3 +547,5 @@ resend_account_activation_email_success: If an account associated with that emai
   exists, we will send out a new activation email.
 resend_account_activation_email_description: Enter the email address associated with
   your account. We will send out another activation email for you.
+custom_css: Custom CSS
+ignore_magazines_custom_css: Ignore magazines custom CSS

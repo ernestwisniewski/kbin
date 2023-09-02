@@ -217,6 +217,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     private Collection $oAuth2UserConsents;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $ignoreMagazinesCustomCss = false;
 
     public function __construct(
         string $email,

@@ -28,23 +28,9 @@ class UserSettingsDto implements \JsonSerializable
         public ?array $featuredMagazines = null,
         #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
         public ?array $preferredLanguages = null,
-        public ?string $customCss = null
+        public ?string $customCss = null,
+        public ?bool $ignoreMagazinesCustomCss = null
     ) {
-        $this->notifyOnNewEntry = $notifyOnNewEntry;
-        $this->notifyOnNewEntryReply = $notifyOnNewEntryReply;
-        $this->notifyOnNewEntryCommentReply = $notifyOnNewEntryCommentReply;
-        $this->notifyOnNewPost = $notifyOnNewPost;
-        $this->notifyOnNewPostReply = $notifyOnNewPostReply;
-        $this->notifyOnNewPostCommentReply = $notifyOnNewPostCommentReply;
-        $this->hideAdult = $hideAdult;
-        $this->showProfileSubscriptions = $showProfileSubscriptions;
-        $this->showProfileFollowings = $showProfileFollowings;
-        $this->addMentionsEntries = $addMentionsEntries;
-        $this->addMentionsPosts = $addMentionsPosts;
-        $this->homepage = $homepage;
-        $this->featuredMagazines = $featuredMagazines;
-        $this->preferredLanguages = $preferredLanguages;
-        $this->customCss = $customCss;
     }
 
     public function jsonSerialize(): mixed
@@ -65,6 +51,7 @@ class UserSettingsDto implements \JsonSerializable
             'featuredMagazines' => $this->featuredMagazines,
             'preferredLanguages' => $this->preferredLanguages,
             'customCss' => $this->customCss,
+            'ignoreMagazinesCustomCss' => $this->ignoreMagazinesCustomCss,
         ];
     }
 
@@ -85,6 +72,7 @@ class UserSettingsDto implements \JsonSerializable
         $dto->featuredMagazines = $this->featuredMagazines ?? $dto->featuredMagazines;
         $dto->preferredLanguages = $this->preferredLanguages ?? $dto->preferredLanguages;
         $dto->customCss = $this->customCss ?? $dto->customCss;
+        $dto->ignoreMagazinesCustomCss = $this->ignoreMagazinesCustomCss ?? $dto->ignoreMagazinesCustomCss;
 
         return $dto;
     }

@@ -31,7 +31,8 @@ class UserSettingsManager
             $user->homepage,
             $user->featuredMagazines,
             $user->preferredLanguages,
-            $user->customCss
+            $user->customCss,
+            $user->ignoreMagazinesCustomCss
         );
     }
 
@@ -52,6 +53,7 @@ class UserSettingsManager
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;
         $user->preferredLanguages = $dto->preferredLanguages ? array_unique($dto->preferredLanguages) : [];
         $user->customCss = $dto->customCss;
+        $user->ignoreMagazinesCustomCss = $dto->ignoreMagazinesCustomCss;
 
         $this->entityManager->flush();
     }
