@@ -24,6 +24,7 @@
                 {% else %}
                     {{ component('date', {date: comment.createdAt}) }}
                 {% endif %}
+                {{ component('date_edited', {createdAt: comment.createdAt, editedAt: comment.editedAt}) }}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: comment.magazine}) }}{% endif %}
                 {% if showEntryTitle %}{{ 'in'|trans }} {{ component('entry_inline', {entry: comment.entry}) }}{% endif %}
                 {% if comment.lang is not same as app.request.locale and comment.lang is not same as kbin_default_lang() %}

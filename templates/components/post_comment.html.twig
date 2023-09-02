@@ -27,6 +27,7 @@
                 {% else %}
                     {{ component('date', {date: comment.createdAt}) }}
                 {% endif %}
+                {{ component('date_edited', {createdAt: comment.createdAt, editedAt: comment.editedAt}) }}
                 {% if comment.lang is not same as app.request.locale and comment.lang is not same as kbin_default_lang() %}
                     <small hidden class="badge-lang">{{ comment.lang|language_name }}</small>
                 {% endif %}

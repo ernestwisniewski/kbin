@@ -8,5 +8,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('date_edited')]
 final class DateEditedComponent
 {
-    public Entry $entry;
+    public \DateTimeInterface $createdAt;
+    public ?\DateTimeInterface $editedAt = null;
 }

@@ -4,7 +4,7 @@
              style="z-index:3; position:relative;margin-bottom:0;">
             Private
         </div>
-    {% else %}      
+    {% else %}
         <article{{ attributes.defaults({
             class: html_classes('entry section subject', {
                 'no-image': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
@@ -13,7 +13,7 @@
             })}).without('id') }}
                 id="entry-{{ entry.id }}"
                 data-controller="subject preview mentions"
-                data-action="notifications:Notification@window->subject#notification">          
+                data-action="notifications:Notification@window->subject#notification">
             <header>
                 {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {% if isSingle %}
@@ -35,9 +35,10 @@
                             {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
                             {% if entry.isOc %}<small class="badge kbin-bg">OC</small>{% endif %}
                             <a href="{{ entry_url(entry) }}">{{ entry.title }}</a>
-                           
+
                             {% if entry.url %}
-                                <span class="entry__domain">(<a rel="{{ get_rel(entry.url) }}" href="{{ entry.url }}">{{ get_url_domain(entry.url) }}</a>)</span>
+                                <span class="entry__domain">(<a rel="{{ get_rel(entry.url) }}"
+                                                                href="{{ entry.url }}">{{ get_url_domain(entry.url) }}</a>)</span>
                             {% endif %}
 
                             {% if entry.lang is not same as app.request.locale and entry.lang is not same as kbin_default_lang() %}
@@ -58,7 +59,7 @@
                     </div>
                 {% endif %}
                 {% if entry.body and showBody %}
-                    <div class="entry__body">                
+                    <div class="entry__body">
                         <div class="content formatted">
                             {{ entry.body|markdown|raw }}
                         </div>
@@ -68,15 +69,17 @@
             <aside class="meta entry__meta">
                 {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) -}}
                 ,
-                {{ component('date', {date: entry.createdAt}) }} 
-                {{ component('date_edited', {entry: entry}) }} 
+                {{ component('date', {date: entry.createdAt}) }}
+                {{ component('date_edited', {createdAt: entry.createdAt, editedAt: entry.editedAt}) }}
                 {% if showMagazineName %}{{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}{% endif %}
             </aside>
             {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
                 {% if entry.image %}
                     {% if entry.type is same as 'link' or entry.type is same as 'video' %}
                         <figure>
-                            <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
+                            <div class="image-filler"
+                                 style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})"
+                                 aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
                                rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
                                 <img class="thumb-subject"
@@ -86,7 +89,9 @@
                         </figure>
                     {% elseif entry.type is same as 'image' or entry.type is same as 'article' %}
                         <figure>
-                            <div class="image-filler" style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})" aria-hidden="true"></div>
+                            <div class="image-filler"
+                                 style="background-image: url({{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }})"
+                                 aria-hidden="true"></div>
                             <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
                                class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
                                 <img class="thumb-subject"
@@ -98,7 +103,7 @@
                 {% else %}
                     <div class="no-image-placeholder">
                         <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
-                           {%- if entry.type is same as 'link' or entry.type is same as 'video' %} rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}" {% endif -%}>
+                                {%- if entry.type is same as 'link' or entry.type is same as 'video' %} rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}" {% endif -%}>
                             <i class="fa-solid {% if entry.type is same as 'link' %}fa-link{% else %}fa-message{% endif %}"></i>
                         </a>
                     </div>
@@ -163,9 +168,9 @@
                                 </li>
 
                                 {% if entry.domain %}
-                                <li>
-                                    <a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{'more_from_domain'|trans|lower}}</a>
-                                </li>
+                                    <li>
+                                        <a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{ 'more_from_domain'|trans|lower }}</a>
+                                    </li>
                                 {% endif %}
 
                                 <li>
