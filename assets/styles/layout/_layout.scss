@@ -51,7 +51,7 @@ body {
     position: relative;
 
     @include media-breakpoint-down(md) {
-      overflow: hidden;
+      overflow-x: clip;
     }
   }
 
@@ -180,7 +180,8 @@ figure {
   .pagination__item,
   .no-avatar,
   code,
-  .ts-control > [data-value].item {
+  .ts-control > [data-value].item,
+  .image-preview-container {
     border-radius: var(--kbin-rounded-edges-radius) !important;
   }
 
@@ -211,12 +212,6 @@ figure {
   .options--top,
   .section--top {
     border-radius: 0 0 .5rem .5rem !important;
-  }
-
-  .dropdown__menu {
-    button {
-      border-radius: 0;
-    }
   }
 
   .magazine__subscribe,

@@ -343,6 +343,36 @@ form {
 
 .actions ul {
   margin: 0;
+
+  > img {
+      height: max-content;
+      order: -2;
+      flex: calc(100% - 2.5rem);
+      width: 100%;
+      max-height: 15rem;
+      margin-bottom: .75rem;
+      object-fit: contain;
+      background-color: hsla(0, 0%, 0%, 0.75);
+
+      .rounded-edges & {
+        border-radius: var(--kbin-rounded-edges-radius);
+      }
+
+      + .btn-link {
+        order: -1;
+        width: 2rem;
+        height: 2rem;
+        margin-left: -2.25rem;
+        color: var(--kbin-button-secondary-text-color);
+        background: var(--kbin-button-secondary-bg);
+        border: var(--kbin-button-secondary-border);
+
+        &:hover {
+          color: var(--kbin-button-secondary-text-hover-color);
+          background: var(--kbin-button-secondary-hover-bg);
+        }
+      }
+  }
 }
 
 .actions,
@@ -353,7 +383,6 @@ form {
   justify-content: flex-end;
 
   .btn-link i {
-    bottom: 15px;
     position: relative;
   }
 
@@ -363,6 +392,7 @@ form {
 
   div button {
     height: 100%;
+    white-space: nowrap;
   }
 
   .ts-control {
@@ -378,6 +408,11 @@ form {
   }
 }
 
+.row.actions ul {
+  flex-flow: row wrap;
+  width: 100%;
+}
+
 select {
   background: var(--kbin-button-secondary-bg);
   border: var(--kbin-button-secondary-border);
@@ -390,7 +425,6 @@ select {
 
 .actions {
   @include media-breakpoint-down(sm) {
-    display: block;
     text-align: right;
 
     > * {
@@ -421,33 +455,6 @@ select {
     label {
       margin-right: 1rem;
     }
-  }
-}
-
-.image-preview-container {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  background: black !important;
-
-  img {
-    display: none;
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-  .image-preview-clear {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 1.75em;
-    height: 1.75em;
-    padding: 0 !important;
-    text-align: center;
-    color: black !important;
-    font-weight: bold !important;
-    display: none !important;
   }
 }
 

@@ -1,21 +1,82 @@
 .media {
-  text-align: left !important;
+  text-align: left;
   align-items: center;
   display: flex;
   gap: 1rem;
 
   .actions {
-    display: flex !important;
+    display: flex;
   }
 
-  > div:first-child {
-    background: lightgray;
-    display: none;
-    height: 12.5rem;
-    line-height: 12.5rem;
-    text-align: center;
-    vertical-align: middle;
-    width: 12.5rem;
+  > div {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    flex: 1;
+    max-width: 25rem;
+
+    &:first-child {
+      height: 12.5rem;
+      width: 12.5rem;
+
+      @include media-breakpoint-down(md) {
+        height: 10rem;
+      }
+    }
+
+    > div {
+      width: 100%
+
+      
+    }
+    @include media-breakpoint-down(md) {
+      flex: 100%;
+    }
+
+    .image-input {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+
+  .image-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: rgba(0, 0, 0, 0.75);
+
+    img {
+      display: none;
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .image-preview-clear {
+      color: var(--kbin-button-secondary-text-color);
+      background: var(--kbin-button-secondary-bg);
+      border: var(--kbin-button-secondary-border);
+      position: absolute;
+      top: 0.25rem;
+      right: 0.25rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--kbin-button-secondary-hover-bg);
+        color: var(--kbin-button-secondary-text-hover-color);
+      }
+    }
   }
 }
 
@@ -24,15 +85,24 @@
 .comment-edit,
 .post-edit,
 .page-entry-create {
-  .dropdown__menu {
-    left: 4rem;
-    padding: 1rem 2rem;
-    top: -17.5rem;
-    z-index: 5;
+  .dropdown {
+    @include media-breakpoint-down(lg) {
+      position: static;
+    }
   }
 
-  .media div {
-    margin-bottom: 1rem;
+  .dropdown__menu {
+    padding: 1.5rem;
+    left: 50%;
+    top: auto;
+    bottom: calc(100% + 1rem);
+    z-index: 5;
+
+    @include media-breakpoint-down(md) {
+      padding: 1rem;
+      width: 100%;
+      max-width: 20rem;
+    }
   }
 
   .media {
@@ -42,11 +112,12 @@
   }
 }
 
-.page-post-front {
+.page-post-front,
+.page-post-create {
   .post-add {
     .dropdown__menu {
-      left: 3rem;
-      top: 2.5rem;
+      margin-top: .5rem;
+      bottom: auto;
     }
   }
 }
