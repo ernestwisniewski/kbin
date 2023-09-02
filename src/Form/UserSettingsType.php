@@ -99,6 +99,10 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
+            ->add('customCss', TextareaType::class, [
+                'required' => false,
+                'help' => $this->translator->trans('user.settings.custom_css.description'),
+                ])
             ->add('submit', SubmitType::class);
 
         $builder->get('featuredMagazines')->addModelTransformer(

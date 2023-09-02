@@ -28,6 +28,7 @@ class UserSettingsDto implements \JsonSerializable
         public ?array $featuredMagazines = null,
         #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
         public ?array $preferredLanguages = null,
+        public ?string $customCss = null
     ) {
         $this->notifyOnNewEntry = $notifyOnNewEntry;
         $this->notifyOnNewEntryReply = $notifyOnNewEntryReply;
@@ -43,6 +44,7 @@ class UserSettingsDto implements \JsonSerializable
         $this->homepage = $homepage;
         $this->featuredMagazines = $featuredMagazines;
         $this->preferredLanguages = $preferredLanguages;
+        $this->customCss = $customCss;
     }
 
     public function jsonSerialize(): mixed
@@ -62,6 +64,7 @@ class UserSettingsDto implements \JsonSerializable
             'homepage' => $this->homepage,
             'featuredMagazines' => $this->featuredMagazines,
             'preferredLanguages' => $this->preferredLanguages,
+            'customCss' => $this->customCss,
         ];
     }
 
@@ -81,6 +84,7 @@ class UserSettingsDto implements \JsonSerializable
         $dto->homepage = $this->homepage ?? $dto->homepage;
         $dto->featuredMagazines = $this->featuredMagazines ?? $dto->featuredMagazines;
         $dto->preferredLanguages = $this->preferredLanguages ?? $dto->preferredLanguages;
+        $dto->customCss = $this->customCss ?? $dto->customCss;
 
         return $dto;
     }

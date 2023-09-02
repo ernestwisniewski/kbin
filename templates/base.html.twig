@@ -52,6 +52,13 @@
             {{ magazine.customCss }}
         </style>
     {% endif %}
+    {% if app.user is defined %}
+        {% if app.user.customCss %}
+        <style>
+            {{ app.user.customCss }}
+        </style>
+        {% endif %}
+    {% endif %}
 </head>
 <body class="{{ html_classes(app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
     ? 'theme--'~app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_THEME'))
@@ -60,7 +67,7 @@
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
         'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
-    }) }}" data-controller="kbin notifications">
+    }) }}" data-controller="kbin notifications">    
 {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
 <div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">

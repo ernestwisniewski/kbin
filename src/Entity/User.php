@@ -213,9 +213,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     private int $id;
     #[Column(type: 'string', nullable: false)]
     private string $password;
-
     #[OneToMany(mappedBy: 'user', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]
     private Collection $oAuth2UserConsents;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $customCss = null;
 
     public function __construct(
         string $email,
@@ -717,6 +718,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
                 $oAuth2UserConsent->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomCss(): ?string
+    {
+        return $this->customCss;
+    }
+
+    public function setCustomCss(?string $customCss): static
+    {
+        $this->customCss = $customCss;
 
         return $this;
     }

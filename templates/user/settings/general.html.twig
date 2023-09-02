@@ -24,6 +24,7 @@
             {{ form_row(form.featuredMagazines, {label: 'featured_magazines'}) }}
             {{ form_row(form.preferredLanguages, {label: 'preferred_languages'}) }}
             {{ form_row(form.hideAdult, {label: 'hide_adult', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.customCss, {label: 'custom_css', row_attr: {class: 'textarea'}}) }}
             <h2>{{ 'writing'|trans }}</h2>
             {{ form_row(form.addMentionsEntries, {label: 'add_mentions_entries', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.addMentionsPosts, {label: 'add_mentions_posts', row_attr: {class: 'checkbox'}}) }}
@@ -36,7 +37,7 @@
             {{ form_row(form.notifyOnNewPostReply, {label: 'notify_on_new_post_reply', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.notifyOnNewPostCommentReply, {label: 'notify_on_new_post_comment_reply', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.notifyOnNewEntry, {label: 'notify_on_new_entry', row_attr: {class: 'checkbox'}}) }}
-            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}  
             <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>
