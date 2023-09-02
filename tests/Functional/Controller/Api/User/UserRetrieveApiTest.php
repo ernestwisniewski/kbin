@@ -40,6 +40,8 @@ class UserRetrieveApiTest extends WebTestCase
         'homepage',
         'featuredMagazines',
         'preferredLanguages',
+        'customCss',
+        'ignoreMagazinesCustomCss',
     ];
     public const NUM_USERS = 10;
 
