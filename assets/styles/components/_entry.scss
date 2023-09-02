@@ -260,6 +260,10 @@
   &__meta {
     grid-area: meta;
     align-self: flex-end;
+
+    .edited{
+      font-style: italic;
+    }
   }
 
   footer {

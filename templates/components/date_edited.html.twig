@@ -1,0 +1,8 @@
+
+{% set createdAt = entry.createdAt|date('U') %}
+{% set editedAt = entry.editedAt|date('U') %}
+{% if editedAt %}
+    {% if editedAt - createdAt > 300 %}
+        <span class="edited">({{ 'edited'|trans }} {{ entry.editedAt|ago }})</span>
+    {% endif %}
+{% endif %}
