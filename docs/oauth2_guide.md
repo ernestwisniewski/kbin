@@ -21,7 +21,7 @@
 ## Available Scopes
 ### Scope tree
 1. `read` - Allows retrieval of threads from the user's subscribed magazines/domains and viewing the user's favorited entries.
-2. `write` - Provides all of the following nested scopes
+2. `write` - Provides all the following nested scopes
     * `entry:create`
     * `entry:edit`
     * `entry_comment:create`
@@ -30,7 +30,7 @@
     * `post:edit`
     * `post_comment:create`
     * `post_comment:edit`
-3. `delete` - Provides all of the following nested scopes, for deleting the current user's content
+3. `delete` - Provides all the following nested scopes, for deleting the current user's content
     * `entry:delete`
     * `entry_comment:delete`
     * `post:delete`
@@ -92,7 +92,7 @@
 14. `user` - Provides all user access scopes
     * `user:profile`
         * `user:profile:read`
-            * Allows access to current user's settings and profile via the `/api/user/me` endpoint
+            * Allows access to the current user's settings and profile via the `/api/user/me` endpoint
         * `user:profile:edit`
             * Allows updating the current user's settings and profile
     * `user:message`
@@ -153,7 +153,7 @@
             * `moderate:magazine:reports:read`
                 * Allows the client to read reports about content from magazines the user moderates
             * `moderate:magazine:reports:action`
-                * Allows the client to take action on reports, either accepting or rejecting them
+                * Allows the client to act on reports, either accepting or rejecting them
         * `moderate:magazine:trash:read`
             * Allows viewing the removed content of a moderated magazine
     * `moderate:magazine_admin`
@@ -162,7 +162,7 @@
         * `moderate:magazine_admin:delete`
             * Allows the deletion of magazines the user has permission to delete
         * `moderate:magazine_admin:update`
-            * Allows magazine rules, description, settings, title, etc to be updated
+            * Allows magazine rules, description, settings, title, etc. to be updated
         * `moderate:magazine_admin:theme`
             * Allows updates to the magazine theme
         * `moderate:magazine_admin:moderators`
@@ -209,6 +209,7 @@
             * Allows the admin to edit the list of defederated instances
     * `admin:oauth_clients`
         * `admin:oauth_clients:read`
-            * Allows the admin to read usage stats of oauth clients, as well as list clients on the instance
+            * Allows the admin to read usage stats of OAuth clients, as well as list clients on the instance
         * `admin:oauth_clients:revoke`
-            * Allows the admin to revoke a client's permission to acces the instance
+            * Allows the admin to revoke a client's permission to access the instance
+
