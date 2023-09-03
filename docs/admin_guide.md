@@ -1,22 +1,22 @@
 # Admin Bare Metal/VM Guide
 
 Below is a step-by-step guide of the process for creating your own /kbin instance from the moment a new VPS/VM is created or directly on bare-metal.  
-This is a preliminary outline that will help you launch an instance for your own needs.
+This is a preliminary outline that will help you launch an instance for your needs.
 
-For Docker see: [Admin Deployment Guide](./docker_deployment_guide.md).
+For Docker, see: [Admin Deployment Guide](./docker_deployment_guide.md).
 
 > **Note**
 > /kbin is still in the early stages of development.
 
 If you would like to support the project, you can register using the following [affiliate link](https://hetzner.cloud/?ref=8tSPCw0qqIwl).
 
-This guide is aimed for Debian / Ubuntu distribution servers, but it could run on any modern Linux distro. This guide will however uses the `apt` commands.
+This guide is aimed for Debian / Ubuntu distribution servers, but it could run on any modern Linux distro. This guide will, however, will use the `apt` commands.
 
 ## Minimum hardware requirements
 
 **CPU:** 2 cores (>2.5 GHz)  
-**RAM:** 4GB (more is recommended for large instances)  
-**Storage:** 20GB (more is recommended, especially if you have a lot of remote/local magazines and/or have a lot of (local) users)
+**RAM:** 4 GB (more is recommended for large instances)  
+**Storage:** 20 GB (more is recommended, especially if you have a lot of remote/local magazines or have a lot of (local) users)
 
 ## System Prerequisites
 
@@ -34,7 +34,7 @@ sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=compose
 // todo
 ```
 
-## Install NodeJS & Yarn (frontend tools)
+## Install Node.js & Yarn (frontend tools)
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
@@ -109,14 +109,14 @@ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
 
 ### The `.env` file
 
-Make a copy of the `.env.example_v2` the and edit the `.env` configure file:
+Make a copy of the `.env.example_v2` and edit the `.env` configure file:
 
 ```
 cp .env.example_v2 .env
 nano .env
 ```
 
-Make sure you have substituted all the passwords and configured the basic services in `.env` file.
+Make sure you have substituted all the passwords and configured the basic services in the `.env` file.
 
 > **Note**
 > The snippet below are to variables inside the .env file. Using the keys generated in the section above "Generating Secrets" fill in the values. You should fully review this file to ensure everything is configured correctly.
@@ -220,7 +220,7 @@ composer clear-cache
 
 #### Composer Development
 
-If you run production already then _skip the steps below_.
+If you run production already, then _skip the steps below_.
 
 ```bash
 composer install
@@ -243,7 +243,7 @@ sudo nano /etc/redis/redis.conf
 # Change no to systemd, considering Ubuntu is using systemd
 ```
 
-Save and exit (ctrl+x) the file.
+Save and exit (CTRL+x) the file.
 
 Restart Redis:
 
@@ -251,7 +251,7 @@ Restart Redis:
 sudo systemctl restart redis.service
 ```
 
-Within your `.env` file, change the redis host to `127.0.0.1` (localhost), proper IP or use socket file:
+Within your `.env` file, change the Redis host to `127.0.0.1` (localhost), proper IP or use socket file:
 
 ```conf
 REDIS_HOST=127.0.0.1:6379
@@ -264,7 +264,7 @@ REDIS_DNS=redis://${REDIS_PASSWORD}@${REDIS_HOST}
 
 ### PostgreSQL (Database)
 
-Create new `kbin` database user, using the password, `{!SECRET!!KEY!-32_2-!}`, you generated earlier:
+Create a new `kbin` database user, using the password, `{!SECRET!!KEY!-32_2-!}`, you generated earlier:
 
 ```bash
 sudo -u postgres createuser --createdb --createrole --pwprompt kbin
@@ -290,7 +290,7 @@ Make sure you have substituted all the passwords and configured the basic servic
 
 ### NGINX
 
-We will use NGINX as reverse proxy between the public site and various backend services (static files, PHP and Mercure).
+We will use NGINX as a reverse proxy between the public site and various backend services (static files, PHP and Mercure).
 
 #### General NGINX configs
 
@@ -658,21 +658,21 @@ The content of the `Caddyfile`:
 {$EXTRA_DIRECTIVES}
 
 route {
-	mercure {
-		# Transport to use (default to Bolt)
-		transport_url {$MERCURE_TRANSPORT_URL:bolt://mercure.db}
-		# Publisher JWT key
-		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
-		# Subscriber JWT key
-		subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
+ mercure {
+  # Transport to use (default to Bolt)
+  transport_url {$MERCURE_TRANSPORT_URL:bolt://mercure.db}
+  # Publisher JWT key
+  publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY} {env.MERCURE_PUBLISHER_JWT_ALG}
+  # Subscriber JWT key
+  subscriber_jwt {env.MERCURE_SUBSCRIBER_JWT_KEY} {env.MERCURE_SUBSCRIBER_JWT_ALG}
     # Workaround for now
-		anonymous
-		# Extra directives
-		{$MERCURE_EXTRA_DIRECTIVES}
-	}
+  anonymous
+  # Extra directives
+  {$MERCURE_EXTRA_DIRECTIVES}
+ }
 
-	respond /healthz 200
-	respond "Not Found" 404
+ respond /healthz 200
+ respond "Not Found" 404
 }
 ```
 
@@ -722,7 +722,7 @@ process_name=%(program_name)s_%(process_num)02d
 
 Save and close the file.
 
-We also use supervisor for running Mercure job:
+We also use a supervisor for running Mercure job:
 
 ```bash
 sudo nano /etc/supervisor/conf.d/mercure.conf
@@ -760,7 +760,7 @@ sudo supervisorctl restart all
 
 ### Kbin first setup
 
-Create new admin user (without email verification), please change the `username`, `email` and `password` below:
+To create a new admin user (without email verification), please change the `username`, `email` and `password` below:
 
 ```bash
 php bin/console kbin:user:create <username> <email@example.com> <password>
@@ -771,17 +771,17 @@ php bin/console kbin:user:admin <username>
 php bin/console kbin:ap:keys:update
 ```
 
-Next, log in and create a magazine named "random" to which unclassified content from the fediverse will flow.
+Next, log in and create a magazine named “random” to which unclassified content from the Fediverse will flow.
 
 ### Upgrades
 
-If you perform a kbin upgrade (eg. `git pull`), be aware to _always_ execute the following Bash script:
+If you perform a kbin upgrade (e.g., `git pull`), be aware to _always_ execute the following Bash script:
 
 ```bash
 ./bin/post-upgrade
 ```
 
-And when needed also execute: `sudo redis-cli FLUSHDB` to get rid of Redis cache issues. And reload the PHP FPM service if you have OPCache enabled.
+And when needed, also execute: `sudo redis-cli FLUSHDB` to get rid of Redis cache issues. And reload the PHP FPM service if you have OPCache enabled.
 
 ### Backup and restore
 
@@ -825,9 +825,9 @@ Web-server (Nginx):
 
 ### Debugging
 
-**Please, check the logs above first.** If you are really stuck, visit to our [Matrix space](https://matrix.to/#/%23kbin-space:matrix.org), there are dedicated rooms for 'Getting Started', 'Server Owners' and 'Issues'.
+**Please check the logs above first.** If you are really stuck, visit to our [Matrix space](https://matrix.to/#/%23kbin-space:matrix.org), there are dedicated rooms for 'Getting Started', 'Server Owners' and 'Issues'.
 
-Test PostgreSQL connections if using a remote server, same with Redis. Ensure no firewall rules blocking are any incoming or out-coming traffic (eg. port on 80 and 443).
+Test PostgreSQL connections if using a remote server, same with Redis. Ensure no firewall rules blocking are any incoming or out-coming traffic (e.g., port on 80 and 443).
 
 ### S3 Images storage (optional)
 
@@ -868,7 +868,7 @@ oneup_flysystem:
 
 ### Captcha (optional)
 
-Go to [hcaptcha.com](https://www.hcaptcha.com) and create a free account. Make a sitekey and a secret. Add domain.tld to the sitekey.
+Go to [hcaptcha.com](https://www.hcaptcha.com) and create a free account. Make a site key and a secret. Add domain.tld to the site key.
 
 Edit your `.env` file:
 
@@ -886,11 +886,11 @@ or
 composer dump-env dev
 ```
 
-Go to the admin panel, then to settings tab and check "Captcha enabled" and press "Save".
+Go to the admin panel, then to the settings tab and check “Captcha enabled” and press “Save”.
 
 ## Performance hints
 
-- [Resolve cache images in background](https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger)
+- [Resolve cache images in the background](https://symfony.com/bundles/LiipImagineBundle/current/optimizations/resolve-cache-images-in-background.html#symfony-messenger)
 
 ## References
 
@@ -899,3 +899,4 @@ Go to the admin panel, then to settings tab and check "Captcha enabled" and pres
 - [https://symfony.com/doc/current/setup/web_server_configuration.html](https://symfony.com/doc/current/setup/web_server_configuration.html)
 - [https://symfony.com/doc/current/messenger.html#deploying-to-production](https://symfony.com/doc/current/messenger.html#deploying-to-production)
 - [https://codingstories.net/how-to/how-to-install-and-use-mercure/](https://codingstories.net/how-to/how-to-install-and-use-mercure/)
+
