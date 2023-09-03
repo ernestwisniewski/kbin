@@ -11,7 +11,7 @@
 
 **Docker guide is still WIP. Not all the steps have been fully verified yet.**
 
-For bare metal see: [Admin Bare Metal Guide](./admin_guide.md).
+For bare-metal, see: [Admin Bare-Metal Guide](./admin_guide.md).
 
 > **Note**
 > /kbin is still in the early stages of development.
@@ -89,7 +89,7 @@ MERCURE_HOST=www:80
 
 ### Running the containers
 
-By default `docker compose` will execute the `docker-compose.yml` and `docker-compose.override.yml` files.
+By default, `docker compose` will execute the `docker-compose.yml` and `docker-compose.override.yml` files.
 
 Run the container in the background (`-d` means detached, but this can also be omitted for testing):
 
@@ -100,11 +100,11 @@ docker compose up -d
 See your running containers via: `docker ps`.
 
 Then, you should be able to access the new instance via [http://localhost](http://localhost).  
-You can also access RabbitMQ management UI via [http://localhost:15672](http://localhost:15672).
+You can also access the RabbitMQ management UI via [http://localhost:15672](http://localhost:15672).
 
 ### Kbin first setup
 
-Create new admin user (without email verification), please change the `username`, `email` and `password` below:
+To create a new admin user (without email verification), please change the `username`, `email` and `password` below:
 
 ```bash
 docker compose exec php bin/console kbin:user:create <username> <email@example.com> <password>
@@ -115,23 +115,23 @@ docker compose exec php bin/console kbin:user:admin <username>
 docker compose exec php bin/console kbin:ap:keys:update
 ```
 
-Next, log in and create a magazine named "random" to which unclassified content from the fediverse will flow.
+Next, log in and create a magazine named “random” to which unclassified content from the Fediverse will flow.
 
 ### Add auxiliary containers to `docker-compose.yml`
 
-Add any auxiliary container as you want. For example, add a Nginx container as reverse proxy to provide HTTPS encryption.
+Add any auxiliary container as you want. For example, add a Nginx container as a reverse proxy to provide HTTPS encryption.
 
 ## Uploaded media files
 
-Uploaded media files (e.g. photos uploaded by users) will be stored on the host directory `storage/media`. They will be served by the Caddy web server in the `www` container as static files.
+Uploaded media files (e.g., photos uploaded by users) will be stored on the host directory `storage/media`. They will be served by the Caddy web server in the `www` container as static files.
 
-Make sure `KBIN_STORAGE_URL` in your `.env` configuration file is set to be `https://yourdomain.tld/media` (assuming you setup Nginx with SSL certificate by now).
+Make sure `KBIN_STORAGE_URL` in your `.env` configuration file is set to be `https://yourdomain.tld/media` (assuming you set up Nginx with SSL certificate by now).
 
 You can also serve those media files on another server by mirroring the files at `storage/media` and changing `KBIN_STORAGE_URL` correspondingly.
 
-## Filesystem ACL support
+## File system ACL support
 
-The filesystem ACL is disabled by default, in the `kbin` image. You can set the environment variable `ENABLE_ACL=1` to enable it. Remember that not all filesystems support ACL. This will cause an error if you enable filesystem ACL for such filesystems.
+The file system ACL is disabled by default, in the `kbin` image. You can set the environment variable `ENABLE_ACL=1` to enable it. Remember that not all file systems support ACL. This will cause an error if you enable file system ACL for such file systems.
 
 ## Production
 
@@ -162,3 +162,4 @@ docker compose exec redis redis-cli
 docker exec -it container_id pg_dump -U kbin kbin > dump.sql
 docker compose exec -T database psql -U kbin kbin < dump.sql
 ```
+
