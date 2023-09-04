@@ -26,7 +26,7 @@ class MagazineTrashController extends AbstractController
             'magazine/panel/trash.html.twig',
             [
                 'magazine' => $magazine,
-                'results' => $this->repository->findTrashed($this->getPageNb($request), $magazine),
+                'results' => $this->repository->findTrashed($magazine, $this->getPageNb($request)),
             ]
         );
     }

@@ -20,7 +20,7 @@ use OpenApi\Attributes as OA;
         new OA\Schema(ref: new Model(type: PostCommentResponseDto::class)),
     ],
     properties: [
-        new OA\Property('type', example: 'string', type: 'string', enum: ContentSchema::TYPES),
+        new OA\Property('itemType', example: 'string', type: 'string', enum: ContentSchema::TYPES),
     ]
 )]
 class ContentSchema

@@ -38,6 +38,15 @@ class MagazineRepository extends ServiceEntityRepository
 {
     public const PER_PAGE = 48;
 
+    public const SORT_HOT = 'hot';
+    public const SORT_ACTIVE = 'active';
+    public const SORT_NEWEST = 'newest';
+    public const SORT_OPTIONS = [
+        self::SORT_ACTIVE,
+        self::SORT_HOT,
+        self::SORT_NEWEST,
+    ];
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Magazine::class);
@@ -112,7 +121,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findSubscribedMagazines(int $page, User $user): PagerfantaInterface
+    public function findSubscribedMagazines(int $page, User $user, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new CollectionAdapter(
@@ -121,7 +130,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -130,7 +139,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findBlockedMagazines(int $page, User $user): PagerfantaInterface
+    public function findBlockedMagazines(int $page, User $user, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new CollectionAdapter(
@@ -139,13 +148,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
-            $pagerfanta->setCurrentPage($page);
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
-        try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -154,29 +157,38 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findModerators(Magazine $magazine, ?int $page = 1): PagerfantaInterface
+    public function findModerators(Magazine $magazine, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
         $moderators = new Pagerfanta(new SelectableAdapter($magazine->moderators, $criteria));
-        $moderators->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-        $moderators->setCurrentPage($page);
+        try {
+            $moderators->setMaxPerPage($perPage);
+            $moderators->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return $moderators;
     }
 
-    public function findModlog(Magazine $magazine, ?int $page = 1): PagerfantaInterface
+    public function findModlog(Magazine $magazine, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'DESC']);
 
-        $moderators = new Pagerfanta(new SelectableAdapter($magazine->logs, $criteria));
-        $moderators->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-        $moderators->setCurrentPage($page);
+        $logs = new Pagerfanta(new SelectableAdapter($magazine->logs, $criteria));
 
-        return $moderators;
+        try {
+            $logs->setMaxPerPage($perPage);
+            $logs->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $logs;
     }
 
-    public function findBans(Magazine $magazine, ?int $page = 1): PagerfantaInterface
+    public function findBans(Magazine $magazine, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->gt('expiredAt', new \DateTime()))
@@ -184,23 +196,39 @@ class MagazineRepository extends ServiceEntityRepository
             ->orderBy(['createdAt' => 'DESC']);
 
         $bans = new Pagerfanta(new SelectableAdapter($magazine->bans, $criteria));
-        $bans->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-        $bans->setCurrentPage($page);
+        try {
+            $bans->setMaxPerPage($perPage);
+            $bans->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return $bans;
     }
 
-    public function findReports(Magazine $magazine, ?int $page = 1): PagerfantaInterface
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('status', Report::STATUS_PENDING))
-            ->orderBy(['weight' => 'ASC']);
+    public function findReports(
+        Magazine $magazine,
+        ?int $page = 1,
+        int $perPage = self::PER_PAGE,
+        string $status = Report::STATUS_PENDING
+    ): PagerfantaInterface {
+        $criteria = Criteria::create();
 
-        $bans = new Pagerfanta(new SelectableAdapter($magazine->reports, $criteria));
-        $bans->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
-        $bans->setCurrentPage($page);
+        if (Report::STATUS_ANY !== $status) {
+            $criteria->andWhere(Criteria::expr()->eq('status', $status));
+        }
 
-        return $bans;
+        $criteria->orderBy(['weight' => 'ASC']);
+
+        $reports = new Pagerfanta(new SelectableAdapter($magazine->reports, $criteria));
+        try {
+            $reports->setMaxPerPage($perPage);
+            $reports->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $reports;
     }
 
     public function findBadges(Magazine $magazine): Collection
@@ -208,7 +236,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $magazine->badges;
     }
 
-    public function findModeratedMagazines(User $user, ?int $page = 1): PagerfantaInterface
+    public function findModeratedMagazines(User $user, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
@@ -224,7 +252,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
@@ -233,7 +261,7 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findTrashed(int $page, Magazine $magazine): PagerfantaInterface
+    public function findTrashed(Magazine $magazine, int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         // @todo union adapter
         $conn = $this->_em->getConnection();
@@ -289,7 +317,7 @@ class MagazineRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
             $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
@@ -361,6 +389,33 @@ class MagazineRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function search(string $magazine, int $page, int $perPage = self::PER_PAGE): Pagerfanta
+    {
+        $qb = $this->createQueryBuilder('m')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere(
+                'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q) OR LOWER(m.description) LIKE LOWER(:q)'
+            )
+            ->orderBy('m.apId', 'DESC')
+            ->orderBy('m.subscriptionsCount', 'DESC')
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'q' => '%'.$magazine.'%']);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $qb
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage($perPage);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 
     public function findRandom(): array

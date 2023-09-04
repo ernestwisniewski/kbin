@@ -135,3 +135,9 @@ api_user_unfollow:
   path: /api/users/{user_id}/unfollow
   methods: [ PUT ]
   format: json
+
+api_user_magazine_subscriptions:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::subscriptions
+  path: /api/users/{user_id}/magazines/subscriptions
+  methods: [ GET ]
+  format: json

@@ -75,3 +75,10 @@ api_admin_update_defederated_instances:
   path: /api/defederated
   methods: [ PUT ]
   format: json
+
+api_admin_purge_magazine:
+  controller: App\Controller\Api\Magazine\Admin\MagazinePurgeApi
+  path: /api/admin/magazine/{magazine_id}/purge
+  methods: [ DELETE ]
+  format: json
+

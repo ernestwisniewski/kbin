@@ -61,7 +61,7 @@ class AwesomeBotMagazine extends Command
             $dto->name = $input->getArgument('magazine_name');
             $dto->title = $input->getArgument('magazine_title');
             $dto->description = 'Powered by '.$input->getArgument('url');
-            $dto->user = $user;
+            $dto->setOwner($user);
 
             $magazine = $this->magazineManager->create($dto, $user);
 
@@ -97,7 +97,7 @@ class AwesomeBotMagazine extends Command
         $badges = [];
         foreach ($labels as $label) {
             $this->badgeManager->create(
-                (new BadgeDto())->create($magazine, $label)
+                BadgeDto::create($magazine, $label)
             );
         }
 

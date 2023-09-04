@@ -51,9 +51,11 @@ class ReportManager
         return $report;
     }
 
-    public function reject(Report $report)
+    public function reject(Report $report, User $moderator)
     {
         $report->status = Report::STATUS_REJECTED;
+        $report->consideredBy = $moderator;
+        $report->consideredAt = new \DateTimeImmutable();
 
         $this->entityManager->flush();
 

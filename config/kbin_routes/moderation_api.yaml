@@ -1,0 +1,113 @@
+api_moderate_magazine_ban_user:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineUserBanApi::ban
+  path: /api/moderate/magazine/{magazine_id}/ban/{user_id}
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_unban_user:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineUserBanApi::unban
+  path: /api/moderate/magazine/{magazine_id}/ban/{user_id}
+  methods: [ DELETE ]
+  format: json
+
+api_moderate_magazine_mod_user:
+  controller: App\Controller\Api\Magazine\Admin\MagazineAddModeratorsApi
+  path: /api/moderate/magazine/{magazine_id}/mod/{user_id}
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_unmod_user:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRemoveModeratorsApi
+  path: /api/moderate/magazine/{magazine_id}/mod/{user_id}
+  methods: [ DELETE ]
+  format: json
+
+api_moderate_magazine_add_badge:
+  controller: App\Controller\Api\Magazine\Admin\MagazineAddBadgesApi
+  path: /api/moderate/magazine/{magazine_id}/badge
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_remove_badge:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRemoveBadgesApi
+  path: /api/moderate/magazine/{magazine_id}/badge/{badge_id}
+  methods: [ DELETE ]
+  format: json
+
+api_moderate_magazine_add_tag:
+  controller: App\Controller\Api\Magazine\Admin\MagazineAddTagsApi
+  path: /api/moderate/magazine/{magazine_id}/tag/{tag}
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_remove_tag:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRemoveTagsApi
+  path: /api/moderate/magazine/{magazine_id}/tag/{tag}
+  methods: [ DELETE ]
+  format: json
+
+api_moderate_magazine_retrieve_report:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineReportsRetrieveApi
+  path: /api/moderate/magazine/{magazine_id}/reports/{report_id}
+  methods: [ GET ]
+  format: json
+
+api_moderate_magazine_retrieve_reports:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineReportsRetrieveApi::collection
+  path: /api/moderate/magazine/{magazine_id}/reports
+  methods: [ GET ]
+  format: json
+
+api_moderate_magazine_accept_report:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineReportsAcceptApi
+  path: /api/moderate/magazine/{magazine_id}/reports/{report_id}/accept
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_reject_report:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineReportsRejectApi
+  path: /api/moderate/magazine/{magazine_id}/reports/{report_id}/reject
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_retrieve_bans:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineBansRetrieveApi::collection
+  path: /api/moderate/magazine/{magazine_id}/bans
+  methods: [ GET ]
+  format: json
+
+api_moderate_magazine_retrieve_trash:
+  controller: App\Controller\Api\Magazine\Moderate\MagazineTrashedRetrieveApi::collection
+  path: /api/moderate/magazine/{magazine_id}/trash
+  methods: [ GET ]
+  format: json
+
+api_moderate_magazine_set_theme:
+  controller: App\Controller\Api\Magazine\Admin\MagazineUpdateThemeApi
+  path: /api/moderate/magazine/{magazine_id}/theme
+  methods: [ POST ]
+  format: json
+
+api_moderate_magazine_delete_icon:
+  controller: App\Controller\Api\Magazine\Admin\MagazineDeleteIconApi
+  path: /api/moderate/magazine/{magazine_id}/icon
+  methods: [ DELETE ]
+  format: json
+
+api_moderate_magazine_retrieve_views:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRetrieveStatsApi::views
+  path: /api/stats/magazine/{magazine_id}/views
+  methods: [ GET ]
+  format: json
+  
+api_moderate_magazine_retrieve_votes:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRetrieveStatsApi::votes
+  path: /api/stats/magazine/{magazine_id}/votes
+  methods: [ GET ]
+  format: json
+
+api_moderate_magazine_retrieve_submissions:
+  controller: App\Controller\Api\Magazine\Admin\MagazineRetrieveStatsApi::content
+  path: /api/stats/magazine/{magazine_id}/content
+  methods: [ GET ]
+  format: json

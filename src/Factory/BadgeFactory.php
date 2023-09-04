@@ -11,7 +11,7 @@ class BadgeFactory
 {
     public function createDto(Badge $badge): BadgeDto
     {
-        return (new BadgeDto())->create(
+        return BadgeDto::create(
             $badge->magazine,
             $badge->name,
             $badge->getId(),

@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use ApiPlatform\Api\UrlGeneratorInterface;
 use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
 use App\DTO\MagazineBanDto;
@@ -26,6 +27,7 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
+use App\Factory\MagazineFactory;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use App\Service\FavouriteManager;
@@ -304,7 +306,7 @@ trait FactoryTrait
             $magazine,
             $actor,
             $owner,
-            (new MagazineBanDto())->create('test', new \DateTime('+1 day'))
+            MagazineBanDto::create('test', new \DateTime('+1 day'))
         );
     }
 
@@ -317,6 +319,57 @@ trait FactoryTrait
         )->first();
 
         return $magazine ?: $this->createMagazine($name, null, $user, $isAdult);
+    }
+
+    protected function getMagazineByNameNoRSAKey(string $name, User $user = null, bool $isAdult = false): Magazine
+    {
+        $magazine = $this->magazines->filter(
+            static function (Magazine $magazine) use ($name) {
+                return $magazine->name === $name;
+            }
+        )->first();
+
+        if ($magazine) {
+            return $magazine;
+        }
+
+        $dto = new MagazineDto();
+        $dto->name = $name;
+        $dto->title = $title ?? 'Magazine title';
+        $dto->isAdult = $isAdult;
+
+        if (str_contains($name, '@')) {
+            [$name, $host] = explode('@', $name);
+            $dto->apId = $name;
+            $dto->apProfileId = "https://{$host}/m/{$name}";
+        }
+
+        $factory = $this->getService(MagazineFactory::class);
+        $magazine = $factory->createFromDto($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        $magazine->apId = $dto->apId;
+        $magazine->apProfileId = $dto->apProfileId;
+
+        if (!$dto->apId) {
+            $urlGenerator = $this->getService(UrlGeneratorInterface::class);
+            $magazine->publicKey = 'fakepublic';
+            $magazine->privateKey = 'fakeprivate';
+            $magazine->apProfileId = $urlGenerator->generate(
+                'ap_magazine',
+                ['name' => $magazine->name],
+                UrlGeneratorInterface::ABS_URL
+            );
+        }
+
+        $entityManager = $this->getService(EntityManagerInterface::class);
+        $entityManager->persist($magazine);
+        $entityManager->flush();
+
+        $manager = $this->getService(MagazineManager::class);
+        $manager->subscribe($magazine, $user ?? $this->getUserByUsername('JohnDoe'));
+
+        $this->magazines->add($magazine);
+
+        return $magazine;
     }
 
     protected function getEntryByTitle(

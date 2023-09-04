@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\ReportInterface;
+use App\Entity\Traits\ConsideredAtTrait;
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\ReportRepository;
 use Doctrine\ORM\Mapping\Column;
@@ -31,11 +32,23 @@ abstract class Report
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
+    use ConsideredAtTrait;
+
     public const STATUS_PENDING = 'pending';
     public const STATUS_APPROVED = 'approved';
     public const STATUS_REJECTED = 'rejected';
     public const STATUS_APPEAL = 'appeal';
     public const STATUS_CLOSED = 'closed';
+    public const STATUS_ANY = 'any';
+
+    public const STATUS_OPTIONS = [
+        self::STATUS_ANY,
+        self::STATUS_APPEAL,
+        self::STATUS_APPROVED,
+        self::STATUS_CLOSED,
+        self::STATUS_PENDING,
+        self::STATUS_REJECTED,
+    ];
 
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'reports')]
     #[JoinColumn(nullable: false)]
@@ -53,8 +66,6 @@ abstract class Report
     public ?string $reason = null;
     #[Column(type: 'integer', nullable: false)]
     public int $weight = 1;
-    #[Column(type: 'datetimetz', nullable: true)]
-    public ?\DateTime $consideredAt = null;
     #[Column(type: 'string', nullable: false)]
     public string $status = self::STATUS_PENDING;
     #[Id]
@@ -86,7 +97,7 @@ abstract class Report
 
     abstract public function getType(): string;
 
-    abstract public function getSubject(): ReportInterface;
+    abstract public function getSubject(): ?ReportInterface;
 
     abstract public function clearSubject(): Report;
 }

@@ -26,7 +26,7 @@ class ReportController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function __invoke(ReportInterface $subject, Request $request): Response
     {
-        $dto = (new ReportDto())->create($subject);
+        $dto = ReportDto::create($subject);
 
         $form = $this->getForm($dto, $subject);
         $form->handleRequest($request);

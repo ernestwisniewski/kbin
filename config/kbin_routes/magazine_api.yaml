@@ -1,0 +1,95 @@
+# Get list of magazines in instance
+api_magazines_retrieve:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::collection
+  path: /api/magazines
+  methods: [ GET ]
+  format: json
+
+# Get subscribed magazines for the current user
+api_magazines_retrieve_subscribed:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::subscribed
+  path: /api/magazines/subscribed
+  methods: [ GET ]
+  format: json
+
+# Get moderated magazines for the current user
+api_magazines_retrieve_moderated:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::moderated
+  path: /api/magazines/moderated
+  methods: [ GET ]
+  format: json
+
+# Get blocked magazines for the current user
+api_magazines_retrieve_blocked:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::blocked
+  path: /api/magazines/blocked
+  methods: [ GET ]
+  format: json
+
+# Get magazine info
+api_magazine_retrieve:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi
+  path: /api/magazine/{magazine_id}
+  methods: [ GET ]
+  format: json
+
+# Get magazine info by name
+api_magazine_retrieve_by_name:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveApi::byName
+  path: /api/magazine/name/{magazine_name}
+  methods: [ GET ]
+  format: json
+
+api_magazine_block:
+  controller: App\Controller\Api\Magazine\MagazineBlockApi::block
+  path: /api/magazine/{magazine_id}/block
+  methods: [ PUT ]
+  format: json
+
+api_magazine_unblock:
+  controller: App\Controller\Api\Magazine\MagazineBlockApi::unblock
+  path: /api/magazine/{magazine_id}/unblock
+  methods: [ PUT ]
+  format: json
+
+api_magazine_subscribe:
+  controller: App\Controller\Api\Magazine\MagazineSubscribeApi::subscribe
+  path: /api/magazine/{magazine_id}/subscribe
+  methods: [ PUT ]
+  format: json
+
+api_magazine_unsubscribe:
+  controller: App\Controller\Api\Magazine\MagazineSubscribeApi::unsubscribe
+  path: /api/magazine/{magazine_id}/unsubscribe
+  methods: [ PUT ]
+  format: json
+
+api_magazine_create:
+  controller: App\Controller\Api\Magazine\Admin\MagazineCreateApi
+  path: /api/moderate/magazine/new
+  methods: [ POST ]
+  format: json
+
+api_magazine_update:
+  controller: App\Controller\Api\Magazine\Admin\MagazineUpdateApi
+  path: /api/moderate/magazine/{magazine_id}
+  methods: [ PUT ]
+  format: json
+
+api_magazine_delete:
+  controller: App\Controller\Api\Magazine\Admin\MagazineDeleteApi
+  path: /api/moderate/magazine/{magazine_id}
+  methods: [ DELETE ]
+  format: json
+
+api_magazine_theme:
+  controller: App\Controller\Api\Magazine\MagazineRetrieveThemeApi
+  path: /api/magazine/{magazine_id}/theme
+  methods: [ GET ]
+  format: json
+
+api_magazine_modlog:
+  controller: App\Controller\Api\Magazine\MagazineModLogApi::collection
+  path: /api/magazine/{magazine_id}/log
+  methods: [ GET ]
+  format: json

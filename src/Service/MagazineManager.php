@@ -10,18 +10,21 @@ use App\DTO\MagazineDto;
 use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
+use App\Entity\MagazineBan;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Event\Magazine\MagazineBanEvent;
 use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
+use App\Message\DeleteImageMessage;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\MagazineSubscriptionRequestRepository;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Contracts\Cache\CacheInterface;
 use Webmozart\Assert\Assert;
@@ -33,6 +36,7 @@ class MagazineManager
         private readonly EventDispatcherInterface $dispatcher,
         private readonly RateLimiterFactory $magazineLimiter,
         private readonly CacheInterface $cache,
+        private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager,
         private readonly MagazineSubscriptionRequestRepository $requestRepository,
         private readonly MagazineSubscriptionRepository $subscriptionRepository,
@@ -40,9 +44,9 @@ class MagazineManager
     ) {
     }
 
-    public function create(MagazineDto $dto, User $user, bool $limiter = true): Magazine
+    public function create(MagazineDto $dto, User $user, bool $rateLimit = true): Magazine
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->magazineLimiter->create($dto->ip);
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -169,25 +173,27 @@ class MagazineManager
         $this->dispatcher->dispatch(new MagazineBlockedEvent($magazine, $user));
     }
 
-    public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): void
+    public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): ?MagazineBan
     {
         Assert::nullOrGreaterThan($dto->expiredAt, new \DateTime());
 
         $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 
         if (!$ban) {
-            return;
+            return null;
         }
 
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new MagazineBanEvent($ban));
+
+        return $ban;
     }
 
-    public function unban(Magazine $magazine, User $user): void
+    public function unban(Magazine $magazine, User $user): ?MagazineBan
     {
         if (!$magazine->isBanned($user)) {
-            return;
+            return null;
         }
 
         $ban = $magazine->unban($user);
@@ -195,6 +201,8 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new MagazineBanEvent($ban));
+
+        return $ban;
     }
 
     public function addModerator(ModeratorDto $dto): void
@@ -261,5 +269,21 @@ class MagazineManager
         $this->entityManager->flush();
 
         return $magazine;
+    }
+
+    public function detachIcon(Magazine $magazine): void
+    {
+        if (!$magazine->icon) {
+            return;
+        }
+
+        $image = $magazine->icon->filePath;
+
+        $magazine->icon = null;
+
+        $this->entityManager->persist($magazine);
+        $this->entityManager->flush();
+
+        $this->bus->dispatch(new DeleteImageMessage($image));
     }
 }

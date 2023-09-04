@@ -20,16 +20,17 @@ class ReportDto
     public ?string $reason = null;
     private ?int $id = null;
 
-    public function create(ReportInterface $subject, string $reason = null, int $id = null): self
+    public static function create(ReportInterface $subject, string $reason = null, int $id = null): self
     {
-        $this->id = $id;
-        $this->subject = $subject;
-        $this->reason = $reason;
+        $dto = new ReportDto();
+        $dto->id = $id;
+        $dto->subject = $subject;
+        $dto->reason = $reason;
 
-        $this->magazine = $subject->magazine;
-        $this->reported = $subject->user;
+        $dto->magazine = $subject->magazine;
+        $dto->reported = $subject->user;
 
-        return $this;
+        return $dto;
     }
 
     public function getId(): ?int

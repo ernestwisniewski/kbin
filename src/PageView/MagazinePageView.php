@@ -18,6 +18,11 @@ class MagazinePageView extends Criteria
     public const ADULT_HIDE = 'hide';
     public const ADULT_SHOW = 'show';
     public const ADULT_ONLY = 'only';
+    public const ADULT_OPTIONS = [
+        self::ADULT_HIDE,
+        self::ADULT_SHOW,
+        self::ADULT_ONLY,
+    ];
 
     public ?string $query = null;
     public string $fields = self::FIELDS_NAMES;

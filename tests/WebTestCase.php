@@ -77,4 +77,9 @@ abstract class WebTestCase extends BaseWebTestCase
         $intersect = array_intersect_key($value, $flipped);
         self::assertCount(count($flipped), $intersect, $message);
     }
+
+    public static function assertNotReached(string $message = 'This branch should never happen'): void
+    {
+        self::assertFalse(true, $message);
+    }
 }

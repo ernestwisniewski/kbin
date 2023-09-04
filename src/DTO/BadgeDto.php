@@ -6,26 +6,32 @@ namespace App\DTO;
 
 use App\Entity\Magazine;
 use App\Validator\Unique;
+use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @Unique({"magazine", "name"}, entityClass="App\Entity\Badge", errorPath="user")
+ * @Unique({"magazine", "name"}, entityClass="App\Entity\Badge", errorPath="name")
  */
+#[OA\Schema()]
 class BadgeDto
 {
     public Magazine|MagazineDto|null $magazine = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 20)]
+    #[Groups(['create-badge'])]
+    #[OA\Property(nullable: false)]
     public ?string $name = null;
     private ?int $id = null;
 
-    public function create(Magazine $magazine, string $name, int $id = null): self
+    public static function create(Magazine $magazine, string $name, int $id = null): self
     {
-        $this->id = $id;
-        $this->magazine = $magazine;
-        $this->name = $name;
+        $dto = new BadgeDto();
+        $dto->id = $id;
+        $dto->magazine = $magazine;
+        $dto->name = $name;
 
-        return $this;
+        return $dto;
     }
 
     public function getId(): ?int
