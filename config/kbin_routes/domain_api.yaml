@@ -1,0 +1,51 @@
+# Get list of domains in instance
+api_domains_retrieve:
+  controller: App\Controller\Api\Domain\DomainRetrieveApi::collection
+  path: /api/domains
+  methods: [ GET ]
+  format: json
+
+# Get domain info
+api_domain_retrieve:
+  controller: App\Controller\Api\Domain\DomainRetrieveApi
+  path: /api/domain/{domain_id}
+  methods: [ GET ]
+  format: json
+
+# Get subscribed domains for the current user
+api_domains_retrieve_subscribed:
+  controller: App\Controller\Api\Domain\DomainRetrieveApi::subscribed
+  path: /api/domains/subscribed
+  methods: [ GET ]
+  format: json
+
+# Get blocked domains for the current user
+api_domains_retrieve_blocked:
+  controller: App\Controller\Api\Domain\DomainRetrieveApi::blocked
+  path: /api/domains/blocked
+  methods: [ GET ]
+  format: json
+
+api_domain_block:
+  controller: App\Controller\Api\Domain\DomainBlockApi::block
+  path: /api/domain/{domain_id}/block
+  methods: [ PUT ]
+  format: json
+
+api_domain_unblock:
+  controller: App\Controller\Api\Domain\DomainBlockApi::unblock
+  path: /api/domain/{domain_id}/unblock
+  methods: [ PUT ]
+  format: json
+
+api_domain_subscribe:
+  controller: App\Controller\Api\Domain\DomainSubscribeApi::subscribe
+  path: /api/domain/{domain_id}/subscribe
+  methods: [ PUT ]
+  format: json
+
+api_domain_unsubscribe:
+  controller: App\Controller\Api\Domain\DomainSubscribeApi::unsubscribe
+  path: /api/domain/{domain_id}/unsubscribe
+  methods: [ PUT ]
+  format: json
