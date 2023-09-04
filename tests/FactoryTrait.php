@@ -19,9 +19,11 @@ use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\Message;
 use App\Entity\MessageThread;
+use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Repository\NotificationRepository;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use App\Service\FavouriteManager;
@@ -380,8 +382,8 @@ trait FactoryTrait
             $dto = new EntryCommentDto();
             $dto->entry = $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub');
             $dto->body = $body;
-            $dto->lang = 'en';
         }
+        $dto->lang = 'en';
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
@@ -409,6 +411,19 @@ trait FactoryTrait
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
+    public function createPostCommentReply(string $body, Post $post = null, User $user = null, PostComment $parent = null): PostComment
+    {
+        $manager = $this->getService(PostCommentManager::class);
+
+        $dto = new PostCommentDto();
+        $dto->post = $post ?? $this->createPost('test post content');
+        $dto->body = $body;
+        $dto->lang = 'en';
+        $dto->parent = $parent ?? $this->createPostComment('test parent comment', $dto->post);
+
+        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+    }
+
     public function createImage(string $fileName): Image
     {
         return new Image(
@@ -419,5 +434,17 @@ trait FactoryTrait
             100,
             null,
         );
+    }
+
+    public function createMessageNotification(User $to = null, User $from = null): Notification
+    {
+        $messageManager = $this->getService(MessageManager::class);
+        $repository = $this->getService(NotificationRepository::class);
+
+        $dto = new MessageDto();
+        $dto->body = 'test message';
+        $messageManager->toThread($dto, $from ?? $this->getUserByUsername('JaneDoe'), $to ?? $this->getUserByUsername('JohnDoe'));
+
+        return $repository->findOneBy(['user' => $to ?? $this->getUserByUsername('JohnDoe')]);
     }
 }

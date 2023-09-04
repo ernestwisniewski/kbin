@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Entity\Contracts\VisibilityInterface;
+use App\DTO\Contracts\VisibilityAwareDtoTrait;
+use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Factory\PostCommentFactory;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
 class PostCommentResponseDto implements \JsonSerializable
 {
+    use VisibilityAwareDtoTrait;
+
     public int $commentId;
     public ?UserSmallResponseDto $user = null;
     public ?MagazineSmallResponseDto $magazine = null;
@@ -23,10 +25,10 @@ class PostCommentResponseDto implements \JsonSerializable
     #[OA\Property(example: 'en', nullable: true)]
     public ?string $lang = null;
     public bool $isAdult = false;
-    public int $uv = 0;
-    public int $favourites = 0;
-    #[OA\Property(default: VisibilityInterface::VISIBILITY_VISIBLE, nullable: true, enum: [VisibilityInterface::VISIBILITY_PRIVATE, VisibilityInterface::VISIBILITY_TRASHED, VisibilityInterface::VISIBILITY_SOFT_DELETED, VisibilityInterface::VISIBILITY_VISIBLE])]
-    public ?string $visibility = null;
+    public ?int $uv = 0;
+    public ?int $favourites = 0;
+    public ?bool $isFavourited = null;
+    public ?int $userVote = null;
     public ?string $apId = null;
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     public ?array $mentions = null;
@@ -72,39 +74,68 @@ class PostCommentResponseDto implements \JsonSerializable
     )]
     public array $children = [];
 
-    public function __construct(PostCommentDto|PostComment $dto, PostComment $parent = null, int $childCount = 0)
-    {
-        $this->commentId = $dto->getId();
-        $this->user = new UserSmallResponseDto($dto->user);
-        $this->magazine = new MagazineSmallResponseDto($dto->magazine);
-        $this->postId = $dto->post->getId();
-        $this->parentId = $parent ? $parent->getId() : null;
-        $this->rootId = $parent ? ($parent->root ? $parent->root->getId() : $parent->getId()) : null;
-        if ($dto->image) {
-            $this->image = $dto->image instanceof ImageDto ? $dto->image : new ImageDto($dto->image);
-        }
-        $this->body = $dto->body;
-        $this->lang = $dto->lang;
-        $this->isAdult = $dto->isAdult;
-        if ($dto instanceof PostCommentDto) {
-            $this->uv = $dto->uv;
-            $this->favourites = $dto->favourites;
-        } else {
-            $this->uv = $dto->countUpVotes();
-            $this->favourites = $dto->favourites->count();
-        }
-        $this->visibility = $dto->visibility;
-        $this->apId = $dto->apId;
-        $this->mentions = $dto->mentions;
-        $this->createdAt = $dto->createdAt;
-        $this->editedAt = $dto->editedAt;
-        $this->lastActive = $dto->lastActive;
-        $this->childCount = $childCount;
+    public static function create(
+        int $id,
+        UserSmallResponseDto $user = null,
+        MagazineSmallResponseDto $magazine = null,
+        Post $post = null,
+        PostComment $parent = null,
+        int $childCount = 0,
+        ImageDto $image = null,
+        string $body = null,
+        string $lang = null,
+        bool $isAdult = null,
+        int $uv = null,
+        int $favourites = null,
+        string $visibility = null,
+        string $apId = null,
+        array $mentions = null,
+        \DateTimeImmutable $createdAt = null,
+        \DateTimeImmutable $editedAt = null,
+        \DateTime $lastActive = null,
+    ): self {
+        $dto = new PostCommentResponseDto();
+        $dto->commentId = $id;
+        $dto->user = $user;
+        $dto->magazine = $magazine;
+        $dto->postId = $post->getId();
+        $dto->parentId = $parent ? $parent->getId() : null;
+        $dto->rootId = $parent ? ($parent->root ? $parent->root->getId() : $parent->getId()) : null;
+        $dto->image = $image;
+        $dto->body = $body;
+        $dto->lang = $lang;
+        $dto->isAdult = $isAdult;
+        $dto->uv = $uv;
+        $dto->favourites = $favourites;
+        $dto->visibility = $visibility;
+        $dto->apId = $apId;
+        $dto->mentions = $mentions;
+        $dto->createdAt = $createdAt;
+        $dto->editedAt = $editedAt;
+        $dto->lastActive = $lastActive;
+        $dto->childCount = $childCount;
+
+        return $dto;
     }
 
     public function jsonSerialize(): mixed
     {
-        return [
+        if (null === self::$keysToDelete) {
+            self::$keysToDelete = [
+                'image',
+                'body',
+                'tags',
+                'uv',
+                'dv',
+                'favourites',
+                'isFavourited',
+                'userVote',
+                'slug',
+                'mentions',
+            ];
+        }
+
+        return $this->handleDeletion([
             'commentId' => $this->commentId,
             'user' => $this->user->jsonSerialize(),
             'magazine' => $this->magazine->jsonSerialize(),
@@ -117,35 +148,21 @@ class PostCommentResponseDto implements \JsonSerializable
             'isAdult' => $this->isAdult,
             'uv' => $this->uv,
             'favourites' => $this->favourites,
+            'isFavourited' => $this->isFavourited,
+            'userVote' => $this->userVote,
             'visibility' => $this->visibility,
             'apId' => $this->apId,
             'mentions' => $this->mentions,
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
+            'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),
             'childCount' => $this->childCount,
             'children' => $this->children,
-        ];
+        ]);
     }
 
-    private static function recursiveChildCount(int $initial, PostComment $child): int
+    public static function recursiveChildCount(int $initial, PostComment $child): int
     {
         return 1 + array_reduce($child->children->toArray(), self::class.'::recursiveChildCount', $initial);
-    }
-
-    public static function fromTree(PostComment $comment, PostCommentFactory $factory, int $depth): PostCommentResponseDto
-    {
-        $toReturn = new PostCommentResponseDto($factory->createDto($comment), $comment->parent, array_reduce($comment->children->toArray(), self::class.'::recursiveChildCount', 0));
-
-        if (0 === $depth) {
-            return $toReturn;
-        }
-
-        foreach ($comment->children as $childComment) {
-            assert($childComment instanceof PostComment);
-            $child = self::fromTree($childComment, $factory, $depth > 0 ? $depth - 1 : -1);
-            array_push($toReturn->children, $child);
-        }
-
-        return $toReturn;
     }
 }

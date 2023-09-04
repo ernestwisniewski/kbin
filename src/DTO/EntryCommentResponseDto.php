@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Entity\Contracts\VisibilityInterface;
+use App\DTO\Contracts\VisibilityAwareDtoTrait;
 use App\Entity\EntryComment;
-use App\Factory\EntryCommentFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
 class EntryCommentResponseDto implements \JsonSerializable
 {
+    use VisibilityAwareDtoTrait;
+
     public int $commentId;
     public ?UserSmallResponseDto $user = null;
     public ?MagazineSmallResponseDto $magazine = null;
@@ -27,11 +28,11 @@ class EntryCommentResponseDto implements \JsonSerializable
     public ?array $mentions = null;
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     public ?array $tags = null;
-    public int $uv = 0;
-    public int $dv = 0;
-    public int $favourites = 0;
-    #[OA\Property(default: VisibilityInterface::VISIBILITY_VISIBLE, nullable: true, enum: [VisibilityInterface::VISIBILITY_PRIVATE, VisibilityInterface::VISIBILITY_TRASHED, VisibilityInterface::VISIBILITY_SOFT_DELETED, VisibilityInterface::VISIBILITY_VISIBLE])]
-    public ?string $visibility = null;
+    public ?int $uv = 0;
+    public ?int $dv = 0;
+    public ?int $favourites = 0;
+    public ?bool $isFavourited = null;
+    public ?int $userVote = null;
     public bool $isAdult = false;
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTimeImmutable $editedAt = null;
@@ -88,64 +89,77 @@ class EntryCommentResponseDto implements \JsonSerializable
     #[OA\Property(description: 'The total number of children the comment has.')]
     public int $childCount = 0;
 
-    public function __construct(EntryCommentDto|EntryComment $dto, EntryComment $parent = null, int $childCount = 0)
-    {
-        if (null == $parent) {
-            $parent = $dto->parent;
-        }
-        $this->commentId = $dto->getId();
-        $this->user = new UserSmallResponseDto($dto->user);
-        $this->magazine = new MagazineSmallResponseDto($dto->magazine);
-        $this->entryId = $dto->entry->getId();
-        $this->parentId = $parent ? $parent->getId() : null;
-        $this->rootId = $parent ? ($parent->root ? $parent->root->getId() : $parent->getId()) : null;
-        $this->image = $dto->image ? new ImageDto($dto->image) : null;
-        $this->body = $dto->body;
-        $this->lang = $dto->lang;
-        $this->isAdult = $dto->isAdult;
-        if ($dto instanceof EntryCommentDto) {
-            $this->uv = $dto->uv;
-            $this->dv = $dto->dv;
-        } else {
-            $this->uv = $dto->countUpVotes();
-            $this->dv = $dto->countDownVotes();
-        }
-        $this->favourites = $dto->favouriteCount;
-        $this->visibility = $dto->visibility;
-        $this->apId = $dto->apId;
-        $this->mentions = $dto->mentions;
-        $this->tags = $dto->tags;
-        $this->createdAt = $dto->createdAt;
-        $this->editedAt = $dto->editedAt;
-        $this->lastActive = $dto->lastActive;
-        $this->childCount = $childCount;
+    public static function create(
+        int $id = null,
+        UserSmallResponseDto $user = null,
+        MagazineSmallResponseDto $magazine = null,
+        int $entryId = null,
+        int $parentId = null,
+        int $rootId = null,
+        ImageDto $image = null,
+        string $body = null,
+        string $lang = null,
+        bool $isAdult = null,
+        int $uv = null,
+        int $dv = null,
+        int $favourites = null,
+        string $visibility = null,
+        string $apId = null,
+        array $mentions = null,
+        array $tags = null,
+        \DateTimeImmutable $createdAt = null,
+        \DateTimeImmutable $editedAt = null,
+        \DateTime $lastActive = null,
+        int $childCount = 0,
+    ): self {
+        $dto = new EntryCommentResponseDto();
+        $dto->commentId = $id;
+        $dto->user = $user;
+        $dto->magazine = $magazine;
+        $dto->entryId = $entryId;
+        $dto->parentId = $parentId;
+        $dto->rootId = $rootId;
+        $dto->image = $image;
+        $dto->body = $body;
+        $dto->lang = $lang;
+        $dto->isAdult = $isAdult;
+        $dto->uv = $uv;
+        $dto->dv = $dv;
+        $dto->favourites = $favourites;
+        $dto->visibility = $visibility;
+        $dto->apId = $apId;
+        $dto->mentions = $mentions;
+        $dto->tags = $tags;
+        $dto->createdAt = $createdAt;
+        $dto->editedAt = $editedAt;
+        $dto->lastActive = $lastActive;
+        $dto->childCount = $childCount;
+
+        return $dto;
     }
 
-    private static function recursiveChildCount(int $initial, EntryComment $child): int
+    public static function recursiveChildCount(int $initial, EntryComment $child): int
     {
         return 1 + array_reduce($child->children->toArray(), self::class.'::recursiveChildCount', $initial);
     }
 
-    public static function fromTree(EntryComment $comment, EntryCommentFactory $factory, int $depth = -1): EntryCommentResponseDto
-    {
-        $toReturn = new EntryCommentResponseDto($factory->createDto($comment), $comment->parent, array_reduce($comment->children->toArray(), self::class.'::recursiveChildCount', 0));
-
-        if (0 === $depth) {
-            return $toReturn;
-        }
-
-        foreach ($comment->children as $childComment) {
-            assert($childComment instanceof EntryComment);
-            $child = self::fromTree($childComment, $factory, $depth > 0 ? $depth - 1 : -1);
-            array_push($toReturn->children, $child);
-        }
-
-        return $toReturn;
-    }
-
     public function jsonSerialize(): mixed
     {
-        return [
+        if (null === self::$keysToDelete) {
+            self::$keysToDelete = [
+                'image',
+                'body',
+                'tags',
+                'uv',
+                'dv',
+                'favourites',
+                'isFavourited',
+                'userVote',
+                'mentions',
+            ];
+        }
+
+        return $this->handleDeletion([
             'commentId' => $this->commentId,
             'user' => $this->user->jsonSerialize(),
             'magazine' => $this->magazine->jsonSerialize(),
@@ -159,15 +173,17 @@ class EntryCommentResponseDto implements \JsonSerializable
             'uv' => $this->uv,
             'dv' => $this->dv,
             'favourites' => $this->favourites,
+            'isFavourited' => $this->isFavourited,
+            'userVote' => $this->userVote,
             'visibility' => $this->visibility,
             'apId' => $this->apId,
             'mentions' => $this->mentions,
             'tags' => $this->tags,
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
-            'editedAt' => $this->editedAt->format(\DateTimeInterface::ATOM),
+            'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),
             'childCount' => $this->childCount,
             'children' => array_map(fn (EntryCommentResponseDto $child) => $child->jsonSerialize(), $this->children),
-        ];
+        ]);
     }
 }

@@ -1,0 +1,48 @@
+api_notification_read:
+  controller: App\Controller\Api\Notification\NotificationReadApi::read
+  path: /api/notifications/{notification_id}/read
+  methods: [ PUT ]
+  format: json
+
+api_notification_read_all:
+  controller: App\Controller\Api\Notification\NotificationReadApi::readAll
+  path: /api/notifications/read
+  methods: [ PUT ]
+  format: json
+
+api_notification_unread:
+  controller: App\Controller\Api\Notification\NotificationReadApi::unread
+  path: /api/notifications/{notification_id}/unread
+  methods: [ PUT ]
+  format: json
+
+api_notification_delete:
+  controller: App\Controller\Api\Notification\NotificationPurgeApi::purge
+  path: /api/notifications/{notification_id}
+  methods: [ DELETE ]
+  format: json
+
+api_notification_delete_all:
+  controller: App\Controller\Api\Notification\NotificationPurgeApi::purgeAll
+  path: /api/notifications
+  methods: [ DELETE ]
+  format: json
+
+api_notification_count:
+  controller: App\Controller\Api\Notification\NotificationRetrieveApi::count
+  path: /api/notifications/count
+  methods: [ GET ]
+  format: json
+
+api_notification_collection:
+  controller: App\Controller\Api\Notification\NotificationRetrieveApi::collection
+  defaults: { status: all }
+  path: /api/notifications/{status}
+  methods: [ GET ]
+  format: json
+
+api_notification_retrieve:
+  controller: App\Controller\Api\Notification\NotificationRetrieveApi
+  path: /api/notification/{notification_id}
+  methods: [ GET ]
+  format: json

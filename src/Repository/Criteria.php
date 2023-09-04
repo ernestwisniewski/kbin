@@ -1,9 +1,5 @@
 <?php
 
-// SPDX-FileCopyrightText: Copyright (c) 2016-2017 Emma <emma1312@protonmail.ch>
-//
-// SPDX-License-Identifier: Zlib
-
 declare(strict_types=1);
 
 namespace App\Repository;

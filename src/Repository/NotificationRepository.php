@@ -27,18 +27,29 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class NotificationRepository extends ServiceEntityRepository
 {
     public const PER_PAGE = 25;
+    public const STATUS_ALL = 'all';
+    public const STATUS_OPTIONS = [
+        self::STATUS_ALL,
+        Notification::STATUS_NEW,
+        Notification::STATUS_READ,
+    ];
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Notification::class);
     }
 
-    public function findByUser(User $user, ?int $page, bool $onlyNew = false): PagerfantaInterface
+    public function findByUser(User $user, ?int $page, string $status = self::STATUS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('n')
             ->where('n.user = :user')
             ->setParameter('user', $user)
             ->orderBy('n.id', 'DESC');
+
+        if (self::STATUS_ALL !== $status) {
+            $qb->andWhere('n.status = :status')
+                ->setParameter('status', $status);
+        }
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -47,7 +58,7 @@ class NotificationRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setMaxPerPage($perPage);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();

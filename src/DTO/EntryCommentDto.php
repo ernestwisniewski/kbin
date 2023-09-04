@@ -21,7 +21,7 @@ class EntryCommentDto
     public Entry|EntryDto|null $entry = null;
     public ?EntryComment $parent = null;
     public ?EntryComment $root = null;
-    public Image|ImageDto|null $image = null;
+    public ?ImageDto $image = null;
     public ?string $imageUrl = null;
     public ?string $imageAlt = null;
     #[Assert\Length(max: 5000)]
@@ -30,11 +30,16 @@ class EntryCommentDto
     public bool $isAdult = false;
     public ?int $uv = null;
     public ?int $dv = null;
+    public ?int $favouriteCount = null;
+    public ?bool $isFavourited = null;
+    public ?int $userVote = null;
     public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;
+    public ?array $tags = null;
     public ?\DateTimeImmutable $createdAt = null;
+    public ?\DateTimeImmutable $editedAt = null;
     public ?\DateTime $lastActive = null;
     private ?int $id = null;
 
@@ -43,12 +48,16 @@ class EntryCommentDto
         ExecutionContextInterface $context,
         $payload
     ) {
-        $image = Request::createFromGlobals()->files->filter('entry_comment');
+        if (empty($this->image)) {
+            $image = Request::createFromGlobals()->files->filter('entry_comment');
 
-        if (is_array($image) && isset($image['image'])) {
-            $image = $image['image'];
+            if (is_array($image) && isset($image['image'])) {
+                $image = $image['image'];
+            } else {
+                $image = $context->getValue()->image;
+            }
         } else {
-            $image = $context->getValue()->image;
+            $image = $this->image;
         }
 
         if (empty($this->body) && empty($image)) {
@@ -89,5 +98,15 @@ class EntryCommentDto
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function isFavored(): ?bool
+    {
+        return $this->isFavourited;
+    }
+
+    public function userChoice(): ?int
+    {
+        return $this->userVote;
     }
 }

@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Domain;
+use App\DTO\Contracts\VisibilityAwareDtoTrait;
 use App\Entity\Entry;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
 class EntryResponseDto implements \JsonSerializable
 {
+    use VisibilityAwareDtoTrait;
+
     public int $entryId;
     public ?MagazineSmallResponseDto $magazine = null;
     public ?UserSmallResponseDto $user = null;
@@ -25,9 +26,11 @@ class EntryResponseDto implements \JsonSerializable
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     public ?array $tags = null;
     public int $numComments;
-    public int $uv = 0;
-    public int $dv = 0;
-    public int $score = 0;
+    public ?int $uv = 0;
+    public ?int $dv = 0;
+    public ?int $favourites = 0;
+    public ?bool $isFavourited = null;
+    public ?int $userVote = null;
     public bool $isOc = false;
     public bool $isAdult = false;
     public bool $isPinned = false;
@@ -35,50 +38,88 @@ class EntryResponseDto implements \JsonSerializable
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTimeImmutable $editedAt = null;
     public ?\DateTime $lastActive = null;
-    public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+    #[OA\Property(example: Entry::ENTRY_TYPE_ARTICLE, enum: Entry::ENTRY_TYPE_OPTIONS)]
+    public ?string $type = null;
     public ?string $slug = null;
     public ?string $apId = null;
 
-    public function __construct(EntryDto|Entry $dto)
-    {
-        $this->entryId = $dto->getId();
-        $this->magazine = new MagazineSmallResponseDto($dto->magazine);
-        $this->user = new UserSmallResponseDto($dto->user);
-        $this->domain = $dto->domain instanceof Domain ? DomainDto::createFromDomain($dto->domain) : $dto->domain;
-        $this->title = $dto->title;
-        $this->url = $dto->url;
-        if ($dto->image) {
-            $this->image = $dto->image instanceof ImageDto ? $dto->image : new ImageDto($dto->image);
-        }
-        $this->body = $dto->body;
-        $this->lang = $dto->lang;
-        $this->tags = $dto->tags;
-        if ($dto instanceof EntryDto) {
-            $this->numComments = $dto->comments;
-            $this->uv = $dto->uv;
-            $this->dv = $dto->dv;
-            $this->isPinned = $dto->isPinned;
-        } else {
-            $this->numComments = $dto->commentCount;
-            $this->uv = $dto->countUpVotes();
-            $this->dv = $dto->countDownVotes();
-            $this->isPinned = $dto->sticky;
-        }
-        $this->visibility = $dto->getVisibility();
-        $this->score = $dto->score;
-        $this->isOc = $dto->isOc;
-        $this->isAdult = $dto->isAdult;
-        $this->views = $dto->views;
-        $this->createdAt = $dto->createdAt;
-        $this->editedAt = $dto->editedAt;
-        $this->lastActive = $dto->lastActive;
-        $this->slug = $dto->slug;
-        $this->apId = $dto->apId;
+    public static function create(
+        int $id = null,
+        MagazineSmallResponseDto $magazine = null,
+        UserSmallResponseDto $user = null,
+        DomainDto $domain = null,
+        string $title = null,
+        string $url = null,
+        ImageDto $image = null,
+        string $body = null,
+        string $lang = null,
+        array $tags = null,
+        int $comments = null,
+        int $uv = null,
+        int $dv = null,
+        bool $isPinned = null,
+        string $visibility = null,
+        int $favouriteCount = null,
+        bool $isOc = null,
+        bool $isAdult = null,
+        int $views = null,
+        \DateTimeImmutable $createdAt = null,
+        \DateTimeImmutable $editedAt = null,
+        \DateTime $lastActive = null,
+        string $type = null,
+        string $slug = null,
+        string $apId = null
+    ): self {
+        $dto = new EntryResponseDto();
+        $dto->entryId = $id;
+        $dto->magazine = $magazine;
+        $dto->user = $user;
+        $dto->domain = $domain;
+        $dto->title = $title;
+        $dto->url = $url;
+        $dto->image = $image;
+        $dto->body = $body;
+        $dto->lang = $lang;
+        $dto->tags = $tags;
+        $dto->numComments = $comments;
+        $dto->uv = $uv;
+        $dto->dv = $dv;
+        $dto->isPinned = $isPinned;
+        $dto->visibility = $visibility;
+        $dto->favourites = $favouriteCount;
+        $dto->isOc = $isOc;
+        $dto->isAdult = $isAdult;
+        $dto->views = $views;
+        $dto->createdAt = $createdAt;
+        $dto->editedAt = $editedAt;
+        $dto->lastActive = $lastActive;
+        $dto->type = $type;
+        $dto->slug = $slug;
+        $dto->apId = $apId;
+
+        return $dto;
     }
 
     public function jsonSerialize(): mixed
     {
-        return [
+        if (null === self::$keysToDelete) {
+            self::$keysToDelete = [
+                'domain',
+                'title',
+                'url',
+                'image',
+                'body',
+                'tags',
+                'uv',
+                'dv',
+                'favourites',
+                'isFavourited',
+                'userVote',
+                'slug',
+            ];
+        }
+
+        return $this->handleDeletion([
             'entryId' => $this->entryId,
             'magazine' => $this->magazine->jsonSerialize(),
             'user' => $this->user->jsonSerialize(),
@@ -92,7 +133,9 @@ class EntryResponseDto implements \JsonSerializable
             'numComments' => $this->numComments,
             'uv' => $this->uv,
             'dv' => $this->dv,
-            'score' => $this->score,
+            'favourites' => $this->favourites,
+            'isFavourited' => $this->isFavourited,
+            'userVote' => $this->userVote,
             'isOc' => $this->isOc,
             'isAdult' => $this->isAdult,
             'isPinned' => $this->isPinned,
@@ -101,8 +144,9 @@ class EntryResponseDto implements \JsonSerializable
             'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),
             'visibility' => $this->visibility,
+            'type' => $this->type,
             'slug' => $this->slug,
             'apId' => $this->apId,
-        ];
+        ]);
     }
 }

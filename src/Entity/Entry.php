@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\CommentInterface;
+use App\Entity\Contracts\ContentInterface;
+use App\Entity\Contracts\ContentVisibilityInterface;
 use App\Entity\Contracts\DomainInterface;
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\RankingInterface;
@@ -46,7 +48,7 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['last_active'], name: 'entry_last_active_at_idx')]
 #[Index(columns: ['body_ts'], name: 'entry_body_ts_idx')]
 #[Index(columns: ['title_ts'], name: 'entry_title_ts_idx')]
-class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface
+class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, ViewCountable, TagInterface, ActivityPubActivityInterface, ContentInterface, ContentVisibilityInterface
 {
     use VotableTrait;
     use RankingTrait;
@@ -61,6 +63,12 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     public const ENTRY_TYPE_LINK = 'link';
     public const ENTRY_TYPE_IMAGE = 'image';
     public const ENTRY_TYPE_VIDEO = 'video';
+    public const ENTRY_TYPE_OPTIONS = [
+        self::ENTRY_TYPE_ARTICLE,
+        self::ENTRY_TYPE_LINK,
+        self::ENTRY_TYPE_IMAGE,
+        self::ENTRY_TYPE_VIDEO,
+    ];
     #[ManyToOne(targetEntity: User::class, inversedBy: 'entries')]
     #[JoinColumn(nullable: false)]
     public User $user;
