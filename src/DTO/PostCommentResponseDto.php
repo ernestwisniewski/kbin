@@ -137,12 +137,12 @@ class PostCommentResponseDto implements \JsonSerializable
 
         return $this->handleDeletion([
             'commentId' => $this->commentId,
-            'user' => $this->user->jsonSerialize(),
-            'magazine' => $this->magazine->jsonSerialize(),
+            'user' => $this->user,
+            'magazine' => $this->magazine,
             'postId' => $this->postId,
             'parentId' => $this->parentId,
             'rootId' => $this->rootId,
-            'image' => $this->image?->jsonSerialize(),
+            'image' => $this->image,
             'body' => $this->body,
             'lang' => $this->lang,
             'isAdult' => $this->isAdult,

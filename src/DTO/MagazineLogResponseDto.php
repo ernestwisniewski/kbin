@@ -6,12 +6,15 @@ namespace App\DTO;
 
 use App\Entity\Entry;
 use App\Entity\EntryComment;
-use App\Entity\MagazineLog;
-use App\Entity\MagazineLogBan;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Factory\EntryCommentFactory;
+use App\Factory\EntryFactory;
+use App\Factory\PostCommentFactory;
+use App\Factory\PostFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[OA\Schema()]
 class MagazineLogResponseDto implements \JsonSerializable
@@ -46,51 +49,55 @@ class MagazineLogResponseDto implements \JsonSerializable
     )]
     public ?\JsonSerializable $subject = null;
 
-    public function __construct(MagazineLog $log)
-    {
-        $this->magazine = new MagazineSmallResponseDto($log->magazine);
-        $this->moderator = new UserSmallResponseDto($log->user);
-        $this->createdAt = $log->createdAt;
-        $this->type = $log->getType();
-        $subject = $log->getSubject();
+    public static function create(
+        MagazineSmallResponseDto $magazine,
+        UserSmallResponseDto $moderator,
+        \DateTimeImmutable $createdAt,
+        string $type,
+        MagazineBanResponseDto $subject = null,
+    ): self {
+        $dto = new MagazineLogResponseDto();
+        $dto->magazine = $magazine;
+        $dto->moderator = $moderator;
+        $dto->createdAt = $createdAt;
+        $dto->type = $type;
+        if ('log_ban' === $type || 'log_unban' === $type) {
+            $dto->subject = $subject;
+        }
+
+        return $dto;
+    }
+
+    #[Ignore]
+    public function setSubject(
+        Entry|EntryComment|Post|PostComment|null $subject,
+        EntryFactory $entryFactory,
+        EntryCommentFactory $entryCommentFactory,
+        PostFactory $postFactory,
+        PostCommentFactory $postCommentFactory,
+    ): void {
         switch ($this->type) {
             case 'log_entry_deleted':
             case 'log_entry_restored':
-                /*
-                 * @var Entry $subject
-                 */
-                $this->subject = new EntryResponseDto($subject);
+                assert($subject instanceof Entry);
+                $this->subject = $entryFactory->createResponseDto($subject);
                 break;
             case 'log_entry_comment_deleted':
             case 'log_entry_comment_restored':
-                /*
-                 * @var EntryComment $subject
-                 */
-                $this->subject = new EntryCommentResponseDto($subject);
+                assert($subject instanceof EntryComment);
+                $this->subject = $entryCommentFactory->createResponseDto($subject);
                 break;
             case 'log_post_deleted':
             case 'log_post_restored':
-                /*
-                 * @var Post $subject
-                 */
-                $this->subject = new PostResponseDto($subject);
+                assert($subject instanceof Post);
+                $this->subject = $postFactory->createResponseDto($subject);
                 break;
             case 'log_post_comment_deleted':
             case 'log_post_comment_restored':
-                /*
-                 * @var PostComment $subject
-                 */
-                $this->subject = new PostCommentResponseDto($subject);
+                assert($subject instanceof PostComment);
+                $this->subject = $postCommentFactory->createResponseDto($subject);
                 break;
-            case 'log_ban':
-                // $subject is null
-                /*
-                 * @var MagazineLogBan $log
-                 */
-                $this->subject = new MagazineBanResponseDto($log->ban);
-                if ('unban' === $log->meta) {
-                    $this->type = 'log_unban';
-                }
+            default:
                 break;
         }
     }
@@ -100,9 +107,9 @@ class MagazineLogResponseDto implements \JsonSerializable
         return [
             'type' => $this->type,
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
-            'magazine' => $this->magazine->jsonSerialize(),
-            'moderator' => $this->moderator->jsonSerialize(),
-            'subject' => $this->subject?->jsonSerialize(),
+            'magazine' => $this->magazine,
+            'moderator' => $this->moderator,
+            'subject' => $this->subject,
         ];
     }
 }

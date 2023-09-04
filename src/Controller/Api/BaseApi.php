@@ -228,6 +228,10 @@ class BaseApi extends AbstractController
 
         $toReturn = $response->jsonSerialize();
         if ($subject) {
+            if ($toReturn['subject'] instanceof \JsonSerializable) {
+                $toReturn['subject'] = $toReturn['subject']->jsonSerialize();
+            }
+
             $toReturn['subject']['visibility'] = $subject->getVisibility();
         }
 

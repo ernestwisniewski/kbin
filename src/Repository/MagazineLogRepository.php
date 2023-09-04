@@ -8,8 +8,10 @@ use App\Entity\MagazineLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method MagazineLog|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,19 +21,25 @@ use Pagerfanta\PagerfantaInterface;
  */
 class MagazineLogRepository extends ServiceEntityRepository
 {
+    public const PER_PAGE = 25;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MagazineLog::class);
     }
 
-    public function listAll(int $page): PagerfantaInterface
+    public function listAll(int $page, int $perPage = self::PER_PAGE): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('ml')
             ->orderBy('ml.createdAt', 'DESC');
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
-        $pager->setMaxPerPage(25);
-        $pager->setCurrentPage($page);
+        try {
+            $pager->setMaxPerPage($perPage);
+            $pager->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return $pager;
     }

@@ -1,0 +1,35 @@
+api_instance_details_retrieve:
+  controller: App\Controller\Api\Instance\InstanceDetailsApi
+  path: /api/instance
+  methods: [ GET ]
+  format: json
+
+api_instance_modlog_retrieve:
+  controller: App\Controller\Api\Instance\InstanceModLogApi::collection
+  path: /api/modlog
+  methods: [ GET ]
+  format: json
+
+api_instance_retrieve_views:
+  controller: App\Controller\Api\Instance\InstanceRetrieveStatsApi::views
+  path: /api/stats/views
+  methods: [ GET ]
+  format: json
+
+api_instance_retrieve_votes:
+  controller: App\Controller\Api\Instance\InstanceRetrieveStatsApi::votes
+  path: /api/stats/votes
+  methods: [ GET ]
+  format: json
+
+api_instance_retrieve_content:
+  controller: App\Controller\Api\Instance\InstanceRetrieveStatsApi::content
+  path: /api/stats/content
+  methods: [ GET ]
+  format: json
+
+api_instance_retrieve_defederated_instances:
+  controller: App\Controller\Api\Instance\InstanceRetrieveFederationApi
+  path: /api/defederated
+  methods: [ GET ]
+  format: json

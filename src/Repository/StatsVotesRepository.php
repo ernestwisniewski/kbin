@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Magazine;
 use App\Entity\User;
+use Doctrine\DBAL\ParameterType;
 use JetBrains\PhpStorm\ArrayShape;
 
 class StatsVotesRepository extends StatsRepository
@@ -222,6 +223,176 @@ class StatsVotesRepository extends StatsRepository
         $results = $stmt->fetchAllAssociative();
 
         usort($results, fn ($a, $b): int => $a['day'] <=> $b['day']);
+
+        return $results;
+    }
+
+    public function getStats(
+        ?Magazine $magazine,
+        string $intervalStr,
+        ?\DateTime $start,
+        ?\DateTime $end,
+        ?bool $onlyLocal
+    ): array {
+        $this->onlyLocal = $onlyLocal;
+        $interval = $intervalStr ?? 'month';
+        switch ($interval) {
+            case 'all':
+                return $this->aggregateTotalStats($magazine);
+            case 'year':
+            case 'month':
+            case 'day':
+            case 'hour':
+                break;
+            default:
+                throw new \LogicException('Invalid interval provided');
+        }
+
+        $this->start = $start ?? new \DateTime('-1 '.$interval);
+
+        return $this->aggregateStats($magazine, $interval, $end);
+    }
+
+    private function aggregateStats(?Magazine $magazine, string $interval, ?\DateTime $end): array
+    {
+        if (null === $end) {
+            $end = new \DateTime();
+        }
+
+        if ($end < $this->start) {
+            throw new \LogicException('End date must be after start date!');
+        }
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $results = [];
+
+        foreach (['entry', 'entry_comment', 'post', 'post_comment'] as $table) {
+            $relation = false === strstr($table, '_comment') ? $table.'_id' : 'comment_id';
+            $sql = 'SELECT date_trunc(?, e.created_at) as datetime, COUNT(case e.choice when 1 then 1 else null end) as boost, COUNT(case e.choice when -1 then 1 else null end) as down FROM '.$table.'_vote e 
+                        INNER JOIN '.$table.' AS parent ON '.$relation.' = parent.id';
+            if ($magazine) {
+                $sql .= ' AND parent.magazine_id = ?';
+            }
+            $sql .= ' WHERE e.created_at BETWEEN ? AND ?';
+            if ($this->onlyLocal) {
+                $sql = $sql.' AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)';
+            }
+            $sql = $sql.' GROUP BY 1 ORDER BY 1';
+
+            $stmt = $conn->prepare($sql);
+            $index = 1;
+            $stmt->bindValue($index++, $interval);
+            if ($magazine) {
+                $stmt->bindValue($index++, $magazine->getId(), ParameterType::INTEGER);
+            }
+            $stmt->bindValue($index++, $this->start, 'datetime');
+            $stmt->bindValue($index++, $end, 'datetime');
+
+            $results[$table] = $stmt->executeQuery()->fetchAllAssociative();
+            $datemap = [];
+            for ($i = 0; $i < count($results[$table]); ++$i) {
+                $datemap[$results[$table][$i]['datetime']] = $i;
+                $results[$table][$i]['up'] = 0;
+            }
+
+            $sql = 'SELECT date_trunc(?, e.created_at) as datetime, COUNT(e.id) as up FROM favourite e 
+                        WHERE e.created_at BETWEEN ? AND ?';
+            if ($magazine) {
+                $sql .= ' AND e.magazine_id = ?';
+            }
+            $sql .= ' AND e.'.$table.'_id IS NOT NULL';
+            if ($this->onlyLocal) {
+                $sql = $sql.' AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)';
+            }
+            $sql = $sql.' GROUP BY 1 ORDER BY 1';
+
+            $stmt = $conn->prepare($sql);
+            $stmt->bindValue(1, $interval);
+            $stmt->bindValue(2, $this->start, 'datetime');
+            $stmt->bindValue(3, $end, 'datetime');
+            if ($magazine) {
+                $stmt->bindValue(4, $magazine->getId(), ParameterType::INTEGER);
+            }
+
+            $favourites = $stmt->executeQuery()->fetchAllAssociative();
+            foreach ($favourites as $favourite) {
+                if (array_key_exists($favourite['datetime'], $datemap)) {
+                    $results[$table][$datemap[$favourite['datetime']]]['up'] = $favourite['up'];
+                } else {
+                    $results[$table][] = [
+                        'datetime' => $favourite['datetime'],
+                        'boost' => 0,
+                        'down' => 0,
+                        'up' => $favourite['up'],
+                    ];
+                }
+            }
+
+            usort($results[$table], fn ($a, $b): int => $a['datetime'] <=> $b['datetime']);
+        }
+
+        return $results;
+    }
+
+    private function aggregateTotalStats(?Magazine $magazine): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $results = [];
+
+        foreach (['entry', 'entry_comment', 'post', 'post_comment'] as $table) {
+            $relation = false === strstr($table, '_comment') ? $table.'_id' : 'comment_id';
+            $sql = 'SELECT COUNT(case e.choice when 1 then 1 else null end) as boost, COUNT(case e.choice when -1 then 1 else null end) as down FROM '.$table.'_vote e 
+            INNER JOIN '.$table.' AS parent ON '.$relation.' = parent.id';
+            if ($magazine) {
+                $sql .= ' AND parent.magazine_id = ?';
+            }
+            if ($this->onlyLocal) {
+                $sql .= ' AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)';
+            }
+
+            $stmt = $conn->prepare($sql);
+            if ($magazine) {
+                $stmt->bindValue(1, $magazine->getId(), ParameterType::INTEGER);
+            }
+
+            $results[$table] = $stmt->executeQuery()->fetchAllAssociative();
+
+            $sql = 'SELECT COUNT(e.id) as up FROM favourite e 
+                        WHERE e.'.$table.'_id IS NOT NULL';
+            if ($magazine) {
+                $sql .= ' AND e.magazine_id = ?';
+            }
+            if ($this->onlyLocal) {
+                $sql = $sql.' AND EXISTS (SELECT * FROM public.user WHERE public.user.id=e.user_id AND public.user.ap_id IS NULL)';
+            }
+
+            $stmt = $conn->prepare($sql);
+            if ($magazine) {
+                $stmt->bindValue(1, $magazine->getId(), ParameterType::INTEGER);
+            }
+
+            $favourites = $stmt->executeQuery()->fetchAllAssociative();
+
+            if (0 < count($results[$table]) && 0 < count($favourites)) {
+                $results[$table][0]['up'] = $favourites[0]['up'];
+            } elseif (0 < count($favourites)) {
+                $results[$table][] = [
+                    'boost' => 0,
+                    'down' => 0,
+                    'up' => $favourites[0]['up'],
+                ];
+            } else {
+                $results[$table][] = [
+                    'boost' => 0,
+                    'down' => 0,
+                    'up' => 0,
+                ];
+            }
+
+            usort($results[$table], fn ($a, $b): int => $a['datetime'] <=> $b['datetime']);
+        }
 
         return $results;
     }

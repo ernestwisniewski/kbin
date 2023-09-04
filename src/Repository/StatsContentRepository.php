@@ -10,6 +10,7 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use Doctrine\DBAL\ParameterType;
 use JetBrains\PhpStorm\ArrayShape;
 
 class StatsContentRepository extends StatsRepository
@@ -145,6 +146,99 @@ class StatsContentRepository extends StatsRepository
         usort($results, fn ($a, $b): int => $a['day'] <=> $b['day']);
 
         return $results;
+    }
+
+    public function getStats(
+        ?Magazine $magazine,
+        string $intervalStr,
+        ?\DateTime $start,
+        ?\DateTime $end,
+        ?bool $onlyLocal
+    ): array {
+        $this->onlyLocal = $onlyLocal;
+        $interval = $intervalStr ?? 'month';
+        switch ($interval) {
+            case 'all':
+                $toReturn = [
+                    'entry' => $this->aggregateTotalStats('entry', $magazine),
+                    'entry_comment' => $this->aggregateTotalStats('entry_comment', $magazine),
+                    'post' => $this->aggregateTotalStats('post', $magazine),
+                    'post_comment' => $this->aggregateTotalStats('post_comment', $magazine),
+                ];
+
+                return $toReturn;
+            case 'year':
+            case 'month':
+            case 'day':
+            case 'hour':
+                break;
+            default:
+                throw new \LogicException('Invalid interval provided');
+        }
+
+        $this->start = $start ?? new \DateTime('-1 '.$interval);
+
+        $toReturn = [
+            'entry' => $this->aggregateStats('entry', $magazine, $interval, $end),
+            'entry_comment' => $this->aggregateStats('entry_comment', $magazine, $interval, $end),
+            'post' => $this->aggregateStats('post', $magazine, $interval, $end),
+            'post_comment' => $this->aggregateStats('post_comment', $magazine, $interval, $end),
+        ];
+
+        return $toReturn;
+    }
+
+    private function aggregateStats(string $table, ?Magazine $magazine, string $interval, ?\DateTime $end): array
+    {
+        if (null === $end) {
+            $end = new \DateTime();
+        }
+
+        if ($end < $this->start) {
+            throw new \LogicException('End date must be after start date!');
+        }
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT date_trunc(?, e.created_at) as datetime, count(e.id) as count FROM '.$table.' e 
+                    WHERE e.created_at BETWEEN ? AND ?';
+        if ($magazine) {
+            $sql .= ' AND e.magazine_id = ?';
+        }
+        if ($this->onlyLocal) {
+            $sql = $sql.' AND e.ap_id IS NULL';
+        }
+        $sql = $sql.' GROUP BY 1 ORDER BY 1';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(1, $interval);
+        $stmt->bindValue(2, $this->start, 'datetime');
+        $stmt->bindValue(3, $end, 'datetime');
+        if ($magazine) {
+            $stmt->bindValue(4, $magazine->getId(), ParameterType::INTEGER);
+        }
+
+        return $stmt->executeQuery()->fetchAllAssociative();
+    }
+
+    private function aggregateTotalStats(string $table, ?Magazine $magazine): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT COUNT(e.id) as count FROM '.$table.' e';
+        if ($magazine) {
+            $sql .= ' WHERE e.magazine_id = ?';
+        }
+        if ($this->onlyLocal) {
+            $sql = $sql.' AND e.ap_id IS NULL';
+        }
+
+        $stmt = $conn->prepare($sql);
+        if ($magazine) {
+            $stmt->bindValue(1, $magazine->getId());
+        }
+
+        return $stmt->executeQuery()->fetchAllAssociative();
     }
 
     public function countLocalPosts(): int

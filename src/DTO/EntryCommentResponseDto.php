@@ -183,7 +183,7 @@ class EntryCommentResponseDto implements \JsonSerializable
             'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),
             'childCount' => $this->childCount,
-            'children' => array_map(fn (EntryCommentResponseDto $child) => $child->jsonSerialize(), $this->children),
+            'children' => $this->children,
         ]);
     }
 }

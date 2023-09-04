@@ -34,6 +34,24 @@ api_admin_user_verify:
   methods: [ PUT ]
   format: json
 
+api_admin_retrieve_settings:
+  controller: App\Controller\Api\Instance\Admin\InstanceRetrieveSettingsApi
+  path: /api/instance/settings
+  methods: [ GET ]
+  format: json
+
+api_admin_update_settings:
+  controller: App\Controller\Api\Instance\Admin\InstanceUpdateSettingsApi
+  path: /api/instance/settings
+  methods: [ PUT ]
+  format: json
+
+api_admin_update_pages:
+  controller: App\Controller\Api\Instance\Admin\InstanceUpdatePagesApi
+  path: /api/instance/{page}
+  methods: [ PUT ]
+  format: json
+
 api_admin_retrieve_client_stats:
   controller: App\Controller\Api\OAuth2\Admin\RetrieveClientStatsApi
   path: /api/clients/stats
@@ -52,3 +70,8 @@ api_admin_retrieve_client_collection:
   methods: [ GET ]
   format: json
 
+api_admin_update_defederated_instances:
+  controller: App\Controller\Api\Instance\Admin\InstanceUpdateFederationApi
+  path: /api/defederated
+  methods: [ PUT ]
+  format: json

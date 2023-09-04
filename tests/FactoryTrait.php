@@ -22,8 +22,10 @@ use App\Entity\MessageThread;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\Site;
 use App\Entity\User;
 use App\Repository\NotificationRepository;
+use App\Repository\SiteRepository;
 use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use App\Service\FavouriteManager;
@@ -446,5 +448,58 @@ trait FactoryTrait
         $messageManager->toThread($dto, $from ?? $this->getUserByUsername('JaneDoe'), $to ?? $this->getUserByUsername('JohnDoe'));
 
         return $repository->findOneBy(['user' => $to ?? $this->getUserByUsername('JohnDoe')]);
+    }
+
+    protected function createInstancePages(): Site
+    {
+        $siteRepository = $this->getService(SiteRepository::class);
+        $entityManager = $this->getService(EntityManagerInterface::class);
+        $results = $siteRepository->findAll();
+        $site = null;
+        if (!count($results)) {
+            $site = new Site();
+        } else {
+            $site = $results[0];
+        }
+        $site->about = 'about';
+        $site->contact = 'contact';
+        $site->faq = 'faq';
+        $site->privacyPolicy = 'privacyPolicy';
+        $site->terms = 'terms';
+
+        $entityManager->persist($site);
+        $entityManager->flush();
+
+        return $site;
+    }
+
+    /**
+     * Creates 5 modlog messages, one each of:
+     *   * log_entry_deleted
+     *   * log_entry_comment_deleted
+     *   * log_post_deleted
+     *   * log_post_comment_deleted
+     *   * log_ban.
+     */
+    public function createModlogMessages(): void
+    {
+        $magazineManager = $this->getService(MagazineManager::class);
+        $entryManager = $this->getService(EntryManager::class);
+        $entryCommentManager = $this->getService(EntryCommentManager::class);
+        $postManager = $this->getService(PostManager::class);
+        $postCommentManager = $this->getService(PostCommentManager::class);
+        $moderator = $this->getUserByUsername('moderator');
+        $magazine = $this->getMagazineByName('acme', $moderator);
+        $user = $this->getUserByUsername('user');
+        $post = $this->createPost('test post', $magazine, $user);
+        $entry = $this->getEntryByTitle('A title', body: 'test entry', magazine: $magazine, user: $user);
+        $postComment = $this->createPostComment('test comment', $post, $user);
+        $entryComment = $this->createEntryComment('test comment 2', $entry, $user);
+
+        $entryCommentManager->delete($moderator, $entryComment);
+        $entryManager->delete($moderator, $entry);
+        $postCommentManager->delete($moderator, $postComment);
+        $postManager->delete($moderator, $post);
+        $magazineManager->ban($magazine, $user, $moderator, MagazineBanDto::create('test ban', new \DateTimeImmutable('+12 hours')));
     }
 }

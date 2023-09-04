@@ -43,7 +43,7 @@ class UserSmallResponseDto implements \JsonSerializable
             'isFollowedByUser' => $this->isFollowedByUser,
             'isFollowerOfUser' => $this->isFollowerOfUser,
             'isBlockedByUser' => $this->isBlockedByUser,
-            'avatar' => $this->avatar?->jsonSerialize(),
+            'avatar' => $this->avatar,
             'apId' => $this->apId,
             'apProfileId' => $this->apProfileId,
             'createdAt' => $this->createdAt?->format(\DateTimeImmutable::ATOM),

@@ -100,9 +100,9 @@ class PostResponseDto implements \JsonSerializable
 
         return $this->handleDeletion([
             'postId' => $this->postId,
-            'user' => $this->user->jsonSerialize(),
-            'magazine' => $this->magazine->jsonSerialize(),
-            'image' => $this->image?->jsonSerialize(),
+            'user' => $this->user,
+            'magazine' => $this->magazine,
+            'image' => $this->image,
             'body' => $this->body,
             'lang' => $this->lang,
             'isAdult' => $this->isAdult,
