@@ -1,6 +1,6 @@
 <aside{{ attributes.defaults({class: 'magazine__subscribe', 'data-controller': 'subs'}) }}>
     <div class='action'>
-        <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }} Subscribers</span> 
+        <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }}</span>
     </div>
     <form action="{{ path('magazine_' ~ (is_magazine_subscribed(magazine) ? 'unsubscribe' : 'subscribe'), {name: magazine.name}) }}"
           name="magazine_subscribe"
