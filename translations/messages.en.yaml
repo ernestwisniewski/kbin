@@ -561,3 +561,117 @@ oauth.consent.deny: Deny
 oauth.client_identifier.invalid: Invalid OAuth Client ID!
 oauth.client_not_granted_message_read_permission: This app has not received permission to read your messages.
 restrict_oauth_clients: Restrict OAuth2 Client creation to Admins
+oauth2.grant.read.general: Read all content you have access to.
+oauth2.grant.write.general: Create or edit any of your threads, posts, or comments.
+oauth2.grant.delete.general: Delete any of your threads, posts, or comments.
+oauth2.grant.report.general: Report threads, posts, or comments.
+oauth2.grant.vote.general: Upvote, downvote, or boost threads, posts, or comments.
+oauth2.grant.subscribe.general: Subscribe or follow any magazine, domain, or user, and view the magazines, domains, and users you subscribe to.
+oauth2.grant.block.general: Block or unblock any magazine, domain, or user, and view the magazines, domains, and users you have blocked.
+oauth2.grant.domain.all: Subscribe to or block domains, and view the domains you subscribe to or block.
+oauth2.grant.domain.subscribe: Subscribe or unsubscribe to domains and view the domains you subscribe to.
+oauth2.grant.domain.block: Block or unblock domains and view the domains you have blocked.
+oauth2.grant.entry.all: Create, edit, or delete your threads, and vote, boost, or report any thread.
+oauth2.grant.entry.create: Create new threads.
+oauth2.grant.entry.edit: Edit your existing threads.
+oauth2.grant.entry.delete: Delete your existing threads.
+oauth2.grant.entry.vote: Upvote, boost, or downvote any thread.
+oauth2.grant.entry.report: Report any thread.
+oauth2.grant.entry_comment.all: Create, edit, or delete your comments in threads, and vote, boost, or report any comment in a thread.
+oauth2.grant.entry_comment.create: Create new comments in threads.
+oauth2.grant.entry_comment.edit: Edit your existing comments in threads.
+oauth2.grant.entry_comment.delete: Delete your existing comments in threads.
+oauth2.grant.entry_comment.vote: Upvote, boost, or downvote any comment in a thread.
+oauth2.grant.entry_comment.report: Report any comment in a thread.
+oauth2.grant.magazine.all: Subscribe to or block magazines, and view the magazines you subscribe to or block.
+oauth2.grant.magazine.subscribe: Subscribe or unsubscribe to magazines and view the magazines you subscribe to.
+oauth2.grant.magazine.block: Block or unblock magazines and view the magazines you have blocked.
+oauth2.grant.post.all: Create, edit, or delete your microblogs, and vote, boost, or report any microblog.
+oauth2.grant.post.create: Create new posts.
+oauth2.grant.post.edit: Edit your existing posts.
+oauth2.grant.post.delete: Delete your existing posts.
+oauth2.grant.post.vote: Upvote, boost, or downvote any post.
+oauth2.grant.post.report: Report any post.
+oauth2.grant.post_comment.all: Create, edit, or delete your comments on posts, and vote, boost, or report any comment on a post.
+oauth2.grant.post_comment.create: Create new comments on posts.
+oauth2.grant.post_comment.edit: Edit your existing comments on posts.
+oauth2.grant.post_comment.delete: Delete your existing comments on posts.
+oauth2.grant.post_comment.vote: Upvote, boost, or downvote any comment on a post.
+oauth2.grant.post_comment.report: Report any comment on a post.
+oauth2.grant.user.all: Read and edit your profile, messages, or notifications; Read and edit permissions you've granted other apps; follow or block other users; view lists of users you follow or block.
+oauth2.grant.user.profile.all: Read and edit your profile.
+oauth2.grant.user.profile.read: Read your profile.
+oauth2.grant.user.profile.edit: Edit your profile.
+oauth2.grant.user.message.all: Read your messages and send messages to other users.
+oauth2.grant.user.message.read: Read your messages.
+oauth2.grant.user.message.create: Send messages to other users.
+oauth2.grant.user.notification.all: Read and clear your notifications.
+oauth2.grant.user.notification.read: Read your notifications, including message notifications.
+oauth2.grant.user.notification.delete: Clear your notifications.
+oauth2.grant.user.oauth_clients.all: Read and edit the permissions you have granted to other OAuth2 applications.
+oauth2.grant.user.oauth_clients.read: Read the permissions you have granted to other OAuth2 applications.
+oauth2.grant.user.oauth_clients.edit: Edit the permissions you have granted to other OAuth2 applications.
+oauth2.grant.user.follow: Follow or unfollow users, and read a list of users you follow.
+oauth2.grant.user.block: Block or unblock users, and read a list of users you block.
+oauth2.grant.moderate.all: Perform any moderation action you have permission to perform in your moderated magazines.
+oauth2.grant.moderate.entry.all: Moderate threads in your moderated magazines.
+oauth2.grant.moderate.entry.change_language: Change the language of threads in your moderated magazines.
+oauth2.grant.moderate.entry.pin: Pin threads to the top of your moderated magazines.
+oauth2.grant.moderate.entry.set_adult: Mark threads as NSFW in your moderated magazines.
+oauth2.grant.moderate.entry.trash: Trash or restore threads in your moderated magazines.
+oauth2.grant.moderate.entry_comment.all: Moderate comments in threads in your moderated magazines.
+oauth2.grant.moderate.entry_comment.change_language: Change the language of comments in threads in your moderated magazines.
+oauth2.grant.moderate.entry_comment.set_adult: Mark comments in threads as NSFW in your moderated magazines.
+oauth2.grant.moderate.entry_comment.trash: Trash or restore comments in threads in your moderated magazines.
+oauth2.grant.moderate.post.all: Moderate posts in your moderated magazines.
+oauth2.grant.moderate.post.change_language: Change the language of posts in your moderated magazines.
+oauth2.grant.moderate.post.set_adult: Mark posts as NSFW in your moderated magazines.
+oauth2.grant.moderate.post.trash: Trash or restore posts in your moderated magazines.
+oauth2.grant.moderate.post_comment.all: Moderate comments on posts in your moderated magazines.
+oauth2.grant.moderate.post_comment.change_language: Change the language of comments on posts in your moderated magazines.
+oauth2.grant.moderate.post_comment.set_adult: Mark comments on posts as NSFW in your moderated magazines.
+oauth2.grant.moderate.post_comment.trash: Trash or restore comments on posts in your moderated magazines.
+oauth2.grant.moderate.magazine.all: Manage bans, reports, and view trashed items in your moderated magazines.
+oauth2.grant.moderate.magazine.ban.all: Manage banned users in your moderated magazines.
+oauth2.grant.moderate.magazine.ban.read: View banned users in your moderated magazines.
+oauth2.grant.moderate.magazine.ban.create: Ban users in your moderated magazines.
+oauth2.grant.moderate.magazine.ban.delete: Unban users in your moderated magazines.
+oauth2.grant.moderate.magazine.list: Read a list of your moderated magazines.
+oauth2.grant.moderate.magazine.reports.all: Manage reports in your moderated magazines.
+oauth2.grant.moderate.magazine.reports.read: Read reports in your moderated magazines.
+oauth2.grant.moderate.magazine.reports.action: Accept or reject reports in your moderated magazines.
+oauth2.grant.moderate.magazine.trash.read: View trashed content in your moderated magazines.
+oauth2.grant.moderate.magazine_admin.all: Create, edit, or delete your owned magazines.
+oauth2.grant.moderate.magazine_admin.create: Create new magazines.
+oauth2.grant.moderate.magazine_admin.delete: Delete any of your owned magazines.
+oauth2.grant.moderate.magazine_admin.update: Edit any of your owned magazines' rules, description, NSFW status, or icon.
+oauth2.grant.moderate.magazine_admin.edit_theme: Edit the custom CSS of any of your owned magazines.
+oauth2.grant.moderate.magazine_admin.moderators: Add or remove moderators of any of your owned magazines.
+oauth2.grant.moderate.magazine_admin.badges: Create or remove badges from your owned magazines.
+oauth2.grant.moderate.magazine_admin.tags: Create or remove tags from your owned magazines.
+oauth2.grant.moderate.magazine_admin.stats: View the content, vote, and view stats of your owned magazines.
+oauth2.grant.admin.all: Perform any administrative action on your instance.
+oauth2.grant.admin.entry.purge: Completely delete any thread from your instance.
+oauth2.grant.admin.entry_comment.purge: Completely delete any comment in a thread from your instance.
+oauth2.grant.admin.post.purge: Completely delete any post from your instance.
+oauth2.grant.admin.post_comment.purge: Completely delete any comment on a post from your instance.
+oauth2.grant.admin.magazine.all: Move threads between or completely delete magazines on your instance.
+oauth2.grant.admin.magazine.move_entry: Move threads between magazines on your instance.
+oauth2.grant.admin.magazine.purge: Completely delete magazines on your instance.
+oauth2.grant.admin.user.all: Ban, verify, or completely delete users on your instance.
+oauth2.grant.admin.user.ban: Ban or unban users from your instance.
+oauth2.grant.admin.user.verify: Verify users on your instance.
+oauth2.grant.admin.user.delete: Delete users from your instance.
+oauth2.grant.admin.user.purge: Completely delete users from your instance.
+oauth2.grant.admin.instance.all: View and update instance settings or information.
+oauth2.grant.admin.instance.stats: View your instance's stats.
+oauth2.grant.admin.instance.settings.all: View or update settings on your instance.
+oauth2.grant.admin.instance.settings.read: View settings on your instance.
+oauth2.grant.admin.instance.settings.edit: Update settings on your instance.
+oauth2.grant.admin.instance.information.edit: Update the About, FAQ, Contact, Terms of Service, and Privacy Policy pages on your instance.
+oauth2.grant.admin.federation.all: View and update currently defederated instances.
+oauth2.grant.admin.federation.read: View the list of defederated instances.
+oauth2.grant.admin.federation.update: Add or remove instances to or from the list of defederated instances.
+oauth2.grant.admin.oauth_clients.all: View or revoke OAuth2 clients that exist on your instance.
+oauth2.grant.admin.oauth_clients.read: View the OAuth2 clients that exist on your instance, and their usage stats.
+oauth2.grant.admin.oauth_clients.revoke: Revoke access to OAuth2 clients on your instance.

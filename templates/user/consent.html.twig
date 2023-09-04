@@ -28,14 +28,14 @@
                 <p><strong>{{ app_name }}</strong> {{ 'oauth.consent.app_requesting_permissions'|trans }}:</p>
                 <ul>
                     {% for scope in scopes %}
-                    <li id="{{ scope }}">{{ scope|trans({}, 'security') }}</li>
+                    <li id="{{ scope }}">{{ scope|trans }}</li>
                     {% endfor %}
                 </ul>
                 {% if has_existing_scopes %}
                 <p><strong>{{ app_name }}</strong> {{ 'oauth.consent.app_has_permissions'|trans }}:</p>
                 <ul>
                     {% for scope in existing_scopes %}
-                    <li id="{{ scope }}">{{ scope|trans({}, 'security') }}</li>
+                    <li id="{{ scope }}">{{ scope|trans }}</li>
                     {% endfor %}
                 </ul>
                 {% endif %}

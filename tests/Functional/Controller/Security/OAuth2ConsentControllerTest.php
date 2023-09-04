@@ -16,8 +16,8 @@ class OAuth2ConsentControllerTest extends WebTestCase
 
         self::runAuthorizationCodeFlowToConsentPage($client, 'read write', 'oauth2state');
 
-        self::assertSelectorExists("li[id='oauth2.grant.read.general']");
-        self::assertSelectorExists("li[id='oauth2.grant.write.general']");
+        self::assertSelectorTextContains("li[id='oauth2.grant.read.general']", 'Read all content you have access to.');
+        self::assertSelectorTextContains("li[id='oauth2.grant.write.general']", 'Create or edit any of your threads, posts, or comments.');
 
         self::runAuthorizationCodeFlowToRedirectUri($client, 'read write', 'yes', 'oauth2state');
 
@@ -38,8 +38,8 @@ class OAuth2ConsentControllerTest extends WebTestCase
 
         self::runAuthorizationCodeFlowToConsentPage($client, 'read write', 'oauth2state');
 
-        self::assertSelectorExists("li[id='oauth2.grant.read.general']");
-        self::assertSelectorExists("li[id='oauth2.grant.write.general']");
+        self::assertSelectorTextContains("li[id='oauth2.grant.read.general']", 'Read all content you have access to.');
+        self::assertSelectorTextContains("li[id='oauth2.grant.write.general']", 'Create or edit any of your threads, posts, or comments.');
 
         self::runAuthorizationCodeFlowToRedirectUri($client, 'read write', 'no', 'oauth2state');
 
