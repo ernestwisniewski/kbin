@@ -20,7 +20,7 @@ class DomainFrontControllerTest extends WebTestCase
         );
 
         $crawler = $client->request('GET', '/');
-        $crawler = $client->click($crawler->filter('#content article')->selectLink('kbin.pub')->link());
+        $crawler = $client->click($crawler->filter('#content article')->selectLink('more from domain')->link());
 
         $this->assertSelectorTextContains('#header', '/d/kbin.pub');
         $this->assertSelectorTextContains('.entry__meta', 'JohnDoe');

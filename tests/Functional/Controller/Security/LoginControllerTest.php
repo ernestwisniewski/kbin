@@ -47,7 +47,7 @@ class LoginControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main', 'Please check your email and click on the activation link');
+        $this->assertSelectorTextContains('#main', 'Please check your email for account activation instructions or request a new account activation email');
     }
 
     public function testUserCantLoginWithWrongPassword(): void
