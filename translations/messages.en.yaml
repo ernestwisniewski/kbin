@@ -184,6 +184,8 @@ settings: Settings
 general: General
 profile: Profile
 blocked: Blocked
+block: Block
+unblock: Unblock
 reports: Reports
 notifications: Notifications
 messages: Messages

@@ -52,8 +52,9 @@
   &__subscribe {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-end;
     margin-bottom: 2.5rem;
+    flex-wrap: wrap;
 
     div {
       align-items: center;
@@ -70,9 +71,11 @@
       .rounded-edges & {
         border-radius: .5rem;
       }
+    }
 
-      i {
-        padding-right: .5rem;
+    .action{
+      span{
+        margin-left: 0.5rem;
       }
     }
 
