@@ -82,7 +82,7 @@ class RetrieveClientApi extends BaseApi
         $dto = new ClientResponseDto($client);
 
         return new JsonResponse(
-            $dto->jsonSerialize(),
+            $dto,
             headers: $headers
         );
     }

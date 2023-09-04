@@ -149,7 +149,7 @@ class CreateClientApi extends BaseApi
         $dto = $clientFactory->createDto($client);
 
         return new JsonResponse(
-            $dto->jsonSerialize(),
+            $dto,
             status: 201,
             headers: $headers
         );
@@ -290,7 +290,7 @@ class CreateClientApi extends BaseApi
         $dto = $clientFactory->createDto($client);
 
         return new JsonResponse(
-            $dto->jsonSerialize(),
+            $dto,
             status: 201,
             headers: $headers
         );

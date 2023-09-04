@@ -16,7 +16,10 @@ abstract class WebTestCase extends BaseWebTestCase
     protected const PAGINATED_KEYS = ['items', 'pagination'];
     protected const PAGINATION_KEYS = ['count', 'currentPage', 'maxPage', 'perPage'];
     protected const IMAGE_KEYS = ['filePath', 'sourceUrl', 'storageUrl', 'altText', 'width', 'height'];
+    protected const MESSAGE_RESPONSE_KEYS = ['messageId', 'threadId', 'sender', 'body', 'status', 'createdAt'];
     protected const USER_RESPONSE_KEYS = ['userId', 'username', 'about', 'avatar', 'cover', 'createdAt', 'followersCount', 'apId', 'apProfileId', 'isBot', 'isFollowedByUser', 'isFollowerOfUser', 'isBlockedByUser'];
+    protected const USER_SMALL_RESPONSE_KEYS = ['userId', 'username', 'avatar', 'createdAt', 'apId', 'apProfileId', 'isBot', 'isFollowedByUser', 'isFollowerOfUser', 'isBlockedByUser'];
+
     protected const KIBBY_PNG_URL_RESULT = 'a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png';
 
     protected ArrayCollection $users;

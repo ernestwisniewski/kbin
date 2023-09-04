@@ -90,4 +90,22 @@ class NotificationManager
 
         $this->entityManager->flush();
     }
+
+    public function unreadMessageNotification(Message $message, User $user): void
+    {
+        $repo = $this->entityManager->getRepository(MessageNotification::class);
+
+        $notifications = $repo->findBy(
+            [
+                'message' => $message,
+                'user' => $user,
+            ]
+        );
+
+        foreach ($notifications as $notification) {
+            $notification->status = Notification::STATUS_NEW;
+        }
+
+        $this->entityManager->flush();
+    }
 }

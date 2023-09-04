@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\User\Admin;
 
 use App\Service\UserManager;
-use App\Tests\Functional\Controller\Api\User\UserRetrieveApiTest;
 use App\Tests\WebTestCase;
 
 class UserRetrieveBannedApiTest extends WebTestCase
@@ -62,7 +61,7 @@ class UserRetrieveBannedApiTest extends WebTestCase
         self::assertIsArray($jsonData['items']);
         self::assertCount(1, $jsonData['items']);
         self::assertIsArray($jsonData['items'][0]);
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isBanned']), $jsonData['items'][0]);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isBanned']), $jsonData['items'][0]);
         self::assertSame($bannedUser->getId(), $jsonData['items'][0]['userId']);
     }
 }

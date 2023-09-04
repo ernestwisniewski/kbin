@@ -23,6 +23,10 @@ class Message
     }
     public const STATUS_NEW = 'new';
     public const STATUS_READ = 'read';
+    public const STATUS_OPTIONS = [
+        self::STATUS_NEW,
+        self::STATUS_READ,
+    ];
 
     #[ManyToOne(targetEntity: MessageThread::class, cascade: ['persist'], inversedBy: 'messages')]
     #[JoinColumn(nullable: false)]

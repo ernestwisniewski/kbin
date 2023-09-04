@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\User\Admin;
 
 use App\Repository\UserRepository;
-use App\Tests\Functional\Controller\Api\User\UserRetrieveApiTest;
 use App\Tests\WebTestCase;
 
 class UserVerifyApiTest extends WebTestCase
@@ -58,7 +57,7 @@ class UserVerifyApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isVerified']), $jsonData);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isVerified']), $jsonData);
         self::assertTrue($jsonData['isVerified']);
 
         $repository = $this->getService(UserRepository::class);

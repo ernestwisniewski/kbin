@@ -102,7 +102,7 @@ class UserRetrieveBannedApi extends UserBaseApi
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
             assert($value instanceof User);
-            array_push($dtos, (new UserBanResponseDto($factory->createDto($value), $value->isBanned))->jsonSerialize());
+            array_push($dtos, new UserBanResponseDto($factory->createDto($value), $value->isBanned));
         }
 
         return new JsonResponse(

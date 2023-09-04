@@ -42,7 +42,7 @@ class UserUpdateApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
         self::assertSame($testUser->getId(), $jsonData['userId']);
         self::assertNull($jsonData['about']);
 
@@ -58,7 +58,7 @@ class UserUpdateApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
         self::assertSame($testUser->getId(), $jsonData['userId']);
         self::assertEquals('Updated during test', $jsonData['about']);
 
@@ -68,7 +68,7 @@ class UserUpdateApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
         self::assertSame($testUser->getId(), $jsonData['userId']);
         self::assertEquals('Updated during test', $jsonData['about']);
     }

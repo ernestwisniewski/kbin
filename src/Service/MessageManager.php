@@ -47,13 +47,33 @@ class MessageManager
     {
         foreach ($thread->getNewMessages($user) as $message) {
             /*
-             * @var $message Message
+             * @var Message $message
              */
-            $message->status = Message::STATUS_READ;
-
-            $this->notificationManager->readMessageNotification($message, $user);
+            $this->readMessage($message, $user);
         }
 
         $this->entityManager->flush();
+    }
+
+    public function readMessage(Message $message, User $user, bool $flush = false): void
+    {
+        $message->status = Message::STATUS_READ;
+
+        $this->notificationManager->readMessageNotification($message, $user);
+
+        if ($flush) {
+            $this->entityManager->flush();
+        }
+    }
+
+    public function unreadMessage(Message $message, User $user, bool $flush = false): void
+    {
+        $message->status = Message::STATUS_NEW;
+
+        $this->notificationManager->unreadMessageNotification($message, $user);
+
+        if ($flush) {
+            $this->entityManager->flush();
+        }
     }
 }

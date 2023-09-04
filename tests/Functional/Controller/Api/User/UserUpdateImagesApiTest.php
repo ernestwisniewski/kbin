@@ -103,7 +103,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
 
         self::assertIsArray($jsonData['avatar']);
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['avatar']);
@@ -121,7 +121,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
         self::assertNull($jsonData['avatar']);
     }
 
@@ -147,7 +147,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
 
         self::assertIsArray($jsonData['cover']);
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['cover']);
@@ -165,7 +165,7 @@ class UserUpdateImagesApiTest extends WebTestCase
         $jsonData = self::getJsonResponse($client);
 
         self::assertIsArray($jsonData);
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
         self::assertNull($jsonData['cover']);
     }
 }

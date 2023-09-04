@@ -1,0 +1,49 @@
+# Get a specific message
+api_message_retrieve:
+  controller: App\Controller\Api\Message\MessageRetrieveApi
+  path: /api/messages/{message_id}
+  methods: [ GET ]
+  format: json
+
+# Mark message as read
+api_message_read:
+  controller: App\Controller\Api\Message\MessageReadApi::read
+  path: /api/messages/{message_id}/read
+  methods: [ PUT ]
+  format: json
+
+# Mark message as not read
+api_message_unread:
+  controller: App\Controller\Api\Message\MessageReadApi::unread
+  path: /api/messages/{message_id}/unread
+  methods: [ PUT ]
+  format: json
+
+# Retrieve current user's message threads
+api_message_retrieve_threads:
+  controller: App\Controller\Api\Message\MessageRetrieveApi::collection
+  path: /api/messages
+  methods: [ GET ]
+  format: json
+
+# Create a reply to a thread
+api_message_create_reply:
+  controller: App\Controller\Api\Message\MessageThreadReplyApi
+  path: /api/messages/thread/{thread_id}/reply
+  methods: [ POST ]
+  format: json
+
+# Retrieve messages from a thread
+api_message_retrieve_thread:
+  controller: App\Controller\Api\Message\MessageRetrieveApi::thread
+  defaults: { sort: newest }
+  path: /api/messages/thread/{thread_id}/{sort}
+  methods: [ GET ]
+  format: json
+
+# Create a thread with a user
+api_message_create_thread:
+  controller: App\Controller\Api\Message\MessageThreadCreateApi
+  path: /api/users/{user_id}/message
+  methods: [ POST ]
+  format: json

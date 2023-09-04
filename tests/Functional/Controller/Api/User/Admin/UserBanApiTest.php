@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Controller\Api\User\Admin;
 
 use App\Repository\UserRepository;
 use App\Service\UserManager;
-use App\Tests\Functional\Controller\Api\User\UserRetrieveApiTest;
 use App\Tests\WebTestCase;
 
 class UserBanApiTest extends WebTestCase
@@ -95,7 +94,7 @@ class UserBanApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
         self::assertTrue($jsonData['isBanned']);
 
         $repository = $this->getService(UserRepository::class);
@@ -120,7 +119,7 @@ class UserBanApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
         self::assertFalse($jsonData['isBanned']);
 
         $repository = $this->getService(UserRepository::class);
@@ -201,7 +200,7 @@ class UserBanApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
         self::assertTrue($jsonData['isBanned']);
 
         $repository = $this->getService(UserRepository::class);
@@ -226,7 +225,7 @@ class UserBanApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(array_merge(UserRetrieveApiTest::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
+        self::assertArrayKeysMatch(array_merge(self::USER_RESPONSE_KEYS, ['isBanned']), $jsonData);
         self::assertFalse($jsonData['isBanned']);
 
         $repository = $this->getService(UserRepository::class);

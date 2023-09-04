@@ -214,7 +214,7 @@ class UserRetrieveApi extends UserBaseApi
         $dto = $manager->createDto($this->getUserOrThrow());
 
         return new JsonResponse(
-            $dto->jsonSerialize(),
+            $dto,
             headers: $headers
         );
     }

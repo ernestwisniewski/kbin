@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
-use App\DTO\EntryCommentResponseDto;
-use App\DTO\EntryResponseDto;
-use App\DTO\PostCommentResponseDto;
-use App\DTO\PostResponseDto;
+use App\DTO\MagazineDto;
 use App\DTO\ReportDto;
 use App\DTO\ReportRequestDto;
 use App\DTO\UserDto;
 use App\DTO\UserResponseDto;
 use App\Entity\Client;
 use App\Entity\Contracts\ContentInterface;
+use App\Entity\Contracts\ContentVisibilityInterface;
 use App\Entity\Contracts\ReportInterface;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Image;
@@ -151,11 +150,11 @@ class BaseApi extends AbstractController
     {
         return [
             'items' => $serializedItems,
-            'pagination' => (new PaginationSchema($pagerfanta))->jsonSerialize(),
+            'pagination' => new PaginationSchema($pagerfanta),
         ];
     }
 
-    public function serializeContentInterface(ContentInterface $content): mixed
+    public function serializeContentInterface(ContentInterface $content, bool $forceVisible = false): mixed
     {
         $toReturn = null;
         $className = $this->entityManager->getClassMetadata(get_class($content))->rootEntityName;
@@ -164,36 +163,44 @@ class BaseApi extends AbstractController
                 /**
                  * @var Entry $content
                  */
-                $dto = $this->entryFactory->createDto($content);
-                $toReturn = (new EntryResponseDto($dto))->jsonSerialize();
-                $toReturn['type'] = 'entry';
+                $dto = $this->entryFactory->createResponseDto($content);
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $toReturn = $dto->jsonSerialize();
+                $toReturn['itemType'] = 'entry';
                 break;
             case EntryComment::class:
                 /**
                  * @var EntryComment $content
                  */
-                $dto = $this->entryCommentFactory->createDto($content);
-                $toReturn = (new EntryCommentResponseDto($dto))->jsonSerialize();
-                $toReturn['type'] = 'entry_comment';
+                $dto = $this->entryCommentFactory->createResponseDto($content);
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $toReturn = $dto->jsonSerialize();
+                $toReturn['itemType'] = 'entry_comment';
                 break;
             case Post::class:
                 /**
                  * @var Post $content
                  */
-                $dto = $this->postFactory->createDto($content);
-                $toReturn = (new PostResponseDto($dto))->jsonSerialize();
-                $toReturn['type'] = 'post';
+                $dto = $this->postFactory->createResponseDto($content);
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $toReturn = $dto->jsonSerialize();
+                $toReturn['itemType'] = 'post';
                 break;
             case PostComment::class:
                 /**
                  * @var PostComment $content
                  */
-                $dto = $this->postCommentFactory->createDto($content);
-                $toReturn = (new PostCommentResponseDto($dto))->jsonSerialize();
-                $toReturn['type'] = 'post_comment';
+                $dto = $this->postCommentFactory->createResponseDto($content);
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $toReturn = $dto->jsonSerialize();
+                $toReturn['itemType'] = 'post_comment';
                 break;
             default:
                 throw new \LogicException('Invalid contentInterface classname "'.$className.'"');
+        }
+
+        if ($forceVisible) {
+            $toReturn['visibility'] = $content->visibility;
         }
 
         return $toReturn;
@@ -201,21 +208,44 @@ class BaseApi extends AbstractController
 
     /**
      * Serialize a single log item to JSON.
-     *
-     * @return array An associative array representation of the items's safe fields, to be used as JSON
      */
-    protected function serializeLogItem(MagazineLog $log)
+    protected function serializeLogItem(MagazineLog $log): array
     {
+        /** @var ContentVisibilityInterface $subject */
+        $subject = $log->getSubject();
         $response = $this->magazineFactory->createLogDto($log);
         $response->setSubject(
-            $log->getSubject(),
+            $subject,
             $this->entryFactory,
             $this->entryCommentFactory,
             $this->postFactory,
             $this->postCommentFactory,
         );
 
-        return $response->jsonSerialize();
+        if ($response->subject) {
+            $response->subject->visibility = 'visible';
+        }
+
+        $toReturn = $response->jsonSerialize();
+        if ($subject) {
+            $toReturn['subject']['visibility'] = $subject->getVisibility();
+        }
+
+        return $toReturn;
+    }
+
+    /**
+     * Serialize a single magazine to JSON.
+     *
+     * @param MagazineDto $dto The MagazineDto to serialize
+     *
+     * @return array An associative array representation of the entry's safe fields, to be used as JSON
+     */
+    protected function serializeMagazine(MagazineDto $dto)
+    {
+        $response = $this->magazineFactory->createResponseDto($dto);
+
+        return $response;
     }
 
     /**
@@ -223,13 +253,13 @@ class BaseApi extends AbstractController
      *
      * @param UserDto $dto The UserDto to serialize
      *
-     * @return array An associative array representation of the user's safe fields, to be used as JSON
+     * @return UserResponseDto A JsonSerializable representation of the user
      */
-    protected function serializeUser(UserDto $dto)
+    protected function serializeUser(UserDto $dto): UserResponseDto
     {
         $response = new UserResponseDto($dto);
 
-        return $response->jsonSerialize();
+        return $response;
     }
 
     public static function constrainPerPage(mixed $value, int $min = self::MIN_PER_PAGE, int $max = self::MAX_PER_PAGE): int
@@ -315,7 +345,7 @@ class BaseApi extends AbstractController
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $reportDto = (new ReportDto())->create($reportable, $dto->reason);
+        $reportDto = ReportDto::create($reportable, $dto->reason);
 
         try {
             $this->reportManager->report($reportDto, $this->getUserOrThrow());

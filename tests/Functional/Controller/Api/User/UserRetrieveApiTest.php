@@ -10,21 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class UserRetrieveApiTest extends WebTestCase
 {
-    public const USER_RESPONSE_KEYS = [
-        'userId',
-        'username',
-        'about',
-        'avatar',
-        'cover',
-        'createdAt',
-        'followersCount',
-        'apId',
-        'apProfileId',
-        'isBot',
-        'isFollowedByUser',
-        'isFollowerOfUser',
-        'isBlockedByUser',
-    ];
     public const USER_SETTINGS_KEYS = [
         'notifyOnNewEntry',
         'notifyOnNewEntryReply',

@@ -2,27 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\User\Admin;
+namespace App\Controller\Api\Message;
 
-use App\Controller\Api\User\UserBaseApi;
-use App\DTO\UserBanResponseDto;
-use App\Entity\User;
-use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\DTO\MessageResponseDto;
+use App\Entity\Message;
+use App\Service\MessageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class UserBanApi extends UserBaseApi
+class MessageReadApi extends MessageBaseApi
 {
     #[OA\Response(
         response: 200,
-        description: 'User banned',
-        content: new Model(type: UserBanResponseDto::class),
+        description: 'Marks the message as read',
+        content: new Model(type: MessageResponseDto::class),
         headers: [
             new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
             new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
@@ -35,13 +34,8 @@ class UserBanApi extends UserBaseApi
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\UnauthorizedErrorSchema::class))
     )]
     #[OA\Response(
-        response: 403,
-        description: 'You are not authorized to ban this user',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\ForbiddenErrorSchema::class))
-    )]
-    #[OA\Response(
         response: 404,
-        description: 'User not found',
+        description: 'Message not found',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\NotFoundErrorSchema::class))
     )]
     #[OA\Response(
@@ -55,40 +49,38 @@ class UserBanApi extends UserBaseApi
         ]
     )]
     #[OA\Parameter(
-        name: 'user_id',
+        name: 'message_id',
         in: 'path',
-        description: 'The user to ban',
+        description: 'The message to read',
         schema: new OA\Schema(type: 'integer'),
     )]
-    #[OA\Tag(name: 'admin/user')]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Security(name: 'oauth2', scopes: ['admin:user:ban'])]
-    #[IsGranted('ROLE_OAUTH2_ADMIN:USER:BAN')]
-    /** Bans a user from the instance */
-    public function ban(
-        #[MapEntity(id: 'user_id')]
-        User $user,
-        UserManager $manager,
-        UserFactory $factory,
-        RateLimiterFactory $apiModerateLimiter,
+    #[OA\Tag(name: 'message')]
+    #[Security(name: 'oauth2', scopes: ['user:message:read'])]
+    #[IsGranted('ROLE_OAUTH2_USER:MESSAGE:READ')]
+    public function read(
+        #[MapEntity(id: 'message_id')]
+        Message $message,
+        MessageManager $manager,
+        RateLimiterFactory $apiUpdateLimiter,
     ): JsonResponse {
-        $headers = $this->rateLimit($apiModerateLimiter);
+        if (!$this->isGranted('show', $message->thread)) {
+            throw new AccessDeniedHttpException();
+        }
 
-        $manager->ban($user);
-        // Response needs to be an array to insert isBanned
-        $response = $this->serializeUser($factory->createDto($user))->jsonSerialize();
-        $response['isBanned'] = $user->isBanned;
+        $headers = $this->rateLimit($apiUpdateLimiter);
+
+        $manager->readMessage($message, $this->getUserOrThrow(), flush: true);
 
         return new JsonResponse(
-            $response,
+            $this->serializeMessage($message),
             headers: $headers
         );
     }
 
     #[OA\Response(
         response: 200,
-        description: 'User unbanned',
-        content: new Model(type: UserBanResponseDto::class),
+        description: 'Marks the message as new',
+        content: new Model(type: MessageResponseDto::class),
         headers: [
             new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
             new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
@@ -101,13 +93,8 @@ class UserBanApi extends UserBaseApi
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\UnauthorizedErrorSchema::class))
     )]
     #[OA\Response(
-        response: 403,
-        description: 'You are not authorized to unban this user',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\ForbiddenErrorSchema::class))
-    )]
-    #[OA\Response(
         response: 404,
-        description: 'User not found',
+        description: 'Message not found',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\NotFoundErrorSchema::class))
     )]
     #[OA\Response(
@@ -121,32 +108,30 @@ class UserBanApi extends UserBaseApi
         ]
     )]
     #[OA\Parameter(
-        name: 'user_id',
+        name: 'message_id',
         in: 'path',
-        description: 'The user to unban',
+        description: 'The message to mark as new',
         schema: new OA\Schema(type: 'integer'),
     )]
-    #[OA\Tag(name: 'admin/user')]
-    #[IsGranted('ROLE_ADMIN')]
-    #[Security(name: 'oauth2', scopes: ['admin:user:ban'])]
-    #[IsGranted('ROLE_OAUTH2_ADMIN:USER:BAN')]
-    /** Unbans a user from the instance */
-    public function unban(
-        #[MapEntity(id: 'user_id')]
-        User $user,
-        UserManager $manager,
-        UserFactory $factory,
-        RateLimiterFactory $apiModerateLimiter,
+    #[OA\Tag(name: 'message')]
+    #[Security(name: 'oauth2', scopes: ['user:message:read'])]
+    #[IsGranted('ROLE_OAUTH2_USER:MESSAGE:READ')]
+    public function unread(
+        #[MapEntity(id: 'message_id')]
+        Message $message,
+        MessageManager $manager,
+        RateLimiterFactory $apiUpdateLimiter,
     ): JsonResponse {
-        $headers = $this->rateLimit($apiModerateLimiter);
+        if (!$this->isGranted('show', $message->thread)) {
+            throw new AccessDeniedHttpException();
+        }
 
-        $manager->unban($user);
-        // Response needs to be an array to insert isBanned
-        $response = $this->serializeUser($factory->createDto($user))->jsonSerialize();
-        $response['isBanned'] = $user->isBanned;
+        $headers = $this->rateLimit($apiUpdateLimiter);
+
+        $manager->unreadMessage($message, $this->getUserOrThrow(), flush: true);
 
         return new JsonResponse(
-            $response,
+            $this->serializeMessage($message),
             headers: $headers
         );
     }

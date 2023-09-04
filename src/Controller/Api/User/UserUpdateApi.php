@@ -127,7 +127,7 @@ class UserUpdateApi extends UserBaseApi
         $manager->update($this->getUserOrThrow(), $dto);
 
         return new JsonResponse(
-            $manager->createDto($this->getUserOrThrow())->jsonSerialize(),
+            $manager->createDto($this->getUserOrThrow()),
             headers: $headers
         );
     }

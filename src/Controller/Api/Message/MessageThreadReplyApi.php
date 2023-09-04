@@ -2,30 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\User;
+namespace App\Controller\Api\Message;
 
-use App\DTO\ClientConsentsRequestDto;
-use App\DTO\ClientConsentsResponseDto;
-use App\Entity\OAuth2UserConsent;
-use App\Factory\ClientConsentsFactory;
+use App\Controller\Traits\PrivateContentTrait;
+use App\DTO\MessageDto;
+use App\DTO\MessageThreadResponseDto;
+use App\Entity\MessageThread;
+use App\Service\MessageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class UserUpdateOAuthConsentsApi extends UserBaseApi
+class MessageThreadReplyApi extends MessageBaseApi
 {
-    public const PER_PAGE = 15;
+    use PrivateContentTrait;
 
     #[OA\Response(
-        response: 200,
-        description: 'Updates the consent',
-        content: new Model(type: ClientConsentsResponseDto::class),
+        response: 201,
+        description: 'Message reply added',
+        content: new Model(type: MessageThreadResponseDto::class),
         headers: [
             new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
             new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
@@ -34,7 +35,7 @@ class UserUpdateOAuthConsentsApi extends UserBaseApi
     )]
     #[OA\Response(
         response: 400,
-        description: 'The request was invalid',
+        description: 'The request body was invalid',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\BadRequestErrorSchema::class))
     )]
     #[OA\Response(
@@ -44,12 +45,12 @@ class UserUpdateOAuthConsentsApi extends UserBaseApi
     )]
     #[OA\Response(
         response: 403,
-        description: 'Either you do not have permission to edit this consent, or you attempted to add additional consents not already granted',
+        description: 'You are not permitted to message in thread',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\ForbiddenErrorSchema::class))
     )]
     #[OA\Response(
         response: 404,
-        description: 'Consent not found',
+        description: 'User not found',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\NotFoundErrorSchema::class))
     )]
     #[OA\Response(
@@ -63,50 +64,43 @@ class UserUpdateOAuthConsentsApi extends UserBaseApi
         ]
     )]
     #[OA\Parameter(
-        name: 'consent_id',
-        description: 'Client consent to update',
+        name: 'thread_id',
         in: 'path',
+        description: 'Thread being replied to',
         schema: new OA\Schema(type: 'integer')
     )]
-    #[OA\RequestBody(content: new Model(type: ClientConsentsRequestDto::class))]
-    #[OA\Tag(name: 'oauth')]
-    #[Security(name: 'oauth2', scopes: ['user:oauth_clients:edit'])]
-    #[IsGranted('ROLE_OAUTH2_USER:OAUTH_CLIENTS:EDIT')]
-    #[IsGranted('edit', subject: 'consent')]
-    /**
-     * This API can be used to remove scopes from an oauth client.
-     *
-     * The API cannot, however, add extra scopes the user has not consented to. That's what the OAuth flow is for ;)
-     * This endpoint will not revoke any tokens that currently exist with the given scopes, those tokens will need to be revoked elsewhere.
-     */
+    #[OA\Parameter(
+        name: 'd',
+        in: 'query',
+        description: 'Number of replies returned',
+        schema: new OA\Schema(type: 'integer', default: self::REPLY_DEPTH, minimum: self::MIN_REPLY_DEPTH, maximum: self::MAX_REPLY_DEPTH)
+    )]
+    #[OA\RequestBody(content: new Model(type: MessageDto::class))]
+    #[OA\Tag(name: 'message')]
+    #[Security(name: 'oauth2', scopes: ['user:message:create'])]
+    #[IsGranted('ROLE_OAUTH2_USER:MESSAGE:CREATE')]
+    #[IsGranted('show', subject: 'thread', statusCode: 403)]
     public function __invoke(
-        #[MapEntity(id: 'consent_id')]
-        OAuth2UserConsent $consent,
-        ClientConsentsFactory $factory,
-        RateLimiterFactory $apiReadLimiter,
+        #[MapEntity(id: 'thread_id')]
+        MessageThread $thread,
+        MessageManager $manager,
+        ValidatorInterface $validator,
+        RateLimiterFactory $apiMessageLimiter
     ): JsonResponse {
-        $headers = $this->rateLimit($apiReadLimiter);
+        $headers = $this->rateLimit($apiMessageLimiter);
 
-        $request = $this->request->getCurrentRequest();
-        /** @var ClientConsentsRequestDto $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), ClientConsentsRequestDto::class, 'json');
+        $dto = $this->deserializeMessage();
 
-        $errors = $this->validator->validate($dto);
-        if (0 < count($errors)) {
+        $errors = $validator->validate($dto);
+        if (count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 
-        if (array_intersect($dto->scopes, $consent->getScopes()) != $dto->scopes) {
-            // $dto->scopesGranted is not a subset of the current scopes
-            // The client is attempting to request more scopes than it currently has
-            throw new AccessDeniedHttpException('An API client cannot add scopes with this API, only remove them.');
-        }
-
-        $consent->setScopes($dto->scopes);
-        $this->entityManager->flush();
+        $manager->toMessage($dto, $thread, $this->getUserOrThrow());
 
         return new JsonResponse(
-            $factory->createDto($consent),
+            $this->serializeMessageThread($thread),
+            status: 201,
             headers: $headers
         );
     }

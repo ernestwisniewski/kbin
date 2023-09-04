@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Controller\Api\User\Admin;
 
 use App\Repository\UserRepository;
 use App\Service\UserManager;
-use App\Tests\Functional\Controller\Api\User\UserRetrieveApiTest;
 use App\Tests\WebTestCase;
 
 class UserDeleteApiTest extends WebTestCase
@@ -59,7 +58,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
 
         $repository = $this->getService(UserRepository::class);
         $deletedUser = $repository->find($deletedUser->getId());
@@ -110,7 +109,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $jsonData = self::getJsonResponse($client);
 
-        self::assertArrayKeysMatch(UserRetrieveApiTest::USER_RESPONSE_KEYS, $jsonData);
+        self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData);
 
         $repository = $this->getService(UserRepository::class);
         $deletedUser = $repository->find($deletedUser->getId());

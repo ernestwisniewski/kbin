@@ -79,7 +79,8 @@ class UserVerifyApi extends UserBaseApi
         $manager->persist($user);
         $manager->flush();
 
-        $response = $this->serializeUser($factory->createDto($user));
+        // Response needs to be an array to insert isVerified
+        $response = $this->serializeUser($factory->createDto($user))->jsonSerialize();
         $response['isVerified'] = $user->isVerified;
 
         return new JsonResponse(

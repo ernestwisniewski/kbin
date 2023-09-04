@@ -78,7 +78,7 @@ class UserRetrieveOAuthConsentsApi extends UserBaseApi
         $headers = $this->rateLimit($apiReadLimiter);
 
         return new JsonResponse(
-            $factory->createDto($consent)->jsonSerialize(),
+            $factory->createDto($consent),
             headers: $headers
         );
     }
@@ -172,7 +172,7 @@ class UserRetrieveOAuthConsentsApi extends UserBaseApi
         $dtos = [];
         foreach ($pagerfanta->getCurrentPageResults() as $consent) {
             assert($consent instanceof OAuth2UserConsent);
-            array_push($dtos, $factory->createDto($consent)->jsonSerialize());
+            array_push($dtos, $factory->createDto($consent));
         }
 
         return new JsonResponse(

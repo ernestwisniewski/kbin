@@ -6,6 +6,7 @@ use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
+use App\DTO\MessageDto;
 use App\DTO\OAuth2ClientDto;
 use App\DTO\PostCommentDto;
 use App\DTO\PostDto;
@@ -16,6 +17,8 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Image;
 use App\Entity\Magazine;
+use App\Entity\Message;
+use App\Entity\MessageThread;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
@@ -23,6 +26,7 @@ use App\Service\EntryCommentManager;
 use App\Service\EntryManager;
 use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
+use App\Service\MessageManager;
 use App\Service\PostCommentManager;
 use App\Service\PostManager;
 use App\Service\UserManager;
@@ -102,6 +106,24 @@ trait FactoryTrait
         $this->users->add($user);
 
         return $user;
+    }
+
+    public function createMessage(User $to, User $from, string $content): Message
+    {
+        $thread = $this->createMessageThread($to, $from, $content);
+        /** @var Message $message */
+        $message = $thread->messages->get(0);
+
+        return $message;
+    }
+
+    public function createMessageThread(User $to, User $from, string $content): MessageThread
+    {
+        $messageManager = $this->getService(MessageManager::class);
+        $dto = new MessageDto();
+        $dto->body = $content;
+
+        return $messageManager->toThread($dto, $from, $to);
     }
 
     public static function createOAuth2AuthCodeClient(): void

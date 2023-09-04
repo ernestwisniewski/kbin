@@ -9,7 +9,9 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method MessageThread|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,12 +22,14 @@ use Pagerfanta\Pagerfanta;
  */
 class MessageThreadRepository extends ServiceEntityRepository
 {
+    public const PER_PAGE = 25;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, MessageThread::class);
     }
 
-    public function findUserMessages(?User $user, $page)
+    public function findUserMessages(?User $user, int $page, int $perPage = self::PER_PAGE)
     {
         $qb = $this->createQueryBuilder('mt')
             ->where(':user MEMBER OF mt.participants')
@@ -33,8 +37,12 @@ class MessageThreadRepository extends ServiceEntityRepository
             ->setParameter(':user', $user);
 
         $pager = new Pagerfanta(new QueryAdapter($qb));
-        $pager->setMaxPerPage(25);
-        $pager->setCurrentPage($page);
+        try {
+            $pager->setMaxPerPage($perPage);
+            $pager->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
 
         return $pager;
     }
