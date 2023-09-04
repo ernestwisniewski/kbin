@@ -7,7 +7,11 @@
             <button type="submit"
                     class="{{ html_classes('btn btn__secondary', {'active': is_user_followed(user)}) }}"
                     data-action="subs#send">
-                {{ is_user_followed(user) ? 'unfollow'|trans : 'follow'|trans }}
+                {% if is_user_followed(user) %}
+                    <i class="fa-sharp fa-solid fa-folder-minus"></i> <span>{{ 'unfollow'|trans }}</span>
+                {% else %}
+                    <i class="fa-sharp fa-solid fa-folder-plus"></i> <span>{{ 'follow'|trans }}</span>
+                {% endif %}
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
         </form>
@@ -17,7 +21,11 @@
             <button type="submit"
                     class="{{ html_classes('btn btn__secondary', {'active danger': is_user_blocked(user)}) }}"
                     data-action="subs#send">
-                <i class="fa-solid fa-ban"></i>
+                {% if is_user_blocked(user) %}
+                    <i class="fa-solid fa-ban"></i> <span>{{ 'unblock'|trans }}</span>
+                {% else %}
+                    <i class="fa-solid fa-ban"></i> <span>{{ 'block'|trans }}</span>
+                {% endif %}
             </button>
             <input type="hidden" name="token" value="{{ csrf_token('block') }}">
         </form>
