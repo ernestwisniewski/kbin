@@ -54,6 +54,7 @@ class UserStatsController extends AbstractController
                 'user' => $this->getUserOrThrow(),
                 'period' => $statsPeriod,
                 'chart' => $results,
+                'withFederated' => false,
             ]
         );
     }
