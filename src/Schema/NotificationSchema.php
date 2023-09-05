@@ -6,6 +6,7 @@ namespace App\Schema;
 
 use App\DTO\MagazineBanResponseDto;
 use App\Entity\Notification;
+use App\Repository\NotificationRepository;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
@@ -40,7 +41,7 @@ class NotificationSchema
         ]
     )]
     public string $type = 'entry_created_notification';
-    #[OA\Property(description: 'The notification\'s status', enum: Notification::STATUS_OPTIONS)]
+    #[OA\Property(description: 'The notification\'s status', enum: NotificationRepository::STATUS_OPTIONS)]
     public string $status = Notification::STATUS_NEW;
     #[OA\Property(type: 'object', oneOf: [
         new OA\Schema(ref: '#/components/schemas/EntryResponseDto'),
