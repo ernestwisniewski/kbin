@@ -16,6 +16,11 @@ use App\Entity\PostReport;
 use App\Entity\Report;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Exception\NotValidCurrentPageException;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method Report|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,6 +30,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ReportRepository extends ServiceEntityRepository
 {
+    public const PER_PAGE = 20;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Report::class);
@@ -126,5 +133,35 @@ class ReportRepository extends ServiceEntityRepository
             ->setParameter('comment', $comment)
             ->setParameter('status', Report::STATUS_PENDING)
             ->getOneOrNullResult();
+    }
+
+    public function findAllPaginated(int $page = 1, string $status = null): PagerfantaInterface
+    {
+        $dql = 'SELECT r FROM '.Report::class.' r';
+
+        if ($status) {
+            $dql .= ' WHERE r.status = :status';
+        }
+
+        $dql .= ' ORDER BY r.weight DESC, r.createdAt DESC';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        if ($status) {
+            $query->setParameter('status', $status);
+        }
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter($query)
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
     }
 }

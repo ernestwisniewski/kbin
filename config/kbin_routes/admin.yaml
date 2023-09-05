@@ -4,6 +4,12 @@ admin_users:
   path: /admin/users/{withFederated}
   methods: [ GET ]
 
+admin_reports:
+  controller: App\Controller\Admin\AdminReportController
+  defaults: { status: null }
+  path: /admin/reports/{status}
+  methods: [ GET ]
+
 admin_settings:
   controller: App\Controller\Admin\AdminSettingsController
   path: /admin/settings

@@ -31,7 +31,8 @@ magazine_panel_moderator_purge:
 
 magazine_panel_reports:
   controller: App\Controller\Magazine\Panel\MagazineReportController::reports
-  path: /m/{name}/panel/reports
+  path: /m/{name}/panel/reports/{status}
+  defaults: { status: null }
   methods: [ GET ]
 
 magazine_panel_report_approve:

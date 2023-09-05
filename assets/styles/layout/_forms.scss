@@ -4,7 +4,7 @@
   padding: .7rem;
   cursor: pointer;
 
-  &__danger{
+  &__danger {
     background: var(--kbin-button-danger-bg);;
     border: var(--kbin-button-danger-border);
     color: var(--kbin-button-danger-text-color) !important;
@@ -45,8 +45,7 @@
     color: var(--kbin-button-secondary-text-color) !important;
 
     &:hover,
-    &:focus-visible
-    {
+    &:focus-visible {
       background: var(--kbin-button-secondary-hover-bg);
       color: var(--kbin-button-secondary-text-hover-color) !important;
     }
@@ -58,8 +57,7 @@
     color: var(--kbin-button-secondary-text-color) !important;
 
     &:hover,
-    &:focus-visible
-    {
+    &:focus-visible {
       background: var(--kbin-button-secondary-hover-bg);
       color: var(--kbin-button-secondary-text-hover-color) !important;
     }
@@ -302,7 +300,6 @@ form {
   }
 
 
-
   &.single.input-active .ts-control input {
     color: var(--kbin-meta-text-color)
     //display: none !important;
@@ -311,7 +308,7 @@ form {
   &.single .ts-control, .ts-dropdown.single {
     border: var(--kbin-input-border);
   }
-  
+
   .ts-dropdown {
     font-size: .85rem;
     line-height: normal;
@@ -326,7 +323,7 @@ form {
     .active {
       color: var(--kbin-meta-text-color);
     }
-    
+
     &.single .active {
       background: var(--kbin-options-bg);
     }
@@ -381,6 +378,7 @@ form {
   display: flex;
   gap: .25rem;
   justify-content: flex-end;
+  align-items: center;
 
   .btn-link i {
     position: relative;
@@ -462,14 +460,14 @@ select {
   max-width: 6.4rem;
 }
 
-markdown-toolbar{
+markdown-toolbar {
 
-  > *{
+  > * {
     @include cursor-pointer;
     @include simple-transition;
 
     &:focus,
-    &:hover{
+    &:hover {
       color: var(--kbin-section-link-hover-color);
     }
   }

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'federation'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-federation{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+        {{ component('report_list', {reports: reports}) }}
+{% endblock %}

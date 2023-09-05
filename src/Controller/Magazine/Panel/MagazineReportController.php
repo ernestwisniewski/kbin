@@ -7,7 +7,6 @@ namespace App\Controller\Magazine\Panel;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Report;
-use App\Factory\ContentManagerFactory;
 use App\Repository\MagazineRepository;
 use App\Service\ReportManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -19,14 +18,15 @@ class MagazineReportController extends AbstractController
 {
     public function __construct(
         private readonly MagazineRepository $repository,
+        private readonly ReportManager $reportManager
     ) {
     }
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function reports(Magazine $magazine, Request $request): Response
+    public function reports(Magazine $magazine, Request $request, ?string $status): Response
     {
-        $reports = $this->repository->findReports($magazine, $this->getPageNb($request));
+        $reports = $this->repository->findReports($magazine, $status, $this->getPageNb($request));
 
         return $this->render(
             'magazine/panel/reports.html.twig',
@@ -44,14 +44,11 @@ class MagazineReportController extends AbstractController
         Magazine $magazine,
         #[MapEntity(id: 'report_id')]
         Report $report,
-        ContentManagerFactory $managerFactory,
         Request $request
     ): Response {
         $this->validateCsrf('report_approve', $request->request->get('token'));
 
-        $manager = $managerFactory->createManager($report->getSubject());
-
-        $manager->delete($this->getUserOrThrow(), $report->getSubject());
+        $this->reportManager->accept($report, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -63,12 +60,11 @@ class MagazineReportController extends AbstractController
         Magazine $magazine,
         #[MapEntity(id: 'report_id')]
         Report $report,
-        ReportManager $manager,
         Request $request
     ): Response {
         $this->validateCsrf('report_decline', $request->request->get('token'));
 
-        $manager->reject($report);
+        $this->reportManager->reject($report, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }

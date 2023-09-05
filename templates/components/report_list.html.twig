@@ -1,0 +1,78 @@
+{%- set REPORT_PENDING = constant('App\\Entity\\Report::STATUS_PENDING') -%}
+{%- set REPORT_APPROVED = constant('App\\Entity\\Report::STATUS_APPROVED') -%}
+{%- set REPORT_REJECTED = constant('App\\Entity\\Report::STATUS_REJECTED') -%}
+
+<div class="pills">
+    <menu>
+        <li>
+            <a href="{{ path(routeName, {name: magazineName}) }}"
+               class="{{ html_classes({'active': not route_param_exists('status')}) }}">
+                {{ 'all'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(routeName, {status: REPORT_PENDING, name: magazineName}) }}"
+               class="{{ html_classes({'active': route_has_param('status', REPORT_PENDING)}) }}">
+                {{ 'pending'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(routeName, {status: REPORT_APPROVED, name: magazineName}) }}"
+               class="{{ html_classes({'active': route_has_param('status', REPORT_APPROVED)}) }}">
+                {{ 'approved'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(routeName, {status: REPORT_REJECTED, name: magazineName}) }}"
+               class="{{ html_classes({'active': route_has_param('status', REPORT_REJECTED)}) }}">
+                {{ 'rejected'|trans }}
+            </a>
+        </li>
+    </menu>
+</div>
+
+{% for report in reports %}
+    <div class="{{ html_classes('section section--small report') }}">
+        <div>
+            <small class="meta">{{ component('user_inline', {user: report.reporting}) }},
+                {{ component('date', {date: report.createdAt}) }}</small>
+        </div>
+        <div>
+            <small class="meta">{% include 'layout/_subject_link.html.twig' with {subject: report.subject} -%}</small>
+        </div>
+        <div>
+            {{ report.reason }}
+        </div>
+        <div class="actions">
+            {% if not app.request.get('status') %}
+                <small class="text-muted">{{ report.status }}</small>
+            {% endif %}
+            {% if report.status is not same as REPORT_REJECTED %}
+                <form method="post"
+                      action="{{ path('magazine_panel_report_reject', {'magazine_name': report.subject.magazine.name, 'report_id': report.id}) }}"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('report_decline') }}">
+                    <button type="submit" class="btn btn__secondary">{{ 'reject'|trans }}</button>
+                </form>
+            {% endif %}
+            {% if report.status is not same as REPORT_APPROVED %}
+                <form method="post"
+                      action="{{ path('magazine_panel_report_approve', {'magazine_name': report.subject.magazine.name, 'report_id': report.id} ) }}"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('report_approve') }}">
+                    <button type="submit" class="btn btn__secondary">{{ 'approve'|trans }}</button>
+                </form>
+            {% endif %}
+            <a href="{{ path('magazine_panel_ban', {'name': report.subject.magazine.name, 'username': report.reported.username}) }}"
+               class="btn btn__secondary">{{ 'ban'|trans }} ({{ report.reported.username|username(true) }})</a>
+        </div>
+    </div>
+{% endfor %}
+{% if(reports.haveToPaginate is defined and reports.haveToPaginate) %}
+    {{ pagerfanta(reports, null, {'pageParameter':'[p]'}) }}
+{% endif %}
+{% if not reports|length %}
+    <aside class="section section--muted">
+        <p>{{ 'empty'|trans }}</p>
+    </aside>
+{% endif %}

@@ -43,6 +43,11 @@ class ContextExtensionRuntime implements RuntimeExtensionInterface
         return $this->requestStack->getCurrentRequest()->get($name) === $needle;
     }
 
+    public function routeParamExists(string $name): bool
+    {
+        return (bool) $this->requestStack->getCurrentRequest()->get($name);
+    }
+
     private function getCurrentRouteName(): string
     {
         return $this->requestStack->getCurrentRequest()->get('_route') ?? 'front';
