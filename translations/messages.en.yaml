@@ -35,6 +35,7 @@ up_votes: Boosts
 down_votes: Reduces
 no_comments: No comments
 created_at: Created
+last_active: Last Active
 owner: Owner
 subscribers: Subscribers
 online: Online

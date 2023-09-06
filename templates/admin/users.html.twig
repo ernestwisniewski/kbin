@@ -29,6 +29,7 @@
                 <td>{{ 'username'|trans }}</td>
                 <td>{{ 'email'|trans }}</td>
                 <td>{{ 'created_at'|trans }}</td>
+                <td>{{ 'last_active'|trans }}</td>
                 <td></td>
             </tr>
             </thead>
@@ -38,6 +39,7 @@
                     <td>{{ component('user_inline', {user: user}) }}</td>
                     <td>{{ user.apId ? '-' : user.email }}</td>
                     <td>{{ component('date', {date: user.createdAt}) }}</td>
+                    <td>{{ component('date', {date: user.lastActive}) }}</td>
                     <td>
                         <button class="btn btn__secondary">{{ (user.isVerified or user.apId) and not user.isBanned ? 'active'|trans : 'inactive'|trans }}</button>
                         <button class="btn btn__secondary">{{ user.apId ? 'federated'|trans : 'local'|trans }}</button>
