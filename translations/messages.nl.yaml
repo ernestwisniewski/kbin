@@ -512,8 +512,9 @@ bot_body_content: "Welkom bij de /kbin Bot! Deze bot speelt een cruciale rol bij
   te volgen en deel te nemen aan sociale interacties zoals liken, delen en reageren
   op threads of berichten."
 password_confirm_header: Bevestig het verzoek om je wachtwoord te wijzigingen.
-your_account_is_not_active: Je account is niet geactiveerd. Controleer uw e-mail en
-  klik op de activeringslink om door te gaan
+your_account_is_not_active: Je account is niet geactiveerd. Controleer uw e-mail voor
+  instructies voor accountactivatie of <a href="%link_target%">vraag een nieuwe e-mail
+  voor accountactivatie aan.</a>
 your_account_has_been_banned: Je account is verbannen
 toolbar.bold: Vetgedrukt
 toolbar.italic: Cursief
@@ -526,3 +527,190 @@ toolbar.strikethrough: Doorhalen
 toolbar.unordered_list: Ongeordende lijst
 toolbar.ordered_list: Geordende lijst
 toolbar.mention: Vermelding
+federation_page_disallowed_description: Instanties waarmee we niet mee gefedereerd
+  zijn
+federated_search_only_loggedin: Federatieve zoekopdracht is beperkt indien niet ingelogd
+request_account_deletion_title: Accountverwijdering
+oauth2.grant.user.notification.read: Lees uw meldingen, inclusief berichtmeldingen.
+request_account_deletion_description: De beheerder krijgt een melding dat u uw account
+  wilt verwijderen.
+oauth2.grant.user.oauth_clients.edit: Bewerk de machtigingen die u aan andere OAuth2-applicaties
+  hebt verleend.
+request_account_deletion_button: Verzoek om Accountverwijdering
+oauth2.grant.user.follow: Volg of ontvolg gebruikers en lees een lijst met gebruikers
+  die u volgt.
+more_from_domain: Meer van domein
+oauth2.grant.user.block: Blokkeer of deblokkeer gebruikers en lees een lijst met gebruikers
+  die u blokkeert.
+resend_account_activation_email_error: Er is een probleem opgetreden bij het indienen
+  van dit verzoek. Mogelijk is er geen account aan dat e-mailadres gekoppeld of is
+  het misschien al geactiveerd.
+resend_account_activation_email_success: Als er een account bestaat dat aan dat e-mailadres
+  is gekoppeld, sturen we een nieuwe activatie-e-mail.
+oauth2.grant.moderate.all: Voer elke moderatieactie uit waarvoor u toestemming heeft
+  om deze uit te voeren in uw gemodereerde tijdschriften.
+resend_account_activation_email_description: Voer het e-mailadres in dat aan uw account
+  is gekoppeld. Wij sturen u nogmaals een activatie-e-mail.
+oauth2.grant.moderate.entry.all: Beheer discussies in uw gemodereerde tijdschriften.
+oauth.consent.grant_permissions: Verleen machtigingen
+oauth2.grant.moderate.entry.pin: Zet discussies vast bovenin uw gemodereerde tijdschriften.
+oauth.consent.app_requesting_permissions: wil namens u de volgende handelingen uitvoeren
+oauth2.grant.moderate.entry.set_adult: Markeer discussies als NSFW in uw gemodereerde
+  tijdschriften.
+oauth.consent.app_has_permissions: kan de volgende acties al uitvoeren
+oauth2.grant.moderate.entry.trash: Verwijder of herstel discussies in uw gemodereerde
+  tijdschriften.
+oauth.consent.to_allow_access: Om deze toegang toe te staan, klikt u hieronder op
+  de knop 'Toestaan'
+oauth2.grant.moderate.entry_comment.change_language: Verander de taal van reacties
+  in discussies in uw gemodereerde tijdschriften.
+oauth.consent.allow: Toestaan
+oauth.consent.deny: Weigeren
+oauth2.grant.moderate.entry_comment.set_adult: Markeer reacties in discussies als
+  NSFW in uw gemodereerde tijdschriften.
+oauth.client_identifier.invalid: Ongeldige OAuth-client-ID!
+oauth.client_not_granted_message_read_permission: Deze app heeft geen toestemming
+  gekregen om jouw berichten te lezen.
+restrict_oauth_clients: Beperk het maken van OAuth2-clients tot Beheerders
+oauth2.grant.domain.all: Abonneer u op domeinen of geblokkeerde domeinen en bekijk
+  de domeinen waarop u zich abonneert of blokkeert bent.
+oauth2.grant.domain.block: Blokkeer of deblokkeer domeinen en bekijk de domeinen die
+  u hebt geblokkeerd.
+oauth2.grant.moderate.post.change_language: Verander de taal van berichten in uw gemodereerde
+  tijdschriften.
+oauth2.grant.moderate.post.set_adult: Markeer berichten als NSFW in uw gemodereerde
+  tijdschriften.
+oauth2.grant.entry.all: Maak, bewerk of verwijder uw discussies en stem, promoot of
+  rapporteer elke discussie.
+oauth2.grant.moderate.post.trash: Verwijder of herstel berichten in uw gemodereerde
+  tijdschriften.
+oauth2.grant.entry.vote: Stem een discussie omhoog, omlaag of boost.
+oauth2.grant.moderate.post_comment.all: Beheer reacties op on berichten in uw gemodereerde
+  tijdschriften.
+oauth2.grant.moderate.post_comment.change_language: Wijzig de taal van reacties op
+  berichten in uw gemodereerde tijdschriften.
+oauth2.grant.entry.report: Rapporteer elke discussie.
+oauth2.grant.moderate.post_comment.set_adult: Markeer reacties op berichten als NSFW
+  in uw gemodereerde tijdschriften.
+oauth2.grant.entry_comment.edit: Bewerk uw bestaande opmerkingen in discussies.
+oauth2.grant.moderate.post_comment.trash: Verwijder of herstel reacties op berichten
+  in uw gemodereerde tijdschriften.
+oauth2.grant.entry_comment.report: Rapporteer elke opmerking in een discussie.
+oauth2.grant.moderate.magazine.ban.all: Beheer verbannen gebruikers in uw gemodereerde
+  tijdschriften.
+oauth2.grant.magazine.all: Abonneer u op tijdschriften of blokkeer ze en bekijk de
+  tijdschriften waarop u geabonneerd of geblokkeerd bent.
+oauth2.grant.magazine.subscribe: Schrijf je in of uit op tijdschriften en bekijk de
+  tijdschriften waarop je geabonneerd bent.
+oauth2.grant.post.all: Maak, bewerk of verwijder uw microblogs en stem, promoot of
+  rapporteer microblogs.
+oauth2.grant.moderate.magazine.ban.delete: Hef de ban van gebruikers op in uw gemodereerde
+  tijdschriften.
+oauth2.grant.post_comment.delete: Verwijder uw bestaande reacties op berichten.
+oauth2.grant.user.all: Lees en bewerk uw profiel, berichten of meldingen; Lees- en
+  bewerk machtigingen die u aan andere apps hebt verleend; andere gebruikers volgen
+  of blokkeren; bekijk lijsten met gebruikers die u volgt of blokkeert.
+oauth2.grant.moderate.magazine_admin.update: Bewerk de regels, beschrijving, NSFW-status
+  of het pictogram van uw eigen tijdschriften.
+oauth2.grant.admin.all: Voer administratieve actie uit op uw instantie.
+oauth2.grant.admin.entry.purge: Verwijder alle discussies volledig uit uw instantie.
+last_active: Laatst actief
+oauth2.grant.moderate.magazine.list: Lees een lijst van uw gemodereerde tijdschriften.
+oauth2.grant.moderate.magazine.reports.all: Beheer rapporten in uw gemodereerde tijdschriften.
+oauth2.grant.moderate.magazine.reports.read: Lees rapporten in uw gemodereerde tijdschriften.
+oauth2.grant.moderate.magazine.reports.action: Accepteer of wijs rapporten af in uw
+  gemodereerde tijdschriften.
+oauth2.grant.moderate.magazine.trash.read: Bekijk weggegooide inhoud in uw gemodereerde
+  tijdschriften.
+oauth2.grant.moderate.magazine_admin.all: Maak, bewerk of verwijder uw eigen tijdschriften.
+oauth2.grant.moderate.magazine_admin.create: Nieuwe tijdschriften maken.
+oauth2.grant.moderate.magazine_admin.delete: Verwijder alle tijdschriften die u bezit.
+oauth2.grant.moderate.magazine_admin.edit_theme: Bewerk de aangepaste CSS van al uw
+  tijdschriften.
+oauth2.grant.moderate.magazine_admin.moderators: Voeg of verwijder moderators op een
+  van uw tijdschriften.
+oauth2.grant.moderate.magazine_admin.badges: Maak of verwijder badges uit uw eigen
+  tijdschriften.
+oauth2.grant.moderate.magazine_admin.tags: Maak of verwijder tags uit uw eigen tijdschriften.
+oauth2.grant.moderate.magazine_admin.stats: Bekijk de inhoud, stem en bekijk statistieken
+  van uw eigen tijdschriften.
+errors.server500.title: 500 Server foutmelding
+errors.server500.description: Sorry! Er is iets fout gegaan aan onze kant. We werken
+  aan een oplossing voor dit probleem. Kom binnenkort graag terug.
+errors.server429.title: 429 Te Veel Verzoeken
+errors.server404.title: 404 Niet Gevonden
+errors.server403.title: 403 Verboden
+email_confirm_button_text: Bevestig uw verzoek tot wachtwoordwijziging
+email_confirm_link_help: Als alternatief kunt u het volgende kopiëren en plakken in
+  uw browser
+email.delete.title: Verzoek om verwijdering van gebruikersaccount
+email.delete.description: De volgende gebruiker heeft verzocht om verwijdering van
+  zijn of haar account
+resend_account_activation_email_question: Inactief account?
+resend_account_activation_email: Stuur de accountactivatie-e-mail opnieuw
+custom_css: Aangepaste CSS
+ignore_magazines_custom_css: Negeer de aangepaste CSS op tijdschriften
+oauth.consent.title: OAuth2-toestemmingsformulier
+block: Blokkeren
+unblock: Deblokkeren
+oauth2.grant.read.general: Lees alle inhoud waartoe u toegang heeft.
+oauth2.grant.write.general: Maak of bewerk uw discussies, berichten of opmerkingen.
+oauth2.grant.delete.general: Verwijder al uw discussies, berichten of opmerkingen.
+oauth2.grant.report.general: Rapporteer discussies, berichten of opmerkingen.
+oauth2.grant.vote.general: Stem omhoog, omlaag of promoot discussies, berichten of
+  opmerkingen.
+oauth2.grant.subscribe.general: Abonneer of volg een tijdschrift, domein of gebruiker
+  en bekijk de tijdschriften, domeinen en gebruikers waarop u zich abonneert.
+oauth2.grant.block.general: Blokkeer of deblokkeer een tijdschrift, domein of gebruiker
+  en bekijk de tijdschriften, domeinen en gebruikers die u hebt geblokkeerd.
+oauth2.grant.domain.subscribe: Schrijf u in of uit op domeinen en bekijk de domeinen
+  waarop u zich abonneert.
+oauth2.grant.entry.create: Maak nieuwe discussies.
+oauth2.grant.entry.edit: Bewerk uw bestaande discussies.
+oauth2.grant.entry.delete: Verwijder uw bestaande discussies.
+oauth2.grant.entry_comment.all: Maak, bewerk of verwijder uw opmerkingen in discussies,
+  en stem, promoot of rapporteer elke opmerking in een discussie.
+oauth2.grant.entry_comment.create: Maak nieuwe opmerkingen in discussies.
+oauth2.grant.entry_comment.delete: Verwijder uw bestaande opmerkingen in discussies.
+oauth2.grant.entry_comment.vote: Stem een reactie in een thread omhoog, omlaag of
+  boost.
+oauth2.grant.magazine.block: Blokkeer of deblokkeer tijdschriften en bekijk de tijdschriften
+  die je hebt geblokkeerd.
+oauth2.grant.post.create: Maak nieuwe berichten.
+oauth2.grant.post.edit: Bewerk uw bestaande berichten.
+oauth2.grant.post.delete: Verwijder uw bestaande berichten.
+oauth2.grant.post.vote: Stem een bericht omhoog, omlaag of boost.
+oauth2.grant.post.report: Rapporteer elk bericht.
+oauth2.grant.post_comment.all: Maak, bewerk of verwijder uw opmerkingen over berichten,
+  en stem, promoot of rapporteer opmerkingen over een bericht.
+oauth2.grant.post_comment.create: Maak nieuwe reacties op berichten.
+oauth2.grant.post_comment.edit: Bewerk uw bestaande reacties op berichten.
+oauth2.grant.post_comment.vote: Stem een reactie op een bericht omhoog, omlaag of
+  boost.
+oauth2.grant.post_comment.report: Rapporteer elke reactie op een bericht.
+oauth2.grant.user.profile.all: Lees en bewerk uw profiel.
+oauth2.grant.user.profile.read: Lees je profiel.
+oauth2.grant.user.profile.edit: Pas je profiel aan.
+oauth2.grant.user.message.all: Lees uw berichten en stuur berichten naar andere gebruikers.
+oauth2.grant.user.message.read: Lees uw berichten.
+oauth2.grant.user.message.create: Stuur berichten naar andere gebruikers.
+oauth2.grant.user.notification.all: Lees en wis uw meldingen.
+oauth2.grant.user.notification.delete: Wis uw meldingen.
+oauth2.grant.user.oauth_clients.all: Lees en bewerk de machtigingen die u aan andere
+  OAuth2-applicaties hebt verleend.
+oauth2.grant.user.oauth_clients.read: Lees de machtigingen die u aan andere OAuth2-applicaties
+  hebt verleend.
+oauth2.grant.moderate.entry.change_language: Verander de taal van de discussies in
+  uw gemodereerde tijdschriften.
+oauth2.grant.moderate.entry_comment.all: Modereer reacties in discussies in uw gemodereerde
+  tijdschriften.
+federation_page_enabled: Federatiepagina ingeschakeld
+federation_page_allowed_description: Bekende instanties waarmee we federeren
+oauth2.grant.moderate.entry_comment.trash: Verwijder of herstel reacties in discussies
+  in uw gemodereerde tijdschriften.
+oauth2.grant.moderate.post.all: Beheer berichten in uw gemodereerde tijdsschriften.
+oauth2.grant.moderate.magazine.all: Beheer verbannen, rapporteer en bekijk verwijderde
+  items in uw gemodereerde tijdschriften.
+oauth2.grant.moderate.magazine.ban.read: Bekijk verbannen gebruikers in uw gemodereerde
+  tijdschriften.
+oauth2.grant.moderate.magazine.ban.create: Verban gebruikers in uw gemodereerde tijdschriften.
