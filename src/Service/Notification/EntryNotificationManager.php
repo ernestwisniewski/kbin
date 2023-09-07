@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\EntryCreatedNotification;
@@ -21,6 +20,7 @@ use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
+use App\Utils\IriGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -35,7 +35,6 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private readonly NotificationRepository $notificationRepository,
         private readonly MagazineSubscriptionRepository $magazineRepository,
         private readonly MentionManager $mentionManager,
-        private readonly IriConverterInterface $iriConverter,
         private readonly MagazineFactory $magazineFactory,
         private readonly HubInterface $publisher,
         private readonly Environment $twig,
@@ -87,9 +86,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         }
 
         try {
-            $iri = $this->iriConverter->getIriFromResource(
-                $this->magazineFactory->createDto($notification->entry->magazine)
-            );
+            $iri = IriGenerator::getIriFromResource($notification->entry->magazine);
 
             $update = new Update(
                 ['pub', $iri],

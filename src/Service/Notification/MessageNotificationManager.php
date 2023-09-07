@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\User;
@@ -19,7 +18,6 @@ class MessageNotificationManager
 
     public function __construct(
         private readonly MagazineSubscriptionRepository $repository,
-        private readonly IriConverterInterface $iriConverter,
         private readonly MagazineFactory $magazineFactory,
         private readonly HubInterface $publisher,
         private readonly EntityManagerInterface $entityManager

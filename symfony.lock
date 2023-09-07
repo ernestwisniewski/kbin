@@ -1,18 +1,4 @@
 {
-    "api-platform/core": {
-        "version": "2.6",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.5",
-            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
-        },
-        "files": [
-            "config/packages/api_platform.yaml",
-            "config/routes/api_platform.yaml",
-            "src/Entity/.gitignore"
-        ]
-    },
     "babdev/pagerfanta-bundle": {
         "version": "v2.10.1"
     },
@@ -243,18 +229,6 @@
             "config/routes/league_oauth2_server.yaml"
         ]
     },
-    "lexik/jwt-authentication-bundle": {
-        "version": "2.19",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.5",
-            "ref": "e9481b233a11ef7e15fe055a2b21fd3ac1aa2bb7"
-        },
-        "files": [
-            "config/packages/lexik_jwt_authentication.yaml"
-        ]
-    },
     "liip/imagine-bundle": {
         "version": "2.11",
         "recipe": {
@@ -282,9 +256,6 @@
     },
     "monolog/monolog": {
         "version": "2.3.1"
-    },
-    "namshi/jose": {
-        "version": "7.2.3"
     },
     "neitanod/forceutf8": {
         "version": "v2.0.4"
@@ -651,9 +622,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.23.0"
     },
-    "symfony/polyfill-php56": {
-        "version": "v1.20.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.23.0"
     },
@@ -897,8 +865,5 @@
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
-    },
-    "willdurand/negotiation": {
-        "version": "3.0.0"
     }
 }

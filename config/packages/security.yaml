@@ -89,7 +89,7 @@ security:
             'ROLE_OAUTH2_USER:BLOCK'
         ]
         ROLE_OAUTH2_DOMAIN: [
-            'ROLE_OAUTH2_DOMAIN:SUBSCRIBE', 
+            'ROLE_OAUTH2_DOMAIN:SUBSCRIBE',
             'ROLE_OAUTH2_DOMAIN:BLOCK'
         ]
         ROLE_OAUTH2_ENTRY: [

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Notification;
 
-use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentCreatedNotification;
@@ -22,6 +21,7 @@ use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
+use App\Utils\IriGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
@@ -36,7 +36,6 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private readonly MentionManager $mentionManager,
         private readonly NotificationRepository $notificationRepository,
         private readonly MagazineSubscriptionRepository $magazineRepository,
-        private readonly IriConverterInterface $iriConverter,
         private readonly MagazineFactory $magazineFactory,
         private readonly UserFactory $userFactory,
         private readonly HubInterface $publisher,
@@ -116,7 +115,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         try {
-            $iri = $this->iriConverter->getIriFromResource($this->userFactory->createDto($notification->user));
+            $iri = IriGenerator::getIriFromResource($notification->user);
 
             $update = new Update(
                 $iri,
@@ -195,9 +194,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         }
 
         try {
-            $iri = $this->iriConverter->getIriFromResource(
-                $this->magazineFactory->createDto($notification->getComment()->magazine)
-            );
+            $iri = IriGenerator::getIriFromResource($notification->getComment()->magazine);
 
             $update = new Update(
                 ['pub', $iri],

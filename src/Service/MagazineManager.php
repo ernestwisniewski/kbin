@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
 use App\DTO\MagazineThemeDto;
@@ -26,6 +25,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Webmozart\Assert\Assert;
 
@@ -62,7 +62,7 @@ class MagazineManager
             $magazine->apProfileId = $this->urlGenerator->generate(
                 'ap_magazine',
                 ['name' => $magazine->name],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
         }
 

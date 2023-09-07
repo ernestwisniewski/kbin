@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Message\ActivityPub\Outbox\UpdateMessage;
 use App\Repository\MagazineRepository;
@@ -15,6 +14,7 @@ use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
@@ -28,7 +28,7 @@ class UpdateHandler
         private readonly EntityManagerInterface $entityManager,
         private readonly ActivityPubManager $activityPubManager,
         private readonly SettingsManager $settingsManager,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -44,7 +44,7 @@ class UpdateHandler
         $activity['id'] = $this->urlGenerator->generate(
             'ap_object',
             ['id' => Uuid::v4()->toRfc4122()],
-            \Symfony\Component\Routing\Generator\UrlGeneratorInterface::ABSOLUTE_URL
+            UrlGeneratorInterface::ABSOLUTE_URL,
         );
         $activity['type'] = 'Update';
         $activity['object']['updated'] = $entity->editedAt

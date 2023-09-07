@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\Entry;
 use App\Factory\EntryFactory;
 use App\PageView\EntryPageView;
@@ -12,6 +11,7 @@ use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
+use App\Utils\IriGenerator;
 use FeedIo\Feed;
 use FeedIo\Feed\Item;
 use FeedIo\Feed\Node\Category;
@@ -29,7 +29,6 @@ class FeedManager
         private readonly UserRepository $userRepository,
         private readonly RouterInterface $router,
         private readonly EntryFactory $entryFactory,
-        private readonly IriConverterInterface $iriConverter,
     ) {
     }
 
@@ -109,7 +108,7 @@ class FeedManager
             $item->setLastModified(\DateTime::createFromImmutable($entry->createdAt));
             $item->setLink($link);
             $item->set('comments', $link.'#comments');
-            $item->setPublicId($this->iriConverter->getIriFromResource($this->entryFactory->createDto($entry)));
+            $item->setPublicId(IriGenerator::getIriFromResource($entry));
             $item->setAuthor((new Item\Author())->setName($entry->user->username));
 
             foreach ($entry->getTags() as $tag) {

@@ -34,7 +34,7 @@
                 id="mercure-url">{{- 'https://' ~ kbin_domain() ~ '/.well-known/mercure' }}</script>
         {% endif %}
         <script>
-            window.KBIN_USER = "{{ app.user ? app.user.username : null }}";
+            window.KBIN_USER = "{{ app.user ? app.user.id : null }}";
             window.KBIN_MAGAZINE = "{{ magazine is defined and magazine ? magazine.id : null }}"
             window.KBIN_ENTRY_ID = "{{ entry is defined and entry ? entry.id : null }}"
             window.KBIN_POST_ID = "{{ post is defined and post ? post.id : null }}"

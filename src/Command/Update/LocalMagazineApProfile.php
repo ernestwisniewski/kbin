@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command\Update;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
 use App\Repository\MagazineRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[AsCommand(
     name: 'kbin:update:magazines:ap_profile',
@@ -38,7 +38,7 @@ class LocalMagazineApProfile extends Command
             $magazine->apProfileId = $this->urlGenerator->generate(
                 'ap_magazine',
                 ['name' => $magazine->name],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
             $io->info($magazine->name);
             $this->repository->save($magazine, true);

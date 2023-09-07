@@ -56,7 +56,7 @@ export default class extends Controller {
         ]
 
         if (window.KBIN_USER) {
-            topics.push(`/api/user/${window.KBIN_USER}`);
+            topics.push(`/api/users/${window.KBIN_USER}`);
             pub = true;
         }
 

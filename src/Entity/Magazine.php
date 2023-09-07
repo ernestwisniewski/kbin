@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActorInterface;
+use App\Entity\Contracts\ApiResourceInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
@@ -29,7 +30,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Index(columns: ['visibility'], name: 'magazine_visibility_idx')]
 #[Index(columns: ['is_adult'], name: 'magazine_adult_idx')]
 #[UniqueConstraint(name: 'magazine_name_idx', columns: ['name'])]
-class Magazine implements VisibilityInterface, ActivityPubActorInterface
+class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiResourceInterface
 {
     use ActivityPubActorTrait;
     use VisibilityTrait;

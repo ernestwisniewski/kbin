@@ -7,7 +7,7 @@ namespace App\Entity\Contracts;
 use App\Entity\Magazine;
 use App\Entity\User;
 
-interface ContentInterface
+interface ContentInterface extends ApiResourceInterface
 {
     public function getMagazine(): ?Magazine;
 
