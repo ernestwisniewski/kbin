@@ -20,21 +20,21 @@ class AuthorizationCodeSubscriber implements EventSubscriberInterface
     private Security $security;
     private UrlGeneratorInterface $urlGenerator;
     private RequestStack $requestStack;
-    private $firewallName;
 
     public function __construct(Security $security, UrlGeneratorInterface $urlGenerator, RequestStack $requestStack)
     {
         $this->security = $security;
         $this->urlGenerator = $urlGenerator;
         $this->requestStack = $requestStack;
-        $this->firewallName = $security->getFirewallConfig($requestStack->getCurrentRequest())->getName();
     }
 
     public function onLeagueOauth2ServerEventAuthorizationRequestResolve(AuthorizationRequestResolveEvent $event): void
     {
         $request = $this->requestStack->getCurrentRequest();
         $user = $this->security->getUser();
-        $this->saveTargetPath($request->getSession(), $this->firewallName, $request->getUri());
+        $firewallName = $this->security->getFirewallConfig($request)->getName();
+
+        $this->saveTargetPath($request->getSession(), $firewallName, $request->getUri());
         $response = new RedirectResponse($this->urlGenerator->generate('app_login'), 307);
         if ($user instanceof UserInterface) {
             if (null !== $request->getSession()->get('consent_granted')) {

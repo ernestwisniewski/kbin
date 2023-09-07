@@ -17,7 +17,6 @@ use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
 #[AsEntityAutocompleteField]
 class LanguageType extends AbstractType
 {
-    private string $locale;
     private string $priorityLanguage;
     private array $preferredLanguages;
 
@@ -25,7 +24,6 @@ class LanguageType extends AbstractType
         private readonly Security $security,
         private readonly RequestStack $requestStack,
     ) {
-        $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -37,7 +35,7 @@ class LanguageType extends AbstractType
                     $this->priorityLanguage = $options['priorityLanguage'];
 
                     if (0 === count($this->preferredLanguages)) {
-                        $this->preferredLanguages = [$this->locale];
+                        $this->preferredLanguages = [$this->requestStack->getCurrentRequest()?->getLocale()];
                     }
 
                     return ChoiceList::loader($this, new CallbackChoiceLoader(function () {

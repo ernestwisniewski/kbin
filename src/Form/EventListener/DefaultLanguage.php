@@ -11,11 +11,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class DefaultLanguage implements EventSubscriberInterface
 {
-    private $locale = '';
-
-    public function __construct(RequestStack $requestStack)
+    public function __construct(private readonly RequestStack $requestStack)
     {
-        $this->locale = $requestStack->getCurrentRequest()->getLocale();
     }
 
     public static function getSubscribedEvents(): array
@@ -28,7 +25,10 @@ final class DefaultLanguage implements EventSubscriberInterface
         $dto = $event->getData();
 
         if (null !== $dto && null === $dto->lang) {
-            $dto->lang = $event->getForm()->getConfig()->getOption('parentLanguage', $this->locale);
+            $dto->lang = $event->getForm()->getConfig()->getOption(
+                'parentLanguage',
+                $this->requestStack->getCurrentRequest()?->getLocale(),
+            );
 
             $event->setData($dto);
         }
