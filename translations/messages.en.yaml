@@ -721,3 +721,5 @@ oauth2.grant.admin.oauth_clients.read: View the OAuth2 clients that exist on you
   instance, and their usage stats.
 oauth2.grant.admin.oauth_clients.revoke: Revoke access to OAuth2 clients on your instance.
 last_active: Last Active
+flash_post_pin_success: The post has been successfully pinned.
+flash_post_unpin_success: The post has been successfully unpinned.

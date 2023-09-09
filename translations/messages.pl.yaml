@@ -417,7 +417,7 @@ Password is invalid: Hasło jest nieprawidłowe.
 Your account has been banned: Twoje konto zostało zbanowane.
 classic_view: Widok klasyczny
 copy_url_to_fediverse: Kopiuj link (Fediwersum)
-edit_comment: Edytuj komentarz
+edit_comment: Zapisz zmiany
 show_users_avatars: Pokaż avatary użytkowników
 restored_thread_by: przywrócił treść utworzoną przez
 read_all: Przeczytaj wszystkie
@@ -520,3 +520,8 @@ toolbar.ordered_list: Lista numerowana
 toolbar.mention: Wzmianka
 toolbar.strikethrough: Przekreślenie
 more_from_domain: Więcej z domeny
+errors.server404.title: 404 Nie znaleziono
+federation_page_enabled: Strona federacji włączona
+request_account_deletion_title: Usuwanie konta
+flash_post_unpin_success: Wpis został odpięty.
+flash_post_pin_success: Wpis został przypięty.

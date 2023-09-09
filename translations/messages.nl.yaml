@@ -714,3 +714,40 @@ oauth2.grant.moderate.magazine.all: Beheer verbannen, rapporteer en bekijk verwi
 oauth2.grant.moderate.magazine.ban.read: Bekijk verbannen gebruikers in uw gemodereerde
   tijdschriften.
 oauth2.grant.moderate.magazine.ban.create: Verban gebruikers in uw gemodereerde tijdschriften.
+flash_post_pin_success: Het bericht is succesvol vastgezet.
+flash_post_unpin_success: Het bericht is succesvol losgemaakt.
+oauth2.grant.admin.entry_comment.purge: Verwijder alle reacties in een gesprek volledig
+  uit jouw instantie.
+oauth2.grant.admin.magazine.all: Verplaats gesprekken tussen tijdschriften of verwijder
+  ze volledig op jouw instantie.
+oauth2.grant.admin.post.purge: Verwijder elk bericht volledig uit jouw instantie.
+oauth2.grant.admin.post_comment.purge: Verwijder alle reacties op een bericht volledig
+  uit jouw instantie.
+oauth2.grant.admin.magazine.move_entry: Verplaats gesprekken tussen tijdschriften
+  op jouw instantie.
+oauth2.grant.admin.magazine.purge: Verwijder tijdschriften op jouw instantie volledig.
+oauth2.grant.admin.user.all: Gebruikers op jouw instantie verbannen, verifiëren of
+  volledig verwijderen.
+oauth2.grant.admin.user.ban: Gebruikers van jouw instantie verbannen of de verbanning
+  opheffen.
+oauth2.grant.admin.user.verify: Verifieer gebruikers op jouw instantie.
+oauth2.grant.admin.user.delete: Verwijder gebruikers uit jouw instantie.
+oauth2.grant.admin.user.purge: Verwijder gebruikers volledig uit jouw instantie.
+oauth2.grant.admin.instance.all: Bekijk en update instantie instellingen of informatie.
+oauth2.grant.admin.instance.stats: Bekijk de statistieken van jouw instantie.
+oauth2.grant.admin.instance.settings.all: Bekijk of update de instellingen op jouw
+  instantie.
+oauth2.grant.admin.instance.settings.read: Bekijk de instellingen op jouw instantie.
+oauth2.grant.admin.instance.settings.edit: Update de instellingen op jouw instantie.
+oauth2.grant.admin.instance.information.edit: "Werk de pagina's: Over, Veelgestelde
+  vragen, Contact, Servicevoorwaarden en Privacybeleid bij op jouw instantie."
+oauth2.grant.admin.federation.all: Bekijk en update momenteel gedefedereerde instanties.
+oauth2.grant.admin.federation.read: Bekijk de lijst met de-federatieve instanties.
+oauth2.grant.admin.federation.update: Voeg instanties toe aan of verwijder ze uit
+  de lijst met de-federatieve instanties.
+oauth2.grant.admin.oauth_clients.all: Bekijk of trek OAuth2-clients in die op jouw
+  instanties bestaan.
+oauth2.grant.admin.oauth_clients.read: Bekijk de OAuth2-clients die op jouw instantie
+  aanwezig zijn, en hun gebruiksstatistieken.
+oauth2.grant.admin.oauth_clients.revoke: Trek de toegang tot OAuth2-clients op jouw
+  instantie in.
