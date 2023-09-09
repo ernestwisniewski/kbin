@@ -51,9 +51,9 @@ class PostManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(PostDto $dto, User $user, $limiter = true): Post
+    public function create(PostDto $dto, User $user, $rateLimit = true): Post
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->postLimiter->create($dto->ip);
             if ($limiter && false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -131,7 +131,7 @@ class PostManager implements ContentManagerInterface
         }
 
         if ($post->isAuthor($user) && $post->comments->isEmpty()) {
-            $this->purge($post);
+            $this->purge($user, $post);
 
             return;
         }
@@ -145,15 +145,26 @@ class PostManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
     }
 
-    public function purge(Post $post): void
+    public function trash(User $user, Post $post): void
     {
-        $this->dispatcher->dispatch(new PostBeforePurgeEvent($post));
+        $post->trash();
+
+        $this->dispatcher->dispatch(new PostBeforeDeletedEvent($post, $user));
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostDeletedEvent($post, $user));
+    }
+
+    public function purge(User $user, Post $post): void
+    {
+        $this->dispatcher->dispatch(new PostBeforePurgeEvent($post, $user));
 
         $image = $post->image?->filePath;
 
         $sort = new Criteria(null, ['createdAt' => Criteria::DESC]);
         foreach ($post->comments->matching($sort) as $comment) {
-            $this->postCommentManager->purge($comment);
+            $this->postCommentManager->purge($user, $comment);
         }
 
         $this->entityManager->remove($post);

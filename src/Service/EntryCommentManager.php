@@ -126,7 +126,7 @@ class EntryCommentManager implements ContentManagerInterface
         }
 
         if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
-            $this->purge($comment, $user);
+            $this->purge($user, $comment);
 
             return;
         }
@@ -140,7 +140,7 @@ class EntryCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
     }
 
-    public function purge(EntryComment $comment, User $user): void
+    public function purge(User $user, EntryComment $comment): void
     {
         $this->dispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment, $user));
 

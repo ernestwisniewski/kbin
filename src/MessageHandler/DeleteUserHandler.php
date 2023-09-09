@@ -265,11 +265,7 @@ class DeleteUserHandler
 
         foreach ($comments as $comment) {
             $retry = true;
-            if ('delete' === $this->op) {
-                $this->entryCommentManager->{$this->op}($this->user, $comment);
-            } else {
-                $this->entryCommentManager->{$this->op}($comment);
-            }
+            $this->entryCommentManager->{$this->op}($this->user, $comment);
         }
 
         return $retry;
@@ -297,11 +293,7 @@ class DeleteUserHandler
 
         foreach ($entries as $entry) {
             $retry = true;
-            if ('delete' === $this->op) {
-                $this->entryManager->{$this->op}($this->user, $entry);
-            } else {
-                $this->entryManager->{$this->op}($entry);
-            }
+            $this->entryManager->{$this->op}($this->user, $entry);
         }
 
         return $retry;
@@ -329,11 +321,7 @@ class DeleteUserHandler
 
         foreach ($comments as $comment) {
             $retry = true;
-            if ('delete' === $this->op) {
-                $this->postCommentManager->{$this->op}($this->user, $comment);
-            } else {
-                $this->postCommentManager->{$this->op}($comment);
-            }
+            $this->postCommentManager->{$this->op}($this->user, $comment);
         }
 
         return $retry;
@@ -361,11 +349,7 @@ class DeleteUserHandler
 
         foreach ($posts as $post) {
             $retry = true;
-            if ('delete' === $this->op) {
-                $this->postManager->{$this->op}($this->user, $post);
-            } else {
-                $this->postManager->{$this->op}($post);
-            }
+            $this->postManager->{$this->op}($this->user, $post);
         }
 
         return $retry;

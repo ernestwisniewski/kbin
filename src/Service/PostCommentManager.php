@@ -41,9 +41,9 @@ class PostCommentManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(PostCommentDto $dto, User $user, $limiter = true): PostComment
+    public function create(PostCommentDto $dto, User $user, $rateLimit = true): PostComment
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->postCommentLimiter->create($dto->ip);
             if ($limiter && false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -126,7 +126,7 @@ class PostCommentManager implements ContentManagerInterface
         }
 
         if ($comment->isAuthor($user) && $comment->children->isEmpty()) {
-            $this->purge($comment);
+            $this->purge($user, $comment);
 
             return;
         }
@@ -140,9 +140,20 @@ class PostCommentManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
     }
 
-    public function purge(PostComment $comment): void
+    public function trash(User $user, PostComment $comment): void
     {
-        $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment));
+        $comment->trash();
+
+        $this->dispatcher->dispatch(new PostCommentBeforeDeletedEvent($comment, $user));
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostCommentDeletedEvent($comment, $user));
+    }
+
+    public function purge(User $user, PostComment $comment): void
+    {
+        $this->dispatcher->dispatch(new PostCommentBeforePurgeEvent($comment, $user));
 
         $magazine = $comment->post->magazine;
         $image = $comment->image?->filePath;

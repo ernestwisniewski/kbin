@@ -55,9 +55,9 @@ class EntryManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(EntryDto $dto, User $user, bool $limiter = true): Entry
+    public function create(EntryDto $dto, User $user, bool $rateLimit = true): Entry
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->entryLimiter->create($dto->ip);
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -183,7 +183,7 @@ class EntryManager implements ContentManagerInterface
         }
 
         if ($entry->isAuthor($user) && $entry->comments->isEmpty()) {
-            $this->purge($entry);
+            $this->purge($user, $entry);
 
             return;
         }
@@ -197,15 +197,26 @@ class EntryManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
     }
 
-    public function purge(Entry $entry): void
+    public function trash(User $user, Entry $entry): void
     {
-        $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry));
+        $entry->trash();
+
+        $this->dispatcher->dispatch(new EntryBeforeDeletedEvent($entry, $user));
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryDeletedEvent($entry, $user));
+    }
+
+    public function purge(User $user, Entry $entry): void
+    {
+        $this->dispatcher->dispatch(new EntryBeforePurgeEvent($entry, $user));
 
         $image = $entry->image?->filePath;
 
         $sort = new Criteria(null, ['createdAt' => Criteria::DESC]);
         foreach ($entry->comments->matching($sort) as $comment) {
-            $this->entryCommentManager->purge($comment);
+            $this->entryCommentManager->purge($user, $comment);
         }
 
         $this->entityManager->remove($entry);

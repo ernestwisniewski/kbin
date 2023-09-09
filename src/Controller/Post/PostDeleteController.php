@@ -62,7 +62,7 @@ class PostDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_purge', $request->request->get('token'));
 
-        $this->manager->purge($post);
+        $this->manager->purge($this->getUserOrThrow(), $post);
 
         return $this->redirectToMagazine($magazine);
     }

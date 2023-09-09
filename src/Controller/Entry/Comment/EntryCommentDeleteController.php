@@ -70,7 +70,7 @@ class EntryCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
-        $this->manager->purge($comment);
+        $this->manager->purge($this->getUserOrThrow(), $comment);
 
         return $this->redirectToRefererOrHome($request);
     }
