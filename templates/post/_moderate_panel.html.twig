@@ -5,6 +5,15 @@
                href="{{ path('magazine_panel_ban', {'name': post.magazine.name, 'username': post.user.username}) }}">{{ 'ban'|trans|lower }}</a>
         </li>
         <li>
+            <form action="{{ path('post_pin', {'magazine_name': post.magazine.name, 'post_id': post.id}) }}"
+                  method="post">
+                <input type="hidden" name="token" value="{{ csrf_token('post_pin') }}">
+                <button type="submit">
+                    <span>{{ post.sticky ? 'unpin'|trans|lower : 'pin'|trans|lower }}</span>
+                </button>
+            </form>
+        </li>
+        <li>
             <form action="{{ post_delete_url(post) }}"
                   method="post"
                   onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">

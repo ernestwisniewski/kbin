@@ -19,6 +19,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
+use App\PageView\PostPageView;
 use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -56,7 +57,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $this->cache = $cache;
     }
 
-    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(PostPageView $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta(
             new KbinQueryAdapter(
@@ -80,7 +81,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $pagerfanta;
     }
 
-    private function getEntryQueryBuilder(Criteria $criteria): QueryBuilder
+    private function getEntryQueryBuilder(PostPageView $criteria): QueryBuilder
     {
         $user = $this->security->getUser();
 
@@ -103,6 +104,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->setParameter('m_visibility', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
+        $this->addStickyClause($qb, $criteria);
         $this->filter($qb, $criteria);
 
         return $qb;
@@ -115,6 +117,17 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
             $qb->andWhere('p.createdAt > :time')
                 ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
+        }
+    }
+
+    private function addStickyClause(QueryBuilder $qb, PostPageView $criteria): void
+    {
+        if ($criteria->stickiesFirst) {
+            if (1 === $criteria->page) {
+                $qb->addOrderBy('p.sticky', 'DESC');
+            } else {
+                $qb->andWhere($qb->expr()->eq('p.sticky', 'false'));
+            }
         }
     }
 
@@ -190,16 +203,16 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         switch ($criteria->sortOption) {
             case Criteria::SORT_HOT:
-                $qb->orderBy('p.ranking', 'DESC');
+                $qb->addOrderBy('p.ranking', 'DESC');
                 break;
             case Criteria::SORT_TOP:
-                $qb->orderBy('p.score', 'DESC');
+                $qb->addOrderBy('p.score', 'DESC');
                 break;
             case Criteria::SORT_COMMENTED:
-                $qb->orderBy('p.commentCount', 'DESC');
+                $qb->addOrderBy('p.commentCount', 'DESC');
                 break;
             case Criteria::SORT_ACTIVE:
-                $qb->orderBy('p.lastActive', 'DESC');
+                $qb->addOrderBy('p.lastActive', 'DESC');
                 break;
             default:
         }

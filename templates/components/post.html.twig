@@ -61,6 +61,11 @@
                 {% endif %}
                 {% if post.visibility in ['visible', 'private'] %}
                     <menu>
+                        {% if post.sticky %}
+                            <li>
+                                <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
+                            </li>
+                        {% endif %}
                         <li>
                             <a class="stretched-link"
                                href="{{ path('post_comment_create', {magazine_name: post.magazine.name, post_id: post.id, slug: post.slug|length ? post.slug : '-'}) }}"

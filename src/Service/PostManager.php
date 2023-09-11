@@ -194,6 +194,15 @@ class PostManager implements ContentManagerInterface
         $this->dispatcher->dispatch(new PostRestoredEvent($post, $user));
     }
 
+    public function pin(Post $post): Post
+    {
+        $post->sticky = !$post->sticky;
+
+        $this->entityManager->flush();
+
+        return $post;
+    }
+
     public function createDto(Post $post): PostDto
     {
         return $this->factory->createDto($post);

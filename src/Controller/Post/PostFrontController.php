@@ -166,6 +166,7 @@ class PostFrontController extends AbstractController
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time));
         $criteria->magazine = $magazine;
+        $criteria->stickiesFirst = true;
 
         $posts = $repository->findByCriteria($criteria);
 

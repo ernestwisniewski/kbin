@@ -123,6 +123,12 @@ magazine_posts:
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
+post_pin:
+  controller: App\Controller\Post\PostPinController
+  defaults: { slug: - }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/pin
+  methods: [ POST ]
+
 post_voters:
   controller: App\Controller\Post\PostVotersController
   defaults: { slug: -, }

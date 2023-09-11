@@ -15,4 +15,6 @@ class PostPageView extends Criteria
         self::SORT_TOP,
         self::SORT_COMMENTED,
     ];
+
+    public bool $stickiesFirst = false;
 }

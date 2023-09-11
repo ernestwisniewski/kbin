@@ -76,6 +76,8 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     public int $score = 0;
     #[Column(type: 'boolean', nullable: false)]
     public bool $isAdult = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $sticky = false;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;
     #[Column(type: 'string', nullable: true)]
