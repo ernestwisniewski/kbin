@@ -24,9 +24,9 @@ class MagazineReportController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function reports(Magazine $magazine, Request $request, ?string $status): Response
+    public function reports(Magazine $magazine, Request $request, string $status): Response
     {
-        $reports = $this->repository->findReports($magazine, $status, $this->getPageNb($request));
+        $reports = $this->repository->findReports($magazine, $this->getPageNb($request), status: $status);
 
         return $this->render(
             'magazine/panel/reports.html.twig',

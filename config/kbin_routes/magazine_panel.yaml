@@ -32,7 +32,7 @@ magazine_panel_moderator_purge:
 magazine_panel_reports:
   controller: App\Controller\Magazine\Panel\MagazineReportController::reports
   path: /m/{name}/panel/reports/{status}
-  defaults: { status: null }
+  defaults: { status: !php/const \App\Entity\Report::STATUS_ANY }
   methods: [ GET ]
 
 magazine_panel_report_approve:

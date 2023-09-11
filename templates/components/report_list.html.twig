@@ -1,3 +1,4 @@
+{%- set REPORT_ANY = constant('App\\Entity\\Report::STATUS_ANY') -%}
 {%- set REPORT_PENDING = constant('App\\Entity\\Report::STATUS_PENDING') -%}
 {%- set REPORT_APPROVED = constant('App\\Entity\\Report::STATUS_APPROVED') -%}
 {%- set REPORT_REJECTED = constant('App\\Entity\\Report::STATUS_REJECTED') -%}
@@ -6,7 +7,7 @@
     <menu>
         <li>
             <a href="{{ path(routeName, {name: magazineName}) }}"
-               class="{{ html_classes({'active': not route_param_exists('status')}) }}">
+               class="{{ html_classes({'active': route_has_param('status', REPORT_ANY)}) }}">
                 {{ 'all'|trans }}
             </a>
         </li>
