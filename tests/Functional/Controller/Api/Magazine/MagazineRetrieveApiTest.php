@@ -10,39 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class MagazineRetrieveApiTest extends WebTestCase
 {
-    public const MAGAZINE_RESPONSE_KEYS = [
-        'magazineId',
-        'owner',
-        'icon',
-        'name',
-        'title',
-        'description',
-        'rules',
-        'subscriptionsCount',
-        'entryCount',
-        'entryCommentCount',
-        'postCount',
-        'postCommentCount',
-        'isAdult',
-        'isUserSubscribed',
-        'isBlockedByUser',
-        'tags',
-        'badges',
-        'moderators',
-        'apId',
-        'apProfileId',
-    ];
-
-    public const MAGAZINE_SMALL_RESPONSE_KEYS = [
-        'magazineId',
-        'name',
-        'icon',
-        'isUserSubscribed',
-        'isBlockedByUser',
-        'apId',
-        'apProfileId',
-    ];
-
     public const MODERATOR_RESPONSE_KEYS = [
         'magazineId',
         'userId',
