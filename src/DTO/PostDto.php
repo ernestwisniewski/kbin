@@ -24,6 +24,7 @@ class PostDto implements ContentVisibilityInterface
     public ?string $body = null;
     public ?string $lang = null;
     public bool $isAdult = false;
+    public bool $isPinned = false;
     public ?string $slug = null;
     public int $comments = 0;
     public int $uv = 0;

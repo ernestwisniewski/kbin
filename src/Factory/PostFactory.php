@@ -43,6 +43,7 @@ class PostFactory
             $dto->body,
             $dto->lang,
             $dto->isAdult,
+            $dto->isPinned,
             $dto->comments,
             $dto->uv,
             $dto->dv,
@@ -68,6 +69,7 @@ class PostFactory
         $dto->body = $post->body;
         $dto->lang = $post->lang;
         $dto->isAdult = $post->isAdult;
+        $dto->isPinned = $post->sticky;
         $dto->slug = $post->slug;
         $dto->comments = $post->commentCount;
         $dto->uv = $post->countUpVotes();

@@ -68,6 +68,7 @@ class PostNoteFactory
                     ),
             ],
             'sensitive' => $post->isAdult(),
+            'stickied' => $post->sticky,
             'content' => $this->markdownConverter->convertToHtml(
                 $this->tagManager->joinTagsToBody(
                     $post->body,

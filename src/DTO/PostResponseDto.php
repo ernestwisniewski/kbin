@@ -20,6 +20,7 @@ class PostResponseDto implements \JsonSerializable
     #[OA\Property(example: 'en', nullable: true, minLength: 2, maxLength: 3)]
     public ?string $lang = null;
     public bool $isAdult = false;
+    public bool $isPinned = false;
     public ?string $slug = null;
     public int $comments = 0;
     public ?int $uv = 0;
@@ -44,6 +45,7 @@ class PostResponseDto implements \JsonSerializable
         string $body = null,
         string $lang = null,
         bool $isAdult = null,
+        bool $isPinned = false,
         int $comments = null,
         int $uv = null,
         int $dv = null,
@@ -65,6 +67,7 @@ class PostResponseDto implements \JsonSerializable
         $dto->body = $body;
         $dto->lang = $lang;
         $dto->isAdult = $isAdult;
+        $dto->isPinned = $isPinned;
         $dto->comments = $comments;
         $dto->uv = $uv;
         $dto->dv = $dv;
@@ -106,6 +109,7 @@ class PostResponseDto implements \JsonSerializable
             'body' => $this->body,
             'lang' => $this->lang,
             'isAdult' => $this->isAdult,
+            'isPinned' => $this->isPinned,
             'comments' => $this->comments,
             'uv' => $this->uv,
             'dv' => $this->dv,
