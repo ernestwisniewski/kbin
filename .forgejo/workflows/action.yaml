@@ -113,9 +113,6 @@ jobs:
         run: composer -d tools install --no-scripts --no-progress
 
       - name: php-cs-fixer dry-run
-        run: tools/vendor/bin/php-cs-fixer fix --dry-run
-
-# TODO: PHP-CS-Fixer is a fixer. Not really a linter.
-# Introduce PHPCS for linting?
+        run: tools/vendor/bin/php-cs-fixer fix --dry-run -v --show-progress=none #--format=checkstyle #would be nice if codeberg did something with this like github does.
 
 # TODO: Integration tests

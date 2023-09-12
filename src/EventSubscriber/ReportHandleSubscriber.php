@@ -57,7 +57,7 @@ class ReportHandleSubscriber implements EventSubscriberInterface
 
         // If the user deletes their own post when a report has been lodged against it
         //    the report should not be considered approved
-        if ($user && $user->getId() == $subject->getUser()->getId()) {
+        if ($user && $user->getId() === $subject->getUser()->getId()) {
             $report->status = Report::STATUS_CLOSED;
         } else {
             $report->status = Report::STATUS_APPROVED;

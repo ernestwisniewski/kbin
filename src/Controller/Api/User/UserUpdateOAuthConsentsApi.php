@@ -96,7 +96,7 @@ class UserUpdateOAuthConsentsApi extends UserBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        if (array_intersect($dto->scopes, $consent->getScopes()) != $dto->scopes) {
+        if (array_intersect($dto->scopes, $consent->getScopes()) !== $dto->scopes) {
             // $dto->scopesGranted is not a subset of the current scopes
             // The client is attempting to request more scopes than it currently has
             throw new AccessDeniedHttpException('An API client cannot add scopes with this API, only remove them.');

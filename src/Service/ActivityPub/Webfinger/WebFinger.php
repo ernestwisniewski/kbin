@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the ActivityPhp package.
  *
@@ -62,8 +64,8 @@ class WebFinger
     {
         foreach ($this->links as $link) {
             if (isset($link['rel'], $link['type'], $link['href'])) {
-                if ('self' == $link['rel']
-                    && 'application/activity+json' == $link['type']
+                if ('self' === $link['rel']
+                    && 'application/activity+json' === $link['type']
                 ) {
                     return $link['href'];
                 }
@@ -187,8 +189,8 @@ class WebFinger
         $urls = [];
         foreach ($this->links as $link) {
             if (isset($link['rel'], $link['type'], $link['href'])) {
-                if ('self' == $link['rel']
-                    && 'application/activity+json' == $link['type']
+                if ('self' === $link['rel']
+                    && 'application/activity+json' === $link['type']
                 ) {
                     $urls[] = $link['href'];
                 }

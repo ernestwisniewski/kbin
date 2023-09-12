@@ -22,7 +22,7 @@ class PeopleFrontController extends AbstractController
             'people/front.html.twig', [
                 'magazines' => array_filter(
                     $this->magazineRepository->findByActivity(),
-                    fn ($val) => 'random' != $val->name
+                    fn ($val) => 'random' !== $val->name
                 ),
                 'local' => $this->manager->general(),
                 'federated' => $this->manager->general(true),

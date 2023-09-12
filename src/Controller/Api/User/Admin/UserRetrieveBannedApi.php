@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Api\User\Admin;
 
 use App\Controller\Api\User\UserBaseApi;

@@ -29,7 +29,7 @@ class MagazinePeopleFrontController extends AbstractController
                 'magazine' => $magazine,
                 'magazines' => array_filter(
                     $this->magazineRepository->findByActivity(),
-                    fn ($val) => 'random' != $val->name && $val != $magazine
+                    fn ($val) => 'random' !== $val->name && $val !== $magazine
                 ),
                 'local' => $this->userRepository->findPeople($magazine),
                 'federated' => $this->userRepository->findPeople($magazine, true),

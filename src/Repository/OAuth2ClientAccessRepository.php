@@ -72,7 +72,7 @@ class OAuth2ClientAccessRepository extends ServiceEntityRepository
             $end = new \DateTime();
         }
 
-        if (null == $start) {
+        if (null === $start) {
             $start = new \DateTime('-1 '.$interval);
         }
 
