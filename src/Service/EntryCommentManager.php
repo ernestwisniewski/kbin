@@ -95,8 +95,8 @@ class EntryCommentManager implements ContentManagerInterface
         $comment->lang = $dto->lang;
         $comment->isAdult = $dto->isAdult || $comment->magazine->isAdult;
         $oldImage = $comment->image;
-        if ($dto->image) {
-            $comment->image = $dto->image;
+        if ($dto->image && $dto->image->id !== $comment->image->getId()) {
+            $comment->image = $this->imageRepository->find($dto->image->id);
         }
         $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body

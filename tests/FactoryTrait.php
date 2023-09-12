@@ -2,9 +2,9 @@
 
 namespace App\Tests;
 
-use ApiPlatform\Api\UrlGeneratorInterface;
 use App\DTO\EntryCommentDto;
 use App\DTO\EntryDto;
+use App\DTO\ImageDto;
 use App\DTO\MagazineBanDto;
 use App\DTO\MagazineDto;
 use App\DTO\MessageDto;
@@ -25,7 +25,9 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Site;
 use App\Entity\User;
+use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
+use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
 use App\Service\EntryCommentManager;
@@ -42,6 +44,8 @@ use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 trait FactoryTrait
 {
@@ -356,7 +360,7 @@ trait FactoryTrait
             $magazine->apProfileId = $urlGenerator->generate(
                 'ap_magazine',
                 ['name' => $magazine->name],
-                UrlGeneratorInterface::ABS_URL
+                UrlGeneratorInterface::ABSOLUTE_URL
             );
         }
 
@@ -377,7 +381,8 @@ trait FactoryTrait
         string $url = null,
         string $body = null,
         Magazine $magazine = null,
-        User $user = null
+        User $user = null,
+        ImageDto $image = null,
     ): Entry {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
@@ -388,7 +393,7 @@ trait FactoryTrait
         if (!$entry) {
             $magazine = $magazine ?? $this->getMagazineByName('acme');
             $user = $user ?? $this->getUserByUsername('JohnDoe');
-            $entry = $this->createEntry($title, $magazine, $user, $url, $body);
+            $entry = $this->createEntry($title, $magazine, $user, $url, $body, $image);
         }
 
         return $entry;
@@ -399,7 +404,8 @@ trait FactoryTrait
         Magazine $magazine,
         User $user,
         string $url = null,
-        ?string $body = 'Test entry content'
+        ?string $body = 'Test entry content',
+        ImageDto $imageDto = null,
     ): Entry {
         $manager = $this->getService(EntryManager::class);
 
@@ -410,6 +416,7 @@ trait FactoryTrait
         $dto->url = $url;
         $dto->body = $body;
         $dto->lang = 'en';
+        $dto->image = $imageDto;
 
         $entry = $manager->create($dto, $user);
 
@@ -422,39 +429,43 @@ trait FactoryTrait
         string $body,
         Entry $entry = null,
         User $user = null,
-        EntryComment $parent = null
+        EntryComment $parent = null,
+        ImageDto $imageDto = null,
     ): EntryComment {
         $manager = $this->getService(EntryCommentManager::class);
+        $repository = $this->getService(ImageRepository::class);
 
         if ($parent) {
             $dto = (new EntryCommentDto())->createWithParent(
                 $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub'),
                 $parent,
-                null,
+                $imageDto ? $repository->find($imageDto->id) : null,
                 $body
             );
         } else {
             $dto = new EntryCommentDto();
             $dto->entry = $entry ?? $this->getEntryByTitle('test entry content', 'https://kbin.pub');
             $dto->body = $body;
+            $dto->image = $imageDto;
         }
         $dto->lang = 'en';
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPost(string $body, Magazine $magazine = null, User $user = null): Post
+    public function createPost(string $body, Magazine $magazine = null, User $user = null, ImageDto $imageDto = null): Post
     {
         $manager = $this->getService(PostManager::class);
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
         $dto->body = $body;
         $dto->lang = 'en';
+        $dto->image = $imageDto;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPostComment(string $body, Post $post = null, User $user = null): PostComment
+    public function createPostComment(string $body, Post $post = null, User $user = null, ImageDto $imageDto = null): PostComment
     {
         $manager = $this->getService(PostCommentManager::class);
 
@@ -462,6 +473,7 @@ trait FactoryTrait
         $dto->post = $post ?? $this->createPost('test post content');
         $dto->body = $body;
         $dto->lang = 'en';
+        $dto->image = $imageDto;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
@@ -554,5 +566,23 @@ trait FactoryTrait
         $postCommentManager->delete($moderator, $postComment);
         $postManager->delete($moderator, $post);
         $magazineManager->ban($magazine, $user, $moderator, MagazineBanDto::create('test ban', new \DateTimeImmutable('+12 hours')));
+    }
+
+    public function getKibbyImageDto(): ImageDto
+    {
+        $imageRepository = $this->getService(ImageRepository::class);
+        $imageFactory = $this->getService(ImageFactory::class);
+        $entityManager = $this->getService(EntityManagerInterface::class);
+
+        // Uploading a file appears to delete the file at the given path, so make a copy before upload
+        copy($this->kibbyPath, $this->kibbyPath.'.tmp');
+        /** @var Image $image */
+        $image = $imageRepository->findOrCreateFromUpload(new UploadedFile($this->kibbyPath.'.tmp', 'kibby_emoji.png', 'image/png'));
+        self::assertNotNull($image);
+        $image->altText = 'kibby';
+        $entityManager->persist($image);
+        $entityManager->flush();
+
+        return $imageFactory->createDto($image);
     }
 }

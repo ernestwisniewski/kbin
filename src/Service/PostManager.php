@@ -102,7 +102,7 @@ class PostManager implements ContentManagerInterface
         $post->isAdult = $dto->isAdult || $post->magazine->isAdult;
         $post->slug = $this->slugger->slug($dto->body ?? $dto->magazine->name.' '.$dto->image->altText);
         $oldImage = $post->image;
-        if ($dto->image) {
+        if ($dto->image && $dto->image->id !== $post->image->getId()) {
             $post->image = $this->imageRepository->find($dto->image->id);
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
