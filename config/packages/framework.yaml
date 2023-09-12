@@ -11,6 +11,11 @@ framework:
     gc_maxlifetime: 604800 # Match the remember_me lifetime
     storage_factory_id: session.storage.factory.native
 
+  http_client:
+    default_options:
+      headers:
+        'User-Agent': 'kbinBot/0.1 (+https://%kbin_domain%/bot)'
+
   #esi: true
   #fragments: true
   php_errors:
