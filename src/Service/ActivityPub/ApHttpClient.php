@@ -24,6 +24,12 @@ use Symfony\Contracts\Cache\ItemInterface;
  * https://github.com/pixelfed/pixelfed/blob/dev/app/Util/ActivityPub/HttpSignature.php
  */
 
+enum ApRequestType
+{
+    case ActivityPub;
+    case WebFinger;
+}
+
 class ApHttpClient
 {
     public const TIMEOUT = 5;
@@ -75,6 +81,33 @@ class ApHttpClient
         return $actor['endpoints']['sharedInbox'] ?? $actor['inbox'];
     }
 
+    public function getWebfingerObject(string $url): ?array
+    {
+        $resp = $this->cache->get(
+            'wf_'.hash('sha256', $url),
+            function (ItemInterface $item) use ($url) {
+                $this->logger->info("ApHttpClient:getWebfingerObject:url: {$url}");
+
+                try {
+                    $client = new CurlHttpClient();
+                    $r = $client->request('GET', $url, [
+                        'max_duration' => self::TIMEOUT,
+                        'timeout' => self::TIMEOUT,
+                        'headers' => $this->getInstanceHeaders($url, null, 'get', ApRequestType::WebFinger),
+                    ]);
+                } catch (\Exception $e) {
+                    throw new InvalidApPostException("WebFinger Get fail: {$url}, ".$r->getContent(false));
+                }
+
+                $item->expiresAt(new \DateTime('+1 hour'));
+
+                return $r->getContent();
+            }
+        );
+
+        return $resp ? json_decode($resp, true) : null;
+    }
+
     public function getActorObject(string $apProfileId): ?array
     {
         $resp = $this->cache->get(
@@ -87,7 +120,7 @@ class ApHttpClient
                     $r = $client->request('GET', $apProfileId, [
                         'max_duration' => self::TIMEOUT,
                         'timeout' => self::TIMEOUT,
-                        'headers' => $this->getInstanceHeaders($apProfileId),
+                        'headers' => $this->getInstanceHeaders($apProfileId, null, 'get', ApRequestType::ActivityPub),
                     ]);
                     if (str_starts_with((string) $r->getStatusCode(), '4')) {
                         if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
@@ -106,10 +139,10 @@ class ApHttpClient
                     }
                     if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
                         $magazine->apTimeoutAt = new \DateTime();
-                        $this->magazineRepository->save($user, true);
+                        $this->magazineRepository->save($magazine, true);
                     }
 
-                    throw new InvalidApPostException("Get fail: {$apProfileId}, ".$r->getContent(false));
+                    throw new InvalidApPostException("AP Get fail: {$apProfileId}, ".$r->getContent(false));
                 }
 
                 $item->expiresAt(new \DateTime('+1 hour'));
@@ -181,7 +214,7 @@ class ApHttpClient
         return $headers;
     }
 
-    private function getInstanceHeaders(string $url, array $body = null, string $method = 'post')
+    private function getInstanceHeaders(string $url, array $body = null, string $method = 'get', ApRequestType $requestType = ApRequestType::ActivityPub): array
     {
         $keyId = 'https://'.$this->kbinDomain.'/i/actor#main-key';
         $privateKey = $this->getInstancePrivateKey();
@@ -195,8 +228,13 @@ class ApHttpClient
         unset($headers['(request-target)']);
         $headers['Signature'] = $signatureHeader;
         $headers['User-Agent'] = 'kbinBot/0.1 (+https://'.$this->kbinDomain.'/bot)';
-        $headers['Accept'] = 'application/activity+json, application/ld+json';
-        $headers['Content-Type'] = 'application/activity+json';
+        if (ApRequestType::WebFinger === $requestType) {
+            $headers['Accept'] = 'application/jrd+json';
+            $headers['Content-Type'] = 'application/jrd+json';
+        } else {
+            $headers['Accept'] = 'application/activity+json, application/ld+json';
+            $headers['Content-Type'] = 'application/activity+json';
+        }
 
         return $headers;
     }

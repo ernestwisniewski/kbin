@@ -59,7 +59,7 @@ class WebFingerFactory
             $handle
         );
 
-        $content = $this->client->getActorObject($url);
+        $content = $this->client->getWebfingerObject($url);
 
         if (!is_array($content) || !count($content)) {
             throw new \Exception('WebFinger fetching has failed');
