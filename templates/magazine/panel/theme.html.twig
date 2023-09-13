@@ -22,18 +22,17 @@
             <div>
                 {{ form_label(form.icon, 'icon') }}
                 {{ form_widget(form.icon) }}
+                {{ form_help(form.icon) }}
             </div>
             <div>
                 {{ form_label(form.customCss, 'CSS') }}
                 {{ form_widget(form.customCss) }}
-            </div>
-            <div>
-                {{ form_label(form.customJs, 'JS') }}
-                {{ form_widget(form.customJs) }}
+                {{ form_help(form.customCss) }}
             </div>
             <div class="radios">
                 {{ form_label(form.backgroundImage, 'Background') }}
                 {{ form_widget(form.backgroundImage) }}
+                {{ form_help(form.backgroundImage) }}
             </div>
             <div class="actions">
                 {{ form_row(form.submit, { 'label': 'done', attr: {class: 'btn btn__primary'} }) }}

@@ -240,31 +240,25 @@ class MagazineManager
 
         $magazine->icon = $dto->icon ?? $magazine->icon;
 
-        $background = null;
-        $customCss = null;
+        // custom css
+        $customCss = $dto->customCss;
 
-        // Background
+        // add custom background to custom CSS if defined
+        $background = null;
         if ($dto->backgroundImage) {
             $background = match ($dto->backgroundImage) {
-                'shape1' => 'https://karab.in/build/images/shape.png',
-                'shape2' => 'https://karab.in/build/images/shape2.png',
+                'shape1' => '/build/images/shape.png',
+                'shape2' => '/build/images/shape2.png',
                 default => null,
             };
-            $background = $background ? "#middle { background: url($background); height: 100%; }" : null;
-        }
 
-        if ($background || $customCss) {
-            $magazine->customCss = ($background ?? '').($customCss ?? '');
-        } else {
-            if ($dto->customCss) {
-                $magazine->customCss = $dto->customCss;
-            } else {
-                $magazine->customCss = null;
+            $background = $background ? "#middle { background: url($background); height: 100%; }" : null;
+            if ($background) {
+                $customCss = sprintf('%s %s', $customCss, $background);
             }
         }
 
-        // $magazine->customJs = $dto->customJs;
-
+        $magazine->customCss = $customCss;
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 

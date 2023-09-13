@@ -31,20 +31,24 @@ class MagazineThemeType extends AbstractType
                     'constraints' => ImageConstraint::default(),
                     'mapped' => false,
                     'required' => false,
+                    'help' => 'magazine_theme_appearance_icon',
                 ]
             )
-            ->add('customCss', TextareaType::class, ['required' => false])
-            ->add('customJs', TextareaType::class, ['required' => false])
+            ->add('customCss', TextareaType::class, [
+                'required' => false,
+                'help' => 'magazine_theme_appearance_custom_css',
+                ]
+            )
             ->add('backgroundImage', ChoiceType::class, [
                 'multiple' => false,
                 'expanded' => true,
                 'data' => 'none',
                 'choices' => [
                     'none' => 'none',
-                    'shape1' => 'shape1',
-                    'shape2' => 'shape2',
-                    'url' => 'url',
+                    'shape 1' => 'shape1',
+                    'shape 2' => 'shape2',
                 ],
+                'help' => 'magazine_theme_appearance_background_image',
             ])
             ->add('submit', SubmitType::class);
 

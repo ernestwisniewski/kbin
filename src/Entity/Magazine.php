@@ -63,8 +63,6 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public bool $isAdult = false;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
-    #[Column(type: 'text', nullable: true)]
-    public ?string $customJs = null;
     #[Column(type: 'datetimetz', nullable: true)]
     public ?\DateTime $lastActive = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
