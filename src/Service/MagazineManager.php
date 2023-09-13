@@ -17,6 +17,7 @@ use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
 use App\Message\DeleteImageMessage;
+use App\Repository\ImageRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\MagazineSubscriptionRequestRepository;
 use App\Service\ActivityPub\KeysGenerator;
@@ -40,7 +41,8 @@ class MagazineManager
         private readonly EntityManagerInterface $entityManager,
         private readonly MagazineSubscriptionRequestRepository $requestRepository,
         private readonly MagazineSubscriptionRepository $subscriptionRepository,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ImageRepository $imageRepository
     ) {
     }
 
@@ -238,7 +240,9 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        $magazine->icon = $dto->icon ?? $magazine->icon;
+        if ($magazine->icon?->getId() !== $dto->icon->id) {
+            $magazine->icon = $this->imageRepository->find($dto->icon->id);
+        }
 
         // custom css
         $customCss = $dto->customCss;

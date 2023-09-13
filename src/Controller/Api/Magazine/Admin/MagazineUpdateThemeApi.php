@@ -10,6 +10,7 @@ use App\DTO\MagazineThemeDto;
 use App\DTO\MagazineThemeRequestDto;
 use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
+use App\Factory\ImageFactory;
 use App\Service\ImageManager;
 use App\Service\MagazineManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -98,6 +99,7 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
         MagazineManager $manager,
+        ImageFactory $imageFactory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
@@ -107,7 +109,8 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         $dto = $this->deserializeThemeFromForm($dto);
 
         try {
-            $dto->icon = $this->handleUploadedImage();
+            $icon = $this->handleUploadedImage();
+            $dto->icon = $imageFactory->createDto($icon);
         } catch (BadRequestHttpException $e) {
             $dto->icon = null; // Todo: add an API to remove the icon rather than only replace
         }

@@ -148,6 +148,6 @@ class MagazineUpdateThemeApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['icon']);
         self::assertSame(96, $jsonData['icon']['width']);
         self::assertSame(96, $jsonData['icon']['height']);
-        self::assertEquals('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $jsonData['icon']['filePath']);
+        self::assertEquals(self::KIBBY_PNG_URL_RESULT, $jsonData['icon']['filePath']);
     }
 }

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
-use App\Entity\Image;
 use App\Entity\Magazine;
 
 class MagazineThemeDto
 {
     public ?Magazine $magazine = null;
-    public ?Image $icon = null;
+    public ?ImageDto $icon = null;
     public ?string $customCss = null;
     public ?string $customJs = null;
     public ?string $primaryColor = null;
@@ -23,7 +22,7 @@ class MagazineThemeDto
         $this->customCss = $magazine->customCss;
     }
 
-    public function create(?Image $icon)
+    public function create(?ImageDto $icon)
     {
         $this->icon = $icon;
     }
