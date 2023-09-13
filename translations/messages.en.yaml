@@ -732,3 +732,9 @@ update_comment: Update comment
 show_avatars_on_comments_help: Display/hide user avatars when viewing comments on
   a single thread or post.
 comment_reply_position: Comment reply position
+magazine_theme_appearance_custom_css: Custom CSS that will apply when viewing content
+  within your magazine.
+magazine_theme_appearance_icon: Custom icon for the magazine. If none is selected,
+  the default icon will be used.
+magazine_theme_appearance_background_image: Custom background image that will be applied
+  when viewing content within your magazine.

@@ -760,3 +760,9 @@ update_comment: Reactie bijwerken
 show_avatars_on_comments_help: Toon/verberg profielfoto's bij het bekijken van reacties
   op een enkele discussie of post.
 comment_reply_position: Commentaar reactie positie
+magazine_theme_appearance_custom_css: Aangepaste CSS die van toepassing is bij het
+  bekijken van inhoud in uw tijdschrift.
+magazine_theme_appearance_icon: Aangepast pictogram voor het tijdschrift. Als er geen
+  is geselecteerd, wordt het standaardpictogram gebruikt.
+magazine_theme_appearance_background_image: Aangepaste CSS die van toepassing is bij
+  het bekijken van inhoud in uw tijdschrift.
