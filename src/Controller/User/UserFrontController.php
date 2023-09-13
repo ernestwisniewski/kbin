@@ -191,7 +191,7 @@ class UserFrontController extends AbstractController
                 'view' => 'list',
                 'user' => $user,
                 'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
-                'criteria' => $criteria
+                'criteria' => $criteria,
             ],
             $response
         );
