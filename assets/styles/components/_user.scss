@@ -1,5 +1,5 @@
 .user {
-  &__follow {
+  &__actions {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -12,17 +12,18 @@
       color: var(--kbin-button-secondary-text-color);
       display: flex;
       flex-direction: row;
-      font-size: .9rem;
-      left: 1px;
       padding: .3rem .5rem;
       position: relative;
+      font-size: 0.85rem;
 
       .rounded-edges & {
         border-radius: .5rem;
       }
+    }
 
-      i {
-        padding-right: .5rem;
+    .action{
+      span{
+        margin-left: 0.5rem;
       }
     }
 
@@ -117,7 +118,7 @@
       position: relative;
       top: -60px;
 
-      .user__follow {
+      .user__actions {
         margin: 0;
       }
     }
@@ -267,6 +268,6 @@
   }
 }
 
-td .user__follow {
+td .user__actions{
   margin: 0;
 }

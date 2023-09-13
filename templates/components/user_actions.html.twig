@@ -1,0 +1,38 @@
+<aside{{ attributes.defaults({class: 'user__actions', 'data-controller': 'subs'}) }}>
+    <div class='action'>
+        <i class="fa-solid fa-users"></i><span>{{ user.followersCount }} Followers</span>
+    </div>
+    {% if not app.user or app.user is not same as user %}
+        <form action="{{ path('user_' ~ (is_user_followed(user) ? 'unfollow' : 'follow'), {username: user.username}) }}"
+              name="user_follow"
+              method="post">
+            <button type="submit"
+                    class="{{ html_classes('btn btn__secondary action', {'active': is_user_followed(user)}) }}"
+                    data-action="subs#send">
+            {% if is_user_followed(user) %}
+                    <i class="fa-solid fa-user-minus"></i> <span>{{'unfollow'|trans}}</span>
+            {% else %}
+                    <i class="fa-solid fa-user-plus"></i><span>{{'follow'|trans}}</span> 
+            {% endif %}
+
+            </button>
+            <input type="hidden" name="token" value="{{ csrf_token('follow') }}">
+        </form>
+        <form action="{{ path('user_' ~ (is_user_blocked(user) ? 'unblock' : 'block'), {username: user.username}) }}"
+              name="user_block"
+              method="post">
+            <button type="submit"
+                    class="{{ html_classes('btn btn__secondary action', {'active': is_user_blocked(user)}) }}"
+                    data-action="subs#send">
+
+            {% if is_user_blocked(user) %}
+                    <i class="fa-solid fa-user"></i><span>{{'unblock'|trans}}</span>
+            {% else %}
+                    <i class="fa-solid fa-user-slash"></i><span>{{'block'|trans}}</span>
+            {% endif %}
+
+            </button>
+            <input type="hidden" name="token" value="{{ csrf_token('block') }}">
+        </form>
+    {% endif %}
+</aside>

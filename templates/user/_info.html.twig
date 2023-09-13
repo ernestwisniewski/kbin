@@ -13,7 +13,7 @@
                    class="stretched-link">{{ user.username|username(false) }}</a></h4>
             <p class="user__name">{{ user.username|username }}{% if not user.apId %}@{{ kbin_domain() }}{% endif %}</p>
         </div>
-        {{ component('user_follow', {user: user}) }}
+        {{ component('user_actions', {user: user}) }}
     {% endif %}
     <ul class="info">
         <li>{{ 'joined'|trans }}: {{ component('date', {date: user.createdAt}) }}</li>

@@ -12,7 +12,7 @@
                class="stretched-link">{{ post.user.username|username(false) }}</a></h4>
         <p class="user__name">{{ post.user.username|username(true) }}</p>
     </div>
-    {{ component('user_follow', {user: post.user}) }}
+    {{ component('user_actions', {user: post.user}) }}
     <ul class="info">
         <li>{{ 'added'|trans }}: {{ component('date', {date: post.createdAt}) }}</li>
         <li>{{ 'online'|trans }}: <span>-</span></li>

@@ -27,7 +27,7 @@
                     {% endif %}
                     <small>{{ user.username|username(true) }}</small>
                 </div>
-                {{ component('user_follow', {user: user}) }}
+                {{ component('user_actions', {user: user}) }}
             </div>
         </div>
         {% if user.about|length %}

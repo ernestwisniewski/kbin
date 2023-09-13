@@ -46,7 +46,7 @@
                             <td>{{ u.entries|length }}</td>
                             <td>{{ u.entryComments|length }}</td>
                             <td>{{ u.posts|length + u.postComments|length }}</td>
-                            <td>{{ component('user_follow', {user: u}) }}</td>
+                            <td>{{ component('user_actions', {user: u}) }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>

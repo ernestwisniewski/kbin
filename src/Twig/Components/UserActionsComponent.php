@@ -7,8 +7,8 @@ namespace App\Twig\Components;
 use App\Entity\User;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('user_follow')]
-final class UserFollowComponent
+#[AsTwigComponent('user_actions')]
+final class UserActionsComponent
 {
     public User $user;
 }
