@@ -9,7 +9,7 @@
             class: html_classes('section comment entry-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
                 'own': app.user and comment.isAuthor(app.user),
                 'author': comment.isAuthor(comment.entry.user),
-                'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'
+                'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true',
             })}).without('id') }}
                 id="entry-comment-{{ comment.id }}"
                 data-controller="comment subject mentions"
@@ -31,12 +31,14 @@
                     <small hidden class="badge-lang">{{ comment.lang|language_name }}</small>
                 {% endif %}
             </header>
+
             {{ component('user_avatar', {
                 user: comment.user,
                 width: 40,
                 height: 40,
                 asLink: true
             }) }}
+
             <div class="content">
                 {% if comment.visibility in ['visible', 'private'] or (comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
                     {{ comment.body|markdown|raw }}

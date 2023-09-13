@@ -84,6 +84,7 @@ $comment-margin-sm: .3rem;
 
   > figure {
     grid-area: avatar;
+    display: none;
     margin: 0;
    
 
@@ -227,6 +228,12 @@ $comment-margin-sm: .3rem;
         }
       }
     }
+  }
+}
+
+.show-comment-avatar {
+  .comment>figure {
+    display: block;
   }
 }
 

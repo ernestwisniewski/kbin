@@ -85,6 +85,7 @@
   figure {
     grid-area: avatar;
     margin: 0;
+    display: none;
 
     img {
       border: var(--kbin-avatar-border);
@@ -184,6 +185,12 @@
     .entry__body {
       padding: 0 2rem;
     }
+  }
+}
+
+.show-comment-avatar {
+  .post>figure {
+    display: block;
   }
 }
 

@@ -353,6 +353,10 @@
     align-items: center;
     color: var(--kbin-meta-text-color);
 
+    h3{
+      flex-grow: 1;
+    }
+
     &.reload-required .reload-required-section {
       display: block;
     }

@@ -1,37 +1,36 @@
 {% if showNested is not defined %}
-    {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT') %}
-        {% set showNested = false %}
-    {% else %}
-        {% set showNested = true %}
-    {% endif %}
+	{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT') %}
+		{% set showNested = false %}
+	{% else %}
+		{% set showNested = true %}
+	{% endif %}
 {% endif %}
-<section class="comments entry-comments comments-tree"
-         data-controller="subject-list"
-         data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:EntryCommentCreatedNotification@window->subject-list#addComment' : 'notifications:EntryCommentCreatedNotification@window->subject-list#increaseCounter' -}}">
-    {% for comment in comments %}
-        {{ component('entry_comment', {
+
+<section class="{{ html_classes('comments entry-comments comments-tree', { 'show-comment-avatar' : app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR')) is same as 'true' or not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR'))}) }}" data-controller="subject-list" data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? 'notifications:EntryCommentCreatedNotification@window->subject-list#addComment' : 'notifications:EntryCommentCreatedNotification@window->subject-list#increaseCounter' -}}">
+	{% for comment in comments %}
+		{{ component('entry_comment', {
             comment: comment,
             showNested: showNested,
             dateAsUrl: dateAsUrl is defined ? dateAsUrl : false,
             showMagazineName: magazine is not defined or not magazine,
             showEntryTitle: entry is not defined or not entry
         }) }}
-    {% endfor %}
-    {% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
-        {{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
-    {% endif %}
-    {% if not comments|length %}
-        <aside class="section section--muted">
-            <p>{{ 'no_comments'|trans }}</p>
-        </aside>
-    {% elseif app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::TREE') %}
-        <div class="comment-line--2"></div>
-        <div class="comment-line--3"></div>
-        <div class="comment-line--4"></div>
-        <div class="comment-line--5"></div>
-        <div class="comment-line--6"></div>
-        <div class="comment-line--7"></div>
-        <div class="comment-line--8"></div>
-        <div class="comment-line--9"></div>
-    {% endif %}
+	{% endfor %}
+	{% if(comments.haveToPaginate is defined and comments.haveToPaginate) %}
+		{{ pagerfanta(comments, null, {'pageParameter':'[p]'}) }}
+	{% endif %}
+	{% if not comments|length %}
+		<aside class="section section--muted">
+			<p>{{ 'no_comments'|trans }}</p>
+		</aside>
+	{% elseif app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is null or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is same as constant('App\\Controller\\User\\ThemeSettingsController::TREE') %}
+		<div class="comment-line--2"></div>
+		<div class="comment-line--3"></div>
+		<div class="comment-line--4"></div>
+		<div class="comment-line--5"></div>
+		<div class="comment-line--6"></div>
+		<div class="comment-line--7"></div>
+		<div class="comment-line--8"></div>
+		<div class="comment-line--9"></div>
+	{% endif %}
 </section>
