@@ -751,3 +751,12 @@ oauth2.grant.admin.oauth_clients.read: Bekijk de OAuth2-clients die op jouw inst
   aanwezig zijn, en hun gebruiksstatistieken.
 oauth2.grant.admin.oauth_clients.revoke: Trek de toegang tot OAuth2-clients op jouw
   instantie in.
+show_avatars_on_comments: Toon reactie profielfoto's
+single_settings: Enkel
+comment_reply_position_help: Toon het reactie-antwoordformulier bovenaan of onderaan
+  de pagina. Wanneer 'oneindig scrollen' is ingeschakeld, verschijnt de positie altijd
+  bovenaan.
+update_comment: Reactie bijwerken
+show_avatars_on_comments_help: Toon/verberg profielfoto's bij het bekijken van reacties
+  op een enkele discussie of post.
+comment_reply_position: Commentaar reactie positie

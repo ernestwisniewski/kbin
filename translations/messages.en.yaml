@@ -723,3 +723,12 @@ oauth2.grant.admin.oauth_clients.revoke: Revoke access to OAuth2 clients on your
 last_active: Last Active
 flash_post_pin_success: The post has been successfully pinned.
 flash_post_unpin_success: The post has been successfully unpinned.
+comment_reply_position_help: Display the comment reply form either at the top or bottom
+  of the page. When 'infinite scroll' is enabled the position will always appear at
+  the top.
+show_avatars_on_comments: Show Comment Avatars
+single_settings: Single
+update_comment: Update comment
+show_avatars_on_comments_help: Display/hide user avatars when viewing comments on
+  a single thread or post.
+comment_reply_position: Comment reply position
