@@ -8,6 +8,7 @@ use App\Controller\AbstractController;
 use App\Entity\User;
 use App\PageView\EntryCommentPageView;
 use App\PageView\EntryPageView;
+use App\PageView\MagazinePageView;
 use App\PageView\PostCommentPageView;
 use App\PageView\PostPageView;
 use App\Repository\Criteria;
@@ -172,6 +173,13 @@ class UserFrontController extends AbstractController
 
     public function moderated(User $user, MagazineRepository $repository, Request $request): Response
     {
+        $criteria = new MagazinePageView(
+            $this->getPageNb($request),
+            Criteria::SORT_ACTIVE,
+            Criteria::AP_ALL,
+            MagazinePageView::ADULT_SHOW,
+        );
+
         $response = new Response();
         if ($user->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
@@ -183,6 +191,7 @@ class UserFrontController extends AbstractController
                 'view' => 'list',
                 'user' => $user,
                 'magazines' => $repository->findModeratedMagazines($user, (int) $request->get('p', 1)),
+                'criteria' => $criteria
             ],
             $response
         );

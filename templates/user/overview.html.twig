@@ -16,22 +16,22 @@
             <h3>{{ 'admin_panel'|trans }}</h3>
             <div class="panel">
                 <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
-                    method="POST"
-                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                      method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
                     <button type="submit" class="btn btn__secondary">
                         <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}
                     </button>
                 </form>
                 <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
-                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
                     <button type="submit" class="btn btn__secondary">
                         <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
                     </button>
                 </form>
                 <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
-                    onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
                     <button type="submit" class="btn btn__danger">
                         <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
@@ -46,8 +46,7 @@
         <div class="section section--top">
             {{ component('user_box', {
                 user: user,
-                stretchedLink: false,
-                trimAbout: false
+                stretchedLink: false
             }) }}
         </div>
         {% include('user/_options.html.twig') %}

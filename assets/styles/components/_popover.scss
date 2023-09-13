@@ -28,12 +28,6 @@
       color: var(--kbin-meta-link-color-hover) !important;
     }
   }
-
-  @include media-breakpoint-down(sm) {
-    width: 90%;
-    left: 5%;
-  }
-
 }
 
 .popover--is-visible {
@@ -45,15 +39,11 @@
 
 .popover-control--active {
   outline: none;
+  // class added to the trigger when popover is visible
 }
 
 .user-popover {
   min-width: 26rem;
-
-  @include media-breakpoint-down(sm) {
-    min-width: unset;
-    max-width: 100%;
-  }
 
   header {
     display: flex;
@@ -79,13 +69,6 @@
       justify-content: left;
       margin-bottom: 1rem;
     }
-
-    .user__about{
-      margin-bottom: 1rem;
-      width: 100%;
-      max-width: 500px;
-    }
-
   }
 
   footer {

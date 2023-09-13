@@ -51,7 +51,7 @@ class UserFollowController extends AbstractController
                 'html' => $this->renderView(
                     'components/_ajax.html.twig',
                     [
-                        'component' => 'user_follow',
+                        'component' => 'user_actions',
                         'attributes' => [
                             'user' => $user,
                         ],

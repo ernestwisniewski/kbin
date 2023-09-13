@@ -1,4 +1,4 @@
-<section class="section entry-info user-info">
+<section class="section entry-info">
     <h3>{{ 'thread'|trans }}</h3>
     <div class="row">
         {% if entry.user.avatar %}
@@ -10,14 +10,7 @@
         {% endif %}
         <h4><a href="{{ path('user_overview', {username:entry.user.username}) }}"
                class="stretched-link">{{ entry.user.username|username(false) }}</a></h4>
-        <p class="user__name">{{ entry.user.username|username(true) }}</p>    
-        {% if entry.user.about|length %}
-            <div class="user__about">
-                <div class="content">
-                    {{ get_short_sentence(entry.user.about|markdown|raw, striptags = true, length = 150, multiLine = false) }} 
-                </div>
-            </div>
-        {% endif %}
+        <p class="user__name">{{ entry.user.username|username(true) }}</p>
     </div>
     {{ component('user_actions', {user: entry.user}) }}
     <ul class="info">
@@ -26,7 +19,7 @@
         <li>{{ 'online'|trans }}: <span>-</span></li>
         <li>{{ 'ratio'|trans }}:
             <span>{{ entry.countUpvotes }} {% if entry.countUpvotes %}({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }}){% endif %}</span>
-        </li>     
+        </li>
     </ul>
     {% if entry.tags %}
         <h3 class="mt-3">{{ 'tags'|trans }}</h3>

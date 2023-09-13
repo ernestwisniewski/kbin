@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2.5rem;
 
     div {
       align-items: center;
@@ -12,18 +12,17 @@
       color: var(--kbin-button-secondary-text-color);
       display: flex;
       flex-direction: row;
+      font-size: .9rem;
+      left: 1px;
       padding: .3rem .5rem;
       position: relative;
-      font-size: 0.85rem;
 
       .rounded-edges & {
         border-radius: .5rem;
       }
-    }
 
-    .action{
-      span{
-        margin-left: 0.5rem;
+      i {
+        padding-right: .5rem;
       }
     }
 
@@ -39,10 +38,6 @@
     }
 
     opacity: .75;
-  }
-
-  &__about{
-    margin-bottom: 1rem;
   }
 }
 
@@ -107,6 +102,7 @@
   }
 
   .about {
+    margin-bottom: 2.5rem;
     padding: 0 1.5rem;
 
     @include media-breakpoint-down(sm) {
@@ -115,8 +111,6 @@
   }
 
   .with-cover.with-avatar {
-    margin-bottom: -40px;
-
     .user-main {
       margin-top: 0;
       padding-top: 0;
@@ -129,8 +123,9 @@
     }
 
     .about {
-      top: -40px;
+      margin-bottom: 1.5rem;
       position: relative;
+      top: -20px;
     }
   }
 }
@@ -272,6 +267,6 @@
   }
 }
 
-td .user__actions{
+td .user__actions {
   margin: 0;
 }

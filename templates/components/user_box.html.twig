@@ -1,4 +1,4 @@
-<div{{ attributes.defaults({class: 'user-box user-info'}) }}>
+<div{{ attributes.defaults({class: 'user-box'}) }}>
     <div class="{{ html_classes({'with-cover': user.cover, 'with-avatar': user.avatar }) }}">
         {% if user.cover %}
             <img height="220"
@@ -26,16 +26,16 @@
                         <h1>{{ user.apPreferredUsername ?? user.username|username(false) }}</h1>
                     {% endif %}
                     <small>{{ user.username|username(true) }}</small>
-                    {% if user.about|length %}
-                        <div class="user__about">
-                            <div class="content">
-                                {{ (trimAbout == true) ?  get_short_sentence(user.about|markdown|raw, striptags = true, length = 50, multiLine = false) : user.about|markdown|raw }}      
-                            </div>
-                        </div>
-                    {% endif %}
                 </div>
                 {{ component('user_actions', {user: user}) }}
             </div>
         </div>
+        {% if user.about|length %}
+            <div class="about">
+                <div class="content">
+                    {{ user.about|markdown|raw }}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>

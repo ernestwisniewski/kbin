@@ -20,9 +20,9 @@
     {{ component('settings_row_switch', {label: 'show_users_avatars'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_USERS_AVATARS'}) }}
     {{ component('settings_row_switch', {label: 'show_magazines_icons'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_MAGAZINES_ICONS'}) }}
     {{ component('settings_row_switch', {label: 'show_thumbnails'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_THUMBNAILS', defaultValue: true}) }}
+    <h3>{{ 'microblog'|trans }}</h3>
+    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_help'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
     <h3>{{ 'single_settings'|trans}}</h3>
     {{ component('settings_row_enum', {label: 'comment_reply_position'|trans, help: 'comment_reply_position_help'|trans, settingsKey: 'KBIN_COMMENTS_REPLY_POSITION', values: [ {name: 'top'|trans , value: 'TOP'}, {name: 'bottom'|trans , value: 'BOTTOM' } ], defaultValue: 'TOP' } ) }}
     {{ component('settings_row_switch', {label: 'show_avatars_on_comments'|trans, help: 'show_avatars_on_comments_help'|trans, settingsKey: 'KBIN_COMMENTS_SHOW_USER_AVATAR', defaultValue: true}) }}
-    <h3>{{ 'microblog'|trans }}</h3>
-    {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_help'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
 </div>
