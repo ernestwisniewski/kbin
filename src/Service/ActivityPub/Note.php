@@ -56,8 +56,9 @@ class Note
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $image = $this->activityPubManager->handleImages($object['attachment']);
-            $dto->image = $this->imageFactory->createDto($image);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';
