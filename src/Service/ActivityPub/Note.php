@@ -15,6 +15,7 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Factory\ImageFactory;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
@@ -36,6 +37,7 @@ class Note
         private readonly EntityManagerInterface $entityManager,
         private readonly MarkdownConverter $markdownConverter,
         private readonly SettingsManager $settingsManager,
+        private readonly ImageFactory $imageFactory,
     ) {
     }
 
@@ -54,7 +56,8 @@ class Note
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            $image = $this->activityPubManager->handleImages($object['attachment']);
+            $dto->image = $this->imageFactory->createDto($image);
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';
@@ -189,7 +192,9 @@ class Note
         }
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';
@@ -239,7 +244,9 @@ class Note
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';

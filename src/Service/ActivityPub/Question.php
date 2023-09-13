@@ -15,6 +15,7 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Factory\ImageFactory;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
@@ -36,6 +37,7 @@ class Question
         private readonly EntityManagerInterface $entityManager,
         private readonly MarkdownConverter $markdownConverter,
         private readonly SettingsManager $settingsManager,
+        private readonly ImageFactory $imageFactory,
     ) {
     }
 
@@ -54,7 +56,9 @@ class Question
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';
@@ -180,7 +184,9 @@ class Question
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';
@@ -224,7 +230,9 @@ class Question
         $dto->apId = $object['id'];
 
         if (isset($object['attachment'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+            if ($image = $this->activityPubManager->handleImages($object['attachment'])) {
+                $dto->image = $this->imageFactory->createDto($image);
+            }
 
             if ($images = $this->activityPubManager->handleExternalImages($object['attachment'])) {
                 $object['content'] .= '<br><br>';

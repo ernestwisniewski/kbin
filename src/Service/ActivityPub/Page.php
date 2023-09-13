@@ -8,6 +8,7 @@ use App\DTO\EntryDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
+use App\Factory\ImageFactory;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
@@ -25,6 +26,7 @@ class Page
         private readonly ActivityPubManager $activityPubManager,
         private readonly EntityManagerInterface $entityManager,
         private readonly SettingsManager $settingsManager,
+        private readonly ImageFactory $imageFactory,
     ) {
     }
 
@@ -57,8 +59,11 @@ class Page
         $dto->title = $object['name'];
         $dto->apId = $object['id'];
 
-        if (isset($object['attachment']) || isset($object['image'])) {
-            $dto->image = $this->activityPubManager->handleImages($object['attachment']);
+        if (
+            (isset($object['attachment']) || isset($object['image']))
+            && $image = $this->activityPubManager->handleImages($object['attachment'])
+        ) {
+            $dto->image = $this->imageFactory->createDto($image);
         }
 
         $dto->body = !empty($object['content']) ? $this->markdownConverter->convert($object['content']) : null;
