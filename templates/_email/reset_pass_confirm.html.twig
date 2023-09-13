@@ -1,7 +1,17 @@
-<h1>{{ 'password_confirm_header'|trans }}</h1>
+{% extends "_email/email_base.html.twig" %}
 
-<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+{%- block title -%}
+    {{- 'password_confirm_header'|trans }}
+{%- endblock -%}
 
-<p>{{ 'email_confirm_expire'|trans }}</p>
-
-<p>Cheers!</p>
+{% block body %}
+    <h1>{{ 'password_confirm_header'|trans }}</h1>
+    <p>{{ 'email_confirm_expire'|trans }} </p>
+    <p>
+        <a class="btn btn__primary" href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{'email_confirm_button_text'|trans}}</a>
+    </p>
+    <p>Cheers!</p>
+    <p>
+        <small>{{'email_confirm_link_help'|trans}}: {{ url('app_reset_password', {token: resetToken.token}) }}</small>
+    </p>
+{% endblock %}

@@ -1,6 +1,14 @@
-<h1>User delete account</h1>
+{% extends "_email/email_base.html.twig" %}
 
-<ul>
-    <li>{{ username }}</li>
-    <li>{{ mail }}</li>
-</ul>
+{%- block title -%}
+    {{- 'email.delete.title'|trans }} 
+{%- endblock -%}
+
+{% block body %}
+    <h1>{{'email.delete.title'|trans}}</h1>
+    <p>{{'email.delete.description'|trans}}</p>
+    <div>
+        <p><strong>Username: </strong> {{ username }}</p>
+        <p><strong>Email: </strong> {{ mail }}</p>
+    </div>
+{% endblock %}

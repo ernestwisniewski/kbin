@@ -1,12 +1,15 @@
-<h1>{{ 'email_confirm_header'|trans }}</h1>
+{% extends "_email/email_base.html.twig" %}
 
-<p>
-    {{ 'email_confirm_content'|trans }} <br><br>
-    <a href="{{ signedUrl|raw }}">{{ 'email_verify'|trans }}</a>.
-    {{ 'email_confirm_expire'|trans }}
-    {# Link wygaśnie za {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}. #}
-</p>
+{%- block title -%}
+    {{- 'email_confirm_header'|trans }}
+{%- endblock -%}
 
-<p>
-    Cheers!
-</p>
+{% block body %}
+    <h1>{{ 'email_confirm_header'|trans }}</h1>
+    <p>{{ 'email_confirm_content'|trans }} </p>
+    <p>
+        <a class="btn btn__primary" href="{{ signedUrl|raw }}">{{ 'email_verify'|trans }}</a>
+    </p>
+    <p>{{ 'email_confirm_expire'|trans }}</p>
+    <p>Cheers!</p>
+{% endblock %}

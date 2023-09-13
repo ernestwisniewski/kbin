@@ -1,0 +1,1 @@
+import './styles/emails.scss';

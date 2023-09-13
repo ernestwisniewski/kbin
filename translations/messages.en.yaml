@@ -111,6 +111,7 @@ email_confirm_content: 'Ready to activate your /kbin account? Click on the link 
 email_verify: Confirm email address
 email_confirm_expire: Please note that the link will expire in an hour.
 email_confirm_title: Confirm your email address.
+email_confirm_link_help: Alternatively you can copy and paste the following into your browser
 select_magazine: Select a magazine
 add_new: Add new
 url: URL
@@ -535,8 +536,6 @@ errors.server429.title: 429 Too Many Requests
 errors.server404.title: 404 Not found
 errors.server403.title: 403 Forbidden
 email_confirm_button_text: Confirm your password change request
-email_confirm_link_help: Alternatively you can copy and paste the following into your
-  browser
 email.delete.title: User account deletion request
 email.delete.description: The following user has requested that their account be deleted
 resend_account_activation_email_question: Inactive account?

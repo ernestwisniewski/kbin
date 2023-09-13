@@ -1,8 +1,14 @@
-<h1>{{ 'contact'|trans }}</h1>
+{% extends "_email/email_base.html.twig" %}
 
-<ul>
-    <li>{{ name }}</li>
-    <li>{{ senderEmail }}</li>
-</ul>
+{%- block title -%}
+    {{- 'contact'|trans }}
+{%- endblock -%}
 
-<p>{{ message }}</p>
+{% block body %}
+    <h1>{{ 'contact'|trans }}</h1>
+    <div>
+        <p><strong>Name: </strong>{{ name }}</p>
+        <p><strong>Email: </strong>{{ senderEmail }}</p>
+        <p><strong>Message: </strong>{{ message }}</p>
+    </div>
+{% endblock %}

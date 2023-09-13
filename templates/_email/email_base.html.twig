@@ -1,0 +1,24 @@
+{% apply inline_css(encore_entry_css_source('email')) %}
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{%- block title -%}{{ kbin_meta_title() }}{%- endblock -%}</title>
+</head>
+<body> 
+    <div class="header container">
+        <a href="{{absolute_url(path('root'))}}">
+             <img class="logo" src="{{ absolute_url(asset('kbin_logo_white.png')) }}" alt="{{ kbin_title() }}">
+         </a>
+    </div>
+    <div class="body container">
+        {% block body %}{% endblock %}
+    </div>
+    <div class="footer container">
+         <h3>© {{ 'now'|date('Y') }} {{ kbin_domain() }}</h3>
+         <div>Powered by <a href="https://kbin.pub">kbin</a> &#8729; <a href="https://codeberg.org/Kbin/kbin-core/issues" rel="no-referrer">{{ 'report_issue'|trans }}</a></div>
+    </div>
+</body>
+</html>
+{% endapply %} 

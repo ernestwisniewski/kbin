@@ -1,0 +1,120 @@
+
+body{
+    background-color: #fff;
+    color: #212529;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    margin: 0px;
+}
+
+.container{
+    padding: 0.5em;
+}
+
+h1,h2,h3,h4,h5,h6{
+    margin: 0.5em auto;
+    line-height: 100%;
+}
+
+h1{
+    
+}
+h2{
+
+}
+h3{
+
+}
+
+a {
+    color: #37769e;
+    text-decoration: none;
+  
+    &:hover {
+      color: #275878;
+    }
+}
+
+
+
+.btn {
+    height: 100%;
+    padding: 0.7em;
+    font-size: 0.85em;
+    cursor: pointer;
+  
+    &__danger{
+      background: #842029;
+      border: 1px dashed #842029;
+      color: #fff;
+      font-weight: bold;
+  
+      &:hover,
+      &:focus-visible {
+        background: #921d27;
+        color: #fff;
+      }
+  
+      a, a:hover {
+        color: #fff;
+      }
+  
+    }
+  
+    &__primary {
+      background: #4e3a8c;
+      border: 1px solid #3f2e77;
+      color: #fff;
+      font-weight: bold;
+  
+      &:hover,
+      &:focus-visible {
+        background: #3f2e77;
+        color: #fff;
+      }
+  
+      a, a:hover {
+        color: #fff;
+      }
+    }
+  
+    &__secondry {
+      background: #fff;
+      border: 1px dashed #e5eaec;
+      color: #606060;
+  
+      &:hover,
+      &:focus-visible
+      {
+        background: #f5f5f5;
+        color: #212529;
+      }
+    }
+  }
+
+.footer{
+    background-color: #1e1f22;
+    color: #fff;
+
+    a{
+        color: #fff;
+
+        &:hover,
+        &:active{
+            color: #e8e8e8;;
+        }
+    }
+}
+
+.logo{
+    max-width: 100px;
+}
+
+.header{
+    background-color:#1e1f22;
+    color: #fff;
+}
+

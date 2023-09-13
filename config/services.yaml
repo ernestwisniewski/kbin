@@ -81,6 +81,7 @@ services:
       $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
       $kbinApiItemsPerPage: '%kbin_api_items_per_page%'
       $storageUrl: '%kbin_storage_url%'
+      $publicDir: '%kernel.project_dir%/public'
 
   kbin.s3_client:
     class: Aws\S3\S3Client
