@@ -26,6 +26,13 @@
                     </li>
                 {% endif %}
             </ul>
+             {% if user.about|length %}
+                <div class="user__about">
+                    <div class="content">
+                        {{ get_short_sentence(user.about|markdown|raw, striptags = true, length = 150, multiLine = false) }} 
+                    </div>
+                </div>
+            {% endif %}
             {{ component('user_actions', {user: user}) }}
         </div>
     </header>

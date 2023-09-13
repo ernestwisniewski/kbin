@@ -12,4 +12,5 @@ final class UserBoxComponent
 {
     public User $user;
     public bool $stretchedLink = true;
+    public bool $trimAbout = true;
 }

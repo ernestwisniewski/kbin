@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
 
     div {
       align-items: center;
@@ -39,6 +39,10 @@
     }
 
     opacity: .75;
+  }
+
+  &__about{
+    margin-bottom: 1rem;
   }
 }
 
@@ -103,7 +107,6 @@
   }
 
   .about {
-    margin-bottom: 2.5rem;
     padding: 0 1.5rem;
 
     @include media-breakpoint-down(sm) {
@@ -112,6 +115,8 @@
   }
 
   .with-cover.with-avatar {
+    margin-bottom: -40px;
+
     .user-main {
       margin-top: 0;
       padding-top: 0;
@@ -124,9 +129,8 @@
     }
 
     .about {
-      margin-bottom: 1.5rem;
+      top: -40px;
       position: relative;
-      top: -20px;
     }
   }
 }
