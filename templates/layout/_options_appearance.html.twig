@@ -20,4 +20,6 @@
     {{ component('settings_row_switch', {label: 'show_thumbnails'|trans, settingsKey: 'KBIN_ENTRIES_SHOW_THUMBNAILS', defaultValue: true}) }}
     <strong>{{ 'microblog'|trans }}</strong>
     {{ component('settings_row_switch', {label: 'auto_preview'|trans, help: 'auto_preview_help'|trans,  settingsKey: 'KBIN_POSTS_SHOW_PREVIEW'}) }}
+    <strong>Single Entry</strong>
+    {{ component('settings_row_enum', {label: 'comment_reply_position'|trans, help: 'comment_reply_position_help'|trans, settingsKey: 'KBIN_COMMENTS_REPLY_POSITION', values: [ {name: 'top'|trans , value: 'TOP'}, {name: 'bottom'|trans , value: 'BOTTOM' } ], defaultValue: 'TOP' } ) }}
 </div>

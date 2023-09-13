@@ -36,12 +36,23 @@
         }) }}
         {% include 'layout/_flash.html.twig' %}
         {% include 'entry/comment/_options.html.twig' %}
+        
+        {% if(user_settings.comment_reply_position == constant('App\\Controller\\User\\ThemeSettingsController::TOP')) %}
+            <div id="comment-add" class="section">
+                {% include 'entry/comment/_form_comment.html.twig' %}
+            </div>
+        {% endif %}
+        
         <div id="comments">
             {% include 'entry/comment/_list.html.twig' %}
         </div>
-        <div id="comment-add" class="section">
-            {% include 'entry/comment/_form_comment.html.twig' %}
-        </div>
+
+         {% if(user_settings.comment_reply_position == constant('App\\Controller\\User\\ThemeSettingsController::BOTTOM'))  %}
+            <div id="comment-add" class="section">
+                {% include 'entry/comment/_form_comment.html.twig' %}
+            </div>
+        {% endif %}
+        
         {% include 'entry/_options_activity.html.twig' %}
     </div>
 {% endblock %}

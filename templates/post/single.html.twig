@@ -34,12 +34,23 @@
         }) }}
         {% include 'post/comment/_options.html.twig' %}
         {% include 'layout/_flash.html.twig' %}
-        <section id="comments">
-            {% include 'post/comment/_list.html.twig' %}
-        </section>
+        
+        {% if(user_settings.comment_reply_position == constant('App\\Controller\\User\\ThemeSettingsController::TOP')) %}
         <section id="comment-add" class="section">
             {% include 'post/comment/_form_comment.html.twig' %}
         </section>
+        {% endif %}
+
+        <section id="comments">
+            {% include 'post/comment/_list.html.twig' %}
+        </section>
+
+        {% if(user_settings.comment_reply_position == constant('App\\Controller\\User\\ThemeSettingsController::BOTTOM')) %}
+        <section id="comment-add" class="section">
+            {% include 'post/comment/_form_comment.html.twig' %}
+        </section>
+        {% endif %}
+       
         {% include 'post/_options_activity.html.twig' %}
     </div>
 {% endblock %}
