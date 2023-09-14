@@ -64,6 +64,7 @@ class UserBlockControllerTest extends WebTestCase
         $client->setServerParameter('HTTP_X-Requested-With', 'XMLHttpRequest');
         $client->submit($crawler->filter('#sidebar form[name=user_block] button')->form());
 
+        $this->assertResponseIsSuccessful();
         $this->assertStringContainsString('{"html":', $client->getResponse()->getContent());
         $this->assertStringNotContainsString('active', $client->getResponse()->getContent());
     }

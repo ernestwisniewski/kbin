@@ -143,7 +143,7 @@ class MagazineUpdateThemeApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::MAGAZINE_THEME_RESPONSE_KEYS, $jsonData);
         self::assertIsArray($jsonData['magazine']);
         self::assertArrayKeysMatch(MagazineRetrieveApiTest::MAGAZINE_SMALL_RESPONSE_KEYS, $jsonData['magazine']);
-        self::assertStringContainsString('https://karab.in/build/images/shape.png', $jsonData['customCss']);
+        self::assertStringContainsString('/build/images/shape.png', $jsonData['customCss']);
         self::assertIsArray($jsonData['icon']);
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['icon']);
         self::assertSame(96, $jsonData['icon']['width']);

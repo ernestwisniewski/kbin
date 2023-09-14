@@ -25,7 +25,7 @@ class EntryCommentEditControllerTest extends WebTestCase
         $this->assertSelectorTextContains('#main .entry-comment', 'test comment 1');
 
         $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Save changes')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Update comment')->form(
                 [
                     'entry_comment[body]' => 'test comment 2 body',
                 ]
@@ -58,7 +58,7 @@ class EntryCommentEditControllerTest extends WebTestCase
         $this->assertStringContainsString(self::KIBBY_PNG_URL_RESULT, $node->attributes->getNamedItem('src')->textContent);
 
         $client->submit(
-            $crawler->filter('form[name=entry_comment]')->selectButton('Save changes')->form(
+            $crawler->filter('form[name=entry_comment]')->selectButton('Update comment')->form(
                 [
                     'entry_comment[body]' => 'test comment 2 body',
                 ]
