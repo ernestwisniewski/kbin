@@ -16,19 +16,19 @@ use Pagerfanta\Adapter\AdapterInterface;
  *
  * @implements AdapterInterface<T>
  */
-class QueryAdapter implements AdapterInterface
+readonly class QueryAdapter implements AdapterInterface
 {
     /**
      * @var Paginator<T>
      */
-    protected readonly Paginator $paginator;
+    protected Paginator $paginator;
 
     /**
      * @param bool      $fetchJoinCollection Whether the query joins a collection (true by default)
      * @param bool|null $useOutputWalkers    Flag indicating whether output walkers are used in the paginator
      */
     public function __construct(
-        Query|QueryBuilder $query,
+        private Query|QueryBuilder $query,
         bool $fetchJoinCollection = true,
         bool $useOutputWalkers = null,
     ) {
@@ -57,5 +57,10 @@ class QueryAdapter implements AdapterInterface
             ->setMaxResults($length);
 
         return $this->paginator->getIterator();
+    }
+
+    public function getQuery(): Query|QueryBuilder
+    {
+        return $this->query;
     }
 }

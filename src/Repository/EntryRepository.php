@@ -21,7 +21,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\PageView\EntryPageView;
-use App\Pagination\KbinQueryAdapter;
+use App\Pagination\AdapterFactory;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
@@ -49,27 +49,18 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
     public const TIME_DEFAULT = Criteria::TIME_ALL;
     public const PER_PAGE = 25;
 
-    private Security $security;
-    private CacheInterface $cache;
-
-    public function __construct(ManagerRegistry $registry, Security $security, CacheInterface $cache)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly Security $security,
+        private readonly CacheInterface $cache,
+        private readonly AdapterFactory $adapterFactory,
+    ) {
         parent::__construct($registry, Entry::class);
-
-        $this->security = $security;
-        $this->cache = $cache;
     }
 
     public function findByCriteria(EntryPageView|Criteria $criteria): PagerfantaInterface
     {
-        $pagerfanta = new Pagerfanta(
-            new KbinQueryAdapter(
-                $this->getEntryQueryBuilder($criteria),
-                false,
-                false,
-                $this->cache
-            )
-        );
+        $pagerfanta = new Pagerfanta($this->adapterFactory->create($this->getEntryQueryBuilder($criteria)));
 
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
