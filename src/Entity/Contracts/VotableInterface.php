@@ -13,6 +13,11 @@ interface VotableInterface
     public const VOTE_UP = 1;
     public const VOTE_NONE = 0;
     public const VOTE_DOWN = -1;
+    public const VOTE_CHOICES = [
+        self::VOTE_DOWN,
+        self::VOTE_NONE,
+        self::VOTE_UP,
+    ];
 
     public function getId(): int;
 

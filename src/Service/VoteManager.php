@@ -27,9 +27,9 @@ class VoteManager
     ) {
     }
 
-    public function vote(int $choice, VotableInterface $votable, User $user, $limiter = true): Vote
+    public function vote(int $choice, VotableInterface $votable, User $user, $rateLimit = true): Vote
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->voteLimiter->create($user->username);
             if (false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();

@@ -44,11 +44,16 @@ class EntryFrontController extends AbstractController
 
     public function front(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
+        $user = $this->getUser();
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
+
+        if (null !== $user && 0 < count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $method = $criteria->resolveSort($sortBy);
         $posts = $this->$method($criteria);
@@ -77,12 +82,18 @@ class EntryFrontController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function subscribed(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
+        $user = $this->getUserOrThrow();
+
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
+
+        if (0 < count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
@@ -118,6 +129,8 @@ class EntryFrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->moderated = true;
 
+        // We do not set language filter for moderated view.
+
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
@@ -152,6 +165,8 @@ class EntryFrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->favourite = true;
 
+        // No language criteria for favourites, either
+
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
@@ -184,6 +199,7 @@ class EntryFrontController extends AbstractController
         ?string $type,
         Request $request
     ): Response {
+        $user = $this->getUser();
         $response = new Response();
         if ($magazine->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
@@ -196,6 +212,10 @@ class EntryFrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->magazine = $magazine;
         $criteria->stickiesFirst = true;
+
+        if (null !== $user && 0 < count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);

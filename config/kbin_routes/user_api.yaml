@@ -141,3 +141,23 @@ api_user_magazine_subscriptions:
   path: /api/users/{user_id}/magazines/subscriptions
   methods: [ GET ]
   format: json
+
+api_user_domain_subscriptions:
+  controller: App\Controller\Api\Domain\DomainRetrieveApi::subscriptions
+  path: /api/users/{user_id}/domains/subscriptions
+  methods: [ GET ]
+  format: json
+
+# Get a list of threads from specific user
+api_user_entries_retrieve:
+  controller: App\Controller\Api\Entry\UserEntriesRetrieveApi
+  path: /api/users/{user_id}/entries
+  methods: [ GET ]
+  format: json
+
+# Get a list of comments from specific user
+api_user_entry_comments_retrieve:
+  controller: App\Controller\Api\Entry\Comments\UserEntryCommentsRetrieveApi
+  path: /api/users/{user_id}/comments
+  methods: [ GET ]
+  format: json

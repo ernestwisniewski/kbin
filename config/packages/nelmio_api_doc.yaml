@@ -107,21 +107,23 @@ nelmio_api_doc:
                                 read:  Read all content you have access to.
                                 write:  Create or edit any of your threads, posts, or comments.
                                 delete:  Delete any of your threads, posts, or comments.
-                                subscribe:  Report threads, posts, or comments.
-                                block:  Upvote, downvote, or boost threads, posts, or comments.
-                                vote:  Subscribe or follow any magazine, domain, or user, and view the magazines, domains, and users you subscribe to.
-                                report:  Block or unblock any magazine, domain, or user, and view the magazines, domains, and users you have blocked.
+                                report:  Report threads, posts, or comments.
+                                vote:  Upvote, downvote, or boost threads, posts, or comments.
+                                subscribe:  Subscribe or follow any magazine, domain, or user, and view the magazines, domains, and users you subscribe to.
+                                block:  Block or unblock any magazine, domain, or user, and view the magazines, domains, and users you have blocked.
                                 domain:  Subscribe to or block domains, and view the domains you subscribe to or block.
                                 domain:subscribe:  Subscribe or unsubscribe to domains and view the domains you subscribe to.
                                 domain:block:  Block or unblock domains and view the domains you have blocked.
                                 entry:  Create, edit, or delete your threads, and vote, boost, or report any thread.
                                 entry:create:  Create new threads.
                                 entry:edit:  Edit your existing threads.
+                                entry:vote:  Vote or boost threads.
                                 entry:delete:  Delete your existing threads.
                                 entry:report:  Report any thread.
                                 entry_comment:  Create, edit, or delete your comments in threads, and vote, boost, or report any comment in a thread.
                                 entry_comment:create:  Create new comments in threads.
                                 entry_comment:edit:  Edit your existing comments in threads.
+                                entry_comment:vote:  Vote or boost comments in threads.
                                 entry_comment:delete:  Delete your existing comments in threads.
                                 entry_comment:report:  Report any comment in a thread.
                                 magazine:  Subscribe to or block magazines, and view the magazines you subscribe to or block.
@@ -130,11 +132,13 @@ nelmio_api_doc:
                                 post:  Create, edit, or delete your microblogs, and vote, boost, or report any microblog.
                                 post:create:  Create new posts.
                                 post:edit:  Edit your existing posts.
+                                post:vote:  Vote or boost posts.
                                 post:delete:  Delete your existing posts.
                                 post:report:  Report any post.
                                 post_comment:  Create, edit, or delete your comments on posts, and vote, boost, or report any comment on a post.
                                 post_comment:create:  Create new comments on posts.
                                 post_comment:edit:  Edit your existing comments on posts.
+                                post_comment:vote:  Vote or boost comments on posts.
                                 post_comment:delete:  Delete your existing comments on posts.
                                 post_comment:report:  Report any comment on a post.
                                 user:  Read and edit your profile, messages, notifications; follow or block other users; view lists of users you follow or block.

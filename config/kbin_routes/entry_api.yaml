@@ -1,0 +1,140 @@
+# Get information about a thread
+api_entry_retrieve:
+  controller: App\Controller\Api\Entry\EntriesRetrieveApi
+  path: /api/entry/{entry_id}
+  methods: [ GET ]
+  format: json
+
+api_entry_update:
+  controller: App\Controller\Api\Entry\EntriesUpdateApi
+  path: /api/entry/{entry_id}
+  methods: [ PUT ]
+  format: json
+
+api_entry_delete:
+  controller: App\Controller\Api\Entry\EntriesDeleteApi
+  path: /api/entry/{entry_id}
+  methods: [ DELETE ]
+  format: json
+
+api_entry_report:
+  controller: App\Controller\Api\Entry\EntriesReportApi
+  path: /api/entry/{entry_id}/report
+  methods: [ POST ]
+  format: json
+
+api_entry_vote:
+  controller: App\Controller\Api\Entry\EntriesVoteApi
+  path: /api/entry/{entry_id}/vote/{choice}
+  methods: [ PUT ]
+  format: json
+
+api_entry_favourite:
+  controller: App\Controller\Api\Entry\EntriesFavouriteApi
+  path: /api/entry/{entry_id}/favourite
+  methods: [ PUT ]
+  format: json
+
+# Get a list of threads from subscribed magazines
+api_entries_subscribed:
+  controller: App\Controller\Api\Entry\EntriesRetrieveApi::subscribed
+  path: /api/entries/subscribed
+  methods: [ GET ]
+  format: json
+
+# Get a list of threads from moderated magazines
+api_entries_moderated:
+  controller: App\Controller\Api\Entry\EntriesRetrieveApi::moderated
+  path: /api/entries/moderated
+  methods: [ GET ]
+  format: json
+
+# Get a list of favourited threads
+api_entries_favourited:
+  controller: App\Controller\Api\Entry\EntriesRetrieveApi::favourited
+  path: /api/entries/favourited
+  methods: [ GET ]
+  format: json
+
+# Get a list of threads from all magazines
+api_entries_collection:
+  controller: App\Controller\Api\Entry\EntriesRetrieveApi::collection
+  path: /api/entries
+  methods: [ GET ]
+  format: json
+
+# Get comments for a specific thread
+api_entry_comments:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsRetrieveApi
+  path: /api/entry/{entry_id}/comments
+  methods: [ GET ]
+  format: json
+
+# Create a top level comment on a thread
+api_entry_comment_new:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsCreateApi
+  path: /api/entry/{entry_id}/comments
+  methods: [ POST ]
+  format: json
+
+# Create a top level comment with uploaded image on a thread
+api_entry_comment_new_image:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsCreateApi::uploadImage
+  path: /api/entry/{entry_id}/comments/image
+  methods: [ POST ]
+  format: json
+
+# Create a comment reply on a thread
+api_entry_comment_reply:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsCreateApi
+  path: /api/entry/{entry_id}/comments/{comment_id}/reply
+  methods: [ POST ]
+  format: json
+
+# Create a comment reply with uploaded image on a thread
+api_entry_comment_reply_image:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsCreateApi::uploadImage
+  path: /api/entry/{entry_id}/comments/{comment_id}/reply/image
+  methods: [ POST ]
+  format: json
+
+# Retrieve a comment
+api_comment_retrieve:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsRetrieveApi::single
+  path: /api/comments/{comment_id}
+  methods: [ GET ]
+  format: json
+
+# Update a comment
+api_comment_update:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsUpdateApi
+  path: /api/comments/{comment_id}
+  methods: [ PUT ]
+  format: json
+
+# Delete a comment
+api_comment_delete:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsDeleteApi
+  path: /api/comments/{comment_id}
+  methods: [ DELETE ]
+  format: json
+
+api_comment_report:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsReportApi
+  path: /api/comments/{comment_id}/report
+  methods: [ POST ]
+  format: json
+
+# Vote on a comment
+api_comment_vote:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsVoteApi
+  path: /api/comments/{comment_id}/vote/{choice}
+  methods: [ PUT ]
+  format: json
+
+# Favourite a comment
+api_comment_favourite:
+  controller: App\Controller\Api\Entry\Comments\EntryCommentsFavouriteApi
+  path: /api/comments/{comment_id}/favourite
+  methods: [ PUT ]
+  format: json

@@ -41,9 +41,9 @@ class EntryCommentManager implements ContentManagerInterface
     ) {
     }
 
-    public function create(EntryCommentDto $dto, User $user, $limiter = true): EntryComment
+    public function create(EntryCommentDto $dto, User $user, $rateLimit = true): EntryComment
     {
-        if ($limiter) {
+        if ($rateLimit) {
             $limiter = $this->entryCommentLimiter->create($dto->ip);
             if ($limiter && false === $limiter->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
@@ -132,6 +132,17 @@ class EntryCommentManager implements ContentManagerInterface
         }
 
         $this->isTrashed($user, $comment) ? $comment->trash() : $comment->softDelete();
+
+        $this->dispatcher->dispatch(new EntryCommentBeforeDeletedEvent($comment, $user));
+
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryCommentDeletedEvent($comment, $user));
+    }
+
+    public function trash(User $user, EntryComment $comment): void
+    {
+        $comment->trash();
 
         $this->dispatcher->dispatch(new EntryCommentBeforeDeletedEvent($comment, $user));
 

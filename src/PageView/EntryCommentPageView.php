@@ -12,6 +12,9 @@ class EntryCommentPageView extends Criteria
     public const SORT_OPTIONS = [
         self::SORT_NEW,
         self::SORT_TOP,
+        self::SORT_HOT,
+        self::SORT_NEW,
+        self::SORT_OLD,
     ];
 
     public ?Entry $entry = null;

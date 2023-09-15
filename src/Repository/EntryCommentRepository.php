@@ -21,6 +21,7 @@ use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -148,6 +149,11 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
             $qb->andWhere('ced.name = :domain')
                 ->join('ce.domain', 'ced')
                 ->setParameter('domain', $criteria->domain);
+        }
+
+        if ($criteria->languages) {
+            $qb->andWhere('c.lang IN (:languages)')
+                ->setParameter('languages', $criteria->languages, ArrayParameterType::STRING);
         }
 
         if ($criteria->tag) {

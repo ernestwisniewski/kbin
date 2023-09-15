@@ -1,3 +1,38 @@
+# Create an article entry in a magazine
+api_magazine_entry_create_article:
+  controller: App\Controller\Api\Entry\MagazineEntryCreateApi::article
+  path: /api/magazine/{magazine_id}/article
+  methods: [ POST ]
+  format: json
+
+# Create a link entry in a magazine
+api_magazine_entry_create_link:
+  controller: App\Controller\Api\Entry\MagazineEntryCreateApi::link
+  path: /api/magazine/{magazine_id}/link
+  methods: [ POST ]
+  format: json
+
+# Create an image entry in a magazine
+api_magazine_entry_create_image:
+  controller: App\Controller\Api\Entry\MagazineEntryCreateApi::uploadImage
+  path: /api/magazine/{magazine_id}/image
+  methods: [ POST ]
+  format: json
+
+# # Create a video entry in a magazine (videos not yet implemented)
+# api_magazine_entry_create_video:
+#   controller: App\Controller\Api\Entry\MagazineEntryCreateApi::video
+#   path: /api/magazine/{magazine_id}/entry/new/video
+#   methods: [ POST ]
+#   format: json
+
+# Get a list of threads from specific magazine
+api_magazine_entries_retrieve:
+  controller: App\Controller\Api\Entry\MagazineEntriesRetrieveApi
+  path: /api/magazine/{magazine_id}/entries
+  methods: [ GET ]
+  format: json
+
 # Get list of magazines in instance
 api_magazines_retrieve:
   controller: App\Controller\Api\Magazine\MagazineRetrieveApi::collection

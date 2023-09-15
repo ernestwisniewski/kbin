@@ -24,6 +24,7 @@ use App\PageView\EntryPageView;
 use App\Pagination\KbinQueryAdapter;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -166,6 +167,11 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
                 ->setParameter('domain', $criteria->domain);
         }
 
+        if ($criteria->languages) {
+            $qb->andWhere('e.lang IN (:languages)')
+                ->setParameter('languages', $criteria->languages, ArrayParameterType::STRING);
+        }
+
         if ($criteria->subscribed) {
             $qb->andWhere(
                 'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
@@ -215,11 +221,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             $qb->andWhere('m.isAdult = :isAdult')
                 ->andWhere('e.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
-        }
-
-        if (0 < count($user?->preferredLanguages ?? [])) {
-            $qb->andWhere('e.lang IN (:e_lang)')
-                ->setParameter('e_lang', $user->preferredLanguages);
         }
 
         switch ($criteria->sortOption) {

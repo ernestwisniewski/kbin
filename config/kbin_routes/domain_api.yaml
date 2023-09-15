@@ -1,3 +1,17 @@
+# Get a list of threads from specific domain
+api_domain_entries_retrieve:
+  controller: App\Controller\Api\Entry\DomainEntriesRetrieveApi
+  path: /api/domain/{domain_id}/entries
+  methods: [ GET ]
+  format: json
+
+# Get a list of comments from specific domain
+api_domain_entry_comments_retrieve:
+  controller: App\Controller\Api\Entry\Comments\DomainEntryCommentsRetrieveApi
+  path: /api/domain/{domain_id}/comments
+  methods: [ GET ]
+  format: json
+
 # Get list of domains in instance
 api_domains_retrieve:
   controller: App\Controller\Api\Domain\DomainRetrieveApi::collection

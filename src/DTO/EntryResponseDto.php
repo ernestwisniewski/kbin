@@ -6,6 +6,7 @@ namespace App\DTO;
 
 use App\DTO\Contracts\VisibilityAwareDtoTrait;
 use App\Entity\Entry;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
@@ -25,6 +26,8 @@ class EntryResponseDto implements \JsonSerializable
     public ?string $lang = null;
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     public ?array $tags = null;
+    #[OA\Property(type: 'array', description: 'Not implemented currently.', items: new OA\Items(ref: new Model(type: BadgeResponseDto::class)))]
+    public ?array $badges = null;
     public int $numComments;
     public ?int $uv = 0;
     public ?int $dv = 0;
@@ -54,6 +57,7 @@ class EntryResponseDto implements \JsonSerializable
         string $body = null,
         string $lang = null,
         array $tags = null,
+        array $badges = null,
         int $comments = null,
         int $uv = null,
         int $dv = null,
@@ -81,6 +85,7 @@ class EntryResponseDto implements \JsonSerializable
         $dto->body = $body;
         $dto->lang = $lang;
         $dto->tags = $tags;
+        $dto->badges = $badges;
         $dto->numComments = $comments;
         $dto->uv = $uv;
         $dto->dv = $dv;
@@ -110,6 +115,7 @@ class EntryResponseDto implements \JsonSerializable
                 'image',
                 'body',
                 'tags',
+                'badges',
                 'uv',
                 'dv',
                 'favourites',
@@ -130,6 +136,7 @@ class EntryResponseDto implements \JsonSerializable
             'body' => $this->body,
             'lang' => $this->lang,
             'tags' => $this->tags,
+            'badges' => $this->badges,
             'numComments' => $this->numComments,
             'uv' => $this->uv,
             'dv' => $this->dv,

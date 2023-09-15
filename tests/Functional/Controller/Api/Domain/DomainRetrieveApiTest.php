@@ -9,8 +9,6 @@ use App\Tests\WebTestCase;
 
 class DomainRetrieveApiTest extends WebTestCase
 {
-    public const DOMAIN_RESPONSE_KEYS = ['domainId', 'name', 'entryCount', 'subscriptionsCount', 'isUserSubscribed', 'isBlockedByUser'];
-
     public function testApiCanRetrieveDomainsAnonymous()
     {
         $client = self::createClient();

@@ -1,3 +1,59 @@
+api_moderate_entry_toggle_pin:
+  controller: App\Controller\Api\Entry\Moderate\EntriesPinApi
+  path: /api/moderate/entry/{entry_id}/pin
+  methods: [ PUT ]
+  format: json
+
+api_moderate_entry_trash:
+  controller: App\Controller\Api\Entry\Moderate\EntriesTrashApi::trash
+  path: /api/moderate/entry/{entry_id}/trash
+  methods: [ PUT ]
+  format: json
+
+api_moderate_entry_restore:
+  controller: App\Controller\Api\Entry\Moderate\EntriesTrashApi::restore
+  path: /api/moderate/entry/{entry_id}/restore
+  methods: [ PUT ]
+  format: json
+
+api_moderate_entry_set_adult:
+  controller: App\Controller\Api\Entry\Moderate\EntriesSetAdultApi
+  defaults: { adult: true }
+  path: /api/moderate/entry/{entry_id}/adult/{adult}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_entry_set_lang:
+  controller: App\Controller\Api\Entry\Moderate\EntriesSetLanguageApi
+  path: /api/moderate/entry/{entry_id}/{lang}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_comment_trash:
+  controller: App\Controller\Api\Entry\Comments\Moderate\EntryCommentsTrashApi::trash
+  path: /api/moderate/comment/{comment_id}/trash
+  methods: [ PUT ]
+  format: json
+
+api_moderate_comment_restore:
+  controller: App\Controller\Api\Entry\Comments\Moderate\EntryCommentsTrashApi::restore
+  path: /api/moderate/comment/{comment_id}/restore
+  methods: [ PUT ]
+  format: json
+
+api_moderate_comment_set_adult:
+  controller: App\Controller\Api\Entry\Comments\Moderate\EntryCommentsSetAdultApi
+  defaults: { adult: true }
+  path: /api/moderate/comment/{comment_id}/adult/{adult}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_comment_set_lang:
+  controller: App\Controller\Api\Entry\Comments\Moderate\EntryCommentsSetLanguageApi
+  path: /api/moderate/comment/{comment_id}/{lang}
+  methods: [ PUT ]
+  format: json
+
 api_moderate_magazine_ban_user:
   controller: App\Controller\Api\Magazine\Moderate\MagazineUserBanApi::ban
   path: /api/moderate/magazine/{magazine_id}/ban/{user_id}

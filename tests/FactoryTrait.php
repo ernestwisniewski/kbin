@@ -385,6 +385,7 @@ trait FactoryTrait
         Magazine $magazine = null,
         User $user = null,
         ImageDto $image = null,
+        string $lang = 'en',
     ): Entry {
         $entry = $this->entries->filter(
             static function (Entry $entry) use ($title) {
@@ -395,7 +396,7 @@ trait FactoryTrait
         if (!$entry) {
             $magazine = $magazine ?? $this->getMagazineByName('acme');
             $user = $user ?? $this->getUserByUsername('JohnDoe');
-            $entry = $this->createEntry($title, $magazine, $user, $url, $body, $image);
+            $entry = $this->createEntry($title, $magazine, $user, $url, $body, $image, $lang);
         }
 
         return $entry;
@@ -408,6 +409,7 @@ trait FactoryTrait
         string $url = null,
         ?string $body = 'Test entry content',
         ImageDto $imageDto = null,
+        string $lang = 'en',
     ): Entry {
         $manager = $this->getService(EntryManager::class);
 
@@ -417,7 +419,7 @@ trait FactoryTrait
         $dto->user = $user;
         $dto->url = $url;
         $dto->body = $body;
-        $dto->lang = 'en';
+        $dto->lang = $lang;
         $dto->image = $imageDto;
 
         $entry = $manager->create($dto, $user);
@@ -433,6 +435,7 @@ trait FactoryTrait
         User $user = null,
         EntryComment $parent = null,
         ImageDto $imageDto = null,
+        string $lang = 'en',
     ): EntryComment {
         $manager = $this->getService(EntryCommentManager::class);
         $repository = $this->getService(ImageRepository::class);
@@ -450,7 +453,7 @@ trait FactoryTrait
             $dto->body = $body;
             $dto->image = $imageDto;
         }
-        $dto->lang = 'en';
+        $dto->lang = $lang;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }

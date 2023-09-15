@@ -1,3 +1,21 @@
+api_admin_entry_purge:
+  controller: App\Controller\Api\Entry\Admin\EntriesPurgeApi
+  path: /api/admin/entry/{entry_id}/purge
+  methods: [ DELETE ]
+  format: json
+
+api_admin_entry_change_magazine:
+  controller: App\Controller\Api\Entry\Admin\EntriesChangeMagazineApi
+  path: /api/admin/entry/{entry_id}/change-magazine/{target_id}
+  methods: [ PUT ]
+  format: json
+
+api_admin_comment_purge:
+  controller: App\Controller\Api\Entry\Comments\Admin\EntryCommentsPurgeApi
+  path: /api/admin/comment/{comment_id}/purge
+  methods: [ DELETE ]
+  format: json
+
 api_admin_user_retrieve_banned:
   controller: App\Controller\Api\User\Admin\UserRetrieveBannedApi::collection
   path: /api/admin/users/banned
@@ -81,4 +99,3 @@ api_admin_purge_magazine:
   path: /api/admin/magazine/{magazine_id}/purge
   methods: [ DELETE ]
   format: json
-
