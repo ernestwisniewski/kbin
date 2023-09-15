@@ -240,7 +240,7 @@ class MagazineManager
     {
         $magazine = $dto->magazine;
 
-        if ($magazine->icon?->getId() !== $dto->icon->id) {
+        if ($dto->icon && $magazine->icon?->getId() !== $dto->icon->id) {
             $magazine->icon = $this->imageRepository->find($dto->icon->id);
         }
 
