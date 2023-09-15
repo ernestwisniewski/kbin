@@ -1,0 +1,7817 @@
+{
+	"info": {
+		"_postman_id": "0a2a252b-440c-421a-8702-5019985fb288",
+		"name": "kbin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13837673",
+		"_collection_link": "https://red-crater-797471.postman.co/workspace/My-Workspace~e6f4fbde-d09f-4847-8a63-b7491fde7dc1/collection/13837673-0a2a252b-440c-421a-8702-5019985fb288?action=share&source=collection_link&creator=13837673"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Authorization Code",
+					"item": [
+						{
+							"name": "OAuth2 Authorize",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"oauth_state\", pm.variables.replaceIn(\"{{$randomPassword}}\"));\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host}}/authorize?response_type=code&client_id={{oauth_client_id}}&redirect_uri=http://localhost:3001&scope=read write admin:oauth_clients:read&state={{oauth_state}}",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"authorize"
+									],
+									"query": [
+										{
+											"key": "response_type",
+											"value": "code"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_client_id}}"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "http://localhost:3001"
+										},
+										{
+											"key": "scope",
+											"value": "read write admin:oauth_clients:read"
+										},
+										{
+											"key": "state",
+											"value": "{{oauth_state}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OAuth2 Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Has a token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.access_token).to.exist;\r",
+											"    pm.environment.set(\"token\", jsonData.access_token);\r",
+											"    pm.expect(jsonData.refresh_token).to.exist;\r",
+											"    pm.environment.set(\"oauth_refresh_token\", jsonData.refresh_token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{oauth_client_secret}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "{{oauth_code}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "http://localhost:3001",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/token",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Auth Code with PKCE",
+					"item": [
+						{
+							"name": "OAuth2 Authorize PKCE",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// hash is a Uint8Array\r",
+											"function base64_urlencode(hash) {\r",
+											"    return btoa(String.fromCharCode.apply(null, hash)).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\r",
+											"}\r",
+											"\r",
+											"function sha256_to_array(sha256) {\r",
+											"    const array = new Uint8Array(sha256.sigBytes);\r",
+											"    for(var i = 0; i < sha256.sigBytes; i++) {\r",
+											"        array[i] = (sha256.words[i >>> 2] >>> (24 - (i % 4) * 8)) & 0xff;\r",
+											"    }\r",
+											"    return array;\r",
+											"}\r",
+											"\r",
+											"pm.environment.set(\"oauth_state\", pm.variables.replaceIn(\"{{$randomPassword}}\"));\r",
+											"\r",
+											"const array = new Uint8Array(64);\r",
+											"array.forEach((_, index) => {\r",
+											"    array[index] = Math.floor(Math.random() * 256);\r",
+											"});\r",
+											"const alphabet = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~\";\r",
+											"var verifier = \"\";\r",
+											"array.forEach((value) => {\r",
+											"    verifier += alphabet[value % alphabet.length];\r",
+											"});\r",
+											"\r",
+											"pm.environment.set(\"oauth_code_verifier\", verifier);\r",
+											"\r",
+											"const challenge = base64_urlencode(sha256_to_array(CryptoJS.SHA256(verifier)));\r",
+											"\r",
+											"pm.environment.set(\"oauth_code_challenge\", challenge);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host}}/authorize?response_type=code&client_id={{oauth_public_client_id}}&redirect_uri=http://localhost:3001&scope=read write&state={{oauth_state}}&code_challenge={{oauth_code_challenge}}&code_challenge_method=S256",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"authorize"
+									],
+									"query": [
+										{
+											"key": "response_type",
+											"value": "code"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_public_client_id}}"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "http://localhost:3001"
+										},
+										{
+											"key": "scope",
+											"value": "read write"
+										},
+										{
+											"key": "state",
+											"value": "{{oauth_state}}"
+										},
+										{
+											"key": "code_challenge",
+											"value": "{{oauth_code_challenge}}"
+										},
+										{
+											"key": "code_challenge_method",
+											"value": "S256"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "OAuth2 Token PKCE",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Has a token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.access_token).to.exist;\r",
+											"    pm.environment.set(\"token\", jsonData.access_token);\r",
+											"    pm.expect(jsonData.refresh_token).to.exist;\r",
+											"    pm.environment.set(\"oauth_public_refresh_token\", jsonData.refresh_token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "authorization_code",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_public_client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "code_verifier",
+											"value": "{{oauth_code_verifier}}",
+											"type": "text"
+										},
+										{
+											"key": "code",
+											"value": "{{oauth_code}}",
+											"type": "text"
+										},
+										{
+											"key": "redirect_uri",
+											"value": "http://localhost:3001",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/token",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Refresh Token",
+					"item": [
+						{
+							"name": "OAuth2 Refresh Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Has a token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.access_token).to.exist;\r",
+											"    pm.environment.set(\"token\", jsonData.access_token);\r",
+											"    pm.expect(jsonData.refresh_token).to.exist;\r",
+											"    pm.environment.set(\"oauth_refresh_token\", jsonData.refresh_token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "refresh_token",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_client_id}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{oauth_client_secret}}",
+											"type": "text"
+										},
+										{
+											"key": "refresh_token",
+											"value": "{{oauth_refresh_token}}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/token",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Client Credentials",
+					"item": [
+						{
+							"name": "OAuth2 Token Client Credentials",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Has a token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.access_token).to.exist;\r",
+											"    pm.environment.set(\"token\", jsonData.access_token);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "grant_type",
+											"value": "client_credentials",
+											"type": "text"
+										},
+										{
+											"key": "client_id",
+											"value": "{{oauth_client_creds_id}}",
+											"type": "text"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{oauth_client_creds_secret}}",
+											"type": "text"
+										},
+										{
+											"key": "scope",
+											"value": "read write",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/token",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Domain",
+			"item": [
+				{
+					"name": "Get domain by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id"
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block domain by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id/block",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id",
+								"block"
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unblock domain by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id/unblock",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id",
+								"unblock"
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe to domain by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id/subscribe",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id",
+								"subscribe"
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsubscribe to domain by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id/unsubscribe",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id",
+								"unsubscribe"
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get domains",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domains",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get subscribed domains",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domains/subscribed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domains",
+								"subscribed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get blocked domains",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domains/blocked",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domains",
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Entry",
+			"item": [
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "Create comment on entry",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Test API comment\",\r\n    \"tags\": [\r\n        \"bot\",\r\n        \"api\"\r\n    ],\r\n    \"lang\": \"en\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/entry/:entry/comments",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"entry",
+										":entry",
+										"comments"
+									],
+									"variable": [
+										{
+											"key": "entry",
+											"value": "163"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create comment on entry with image",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "lang",
+											"value": "en",
+											"type": "text"
+										},
+										{
+											"key": "alt",
+											"value": "A test cat image",
+											"type": "text"
+										},
+										{
+											"key": "entry_comment",
+											"type": "file",
+											"src": "/C:/Users/Ryan/Pictures/kbin Test Images/large.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/api/entry/:entry/comments/image",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"entry",
+										":entry",
+										"comments",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "entry",
+											"value": "163"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create comment reply",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Test API comment reply #bot\",\r\n    \"lang\": \"en\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/entry/:entry/comments/:comment/reply",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"entry",
+										":entry",
+										"comments",
+										":comment",
+										"reply"
+									],
+									"variable": [
+										{
+											"key": "entry",
+											"value": "163"
+										},
+										{
+											"key": "comment",
+											"value": "29"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create comment reply with image",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "lang",
+											"value": "en",
+											"type": "text"
+										},
+										{
+											"key": "alt",
+											"value": "A test cat image",
+											"type": "text"
+										},
+										{
+											"key": "entry_comment",
+											"type": "file",
+											"src": "/C:/Users/Ryan/Pictures/kbin Test Images/stock.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/api/entry/:entry/comments/:comment/reply/image",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"entry",
+										":entry",
+										"comments",
+										":comment",
+										"reply",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "entry",
+											"value": "163"
+										},
+										{
+											"key": "comment",
+											"value": "31"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve comment",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment?d=0",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "30"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments from entry",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/entry/:entry/comments?d=1&sort=hot&time=∞&p=1&perPage=10",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"entry",
+										":entry",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "1"
+										},
+										{
+											"key": "sort",
+											"value": "hot"
+										},
+										{
+											"key": "time",
+											"value": "∞"
+										},
+										{
+											"key": "p",
+											"value": "1"
+										},
+										{
+											"key": "perPage",
+											"value": "10"
+										},
+										{
+											"key": "lang[]",
+											"value": "en",
+											"disabled": true
+										},
+										{
+											"key": "usePreferredLangs",
+											"value": "false",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "entry",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments in domain",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/domain/:domain_id/comments?d=1",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"domain",
+										":domain_id",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "domain_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get comments from user",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/users/:user_id/comments?d=1",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":user_id",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "1"
+										}
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update comment",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Test API comment reply updated once again\",\r\n    \"isAdult\": false,\r\n    \"lang\": \"en\",\r\n    \"imageAlt\": \"cat\",\r\n    \"imageUrl\": \"https://i.imgur.com/ThloWfz.jpeg\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment?d=0",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Report comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"reason\": \"It's a terrible meme\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment/report",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment",
+										"report"
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete comment",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment"
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "12"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Vote comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment/vote/:vote",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment",
+										"vote",
+										":vote"
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "11"
+										},
+										{
+											"key": "vote",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Favourite comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/comments/:comment/favourite",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"comments",
+										":comment",
+										"favourite"
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create article in magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Test Bot Post\",\r\n    \"body\": \"I'm making this from the API again, using client credentials, and the role is set too!\",\r\n    \"tags\": [\r\n        \"bot\",\r\n        \"api\",\r\n        \"magazine\"\r\n    ],\r\n    \"isAdult\": false,\r\n    \"isOc\": true,\r\n    \"lang\": \"en\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/article",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"article"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create link in magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Test link post\",\r\n    \"tags\": [\r\n        \"bot\",\r\n        \"api\",\r\n        \"magazine\"\r\n    ],\r\n    \"isAdult\": false,\r\n    \"isOc\": true,\r\n    \"lang\": \"en\",\r\n    \"url\": \"https://i.imgur.com/ThloWfz.jpeg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/link",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"link"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create image in magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Image posted from the API! 2",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "image",
+									"type": "text"
+								},
+								{
+									"key": "tags[]",
+									"value": "api",
+									"type": "text"
+								},
+								{
+									"key": "badges[]",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "isOc",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "isAdult",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "alt",
+									"value": "An image of a cat",
+									"type": "text"
+								},
+								{
+									"key": "uploadImage",
+									"type": "file",
+									"src": "/D:/Users/Ryan/Pictures/concerned_cat.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/image",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"image"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/entries?sort=hot&time=∞",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"entries"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								}
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in domain",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/domain/:domain_id/entries?sort=hot&time=∞&p=1&perPage=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"domain",
+								":domain_id",
+								"entries"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "25"
+								}
+							],
+							"variable": [
+								{
+									"key": "domain_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries from user",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/entries?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"entries"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in magazine anonymous",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/entries",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"entries"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in instance",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/ld+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entries?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entries"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in subscribed magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/ld+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entries/subscribed?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entries",
+								"subscribed"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entries in moderated magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/ld+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entries/moderated?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entries",
+								"moderated"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get favourited entries",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/ld+json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entries/favourited?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entries",
+								"favourited"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry_id"
+							],
+							"variable": [
+								{
+									"key": "entry_id",
+									"value": "60405"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Test body updated again\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry"
+							],
+							"variable": [
+								{
+									"key": "entry",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reason\": \"It's a terrible meme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry/report",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry",
+								"report"
+							],
+							"variable": [
+								{
+									"key": "entry",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry"
+							],
+							"variable": [
+								{
+									"key": "entry",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vote entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry/vote/:vote",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry",
+								"vote",
+								":vote"
+							],
+							"variable": [
+								{
+									"key": "entry",
+									"value": "5"
+								},
+								{
+									"key": "vote",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favourite entry by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/entry/:entry/favourite",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"entry",
+								":entry",
+								"favourite"
+							],
+							"variable": [
+								{
+									"key": "entry",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Instance",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Get instance settings",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/instance/settings",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance settings",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"KBIN_ADMIN_ONLY_OAUTH_CLIENTS\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/settings",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"settings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance about page",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"about\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/about",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"about"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance contact page",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"contact\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/contact",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"contact"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance faq page",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Frequently asked questions\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/faq",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"faq"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance privacy policy page",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"privacy policy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/privacyPolicy",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"privacyPolicy"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance terms page",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"terms\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/instance/terms",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"instance",
+										"terms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update instance federation list",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"instances\": [\r\n        \"www.lemmygrad.ml\",\r\n        \"exploding-heads.com\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/defederated",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"defederated"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get instance info",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/instance",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"instance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instance modlog",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/modlog",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"modlog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instance view stats",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/stats/views?resolution=day&start=2023-07-01T00:00:00",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stats",
+								"views"
+							],
+							"query": [
+								{
+									"key": "resolution",
+									"value": "day"
+								},
+								{
+									"key": "start",
+									"value": "2023-07-01T00:00:00"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instance vote stats",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/stats/votes?resolution=year",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stats",
+								"votes"
+							],
+							"query": [
+								{
+									"key": "resolution",
+									"value": "year"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instance content stats",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/stats/content?resolution=year",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"stats",
+								"content"
+							],
+							"query": [
+								{
+									"key": "resolution",
+									"value": "year"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instance federation list",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/defederated",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"defederated"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Magazine",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Create magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"apimade\",\r\n  \"title\": \"Created using the API\",\r\n  \"description\": \"A magazine created on the API\",\r\n  \"rules\": \"Anarchy\",\r\n  \"isAdult\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/new",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										"new"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"title\",\r\n  \"description\": \"description\",\r\n  \"rules\": \"rules\",\r\n  \"isAdult\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update magazine theme",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "customCss",
+											"value": "",
+											"description": "Custom css to be applied to the magazine",
+											"type": "text"
+										},
+										{
+											"key": "backgroundImage",
+											"value": "",
+											"description": "One of 'shape1' or 'shape2' or empty",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "uploadImage",
+											"description": "The icon of the magazine",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/theme",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"theme"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete magazine icon",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/icon",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"icon"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Purge magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/magazine/:magazine_id/purge",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"magazine",
+										":magazine_id",
+										"purge"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add moderator to magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/mod/:user_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"mod",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove moderator from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/mod/:user_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"mod",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add badge to magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"good\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/badge",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"badge"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove badge from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/badge/:badge_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"badge",
+										":badge_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "badge_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add tag to magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/tag/:tag",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"tag",
+										":tag"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "tag",
+											"value": "sometag"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove tag from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/tag/:tag",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"tag",
+										":tag"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "tag",
+											"value": "sometag"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get views from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/stats/magazine/:magazine_id/views?start=2023-06-02T00:00:00&end=2023-07-08T23:59:59&resolution=hour&local=false",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"stats",
+										"magazine",
+										":magazine_id",
+										"views"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2023-06-02T00:00:00"
+										},
+										{
+											"key": "end",
+											"value": "2023-07-08T23:59:59"
+										},
+										{
+											"key": "resolution",
+											"value": "hour"
+										},
+										{
+											"key": "local",
+											"value": "false"
+										}
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get votes from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/stats/magazine/:magazine_id/votes?start=2023-06-02T00:00:00&end=2023-07-08T23:59:59&resolution=all&local=false",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"stats",
+										"magazine",
+										":magazine_id",
+										"votes"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2023-06-02T00:00:00"
+										},
+										{
+											"key": "end",
+											"value": "2023-07-08T23:59:59"
+										},
+										{
+											"key": "resolution",
+											"value": "all"
+										},
+										{
+											"key": "local",
+											"value": "false"
+										}
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get submission stats from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/stats/magazine/:magazine_id/content?start=2023-06-02T00:00:00&end=2023-07-09T23:59:59&resolution=hour&local=false",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"stats",
+										"magazine",
+										":magazine_id",
+										"content"
+									],
+									"query": [
+										{
+											"key": "start",
+											"value": "2023-06-02T00:00:00"
+										},
+										{
+											"key": "end",
+											"value": "2023-07-09T23:59:59"
+										},
+										{
+											"key": "resolution",
+											"value": "hour"
+										},
+										{
+											"key": "local",
+											"value": "false"
+										}
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Moderate",
+					"item": [
+						{
+							"name": "Get reports in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/reports?status=approved",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"reports"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "approved"
+										}
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get report by id in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/reports/:report_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"reports",
+										":report_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										},
+										{
+											"key": "report_id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept report by id in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/reports/:report_id/accept",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"reports",
+										":report_id",
+										"accept"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										},
+										{
+											"key": "report_id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject report by id in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/reports/:report_id/reject",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"reports",
+										":report_id",
+										"reject"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										},
+										{
+											"key": "report_id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ban user from magazine",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var time = new Date();\r",
+											"time.setMinutes(time.getMinutes() + 5);\r",
+											"\r",
+											"pm.environment.set('banExpiry', time.toISOString());"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"reason\": \"Testing\",\r\n  \"expiredAt\": \"{{banExpiry}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/ban/:user_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"ban",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										},
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unban user from magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/ban/:user_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"ban",
+										":user_id"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										},
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get bans in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/bans",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"bans"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get trash in magazine",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/moderate/magazine/:magazine_id/trash",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"moderate",
+										"magazine",
+										":magazine_id",
+										"trash"
+									],
+									"variable": [
+										{
+											"key": "magazine_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get magazine by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get magazine theme by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/theme",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"theme"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get magazine by name",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/name/:magazine_name",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								"name",
+								":magazine_name"
+							],
+							"variable": [
+								{
+									"key": "magazine_name",
+									"value": "testing"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get magazine moderation log",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/log",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"log"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block magazine by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/block",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"block"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unblock magazine by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/unblock",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"unblock"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe to magazine by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/subscribe",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"subscribe"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unsubscribe to magazine by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine_id/unsubscribe",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine_id",
+								"unsubscribe"
+							],
+							"variable": [
+								{
+									"key": "magazine_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazines?p=1&perPage=10&sort=active&federation=all&hide_adult=hide",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazines"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								},
+								{
+									"key": "q",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "active"
+								},
+								{
+									"key": "federation",
+									"value": "all"
+								},
+								{
+									"key": "hide_adult",
+									"value": "hide"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get subscribed magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazines/subscribed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazines",
+								"subscribed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get moderated magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazines/moderated",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazines",
+								"moderated"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get blocked magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazines/blocked",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazines",
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "Get message by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/messages/:message_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								":message_id"
+							],
+							"variable": [
+								{
+									"key": "message_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read message by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/messages/:message_id/read",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								":message_id",
+								"read"
+							],
+							"variable": [
+								{
+									"key": "message_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unread message by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/messages/:message_id/unread",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								":message_id",
+								"unread"
+							],
+							"variable": [
+								{
+									"key": "message_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get message threads",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/messages",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get messages in thread by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/messages/thread/:thread_id/:sort?p=1&perPage=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								"thread",
+								":thread_id",
+								":sort"
+							],
+							"query": [
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "25"
+								}
+							],
+							"variable": [
+								{
+									"key": "thread_id",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "oldest"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reply to thread",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"Message from the API!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/messages/thread/:thread_id/reply",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"messages",
+								"thread",
+								":thread_id",
+								"reply"
+							],
+							"variable": [
+								{
+									"key": "thread_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new thread",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"body\": \"A new message thread, made by the API!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/message",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"message"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "Get notification by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notification/:notification_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notification",
+								":notification_id"
+							],
+							"variable": [
+								{
+									"key": "notification_id",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark notification as read",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/:notification_id/read",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								":notification_id",
+								"read"
+							],
+							"variable": [
+								{
+									"key": "notification_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark notification as unread",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/:notification_id/unread",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								":notification_id",
+								"unread"
+							],
+							"variable": [
+								{
+									"key": "notification_id",
+									"value": "13"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark all notifications as read",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/read",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"read"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete notification",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/:notification_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								":notification_id"
+							],
+							"variable": [
+								{
+									"key": "notification_id",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete all notifications",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get notifications by status",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/:status",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								":status"
+							],
+							"variable": [
+								{
+									"key": "status",
+									"value": "all"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get unread notifications count",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/notifications/count",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"notifications",
+								"count"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "OAuth2",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Get OAuth2 client stats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host}}/api/clients/stats?resolution=minute&start=2023-07-15T00:00:00&end={{$isoTimestamp}}",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"clients",
+										"stats"
+									],
+									"query": [
+										{
+											"key": "resolution",
+											"value": "minute"
+										},
+										{
+											"key": "start",
+											"value": "2023-07-15T00:00:00"
+										},
+										{
+											"key": "end",
+											"value": "{{$isoTimestamp}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get OAuth2 client by identifier",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host}}/api/clients/:identifier",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"clients",
+										":identifier"
+									],
+									"variable": [
+										{
+											"key": "identifier",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get OAuth2 clients",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host}}/api/clients",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"clients"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Create OAuth2 Auth Code Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Set Client ID and Secret\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.identifier).to.not.be.empty;\r",
+									"    pm.expect(jsonData.secret).to.not.be.empty;\r",
+									"    \r",
+									"    pm.environment.set(\"oauth_client_id\", jsonData.identifier);\r",
+									"    pm.environment.set(\"oauth_client_secret\", jsonData.secret);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My private kbin application\",\r\n    \"contactEmail\": \"contact@some.dev\",\r\n    \"username\": null,\r\n    \"public\": false,\r\n    \"redirectUris\": [\r\n        \"https://localhost:3001\"\r\n    ],\r\n    \"grants\": [\r\n        \"authorization_code\",\r\n        \"refresh_token\"\r\n    ],\r\n    \"scopes\": [\r\n        \"read\",\r\n        \"write\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/client",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create OAuth2 Public Auth Code Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Set Client ID and Secret\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.identifier).to.not.be.empty;\r",
+									"    pm.expect(jsonData.secret).to.be.empty;\r",
+									"    \r",
+									"    pm.environment.set(\"oauth_public_client_id\", jsonData.identifier);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My public kbin application\",\r\n    \"contactEmail\": \"contact@some.dev\",\r\n    \"username\": null,\r\n    \"public\": true,\r\n    \"redirectUris\": [\r\n        \"https://localhost:3001\"\r\n    ],\r\n    \"grants\": [\r\n        \"authorization_code\",\r\n        \"refresh_token\"\r\n    ],\r\n    \"scopes\": [\r\n        \"read\",\r\n        \"write\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/client",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create OAuth2 Client Creds Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Set Client ID and Secret\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.identifier).to.not.be.empty;\r",
+									"    pm.expect(jsonData.secret).to.not.be.empty;\r",
+									"    \r",
+									"    pm.environment.set(\"oauth_client_creds_id\", jsonData.identifier);\r",
+									"    pm.environment.set(\"oauth_client_creds_secret\", jsonData.secret);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"My client creds kbin application\",\r\n    \"contactEmail\": \"contact@some.dev\",\r\n    \"username\": \"{{$randomUserName}}\",\r\n    \"public\": false,\r\n    \"redirectUris\": [\r\n        \"https://localhost:3001\"\r\n    ],\r\n    \"grants\": [\r\n        \"client_credentials\"\r\n    ],\r\n    \"scopes\": [\r\n        \"read\",\r\n        \"write\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/client",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create OAuth2 Application with logo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kbot application\",\r\n    \"contactEmail\": \"kbotbuilder@gmail.com\",\r\n    \"username\": \"kbot\",\r\n    \"redirectUris\": [\r\n        \"https://localhost:3001\"\r\n    ],\r\n    \"grants\": [\r\n        \"client_credentials\",\r\n        \"authorization_code\",\r\n        \"refresh_token\"\r\n    ],\r\n    \"scopes\": [\r\n        \"read\",\r\n        \"write\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/client",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete OAuth2 Application",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://{{host}}/api/client?client_id={{oauth_client_id}}&client_secret={{oauth_client_secret}}",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"client"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "{{oauth_client_id}}"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{oauth_client_secret}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Revoke User and Client Tokens",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://{{host}}/api/revoke",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"revoke"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "Comment",
+					"item": [
+						{
+							"name": "Get post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment_id?d=-1",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment_id"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "-1"
+										}
+									],
+									"variable": [
+										{
+											"key": "comment_id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get post's comments",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/posts/:post_id/comments?d=1&sort=hot&time=∞&p=1&perPage=10",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										":post_id",
+										"comments"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "1"
+										},
+										{
+											"key": "sort",
+											"value": "hot"
+										},
+										{
+											"key": "time",
+											"value": "∞"
+										},
+										{
+											"key": "p",
+											"value": "1"
+										},
+										{
+											"key": "perPage",
+											"value": "10"
+										},
+										{
+											"key": "lang[]",
+											"value": "en",
+											"disabled": true
+										},
+										{
+											"key": "usePreferredLangs",
+											"value": "false",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "post_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get post comments from user",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/users/:user_id/post-comments?d=1&sort=hot&time=∞&p=1&perPage=10",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":user_id",
+										"post-comments"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "1"
+										},
+										{
+											"key": "sort",
+											"value": "hot"
+										},
+										{
+											"key": "time",
+											"value": "∞"
+										},
+										{
+											"key": "p",
+											"value": "1"
+										},
+										{
+											"key": "perPage",
+											"value": "10"
+										},
+										{
+											"key": "lang[]",
+											"value": "en",
+											"disabled": true
+										},
+										{
+											"key": "usePreferredLangs",
+											"value": "false",
+											"disabled": true
+										}
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Updated post comment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment_id?d=0",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment_id"
+									],
+									"query": [
+										{
+											"key": "d",
+											"value": "0"
+										}
+									],
+									"variable": [
+										{
+											"key": "comment_id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Report post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"reason\": \"It's a terrible meme\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment/report",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment",
+										"report"
+									],
+									"variable": [
+										{
+											"key": "comment",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment_id",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment_id"
+									],
+									"variable": [
+										{
+											"key": "comment_id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Vote post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment_id/vote/:choice",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment_id",
+										"vote",
+										":choice"
+									],
+									"variable": [
+										{
+											"key": "comment_id",
+											"value": "4"
+										},
+										{
+											"key": "choice",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Favourite post comment by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/post-comments/:comment_id/favourite",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"post-comments",
+										":comment_id",
+										"favourite"
+									],
+									"variable": [
+										{
+											"key": "comment_id",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create comment on post",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Test post comment\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/posts/:post_id/comments",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										":post_id",
+										"comments"
+									],
+									"variable": [
+										{
+											"key": "post_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create image comment on post",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "Dang that's a cute cat",
+											"type": "text"
+										},
+										{
+											"key": "lang",
+											"value": "en",
+											"type": "text"
+										},
+										{
+											"key": "alt",
+											"value": "also a cute cat",
+											"type": "text"
+										},
+										{
+											"key": "uploadImage",
+											"type": "file",
+											"src": "/C:/Users/Ryan/Pictures/kbin Test Images/sleepy.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/api/posts/:post_id/comments/image",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										":post_id",
+										"comments",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "post_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create reply on post comment",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"body\": \"Thanks @rideranton@kbintesting.duckdns.org\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/api/posts/:post/comments/:comment/reply",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										":post",
+										"comments",
+										":comment",
+										"reply"
+									],
+									"variable": [
+										{
+											"key": "post",
+											"value": "3"
+										},
+										{
+											"key": "comment",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create image reply on post comment",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "body",
+											"value": "I love him",
+											"type": "text"
+										},
+										{
+											"key": "lang",
+											"value": "en",
+											"type": "text"
+										},
+										{
+											"key": "alt",
+											"value": "<3",
+											"type": "text"
+										},
+										{
+											"key": "uploadImage",
+											"type": "file",
+											"src": "/C:/Users/Ryan/Pictures/kbin Test Images/yawn.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host}}/api/posts/:post/comments/:comment/reply/image",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"posts",
+										":post",
+										"comments",
+										":comment",
+										"reply",
+										"image"
+									],
+									"variable": [
+										{
+											"key": "post",
+											"value": "3"
+										},
+										{
+											"key": "comment",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/post/:post_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post_id"
+							],
+							"variable": [
+								{
+									"key": "post_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts from instance",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/posts?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts from magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine/posts?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							],
+							"variable": [
+								{
+									"key": "magazine",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts from moderated magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/posts/moderated?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"moderated"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts from subscribed magazines",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/posts/subscribed?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"subscribed"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get favourited posts",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/posts/favourited?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"favourited"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get posts from user",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/posts?sort=hot&time=∞&p=1&perPage=10",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "time",
+									"value": "∞"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create post in magazine",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"body\": \"Microblogging from the API!\",\r\n  \"lang\": \"en\",\r\n  \"isAdult\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine/posts",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine",
+								"posts"
+							],
+							"variable": [
+								{
+									"key": "magazine",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create post in magazine with image",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "body",
+									"value": "Hey, here's a cat pic from the API",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "isAdult",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "alt",
+									"value": "A cute cat on a microblog",
+									"type": "text"
+								},
+								{
+									"key": "uploadImage",
+									"type": "file",
+									"src": "/C:/Users/Ryan/Pictures/kbin Test Images/kitten.gif"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}/api/magazine/:magazine/posts/image",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"magazine",
+								":magazine",
+								"posts",
+								"image"
+							],
+							"variable": [
+								{
+									"key": "magazine",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"body\": \"test, updated!\",\r\n  \"lang\": \"en\",\r\n  \"isAdult\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/post/:post",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post"
+							],
+							"variable": [
+								{
+									"key": "post",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"reason\": \"It's a terrible meme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/post/:post/report",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post",
+								"report"
+							],
+							"variable": [
+								{
+									"key": "post",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/post/:post_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post_id"
+							],
+							"variable": [
+								{
+									"key": "post_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vote on post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/post/:post_id/vote/:choice",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post_id",
+								"vote",
+								":choice"
+							],
+							"variable": [
+								{
+									"key": "post_id",
+									"value": "3"
+								},
+								{
+									"key": "choice",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Favourite post by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/post/:post_id/favourite",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"post",
+								":post_id",
+								"favourite"
+							],
+							"variable": [
+								{
+									"key": "post_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Get Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{host}}/api/search?q=test&p=1&perPage=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "test"
+								},
+								{
+									"key": "p",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Retrieve banned users",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/banned",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										"banned"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ban user by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/:user_id/ban",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										":user_id",
+										"ban"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unban user by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/:user_id/unban",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										":user_id",
+										"unban"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/:user_id/delete",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										":user_id",
+										"delete"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Purge user by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/:user_id/purge",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										":user_id",
+										"purge"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify user by id",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/ld+json"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/api/admin/users/:user_id/verify",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"admin",
+										"users",
+										":user_id",
+										"verify"
+									],
+									"variable": [
+										{
+											"key": "user_id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ActivityPub",
+					"item": [
+						{
+							"name": "Post to inbox",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host}}/u/:username/inbox",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"u",
+										":username",
+										"inbox"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": null
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get outbox",
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {
+									"accept": true
+								}
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/activity+json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://{{host}}/u/:username/outbox",
+									"protocol": "https",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"u",
+										":username",
+										"outbox"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "rideranton"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get user by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get users",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get blocked users",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/blocked",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"blocked"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by name",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/name/:username",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"name",
+								":username"
+							],
+							"variable": [
+								{
+									"key": "username",
+									"value": "rideranton"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/me",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user settings",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/settings",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user's oauth consents",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/consents",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"consents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get oauth consent by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/consents/:consent_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"consents",
+								":consent_id"
+							],
+							"variable": [
+								{
+									"key": "consent_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update oauth consent by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"scopes\": [\r\n        \"delete\",\r\n        \"subscribe\",\r\n        \"block\",\r\n        \"vote\",\r\n        \"report\",\r\n        \"user\",\r\n        \"moderate\",\r\n        \"admin\",\r\n        \"user:oauth_clients:edit\",\r\n        \"user:oauth_clients:read\",\r\n        \"read\",\r\n        \"write\",\r\n        \"admin:oauth_clients:read\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/consents/:consent_id",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"consents",
+								":consent_id"
+							],
+							"variable": [
+								{
+									"key": "consent_id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update current user settings",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notifyOnNewEntry\": true,\r\n    \"notifyOnNewEntryReply\": false,\r\n    \"preferredLanguages\": [\r\n        \"en\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/settings",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update current user profile",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"about\": \"Updated from the API once more!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/profile",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update current user avatar",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploadImage",
+									"type": "file",
+									"src": "/C:/Users/ryans/Pictures/kbin/robot-face_1f916.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/avatar",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete current user avatar",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/avatar",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update current user cover",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "uploadImage",
+									"type": "file",
+									"src": "/C:/Users/ryans/Documents/blender/ceres_hydro_lights.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://{{host}}/api/users/cover",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"cover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete current user cover",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/cover",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"cover"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get followers by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/followers",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"followers"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user's followers",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/followers",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get followed by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/followed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"followed"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get current user's followed",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/followed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"followed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get magazine subscriptions by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/magazines/subscribed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"magazines",
+								"subscribed"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get domain subscriptions by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/domains/subscribed",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"domains",
+								"subscribed"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Follow by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/follow",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"follow"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unfollow by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/unfollow",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"unfollow"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Block by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/block",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"block"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unblock by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": "application/ld+json"
+							}
+						],
+						"url": {
+							"raw": "https://{{host}}/api/users/:user_id/unblock",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"users",
+								":user_id",
+								"unblock"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "state",
+				"value": "{{$randomColor}}",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "read write delete subscribe block vote report user moderate admin",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Full Access",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://{{host}}/token",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://{{host}}/authorize",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "https://localhost:3001",
+				"type": "string"
+			},
+			{
+				"key": "refreshRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "tokenRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "authRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{oauth_client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{oauth_client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	}
+}

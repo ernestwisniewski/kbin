@@ -151,6 +151,28 @@ MERCURE_URL=http://${MERCURE_HOST}/.well-known/mercure
 MERCURE_PUBLIC_URL=https://${KBIN_DOMAIN}/.well-known/mercure
 ```
 
+OAuth2 keys for API credential grants:
+
+1. Create an RSA key pair using OpenSSL:
+```bash
+mkdir ./config/oauth2/
+# If you protect the key with a passphrase, make sure to remember it!
+# You will need it later
+openssl genrsa -des3 -out ./config/oauth2/private.pem 4096
+openssl rsa -in ./config/oauth2/private.pem --outform PEM -pubout -out ./config/oauth2/public.pem
+```
+2. Generate a random hex string for the OAuth2 encryption key
+```bash
+openssl rand -hex 16
+```
+3. Add the public and private key paths to `.env`
+```env
+OAUTH_PRIVATE_KEY=%kernel.project_dir%/config/oauth2/private.pem
+OAUTH_PUBLIC_KEY=%kernel.project_dir%/config/oauth2/public.pem
+OAUTH_PASSPHRASE=<Your (optional) passphrase from above here>
+OAUTH_ENCRYPTION_KEY=<Hex string generated in previous step>
+```
+
 ## Service Configuration
 
 ### PHP

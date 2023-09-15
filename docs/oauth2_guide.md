@@ -18,6 +18,71 @@
 ```php
 // TODO
 ```
+
+## Obtaining OAuth2 credentials from a new server
+
+*Note: some of these structures contain comments that need to be removed before making the API calls. Copy/paste with care.*
+
+1. Create a private OAuth2 client (for use in secure environments that you control)
+```
+POST /api/client
+
+{
+  "name": "My OAuth2 Authorization Code Client",
+  "contactEmail": "contact@some.dev",
+  "description": "A client that I will be using to authenticate to /kbin's API",
+  "public": false,
+  "redirectUris": [
+    "https://localhost:3000/redirect",
+    "myapp://redirect"
+  ],
+  "grants": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  # All the scopes the client will be allowed to request
+  # See following section for a list of available fine grained scopes.
+  "scopes": [
+    "read"
+  ]
+}
+```
+2. Save the identifier and secret returned by this API call - this will be the only time you can access the secret for a private client.
+```
+{
+    "identifier": "someRandomString",
+    "secret": "anEvenLongerRandomStringThatYouShouldKeepSafe",
+    ... # more info about the client that just confirms what you've created
+}
+```
+3. Use the OAuth2 client id and secret you just created to obtain credentials for a user (This is a standard authorization_code OAuth2 flow, which is supported by many libraries for your preferred language)
+    1. Begin authorization_code OAuth2 flow
+    ```
+    GET /authorize?response_type=code&client_id=(the client id generated at client creation)&redirect_uri=(One of the URIs added during client creation)&scope=(space-delimited list of scopes)&state=(random string for CSRF protection)
+    ```
+    2. The user will be directed to log in to their account and grant their consent for the scopes you have requested.
+    3. When the user grants their consent, their browser will be redirected to the given redirect_uri with a `code` query parameter, as long as it matches one of the URIs provided when the client was created.
+    4. After obtaining the code, obtain an authorization token with a multipart/form-data POST request:
+    ```
+    POST /token
+
+    grant_type=authorization_code
+    client_id=(the client id generated at client creation)
+    client_secret=(the client secret generated at client creation)
+    code=(OAuth2 code received from redirect)
+    redirect_uri=(One of the URIs added during client creation)
+    ```
+    5. The token endpoint will respond with the token and information about it
+    ```json
+    {
+        "token_type": "Bearer",
+        "expires_in": 3600, // seconds
+        "access_token": "aLargeEncodedTokenToBeUsedInTheAuthorizationHeader",
+        "refresh_token": "aLargeEncodedTokenToBeUsedInTheRefreshTokenFlow"
+    }
+    ```
+
+
 ## Available Scopes
 ### Scope tree
 1. `read` - Allows retrieval of threads from the user's subscribed magazines/domains and viewing the user's favorited entries.
