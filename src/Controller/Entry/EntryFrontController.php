@@ -51,7 +51,7 @@ class EntryFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
 
-        if (null !== $user && 0 < count($user->preferredLanguages)) {
+        if (null !== $user && 0 < \count($user->preferredLanguages)) {
             $criteria->languages = $user->preferredLanguages;
         }
 
@@ -91,7 +91,7 @@ class EntryFrontController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
 
-        if (0 < count($user->preferredLanguages)) {
+        if (0 < \count($user->preferredLanguages)) {
             $criteria->languages = $user->preferredLanguages;
         }
 
@@ -213,7 +213,7 @@ class EntryFrontController extends AbstractController
         $criteria->magazine = $magazine;
         $criteria->stickiesFirst = true;
 
-        if (null !== $user && 0 < count($user->preferredLanguages)) {
+        if (null !== $user && 0 < \count($user->preferredLanguages)) {
             $criteria->languages = $user->preferredLanguages;
         }
 

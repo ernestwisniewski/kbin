@@ -374,7 +374,7 @@ class DeleteUserHandler
 
             $message->thread->removeMessage($message);
 
-            if (0 === count($message->thread->messages)) {
+            if (0 === \count($message->thread->messages)) {
                 $this->entityManager->remove($message->thread);
             }
         }

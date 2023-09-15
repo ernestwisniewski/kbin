@@ -277,7 +277,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     public function countEntriesByMagazine(Magazine $magazine): int
     {
-        return intval(
+        return \intval(
             $this->createQueryBuilder('e')
                 ->select('count(e.id)')
                 ->where('e.magazine = :magazine')
@@ -291,7 +291,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     public function countEntryCommentsByMagazine(Magazine $magazine): int
     {
-        return intval(
+        return \intval(
             $this->createQueryBuilder('e')
                 ->select('sum(e.commentCount)')
                 ->where('e.magazine = :magazine')

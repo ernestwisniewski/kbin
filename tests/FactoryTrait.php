@@ -526,7 +526,7 @@ trait FactoryTrait
         $entityManager = $this->getService(EntityManagerInterface::class);
         $results = $siteRepository->findAll();
         $site = null;
-        if (!count($results)) {
+        if (!\count($results)) {
             $site = new Site();
         } else {
             $site = $results[0];

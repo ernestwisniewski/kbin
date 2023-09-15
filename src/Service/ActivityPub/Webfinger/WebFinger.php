@@ -105,7 +105,7 @@ class WebFinger
     protected function setAliases(array $aliases)
     {
         foreach ($aliases as $alias) {
-            if (!is_string($alias)) {
+            if (!\is_string($alias)) {
                 throw new \Exception('WebFinger aliases must be an array of strings');
             }
 
@@ -129,7 +129,7 @@ class WebFinger
     protected function setLinks(array $links)
     {
         foreach ($links as $link) {
-            if (!is_array($link)) {
+            if (!\is_array($link)) {
                 throw new \Exception('WebFinger links must be an array of objects');
             }
 
@@ -141,7 +141,7 @@ class WebFinger
             $tmp['rel'] = $link['rel'];
 
             foreach (['type', 'href', 'template'] as $key) {
-                if (isset($link[$key]) && is_string($link[$key])) {
+                if (isset($link[$key]) && \is_string($link[$key])) {
                     $tmp[$key] = $link[$key];
                 }
             }
@@ -167,7 +167,7 @@ class WebFinger
      */
     protected function setSubject($subject)
     {
-        if (!is_string($subject)) {
+        if (!\is_string($subject)) {
             throw new \Exception('WebFinger subject must be a string');
         }
 

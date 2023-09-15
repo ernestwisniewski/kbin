@@ -51,7 +51,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
         $numbers = range(1, $max);
         shuffle($numbers);
 
-        return array_slice($numbers, 0, $quantity);
+        return \array_slice($numbers, 0, $quantity);
     }
 
     private function entryComments(int $u): void

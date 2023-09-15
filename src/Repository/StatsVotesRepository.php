@@ -291,7 +291,7 @@ class StatsVotesRepository extends StatsRepository
 
             $results[$table] = $stmt->executeQuery()->fetchAllAssociative();
             $datemap = [];
-            for ($i = 0; $i < count($results[$table]); ++$i) {
+            for ($i = 0; $i < \count($results[$table]); ++$i) {
                 $datemap[$results[$table][$i]['datetime']] = $i;
                 $results[$table][$i]['up'] = 0;
             }
@@ -317,7 +317,7 @@ class StatsVotesRepository extends StatsRepository
 
             $favourites = $stmt->executeQuery()->fetchAllAssociative();
             foreach ($favourites as $favourite) {
-                if (array_key_exists($favourite['datetime'], $datemap)) {
+                if (\array_key_exists($favourite['datetime'], $datemap)) {
                     $results[$table][$datemap[$favourite['datetime']]]['up'] = $favourite['up'];
                 } else {
                     $results[$table][] = [
@@ -375,9 +375,9 @@ class StatsVotesRepository extends StatsRepository
 
             $favourites = $stmt->executeQuery()->fetchAllAssociative();
 
-            if (0 < count($results[$table]) && 0 < count($favourites)) {
+            if (0 < \count($results[$table]) && 0 < \count($favourites)) {
                 $results[$table][0]['up'] = $favourites[0]['up'];
-            } elseif (0 < count($favourites)) {
+            } elseif (0 < \count($favourites)) {
                 $results[$table][] = [
                     'boost' => 0,
                     'down' => 0,

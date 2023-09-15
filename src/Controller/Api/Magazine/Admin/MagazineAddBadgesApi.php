@@ -97,7 +97,7 @@ class MagazineAddBadgesApi extends MagazineBaseApi
         $dto->magazine = $magazine;
 
         $errors = $validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

@@ -641,7 +641,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     public function isAdmin(): bool
     {
-        return in_array('ROLE_ADMIN', $this->getRoles());
+        return \in_array('ROLE_ADMIN', $this->getRoles());
     }
 
     public function getRoles(): array
@@ -775,7 +775,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
 
     public function isBackupCode(string $code): bool
     {
-        return in_array($code, $this->totpBackupCodes);
+        return \in_array($code, $this->totpBackupCodes);
     }
 
     public function invalidateBackupCode(string $code): void

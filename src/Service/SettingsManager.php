@@ -71,7 +71,7 @@ class SettingsManager
     {
         $res = array_values(array_filter($results, fn ($s) => $s->name === $name));
 
-        if (count($res)) {
+        if (\count($res)) {
             $res = $res[0]->value ?? $res[0]->json;
 
             if ($filter) {
@@ -94,7 +94,7 @@ class SettingsManager
         foreach ($dto as $name => $value) {
             $s = $this->repository->findOneByName($name);
 
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             }
 
@@ -102,7 +102,7 @@ class SettingsManager
                 $s = new Settings($name, $value);
             }
 
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $s->json = $value;
             } else {
                 $s->value = $value;
@@ -122,7 +122,7 @@ class SettingsManager
 
     public function isBannedInstance(string $inboxUrl): bool
     {
-        return in_array(
+        return \in_array(
             str_replace('www.', '', parse_url($inboxUrl, PHP_URL_HOST)),
             $this->get('KBIN_BANNED_INSTANCES') ?? []
         );

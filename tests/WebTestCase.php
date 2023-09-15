@@ -44,7 +44,7 @@ abstract class WebTestCase extends BaseWebTestCase
         $this->users = new ArrayCollection();
         $this->magazines = new ArrayCollection();
         $this->entries = new ArrayCollection();
-        $this->kibbyPath = dirname(__FILE__).'/assets/kibby_emoji.png';
+        $this->kibbyPath = \dirname(__FILE__).'/assets/kibby_emoji.png';
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class WebTestCase extends BaseWebTestCase
         $diffString = json_encode(array_keys($difference));
         self::assertEmpty($difference, $message ? $message : "Extra keys were found in the provided array: $diffString");
         $intersect = array_intersect_key($value, $flipped);
-        self::assertCount(count($flipped), $intersect, $message);
+        self::assertCount(\count($flipped), $intersect, $message);
     }
 
     public static function assertNotReached(string $message = 'This branch should never happen'): void

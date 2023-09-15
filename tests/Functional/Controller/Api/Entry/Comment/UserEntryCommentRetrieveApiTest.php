@@ -121,10 +121,10 @@ class UserEntryCommentRetrieveApiTest extends WebTestCase
         foreach ($jsonData['items'] as $comment) {
             self::assertIsArray($comment);
             self::assertArrayKeysMatch(self::ENTRY_COMMENT_RESPONSE_KEYS, $comment);
-            self::assertTrue(count($comment['children']) <= 1);
+            self::assertTrue(\count($comment['children']) <= 1);
             $depth = 0;
             $current = $comment;
-            while (count($current['children']) > 0) {
+            while (\count($current['children']) > 0) {
                 ++$depth;
                 $current = $current['children'][0];
                 self::assertIsArray($current);

@@ -54,7 +54,7 @@ class CreateHandler
                 continue;
             }
 
-            $inboxUrl = is_string($follower) ? $follower : $follower->apInboxUrl;
+            $inboxUrl = \is_string($follower) ? $follower : $follower->apInboxUrl;
 
             if ($this->settingsManager->isBannedInstance($inboxUrl)) {
                 continue;

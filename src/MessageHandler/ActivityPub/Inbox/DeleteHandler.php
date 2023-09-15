@@ -42,7 +42,7 @@ class DeleteHandler
             return;
         }
 
-        if (is_array($message->payload['object'])) {
+        if (\is_array($message->payload['object'])) {
             $object = $this->apActivityRepository->findByObjectId($message->payload['object']['id']);
         } else {
             $object = $this->apActivityRepository->findByObjectId($message->payload['object']);
@@ -54,19 +54,19 @@ class DeleteHandler
 
         $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
-        if (Entry::class === get_class($object)) {
+        if (Entry::class === \get_class($object)) {
             $fn = 'deleteEntry';
         }
 
-        if (EntryComment::class === get_class($object)) {
+        if (EntryComment::class === \get_class($object)) {
             $fn = 'deleteEntryComment';
         }
 
-        if (Post::class === get_class($object)) {
+        if (Post::class === \get_class($object)) {
             $fn = 'deletePost';
         }
 
-        if (PostComment::class === get_class($object)) {
+        if (PostComment::class === \get_class($object)) {
             $fn = 'deletePostComment';
         }
 

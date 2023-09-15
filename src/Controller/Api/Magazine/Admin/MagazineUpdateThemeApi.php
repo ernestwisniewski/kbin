@@ -116,7 +116,7 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         }
 
         $errors = $validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

@@ -126,7 +126,7 @@ class SearchRetrieveApi extends BaseApi
         $items = $manager->findPaginated($q, $page, $perPage);
         $dtos = [];
         foreach ($items->getCurrentPageResults() as $value) {
-            assert($value instanceof ContentInterface);
+            \assert($value instanceof ContentInterface);
             array_push($dtos, $this->serializeContentInterface($value));
         }
 
@@ -159,7 +159,7 @@ class SearchRetrieveApi extends BaseApi
         }
 
         foreach ($objects as $object) {
-            assert($object instanceof ContentInterface);
+            \assert($object instanceof ContentInterface);
             $response['apObjects'][] = $this->serializeContentInterface($object);
         }
 

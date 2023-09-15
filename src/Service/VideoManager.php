@@ -14,6 +14,6 @@ class VideoManager
 
         $types = array_map(fn ($type) => str_replace('video/', '', $type), self::VIDEO_MIMETYPES);
 
-        return in_array($urlExt, $types);
+        return \in_array($urlExt, $types);
     }
 }

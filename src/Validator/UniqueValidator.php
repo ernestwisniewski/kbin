@@ -39,7 +39,7 @@ final class UniqueValidator extends ConstraintValidator
 
             $fieldValue = $propertyAccessor->getValue($value, $dtoField);
 
-            if (is_string($fieldValue)) {
+            if (\is_string($fieldValue)) {
                 $qb->andWhere($qb->expr()->eq("LOWER(e.$entityField)", ":f_$entityField"));
                 $qb->setParameter("f_$entityField", mb_strtolower($fieldValue));
             } else {

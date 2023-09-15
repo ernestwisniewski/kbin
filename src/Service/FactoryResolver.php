@@ -30,7 +30,7 @@ class FactoryResolver
 
     public function resolve($subject)
     {
-        return match ($this->entityManager->getClassMetadata(get_class($subject))->name) {
+        return match ($this->entityManager->getClassMetadata(\get_class($subject))->name) {
             Entry::class => $this->entryFactory,
             EntryComment::class => $this->entryCommentFactory,
             Post::class => $this->postFactory,

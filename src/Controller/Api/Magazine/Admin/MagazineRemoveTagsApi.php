@@ -105,7 +105,7 @@ class MagazineRemoveTagsApi extends MagazineBaseApi
 
         array_splice($magazine->tags, $index, 1);
 
-        if (0 === count($magazine->tags)) {
+        if (0 === \count($magazine->tags)) {
             $magazine->tags = null;
         }
 

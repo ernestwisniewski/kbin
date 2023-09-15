@@ -32,7 +32,7 @@ class ReportFactory
 
     public function createFromDto(ReportDto $dto): Report
     {
-        $className = $this->entityManager->getClassMetadata(get_class($dto->getSubject()))->name.'Report';
+        $className = $this->entityManager->getClassMetadata(\get_class($dto->getSubject()))->name.'Report';
 
         return new $className($dto->getSubject()->user, $dto->getSubject(), $dto->reason);
     }
@@ -53,21 +53,21 @@ class ReportFactory
         );
 
         $subject = $report->getSubject();
-        switch (get_class($report)) {
+        switch (\get_class($report)) {
             case EntryReport::class:
-                assert($subject instanceof Entry);
+                \assert($subject instanceof Entry);
                 $toReturn->subject = $this->entryFactory->createResponseDto($subject);
                 break;
             case EntryCommentReport::class:
-                assert($subject instanceof EntryComment);
+                \assert($subject instanceof EntryComment);
                 $toReturn->subject = $this->entryCommentFactory->createResponseDto($subject);
                 break;
             case PostReport::class:
-                assert($subject instanceof Post);
+                \assert($subject instanceof Post);
                 $toReturn->subject = $this->postFactory->createResponseDto($subject);
                 break;
             case PostCommentReport::class:
-                assert($subject instanceof PostComment);
+                \assert($subject instanceof PostComment);
                 $toReturn->subject = $this->postCommentFactory->createResponseDto($subject);
                 break;
             default:

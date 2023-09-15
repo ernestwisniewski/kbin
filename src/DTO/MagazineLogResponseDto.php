@@ -79,22 +79,22 @@ class MagazineLogResponseDto implements \JsonSerializable
         switch ($this->type) {
             case 'log_entry_deleted':
             case 'log_entry_restored':
-                assert($subject instanceof Entry);
+                \assert($subject instanceof Entry);
                 $this->subject = $entryFactory->createResponseDto($subject);
                 break;
             case 'log_entry_comment_deleted':
             case 'log_entry_comment_restored':
-                assert($subject instanceof EntryComment);
+                \assert($subject instanceof EntryComment);
                 $this->subject = $entryCommentFactory->createResponseDto($subject);
                 break;
             case 'log_post_deleted':
             case 'log_post_restored':
-                assert($subject instanceof Post);
+                \assert($subject instanceof Post);
                 $this->subject = $postFactory->createResponseDto($subject);
                 break;
             case 'log_post_comment_deleted':
             case 'log_post_comment_restored':
-                assert($subject instanceof PostComment);
+                \assert($subject instanceof PostComment);
                 $this->subject = $postCommentFactory->createResponseDto($subject);
                 break;
             default:

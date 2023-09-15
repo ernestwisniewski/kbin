@@ -41,7 +41,7 @@ class PostCreateSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
 
         if (!$event->post->apId) {
-            $this->bus->dispatch(new CreateMessage($event->post->getId(), get_class($event->post)));
+            $this->bus->dispatch(new CreateMessage($event->post->getId(), \get_class($event->post)));
         } else {
             $this->handleMagazine($event->post);
         }

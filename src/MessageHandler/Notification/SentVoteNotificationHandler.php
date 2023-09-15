@@ -54,7 +54,7 @@ class SentVoteNotificationHandler
 
     private function getNotification(VotableInterface $votable): string
     {
-        $subject = explode('\\', get_class($votable));
+        $subject = explode('\\', \get_class($votable));
 
         return json_encode(
             [

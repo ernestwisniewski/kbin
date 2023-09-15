@@ -32,7 +32,7 @@ class FavouriteController extends AbstractController
                             'component' => 'vote',
                             'attributes' => [
                                 'subject' => $subject,
-                                'showDownvote' => str_contains(get_class($subject), 'Entry'),
+                                'showDownvote' => str_contains(\get_class($subject), 'Entry'),
                             ],
                         ]
                     ),

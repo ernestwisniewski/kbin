@@ -63,7 +63,7 @@ class UserUpdateApi extends UserBaseApi
         $deserialized = $this->serializer->deserialize($request->getContent(), UserProfileRequestDto::class, 'json');
 
         $errors = $validator->validate($deserialized);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 
@@ -120,7 +120,7 @@ class UserUpdateApi extends UserBaseApi
         $dto = $this->deserializeUserSettings($settings);
 
         $errors = $validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

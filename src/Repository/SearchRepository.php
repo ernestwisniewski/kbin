@@ -33,7 +33,7 @@ class SearchRepository
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
             'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.apId DESC, m.lastActive DESC';
 
-        return count(
+        return \count(
             $this->entityManager->createQuery($dql)
                 ->setParameter('user', $user)
                 ->getResult()

@@ -50,7 +50,7 @@ class LoginController extends AbstractController
         $clientScopes = $appClient->getScopes();
 
         // Check all requested scopes are in the client scopes, if not return an error
-        if (0 < count(array_diff($requestedScopes, $clientScopes))) {
+        if (0 < \count(array_diff($requestedScopes, $clientScopes))) {
             $request->getSession()->set('consent_granted', false);
 
             return $this->redirectToRoute('oauth2_authorize', $request->query->all());
@@ -68,10 +68,10 @@ class LoginController extends AbstractController
         } else {
             $userScopes = [];
         }
-        $hasExistingScopes = count($userScopes) > 0;
+        $hasExistingScopes = \count($userScopes) > 0;
 
         // If user has already consented to the scopes, give consent
-        if (0 === count(array_diff($requestedScopes, $userScopes))) {
+        if (0 === \count(array_diff($requestedScopes, $userScopes))) {
             $request->getSession()->set('consent_granted', true);
 
             return $this->redirectToRoute('oauth2_authorize', $request->query->all());

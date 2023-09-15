@@ -159,7 +159,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $comments = $this->handlePrivateComments($comments, $user);
         $comments = new ArrayCollection($comments->slice(0, 2));
 
-        if (!count(array_filter($comments->toArray(), fn ($comment) => $comment->countUpVotes() > 0))) {
+        if (!\count(array_filter($comments->toArray(), fn ($comment) => $comment->countUpVotes() > 0))) {
             return $this->getLastComments();
         }
 
@@ -303,7 +303,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $users = [];
         $count = 0;
         foreach ($this->comments as $comment) {
-            if (!in_array($comment->user, $users)) {
+            if (!\in_array($comment->user, $users)) {
                 $users[] = $comment->user;
                 ++$count;
             }

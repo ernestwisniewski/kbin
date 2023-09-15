@@ -106,7 +106,7 @@ class JsonRd
 
     public function removeProperty(string $uri): JsonRd
     {
-        if (!array_key_exists($uri, $this->properties)) {
+        if (!\array_key_exists($uri, $this->properties)) {
             return $this;
         }
         unset($this->properties[$uri]);

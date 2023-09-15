@@ -102,12 +102,12 @@ class Question
 
     private function getVisibility(array $object, User $actor): string
     {
-        if (!in_array(
+        if (!\in_array(
             ActivityPubActivityInterface::PUBLIC_URL,
             array_merge($object['to'] ?? [], $object['cc'] ?? [])
         )) {
             if (
-                !in_array(
+                !\in_array(
                     $actor->apFollowersUrl,
                     array_merge($object['to'] ?? [], $object['cc'] ?? [])
                 )
@@ -142,22 +142,22 @@ class Question
             $root = null;
             $fn = null;
 
-            if (Entry::class === get_class($parent)) {
+            if (Entry::class === \get_class($parent)) {
                 $root = $parent;
                 $fn = 'createEntryComment';
             }
 
-            if (EntryComment::class === get_class($parent)) {
+            if (EntryComment::class === \get_class($parent)) {
                 $root = $parent->entry;
                 $fn = 'createEntryComment';
             }
 
-            if (Post::class === get_class($parent)) {
+            if (Post::class === \get_class($parent)) {
                 $root = $parent;
                 $fn = 'createPostComment';
             }
 
-            if (PostComment::class === get_class($parent)) {
+            if (PostComment::class === \get_class($parent)) {
                 $root = $parent->post;
                 $fn = 'createPostComment';
             }
@@ -165,11 +165,11 @@ class Question
             return $this->$fn($object, $parent, $root);
         }
 
-        if (is_string($object['to'])) {
+        if (\is_string($object['to'])) {
             $object['to'] = [$object['to']];
         }
 
-        if (is_string($object['cc'])) {
+        if (\is_string($object['cc'])) {
             $object['cc'] = [$object['cc']];
         }
 

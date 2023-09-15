@@ -38,7 +38,7 @@ class PostCommentCreateSubscriber implements EventSubscriberInterface
         }
 
         if (!$event->comment->apId) {
-            $this->bus->dispatch(new CreateMessage($event->comment->getId(), get_class($event->comment)));
+            $this->bus->dispatch(new CreateMessage($event->comment->getId(), \get_class($event->comment)));
         }
     }
 }

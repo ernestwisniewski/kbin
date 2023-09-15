@@ -51,7 +51,7 @@ class InstanceDetailsApi extends InstanceBaseApi
 
         $results = $repository->findAll();
         $dto = new SiteResponseDto(null);
-        if (0 < count($results)) {
+        if (0 < \count($results)) {
             $dto = new SiteResponseDto($results[0]);
         }
 

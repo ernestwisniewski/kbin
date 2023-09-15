@@ -69,7 +69,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn ($s) => !\in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notification = new EntryCreatedNotification($subscriber, $subject);
@@ -100,7 +100,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(\get_class($notification))->name);
 
         /**
          * @var Magazine $magazine

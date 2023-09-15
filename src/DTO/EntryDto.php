@@ -61,7 +61,7 @@ class EntryDto implements ContentVisibilityInterface
     ) {
         if (empty($this->image)) {
             $image = Request::createFromGlobals()->files->filter('entry_image');
-            if (is_array($image)) {
+            if (\is_array($image)) {
                 $image = $image['image'];
             } else {
                 $image = $context->getValue()->image;

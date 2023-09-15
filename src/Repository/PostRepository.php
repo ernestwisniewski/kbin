@@ -187,7 +187,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
                 ->setParameter('isAdult', false);
         }
 
-        if (0 < count($user?->preferredLanguages ?? [])) {
+        if (0 < \count($user?->preferredLanguages ?? [])) {
             $qb->andWhere('p.lang IN (:p_lang)')
                 ->setParameter('p_lang', $user->preferredLanguages);
         }
@@ -249,7 +249,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
     public function countPostsByMagazine(Magazine $magazine)
     {
-        return intval(
+        return \intval(
             $this->createQueryBuilder('p')
                 ->select('count(p.id)')
                 ->where('p.magazine = :magazine')
@@ -263,7 +263,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
     public function countPostCommentsByMagazine(Magazine $magazine)
     {
-        return intval(
+        return \intval(
             $this->createQueryBuilder('p')
                 ->select('sum(p.commentCount)')
                 ->where('p.magazine = :magazine')

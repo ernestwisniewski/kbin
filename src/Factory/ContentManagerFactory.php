@@ -28,7 +28,7 @@ class ContentManagerFactory
 
     public function createManager(ContentInterface $subject): ContentManagerInterface
     {
-        return match ($this->entityManager->getClassMetadata(get_class($subject))->name) {
+        return match ($this->entityManager->getClassMetadata(\get_class($subject))->name) {
             Entry::class => $this->entryManager,
             EntryComment::class => $this->entryCommentManager,
             Post::class => $this->postManager,

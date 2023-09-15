@@ -36,7 +36,7 @@ class VoteController extends AbstractController
                             'component' => 'vote',
                             'attributes' => [
                                 'subject' => $vote->getSubject(),
-                                'showDownvote' => str_contains(get_class($vote->getSubject()), 'Entry'),
+                                'showDownvote' => str_contains(\get_class($vote->getSubject()), 'Entry'),
                             ],
                         ]
                     ),

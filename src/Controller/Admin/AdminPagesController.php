@@ -26,7 +26,7 @@ class AdminPagesController extends AbstractController
     public function __invoke(Request $request, ?string $page = 'about'): Response
     {
         $entity = $this->repository->findAll();
-        if (!count($entity)) {
+        if (!\count($entity)) {
             $entity = new Site();
         } else {
             $entity = $entity[0];

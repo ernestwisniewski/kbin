@@ -490,7 +490,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             if (isset($users[$item['user_id']])) {
                 $res[] = $users[$item['user_id']];
             }
-            if (count($res) >= 35) {
+            if (\count($res) >= 35) {
                 break;
             }
         }
@@ -519,7 +519,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
         shuffle($results);
 
-        return array_slice($results, 0, 12);
+        return \array_slice($results, 0, 12);
     }
 
     public function findByProfileIds(array $arr): array

@@ -55,7 +55,7 @@ class SentFavouriteNotificationHandler
 
     private function getNotification(FavouriteInterface $fav): string
     {
-        $subject = explode('\\', get_class($fav));
+        $subject = explode('\\', \get_class($fav));
 
         return json_encode(
             [

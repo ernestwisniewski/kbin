@@ -40,7 +40,7 @@ class BuildCacheContext
             return false;
         }
 
-        if (func_num_args() < 2) {
+        if (\func_num_args() < 2) {
             return true;
         }
 

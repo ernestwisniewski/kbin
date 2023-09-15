@@ -181,7 +181,7 @@ class RetrieveClientApi extends BaseApi
 
         $dtos = [];
         foreach ($pagerfanta->getCurrentPageResults() as $client) {
-            assert($client instanceof Client);
+            \assert($client instanceof Client);
             array_push($dtos, new ClientResponseDto($client));
         }
 

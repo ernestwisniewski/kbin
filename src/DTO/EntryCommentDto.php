@@ -51,7 +51,7 @@ class EntryCommentDto
         if (empty($this->image)) {
             $image = Request::createFromGlobals()->files->filter('entry_comment');
 
-            if (is_array($image) && isset($image['image'])) {
+            if (\is_array($image) && isset($image['image'])) {
                 $image = $image['image'];
             } else {
                 $image = $context->getValue()->image;

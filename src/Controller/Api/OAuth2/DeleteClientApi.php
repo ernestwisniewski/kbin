@@ -70,7 +70,7 @@ class DeleteClientApi extends BaseApi
 
         $validatorGroups = ['deleting'];
         $errors = $validator->validate($dto, groups: $validatorGroups);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

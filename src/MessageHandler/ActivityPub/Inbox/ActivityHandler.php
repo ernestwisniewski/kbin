@@ -71,7 +71,7 @@ class ActivityHandler
     private function handle(array $payload)
     {
         if ('Announce' === $payload['type']) {
-            if (is_array($payload['object'])) {
+            if (\is_array($payload['object'])) {
                 $payload = $payload['object'];
             }
         }
@@ -113,7 +113,7 @@ class ActivityHandler
 
     private function handleUndo(array $payload): void
     {
-        if (is_array($payload['object'])) {
+        if (\is_array($payload['object'])) {
             $type = $payload['object']['type'];
         } else {
             $type = $payload['type'];
@@ -140,7 +140,7 @@ class ActivityHandler
 
     private function handleAcceptAndReject(array $payload): void
     {
-        if (is_array($payload['object'])) {
+        if (\is_array($payload['object'])) {
             $type = $payload['object']['type'];
         } else {
             $type = $payload['type'];
@@ -153,7 +153,7 @@ class ActivityHandler
 
     private function verifyInstanceDomain(string $id): bool
     {
-        if (in_array(
+        if (\in_array(
             str_replace('www.', '', parse_url($id, PHP_URL_HOST)),
             $this->settingsManager->get('KBIN_BANNED_INSTANCES') ?? []
         )) {

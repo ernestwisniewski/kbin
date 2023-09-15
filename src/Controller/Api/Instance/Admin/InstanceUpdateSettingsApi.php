@@ -72,7 +72,7 @@ class InstanceUpdateSettingsApi extends InstanceBaseApi
         $dto = $serializer->deserialize($request->getContent(), SettingsDto::class, 'json');
 
         $errors = $validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

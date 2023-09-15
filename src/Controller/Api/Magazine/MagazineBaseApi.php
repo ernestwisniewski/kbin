@@ -52,7 +52,7 @@ class MagazineBaseApi extends BaseApi
     {
         $dto = $dto ? $dto : new MagazineDto();
         $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), MagazineRequestDto::class, 'json');
-        assert($deserialized instanceof MagazineRequestDto);
+        \assert($deserialized instanceof MagazineRequestDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
 
@@ -79,7 +79,7 @@ class MagazineBaseApi extends BaseApi
         }
 
         $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

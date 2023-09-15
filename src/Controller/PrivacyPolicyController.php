@@ -18,7 +18,7 @@ class PrivacyPolicyController extends AbstractController
         return $this->render(
             'page/privacy_policy.html.twig',
             [
-                'body' => count($site) ? $site[0]->privacyPolicy : '',
+                'body' => \count($site) ? $site[0]->privacyPolicy : '',
             ]
         );
     }

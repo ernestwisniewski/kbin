@@ -29,7 +29,7 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             MagazineFixtures::MAGAZINES_COUNT,
-            intval(MagazineFixtures::MAGAZINES_COUNT / rand(2, 5))
+            \intval(MagazineFixtures::MAGAZINES_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $m) {
@@ -55,14 +55,14 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
         $numbers = range(1, $max);
         shuffle($numbers);
 
-        return array_slice($numbers, 0, $quantity);
+        return \array_slice($numbers, 0, $quantity);
     }
 
     private function users(int $u)
     {
         $randomNb = $this->getUniqueNb(
             UserFixtures::USERS_COUNT,
-            intval(UserFixtures::USERS_COUNT / rand(2, 5))
+            \intval(UserFixtures::USERS_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $f) {

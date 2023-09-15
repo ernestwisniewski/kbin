@@ -33,7 +33,7 @@ final class FeaturedMagazinesComponent
             28
         );
 
-        if ($this->magazine && !in_array($this->magazine, $magazines)) {
+        if ($this->magazine && !\in_array($this->magazine, $magazines)) {
             array_unshift($magazines, $this->magazine);
         }
 

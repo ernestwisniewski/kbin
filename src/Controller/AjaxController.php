@@ -48,7 +48,7 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'total' => count($entries),
+                'total' => \count($entries),
                 'html' => $this->renderView('entry/_list.html.twig', ['entries' => $entries]),
             ]
         );
@@ -172,7 +172,7 @@ class AjaxController extends AbstractController
         $online = $cache->get($topic, function (ItemInterface $item) use ($resp) {
             $item->expiresAfter(45);
 
-            return count($resp->toArray()['subscriptions']) + 1;
+            return \count($resp->toArray()['subscriptions']) + 1;
         });
 
         return new JsonResponse([

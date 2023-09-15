@@ -83,7 +83,7 @@ class EntryCommentsVoteApi extends EntriesBaseApi
     ): JsonResponse {
         $headers = $this->rateLimit($apiVoteLimiter);
 
-        if (!in_array($choice, VotableInterface::VOTE_CHOICES)) {
+        if (!\in_array($choice, VotableInterface::VOTE_CHOICES)) {
             throw new BadRequestHttpException('Vote must be either -1, 0, or 1');
         }
 

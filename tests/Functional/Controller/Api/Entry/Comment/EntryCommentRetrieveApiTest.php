@@ -442,7 +442,7 @@ class EntryCommentRetrieveApiTest extends WebTestCase
             self::assertCount(1, $comment['children']);
             $depth = 0;
             $current = $comment;
-            while (count($current['children']) > 0) {
+            while (\count($current['children']) > 0) {
                 self::assertIsArray($current['children'][0]);
                 self::assertArrayKeysMatch(self::ENTRY_COMMENT_RESPONSE_KEYS, $current['children'][0]);
                 self::assertStringContainsString('test child comment', $current['children'][0]['body']);
@@ -608,7 +608,7 @@ class EntryCommentRetrieveApiTest extends WebTestCase
 
         $depth = 0;
         $current = $jsonData;
-        while (count($current['children']) > 0) {
+        while (\count($current['children']) > 0) {
             self::assertIsArray($current['children'][0]);
             self::assertArrayKeysMatch(self::ENTRY_COMMENT_RESPONSE_KEYS, $current['children'][0]);
             ++$depth;

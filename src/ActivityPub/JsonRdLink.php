@@ -229,7 +229,7 @@ class JsonRdLink
 
     public function addTitle(string $locale, string $value): JsonRdLink
     {
-        if (!array_key_exists($locale, $this->titles)) {
+        if (!\array_key_exists($locale, $this->titles)) {
             $this->titles[$locale] = $value;
         }
 
@@ -238,7 +238,7 @@ class JsonRdLink
 
     public function removeTitle(string $locale): JsonRdLink
     {
-        if (!array_key_exists($locale, $this->titles)) {
+        if (!\array_key_exists($locale, $this->titles)) {
             return $this;
         }
         unset($this->titles[$locale]);
@@ -255,7 +255,7 @@ class JsonRdLink
 
     public function removeProperty(string $url): JsonRdLink
     {
-        if (!array_key_exists($url, $this->properties)) {
+        if (!\array_key_exists($url, $this->properties)) {
             return $this;
         }
         unset($this->properties[$url]);
@@ -286,7 +286,7 @@ class JsonRdLink
      */
     public function setRel(string $relation): JsonRdLink
     {
-        if (in_array($relation, self::REGISTERED_RELATION_TYPES)) {
+        if (\in_array($relation, self::REGISTERED_RELATION_TYPES)) {
             $this->rel = $relation;
 
             return $this;

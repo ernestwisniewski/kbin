@@ -72,7 +72,7 @@ class MoveEntriesByTagCommand extends Command
             $entry->badges->clear();
 
             $tags = array_diff($entry->tags, [$tag]);
-            $entry->tags = count($tags) ? array_values($tags) : null;
+            $entry->tags = \count($tags) ? array_values($tags) : null;
 
             $this->entityManager->persist($entry);
         }

@@ -19,6 +19,6 @@ class MagazineBadges extends AbstractController
     {
         $dtos = array_map(fn ($badge) => $this->factory->createDto($badge), $magazine->badges->toArray());
 
-        return new DtoPaginator($dtos, 0, 10, count($dtos));
+        return new DtoPaginator($dtos, 0, 10, \count($dtos));
     }
 }

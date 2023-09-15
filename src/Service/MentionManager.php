@@ -65,7 +65,7 @@ class MentionManager
 
         return array_filter(
             $result,
-            fn ($val) => !in_array(
+            fn ($val) => !\in_array(
                 $val,
                 [
                     '@'.$activity->user->username,
@@ -91,7 +91,7 @@ class MentionManager
 
         $result = array_map(fn ($val) => trim($val), $result);
 
-        return count($result) ? array_unique($result) : null;
+        return \count($result) ? array_unique($result) : null;
     }
 
     private function byApPrefix(): array
@@ -102,7 +102,7 @@ class MentionManager
             $matches
         );
 
-        return count($matches[0]) ? array_unique(array_values($matches[0])) : [];
+        return \count($matches[0]) ? array_unique(array_values($matches[0])) : [];
     }
 
     private function byPrefix(): array
@@ -110,7 +110,7 @@ class MentionManager
         preg_match_all('/(?<!\/)\B@([a-zA-Z0-9_-]{1,30}@?)/', $this->val, $matches);
         $results = array_filter($matches[0], fn ($val) => !str_ends_with($val, '@'));
 
-        return count($results) ? array_unique(array_values($results)) : [];
+        return \count($results) ? array_unique(array_values($results)) : [];
     }
 
     public function joinMentionsToBody(string $body, array $mentions): string

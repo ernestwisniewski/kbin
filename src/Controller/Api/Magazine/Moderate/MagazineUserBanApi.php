@@ -103,7 +103,7 @@ class MagazineUserBanApi extends MagazineBaseApi
         $ban = $deserializer->deserialize($request->getContent(), MagazineBanDto::class, 'json');
 
         $errors = $validator->validate($ban);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

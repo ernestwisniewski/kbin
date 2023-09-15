@@ -87,12 +87,12 @@ class InstanceUpdatePagesApi extends InstanceBaseApi
         $dto = $serializer->deserialize($request->getContent(), PageDto::class, 'json');
 
         $errors = $validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 
         $entity = $repository->findAll();
-        if (!count($entity)) {
+        if (!\count($entity)) {
             $entity = new Site();
         } else {
             $entity = $entity[0];

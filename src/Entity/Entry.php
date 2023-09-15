@@ -362,7 +362,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         $users = [];
         $count = 0;
         foreach ($this->comments as $comment) {
-            if (!in_array($comment->user, $users)) {
+            if (!\in_array($comment->user, $users)) {
                 $users[] = $comment->user;
                 ++$count;
             }

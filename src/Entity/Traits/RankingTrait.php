@@ -13,7 +13,7 @@ trait RankingTrait
 
     public function updateRanking(): void
     {
-        $score = $this->getScore() + intval($this->favouriteCount * .5);
+        $score = $this->getScore() + \intval($this->favouriteCount * .5);
         $scoreAdvantage = $score * self::NETSCORE_MULTIPLIER;
 
         if ($score > self::DOWNVOTED_CUTOFF) {

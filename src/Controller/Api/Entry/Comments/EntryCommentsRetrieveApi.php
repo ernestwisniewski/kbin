@@ -155,7 +155,7 @@ class EntryCommentsRetrieveApi extends EntriesBaseApi
 
         $dtos = [];
         foreach ($comments->getCurrentPageResults() as $value) {
-            assert($value instanceof EntryComment);
+            \assert($value instanceof EntryComment);
             array_push($dtos, $this->serializeCommentTree($value));
         }
 

@@ -36,7 +36,7 @@ class LanguageType extends AbstractType
                     $this->preferredLanguages = $this->security->getUser()?->preferredLanguages ?? [];
                     $this->priorityLanguage = $options['priorityLanguage'];
 
-                    if (0 === count($this->preferredLanguages)) {
+                    if (0 === \count($this->preferredLanguages)) {
                         $this->preferredLanguages = [$this->requestStack->getCurrentRequest()?->getLocale()];
                     }
 
@@ -52,7 +52,7 @@ class LanguageType extends AbstractType
                     }), [$this->preferredLanguages, $this->priorityLanguage]);
                 },
                 'preferred_choices' => ChoiceList::preferred($this, function (string $choice): bool {
-                    if (in_array($choice, $this->preferredLanguages) || $this->priorityLanguage === $choice) {
+                    if (\in_array($choice, $this->preferredLanguages) || $this->priorityLanguage === $choice) {
                         return true;
                     }
 

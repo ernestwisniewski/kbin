@@ -113,7 +113,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         $dto->parent = $parent;
 
         $errors = $validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 
@@ -227,7 +227,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         $dto->image = $this->imageFactory->createDto($image);
 
         $errors = $validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

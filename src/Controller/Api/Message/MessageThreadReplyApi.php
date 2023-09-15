@@ -92,7 +92,7 @@ class MessageThreadReplyApi extends MessageBaseApi
         $dto = $this->deserializeMessage();
 
         $errors = $validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

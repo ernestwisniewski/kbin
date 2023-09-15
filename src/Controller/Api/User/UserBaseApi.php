@@ -20,7 +20,7 @@ class UserBaseApi extends BaseApi
     {
         $request = $this->request->getCurrentRequest();
         $deserialized = $this->serializer->deserialize($request->getContent(), UserSettingsDto::class, 'json');
-        assert($deserialized instanceof UserSettingsDto);
+        \assert($deserialized instanceof UserSettingsDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
 

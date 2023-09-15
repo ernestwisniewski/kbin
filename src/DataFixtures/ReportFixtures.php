@@ -33,7 +33,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             EntryFixtures::ENTRIES_COUNT,
-            intval(EntryFixtures::ENTRIES_COUNT / rand(2, 5))
+            \intval(EntryFixtures::ENTRIES_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $e) {
@@ -59,7 +59,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
         $numbers = range(1, $max);
         shuffle($numbers);
 
-        return array_slice($numbers, 0, $quantity);
+        return \array_slice($numbers, 0, $quantity);
     }
 
     public function getRandomNumber($max)
@@ -74,7 +74,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             EntryCommentFixtures::COMMENTS_COUNT,
-            intval(EntryCommentFixtures::COMMENTS_COUNT / rand(2, 5))
+            \intval(EntryCommentFixtures::COMMENTS_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $c) {
@@ -99,7 +99,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             PostFixtures::ENTRIES_COUNT,
-            intval(PostFixtures::ENTRIES_COUNT / rand(2, 5))
+            \intval(PostFixtures::ENTRIES_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $e) {
@@ -124,7 +124,7 @@ class ReportFixtures extends BaseFixture implements DependentFixtureInterface
     {
         $randomNb = $this->getUniqueNb(
             PostCommentFixtures::COMMENTS_COUNT,
-            intval(PostCommentFixtures::COMMENTS_COUNT / rand(2, 5))
+            \intval(PostCommentFixtures::COMMENTS_COUNT / rand(2, 5))
         );
 
         foreach ($randomNb as $c) {

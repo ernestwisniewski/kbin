@@ -32,7 +32,7 @@ class EntryEditSubscriber implements EventSubscriberInterface
         }
 
         if (!$event->entry->apId) {
-            $this->bus->dispatch(new UpdateMessage($event->entry->getId(), get_class($event->entry)));
+            $this->bus->dispatch(new UpdateMessage($event->entry->getId(), \get_class($event->entry)));
         }
     }
 }

@@ -40,7 +40,7 @@ class ReportDto
 
     public function getRouteName(): string
     {
-        switch (get_class($this->getSubject())) {
+        switch (\get_class($this->getSubject())) {
             case Entry::class:
                 return 'entry_report';
             case EntryComment::class:

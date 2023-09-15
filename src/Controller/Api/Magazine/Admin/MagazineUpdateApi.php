@@ -91,7 +91,7 @@ class MagazineUpdateApi extends MagazineBaseApi
         $dto = $this->deserializeMagazine($manager->createDto($magazine));
 
         $errors = $validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

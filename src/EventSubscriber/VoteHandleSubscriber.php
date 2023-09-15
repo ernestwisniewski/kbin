@@ -47,7 +47,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(
             new VoteNotificationMessage(
                 $event->votable->getId(),
-                ClassUtils::getRealClass(get_class($event->votable))
+                ClassUtils::getRealClass(\get_class($event->votable))
             )
         );
 
@@ -56,7 +56,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
                 new AnnounceMessage(
                     $event->vote->user->getId(),
                     $event->votable->getId(),
-                    get_class($event->votable),
+                    \get_class($event->votable),
                 ),
             );
         }

@@ -40,7 +40,7 @@ class PostCommentEditSubscriber implements EventSubscriberInterface
         }
 
         if (!$event->comment->apId) {
-            $this->bus->dispatch(new UpdateMessage($event->comment->getId(), get_class($event->comment)));
+            $this->bus->dispatch(new UpdateMessage($event->comment->getId(), \get_class($event->comment)));
         }
     }
 }

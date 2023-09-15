@@ -73,7 +73,7 @@ class ReportResponseDto implements \JsonSerializable
             return 'null_report';
         }
 
-        switch (get_class($this->subject)) {
+        switch (\get_class($this->subject)) {
             case EntryResponseDto::class:
                 return 'entry_report';
             case EntryCommentResponseDto::class:

@@ -11,7 +11,7 @@ class PostCommentCreateControllerTest extends WebTestCase
     public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->kibbyPath = dirname(__FILE__, 5).'/assets/kibby_emoji.png';
+        $this->kibbyPath = \dirname(__FILE__, 5).'/assets/kibby_emoji.png';
     }
 
     public function testUserCanCreatePostComment(): void

@@ -76,7 +76,7 @@ class SearchManager
         $objects = [];
         $name = str_starts_with($query, '@') ? $query : '@'.$query;
         preg_match(RegPatterns::AP_USER, $name, $matches);
-        if (count(array_filter($matches)) >= 4) {
+        if (\count(array_filter($matches)) >= 4) {
             try {
                 $webfinger = $this->activityPubManager->webfinger($name);
                 foreach ($webfinger->getProfileIds() as $profileId) {

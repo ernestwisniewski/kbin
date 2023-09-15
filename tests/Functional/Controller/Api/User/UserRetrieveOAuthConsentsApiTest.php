@@ -54,7 +54,7 @@ class UserRetrieveOAuthConsentsApiTest extends WebTestCase
         self::assertSame(1, $jsonData['pagination']['count']);
 
         self::assertIsArray($jsonData['items']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
 
         self::assertIsArray($jsonData['items'][0]);
         self::assertArrayKeysMatch(self::CONSENT_RESPONSE_KEYS, $jsonData['items'][0]);
@@ -93,7 +93,7 @@ class UserRetrieveOAuthConsentsApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATED_KEYS, $jsonData);
 
         self::assertIsArray($jsonData['items']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
 
         self::assertIsArray($jsonData['items'][0]);
         self::assertArrayKeysMatch(self::CONSENT_RESPONSE_KEYS, $jsonData['items'][0]);
@@ -123,7 +123,7 @@ class UserRetrieveOAuthConsentsApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATED_KEYS, $jsonData);
 
         self::assertIsArray($jsonData['items']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
 
         self::assertIsArray($jsonData['items'][0]);
         self::assertArrayKeysMatch(self::CONSENT_RESPONSE_KEYS, $jsonData['items'][0]);

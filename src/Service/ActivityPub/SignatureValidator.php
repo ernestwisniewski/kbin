@@ -31,8 +31,8 @@ class SignatureValidator
     {
         $payload = json_decode($body, true);
 
-        $signature = is_array($headers['signature']) ? $headers['signature'][0] : $headers['signature'];
-        $date = is_array($headers['date']) ? $headers['date'][0] : $headers['date'];
+        $signature = \is_array($headers['signature']) ? $headers['signature'][0] : $headers['signature'];
+        $date = \is_array($headers['date']) ? $headers['date'][0] : $headers['date'];
 
         if (!$signature || !$date) {
             throw new InvalidApSignatureException('Missing required signature and/or date header');
@@ -43,13 +43,13 @@ class SignatureValidator
         $signature = HttpSignature::parseSignatureHeader($signature);
 
         $this->validateUrl($signature['keyId']);
-        $this->validateUrl($id = is_array($payload['id']) ? $payload['id'][0] : $payload['id']);
+        $this->validateUrl($id = \is_array($payload['id']) ? $payload['id'][0] : $payload['id']);
 
         $keyDomain = parse_url($signature['keyId'], PHP_URL_HOST);
         $idDomain = parse_url($id, PHP_URL_HOST);
 
         // @TODO this check appears to essentially be 'attributedTo' !== id
-        if (isset($payload['object']) && is_array($payload['object']) && isset($payload['object']['attributedTo'])) {
+        if (isset($payload['object']) && \is_array($payload['object']) && isset($payload['object']['attributedTo'])) {
             if (parse_url($payload['object']['attributedTo'], PHP_URL_HOST) !== $keyDomain) {
                 throw new InvalidApSignatureException('Supplied key domain does not match domain of incoming activities "attributedTo" property');
             }
@@ -59,7 +59,7 @@ class SignatureValidator
             throw new InvalidApSignatureException('Supplied key domain does not match domain of incoming activity.');
         }
 
-        $actorUrl = is_array($payload['actor']) ? $payload['actor'][0] : $payload['actor'];
+        $actorUrl = \is_array($payload['actor']) ? $payload['actor'][0] : $payload['actor'];
 
         $user = $this->activityPubManager->findActorOrCreate($actorUrl);
 
@@ -97,7 +97,7 @@ class SignatureValidator
     ): void {
         $digest = 'SHA-256='.base64_encode(hash('sha256', $payload, true));
 
-        if (isset($headers['digest']) && $digest !== $suppliedDigest = is_array($headers['digest']) ? $headers['digest'][0] : $headers['digest']) {
+        if (isset($headers['digest']) && $digest !== $suppliedDigest = \is_array($headers['digest']) ? $headers['digest'][0] : $headers['digest']) {
             $this->logger->warning('Supplied digest of incoming request does not match calculated value', ['supplied-digest' => $suppliedDigest]);
         }
 

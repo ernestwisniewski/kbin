@@ -67,7 +67,7 @@ class EntriesBaseApi extends BaseApi
     {
         $dto = $dto ? $dto : new EntryDto();
         $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), EntryRequestDto::class, 'json', $context);
-        assert($deserialized instanceof EntryRequestDto);
+        \assert($deserialized instanceof EntryRequestDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
 
@@ -196,7 +196,7 @@ class EntriesBaseApi extends BaseApi
         }
 
         $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 

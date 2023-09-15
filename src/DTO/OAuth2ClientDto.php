@@ -190,7 +190,7 @@ class OAuth2ClientDto extends ImageUploadDto implements \JsonSerializable
                 ->addViolation();
         }
 
-        $validScopes = array_filter($this->scopes, fn (string $scope) => array_key_exists($scope, OAuth2UserConsent::SCOPE_DESCRIPTIONS));
+        $validScopes = array_filter($this->scopes, fn (string $scope) => \array_key_exists($scope, OAuth2UserConsent::SCOPE_DESCRIPTIONS));
         $invalidScopes = array_diff($this->scopes, $validScopes);
         foreach ($invalidScopes as $invalid) {
             $context->buildViolation('Invalid scope "'.$invalid.'"')

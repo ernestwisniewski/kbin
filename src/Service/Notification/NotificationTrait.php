@@ -19,7 +19,7 @@ trait NotificationTrait
                 array_filter(
                     $follows,
                     function ($val) use ($subs) {
-                        return !in_array($val, $subs);
+                        return !\in_array($val, $subs);
                     }
                 )
             ),

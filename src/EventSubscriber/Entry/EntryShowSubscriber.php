@@ -54,7 +54,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
 
         $notifications = $this->repository->findUnreadEntryNotifications($this->security->getUser(), $entry);
 
-        if (!count($notifications)) {
+        if (!\count($notifications)) {
             return;
         }
 

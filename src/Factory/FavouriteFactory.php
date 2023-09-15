@@ -17,7 +17,7 @@ class FavouriteFactory
 
     public function createFromEntity(User $user, FavouriteInterface $subject): Favourite
     {
-        $className = $this->entityManager->getClassMetadata(get_class($subject))->name.'Favourite';
+        $className = $this->entityManager->getClassMetadata(\get_class($subject))->name.'Favourite';
 
         return new $className($user, $subject);
     }

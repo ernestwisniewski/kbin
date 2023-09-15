@@ -41,8 +41,8 @@ readonly class CachingQueryAdapter implements AdapterInterface
         $values = $this->queryAdapter->getQuery()->getParameters()->map(function ($val) {
             $value = $val->getValue();
 
-            if (is_object($value) && method_exists($value, 'getId')) {
-                return sprintf('%s::%s', get_class($value), $value->getId());
+            if (\is_object($value) && method_exists($value, 'getId')) {
+                return sprintf('%s::%s', \get_class($value), $value->getId());
             }
 
             return $value;

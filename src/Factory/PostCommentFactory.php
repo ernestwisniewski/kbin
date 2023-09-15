@@ -71,7 +71,7 @@ class PostCommentFactory
         }
 
         foreach ($comment->children as $childComment) {
-            assert($childComment instanceof PostComment);
+            \assert($childComment instanceof PostComment);
             $child = $this->createResponseTree($childComment, $depth > 0 ? $depth - 1 : -1);
             array_push($toReturn->children, $child);
         }

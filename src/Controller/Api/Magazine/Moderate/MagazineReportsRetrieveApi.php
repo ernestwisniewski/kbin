@@ -184,7 +184,7 @@ class MagazineReportsRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($reports->getCurrentPageResults() as $value) {
-            assert($value instanceof Report);
+            \assert($value instanceof Report);
             array_push($dtos, $this->serializeReport($value));
         }
 

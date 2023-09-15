@@ -64,7 +64,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
         for ($i = 0; $i <= $count; ++$i) {
             $title = substr($this->faker->words($this->faker->numberBetween(1, 5), true), 0, 50);
 
-            if (in_array($title, $titles)) {
+            if (\in_array($title, $titles)) {
                 $title = $title.bin2hex(random_bytes(5));
             }
 

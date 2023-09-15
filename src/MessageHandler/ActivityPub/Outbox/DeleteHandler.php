@@ -48,7 +48,7 @@ class DeleteHandler
             if (!$follower) {
                 continue;
             }
-            if (is_string($follower)) {
+            if (\is_string($follower)) {
                 $this->bus->dispatch(new DeliverMessage($follower, $activity));
                 continue;
             }

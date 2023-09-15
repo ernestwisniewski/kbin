@@ -66,7 +66,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
             [] // @todo user followers
         );
 
-        $subscribers = array_filter($subscribers, fn ($s) => !in_array($s->username, $mentions ?? []));
+        $subscribers = array_filter($subscribers, fn ($s) => !\in_array($s->username, $mentions ?? []));
 
         foreach ($subscribers as $subscriber) {
             $notify = new PostCreatedNotification($subscriber, $subject);
@@ -97,7 +97,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(\get_class($notification))->name);
 
         /**
          * @var Post $post ;

@@ -75,7 +75,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
         for ($i = 0; $i <= $count; ++$i) {
             yield [
                 'body' => $this->faker->realText($this->faker->numberBetween(10, 1024)),
-                'magazine' => $this->getReference('magazine_'.rand(1, intval(MagazineFixtures::MAGAZINES_COUNT))),
+                'magazine' => $this->getReference('magazine_'.rand(1, \intval(MagazineFixtures::MAGAZINES_COUNT))),
                 'user' => $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)),
                 'ip' => $this->faker->ipv4,
             ];

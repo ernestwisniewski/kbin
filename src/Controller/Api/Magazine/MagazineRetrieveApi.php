@@ -235,7 +235,7 @@ class MagazineRetrieveApi extends MagazineBaseApi
         $magazines = $repository->findPaginated($criteria);
         $dtos = [];
         foreach ($magazines->getCurrentPageResults() as $value) {
-            assert($value instanceof Magazine);
+            \assert($value instanceof Magazine);
             array_push($dtos, $this->serializeMagazine($factory->createDto($value)));
         }
 
@@ -314,7 +314,7 @@ class MagazineRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($magazines->getCurrentPageResults() as $value) {
-            assert($value instanceof MagazineSubscription);
+            \assert($value instanceof MagazineSubscription);
             array_push($dtos, $this->serializeMagazine($factory->createDto($value->magazine)));
         }
 
@@ -415,7 +415,7 @@ class MagazineRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($magazines->getCurrentPageResults() as $value) {
-            assert($value instanceof MagazineSubscription);
+            \assert($value instanceof MagazineSubscription);
             array_push($dtos, $this->serializeMagazine($factory->createDto($value->magazine)));
         }
 
@@ -494,7 +494,7 @@ class MagazineRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($magazines->getCurrentPageResults() as $value) {
-            assert($value instanceof Magazine);
+            \assert($value instanceof Magazine);
             array_push($dtos, $this->serializeMagazine($factory->createDto($value)));
         }
 
@@ -573,7 +573,7 @@ class MagazineRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($magazines->getCurrentPageResults() as $value) {
-            assert($value instanceof MagazineBlock);
+            \assert($value instanceof MagazineBlock);
             array_push($dtos, $this->serializeMagazine($factory->createDto($value->magazine)));
         }
 

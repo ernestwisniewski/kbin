@@ -112,7 +112,7 @@ class ActivityPubManager
             $actorUrl = $this->webfinger($actorUrl)->getProfileId();
         }
 
-        if (in_array(
+        if (\in_array(
             parse_url($actorUrl, PHP_URL_HOST),
             [$this->settingsManager->get('KBIN_DOMAIN'), 'localhost', '127.0.0.1']
         )) {
@@ -179,7 +179,7 @@ class ActivityPubManager
 
     public function buildHandle(string $id): string
     {
-        $port = !is_null(parse_url($id, PHP_URL_PORT))
+        $port = !\is_null(parse_url($id, PHP_URL_PORT))
             ? ':'.parse_url($id, PHP_URL_PORT)
             : '';
 
@@ -250,10 +250,10 @@ class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn ($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
         ); // @todo multiple images
 
-        if (count($images)) {
+        if (\count($images)) {
             try {
                 if ($tempFile = $this->imageManager->download($images[0]['url'])) {
                     $image = $this->imageRepository->findOrCreateFromPath($tempFile);
@@ -330,9 +330,9 @@ class ActivityPubManager
         $arr = array_unique(
             array_filter(
                 array_merge(
-                    is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
-                    is_array($activity['to']) ? $activity['to'] : [$activity['to']]
-                ), fn ($val) => !in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl, []])
+                    \is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
+                    \is_array($activity['to']) ? $activity['to'] : [$activity['to']]
+                ), fn ($val) => !\in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl, []])
             )
         );
 
@@ -350,10 +350,10 @@ class ActivityPubManager
     {
         $videos = array_filter(
             $attachment,
-            fn ($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
         );
 
-        if (count($videos)) {
+        if (\count($videos)) {
             return (new VideoDto())->create(
                 $videos[0]['url'],
                 $videos[0]['mediaType'],
@@ -368,12 +368,12 @@ class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn ($val) => in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
         );
 
         array_shift($images);
 
-        if (count($images)) {
+        if (\count($images)) {
             return array_map(fn ($val) => (new ImageDto())->create(
                 $val['url'],
                 $val['mediaType'],
@@ -388,10 +388,10 @@ class ActivityPubManager
     {
         $videos = array_filter(
             $attachment,
-            fn ($val) => in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
         );
 
-        if (count($videos)) {
+        if (\count($videos)) {
             return array_map(fn ($val) => (new VideoDto())->create(
                 $val['url'],
                 $val['mediaType'],

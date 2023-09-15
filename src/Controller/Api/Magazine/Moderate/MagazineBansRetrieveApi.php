@@ -112,7 +112,7 @@ class MagazineBansRetrieveApi extends MagazineBaseApi
 
         $dtos = [];
         foreach ($bans->getCurrentPageResults() as $value) {
-            assert($value instanceof MagazineBan);
+            \assert($value instanceof MagazineBan);
             array_push($dtos, $factory->createBanDto($value));
         }
 

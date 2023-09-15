@@ -42,11 +42,11 @@ class Page
             return $this->entityManager->getRepository($current['type'])->find((int) $current['id']);
         }
 
-        if (is_string($object['to'])) {
+        if (\is_string($object['to'])) {
             $object['to'] = [$object['to']];
         }
 
-        if (is_string($object['cc'])) {
+        if (\is_string($object['cc'])) {
             $object['cc'] = [$object['cc']];
         }
 
@@ -92,12 +92,12 @@ class Page
 
     private function getVisibility(array $object, User $actor): string
     {
-        if (!in_array(
+        if (!\in_array(
             ActivityPubActivityInterface::PUBLIC_URL,
             array_merge($object['to'] ?? [], $object['cc'] ?? [])
         )) {
             if (
-                !in_array(
+                !\in_array(
                     $actor->apFollowersUrl,
                     array_merge($object['to'] ?? [], $object['cc'] ?? [])
                 )
@@ -113,16 +113,16 @@ class Page
 
     private function handleUrl(EntryDto $dto, ?array $object): void
     {
-        $attachment = array_key_exists('attachment', $object) ? $object['attachment'] : null;
+        $attachment = \array_key_exists('attachment', $object) ? $object['attachment'] : null;
 
         try {
-            if (is_array($attachment)) {
+            if (\is_array($attachment)) {
                 $link = array_filter(
                     $attachment,
-                    fn ($val) => in_array($val['type'], ['Link'])
+                    fn ($val) => \in_array($val['type'], ['Link'])
                 );
 
-                if (is_array($link)) {
+                if (\is_array($link)) {
                     $dto->url = $link[0]['href'];
                 } else {
                     $dto->url = $link['href'];

@@ -89,7 +89,7 @@ class AwesomeBotMagazine extends Command
 
         $labels = [];
         foreach ($content as $elem) {
-            if (in_array($elem->nodeName, $tags)) {
+            if (\in_array($elem->nodeName, $tags)) {
                 $labels[] = $elem->nodeValue;
             }
         }

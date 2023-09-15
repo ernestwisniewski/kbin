@@ -43,7 +43,7 @@ class TagManager
             $result = array_diff($result, [$magazineName]);
         }
 
-        return count($result) ? array_unique(array_values($result)) : null;
+        return \count($result) ? array_unique(array_values($result)) : null;
     }
 
     public function transliterate(string $tag): string

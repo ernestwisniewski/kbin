@@ -14,6 +14,7 @@ return (new PhpCsFixer\Config())
         # defined as "risky" as they could break code. Since our codebase is passing that's fine
         'declare_strict_types' => true,
         'strict_comparison' => true,
+        'native_function_invocation' => true,
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder)

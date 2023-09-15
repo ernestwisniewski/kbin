@@ -148,7 +148,7 @@ class DomainEntriesRetrieveApi extends EntriesBaseApi
         $dtos = [];
         foreach ($entries->getCurrentPageResults() as $value) {
             try {
-                assert($value instanceof Entry);
+                \assert($value instanceof Entry);
                 $this->handlePrivateContent($value);
                 array_push($dtos, $this->serializeEntry($factory->createDto($value)));
             } catch (\Exception $e) {

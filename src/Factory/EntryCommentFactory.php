@@ -72,7 +72,7 @@ class EntryCommentFactory
         }
 
         foreach ($comment->children as $childComment) {
-            assert($childComment instanceof EntryComment);
+            \assert($childComment instanceof EntryComment);
             $child = $this->createResponseTree($childComment, $depth > 0 ? $depth - 1 : -1);
             array_push($toReturn->children, $child);
         }

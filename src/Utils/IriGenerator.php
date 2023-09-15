@@ -13,7 +13,7 @@ class IriGenerator
     {
         $inflector = new EnglishInflector();
 
-        $classNameParts = explode('\\', get_class($apiResource));
+        $classNameParts = explode('\\', \get_class($apiResource));
 
         $shortClassName = end($classNameParts);
 

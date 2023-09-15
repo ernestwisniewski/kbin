@@ -57,7 +57,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertSame(UserRepository::PER_PAGE, $jsonData['pagination']['perPage']);
 
         self::assertIsArray($jsonData['items']);
-        self::assertSame(self::NUM_USERS, count($jsonData['items']));
+        self::assertSame(self::NUM_USERS, \count($jsonData['items']));
     }
 
     public function testApiCanRetrieveUsersWithAbout(): void
@@ -288,7 +288,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATION_KEYS, $jsonData['pagination']);
 
         self::assertSame(1, $jsonData['pagination']['count']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
         self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertSame($blockedUser->getId(), $jsonData['items'][0]['userId']);
     }
@@ -348,7 +348,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATION_KEYS, $jsonData['pagination']);
 
         self::assertSame(1, $jsonData['pagination']['count']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
         self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertSame($followedUser->getId(), $jsonData['items'][0]['userId']);
     }
@@ -382,7 +382,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATION_KEYS, $jsonData['pagination']);
 
         self::assertSame(1, $jsonData['pagination']['count']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
         self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertSame($followingUser->getId(), $jsonData['items'][0]['userId']);
     }
@@ -438,7 +438,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATION_KEYS, $jsonData['pagination']);
 
         self::assertSame(1, $jsonData['pagination']['count']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
         self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertSame($followedUser->getId(), $jsonData['items'][0]['userId']);
     }
@@ -472,7 +472,7 @@ class UserRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::PAGINATION_KEYS, $jsonData['pagination']);
 
         self::assertSame(1, $jsonData['pagination']['count']);
-        self::assertSame(1, count($jsonData['items']));
+        self::assertSame(1, \count($jsonData['items']));
         self::assertArrayKeysMatch(self::USER_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertSame($followingUser->getId(), $jsonData['items'][0]['userId']);
     }

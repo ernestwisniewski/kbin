@@ -295,7 +295,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof User);
+            \assert($value instanceof User);
             array_push($dtos, $this->serializeUser($userFactory->createDto($value)));
         }
 
@@ -396,7 +396,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof UserFollow);
+            \assert($value instanceof UserFollow);
             array_push($dtos, $this->serializeUser($factory->createDto($value->following)));
         }
 
@@ -488,7 +488,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof UserFollow);
+            \assert($value instanceof UserFollow);
             array_push($dtos, $this->serializeUser($factory->createDto($value->follower)));
         }
 
@@ -577,7 +577,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof UserFollow);
+            \assert($value instanceof UserFollow);
             array_push($dtos, $this->serializeUser($factory->createDto($value->following)));
         }
 
@@ -661,7 +661,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof UserFollow);
+            \assert($value instanceof UserFollow);
             array_push($dtos, $this->serializeUser($factory->createDto($value->follower)));
         }
 
@@ -740,7 +740,7 @@ class UserRetrieveApi extends UserBaseApi
 
         $dtos = [];
         foreach ($users->getCurrentPageResults() as $value) {
-            assert($value instanceof UserBlock);
+            \assert($value instanceof UserBlock);
             array_push($dtos, $this->serializeUser($factory->createDto($value->blocked)));
         }
 

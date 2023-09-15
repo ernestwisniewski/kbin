@@ -73,7 +73,7 @@ class AwesomeBotEntries extends Command
         $tags = array_flip($tags);
         $result = [];
         foreach ($content as $elem) {
-            if (array_key_exists($elem->nodeName, $tags)) {
+            if (\array_key_exists($elem->nodeName, $tags)) {
                 $tags[$elem->nodeName] = $elem->nodeValue;
             }
 
@@ -93,7 +93,7 @@ class AwesomeBotEntries extends Command
                     $result[] = [
                         'title' => $li->nodeValue,
                         'url' => $li->firstChild->getAttribute('href'),
-                        'badges' => new ArrayCollection(array_filter($tags, fn ($v) => is_string($v))),
+                        'badges' => new ArrayCollection(array_filter($tags, fn ($v) => \is_string($v))),
                     ];
                 }
             }

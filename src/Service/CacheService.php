@@ -21,7 +21,7 @@ class CacheService
 
     private function getKey(VotableInterface|FavouriteInterface $subject): string
     {
-        $className = $this->entityManager->getClassMetadata(get_class($subject))->name;
+        $className = $this->entityManager->getClassMetadata(\get_class($subject))->name;
         $className = explode('\\', $className);
 
         return end($className);

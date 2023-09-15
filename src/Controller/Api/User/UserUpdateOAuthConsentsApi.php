@@ -92,7 +92,7 @@ class UserUpdateOAuthConsentsApi extends UserBaseApi
         $dto = $this->serializer->deserialize($request->getContent(), ClientConsentsRequestDto::class, 'json');
 
         $errors = $this->validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

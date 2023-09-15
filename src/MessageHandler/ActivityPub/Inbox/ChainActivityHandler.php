@@ -75,7 +75,7 @@ class ChainActivityHandler
         $this->bus->dispatch(
             new ChainActivityMessage($message->chain, [
                 'id' => $entity->getId(),
-                'type' => get_class($entity),
+                'type' => \get_class($entity),
             ], $message->announce, $message->like)
         );
     }
@@ -94,7 +94,7 @@ class ChainActivityHandler
 
             array_pop($chain);
 
-            if (count(array_filter($chain))) {
+            if (\count(array_filter($chain))) {
                 $this->bus->dispatch(new ChainActivityMessage($chain, $parent, $announce, $like));
 
                 return;
@@ -116,7 +116,7 @@ class ChainActivityHandler
 
     private function getType(array $object): string
     {
-        if (isset($object['object']) && is_array($object['object'])) {
+        if (isset($object['object']) && \is_array($object['object'])) {
             return $object['object']['type'];
         }
 

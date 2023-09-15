@@ -48,13 +48,13 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(
             new FavouriteNotificationMessage(
                 $subject->getId(),
-                ClassUtils::getRealClass(get_class($event->subject))
+                ClassUtils::getRealClass(\get_class($event->subject))
             )
         );
 
         $this->deleteFavouriteCache($subject);
 
-        match (get_class($subject)) {
+        match (\get_class($subject)) {
             EntryComment::class => $this->clearEntryCommentCache($subject),
             PostComment::class => $this->clearPostCommentCache($subject),
             default => null
@@ -65,7 +65,7 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
                 new LikeMessage(
                     $event->user->getId(),
                     $subject->getId(),
-                    get_class($subject),
+                    \get_class($subject),
                     $event->removeLike
                 ),
             );

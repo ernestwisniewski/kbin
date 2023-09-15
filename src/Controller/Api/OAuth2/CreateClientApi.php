@@ -111,7 +111,7 @@ class CreateClientApi extends BaseApi
         }
 
         $errors = $validator->validate($dto, groups: $validatorGroups);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 
@@ -251,7 +251,7 @@ class CreateClientApi extends BaseApi
         }
 
         $errors = $validator->validate($dto, groups: $validatorGroups);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 
@@ -307,19 +307,19 @@ class CreateClientApi extends BaseApi
         $dto->username = $request->get('username', $dto->username);
 
         $redirectUris = $request->get('redirectUris', $dto->redirectUris);
-        if (is_string($redirectUris)) {
+        if (\is_string($redirectUris)) {
             $redirectUris = preg_split('/(,| )/', $redirectUris, flags: PREG_SPLIT_NO_EMPTY);
         }
         $dto->redirectUris = $redirectUris;
 
         $grants = $request->get('grants', $dto->grants);
-        if (is_string($grants)) {
+        if (\is_string($grants)) {
             $grants = preg_split('/(,| )/', $grants, flags: PREG_SPLIT_NO_EMPTY);
         }
         $dto->grants = $grants;
 
         $scopes = $request->get('scopes', $dto->scopes);
-        if (is_string($scopes)) {
+        if (\is_string($scopes)) {
             $scopes = preg_split('/(,| )/', $scopes, flags: PREG_SPLIT_NO_EMPTY);
         }
         $dto->scopes = $scopes;

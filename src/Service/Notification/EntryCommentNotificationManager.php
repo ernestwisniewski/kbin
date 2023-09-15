@@ -86,7 +86,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             return $exclude;
         }
 
-        if (in_array($comment->parent->user, $exclude)) {
+        if (\in_array($comment->parent->user, $exclude)) {
             return $exclude;
         }
 
@@ -129,7 +129,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
 
     private function getResponse(Notification $notification): string
     {
-        $class = explode('\\', $this->entityManager->getClassMetadata(get_class($notification))->name);
+        $class = explode('\\', $this->entityManager->getClassMetadata(\get_class($notification))->name);
 
         /**
          * @var EntryComment $comment ;
@@ -175,8 +175,8 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
             );
         }
 
-        if (count($exclude)) {
-            $usersToNotify = array_filter($usersToNotify, fn ($user) => !in_array($user, $exclude));
+        if (\count($exclude)) {
+            $usersToNotify = array_filter($usersToNotify, fn ($user) => !\in_array($user, $exclude));
         }
 
         foreach ($usersToNotify as $subscriber) {

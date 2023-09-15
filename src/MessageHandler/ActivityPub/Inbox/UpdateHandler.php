@@ -66,19 +66,19 @@ class UpdateHandler
 
         $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
-        if (Entry::class === get_class($object)) {
+        if (Entry::class === \get_class($object)) {
             $fn = 'editEntry';
         }
 
-        if (EntryComment::class === get_class($object)) {
+        if (EntryComment::class === \get_class($object)) {
             $fn = 'editEntryComment';
         }
 
-        if (Post::class === get_class($object)) {
+        if (Post::class === \get_class($object)) {
             $fn = 'editPost';
         }
 
-        if (PostComment::class === get_class($object)) {
+        if (PostComment::class === \get_class($object)) {
             $fn = 'editPostComment';
         }
 

@@ -51,7 +51,7 @@ class PostDto implements ContentVisibilityInterface
         if (empty($this->image)) {
             $image = Request::createFromGlobals()->files->filter('post');
 
-            if (is_array($image) && isset($image['image'])) {
+            if (\is_array($image) && isset($image['image'])) {
                 $image = $image['image'];
             } else {
                 $image = $context->getValue()->image;

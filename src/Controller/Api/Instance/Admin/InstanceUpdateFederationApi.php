@@ -77,7 +77,7 @@ class InstanceUpdateFederationApi extends InstanceBaseApi
         );
 
         $errors = $validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

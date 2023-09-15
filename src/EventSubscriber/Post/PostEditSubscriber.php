@@ -32,7 +32,7 @@ class PostEditSubscriber implements EventSubscriberInterface
         }
 
         if (!$event->post->apId) {
-            $this->bus->dispatch(new UpdateMessage($event->post->getId(), get_class($event->post)));
+            $this->bus->dispatch(new UpdateMessage($event->post->getId(), \get_class($event->post)));
         }
     }
 }

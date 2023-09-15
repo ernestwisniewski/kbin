@@ -250,7 +250,7 @@ class ApHttpClient
     {
         $date = new \DateTime('UTC');
 
-        if (!in_array($method, ['post', 'get'])) {
+        if (!\in_array($method, ['post', 'get'])) {
             throw new InvalidApPostException('Invalid method used to sign headers in ApHttpClient');
         }
         $headers = [

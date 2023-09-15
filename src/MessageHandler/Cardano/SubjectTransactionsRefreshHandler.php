@@ -33,7 +33,7 @@ class SubjectTransactionsRefreshHandler
             return;
         }
 
-        $className = $this->entityManager->getClassMetadata(get_class($txInit->getSubject()))->name;
+        $className = $this->entityManager->getClassMetadata(\get_class($txInit->getSubject()))->name;
 
         /**
          * @var $subject Entry

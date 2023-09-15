@@ -157,7 +157,7 @@ class BaseApi extends AbstractController
     public function serializeContentInterface(ContentInterface $content, bool $forceVisible = false): mixed
     {
         $toReturn = null;
-        $className = $this->entityManager->getClassMetadata(get_class($content))->rootEntityName;
+        $className = $this->entityManager->getClassMetadata(\get_class($content))->rootEntityName;
         switch ($className) {
             case Entry::class:
                 /**
@@ -268,7 +268,7 @@ class BaseApi extends AbstractController
 
     public static function constrainPerPage(mixed $value, int $min = self::MIN_PER_PAGE, int $max = self::MAX_PER_PAGE): int
     {
-        return min(max(intval($value), $min), $max);
+        return min(max(\intval($value), $min), $max);
     }
 
     /**
@@ -290,7 +290,7 @@ class BaseApi extends AbstractController
 
         $languages = $usePreferred ? $this->getUserOrThrow()->preferredLanguages : $this->request->getCurrentRequest()->get('lang');
         if (null !== $languages) {
-            if (is_string($languages)) {
+            if (\is_string($languages)) {
                 $languages = explode(',', $languages);
             }
 
@@ -345,7 +345,7 @@ class BaseApi extends AbstractController
         $dto = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), ReportRequestDto::class, 'json');
 
         $errors = $this->validator->validate($dto);
-        if (0 < count($errors)) {
+        if (0 < \count($errors)) {
             throw new BadRequestHttpException((string) $errors);
         }
 

@@ -171,7 +171,7 @@ class UserRetrieveOAuthConsentsApi extends UserBaseApi
 
         $dtos = [];
         foreach ($pagerfanta->getCurrentPageResults() as $consent) {
-            assert($consent instanceof OAuth2UserConsent);
+            \assert($consent instanceof OAuth2UserConsent);
             array_push($dtos, $factory->createDto($consent));
         }
 

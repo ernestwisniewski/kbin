@@ -34,7 +34,7 @@ class ApActivityRepository extends ServiceEntityRepository
             $exploded = array_filter(explode('/', $parsed['path']));
             $id = end($exploded);
             if ('p' === $exploded[3]) {
-                if (4 === count($exploded)) {
+                if (4 === \count($exploded)) {
                     return [
                         'id' => $id,
                         'type' => Post::class,
@@ -48,7 +48,7 @@ class ApActivityRepository extends ServiceEntityRepository
             }
 
             if ('t' === $exploded[3]) {
-                if (4 === count($exploded)) {
+                if (4 === \count($exploded)) {
                     return [
                         'id' => $id,
                         'type' => Entry::class,
@@ -88,6 +88,6 @@ class ApActivityRepository extends ServiceEntityRepository
         $stmt->bindValue('apId', $apId);
         $results = $stmt->executeQuery()->fetchAllAssociative();
 
-        return count($results) ? $results[0] : null;
+        return \count($results) ? $results[0] : null;
     }
 }

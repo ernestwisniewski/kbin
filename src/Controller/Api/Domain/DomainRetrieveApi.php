@@ -160,7 +160,7 @@ class DomainRetrieveApi extends DomainBaseApi
 
         $dtos = [];
         foreach ($domains->getCurrentPageResults() as $value) {
-            assert($value instanceof DomainDto);
+            \assert($value instanceof DomainDto);
             array_push($dtos, $this->serializeDomain($value));
         }
 
@@ -238,7 +238,7 @@ class DomainRetrieveApi extends DomainBaseApi
 
         $dtos = [];
         foreach ($domains->getCurrentPageResults() as $value) {
-            assert($value instanceof DomainSubscription);
+            \assert($value instanceof DomainSubscription);
             array_push($dtos, $this->serializeDomain($value->domain));
         }
 
@@ -415,7 +415,7 @@ class DomainRetrieveApi extends DomainBaseApi
 
         $dtos = [];
         foreach ($domains->getCurrentPageResults() as $value) {
-            assert($value instanceof DomainBlock);
+            \assert($value instanceof DomainBlock);
             array_push($dtos, $this->serializeDomain($value->domain));
         }
 

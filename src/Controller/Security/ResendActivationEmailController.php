@@ -30,7 +30,7 @@ class ResendActivationEmailController extends AbstractController
                 'email' => $email,
             ]);
 
-            if (is_null($user) || $user->isVerified) {
+            if (\is_null($user) || $user->isVerified) {
                 $this->addFlash('error', 'resend_account_activation_email_error');
 
                 return $this->redirectToRoute('app_resend_email_activation');

@@ -107,7 +107,7 @@ trait OAuth2FlowTrait
     protected static function getPKCECodes(): array
     {
         $toReturn = [];
-        $toReturn['verifier'] = implode(array_map(fn (string $byte) => self::VERIFIER_ALPHABET[ord($byte) % strlen(self::VERIFIER_ALPHABET)], str_split(random_bytes(64))));
+        $toReturn['verifier'] = implode(array_map(fn (string $byte) => self::VERIFIER_ALPHABET[\ord($byte) % \strlen(self::VERIFIER_ALPHABET)], str_split(random_bytes(64))));
         $hash = hash('sha256', $toReturn['verifier'], binary: true);
         $toReturn['challenge'] = rtrim(strtr(base64_encode($hash), '+/', '-_'), '=');
 
