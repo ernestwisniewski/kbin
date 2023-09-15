@@ -10,18 +10,22 @@ use App\Form\UserBasicType;
 use App\Form\UserEmailType;
 use App\Form\UserPasswordType;
 use App\Service\UserManager;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserEditController extends AbstractController
 {
     public function __construct(
         private readonly UserManager $manager,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly TranslatorInterface $translator,
+        private readonly Security $security,
     ) {
     }
 
@@ -89,6 +93,7 @@ class UserEditController extends AbstractController
             'user/settings/password.html.twig',
             [
                 'form' => $form->createView(),
+                'has2fa' => $this->getUserOrThrow()->isTotpAuthenticationEnabled(),
             ],
             new Response(
                 null,
@@ -109,7 +114,7 @@ class UserEditController extends AbstractController
                 $this->getUser(),
                 $form->get('currentPassword')->getData()
             )) {
-                $form->get('currentPassword')->addError(new FormError('Password is invalid'));
+                $form->get('currentPassword')->addError(new FormError($this->translator->trans('Password is invalid')));
             }
         }
 
@@ -122,7 +127,9 @@ class UserEditController extends AbstractController
             $this->manager->edit($this->getUser(), $dto);
 
             if ($dto->email !== $email || $dto->plainPassword) {
-                $this->manager->logout();
+                $this->security->logout(false);
+
+                $this->addFlash('success', 'account_settings_changed');
 
                 return $this->redirectToRoute('app_login');
             }

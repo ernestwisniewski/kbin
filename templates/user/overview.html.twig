@@ -15,6 +15,16 @@
         <div class="section magazine">
             <h3>{{ 'admin_panel'|trans }}</h3>
             <div class="panel">
+                {% if user.isTotpAuthenticationEnabled %}
+                    <form action="{{ path('user_2fa_remove', {username: user.username}) }}"
+                        method="POST"
+                        onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_2fa_remove') }}">
+                        <button type="submit" class="btn btn__secondary">
+                            <i class="fa fa-mobile"></i> {{ '2fa.remove'|trans }}
+                        </button>
+                    </form>
+                {% endif %}
                 <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
                       method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">

@@ -105,6 +105,11 @@ user_unban:
   path: /u/{username}/unban
   methods: [ POST ]
 
+user_2fa_remove:
+  controller: App\Controller\User\Profile\User2FAController::remove
+  path: /u/{username}/remove
+  methods: [ POST ]
+
 user_note:
   controller: App\Controller\User\UserNoteController
   path: /u/{username}/note
@@ -185,6 +190,26 @@ user_settings_password:
   path: /settings/password
   methods: [ GET, POST ]
 
+user_settings_2fa:
+  controller: App\Controller\User\Profile\User2FAController::enable
+  path: /settings/2fa
+  methods: [ GET, POST ]
+
+user_settings_2fa_disable:
+  controller: App\Controller\User\Profile\User2FAController::disable
+  path: /settings/2fa/disable
+  methods: [ POST ]
+
+user_settings_2fa_qrcode:
+  controller: App\Controller\User\Profile\User2FAController::qRCode
+  path: /settings/2fa/qrcode.png
+  methods: [ GET ]
+
+user_settings_2fa_backup:
+  controller: App\Controller\User\Profile\User2FAController::backup
+  path: /settings/2fa/backup
+  methods: [ POST ]
+
 user_settings_avatar_delete:
   controller: App\Controller\User\UserAvatarDeleteController
   path: /settings/edit/delete_avatar
@@ -203,7 +228,7 @@ user_settings_toggle_theme:
 user_settings_stats:
   controller: App\Controller\User\Profile\UserStatsController
   defaults: { statsType: content, statsPeriod: ~ }
-  path: /settings/{statsType}/{statsPeriod}
+  path: /settings/stats/{statsType}/{statsPeriod}
   methods: [ GET ]
 
 theme_settings:

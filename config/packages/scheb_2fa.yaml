@@ -1,0 +1,16 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+
+    totp:
+        enabled: true
+        issuer: '%kbin_title%'
+        template: user/2fa.html.twig
+        window: 15 # allow codes window seconds away from the current time window (i.e. codes from before and after)
+        parameters:
+            image: 'https://%kbin_domain%/assets/icons/icon-144x144.png'
+
+    backup_codes:
+        enabled: true

@@ -43,6 +43,9 @@
                     <td>
                         <button class="btn btn__secondary">{{ (user.isVerified or user.apId) and not user.isBanned ? 'active'|trans : 'inactive'|trans }}</button>
                         <button class="btn btn__secondary">{{ user.apId ? 'federated'|trans : 'local'|trans }}</button>
+                        {% if user.isTotpAuthenticationEnabled %}
+                            <button class="btn btn__secondary" title="{{ '2fa.user_active_tfa.title'|trans }}"><i class="fa fa-mobile" ></i></button>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

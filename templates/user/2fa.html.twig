@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'Two factor authentication'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-2fa{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'two_factor_authentication'|trans }}</h1>
+    <div id="content" class="section">
+        <div class="container">
+            <form class="form" action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}" method="post">
+                {% if authenticationError %}
+                <div class="alert alert__danger">{{ '2fa.code_invalid'|trans }}</div>
+                {% endif %}
+                <div>
+                    <label for="auth_code">{{ '2fa.authentication_code.label'|trans }}</label>
+                    <input id="auth_code"
+                           type="text"
+                           name="{{ authCodeParameterName }}"
+                           autocomplete="one-time-code"
+                           autofocus
+                           inputmode="numeric"
+                           pattern="[0-9]*"/>
+                </div>
+                <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+                <div class="row actions">
+                    <div><span class="cancel"><a href="{{ path('app_logout') }}">{{ 'cancel'|trans }}</a></span></div>
+                    <div><button class="btn btn__primary" type="submit">{{ '2fa.verify'|trans }}</button></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -737,3 +737,26 @@ magazine_theme_appearance_icon: Custom icon for the magazine. If none is selecte
   the default icon will be used.
 magazine_theme_appearance_background_image: Custom background image that will be applied
   when viewing content within your magazine.
+two_factor_authentication: Two-factor authentication
+two_factor_backup: Two-factor authentication backup codes
+2fa.authentication_code.label: Authentication Code
+2fa.verify: Verify
+2fa.code_invalid: The authentication code is not valid
+2fa.enable: Setup two-factor authentication
+2fa.disable: Disable two-factor authentication
+2fa.backup: Your two-factor backup codes
+2fa.backup-create.help: You can create new backup authentication codes; doing so will invalidate existing codes.
+2fa.backup-create.label: Create new backup authentication codes
+2fa.remove: Remove 2FA
+2fa.add: Add to my account
+2fa.verify_authentication_code.label: Enter a two-factor code to verify setup
+2fa.qr_code_img.alt: A QR code that allows the setup of two-factor authentication for your account
+2fa.qr_code_link.title: Visiting this link may allow your platform to register this two-factor authentication
+2fa.user_active_tfa.title: User has active 2fa
+2fa.available_apps: Use a two-factor authentication app such as %google_authenticator%, %aegis% (Android) or %raivo% (iOS) to scan the QR-code.
+2fa.backup_codes.help: You can use these codes when you don't have your two-factor authentication
+  device or app. You will <strong>not be shown them again</strong> and will be able to use each of them <strong>only once</strong>.
+2fa.backup_codes.recommendation: It is recommended that you keep a copy of them in a safe place.
+cancel: Cancel
+password_and_2fa: Password & 2fa
+account_settings_changed: Your account settings have been successfully changed. You will need to login again.

@@ -35,6 +35,20 @@
   }
 }
 
+.page-2fa {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+}
+
 .page-reset-password-email-sent {
   p:last-of-type {
     margin-top: 2rem;

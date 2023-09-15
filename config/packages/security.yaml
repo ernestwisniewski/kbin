@@ -22,6 +22,9 @@ security:
             security: true
             stateless: true
             oauth2: true
+        image_resolver:
+            pattern: ^/media/cache/resolve
+            security: false
         main:
             lazy: true
             provider: app_user_provider
@@ -38,11 +41,20 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
-        image_resolver:
-            pattern: ^/media/cache/resolve
-            security: false
+            two_factor:
+                auth_form_path: 2fa_login
+                check_path: 2fa_login_check
+                enable_csrf: true
+                csrf_parameter: _csrf_token
+                csrf_token_id: 2fa
 
     access_control:
+        # This makes the logout route accessible during two-factor authentication. Allows the user to
+        # cancel two-factor authentication, if they need to.
+        - { path: ^/logout, role: PUBLIC_ACCESS }
+        # This ensures that the form can only be accessed when two-factor authentication is in progress.
+        - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/authorize, roles: PUBLIC_ACCESS }
         - { path: ^/token, roles: PUBLIC_ACCESS }

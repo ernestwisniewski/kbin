@@ -195,6 +195,12 @@ class UserManager
                 $user->username = $dto->username;
             }
 
+            if ($this->security->isGranted('edit_profile', $user)
+                    && !$user->isTotpAuthenticationEnabled()
+                    && $dto->totpSecret) {
+                $user->setTotpSecret($dto->totpSecret);
+            }
+
             $user->lastActive = new \DateTime();
 
             $this->entityManager->flush();

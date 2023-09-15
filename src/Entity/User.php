@@ -22,6 +22,10 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
+use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -31,7 +35,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
 ])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface, ActivityPubActorInterface, ApiResourceInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, BackupCodeInterface, EquatableInterface, ActivityPubActorInterface, ApiResourceInterface
 {
     use ActivityPubActorTrait;
     use CreatedAtTrait {
@@ -129,6 +133,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public bool $isDeleted = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isBot = false;
+    #[Column(type: 'text', nullable: true)]
+    public ?string $customCss = null;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $ignoreMagazinesCustomCss = false;
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
     #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
@@ -214,12 +222,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     private int $id;
     #[Column(type: 'string', nullable: false)]
     private string $password;
+    #[Column(type: 'string', nullable: true)]
+    private ?string $totpSecret;
+    #[Column(type: 'json', nullable: false, options: ['jsonb' => true, 'default' => '[]'])]
+    private array $totpBackupCodes = [];
     #[OneToMany(mappedBy: 'user', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]
     private Collection $oAuth2UserConsents;
-    #[Column(type: 'text', nullable: true)]
-    public ?string $customCss = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $ignoreMagazinesCustomCss = false;
 
     public function __construct(
         string $email,
@@ -735,5 +743,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         $this->customCss = $customCss;
 
         return $this;
+    }
+
+    public function setTotpSecret(?string $totpSecret): void
+    {
+        $this->totpSecret = $totpSecret;
+    }
+
+    public function isTotpAuthenticationEnabled(): bool
+    {
+        return (bool) $this->totpSecret;
+    }
+
+    public function getTotpAuthenticationUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
+    {
+        return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
+    }
+
+    /**
+     * @param string[]|null $codes
+     */
+    public function setBackupCodes(?array $codes): void
+    {
+        $this->totpBackupCodes = $codes;
+    }
+
+    public function isBackupCode(string $code): bool
+    {
+        return in_array($code, $this->totpBackupCodes);
+    }
+
+    public function invalidateBackupCode(string $code): void
+    {
+        $this->totpBackupCodes = array_values(
+            array_filter($this->totpBackupCodes, function ($existingCode) use ($code) {
+                return $code !== $existingCode;
+            })
+        );
     }
 }

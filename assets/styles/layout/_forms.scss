@@ -443,6 +443,10 @@ select {
     display: flex;
     flex-direction: row-reverse;
   }
+
+  &__left {
+    margin-bottom: 1rem;
+  }
 }
 
 .radios {

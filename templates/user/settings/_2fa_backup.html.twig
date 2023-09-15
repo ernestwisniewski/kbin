@@ -1,0 +1,9 @@
+<ul class="twofa-backup-codes">
+    {% for code in codes %}
+        <li>{{ code }}</li>
+    {% endfor %}
+</ul>
+
+<p class="mt-4">{{ '2fa.backup_codes.help' | trans | raw }}</p>
+
+<p><em>{{ '2fa.backup_codes.recommendation' | trans }}</em></p>

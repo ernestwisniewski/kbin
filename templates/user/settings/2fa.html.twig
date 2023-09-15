@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'two_factor_authentication'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-2fa{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include('user/settings/_options.html.twig') %}
+    <div id="content" class="section">
+        <div class="container">
+            <h1 hidden>{{ 'two_factor_authentication'|trans }}</h1>
+            <h2>{{ '2fa.enable'|trans }}</h2>
+
+            <a class="twofa-qrcode" href="{{ two_fa_url }}" title="{{ '2fa.qr_code_link.title'|trans }}">
+                <img src="{{ path('user_settings_2fa_qrcode') }}" alt="{{ '2fa.qr_code_img.alt'|trans }}"/>
+            </a>
+
+            <p>
+                {{ '2fa.available_apps' | trans({
+                    '%google_authenticator%': '<a href="https://support.google.com/accounts/answer/1066447" rel="noopener noreferrer">Google Authenticator</a>',
+                    '%aegis%': '<a href="https://getaegis.app/" rel="noopener noreferrer">Aegis</a>',
+                    '%raivo%': '<a href="https://raivo-otp.com/" rel="noopener noreferrer">Raivo</a>'
+                }) | raw }}
+            </p>
+
+            <h3>{{ '2fa.backup'|trans }}</h3>
+
+            {% include 'user/settings/_2fa_backup.html.twig' %}
+
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            {{ form_start(form) }}
+            {{ form_row(form.totpCode) }}
+            <div class="row actions">
+                <div><span class="cancel"><a href="{{ path('user_settings_password') }}">{{ 'cancel'|trans }}</a></span></div>
+                {{ form_row(form.submit, {label: '2fa.add', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

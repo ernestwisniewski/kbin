@@ -264,9 +264,56 @@
   .container {
     margin: 0 auto;
     max-width: 32.7rem;
+
+    h2:first-of-type {
+      margin-top: 0;
+    }
   }
 }
 
 td .user__actions {
   margin: 0;
+}
+
+.page-settings-password {
+  a.btn {
+    display: inline-block;
+  }
+}
+
+.page-settings-2fa {
+  .twofa-qrcode {
+    display: block;
+    text-align: center;
+    margin-bottom: 2rem;
+
+    img {
+      width: 250px;
+      height: 250px;
+    }
+  }
+
+  .twofa-backup-codes {
+    display: flex;
+    gap: 0.2rem 1rem;
+    flex-wrap: wrap;
+    justify-content: start;
+
+    font-family: monospace;
+    background: var(--kbin-input-bg);
+    border: var(--kbin-section-border);
+    padding: 0.5rem;
+
+    li {
+      list-style: none;
+      padding: 0.1rem 0.34rem;
+    }
+  }
+
+  .actions {
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 }
