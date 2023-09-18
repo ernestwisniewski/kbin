@@ -1,4 +1,4 @@
-type.article: Fil
+type.article: Fil de discussion
 type.photo: Photo
 type.video: Vidéo
 thread: Fil
@@ -61,7 +61,7 @@ unsubscribe: Se désabonner
 follow: Suivre
 unfollow: Ne plus suivre
 reply: Répondre
-login_or_email: Nom d’utilisateur ou courriel
+login_or_email: Nom d’utilisateur ou adresse e-mail
 password: Mot de passe
 remember_me: Rester connecté·e
 dont_have_account: Vous n’avez pas de compte ?
@@ -71,7 +71,7 @@ register: S’inscrire
 reset_password: Réinitialiser le mot de passe
 to: vers
 username: Nom d’utilisateur
-email: Courriel
+email: E-mail
 repeat_password: Répéter le mot de passe
 terms: Conditions d’utilisation du service
 about_instance: À propos
@@ -94,9 +94,9 @@ help: Aide
 try_again: Veuillez réessayer
 up_vote: Partager
 down_vote: Réduire
-email_verify: Confirmer l’adresse courriel
+email_verify: Confirmer l’adresse e-mail
 email_confirm_expire: Veuillez noter que le lien expirera dans une heure.
-email_confirm_title: Confirmez votre adresse courriel.
+email_confirm_title: Confirmez votre adresse e-mail.
 select_magazine: Sélectionnez un magazine
 add_new: Ajouter nouveau
 url: URL
@@ -105,7 +105,7 @@ body: Corps
 tags: Étiquettes
 badges: Insignes
 is_adult: +18 / NSFW
-email_confirm_content: 'Prêt pour activer votre compte Kbin ? Cliquez sur le lien
+email_confirm_content: 'Prêt pour activer votre compte /kbin ? Cliquez sur le lien
   ci-dessous :'
 oc: CO
 image_alt: Texte alternatif de l’image
@@ -115,7 +115,7 @@ rules: Règles
 domain: Domaine
 followers: Suiveur·se·s
 following: Suivis
-overview: Aperçu
+overview: Vue d'ensemble
 cards: Cartes
 columns: Colonnes
 user: Utilisateur
@@ -139,7 +139,7 @@ articles: Fils
 photos: Photos
 report: Signaler
 share: Partager
-copy_url: Copier URL
+copy_url: Copier l'URL de /kbin
 ratio: Ratio
 go_to_content: Aller au contenu
 go_to_filters: Aller aux filtres
@@ -151,13 +151,13 @@ table_view: Vue en table
 cards_view: Vue en cartes
 moderate: Modérer
 reason: Motif
-copy_url_to_fediverse: Copier URL vers le Fédivers
+copy_url_to_fediverse: Copier l'URL d'origine
 share_on_fediverse: Partager sur le Fédivers
 edit_link: Modifier le lien
 edit_photo: Modifier la photo
 delete: Supprimer
 edit_post: Modifier le message
-edit_comment: Modifier le commentaire
+edit_comment: Enregistrer les modifications
 settings: Réglages
 general: Général
 profile: Profil
@@ -171,16 +171,16 @@ featured_magazines: Magazines en vedette
 privacy: Confidentialité
 show_more: Afficher plus
 add_new_article: Ajouter un nouveau fil
-check_email: Vérifiez votre courriel
+check_email: Vérifiez vos e-mails
 eng: ENG
 subscribed: Abonné·e
 videos: Vidéos
 are_you_sure: Êtes-vous sûr·e ?
-reset_check_email_desc2: Si vous ne recevez pas de courriel, veuillez vérifier votre
+reset_check_email_desc2: Si vous ne recevez pas d'e-mail, veuillez vérifier votre
   dossier spam.
 messages: Messages
 in: dans
-email_confirm_header: Salut ! Confirmez votre adresse courriel.
+email_confirm_header: Salut ! Confirmez votre adresse e-mail.
 image: Image
 edit: Modifier
 go_to_search: Aller à la recherche
@@ -191,29 +191,31 @@ type.smart_contract: Contrat intelligent
 hot: Dernière minute
 agree_terms: Consentir aux %terms_link_start%conditions d’utilisation%terms_link_end%
   et à la %policy_link_start%politique de confidentialité%policy_link_end%
-reset_check_email_desc: Si un compte correspondant à votre adresse courriel existe,
-  vous recevrez rapidement un courriel contenant un lien que vous pouvez utiliser
-  pour réinitialiser votre mot de passe. Ce lien expirera dans %expire%.
+reset_check_email_desc: Si un compte est déjà associé à votre adresse e-mail, vous
+  devriez recevoir sous peu un message contenant un lien que vous pourrez utiliser
+  pour réinitialiser votre mot de passe. Ce lien expirera en %expire%.
 joined: Inscrit·e
 show_profile_subscriptions: Afficher les magazines souscrits
-show_profile_followings: Voir les utilisateurs abonnés
-notify_on_new_entry_reply: M’avertir des commentaires dans mes fils
-notify_on_new_entry_comment_reply: M’avertir des réponses à mes commentaires dans
-  les fils
-notify_on_new_post_reply: M’avertir des réponses à mes messages
-notify_on_new_post_comment_reply: M’avertir des réponses à mes commentaires dans les
-  messages
-notify_on_new_entry: M’avertir des nouveaux fils dans les magazines abonnés
-notify_on_new_posts: M’avertir des nouveaux messages dans les magazines abonnés
+show_profile_followings: Afficher les utilisateurs abonnés
+notify_on_new_entry_reply: Tous les commentaires dans les fils de discussion que j'ai
+  créés
+notify_on_new_entry_comment_reply: Réponses à mes commentaires dans tous les fils
+  de discussion
+notify_on_new_post_reply: Toutes les réponses aux messages que j'ai créés
+notify_on_new_post_comment_reply: Réponses à mes commentaires sur les messages
+notify_on_new_entry: Nouveaux fils de discussion (liens ou articles) dans n'importe
+  quel magazine auquel je suis abonné
+notify_on_new_posts: Nouveaux articles dans n'importe quel magazine auquel je suis
+  abonné
 save: Enregistrer
 about: À propos
-old_email: Courriel actuel
-new_email: Nouveau courriel
-new_email_repeat: Confirmer le nouveau courriel
+old_email: E-mail actuel
+new_email: Nouvelle adresse e-mail
+new_email_repeat: Confirmer la nouvelle adresse e-mail
 current_password: Mot de passe actuel
 new_password: Nouveau mot de passe
 new_password_repeat: Confirmer le nouveau mot de passe
-change_email: Changer le courriel
+change_email: Changer d'adresse e-mail
 change_password: Changer le mot de passe
 expand: Élargir
 collapse: Réduire
@@ -271,8 +273,9 @@ restored_post_by: a rétabli la publication de
 read_all: Lire tout
 show_all: Afficher tout
 ranking_disabled: Classement désactivé
-flash_register_success: Bienvenue, votre compte a été enregistré. Vérifiez votre courriel,
-  nous avons envoyé un message avec un lien d’activation.
+flash_register_success: Bienvenue à bord ! Votre compte est maintenant enregistré.
+  Une dernière étape - vérifiez votre boîte de réception pour y trouver un lien d'activation
+  qui donnera vie à votre compte.
 flash_thread_new_success: Le fil a été créé et est maintenant visible par les autres
   utilisateurs.
 flash_thread_edit_success: Le fil a été modifié.
@@ -473,8 +476,8 @@ inactive: Inactif
 purge_account: Purger le compte
 magazine_panel_tags_info: Fournissez seulement si vous voulez inclure du contenu du
   Fédivers dans ce magazine, d'après ces étiquettes
-kbin_intro_desc: C'est une plate-forme décentralisée d'agrégation de contenu et de
-  microblogging qui fonctionne au sein du réseau Fédivers.
+kbin_intro_desc: est une plate-forme décentralisée d'agrégation de contenu et de microblogging
+  qui fonctionne au sein du réseau Fédivers.
 kbin_promo_desc: '%link_start%Clonez le dépôt%link_end% et développez le Fédivers'
 browsing_one_thread: Vous ne parcourez qu'un seul fil de discussion ! Tous les commentaires
   sont disponibles sur la page de publication.
@@ -482,3 +485,312 @@ boost: Partager
 mercure_enabled: Mercure activé
 report_issue: Signaler un problème
 tokyo_night: Nuit tokyoïte
+oauth2.grant.post.edit: Editer de nouvelles publications.
+oauth2.grant.moderate.post.trash: Supprimer ou restaurer des publications dans vos
+  magazines modérés.
+moderation.report.approve_report_title: Approuver le rapport
+moderation.report.reject_report_title: Rejeter le rapport
+kbin_bot: Robot /kbin
+oauth2.grant.moderate.magazine.reports.all: Gérer les rapports dans vos magazines
+  modérés.
+oauth2.grant.admin.federation.update: Ajouter ou supprimer des instances dans ou à
+  partir de la liste des instances défédérées.
+filter.adult.label: Choisir d'afficher ou non du contenu NSFW
+resend_account_activation_email_error: Un problème est survenu lors de la présentation
+  de cette demande. Il se peut qu'aucun compte ne soit associé à cet e-mail ou qu'il
+  soit déjà activé.
+oauth2.grant.user.message.all: Afficher vos messages et envoyer des messages à d'autres
+  utilisateurs.
+oauth2.grant.moderate.magazine.trash.read: Afficher le contenu mis à la corbeille
+  dans vos magazines modérés.
+email_confirm_button_text: Confirmez votre demande de modification de mot de passe
+oauth2.grant.moderate.magazine_admin.create: Créer de nouveaux magazines.
+filter.adult.hide: Masquer le contenu NSFW
+oauth2.grant.post.vote: Upvoter, booster, ou downvoter n'importe quelle publication.
+magazine_theme_appearance_custom_css: CSS personnalisé qui s'appliquera lors de l'affichage
+  du contenu dans votre magazine.
+toolbar.bold: Gras
+errors.server429.title: 429 Trop de requêtes
+auto_preview_help: Afficher automatiquement les aperçus multimédias.
+filter.fields.label: Choisissez les champs à rechercher
+toolbar.header: En-tête
+oauth2.grant.user.oauth_clients.edit: Modifier les autorisations que vous avez accordées
+  à d'autres applications OAuth2.
+oauth2.grant.user.all: Afficher et modifier votre profil, vos messages ou vos notifications
+  ; Afficher et modifier les autorisations que vous avez accordées à d'autres applications
+  ; suivre ou bloquer d'autres utilisateurs ; Afficher les listes d'utilisateurs que
+  vous suivez ou bloquez.
+oauth2.grant.moderate.post.set_adult: Marquer les publications comme NSFW dans vos
+  magazines modérés.
+oauth2.grant.moderate.magazine_admin.edit_theme: Modifier le CSS personnalisé de l'un
+  de vos magazines propriétaires.
+oauth2.grant.moderate.magazine_admin.tags: Créer ou supprimer les tags des magazines
+  qui vous appartiennent.
+moderation.report.ban_user_description: Voulez-vous bannir l'utilisateur (%username%)
+  qui a créé ce contenu à partir de ce magazine ?
+oauth2.grant.moderate.entry.pin: Épingler des fils en haut de vos magazines modérés.
+oauth2.grant.user.message.read: Afficher vos messages.
+oauth2.grant.admin.entry.purge: Supprimer complètement tout les fils de discussion
+  de votre instance.
+oauth.consent.to_allow_access: Pour autoriser cet accès, cliquez sur le bouton « Autoriser
+  » ci-dessous
+oauth2.grant.admin.magazine.all: Déplacer les fils de discussions entre les magazines
+  de votre instance ou les supprimer complètement.
+filter.fields.only_names: Les noms seulement
+oauth2.grant.admin.instance.settings.read: Afficher les paramètres de votre instance.
+oauth2.grant.entry.report: Signaler n'importe quel thread.
+oauth2.grant.moderate.post_comment.all: Modérer les commentaires sur les publications
+  dans vos magazines modérés.
+local_and_federated: Local et fédéré
+email.delete.description: L'utilisateur suivant a demandé que son compte soit supprimé
+last_active: Dernière activité
+oauth2.grant.domain.subscribe: S'abonner ou se désabonner des domaines et afficher
+  les domaines auxquels vous êtes abonné.
+magazine_theme_appearance_icon: Icône personnalisée pour le magazine. Si aucune n'est
+  sélectionnée, l'icône par défaut sera utilisée.
+toolbar.ordered_list: Liste ordonnée
+oauth2.grant.moderate.magazine.ban.create: Bannir des utilisateurs dans vos magazines
+  modérés.
+oauth2.grant.admin.user.delete: Supprimer des utilisateurs sur votre instance.
+oauth.consent.app_requesting_permissions: souhaite effectuer les actions suivantes
+  en votre nom
+oauth2.grant.moderate.post.change_language: Changer la langue des publications dans
+  vos magazines modérés.
+oauth2.grant.moderate.magazine_admin.delete: Supprimer tous les magazines qui vous
+  appartiennent.
+oauth2.grant.moderate.entry_comment.all: Modérer les commentaires dans les fils de
+  discussion de vos magazines modérés.
+oauth2.grant.admin.magazine.move_entry: Déplacer les fils de discussions entre les
+  magazines de votre instance.
+oauth2.grant.post_comment.edit: Modifier vos commentaires existants sur les publications.
+oauth2.grant.entry.create: Créer de nouveaux threads.
+federated_search_only_loggedin: Recherche fédérée limitée si vous n'êtes pas connecté
+oauth2.grant.moderate.magazine.reports.action: Accepter ou refuser les rapports dans
+  vos magazines modérés.
+oauth2.grant.admin.magazine.purge: Supprimer complètement les magazines de votre instance.
+your_account_is_not_active: Votre compte n'a pas été activé. Veuillez consulter votre
+  adresse e-mail pour obtenir des instructions d'activation de compte ou <a href="%link_target%">demander
+  un nouvel e-mail d'activation de compte.</a>
+oauth2.grant.user.notification.read: Afficher vos notifications, y compris les notifications
+  de message.
+filter.adult.show: Afficher le contenu NSFW
+oauth.consent.allow: Autoriser
+oauth2.grant.magazine.block: Bloquer ou débloquer les magazines et afficher les magazines
+  que vous avez bloqués.
+oauth2.grant.magazine.subscribe: S'abonner ou se désabonner aux magazines et afficher
+  les magazines auxquels vous êtes abonné.
+oauth2.grant.admin.user.all: Bannir, vérifier ou supprimer complètement les utilisateurs
+  de votre instance.
+oauth2.grant.post_comment.report: Signaler tout commentaire sur une publication.
+oauth2.grant.magazine.all: S'abonner à des magazines ou les bloquer, puis afficher
+  les magazines auxquels vous êtes abonné ou que vous bloquez.
+oauth2.grant.vote.general: Upvoter, downvoter ou booster les fils de discussion, les
+  publications ou les commentaires.
+custom_css: CSS personnalisé
+oauth2.grant.entry.vote: Upvoter, booster ou downvoter pour n'importe quel fil.
+oauth2.grant.moderate.magazine_admin.all: Créer, modifier ou supprimer les magazines
+  qui vous appartiennent.
+comment_reply_position_help: Afficher le formulaire de réponse aux commentaires en
+  haut ou en bas de la page. Lorsque le « défilement infini » est activé, la position
+  apparaîtra toujours en haut.
+filter.adult.only: Uniquement le contenu NSFW
+oauth2.grant.post_comment.vote: Upvoter, booster, ou downvoter tout commentaire sur
+  une publication.
+filter.fields.names_and_descriptions: Les noms et descriptions
+oauth2.grant.user.oauth_clients.read: Afficher les autorisations que vous avez accordées
+  à d'autres applications OAuth2.
+oauth2.grant.moderate.entry.change_language: Changer la langue des fils de discussion
+  dans vos magazines modérés.
+password_confirm_header: Confirmez votre demande de modification de mot de passe.
+block: Bloquer
+oauth2.grant.moderate.all: Effectuer toute action de modération que vous êtes autorisé
+  à effectuer dans vos magazines modérés.
+oauth2.grant.moderate.magazine.ban.all: Gérer les utilisateurs bannis dans vos magazines
+  modérés.
+oauth2.grant.moderate.magazine.all: Gérer les bannissements, les rapports et afficher
+  les articles mis à la corbeille dans vos magazines modérés.
+oauth2.grant.admin.federation.all: Afficher et mettre à jour les instances actuellement
+  défédérées.
+toolbar.quote: Citation
+oauth2.grant.user.notification.all: Afficher et effacer vos notifications.
+oauth2.grant.report.general: Signaler des fils de discussion, des publications ou
+  des commentaires.
+oauth2.grant.moderate.magazine.list: Afficher la liste de vos magazines modérés.
+oauth2.grant.admin.post.purge: Supprimer complètement de votre instance toute les
+  publications.
+oauth2.grant.moderate.magazine.ban.read: Afficher les utilisateurs bannis dans vos
+  magazines modérés.
+oauth2.grant.user.profile.all: Afficher et modifier votre profil.
+oauth2.grant.admin.user.ban: Bannir ou annuler le bannissement des utilisateurs de
+  votre instance.
+show_avatars_on_comments: Afficher les avatars de commentaires
+oauth2.grant.admin.all: Effectuer des action administrative sur votre instance.
+toolbar.unordered_list: Liste non ordonnée
+errors.server404.title: 404 Page introuvable
+resend_account_activation_email_success: Si un compte associé à cet e-mail existe,
+  nous vous enverrons un nouvel e-mail d'activation.
+errors.server403.title: 403 Accès réservé
+oauth2.grant.post.report: Signaler n'importe quel message.
+oauth2.grant.moderate.magazine.reports.read: Afficher les rapports dans vos magazines
+  modérés.
+ignore_magazines_custom_css: Ignorer les CSS personnalisés des magazines
+oauth2.grant.entry_comment.create: Créer de nouveaux commentaires dans les fils de
+  discussion.
+oauth.consent.deny: Refuser
+oauth2.grant.user.follow: Suivre ou ne plus suivre des utilisateurs, puis afficher
+  la liste des utilisateurs que vous suivez.
+flash_post_pin_success: La publication a été épinglée avec succès.
+oauth2.grant.entry_comment.report: Signaler tout commentaire dans un fil de discussion.
+moderation.report.approve_report_confirmation: Êtes-vous sûr de vouloir approuver
+  ce rapport ?
+oauth2.grant.moderate.entry.all: Modérer les discussions dans vos magazines modérés.
+oauth.consent.title: Formulaire de consentement OAuth2
+resend_account_activation_email: Renvoyer l'e-mail d'activation du compte
+oauth2.grant.entry_comment.all: Créer, modifier ou supprimer vos commentaires dans
+  les fils de discussion, et voter, booster ou signaler tout commentaire dans un fil
+  de discussion.
+oauth2.grant.entry_comment.delete: Supprimer vos commentaires existants dans les fils
+  de discussion.
+subject_reported_exists: Ce contenu a déjà été signalé.
+oauth2.grant.moderate.entry_comment.set_adult: Marquer les commentaires dans les fils
+  de discussion comme NSFW dans vos magazines modérés.
+oauth2.grant.entry.edit: Modifier vos threads existants.
+oauth2.grant.moderate.entry_comment.trash: Supprimer ou restaurer des commentaires
+  dans les fils de discussion de vos magazines modérés.
+oauth2.grant.moderate.post.all: Modérer les publications dans vos magazines modérés.
+preferred_languages: Filtrer les langues des fils de discussion et des publications
+request_account_deletion_button: Demander la suppression d'un compte
+errors.server500.title: 500 Erreur du serveur
+oauth2.grant.entry_comment.edit: Modifier vos commentaires existants dans les fils
+  de discussion.
+oauth2.grant.moderate.magazine_admin.update: Modifier les règles, la description,
+  le statut NSFW ou l'icône de vos magazines propriétaires.
+oauth2.grant.moderate.entry.trash: Mettre à la corbeille ou restaurer les fils de
+  discussion dans vos magazines modérés.
+oauth2.grant.user.oauth_clients.all: Afficher et modifier les autorisations que vous
+  avez accordées à d'autres applications OAuth2.
+oauth2.grant.user.profile.read: Afficher votre profil.
+toolbar.link: Lien
+oauth2.grant.admin.oauth_clients.read: Afficher les clients OAuth2 qui existent sur
+  votre instance et leurs statistiques d'utilisation.
+toolbar.mention: Mention
+oauth2.grant.write.general: Créez ou modifiez l'un de vos fils de discussion, publications
+  ou commentaires.
+single_settings: Unique
+oauth2.grant.moderate.post_comment.set_adult: Marquer les commentaires sur les publications
+  en tant que NSFW dans vos magazines modérés.
+oauth2.grant.moderate.post_comment.change_language: Modifier la langue des commentaires
+  sur les publications dans vos magazines modérés.
+moderation.report.ban_user_title: Bannir l'utilisateur
+filter.origin.label: Choisissez l'origine
+resend_account_activation_email_question: Compte inactif ?
+oauth2.grant.admin.user.verify: Vérifier des utilisateurs sur votre instance.
+resend_account_activation_email_description: Entrez l'adresse e-mail associée à votre
+  compte. Nous vous enverrons un autre e-mail d'activation.
+reload_to_apply: Recharger la page pour appliquer les modifications
+oauth2.grant.entry.delete: Supprimer vos threads existants.
+your_account_has_been_banned: Votre compte a été banni
+oauth2.grant.admin.instance.information.edit: Mettre à jour les pages À propos, FAQ,
+  Contact, Conditions d'utilisation et Politique de confidentialité de votre instance.
+oauth2.grant.read.general: Lisez tout le contenu auquel vous avez accès.
+oauth2.grant.domain.all: Abonnez-vous à des domaines ou bloquez-les, et affichez les
+  domaines auxquels vous vous abonnez ou que vous bloquez.
+toolbar.code: Code
+errors.server500.description: Désolé, quelque chose s'est mal passé de notre côté.
+  Nous travaillons à résoudre ce problème, veuillez revenir bientôt.
+oauth.client_not_granted_message_read_permission: Cette application n'a pas reçu l'autorisation
+  de lire vos messages.
+restrict_oauth_clients: Restreindre la création de clients OAuth2 aux administrateurs
+flash_post_unpin_success: La publication a été désépinglée avec succès.
+oauth2.grant.post_comment.delete: Supprimer vos commentaires existants sur les publications.
+bot_body_content: "Bienvenue dans le robot /kbin ! Ce robot joue un rôle crucial dans
+  l'activation de la fonctionnalité ActivityPub dans /kbin. Il garantit que /kbin
+  peut communiquer et fédérer avec d'autres instances dans le fediverse.\n\nActivityPub
+  est un protocole standard ouvert qui permet aux plateformes de réseaux sociaux décentralisées
+  de communiquer et d'interagir les unes avec les autres. Il permet aux utilisateurs
+  de différentes instances (serveurs) de se suivre, d'interagir et de partager du
+  contenu sur le réseau social fédéré connu sous le nom de fediverse. Il fournit aux
+  utilisateurs un moyen standardisé de publier du contenu, de suivre d'autres utilisateurs
+  et de participer à des interactions sociales telles que le fait d'aimer, de partager
+  et de commenter des fils de discussion ou des publications."
+oauth2.grant.admin.oauth_clients.revoke: Révoquer l'accès aux clients OAuth2 sur votre
+  instance.
+oauth2.grant.admin.instance.settings.edit: Mettre à jour les paramètres de votre instance.
+oauth2.grant.moderate.entry.set_adult: Marquer les fils de discussion comme NSFW dans
+  vos magazines modérés.
+oauth2.grant.delete.general: Supprimez l'un de vos fils de discussion, publications
+  ou commentaires.
+oauth2.grant.entry_comment.vote: Upvoter, booster, ou downvoter pour n'importe quel
+  commentaire dans un fil de discussion.
+oauth2.grant.admin.instance.stats: Afficher les statistiques de votre instance.
+oauth2.grant.admin.instance.settings.all: Afficher ou mettre à jour les paramètres
+  de votre instance.
+oauth2.grant.entry.all: Créer, modifier ou supprimer vos fils de discussion, et voter,
+  booster ou signaler n'importe quel fil de discussion.
+request_account_deletion_description: L'administrateur sera informé que vous souhaitez
+  supprimer votre compte.
+magazine_theme_appearance_background_image: Image d'arrière-plan personnalisée qui
+  sera appliquée lors de l'affichage du contenu de votre magazine.
+unblock: Débloquer
+oauth2.grant.admin.federation.read: Consulter la liste des instances défédérées.
+oauth2.grant.moderate.entry_comment.change_language: Changer la langue des commentaires
+  dans les fils de discussion de vos magazines modérés.
+oauth2.grant.moderate.magazine_admin.stats: Afficher le contenu, les votes et les
+  statistiques d'affichage des magazines qui vous appartiennent.
+oauth.consent.grant_permissions: Accorder les autorisations
+oauth2.grant.user.message.create: Envoyer des messages à d'autres utilisateurs.
+oauth2.grant.admin.oauth_clients.all: Afficher ou révoquer les clients OAuth2 qui
+  existent sur votre instance.
+request_account_deletion_title: Suppression de compte
+oauth2.grant.moderate.magazine.ban.delete: Annuler le bannissement d'utilisateurs
+  dans vos magazines modérés.
+oauth.client_identifier.invalid: ID client OAuth non valide !
+oauth2.grant.post_comment.all: Créer, modifier ou supprimer vos commentaires sur les
+  publications, et voter, booster ou signaler tout commentaire sur une publication.
+oauth2.grant.admin.user.purge: Supprimer complètement les utilisateurs de votre instance.
+update_comment: Mettre à jour le commentaire
+infinite_scroll_help: Chargez automatiquement plus de contenu lorsque vous atteignez
+  le bas de la page.
+oauth2.grant.user.notification.delete: Effacer vos notifications.
+show_avatars_on_comments_help: Afficher/masquer les avatars des utilisateurs lorsque
+  vous affichez des commentaires sur un seul fil de discussion ou publication.
+oauth2.grant.post.all: Créer, modifier ou supprimer vos microblogs, et voter, booster
+  ou signaler n'importe quel microblog.
+oauth.consent.app_has_permissions: peut déjà effectuer les actions suivantes
+email.delete.title: Demande de suppression de compte utilisateur
+oauth2.grant.block.general: Bloquer ou débloquer un magazine, un domaine ou un utilisateur,
+  et afficher les magazines, les domaines et les utilisateurs que vous avez bloqués.
+moderation.report.reject_report_confirmation: Êtes-vous sûr de vouloir rejeter ce
+  rapport ?
+oauth2.grant.post_comment.create: Créer de nouveaux commentaires sur les publications.
+oauth2.grant.user.block: Bloquer ou débloquer des utilisateurs et afficher la liste
+  des utilisateurs que vous bloquez.
+oauth2.grant.post.delete: Supprimer de nouvelles publications.
+oauth2.grant.subscribe.general: S'abonner ou suivre n'importe quel magazine, domaine
+  ou utilisateur, et afficher les magazines, domaines et utilisateurs auxquels vous
+  êtes abonné.
+oauth2.grant.moderate.post_comment.trash: Supprimer ou restaurer des commentaires
+  sur les publications de vos magazines modérés.
+oauth2.grant.moderate.magazine_admin.moderators: Ajouter ou supprimer les modérateurs
+  de l'un de vos magazines propriétaires.
+email_confirm_link_help: Vous pouvez également copier et coller ce qui suit dans votre
+  navigateur
+oauth2.grant.admin.entry_comment.purge: Supprimer complètement de votre instance tout
+  les commentaires d'un fil de discussion.
+toolbar.strikethrough: Barré
+comment_reply_position: Position de la réponse au commentaire
+oauth2.grant.post.create: Créer de nouvelles publications.
+toolbar.image: Image
+oauth2.grant.domain.block: Bloquer ou débloquer des domaines et afficher les domaines
+  que vous avez bloqués.
+oauth2.grant.admin.instance.all: Afficher et mettre à jour les paramètres ou les informations
+  de l'instance.
+sticky_navbar_help: La barre de navigation se collera en haut de la page lorsque vous
+  faites défiler vers le bas.
+toolbar.italic: Italique
+more_from_domain: Plus du domaine
+oauth2.grant.user.profile.edit: Modifier votre profil.
+oauth2.grant.admin.post_comment.purge: Supprimer complètement de votre instance tout
+  commentaire sur une publication.
+oauth2.grant.moderate.magazine_admin.badges: Créer ou supprimer des badges des magazines
+  qui vous appartiennent.

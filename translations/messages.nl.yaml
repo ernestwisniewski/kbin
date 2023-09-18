@@ -766,3 +766,13 @@ magazine_theme_appearance_icon: Aangepast pictogram voor het tijdschrift. Als er
   is geselecteerd, wordt het standaardpictogram gebruikt.
 magazine_theme_appearance_background_image: Aangepaste CSS die van toepassing is bij
   het bekijken van inhoud in uw tijdschrift.
+moderation.report.approve_report_title: Rapport Goedkeuren
+moderation.report.reject_report_title: Rapport Afwijzen
+moderation.report.ban_user_description: Wilt u de gebruiker (%username%) verbannen
+  die deze inhoud heeft gemaakt van dit tijdschrift?
+moderation.report.approve_report_confirmation: Weet u zeker dat u dit rapport wilt
+  goedkeuren?
+subject_reported_exists: Je hebt deze inhoud al gerapporteerd.
+moderation.report.ban_user_title: Verban gebruiker
+moderation.report.reject_report_confirmation: Weet u zeker dat u dit rapport wilt
+  afwijzen?
