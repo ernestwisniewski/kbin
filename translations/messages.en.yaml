@@ -524,6 +524,13 @@ federation_page_enabled: Federation page enabled
 federation_page_allowed_description: Known instances we federate with
 federation_page_disallowed_description: Instances we do not federate with
 federated_search_only_loggedin: Federated search limited if not logged in
+moderation.report.reject_report_title: Reject Report
+moderation.report.approve_report_title: Approve Report
+moderation.report.ban_user_title: Ban User
+moderation.report.ban_user_description: Do you want to ban the user (%username%) who created this content from this magazine?
+moderation.report.reject_report_confirmation: Are you sure that you want to reject this report?
+moderation.report.approve_report_confirmation: Are you sure that you want to approve this report?
+subject_reported_exists: You have already reported this content
 request_account_deletion_title: Account Deletion
 request_account_deletion_description: The administrator will be notified that you
   want your account deleted.

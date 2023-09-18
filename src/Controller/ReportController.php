@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\DTO\ReportDto;
 use App\Entity\Contracts\ReportInterface;
+use App\Exception\SubjectHasBeenReportedException;
 use App\Form\ReportType;
 use App\Service\ReportManager;
 use Symfony\Component\Form\FormInterface;
@@ -32,7 +33,7 @@ class ReportController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            return $this->handleValidSuccessRequest($dto, $request);
+            return $this->handleReportRequest($dto, $request);
         }
 
         if ($request->isXmlHttpRequest()) {
@@ -60,20 +61,28 @@ class ReportController extends AbstractController
         );
     }
 
-    private function handleValidSuccessRequest(ReportDto $dto, Request $request): Response
+    private function handleReportRequest(ReportDto $dto, Request $request): Response
     {
-        $this->manager->report($dto, $this->getUserOrThrow());
+        try {
+            $this->manager->report($dto, $this->getUserOrThrow());
+            $reportError = false;
+            $responseMessage = $this->translator->trans('subject_reported');
+        } catch (SubjectHasBeenReportedException $exception) {
+            $reportError = true;
+            $responseMessage = $this->translator->trans('subject_reported_exists');
+        } finally {
+            if ($request->isXmlHttpRequest()) {
+                return new JsonResponse(
+                    [
+                        'success' => true,
+                        'html' => sprintf("<div class='alert %s'>%s</div>", ($reportError) ? 'alert__danger' : 'alert__info', $responseMessage),
+                    ]
+                );
+            }
 
-        if ($request->isXmlHttpRequest()) {
-            return new JsonResponse(
-                [
-                    'success' => true,
-                    'html' => "<div class=\"alert alert__info\">{$this->translator->trans('subject_reported')}</div>",
-                ]
-            );
+            $this->addFlash($reportError ? 'error' : 'info', $responseMessage);
+
+            return $this->redirectToRefererOrHome($request);
         }
-
-        // @todo flash message
-        return $this->redirectToRefererOrHome($request);
     }
 }

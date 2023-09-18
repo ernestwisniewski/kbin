@@ -1,4 +1,10 @@
 <h3 hidden>{{ 'report'|trans }}</h3>
+{% for flash in app.flashes('error') %}
+    <div class="alert alert__danger">{{ flash }}</div>
+{% endfor %}
+{% for flash in app.flashes('info') %}
+    <div class="alert alert__info">{{ flash }}</div>
+{% endfor %}
 {{ form_start(form) }}
 {{ form_row(form.reason, {label: 'reason'}) }}
 {{ form_row(form.submit, {label: 'report', attr: {class: 'btn btn__primary', 'data-action': 'subject#sendForm'}, row_attr: {class: 'float-end'}}) }}

@@ -14,7 +14,6 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
-
     <h1 hidden>{{ 'reports'|trans }}</h1>
     {{ component('report_list', {reports: reports, routeName: 'magazine_panel_reports', magazineName: magazine.name}) }}
 {% endblock %}
