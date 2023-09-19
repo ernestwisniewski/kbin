@@ -223,7 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     #[Column(type: 'string', nullable: false)]
     private string $password;
     #[Column(type: 'string', nullable: true)]
-    private ?string $totpSecret;
+    private ?string $totpSecret = null;
     #[Column(type: 'json', nullable: false, options: ['jsonb' => true, 'default' => '[]'])]
     private array $totpBackupCodes = [];
     #[OneToMany(mappedBy: 'user', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]

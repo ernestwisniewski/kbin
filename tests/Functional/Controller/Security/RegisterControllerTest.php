@@ -25,8 +25,7 @@ class RegisterControllerTest extends WebTestCase
         $this->assertEmailHeaderSame($email, 'To', 'johndoe@kbin.pub');
 
         $verifyLink = [];
-        preg_match('#<a href="(?P<link>.+)">#', $email->getHtmlBody(), $verifyLink);
-
+        preg_match('#<a class="btn btn__primary"[^>]*href="(?P<link>[^"]+)"[^>]*>#', $email->getHtmlBody(), $verifyLink);
         $client->request('GET', $verifyLink['link']);
         $crawler = $client->followRedirect();
 
