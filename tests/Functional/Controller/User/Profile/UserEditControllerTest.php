@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use App\Tests\Functional\Controller\Security\RegisterControllerTest;
 use App\Tests\WebTestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DomCrawler\Crawler;
 
 class UserEditControllerTest extends WebTestCase
 {
@@ -147,9 +148,12 @@ class UserEditControllerTest extends WebTestCase
 
         $this->assertEmailHeaderSame($email, 'To', 'acme@kbin.pub');
 
-        $verifyLink = [];
-        preg_match('#<a class="btn btn__primary"[^>]*href="(?P<link>[^"]+)"[^>]*>#', $email->getHtmlBody(), $verifyLink);
-        $client->request('GET', $verifyLink['link']);
+        $verificationLink = (new Crawler($email->getHtmlBody()))
+            ->filter('a.btn.btn__primary')
+            ->attr('href')
+        ;
+
+        $client->request('GET', $verificationLink);
 
         $crawler = $client->followRedirect();
 
