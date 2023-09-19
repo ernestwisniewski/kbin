@@ -193,11 +193,16 @@
 }
 
 .show-comment-avatar {
-  .post>figure {
+  .comment>figure {
     display: block;
   }
 }
 
+.show-post-avatar {
+  .post>figure {
+    display: block;
+  }
+}
 .post-comments-preview {
   margin-top: -.5rem;
   margin-bottom: .5rem;

@@ -24,6 +24,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_ENTRIES_SHOW_PREVIEW = 'kbin_entries_show_preview';
     public const KBIN_ENTRIES_COMPACT = 'kbin_entries_compact';
     public const KBIN_POSTS_SHOW_PREVIEW = 'kbin_posts_show_preview';
+    public const KBIN_POSTS_SHOW_USERS_AVATARS = 'kbin_posts_show_users_avatars';
     public const KBIN_GENERAL_ROUNDED_EDGES = 'kbin_general_rounded_edges';
     public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
     public const KBIN_GENERAL_TOPBAR = 'kbin_general_topbar';
@@ -68,6 +69,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_GENERAL_SIDEBAR_POSITION,
         self::KBIN_ENTRIES_SHOW_PREVIEW,
         self::KBIN_POSTS_SHOW_PREVIEW,
+        self::KBIN_POSTS_SHOW_USERS_AVATARS,
         self::KBIN_GENERAL_DYNAMIC_LISTS,
         self::KBIN_FEDERATION_ENABLED,
         self::KBIN_LANG,
