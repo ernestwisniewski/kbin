@@ -25,7 +25,11 @@
 {% endblock %}
 
 {% block body %}
-    <div id="content">
+    <div id="content" class="{{
+        app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR')) is same as 'true'
+        or not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR'))
+        ? 'show-comment-avatar' : ''
+    }}">
         {{ component('post', {
             post: post,
             isSingle: true,
@@ -34,7 +38,7 @@
         }) }}
         {% include 'post/comment/_options.html.twig' %}
         {% include 'layout/_flash.html.twig' %}
-        
+
         {% if(user_settings.comment_reply_position == constant('App\\Controller\\User\\ThemeSettingsController::TOP')) %}
         <section id="comment-add" class="section">
             {% include 'post/comment/_form_comment.html.twig' %}
@@ -50,7 +54,7 @@
             {% include 'post/comment/_form_comment.html.twig' %}
         </section>
         {% endif %}
-       
+
         {% include 'post/_options_activity.html.twig' %}
     </div>
 {% endblock %}

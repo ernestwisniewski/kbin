@@ -148,13 +148,17 @@
       @include kbin-btn-link;
     }
 
-    figure img {
-      margin: .5rem 0;
-      max-width: 600px;
-      max-height: 400px;
+    figure {
+      display: block;
 
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
+      img {
+        margin: .5rem 0;
+        max-width: 600px;
+        max-height: 400px;
+
+        @include media-breakpoint-down(sm) {
+          max-width: 100%;
+        }
       }
     }
 
