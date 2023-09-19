@@ -1,0 +1,22 @@
+# Ban ChatGPT from indexing /kbin instances at all, in order to prevent training their [the OpenAI] models on users' data.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+# Rest of indexing robots
+User-agent: *
+Request-rate: 1/1s
+Disallow: /login
+Disallow: /login*
+Disallow: /register
+Disallow: /register*
+Disallow: /reset-password
+Disallow: /reset-password*
+Disallow: /sub
+Disallow: /mod
+Disallow: /fav
+Disallow: /new
+Disallow: /new/*
+Disallow: /newMagazine
