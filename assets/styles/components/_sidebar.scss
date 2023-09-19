@@ -30,7 +30,7 @@
   }
 
   .section {
-    padding: .5rem .5rem 1rem;
+    padding: .5rem;
   }
 
   .sidebar-options {
@@ -167,11 +167,8 @@
       justify-content: space-between;
       min-height: 3rem;
       padding: .5rem;
-      position: relative;
 
-      &:last-of-type{
-        border-bottom: 0px;
-      }
+      position: relative;
 
       &:first-child {
         border-top: var(--kbin-meta-border);
@@ -185,12 +182,7 @@
         font-weight: bold;
         padding: 0;
       }
-    }
 
-    &:last-of-type{
-      li{
-        border-bottom: var(--kbin-meta-border);
-      }
     }
   }
 
@@ -267,95 +259,91 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     align-items: flex-end;
     flex-flow: row wrap;
+
+    & + .settings {
+      margin-bottom: .5rem;
+    }
 
     &:last-of-type {
       margin-bottom: 0;
     }
 
     .theme {
-      border: var(--kbin-avatar-border);
-      height: 1.5625rem;
-      width: 1.5625rem;
-      transition: all 150ms ease-in;
+      filter: drop-shadow(1px 2px 3px hsl(0, 0%, 0%, .25));
+      height: 2rem;
+      width: 2rem;
 
       &.light {
-        background: #fafafa;
-      }
+        background: url("/assets/images/light.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
 
-      &.dark {
-        background: #1c1c1c;
-      }
-
-      &.kbin {
-        background: #34363b;
-      }
-
-      &.solarized-light {
-        background: #fdf6e3;
-      }
-
-      &.solarized-dark {
-        background: #093642;
-      }
-
-      &.tokyo-night {
-        background: #2A2A3C;
-      }
-
-      &.active,
-      &:active,
-      &:hover{
-        border: var(--kbin-avatar-border-active);
-      }
-    }
-
-    &.font-size-settings{
-
-      .font-size{
-        padding: 3px;
-        display: flex;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        align-items: center;
-        box-sizing: content-box;
-        border: solid 3px transparent;
-        transition: all 150ms ease-in;
-
-        i{
-          height: 50%;
-          display: flex;
-          align-items: flex-end;
+        .theme--light & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
         }
       }
 
-      .font-size:active,
-      .font-size:hover{
-        border: var(--kbin-avatar-border); 
+      &.dark {
+        background: url("/assets/images/dark.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
+
+        .theme--dark & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
+        }
       }
 
-      .font-size.active{
-        border: var(--kbin-avatar-border-active); 
+      &.kbin {
+        background: url("/assets/images/kbin.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
+
+        .theme--kbin & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
+        }
       }
 
-      
+      &.solarized-light {
+        background: url("/assets/images/solarized.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
 
+        .theme--solarized-light & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
+        }
+      }
+
+      &.solarized-dark {
+        background: url("/assets/images/solarized-dark.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
+
+        .theme--solarized-dark & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
+        }
+      }
+
+      &.tokyo-night {
+        background: url("/assets/images/tokyo-night.svg") no-repeat;
+        background-size: 2rem;
+        background-position: center;
+
+        .theme--tokyo-night & {
+          outline: 2px solid var(--kbin-sidebar-settings-switch-on-bg);
+        }
+      }
     }
   }
 
   .settings-list {
     display: flex;
     flex-flow: row wrap;
-    gap: .25rem;
+    gap: 1px;
     align-items: center;
     color: var(--kbin-meta-text-color);
-
-    h3{
-      flex-grow: 1;
-    }
 
     &.reload-required .reload-required-section {
       display: block;
@@ -384,16 +372,26 @@
         }
       }
 
-      .topbar & {
-        top: 1.25rem;
+      .rounded-edges & {
+        border-radius: var(--kbin-rounded-edges-radius);
       }
 
-      .fixed-navbar & {
-        top: 3.25rem;
+      .btn {
+        width: 100%;
+        display: flex;
+        gap: .5rem;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        &:hover {
+          color: var(--kbin-button-secondary-text-hover-color);
+        }
       }
 
-      .fixed-navbar.topbar & {
-        top: 4.5rem;
+      &:hover {
+        background: var(--kbin-button-secondary-hover-bg);
+        color: var(--kbin-button-secondary-text-hover-color);
       }
 
       /** Faster spin animation than fa-spin */
@@ -414,6 +412,19 @@
       margin-top: .5rem;
       display: block;
       flex: 100%;
+      font-weight: 700;
+      font-variant: all-small-caps;
+      margin-left: .3125rem;
+      color: var(--kbin-meta-text-color);
+      opacity: .5;
+
+      &+.settings-row {
+        .rounded-edges & {
+          border-top-left-radius: .375rem;
+          border-top-right-radius: .375rem;
+          overflow: clip;
+        }
+      }
     }
 
     .row {
@@ -479,11 +490,6 @@
     }
   }
 
-  //&:hover,
-  //&:focus-within {
-  //  @include fade-in(.5s, .85);
-  //}
-
   .intro {
     .container {
       background: url('/assets/images/intro-bg.png') no-repeat center 20%;
@@ -541,7 +547,6 @@
     }
 
     a {
-      //font-weight: bold;
       color: var(--kbin-text-color);
     }
   }
@@ -559,7 +564,7 @@
       display: block;
 
       li {
-        font-size: 1rem;
+        font-size: 1.1rem;
         list-style: none;
         position: relative;
         padding: .85rem 0;
@@ -587,7 +592,6 @@
         border-bottom: 1px solid var(--kbin-options-text-color);
         font-weight: bold;
         padding-bottom: .5rem;
-        position: relative;
       }
 
       .head-title span {

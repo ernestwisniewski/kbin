@@ -1,0 +1,36 @@
+<svg id="kbin" xmlns="http://www.w3.org/2000/svg" width="78" height="78" viewBox="0 0 78 78">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        fill: #2b2d31;
+      }
+
+      .cls-2 {
+        fill: #24262a;
+      }
+
+      .cls-3 {
+        fill: #313338;
+      }
+
+      .cls-4, .cls-6 {
+        fill-rule: evenodd;
+      }
+
+      .cls-5 {
+        fill: #f2f3f6;
+      }
+
+      .cls-6 {
+        fill: #b7bac1;
+        opacity: 0.6;
+      }
+    </style>
+  </defs>
+  <rect class="cls-1" width="78" height="78"/>
+  <rect class="cls-2" x="14" y="14" width="64" height="64"/>
+  <rect class="cls-3" x="18" y="18" width="60" height="60"/>
+  <path class="cls-4" d="M26,26H40V36H26V26Zm0,14H40V50H26V40Z"/>
+  <rect class="cls-5" x="46" y="26" width="32" height="14"/>
+  <path class="cls-6" d="M33,29a2,2,0,1,1-2,2A2,2,0,0,1,33,29Zm0,14a2,2,0,1,1-2,2A2,2,0,0,1,33,43Zm13,5H78v6H46V48Zm0,10H78v6H46V58Z"/>
+</svg>

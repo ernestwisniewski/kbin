@@ -115,6 +115,12 @@ $aspect-ratios: (
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
   --kbin-sidebar-header-border: 1px solid #e5eaec;
+  --kbin-sidebar-settings-row-bg: #E5EAEC;
+  --kbin-sidebar-settings-switch-on-color: #fff ;
+  --kbin-sidebar-settings-switch-on-bg: var(--kbin-button-primary-bg);
+  --kbin-sidebar-settings-switch-off-color: #fff ;
+  --kbin-sidebar-settings-switch-off-bg: #b5c4c9;
+  --kbin-sidebar-settings-switch-hover-bg: #9992BC;
 
   //vote
   --kbin-vote-bg: #f3f3f3;

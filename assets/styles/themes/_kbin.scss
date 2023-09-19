@@ -89,6 +89,12 @@
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
   --kbin-sidebar-header-border: 1px solid #4a4a4a;
+  --kbin-sidebar-settings-row-bg: #404349;
+  --kbin-sidebar-settings-switch-on-color: #cfd5e2;
+  --kbin-sidebar-settings-switch-on-bg: var(--kbin-button-primary-bg);
+  --kbin-sidebar-settings-switch-off-color: #404349;
+  --kbin-sidebar-settings-switch-off-bg: var(--kbin-button-secondary-bg);
+  --kbin-sidebar-settings-switch-hover-bg: #7d8bd4;
 
   //vote
   --kbin-vote-bg: #2B2D31;

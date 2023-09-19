@@ -1,28 +1,46 @@
 .settings-row {
   display: grid;
-  grid-template-areas: "label value" "label value" "help help";
+  grid-template-areas: "label value";
   grid-template-columns: auto;
   align-items: center;
-  margin-bottom: 1em;
   width: 100%;
+  background: var(--kbin-sidebar-settings-row-bg);
+
+  &:nth-child(7),
+  &:nth-child(13),
+  &:nth-child(15) {
+    .rounded-edges & {
+    border-bottom-left-radius: .375rem;
+    border-bottom-right-radius: .375rem;
+    overflow: clip;
+    }
+  }
+
+  &[data-controller="settings-row-enum"] {
+    grid-template-areas: "label value";
+  }
 
   .label {
-    margin-right: 1em;
     grid-area: label;
+    line-height: normal;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    margin-left: .375rem;
   }
 
   .help {
-    grid-area: help;
-    font-size: 0.8em;
-    font-weight: 100;
-    color: var(--kbin-secondary-text-color);
+    display: none;
   }
 
   .value-container {
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: 4px 6px;
+    line-height: normal;
     flex-grow: 1;
-    text-align: right;
     grid-area: value;
-    margin-left: 1em;
 
     .link-muted.active {
       color: var(--kbin-primary);
@@ -31,65 +49,52 @@
 
     /** Enum Settings row **/
     .enum {
-      border: var(--kbin-button-primary-border);
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      display: flex;
       align-items: center;
       text-align: center;
-      background-color: var(--kbin-button-secondary-bg);
-      overflow: hidden;
-      font-size: 0.8em;
+      background-color: var(--kbin-sidebar-settings-switch-off-bg);
+      overflow: clip;
+      font-size: .8em;
+      box-shadow: 0 .0625rem hsla(0,0%,100%,.08);
 
       .rounded-edges & {
         border-radius: var(--kbin-rounded-edges-radius);
       }
 
       input {
-        position: absolute;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
+        display: none;
       }
 
       .value {
         cursor: pointer;
 
         span {
-          width: 100%;
+          min-width: 3rem;
           height: 100%;
-          overflow: hidden;
           display: block;
-          padding: 0.5em 0.25em;
-          font-weight: 100;
+          padding: .25rem .25rem;
+          font-weight: 400;
           color: var(--kbin-button-secondary-text-color);
-          transition: color 0.25s, background-color 0.25s, font-weight 0.25s;
-        }
-
-        &:not(:last-child) span {
-          border-right: var(--kbin-button-primary-border);
+          transition: color .25s, background-color .25s, font-weight .15s;
         }
 
         &:hover {
           input:checked + span {
-            background: var(--kbin-button-primary-hover-bg);
+            background: var(--kbin-sidebar-settings-switch-hover-bg);
             color: var(--kbin-button-primary-hover-text-color);
           }
 
           span {
-            background: var(--kbin-button-secondary-hover-bg);
-            color: var(--kbin-button-secondary-hover-text-color);
+            background: var(--kbin-sidebar-settings-switch-hover-bg);
+            color: var(--kbin-button-secondary-text-hover-color);
           }
         }
       }
 
       input:checked + span {
-        background: var(--kbin-button-primary-bg);
-        color: var(--kbin-button-primary-text-color);
-        font-weight: 800 !important;
+        background: var(--kbin-sidebar-settings-switch-on-bg);
+        color: var(--kbin-sidebar-settings-switch-on-color);
+        font-weight: 800;
       }
     }
 
@@ -113,90 +118,63 @@
 
     /** Switch Settings row **/
     .switch {
-      position: relative;
-      display: inline-block;
-      width: 3em;
-      height: 1.5em;
-      overflow: hidden;
-      border: var(--kbin-button-primary-border);
 
       .rounded-edges & {
-        border-radius: .75em;
+        border-radius: .75rem;
       }
 
       input {
-        position: absolute;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        height: 1px;
-        width: 1px;
-        margin: -1px;
-        padding: 0;
-        border: 0;
-      }
-
-      &:hover {
-        .slider {
-          background-color: var(--kbin-button-secondary-text-hover-color);
-
-          &:before {
-            background-color: var(--kbin-button-primary-text-hover-color);
-            border-color: var(--kbin-button-primary-text-hover-color);
-          }
-        }
-
-        input:checked + .slider {
-          background-color: var(--kbin-button-primary-hover-bg);
-        }
-
-        input:checked + .slider:before {
-          background: var(--kbin-button-primary-hover-bg);
-        }
+        display: none;
       }
     }
 
     .slider {
-      position: absolute;
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: var(--kbin-button-secondary-text-color);
+      background-color: var(--kbin-sidebar-settings-switch-off-bg);
       transition: .25s;
+      display: block;
+      height: 1.25rem;
+      width: 2rem;
+      border: .125rem solid var(--kbin-sidebar-settings-switch-off-bg);
+      box-shadow: 0px .0625rem hsla(0, 0%, 100%, .08);
+
+      .rounded-edges & {
+        border-radius: .75rem;
+      }
+
+      &:hover {
+        background-color: var(--kbin-sidebar-settings-switch-hover-bg);
+        border-color: var(--kbin-sidebar-settings-switch-hover-bg);
+
+        &::before {
+          background-color: var(--kbin-sidebar-settings-switch-on-color);
+        }
+      }
 
       &:before {
         position: absolute;
         content: "";
-        height: 100%;
-        width: 1em;
-        left: .25em;
-        bottom: 0;
-        background-color: var(--kbin-button-primary-text-color);
+        height: 1rem;
+        width: 1rem;
+        background-color: var(--kbin-sidebar-settings-switch-off-color);
         transition: .25s;
-        border: .4em solid var(--kbin-button-primary-text-color);
 
         .rounded-edges & {
-          border-width: .5em;
-          width: fit-content;
-          border-radius: .75em;
-          left: 0;
-          aspect-ratio: 1;
+          border-radius: 50%;
         }
       }
     }
 
     input:checked + .slider {
-      background-color: var(--kbin-button-primary-bg);
+      background-color: var(--kbin-sidebar-settings-switch-on-bg);
+      border: .125rem solid var(--kbin-sidebar-settings-switch-on-bg);
+      box-shadow: 0px -1px hsla(0, 0%, 0%, .1);
     }
 
     input:checked + .slider:before {
-      .rounded-edges & {
-        transform: translateX(1.5em);
-      }
-
-      transform: translateX(1.35em);
-      background: var(--kbin-button-primary-bg);
+      transform: translateX(.75rem);
+      background: var(--kbin-sidebar-settings-switch-on-color);
+      box-shadow: inset 0 -.0625rem hsl(0, 0%, 0%, .1);
     }
   }
 }

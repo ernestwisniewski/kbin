@@ -107,6 +107,12 @@ $green: #859900;
   //sidebar
   --kbin-sidebar-header-text-color: #909ea2;
   --kbin-sidebar-header-border: var(--kbin-section-border);
+  --kbin-sidebar-settings-row-bg: var(--kbin-body-bg);
+  --kbin-sidebar-settings-switch-on-color: var(--kbin-section-bg);
+  --kbin-sidebar-settings-switch-on-bg: var(--kbin-button-primary-text-color);
+  --kbin-sidebar-settings-switch-off-color: #d7d6c7;
+  --kbin-sidebar-settings-switch-off-bg: var(--kbin-button-secondary-bg);
+  --kbin-sidebar-settings-switch-hover-bg: #b8bdb5;
 
   //vote
   --kbin-vote-bg: #fff5db;
