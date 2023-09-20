@@ -34,7 +34,7 @@ class PostCommentCreateControllerTest extends WebTestCase
         $this->assertResponseRedirects('/m/acme/p/'.$post->getId().'/test-post-1');
         $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main .comments', 'test comment 1');
+        $this->assertSelectorTextContains('#comments .content', 'test comment 1');
     }
 
     public function testUserCanCreatePostCommentWithImage(): void
@@ -56,9 +56,9 @@ class PostCommentCreateControllerTest extends WebTestCase
         $this->assertResponseRedirects("/m/acme/p/{$post->getId()}/test-post-1");
         $crawler = $client->followRedirect();
 
-        $this->assertSelectorTextContains('#main .comments', 'Test comment 1');
-        $this->assertSelectorExists('.comments footer figure img');
-        $imgSrc = $crawler->filter('.comments footer figure img')->getNode(0)->attributes->getNamedItem('src')->textContent;
+        $this->assertSelectorTextContains('#comments .content', 'Test comment 1');
+        $this->assertSelectorExists('#comments footer figure img');
+        $imgSrc = $crawler->filter('#comments footer figure img')->getNode(0)->attributes->getNamedItem('src')->textContent;
         $this->assertStringContainsString(self::KIBBY_PNG_URL_RESULT, $imgSrc);
         $_FILES = [];
     }
