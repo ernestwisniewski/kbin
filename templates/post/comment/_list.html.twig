@@ -11,6 +11,10 @@
 {% set autoAction = is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@window->subject-list#addComment' : 'notifications:PostCommentCreatedNotification@window->subject-list#addCommentOverview' %}
 {% set manualAction = is_route_name('post_single') ? 'notifications:PostCommentCreatedNotification@scroll-top#increaseCounter' : 'notifications:PostCommentCreatedNotification@window->scroll_top#increaseCounter' %}
 <div class="comments post-comments comments-tree"
+     class="{{ html_classes({
+         'show-comment-avatar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR')) is same as 'true' or not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_COMMENTS_SHOW_USER_AVATAR')),
+         'show-post-avatar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_USERS_AVATARS')) is same as 'true' or not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_USERS_AVATARS'))
+     }) }}"
      data-controller="subject-list"
      data-action="{{- app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_DYNAMIC_LISTS')) is same as 'true' ? autoAction : manualAction -}}">
     {% for comment in comments %}
