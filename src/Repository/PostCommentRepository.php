@@ -16,6 +16,7 @@ use App\Entity\UserFollow;
 use App\PageView\PostCommentPageView;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -121,6 +122,11 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         if ($criteria->magazine) {
             $qb->join('c.post', 'p', Join::WITH, 'p.magazine = :magazine');
             $qb->setParameter('magazine', $criteria->magazine);
+        }
+
+        if ($criteria->languages) {
+            $qb->andWhere('c.lang IN (:languages)')
+                ->setParameter('languages', $criteria->languages, ArrayParameterType::STRING);
         }
 
         if ($criteria->user) {

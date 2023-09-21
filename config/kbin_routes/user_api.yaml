@@ -161,3 +161,17 @@ api_user_entry_comments_retrieve:
   path: /api/users/{user_id}/comments
   methods: [ GET ]
   format: json
+
+# Get a list of posts from specific user
+api_user_posts_retrieve:
+  controller: App\Controller\Api\Post\UserPostsRetrieveApi
+  path: /api/users/{user_id}/posts
+  methods: [ GET ]
+  format: json
+
+# Get a list of post comments from specific user
+api_user_post_comments_retrieve:
+  controller: App\Controller\Api\Post\Comments\UserPostCommentsRetrieveApi
+  path: /api/users/{user_id}/post-comments
+  methods: [ GET ]
+  format: json

@@ -458,27 +458,28 @@ trait FactoryTrait
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPost(string $body, Magazine $magazine = null, User $user = null, ImageDto $imageDto = null): Post
+    public function createPost(string $body, Magazine $magazine = null, User $user = null, ImageDto $imageDto = null, string $lang = 'en'): Post
     {
         $manager = $this->getService(PostManager::class);
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
         $dto->body = $body;
-        $dto->lang = 'en';
+        $dto->lang = $lang;
         $dto->image = $imageDto;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPostComment(string $body, Post $post = null, User $user = null, ImageDto $imageDto = null): PostComment
+    public function createPostComment(string $body, Post $post = null, User $user = null, ImageDto $imageDto = null, PostComment $parent = null, string $lang = 'en'): PostComment
     {
         $manager = $this->getService(PostCommentManager::class);
 
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');
         $dto->body = $body;
-        $dto->lang = 'en';
+        $dto->lang = $lang;
         $dto->image = $imageDto;
+        $dto->parent = $parent;
 
         return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }

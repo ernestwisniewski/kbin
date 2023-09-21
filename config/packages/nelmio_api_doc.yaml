@@ -165,6 +165,7 @@ nelmio_api_doc:
                                 moderate:entry_comment:trash: Trash or restore comments in threads in your moderated magazines.
                                 moderate:post: Moderate posts in your moderated magazines.
                                 moderate:post:language: Change the language of posts in your moderated magazines.
+                                moderate:post:pin: Pin posts to the top of your moderated magazines.
                                 moderate:post:set_adult: Mark posts as NSFW in your moderated magazines.
                                 moderate:post:trash: Trash or restore posts in your moderated magazines.
                                 moderate:post_comment: Moderate comments on posts in your moderated magazines.

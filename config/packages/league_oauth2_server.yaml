@@ -81,6 +81,7 @@ league_oauth2_server:
             'moderate:entry_comment:trash',
             'moderate:post',
             'moderate:post:language',
+            'moderate:post:pin',
             'moderate:post:set_adult',
             'moderate:post:trash',
             'moderate:post_comment',

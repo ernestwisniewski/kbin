@@ -87,8 +87,8 @@ class PostFactory
 
         $currentUser = $this->security->getUser();
         // Only return the user's vote if permission to control voting has been given
-        $dto->isFavourited = $this->security->isGranted('ROLE_OAUTH2_POST_COMMENT:VOTE') ? $post->isFavored($currentUser) : null;
-        $dto->userVote = $this->security->isGranted('ROLE_OAUTH2_POST_COMMENT:VOTE') ? $post->getUserChoice($currentUser) : null;
+        $dto->isFavourited = $this->security->isGranted('ROLE_OAUTH2_POST:VOTE') ? $post->isFavored($currentUser) : null;
+        $dto->userVote = $this->security->isGranted('ROLE_OAUTH2_POST:VOTE') ? $post->getUserChoice($currentUser) : null;
 
         return $dto;
     }

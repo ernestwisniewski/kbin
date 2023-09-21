@@ -26,10 +26,31 @@ api_magazine_entry_create_image:
 #   methods: [ POST ]
 #   format: json
 
+# Create post in magazine
+api_magazine_posts_create:
+  controller: App\Controller\Api\Post\PostsCreateApi
+  path: /api/magazine/{magazine_id}/posts
+  methods: [ POST ]
+  format: json
+
+# Create post with image in magazine
+api_magazine_posts_create_image:
+  controller: App\Controller\Api\Post\PostsCreateApi::uploadImage
+  path: /api/magazine/{magazine_id}/posts/image
+  methods: [ POST ]
+  format: json
+
 # Get a list of threads from specific magazine
 api_magazine_entries_retrieve:
   controller: App\Controller\Api\Entry\MagazineEntriesRetrieveApi
   path: /api/magazine/{magazine_id}/entries
+  methods: [ GET ]
+  format: json
+
+# Get list of posts in a magazine
+api_magazine_posts_retrieve:
+  controller: App\Controller\Api\Post\PostsRetrieveApi::byMagazine
+  path: /api/magazine/{magazine_id}/posts
   methods: [ GET ]
   format: json
 

@@ -16,6 +16,18 @@ api_admin_comment_purge:
   methods: [ DELETE ]
   format: json
 
+api_admin_post_purge:
+  controller: App\Controller\Api\Post\Admin\PostsPurgeApi
+  path: /api/admin/post/{post_id}/purge
+  methods: [ DELETE ]
+  format: json
+
+api_admin_post_comment_purge:
+  controller: App\Controller\Api\Post\Comments\Admin\PostCommentsPurgeApi
+  path: /api/admin/post-comment/{comment_id}/purge
+  methods: [ DELETE ]
+  format: json
+
 api_admin_user_retrieve_banned:
   controller: App\Controller\Api\User\Admin\UserRetrieveBannedApi::collection
   path: /api/admin/users/banned

@@ -26,12 +26,15 @@ class PostCommentResponseDto implements \JsonSerializable
     public ?string $lang = null;
     public bool $isAdult = false;
     public ?int $uv = 0;
+    public ?int $dv = 0;
     public ?int $favourites = 0;
     public ?bool $isFavourited = null;
     public ?int $userVote = null;
     public ?string $apId = null;
     #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
     public ?array $mentions = null;
+    #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
+    public ?array $tags = null;
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTimeImmutable $editedAt = null;
     public ?\DateTime $lastActive = null;
@@ -59,11 +62,15 @@ class PostCommentResponseDto implements \JsonSerializable
                 'lang' => 'en',
                 'isAdult' => false,
                 'uv' => 0,
+                'dv' => 0,
                 'favourites' => 0,
                 'visibility' => 'visible',
                 'apId' => 'string',
                 'mentions' => [
                     '@user@instance',
+                ],
+                'tags' => [
+                    'sometag',
                 ],
                 'createdAt' => '2023-06-18 11:59:41+00:00',
                 'lastActive' => '2023-06-18 12:00:45+00:00',
@@ -86,10 +93,12 @@ class PostCommentResponseDto implements \JsonSerializable
         string $lang = null,
         bool $isAdult = null,
         int $uv = null,
+        int $dv = null,
         int $favourites = null,
         string $visibility = null,
         string $apId = null,
         array $mentions = null,
+        array $tags = null,
         \DateTimeImmutable $createdAt = null,
         \DateTimeImmutable $editedAt = null,
         \DateTime $lastActive = null,
@@ -106,10 +115,12 @@ class PostCommentResponseDto implements \JsonSerializable
         $dto->lang = $lang;
         $dto->isAdult = $isAdult;
         $dto->uv = $uv;
+        $dto->dv = $dv;
         $dto->favourites = $favourites;
         $dto->visibility = $visibility;
         $dto->apId = $apId;
         $dto->mentions = $mentions;
+        $dto->tags = $tags;
         $dto->createdAt = $createdAt;
         $dto->editedAt = $editedAt;
         $dto->lastActive = $lastActive;
@@ -147,12 +158,14 @@ class PostCommentResponseDto implements \JsonSerializable
             'lang' => $this->lang,
             'isAdult' => $this->isAdult,
             'uv' => $this->uv,
+            'dv' => $this->dv,
             'favourites' => $this->favourites,
             'isFavourited' => $this->isFavourited,
             'userVote' => $this->userVote,
             'visibility' => $this->visibility,
             'apId' => $this->apId,
             'mentions' => $this->mentions,
+            'tags' => $this->tags,
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
             'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),

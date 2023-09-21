@@ -105,7 +105,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     private $bodyTs;
 
     public function __construct(
-        string $body,
+        ?string $body,
         Magazine $magazine,
         User $user,
         bool $isAdult,

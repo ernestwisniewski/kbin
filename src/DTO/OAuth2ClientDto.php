@@ -85,6 +85,7 @@ class OAuth2ClientDto extends ImageUploadDto implements \JsonSerializable
         'moderate:entry_comment:trash',
         'moderate:post',
         'moderate:post:language',
+        'moderate:post:pin',
         'moderate:post:set_adult',
         'moderate:post:trash',
         'moderate:post_comment',

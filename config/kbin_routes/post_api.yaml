@@ -1,0 +1,136 @@
+api_posts_subscribed:
+  controller: App\Controller\Api\Post\PostsRetrieveApi::subscribed
+  path: /api/posts/subscribed
+  methods: [ GET ]
+  format: json
+
+api_posts_moderated:
+  controller: App\Controller\Api\Post\PostsRetrieveApi::moderated
+  path: /api/posts/moderated
+  methods: [ GET ]
+  format: json
+
+api_posts_favourited:
+  controller: App\Controller\Api\Post\PostsRetrieveApi::favourited
+  path: /api/posts/favourited
+  methods: [ GET ]
+  format: json
+
+api_posts_collection:
+  controller: App\Controller\Api\Post\PostsRetrieveApi::collection
+  path: /api/posts
+  methods: [ GET ]
+  format: json
+
+# Get information about a post
+api_post_retrieve:
+  controller: App\Controller\Api\Post\PostsRetrieveApi
+  path: /api/post/{post_id}
+  methods: [ GET ]
+  format: json
+
+api_posts_update:
+  controller: App\Controller\Api\Post\PostsUpdateApi
+  path: /api/post/{post_id}
+  methods: [ PUT ]
+  format: json
+
+api_posts_delete:
+  controller: App\Controller\Api\Post\PostsDeleteApi
+  path: /api/post/{post_id}
+  methods: [ DELETE ]
+  format: json
+
+api_posts_report:
+  controller: App\Controller\Api\Post\PostsReportApi
+  path: /api/post/{post_id}/report
+  methods: [ POST ]
+  format: json
+
+api_posts_vote:
+  controller: App\Controller\Api\Post\PostsVoteApi
+  defaults: { choice: 1 }
+  path: /api/post/{post_id}/vote/{choice}
+  methods: [ PUT ]
+  format: json
+
+api_posts_favourite:
+  controller: App\Controller\Api\Post\PostsFavouriteApi
+  path: /api/post/{post_id}/favourite
+  methods: [ PUT ]
+  format: json
+
+# Get information about a post comment
+api_post_comment_retrieve:
+  controller: App\Controller\Api\Post\Comments\PostCommentsRetrieveApi
+  path: /api/post-comments/{comment_id}
+  methods: [ GET ]
+  format: json
+
+# Get comments from a post
+api_post_comments_retrieve:
+  controller: App\Controller\Api\Post\Comments\PostCommentsRetrieveApi::collection
+  path: /api/posts/{post_id}/comments
+  methods: [ GET ]
+  format: json
+
+# Add comment to a post
+api_post_comments_create:
+  controller: App\Controller\Api\Post\Comments\PostCommentsCreateApi
+  path: /api/posts/{post_id}/comments
+  methods: [ POST ]
+  format: json
+
+api_post_comments_create_image:
+  controller: App\Controller\Api\Post\Comments\PostCommentsCreateApi::uploadImage
+  path: /api/posts/{post_id}/comments/image
+  methods: [ POST ]
+  format: json
+
+# Add reply to a post's comment
+api_post_comments_create_reply:
+  controller: App\Controller\Api\Post\Comments\PostCommentsCreateApi
+  path: /api/posts/{post_id}/comments/{comment_id}/reply
+  methods: [ POST ]
+  format: json
+
+api_post_comments_create_image_reply:
+  controller: App\Controller\Api\Post\Comments\PostCommentsCreateApi::uploadImage
+  path: /api/posts/{post_id}/comments/{comment_id}/reply/image
+  methods: [ POST ]
+  format: json
+
+# Update post comment
+api_post_comments_update:
+  controller: App\Controller\Api\Post\Comments\PostCommentsUpdateApi
+  path: /api/post-comments/{comment_id}
+  methods: [ PUT ]
+  format: json
+
+# Delete post comment
+api_post_comments_delete:
+  controller: App\Controller\Api\Post\Comments\PostCommentsDeleteApi
+  path: /api/post-comments/{comment_id}
+  methods: [ DELETE ]
+  format: json
+
+api_post_comments_report:
+  controller: App\Controller\Api\Post\Comments\PostCommentsReportApi
+  path: /api/post-comments/{comment_id}/report
+  methods: [ POST ]
+  format: json
+
+# Favourite post comment
+api_post_comments_favourite:
+  controller: App\Controller\Api\Post\Comments\PostCommentsFavouriteApi
+  path: /api/post-comments/{comment_id}/favourite
+  methods: [ PUT ]
+  format: json
+
+# Vote on post comment
+api_post_comments_vote:
+  controller: App\Controller\Api\Post\Comments\PostCommentsVoteApi
+  defaults: { choice: 1 }
+  path: /api/post-comments/{comment_id}/vote/{choice}
+  methods: [ PUT ]
+  format: json

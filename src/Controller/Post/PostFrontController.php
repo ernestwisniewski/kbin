@@ -21,10 +21,16 @@ class PostFrontController extends AbstractController
 {
     public function front(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
+        $user = $this->getUser();
+
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time));
+
+        if (null !== $user && 0 < \count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $posts = $repository->findByCriteria($criteria);
 
@@ -53,11 +59,17 @@ class PostFrontController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function subscribed(?string $sortBy, ?string $time, PostRepository $repository, Request $request): Response
     {
+        $user = $this->getUserOrThrow();
+
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
+
+        if (0 < \count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $posts = $repository->findByCriteria($criteria);
 
@@ -92,6 +104,8 @@ class PostFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time));
         $criteria->moderated = true;
 
+        // No language criteria for moderated view
+
         $posts = $repository->findByCriteria($criteria);
 
         if ($request->isXmlHttpRequest()) {
@@ -125,6 +139,8 @@ class PostFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time));
         $criteria->favourite = true;
 
+        // No language criteria for favourited view
+
         $posts = $repository->findByCriteria($criteria);
 
         if ($request->isXmlHttpRequest()) {
@@ -156,6 +172,7 @@ class PostFrontController extends AbstractController
         PostRepository $repository,
         Request $request
     ): Response {
+        $user = $this->getUser();
         $response = new Response();
         if ($magazine->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
@@ -167,6 +184,10 @@ class PostFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time));
         $criteria->magazine = $magazine;
         $criteria->stickiesFirst = true;
+
+        if (null !== $user && 0 < \count($user->preferredLanguages)) {
+            $criteria->languages = $user->preferredLanguages;
+        }
 
         $posts = $repository->findByCriteria($criteria);
 

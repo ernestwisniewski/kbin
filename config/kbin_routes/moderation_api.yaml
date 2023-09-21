@@ -54,6 +54,60 @@ api_moderate_comment_set_lang:
   methods: [ PUT ]
   format: json
 
+api_moderate_post_toggle_pin:
+  controller: App\Controller\Api\Post\Moderate\PostsPinApi
+  path: /api/moderate/post/{post_id}/pin
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_trash:
+  controller: App\Controller\Api\Post\Moderate\PostsTrashApi::trash
+  path: /api/moderate/post/{post_id}/trash
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_restore:
+  controller: App\Controller\Api\Post\Moderate\PostsTrashApi::restore
+  path: /api/moderate/post/{post_id}/restore
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_set_adult:
+  controller: App\Controller\Api\Post\Moderate\PostsSetAdultApi
+  path: /api/moderate/post/{post_id}/adult/{adult}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_set_lang:
+  controller: App\Controller\Api\Post\Moderate\PostsSetLanguageApi
+  path: /api/moderate/post/{post_id}/{lang}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_comment_trash:
+  controller: App\Controller\Api\Post\Comments\Moderate\PostCommentsTrashApi::trash
+  path: /api/moderate/post-comment/{comment_id}/trash
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_comment_restore:
+  controller: App\Controller\Api\Post\Comments\Moderate\PostCommentsTrashApi::restore
+  path: /api/moderate/post-comment/{comment_id}/restore
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_comment_set_adult:
+  controller: App\Controller\Api\Post\Comments\Moderate\PostCommentsSetAdultApi
+  path: /api/moderate/post-comment/{comment_id}/adult/{adult}
+  methods: [ PUT ]
+  format: json
+
+api_moderate_post_comment_set_lang:
+  controller: App\Controller\Api\Post\Comments\Moderate\PostCommentsSetLanguageApi
+  path: /api/moderate/post-comment/{comment_id}/{lang}
+  methods: [ PUT ]
+  format: json
+
 api_moderate_magazine_ban_user:
   controller: App\Controller\Api\Magazine\Moderate\MagazineUserBanApi::ban
   path: /api/moderate/magazine/{magazine_id}/ban/{user_id}

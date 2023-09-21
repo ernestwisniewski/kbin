@@ -98,6 +98,7 @@ class OAuth2UserConsent
         // Post moderation grants
         'moderate:post' => 'oauth2.grant.moderate.post.all',
         'moderate:post:language' => 'oauth2.grant.moderate.post.change_language',
+        'moderate:post:pin' => 'oauth2.grant.moderate.post.pin',
         'moderate:post:set_adult' => 'oauth2.grant.moderate.post.set_adult',
         'moderate:post:trash' => 'oauth2.grant.moderate.post.trash',
         // Post comment moderation grants

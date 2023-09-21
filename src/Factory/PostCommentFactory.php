@@ -49,10 +49,12 @@ class PostCommentFactory
             $dto->lang,
             $dto->isAdult,
             $dto->uv,
+            $dto->dv,
             $dto->favourites,
             $dto->visibility,
             $dto->apId,
             $dto->mentions,
+            $dto->tags,
             $dto->createdAt,
             $dto->editedAt,
             $dto->lastActive
@@ -90,6 +92,7 @@ class PostCommentFactory
         $dto->image = $comment->image ? $this->imageFactory->createDto($comment->image) : null;
         $dto->isAdult = $comment->isAdult;
         $dto->uv = $comment->countUpVotes();
+        $dto->dv = $comment->countDownVotes();
         $dto->favourites = $comment->favouriteCount;
         $dto->visibility = $comment->visibility;
         $dto->createdAt = $comment->createdAt;
@@ -97,6 +100,8 @@ class PostCommentFactory
         $dto->lastActive = $comment->lastActive;
         $dto->setId($comment->getId());
         $dto->parent = $comment->parent;
+        $dto->mentions = $comment->mentions;
+        $dto->tags = $comment->tags;
 
         $currentUser = $this->security->getUser();
         // Only return the user's vote if permission to control voting has been given

@@ -29,6 +29,7 @@ class PostCommentDto implements ContentVisibilityInterface
     public ?string $lang = null;
     public bool $isAdult = false;
     public int $uv = 0;
+    public int $dv = 0;
     public int $favourites = 0;
     public ?bool $isFavourited = null;
     public ?int $userVote = null;
@@ -36,6 +37,7 @@ class PostCommentDto implements ContentVisibilityInterface
     public ?string $ip = null;
     public ?string $apId = null;
     public ?array $mentions = null;
+    public ?array $tags = null;
     public ?\DateTimeImmutable $createdAt = null;
     public ?\DateTimeImmutable $editedAt = null;
     public ?\DateTime $lastActive = null;

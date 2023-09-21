@@ -181,6 +181,7 @@ security:
         ]
         "ROLE_OAUTH2_MODERATE:POST": [
             'ROLE_OAUTH2_MODERATE:POST:LANGUAGE',
+            'ROLE_OAUTH2_MODERATE:POST:PIN',
             'ROLE_OAUTH2_MODERATE:POST:SET_ADULT',
             'ROLE_OAUTH2_MODERATE:POST:TRASH'
         ]

@@ -681,6 +681,7 @@ oauth2.grant.moderate.entry_comment.trash: Trash or restore comments in threads 
 oauth2.grant.moderate.post.all: Moderate posts in your moderated magazines.
 oauth2.grant.moderate.post.change_language: Change the language of posts in your moderated
   magazines.
+oauth2.grant.moderate.post.pin: Pin posts to the top of your moderated magazines.
 oauth2.grant.moderate.post.set_adult: Mark posts as NSFW in your moderated magazines.
 oauth2.grant.moderate.post.trash: Trash or restore posts in your moderated magazines.
 oauth2.grant.moderate.post_comment.all: Moderate comments on posts in your moderated

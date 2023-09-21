@@ -23,6 +23,7 @@ use App\PageView\PostPageView;
 use App\Pagination\AdapterFactory;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -169,6 +170,11 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             $qb->setParameter('user', $this->security->getUser());
         }
 
+        if ($criteria->languages) {
+            $qb->andWhere('p.lang IN (:languages)')
+                ->setParameter('languages', $criteria->languages, ArrayParameterType::STRING);
+        }
+
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $qb->andWhere(
                 'p.user NOT IN (SELECT IDENTITY(ub.blocked) FROM '.UserBlock::class.' ub WHERE ub.blocker = :blocker)'
@@ -185,11 +191,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             $qb->andWhere('m.isAdult = :isAdult')
                 ->andWhere('p.isAdult = :isAdult')
                 ->setParameter('isAdult', false);
-        }
-
-        if (0 < \count($user?->preferredLanguages ?? [])) {
-            $qb->andWhere('p.lang IN (:p_lang)')
-                ->setParameter('p_lang', $user->preferredLanguages);
         }
 
         switch ($criteria->sortOption) {
