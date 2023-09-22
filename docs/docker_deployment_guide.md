@@ -79,35 +79,40 @@ sudo chown 1000:82 storage/media storage/caddy_config storage/caddy_data
 1. Choose your Redis password, PostgreSQL password, RabbitMQ password, and Mercure password.
 2. Place them in the corresponding variables in both `.env` and `docker-compose.override.yml`.
 3. Change the values in your `.env` file as followings. (If you change the service names and the listening ports of the services in your `docker-compose.yml`, update the following values correspondingly.)
-
-```env
-REDIS_HOST=redis:6379
-POSTGRES_HOST=db:5432
-RABBITMQ_HOST=rabbitmq:5672
-MERCURE_HOST=www:80
-```
+  
+  ```env
+  REDIS_HOST=redis:6379
+  POSTGRES_HOST=db:5432
+  RABBITMQ_HOST=rabbitmq:5672
+  MERCURE_HOST=www:80
+  ```
 
 ### Configure OAuth2 keys
 
 1. Create an RSA key pair using OpenSSL:
-```bash
-mkdir ./config/oauth2/
-# If you protect the key with a passphrase, make sure to remember it!
-# You will need it later
-openssl genrsa -des3 -out ./config/oauth2/private.pem 4096
-openssl rsa -in ./config/oauth2/private.pem --outform PEM -pubout -out ./config/oauth2/public.pem
-```
-2. Generate a random hex string for the OAuth2 encryption key
-```bash
-openssl rand -hex 16
-```
-3. Add the public and private key paths to `.env`
-```env
-OAUTH_PRIVATE_KEY=%kernel.project_dir%/config/oauth2/private.pem
-OAUTH_PUBLIC_KEY=%kernel.project_dir%/config/oauth2/public.pem
-OAUTH_PASSPHRASE=<Your (optional) passphrase from above here>
-OAUTH_ENCRYPTION_KEY=<Hex string generated in previous step>
-```
+
+  ```bash
+  mkdir ./config/oauth2/
+  # If you protect the key with a passphrase, make sure to remember it!
+  # You will need it later
+  openssl genrsa -des3 -out ./config/oauth2/private.pem 4096
+  openssl rsa -in ./config/oauth2/private.pem --outform PEM -pubout -out ./config/oauth2/public.pem
+  ```
+
+2. Generate a random hex string for the OAuth2 encryption key:
+
+  ```bash
+  openssl rand -hex 16
+  ```
+
+3. Add the public and private key paths to `.env`:
+
+  ```env
+  OAUTH_PRIVATE_KEY=%kernel.project_dir%/config/oauth2/private.pem
+  OAUTH_PUBLIC_KEY=%kernel.project_dir%/config/oauth2/public.pem
+  OAUTH_PASSPHRASE=<Your (optional) passphrase from above here>
+  OAUTH_ENCRYPTION_KEY=<Hex string generated in previous step>
+  ```
 
 ### Running the containers
 

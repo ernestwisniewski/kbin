@@ -154,6 +154,7 @@ MERCURE_PUBLIC_URL=https://${KBIN_DOMAIN}/.well-known/mercure
 OAuth2 keys for API credential grants:
 
 1. Create an RSA key pair using OpenSSL:
+
 ```bash
 mkdir ./config/oauth2/
 # If you protect the key with a passphrase, make sure to remember it!
@@ -161,11 +162,15 @@ mkdir ./config/oauth2/
 openssl genrsa -des3 -out ./config/oauth2/private.pem 4096
 openssl rsa -in ./config/oauth2/private.pem --outform PEM -pubout -out ./config/oauth2/public.pem
 ```
-2. Generate a random hex string for the OAuth2 encryption key
+
+2. Generate a random hex string for the OAuth2 encryption key:
+
 ```bash
 openssl rand -hex 16
 ```
-3. Add the public and private key paths to `.env`
+
+3. Add the public and private key paths to `.env`:
+
 ```env
 OAUTH_PRIVATE_KEY=%kernel.project_dir%/config/oauth2/private.pem
 OAUTH_PUBLIC_KEY=%kernel.project_dir%/config/oauth2/public.pem
@@ -243,6 +248,11 @@ composer clear-cache
 #### Composer Development
 
 If you run production already then _skip the steps below_.
+
+> **Warning**
+> When running in development mode your instance will make _sensitive information_ available,
+> such as database credentials, via the debug toolbar and/or stack traces.
+> **DOT NOT** expose your development instance to the Internet or you will have a bad time.
 
 ```bash
 composer install
@@ -891,6 +901,7 @@ oneup_flysystem:
 ### Captcha (optional)
 
 Go to [hcaptcha.com](https://www.hcaptcha.com) and create a free account. Make a sitekey and a secret. Add domain.tld to the sitekey.
+Optionally, increase the difficulty threshold. Making it even harder for bots.
 
 Edit your `.env` file:
 
@@ -900,15 +911,19 @@ HCAPTCHA_SITE_KEY=sitekey
 HCAPTCHA_SECRET=secret
 ```
 
-```
+Then dump-env your configuration file:
+
+```sh
 composer dump-env prod
 ```
-or
-```
+
+or:
+
+```sh
 composer dump-env dev
 ```
 
-Go to the admin panel, then to settings tab and check "Captcha enabled" and press "Save".
+Finally, go to the admin panel, settings tab and check "Captcha enabled" and press "Save".
 
 ## Performance hints
 
