@@ -212,23 +212,33 @@ class MagazineRepository extends ServiceEntityRepository
         int $perPage = self::PER_PAGE,
         string $status = Report::STATUS_PENDING
     ): PagerfantaInterface {
-        $criteria = Criteria::create();
+        $dql = 'SELECT r FROM '.Report::class.' r WHERE r.magazine = :magazine';
 
         if (Report::STATUS_ANY !== $status) {
-            $criteria->andWhere(Criteria::expr()->eq('status', $status));
+            $dql .= ' AND WHERE r.status = :status';
         }
 
-        $criteria->orderBy(['weight' => 'ASC']);
+        $dql .= " ORDER BY CASE WHEN r.status = 'pending' THEN 1 ELSE 2 END, r.weight DESC, r.createdAt DESC";
 
-        $reports = new Pagerfanta(new SelectableAdapter($magazine->reports, $criteria));
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('magazine', $magazine);
+
+        if (Report::STATUS_ANY !== $status) {
+            $query->setParameter('status', $status);
+        }
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter($query)
+        );
+
         try {
-            $reports->setMaxPerPage($perPage);
-            $reports->setCurrentPage($page);
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
 
-        return $reports;
+        return $pagerfanta;
     }
 
     public function findBadges(Magazine $magazine): Collection

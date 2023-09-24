@@ -12,6 +12,7 @@ use App\Entity\PostDeletedNotification;
 use App\Entity\PostEditedNotification;
 use App\Entity\PostMentionedNotification;
 use App\Factory\MagazineFactory;
+use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
@@ -33,6 +34,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
     public function __construct(
         private readonly MentionManager $mentionManager,
         private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineLogRepository $magazineLogRepository,
         private readonly MagazineSubscriptionRepository $magazineRepository,
         private readonly MagazineFactory $magazineFactory,
         private readonly HubInterface $publisher,
@@ -142,12 +144,13 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         $this->notifyMagazine($notification = new PostDeletedNotification($post->user, $post));
     }
 
-    public function purgeNotifications(Post $post)
+    public function purgeNotifications(Post $post): void
     {
-        $notificationsIds = $this->notificationRepository->findPostNotificationsIds($post);
+        $this->notificationRepository->removePostNotifications($post);
+    }
 
-        foreach ($notificationsIds as $id) {
-            $this->entityManager->remove($this->notificationRepository->find($id));
-        }
+    public function purgeMagazineLog(Post $post): void
+    {
+        $this->magazineLogRepository->removePostLogs($post);
     }
 }

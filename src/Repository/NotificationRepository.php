@@ -39,8 +39,12 @@ class NotificationRepository extends ServiceEntityRepository
         parent::__construct($registry, Notification::class);
     }
 
-    public function findByUser(User $user, ?int $page, string $status = self::STATUS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
-    {
+    public function findByUser(
+        User $user,
+        ?int $page,
+        string $status = self::STATUS_ALL,
+        int $perPage = self::PER_PAGE
+    ): PagerfantaInterface {
         $qb = $this->createQueryBuilder('n')
             ->where('n.user = :user')
             ->setParameter('user', $user)
@@ -109,59 +113,47 @@ class NotificationRepository extends ServiceEntityRepository
         );
     }
 
-    public function findEntryNotificationsIds(Entry $entry): array
+    public function removeEntryNotifications(Entry $entry): void
     {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-
-        $sql = 'SELECT id FROM notification n WHERE n.entry_id = :entry';
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM notification AS n WHERE n.entry_id = :entryId';
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('entryId', $entry->getId());
 
-        $results = $stmt->executeQuery(['entry' => $entry->getId()])->fetchAllAssociative();
-
-        return array_map(fn ($val) => $val['id'], $results);
+        $stmt->executeQuery();
     }
 
-    public function findEntryCommentNotificationsIds(EntryComment $comment): array
+    public function removeEntryCommentNotifications(EntryComment $comment): void
     {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-
-        $sql = 'SELECT id FROM notification n WHERE n.entry_comment_id = :comment';
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM notification AS n WHERE n.entry_comment_id = :commentId';
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('commentId', $comment->getId());
 
-        $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
-
-        return array_map(fn ($val) => $val['id'], $results);
+        $stmt->executeQuery();
     }
 
-    public function findPostNotificationsIds(Post $post): array
+    public function removePostNotifications(Post $post): void
     {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-
-        $sql = 'SELECT id FROM notification n WHERE n.post_id = :post';
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM notification AS n WHERE n.post_id = :postId';
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('postId', $post->getId());
 
-        $results = $stmt->executeQuery(['post' => $post->getId()])->fetchAllAssociative();
-
-        return array_map(fn ($val) => $val['id'], $results);
+        $stmt->executeQuery();
     }
 
-    public function findPostCommentNotificationsIds(PostComment $comment): array
+    public function removePostCommentNotifications(PostComment $comment): void
     {
-        $conn = $this->getEntityManager()
-            ->getConnection();
-
-        $sql = 'SELECT id FROM notification n WHERE n.post_comment_id = :comment';
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM notification AS n WHERE n.post_comment_id = :commentId';
 
         $stmt = $conn->prepare($sql);
+        $stmt->bindValue('commentId', $comment->getId());
 
-        $results = $stmt->executeQuery(['comment' => $comment->getId()])->fetchAllAssociative();
-
-        return array_map(fn ($val) => $val['id'], $results);
+        $stmt->executeQuery();
     }
 }

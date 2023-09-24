@@ -14,6 +14,7 @@ use App\Entity\EntryCommentReplyNotification;
 use App\Entity\Notification;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
+use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
@@ -35,6 +36,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
     public function __construct(
         private readonly MentionManager $mentionManager,
         private readonly NotificationRepository $notificationRepository,
+        private readonly MagazineLogRepository $magazineLogRepository,
         private readonly MagazineSubscriptionRepository $magazineRepository,
         private readonly MagazineFactory $magazineFactory,
         private readonly UserFactory $userFactory,
@@ -222,12 +224,13 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         $this->notifyMagazine($notification = new EntryCommentDeletedNotification($subject->user, $subject));
     }
 
-    public function purgeNotifications(EntryComment $comment)
+    public function purgeNotifications(EntryComment $comment): void
     {
-        $notificationsIds = $this->notificationRepository->findEntryCommentNotificationsIds($comment);
+        $this->notificationRepository->removeEntryCommentNotifications($comment);
+    }
 
-        foreach ($notificationsIds as $id) {
-            $this->entityManager->remove($this->notificationRepository->find($id));
-        }
+    public function purgeMagazineLog(EntryComment $comment): void
+    {
+        $this->magazineLogRepository->removeEntryCommentLogs($comment);
     }
 }

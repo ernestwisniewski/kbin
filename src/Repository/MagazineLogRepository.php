@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\MagazineLog;
+use App\Entity\Post;
+use App\Entity\PostComment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -42,5 +46,49 @@ class MagazineLogRepository extends ServiceEntityRepository
         }
 
         return $pager;
+    }
+
+    public function removeEntryLogs(Entry $entry): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM magazine_log AS m WHERE m.entry_id = :entryId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('entryId', $entry->getId());
+
+        $stmt->executeQuery();
+    }
+
+    public function removeEntryCommentLogs(EntryComment $comment): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM magazine_log AS m WHERE m.entry_comment_id = :commentId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('commentId', $comment->getId());
+
+        $stmt->executeQuery();
+    }
+
+    public function removePostLogs(Post $post): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM magazine_log AS m WHERE m.post_id = :postId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('postId', $post->getId());
+
+        $stmt->executeQuery();
+    }
+
+    public function removePostCommentLogs(PostComment $comment): void
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'DELETE FROM magazine_log AS m WHERE m.post_comment_id = :commentId';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('commentId', $comment->getId());
+
+        $stmt->executeQuery();
     }
 }

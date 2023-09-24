@@ -6,8 +6,8 @@ admin_users:
 
 admin_reports:
   controller: App\Controller\Admin\AdminReportController
-  defaults: { status: null }
   path: /admin/reports/{status}
+  defaults: { status: !php/const \App\Entity\Report::STATUS_ANY }
   methods: [ GET ]
 
 admin_settings:

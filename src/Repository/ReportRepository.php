@@ -9,11 +9,13 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentReport;
 use App\Entity\EntryReport;
+use App\Entity\Moderator;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\PostCommentReport;
 use App\Entity\PostReport;
 use App\Entity\Report;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;
@@ -135,19 +137,55 @@ class ReportRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    public function findAllPaginated(int $page = 1, string $status = null): PagerfantaInterface
+    public function findAllPaginated(int $page = 1, string $status = Report::STATUS_PENDING): PagerfantaInterface
     {
         $dql = 'SELECT r FROM '.Report::class.' r';
 
-        if ($status) {
+        if (Report::STATUS_ANY !== $status) {
             $dql .= ' WHERE r.status = :status';
         }
 
-        $dql .= ' ORDER BY r.weight DESC, r.createdAt DESC';
+        $dql .= " ORDER BY CASE WHEN r.status = 'pending' THEN 1 ELSE 2 END, r.weight DESC, r.createdAt DESC";
 
         $query = $this->getEntityManager()->createQuery($dql);
 
-        if ($status) {
+        if (Report::STATUS_ANY !== $status) {
+            $query->setParameter('status', $status);
+        }
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter($query)
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findByUserPaginated(
+        User $user,
+        int $page = 1,
+        string $status = Report::STATUS_PENDING
+    ): PagerfantaInterface {
+        $dql = 'SELECT r FROM App\Entity\Report r';
+
+        $dql .= ' WHERE EXISTS (SELECT 1 FROM '.Moderator::class.' m WHERE m.magazine = r.magazine AND m.user = :user)';
+
+        if (Report::STATUS_ANY !== $status) {
+            $dql .= ' AND r.status = :status';
+        }
+
+        $dql .= " ORDER BY CASE WHEN r.status = 'pending' THEN 1 ELSE 2 END, r.weight DESC, r.createdAt DESC";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('user', $user);
+
+        if (Report::STATUS_ANY !== $status) {
             $query->setParameter('status', $status);
         }
 

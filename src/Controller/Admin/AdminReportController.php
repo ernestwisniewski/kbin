@@ -18,7 +18,7 @@ class AdminReportController extends AbstractController
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function __invoke(Request $request, ?string $status): Response
+    public function __invoke(Request $request, string $status): Response
     {
         $page = (int) $request->get('p', 1);
 

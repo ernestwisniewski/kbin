@@ -14,7 +14,7 @@ use App\Service\Notification\PostCommentNotificationManager;
 use App\Service\Notification\PostNotificationManager;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
-class ContentNotificationPurgeListener
+readonly class ContentNotificationPurgeListener
 {
     public function __construct(
         private EntryNotificationManager $entryManager,
@@ -31,15 +31,19 @@ class ContentNotificationPurgeListener
         switch ($object) {
             case $object instanceof Entry:
                 $this->entryManager->purgeNotifications($object);
+                $this->entryManager->purgeMagazineLog($object);
                 break;
             case $object instanceof EntryComment:
                 $this->entryCommentManager->purgeNotifications($object);
+                $this->entryCommentManager->purgeMagazineLog($object);
                 break;
             case $object instanceof Post:
                 $this->postManager->purgeNotifications($object);
+                $this->postManager->purgeMagazineLog($object);
                 break;
             case $object instanceof PostComment:
                 $this->postCommentManager->purgeNotifications($object);
+                $this->postCommentManager->purgeMagazineLog($object);
                 break;
         }
     }

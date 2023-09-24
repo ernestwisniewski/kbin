@@ -132,7 +132,8 @@ notifications_clear:
 
 user_settings_reports:
   controller: App\Controller\User\Profile\UserReportsController
-  path: /settings/reports
+  path: /settings/reports/{status}
+  defaults: { status: !php/const \App\Entity\Report::STATUS_ANY }
   methods: [ GET ]
 
 user_settings_magazine_blocks:
