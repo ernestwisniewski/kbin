@@ -794,3 +794,5 @@ oauth2.grant.admin.post_comment.purge: Supprimer complètement de votre instance
   commentaire sur une publication.
 oauth2.grant.moderate.magazine_admin.badges: Créer ou supprimer des badges des magazines
   qui vous appartiennent.
+oauth2.grant.moderate.post.pin: Épinglez des publications en haut de vos magazines
+  modérés.
