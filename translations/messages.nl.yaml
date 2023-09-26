@@ -772,8 +772,7 @@ moderation.report.ban_user_description: Wilt u de gebruiker (%username%) verbann
   die deze inhoud heeft gemaakt van dit tijdschrift?
 moderation.report.approve_report_confirmation: Weet u zeker dat u dit rapport wilt
   goedkeuren?
-subject_reported_exists: Deze inhoud is al reeks gerapporteerd.
+subject_reported_exists: Je hebt deze inhoud al gerapporteerd.
 moderation.report.ban_user_title: Verban gebruiker
 moderation.report.reject_report_confirmation: Weet u zeker dat u dit rapport wilt
   afwijzen?
-oauth2.grant.moderate.post.pin: Pin berichten bovenaan uw gemodereerde tijdschriften.
