@@ -17,13 +17,14 @@
             <div class="panel">
                 {% if user.isTotpAuthenticationEnabled %}
                     <form action="{{ path('user_2fa_remove', {username: user.username}) }}"
-                        method="POST"
-                        onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                          method="POST"
+                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_2fa_remove') }}">
                         <button type="submit" class="btn btn__secondary">
                             <i class="fa fa-mobile"></i> {{ '2fa.remove'|trans }}
                         </button>
                     </form>
+                    <hr>
                 {% endif %}
                 <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
                       method="POST"
@@ -33,17 +34,33 @@
                         <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}
                     </button>
                 </form>
-                <form action="{{ path('user_delete', {username: user.username}) }}" method="POST"
+                <hr>
+                <form action="{{ path('user_delete_content', {username: user.username}) }}" method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
-                    <button type="submit" class="btn btn__secondary">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_delete_content') }}">
+                    <button type="submit" class="btn btn__secondary" title="{{ 'delete_content_desc'|trans }}">
+                        <i class="fa fa-dumpster"></i> {{ 'delete_content'|trans }}
+                    </button>
+                </form>
+                <form action="{{ path('user_purge_content', {username: user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_purge_content') }}">
+                    <button type="submit" class="btn btn__secondary" title="{{ 'purge_content_desc'|trans }}">
+                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_content'|trans }}
+                    </button>
+                </form>
+                <hr>
+                <form action="{{ path('user_delete_account', {username: user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_delete_account') }}">
+                    <button type="submit" class="btn btn__secondary" title="{{ 'delete_account_desc'|trans }}">
                         <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
                     </button>
                 </form>
-                <form action="{{ path('user_purge', {username: user.username}) }}" method="POST"
+                <form action="{{ path('user_purge_account', {username: user.username}) }}" method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_purge') }}">
-                    <button type="submit" class="btn btn__danger">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_purge_account') }}">
+                    <button type="submit" class="btn btn__secondary" title="{{ 'purge_account_desc'|trans }}">
                         <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
                     </button>
                 </form>

@@ -80,14 +80,24 @@ user_unblock:
   path: /u/{username}/unblock
   methods: [ POST ]
 
-user_purge:
-  controller: App\Controller\User\UserDeleteController::purge
-  path: /u/{username}/purge
+user_purge_content:
+  controller: App\Controller\User\UserDeleteController::purgeContent
+  path: /u/{username}/purge_content
   methods: [ POST ]
 
-user_delete:
-  controller: App\Controller\User\UserDeleteController::delete
-  path: /u/{username}/delete
+user_delete_content:
+  controller: App\Controller\User\UserDeleteController::deleteContent
+  path: /u/{username}/delete_content
+  methods: [ POST ]
+
+user_purge_account:
+  controller: App\Controller\User\UserDeleteController::purgeAccount
+  path: /u/{username}/purge_account
+  methods: [ POST ]
+
+user_delete_account:
+  controller: App\Controller\User\UserDeleteController::deleteAccount
+  path: /u/{username}/delete_account
   methods: [ POST ]
 
 user_delete_request:

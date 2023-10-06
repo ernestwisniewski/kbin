@@ -46,15 +46,15 @@ api_admin_user_unban:
   methods: [ POST ]
   format: json
 
-api_admin_user_delete:
+api_admin_user_delete_account:
   controller: App\Controller\Api\User\Admin\UserDeleteApi
-  path: /api/admin/users/{user_id}/delete
+  path: /api/admin/users/{user_id}/delete_account
   methods: [ DELETE ]
   format: json
 
 api_admin_user_purge:
   controller: App\Controller\Api\User\Admin\UserPurgeApi
-  path: /api/admin/users/{user_id}/purge
+  path: /api/admin/users/{user_id}/purge_account
   methods: [ DELETE ]
   format: json
 

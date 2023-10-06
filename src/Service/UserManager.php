@@ -225,9 +225,9 @@ class UserManager
         return $user;
     }
 
-    public function delete(User $user, bool $purge = false): void
+    public function delete(User $user, bool $purge = false, bool $contentOnly = false): void
     {
-        $this->bus->dispatch(new DeleteUserMessage($user->getId(), $purge));
+        $this->bus->dispatch(new DeleteUserMessage($user->getId(), $purge, $contentOnly));
     }
 
     public function createDto(User $user): UserDto

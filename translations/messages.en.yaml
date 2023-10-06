@@ -111,7 +111,6 @@ email_confirm_content: 'Ready to activate your /kbin account? Click on the link 
 email_verify: Confirm email address
 email_confirm_expire: Please note that the link will expire in an hour.
 email_confirm_title: Confirm your email address.
-email_confirm_link_help: Alternatively you can copy and paste the following into your browser
 select_magazine: Select a magazine
 add_new: Add new
 url: URL
@@ -524,13 +523,6 @@ federation_page_enabled: Federation page enabled
 federation_page_allowed_description: Known instances we federate with
 federation_page_disallowed_description: Instances we do not federate with
 federated_search_only_loggedin: Federated search limited if not logged in
-moderation.report.reject_report_title: Reject Report
-moderation.report.approve_report_title: Approve Report
-moderation.report.ban_user_title: Ban User
-moderation.report.ban_user_description: Do you want to ban the user (%username%) who created this content from this magazine?
-moderation.report.reject_report_confirmation: Are you sure that you want to reject this report?
-moderation.report.approve_report_confirmation: Are you sure that you want to approve this report?
-subject_reported_exists: You have already reported this content
 request_account_deletion_title: Account Deletion
 request_account_deletion_description: The administrator will be notified that you
   want your account deleted.
@@ -543,6 +535,8 @@ errors.server429.title: 429 Too Many Requests
 errors.server404.title: 404 Not found
 errors.server403.title: 403 Forbidden
 email_confirm_button_text: Confirm your password change request
+email_confirm_link_help: Alternatively you can copy and paste the following into your
+  browser
 email.delete.title: User account deletion request
 email.delete.description: The following user has requested that their account be deleted
 resend_account_activation_email_question: Inactive account?
@@ -681,7 +675,6 @@ oauth2.grant.moderate.entry_comment.trash: Trash or restore comments in threads 
 oauth2.grant.moderate.post.all: Moderate posts in your moderated magazines.
 oauth2.grant.moderate.post.change_language: Change the language of posts in your moderated
   magazines.
-oauth2.grant.moderate.post.pin: Pin posts to the top of your moderated magazines.
 oauth2.grant.moderate.post.set_adult: Mark posts as NSFW in your moderated magazines.
 oauth2.grant.moderate.post.trash: Trash or restore posts in your moderated magazines.
 oauth2.grant.moderate.post_comment.all: Moderate comments on posts in your moderated
@@ -745,26 +738,24 @@ magazine_theme_appearance_icon: Custom icon for the magazine. If none is selecte
   the default icon will be used.
 magazine_theme_appearance_background_image: Custom background image that will be applied
   when viewing content within your magazine.
-two_factor_authentication: Two-factor authentication
-two_factor_backup: Two-factor authentication backup codes
-2fa.authentication_code.label: Authentication Code
-2fa.verify: Verify
-2fa.code_invalid: The authentication code is not valid
-2fa.enable: Setup two-factor authentication
-2fa.disable: Disable two-factor authentication
-2fa.backup: Your two-factor backup codes
-2fa.backup-create.help: You can create new backup authentication codes; doing so will invalidate existing codes.
-2fa.backup-create.label: Create new backup authentication codes
-2fa.remove: Remove 2FA
-2fa.add: Add to my account
-2fa.verify_authentication_code.label: Enter a two-factor code to verify setup
-2fa.qr_code_img.alt: A QR code that allows the setup of two-factor authentication for your account
-2fa.qr_code_link.title: Visiting this link may allow your platform to register this two-factor authentication
-2fa.user_active_tfa.title: User has active 2fa
-2fa.available_apps: Use a two-factor authentication app such as %google_authenticator%, %aegis% (Android) or %raivo% (iOS) to scan the QR-code.
-2fa.backup_codes.help: You can use these codes when you don't have your two-factor authentication
-  device or app. You will <strong>not be shown them again</strong> and will be able to use each of them <strong>only once</strong>.
-2fa.backup_codes.recommendation: It is recommended that you keep a copy of them in a safe place.
-cancel: Cancel
-password_and_2fa: Password & 2fa
-account_settings_changed: Your account settings have been successfully changed. You will need to login again.
+moderation.report.approve_report_title: Approve Report
+moderation.report.reject_report_title: Reject Report
+moderation.report.ban_user_description: Do you want to ban the user (%username%) who
+  created this content from this magazine?
+moderation.report.approve_report_confirmation: Are you sure that you want to approve
+  this report?
+subject_reported_exists: This content has already been reported.
+moderation.report.ban_user_title: Ban User
+moderation.report.reject_report_confirmation: Are you sure that you want to reject
+  this report?
+oauth2.grant.moderate.post.pin: Pin posts to the top of your moderated magazines.
+delete_content: Delete content
+purge_content: Purge content
+delete_content_desc: Delete the user's content while leaving the responses of other
+  users in the created threads, posts and comments.
+purge_content_desc: Completely purge the user's content, including deleting the responses
+  of other users in created threads, posts and comments.
+delete_account_desc: Delete the account while leaving the responses of other users
+  in the created threads, posts and comments.
+purge_account_desc: Completely purge the account, including deleting the responses
+  of other users in created threads, posts and comments.

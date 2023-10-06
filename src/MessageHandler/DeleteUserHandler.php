@@ -96,6 +96,10 @@ class DeleteUserHandler
             $this->removeBans();
             $this->removeMessagesParticipants();
 
+            if ($message->contentOnly) {
+                return;
+            }
+
             $this->user = $this->entityManager
                 ->getRepository(User::class)
                 ->find($message->id);

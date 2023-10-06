@@ -6,7 +6,7 @@ namespace App\Message;
 
 class DeleteUserMessage
 {
-    public function __construct(public int $id, public bool $purge)
+    public function __construct(public int $id, public bool $purge, public bool $contentOnly)
     {
     }
 }
