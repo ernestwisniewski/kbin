@@ -5,29 +5,34 @@ declare(strict_types=1);
 namespace App\Service\ActivityPub;
 
 use App\Exception\InvalidApSignatureException;
+use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Service\ActivityPubManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SignatureValidator
+/**
+ * @phpstan-import-type RequestType from ActivityMessage
+ */
+readonly class SignatureValidator
 {
     public function __construct(
-        private readonly ActivityPubManager $activityPubManager,
-        private readonly ApHttpClient $client,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly LoggerInterface $logger,
+        private ActivityPubManager $activityPubManager,
+        private ApHttpClient $client,
+        private LoggerInterface $logger,
     ) {
     }
 
     /**
      * Attempts to validate an incoming signed HTTP request.
      *
-     * @param string $body    The body of the incoming request
+     * @phpstan-param RequestType $request
+     *
+     * @param array  $request The information about the incoming request
      * @param array  $headers Headers attached to the incoming request
+     * @param string $body    The body of the incoming request
      *
      * @throws InvalidApSignatureException The HTTP request was not signed appropriately
      */
-    public function validate(string $body, array $headers): void
+    public function validate(array $request, array $headers, string $body): void
     {
         $payload = json_decode($body, true);
 
@@ -49,7 +54,7 @@ class SignatureValidator
         $idDomain = parse_url($id, PHP_URL_HOST);
 
         // @TODO this check appears to essentially be 'attributedTo' !== id
-        if (isset($payload['object']) && \is_array($payload['object']) && isset($payload['object']['attributedTo'])) {
+        if (isset($payload['object']['attributedTo']) && \is_array($payload['object'])) {
             if (parse_url($payload['object']['attributedTo'], PHP_URL_HOST) !== $keyDomain) {
                 throw new InvalidApSignatureException('Supplied key domain does not match domain of incoming activities "attributedTo" property');
             }
@@ -65,7 +70,7 @@ class SignatureValidator
 
         $pkey = openssl_pkey_get_public($this->client->getActorObject($user->apProfileId)['publicKey']['publicKeyPem']);
 
-        $this->verifySignature($pkey, $signature, $headers, $this->urlGenerator->generate('ap_shared_inbox'), $body);
+        $this->verifySignature($pkey, $signature, $headers, $request['uri'], $body);
     }
 
     private function validateUrl(string $url): void

@@ -6,9 +6,19 @@ namespace App\Message\ActivityPub\Inbox;
 
 use App\Message\Contracts\AsyncApMessageInterface;
 
+/**
+ * @phpstan-type RequestData array{host: string, method: string, uri: string, client: string}
+ */
 class ActivityMessage implements AsyncApMessageInterface
 {
-    public function __construct(public string $payload, public ?array $headers = null)
+    /**
+     * @phpstan-param RequestData|null $request
+     *
+     * @param string     $payload
+     * @param array|null $request
+     * @param array|null $headers
+     */
+    public function __construct(public string $payload, public ?array $request = null, public ?array $headers = null)
     {
     }
 }

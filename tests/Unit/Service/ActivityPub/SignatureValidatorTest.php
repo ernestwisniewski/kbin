@@ -9,18 +9,39 @@ use App\Exception\InvalidApSignatureException;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\SignatureValidator;
 use App\Service\ActivityPubManager;
-use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SignatureValidatorTest extends TestCase
 {
-    private const KEY_PATH = __DIR__.'/../../../fixtures/';
+    private static \OpenSSLAsymmetricKey $privateKey;
+    private static string $publicKeyPem;
 
     private array $body;
     private array $headers;
-    private string $publicKeyPem;
+
+    /**
+     * Sets up an RSA keypair for use in the tests
+     */
+    public static function setUpBeforeClass(): void
+    {
+        $res = openssl_pkey_new(
+            [
+                'private_key_bits' => 2048,
+                'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            ]
+        );
+        if (false === $res) {
+            self::fail('Unable to generate suitable RSA key, ensure your testing environment has a correctly configured OpenSSL library');
+        }
+
+        $details = openssl_pkey_get_details($res);
+
+        self::$publicKeyPem = $details['key'];
+
+        openssl_pkey_export($res, $privateKey);
+        self::$privateKey = openssl_pkey_get_private($privateKey);
+    }
 
     /**
      * Sets up the test with a valid, hs2019 signed, http request body and headers.
@@ -28,16 +49,14 @@ class SignatureValidatorTest extends TestCase
      * Includes the headers and signature that would be included in a request from
      * a Lemmy (0.18.3) instance
      */
-    public function setUp(): void
+    private function createSignedRequest(string $inbox): void
     {
-        $this->publicKeyPem = file_get_contents(self::KEY_PATH.'public_signing_key.pem');
-
         $this->body = [
             'actor' => 'https://kbin.localhost/m/group',
             'id' => 'https://kbin.localhost/f/object/1',
         ];
         $headers = [
-            '(request-target)' => 'post /f/inbox',
+            '(request-target)' => 'post '.$inbox,
             'content-type' => 'application/activity+json',
             'date' => (new \DateTimeImmutable('now'))->format('D, d M Y H:i:s \G\M\T'),
             'digest' => 'SHA-256='.base64_encode(hash('sha256', json_encode($this->body), true)),
@@ -52,8 +71,7 @@ class SignatureValidatorTest extends TestCase
         );
         $signedHeaders = implode(' ', array_map('strtolower', array_keys($headers)));
 
-        $key = openssl_pkey_get_private(file_get_contents(self::KEY_PATH.'signing_key.pem'));
-        openssl_sign($signingString, $signature, $key, OPENSSL_ALGO_SHA256);
+        openssl_sign($signingString, $signature, self::$privateKey, OPENSSL_ALGO_SHA256);
         $signature = base64_encode($signature);
 
         unset($headers['(request-target)']);
@@ -69,6 +87,8 @@ class SignatureValidatorTest extends TestCase
      */
     public function testItValidatesACorrectlySignedRequest(): void
     {
+        $this->createSignedRequest('/f/inbox');
+
         $stubMagazine = $this->createStub(Magazine::class);
         $stubMagazine->apProfileId = 'https://kbin.localhost/m/group';
 
@@ -83,24 +103,55 @@ class SignatureValidatorTest extends TestCase
             ->willReturn(
                 [
                     'publicKey' => [
-                        'publicKeyPem' => $this->publicKeyPem,
+                        'publicKeyPem' => self::$publicKeyPem,
                     ],
                 ],
             );
 
-        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
-        $urlGenerator->method('generate')
-            ->willReturn('/f/inbox');
+        $logger = $this->createStub(LoggerInterface::class);
+
+        $sut = new SignatureValidator($apManager, $apHttpClient, $logger);
+
+        $sut->validate(['uri' => '/f/inbox'], $this->headers, json_encode($this->body));
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testItValidatesACorrectlySignedRequestToAPersonalInbox(): void
+    {
+        $this->createSignedRequest('/u/user/inbox');
+
+        $stubMagazine = $this->createStub(Magazine::class);
+        $stubMagazine->apProfileId = 'https://kbin.localhost/m/group';
+
+        $this->headers['signature'][0] = sprintf($this->headers['signature'][0], 'https://kbin.localhost/m/group');
+
+        $apManager = $this->createStub(ActivityPubManager::class);
+        $apManager->method('findActorOrCreate')
+            ->willReturn($stubMagazine);
+
+        $apHttpClient = $this->createStub(ApHttpClient::class);
+        $apHttpClient->method('getActorObject')
+            ->willReturn(
+                [
+                    'publicKey' => [
+                        'publicKeyPem' => self::$publicKeyPem,
+                    ],
+                ],
+            );
 
         $logger = $this->createStub(LoggerInterface::class);
 
-        $sut = new SignatureValidator($apManager, $apHttpClient, $urlGenerator, $logger);
+        $sut = new SignatureValidator($apManager, $apHttpClient, $logger);
 
-        $sut->validate(json_encode($this->body), $this->headers);
+        $sut->validate(['uri' => '/u/user/inbox'], $this->headers, json_encode($this->body));
     }
 
     public function testItDoesNotValidateARequestWithDifferentBody(): void
     {
+        $this->createSignedRequest('/f/inbox');
+
         $stubMagazine = $this->createStub(Magazine::class);
         $stubMagazine->apProfileId = 'https://kbin.localhost/m/group';
 
@@ -115,18 +166,14 @@ class SignatureValidatorTest extends TestCase
             ->willReturn(
                 [
                     'publicKey' => [
-                        'publicKeyPem' => $this->publicKeyPem,
+                        'publicKeyPem' => self::$publicKeyPem,
                     ],
                 ],
             );
 
-        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
-        $urlGenerator->method('generate')
-            ->willReturn('/f/inbox');
-
         $logger = $this->createStub(LoggerInterface::class);
 
-        $sut = new SignatureValidator($apManager, $apHttpClient, $urlGenerator, $logger);
+        $sut = new SignatureValidator($apManager, $apHttpClient, $logger);
 
         $badBody = [
             'actor' => 'https://kbin.localhost/m/badgroup',
@@ -135,11 +182,13 @@ class SignatureValidatorTest extends TestCase
 
         $this->expectException(InvalidApSignatureException::class);
         $this->expectExceptionMessage('Signature of request could not be verified.');
-        $sut->validate(json_encode($badBody), $this->headers);
+        $sut->validate(['uri' => '/f/inbox'], $this->headers, json_encode($badBody));
     }
 
     public function testItDoesNotValidateARequestWhenDomainsDoNotMatch(): void
     {
+        $this->createSignedRequest('/f/inbox');
+
         $stubMagazine = $this->createStub(Magazine::class);
         $stubMagazine->apProfileId = 'https://kbin.localhost/m/group';
 
@@ -147,11 +196,10 @@ class SignatureValidatorTest extends TestCase
 
         $apManager = $this->createStub(ActivityPubManager::class);
         $apHttpClient = $this->createStub(ApHttpClient::class);
-        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
         $logger = $this->createStub(LoggerInterface::class);
 
-        $sut = new SignatureValidator($apManager, $apHttpClient, $urlGenerator, $logger);
+        $sut = new SignatureValidator($apManager, $apHttpClient, $logger);
 
         $badBody = [
             'actor' => 'https://kbin.localhost/m/group',
@@ -160,11 +208,13 @@ class SignatureValidatorTest extends TestCase
 
         $this->expectException(InvalidApSignatureException::class);
         $this->expectExceptionMessage('Supplied key domain does not match domain of incoming activity.');
-        $sut->validate(json_encode($badBody), $this->headers);
+        $sut->validate(['uri' => '/f/inbox'], $this->headers, json_encode($badBody));
     }
 
     public function testItDoesNotValidateARequestWhenUrlsAreNotHTTPS(): void
     {
+        $this->createSignedRequest('/f/inbox');
+
         $stubMagazine = $this->createStub(Magazine::class);
         $stubMagazine->apProfileId = 'http://kbin.localhost/m/group';
 
@@ -172,11 +222,10 @@ class SignatureValidatorTest extends TestCase
 
         $apManager = $this->createStub(ActivityPubManager::class);
         $apHttpClient = $this->createStub(ApHttpClient::class);
-        $urlGenerator = $this->createStub(UrlGeneratorInterface::class);
 
         $logger = $this->createStub(LoggerInterface::class);
 
-        $sut = new SignatureValidator($apManager, $apHttpClient, $urlGenerator, $logger);
+        $sut = new SignatureValidator($apManager, $apHttpClient, $logger);
 
         $badBody = [
             'actor' => 'http://kbin.localhost/m/group',
@@ -185,6 +234,6 @@ class SignatureValidatorTest extends TestCase
 
         $this->expectException(InvalidApSignatureException::class);
         $this->expectExceptionMessage('Necessary supplied URL does not use HTTPS.');
-        $sut->validate(json_encode($badBody), $this->headers);
+        $sut->validate(['uri' => '/f/inbox'], $this->headers, json_encode($badBody));
     }
 }

@@ -20,14 +20,14 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-class ActivityHandler
+readonly class ActivityHandler
 {
     public function __construct(
-        private readonly SignatureValidator $signatureValidator,
-        private readonly SettingsManager $settingsManager,
-        private readonly MessageBusInterface $bus,
-        private readonly ActivityPubManager $manager,
-        private readonly LoggerInterface $logger
+        private SignatureValidator $signatureValidator,
+        private SettingsManager $settingsManager,
+        private MessageBusInterface $bus,
+        private ActivityPubManager $manager,
+        private LoggerInterface $logger
     ) {
     }
 
@@ -35,8 +35,8 @@ class ActivityHandler
     {
         $payload = @json_decode($message->payload, true);
 
-        if ($message->headers) {
-            $this->signatureValidator->validate($message->payload, $message->headers);
+        if ($message->request && $message->headers) {
+            $this->signatureValidator->validate($message->request, $message->headers, $message->payload);
         }
 
         if (isset($payload['payload'])) {
