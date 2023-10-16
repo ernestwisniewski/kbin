@@ -13,10 +13,6 @@ class ActivityMessage implements AsyncApMessageInterface
 {
     /**
      * @phpstan-param RequestData|null $request
-     *
-     * @param string     $payload
-     * @param array|null $request
-     * @param array|null $headers
      */
     public function __construct(public string $payload, public ?array $request = null, public ?array $headers = null)
     {

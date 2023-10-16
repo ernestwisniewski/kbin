@@ -21,7 +21,7 @@ class SignatureValidatorTest extends TestCase
     private array $headers;
 
     /**
-     * Sets up an RSA keypair for use in the tests
+     * Sets up an RSA keypair for use in the tests.
      */
     public static function setUpBeforeClass(): void
     {
