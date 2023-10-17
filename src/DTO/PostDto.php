@@ -15,12 +15,14 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PostDto implements ContentVisibilityInterface
 {
+    public const MAX_BODY_LENGTH = 5000;
+
     public Magazine|MagazineDto|null $magazine = null;
     public User|UserDto|null $user = null;
     public ?ImageDto $image = null;
     public ?string $imageUrl = null;
     public ?string $imageAlt = null;
-    #[Assert\Length(max: 5000)]
+    #[Assert\Length(max: self::MAX_BODY_LENGTH)]
     public ?string $body = null;
     public ?string $lang = null;
     public bool $isAdult = false;

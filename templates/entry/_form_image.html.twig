@@ -7,7 +7,11 @@
     {% set hasImage = true %}
 {% endif %}
 {{ form_start(form, {attr: {class: edit ? 'entry_edit' : 'entry-create'}}) }}
-    {{ form_row(form.title, {label: 'title'}) }}
+    {{ form_row(form.title, {label: 'title', attr: {
+        'data-controller' : "input-length autogrow", 
+        'data-action' : 'input-length#updateDisplay',
+        'data-input-length-max-value' : constant('App\\Entity\\Entry::MAX_TITLE_LENGTH')
+    }}) }}
     {{ form_row(form.magazine, {label: false}) }}
     {{ form_row(form.tags, {label: 'tags'}) }}
     {{ form_row(form.badges, {label: 'badges'}) }}

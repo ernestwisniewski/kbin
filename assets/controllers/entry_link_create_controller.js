@@ -30,7 +30,6 @@ export default class extends ApplicationController {
         }
 
         try {
-
             this.loadingValue = true;
 
             await this.fetchTitleAndDescription(event);
@@ -57,8 +56,6 @@ export default class extends ApplicationController {
             return;
         }
 
-
-
         const url = router().generate('ajax_fetch_title');
         let response = await fetch(url, {
             method: 'POST',
@@ -72,5 +69,9 @@ export default class extends ApplicationController {
 
         this.titleTarget.value = response.title;
         this.descriptionTarget.value = response.description;
+
+        // required for input length indicator
+        this.titleTarget.dispatchEvent(new Event('input'));
+        this.descriptionTarget.dispatchEvent(new Event('input'));
     }
 }

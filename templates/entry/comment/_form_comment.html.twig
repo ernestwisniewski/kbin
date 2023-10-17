@@ -18,8 +18,11 @@
 <h3 hidden>{{ title }}</h3>
 {{ form_start(form, {action: action, attr: {class: edit ? 'comment-edit replace' : 'comment-add'}}) }}
 {{ component('editor_toolbar', {id: form.body.vars.id}) }}
-{{ form_row(form.body, {label: false, attr: {'data-controller': 'rich-textarea'}}) }}
-<div class="row actions">
+{{ form_row(form.body, {label: false, attr: {
+    'data-controller': 'input-length rich-textarea autogrow',
+    'data-action' : 'input-length#updateDisplay',
+    'data-input-length-max-value': constant('App\\DTO\\EntryCommentDto::MAX_BODY_LENGTH')
+}}) }}<div class="row actions">
     <ul>
         {% if hasImage %}
             <img width="40"

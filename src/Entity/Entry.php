@@ -69,6 +69,9 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         self::ENTRY_TYPE_IMAGE,
         self::ENTRY_TYPE_VIDEO,
     ];
+    public const MAX_TITLE_LENGTH = 255;
+    public const MAX_BODY_LENGTH = 35000;
+
     #[ManyToOne(targetEntity: User::class, inversedBy: 'entries')]
     #[JoinColumn(nullable: false)]
     public User $user;
@@ -83,11 +86,11 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     public ?Domain $domain = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $slug = null;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string', length: self::MAX_TITLE_LENGTH, nullable: false)]
     public string $title;
     #[Column(type: 'string', length: 2048, nullable: true)]
     public ?string $url = null;
-    #[Column(type: 'text', length: 35000, nullable: true)]
+    #[Column(type: 'text', length: self::MAX_BODY_LENGTH, nullable: true)]
     public ?string $body = null;
     #[Column(type: 'string', nullable: false)]
     public string $type = self::ENTRY_TYPE_ARTICLE;

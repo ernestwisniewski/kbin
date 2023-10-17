@@ -7,10 +7,10 @@
     {% set hasImage = true %}
 {% endif %}
 {{ form_start(form, {attr: {class: edit ? 'entry-edit' : 'entry-create'}}) }}
-   
+
     <div>
         {% set label %}
-            URL       
+            URL
             <div data-entry-link-create-target='loader' class="loader small" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -18,9 +18,20 @@
         {{ form_label(form.url, label, {'label_html': true}) }}
         {{ form_widget(form.url, {attr: {'data-action': 'entry-link-create#fetchLink', 'data-entry-link-create-target': 'url'}}) }}
     </div>
-    {{ form_row(form.title, {label: 'title', attr: {'data-entry-link-create-target': 'title'}}) }}
+    {{ form_row(form.title, {label: 'title', attr: {
+        'data-controller': 'input-length autogrow',
+        'data-entry-link-create-target': 'title',
+        'data-action': 'input-length#updateDisplay',
+        'data-input-length-max-value' : constant('App\\Entity\\Entry::MAX_TITLE_LENGTH')}
+    }) }}
     {{ component('editor_toolbar', {id: 'entry_link_body'}) }}
-    {{ form_row(form.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea', 'data-entry-link-create-target': 'description'}}) }}
+    {{ form_row(form.body, {label: false, attr: {
+        placeholder: 'body',
+        'data-controller': 'input-length rich-textarea autogrow',
+        'data-entry-link-create-target': 'description',
+        'data-action': 'input-length#updateDisplay',
+        'data-input-length-max-value': constant('App\\Entity\\Entry::MAX_BODY_LENGTH')
+        }}) }}
     {{ form_row(form.magazine, {label: false}) }}
     {{ form_row(form.tags, {label: 'tags'}) }}
     {{ form_row(form.badges, {label: 'badges'}) }}

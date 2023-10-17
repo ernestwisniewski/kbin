@@ -1,10 +1,8 @@
-import TextareaAutoGrow from 'stimulus-textarea-autogrow';
+import {Controller} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
-export default class extends TextareaAutoGrow {
+export default class extends Controller {
     connect() {
-        super.connect();
-
         this.element.addEventListener('keydown',
             this.handleInput.bind(this));
     }

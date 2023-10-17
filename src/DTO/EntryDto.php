@@ -28,7 +28,7 @@ class EntryDto implements ContentVisibilityInterface
     public ?string $title = null;
     #[Assert\Url]
     public ?string $url = null;
-    #[Assert\Length(max: 35000)]
+    #[Assert\Length(max: Entry::MAX_BODY_LENGTH)]
     public ?string $body = null;
     public ?string $lang = null;
     public string $type = Entry::ENTRY_TYPE_ARTICLE;

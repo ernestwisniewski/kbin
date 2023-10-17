@@ -17,8 +17,11 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class UserDto implements UserDtoInterface
 {
+    public const MAX_USERNAME_LENGTH = 30;
+    public const MAX_ABOUT_LENGTH = 512;
+
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 30)]
+    #[Assert\Length(min: 2, max: self::MAX_USERNAME_LENGTH)]
     #[Assert\Regex(pattern: RegPatterns::USERNAME, match: true)]
     public ?string $username = null;
     #[Assert\NotBlank]
@@ -26,7 +29,7 @@ class UserDto implements UserDtoInterface
     public ?string $email = null;
     #[Assert\Length(min: 6, max: 4096)]
     public ?string $plainPassword = null; // @todo move password and agreeTerms to RegisterDto
-    #[Assert\Length(min: 2, max: 512)]
+    #[Assert\Length(min: 2, max: self::MAX_ABOUT_LENGTH)]
     public ?string $about = null;
     public ?\DateTimeImmutable $createdAt = null;
     public ?string $fields = null;
