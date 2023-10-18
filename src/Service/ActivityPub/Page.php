@@ -72,7 +72,7 @@ class Page
         $this->handleDate($dto, $object['published']);
         $this->handleSensitiveMedia($dto, $object);
 
-        if (isset($object['sensitive']) && true === $object['sensitive']) {
+        if (isset($object['sensitive']) && filter_var($object['sensitive'], FILTER_VALIDATE_BOOL)) {
             $dto->isAdult = true;
         }
 
@@ -145,7 +145,7 @@ class Page
 
     private function handleSensitiveMedia(PostDto|PostCommentDto|EntryCommentDto|EntryDto $dto, array $object): void
     {
-        if (isset($object['sensitive']) && true === $object['sensitive']) {
+        if (isset($object['sensitive']) && filter_var($object['sensitive'], FILTER_VALIDATE_BOOL)) {
             $dto->isAdult = true;
         }
     }
