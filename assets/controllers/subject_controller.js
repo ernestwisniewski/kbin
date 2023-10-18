@@ -413,7 +413,7 @@ export default class extends Controller {
     handleAdultThumbs() {
         // @todo temporary fix
         const adultBadge = this.element.querySelector('.danger');
-        if (adultBadge && (adultBadge.textContent.includes('18') || adultBadge.textContent.includes('nsfw'))) {
+        if (adultBadge && (adultBadge.textContent.includes('18') || adultBadge.textContent.toLowerCase().includes('nsfw'))) {
             const image = this.element.querySelector('.thumb-subject');
             if (image) {
                 image.style.filter = 'blur(8px)';

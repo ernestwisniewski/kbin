@@ -70,6 +70,7 @@ class Page
         $dto->visibility = $this->getVisibility($object, $actor);
         $this->handleUrl($dto, $object);
         $this->handleDate($dto, $object['published']);
+        $this->handleSensitiveMedia($dto, $object);
 
         if (isset($object['sensitive']) && true === $object['sensitive']) {
             $dto->isAdult = true;
@@ -140,5 +141,12 @@ class Page
     {
         $dto->createdAt = new \DateTimeImmutable($date);
         $dto->lastActive = new \DateTime($date);
+    }
+
+    private function handleSensitiveMedia(PostDto|PostCommentDto|EntryCommentDto|EntryDto $dto, array $object): void
+    {
+        if (isset($object['sensitive']) && true === $object['sensitive']) {
+            $dto->isAdult = true;
+        }
     }
 }
