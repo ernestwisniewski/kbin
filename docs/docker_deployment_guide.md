@@ -1,29 +1,20 @@
 # Docker Deployment Guide (Alternative)
 
+**This guide is still WIP. Not all the steps have been fully verified yet.**
+
+For bare metal see: [Admin Bare Metal Guide](./admin_guide.md).
+
 ## System Requirements
 
 - Docker Engine
 - Docker Compose V2
 
-  > If you are using Compose V1, replace `docker compose` with `docker-compose` in those commands below.
-
-# Admin Docker Guide
-
-**Docker guide is still WIP. Not all the steps have been fully verified yet.**
-
-For bare metal see: [Admin Bare Metal Guide](./admin_guide.md).
+> If you are using Compose V1, replace `docker compose` with `docker-compose` in those commands below.
 
 > **Note**
 > /kbin is still in the early stages of development.
 
 _Note:_ This guide is using the [v2 docker files](https://codeberg.org/Kbin/kbin-core/src/branch/develop/docker/v2).
-
-## System Requirements
-
-- Docker Engine
-- Docker Compose V2
-
-  > If you are using Compose V1, replace `docker compose` with `docker-compose` in those commands below.
 
 ### Docker Install
 
