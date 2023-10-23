@@ -18,21 +18,28 @@ export default class extends Controller {
     async show(event) {
         event.preventDefault();
 
-        let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
-            ? this.element.nextElementSibling : null;
+        let element = this.element;
 
-        if (null === container) {
-            container = document.createElement('div');
-            container.classList.add('js-container');
-            container.style.display = 'none';
-            this.element.insertAdjacentHTML('afterend', container.outerHTML);
+        if (element.classList.contains('preview')) {
+            element = element.parentElement.previousElementSibling;
+            this.element.remove();
         } else {
-            if (container.querySelector('.preview')) {
-                container.querySelector('.preview').remove();
-                if (0 === container.children.length) {
-                    container.remove();
+            let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
+                ? this.element.nextElementSibling : null;
+
+            if (null === container) {
+                container = document.createElement('div');
+                container.classList.add('js-container');
+                container.style.display = 'none';
+                this.element.insertAdjacentHTML('afterend', container.outerHTML);
+            } else {
+                if (container.querySelector('.preview')) {
+                    container.querySelector('.preview').remove();
+                    if (0 === container.children.length) {
+                        container.remove();
+                    }
+                    return;
                 }
-                return;
             }
         }
 
@@ -44,14 +51,20 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            this.element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
-            this.element.nextElementSibling.style.display = 'block';
+            element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
+            element.nextElementSibling.style.display = 'block';
             if (event.params.ratio) {
-                this.element.nextElementSibling.querySelector('.preview').classList.add('ratio');
+                element.nextElementSibling.querySelector('.preview').classList.add('ratio');
             }
             this.loadScripts(response.html);
         } catch (e) {
-            window.location.href = event.target.href;
+            const failedHtml = '<div class="preview" data-controller="preview">' + 
+                                '<a class="retry-failed" href="#" ' + 
+                                    'data-action="preview#show" data-preview-url-param="' + event.params.url +
+                                    '" data-preview-ratio-param="' + event.params.ratio + '">' +
+                                'Failed to load. Click to retry.</a></div>';
+            element.nextElementSibling.insertAdjacentHTML('afterbegin', failedHtml);
+            element.nextElementSibling.style.display = 'block';
         } finally {
             this.loadingValue = false;
         }
