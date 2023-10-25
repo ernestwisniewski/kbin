@@ -21,11 +21,10 @@ class EntryChangeLangControllerTest extends WebTestCase
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/-/moderate");
 
         $form = $crawler->filter('.moderate-panel')->selectButton('change language')->form();
-        $values = $form['lang']['lang']->availableOptionValues();
 
-        $this->assertSame($values[0], 'en');
+        $this->assertSame($form['lang']['lang']->getValue(), 'en');
 
-        $form['lang']['lang']->select($values[array_search('fr', $values)]);
+        $form['lang']['lang']->select('fr');
 
         $client->submit($form);
         $client->followRedirect();
