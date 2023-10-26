@@ -35,6 +35,7 @@ security:
                 - App\Security\GithubAuthenticator
                 - App\Security\KeycloakAuthenticator
             logout:
+                enable_csrf: true
                 path: app_logout
             user_checker: App\Security\UserChecker
             remember_me:

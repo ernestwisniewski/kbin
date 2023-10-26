@@ -32,7 +32,7 @@
                 </div>
                 <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
                 <div class="row actions">
-                    <div><span class="cancel"><a href="{{ path('app_logout') }}">{{ 'cancel'|trans }}</a></span></div>
+                    <div><span class="cancel"><a href="{{ logout_path() }}">{{ 'cancel'|trans }}</a></span></div>
                     <div><button class="btn btn__primary" type="submit">{{ '2fa.verify'|trans }}</button></div>
                 </div>
             </form>
