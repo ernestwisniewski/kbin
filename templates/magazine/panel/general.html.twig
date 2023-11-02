@@ -14,7 +14,8 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
-
+    {% include 'magazine/_visibility_info.html.twig' %}
+    
     <h1 hidden>{{ 'general'|trans }}</h1>
     <div id="content" class="section theme">
         <div class="container">
@@ -43,6 +44,52 @@
                 {{ form_row(form.submit, { 'label': 'done'|trans, 'attr': {'class': 'btn btn__primary'} }) }}
             </div>
             {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <h2>{{ 'magazine_deletion'|trans }}</h2>
+            <div>
+                <div class="mb-2">
+                    {% if magazine.visibility is same as 'visible' %}
+                        <form action="{{ path('magazine_delete', {name: magazine.name}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('magazine_delete') }}">
+                            <button type="submit" class="btn btn__primary">
+                                <i class="fa-solid fa-trash"></i> {{ 'delete_magazine'|trans }}
+                            </button>
+                        </form>
+                    {% else %}
+                        <form action="{{ path('magazine_restore', {name: magazine.name}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('magazine_restore') }}">
+                            <button type="submit" class="btn btn__primary">
+                                <i class="fa-solid fa-trash"></i> {{ 'restore_magazine'|trans }}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% if is_granted('purge', magazine) %}
+                    <div class="mb-2">
+                        <form action="{{ path('magazine_purge_content', {name: magazine.name}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('magazine_purge_content') }}">
+                            <button type="submit" class="btn btn__danger">
+                                <i class="fa-solid fa-trash"></i> {{ 'purge_content'|trans }}
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <form action="{{ path('magazine_purge', {name: magazine.name}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('magazine_purge') }}">
+                            <button type="submit" class="btn btn__danger">
+                                <i class="fa-solid fa-trash"></i> {{ 'purge_magazine'|trans }}
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}

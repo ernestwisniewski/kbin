@@ -8,9 +8,19 @@ magazine_delete:
   path: /m/{name}/delete
   methods: [ POST ]
 
+magazine_restore:
+  controller: App\Controller\Magazine\MagazineDeleteController::restore
+  path: /m/{name}/restore
+  methods: [ POST ]
+
 magazine_purge:
   controller: App\Controller\Magazine\MagazineDeleteController::purge
   path: /m/{name}/purge
+  methods: [ POST ]
+
+magazine_purge_content:
+  controller: App\Controller\Magazine\MagazineDeleteController::purgeContent
+  path: /m/{name}/purge_content
   methods: [ POST ]
 
 magazine_list_all:

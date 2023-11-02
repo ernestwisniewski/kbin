@@ -158,7 +158,6 @@ class PostCommentManager implements ContentManagerInterface
         $magazine = $comment->post->magazine;
         $image = $comment->image?->filePath;
         $comment->post->removeComment($comment);
-
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 

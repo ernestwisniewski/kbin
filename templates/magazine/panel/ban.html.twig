@@ -14,6 +14,8 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
+    {% include 'magazine/_visibility_info.html.twig' %}
+
     <h1 hidden>{{ 'ban'|trans }}</h1>
     <section class="section">
         {{ component('user_box', {user: user}) }}

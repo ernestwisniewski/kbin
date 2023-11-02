@@ -88,7 +88,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     public ?array $mentions = null;
     #[OneToMany(mappedBy: 'post', targetEntity: PostComment::class, orphanRemoval: true)]
     public Collection $comments;
-    #[OneToMany(mappedBy: 'post', targetEntity: PostVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'post', targetEntity: PostVote::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
     #[OneToMany(mappedBy: 'post', targetEntity: PostReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $reports;

@@ -18,14 +18,6 @@
     <h1 hidden>{{ domain.name }}</h1>
     <h2 hidden>{{ get_active_sort_option()|trans }}</h2>
     {% include 'entry/comment/_options.html.twig' %}
-    {% if magazine is defined and magazine %}
-        {% if magazine.apId %}
-            <div class="alert alert__info">
-                <p>{{ 'federated_magazine_info'|trans }} <a
-                            href="{{ magazine.apProfileId }}">{{ 'go_to_original_instance'|trans }}</a></p>
-            </div>
-        {% endif %}
-    {% endif %}
     <div id="content" class="comments-tree">
         {% include 'entry/comment/_list.html.twig' %}
     </div>

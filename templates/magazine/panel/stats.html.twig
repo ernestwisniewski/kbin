@@ -14,7 +14,9 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
+    {% include 'magazine/_visibility_info.html.twig' %}
     {% include 'magazine/panel/_stats_pills.html.twig' %}
+
     <div id="content" class="section">
         {% include 'stats/_filters.html.twig' %}
         {{ render_chart(chart) }}

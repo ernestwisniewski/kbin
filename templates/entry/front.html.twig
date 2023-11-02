@@ -53,6 +53,7 @@
     {% include 'layout/_flash.html.twig' %}
     {% if magazine is defined and magazine %}
         {% include 'magazine/_federated_info.html.twig' %}
+        {% include 'magazine/_visibility_info.html.twig' %}
     {% endif %}
     <div id="content">
         {% include 'entry/_list.html.twig' %}

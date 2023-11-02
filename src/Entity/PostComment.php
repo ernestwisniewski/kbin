@@ -88,7 +88,7 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     #[OneToMany(mappedBy: 'root', targetEntity: PostComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $nested;
-    #[OneToMany(mappedBy: 'comment', targetEntity: PostCommentVote::class, cascade: ['persist'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'comment', targetEntity: PostCommentVote::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $votes;
     #[OneToMany(mappedBy: 'postComment', targetEntity: PostCommentReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $reports;

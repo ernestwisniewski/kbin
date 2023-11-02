@@ -19,7 +19,11 @@ class UserDeleteApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'DELETE',
+            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -36,7 +40,11 @@ class UserDeleteApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:delete');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'DELETE',
+            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -53,7 +61,11 @@ class UserDeleteApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:delete');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'DELETE',
+            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);
@@ -74,7 +86,11 @@ class UserDeleteApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:delete');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) ($deletedUser->getId() * 10).'/delete', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'DELETE',
+            '/api/admin/users/'.(string)($deletedUser->getId() * 10).'/delete_account',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(404);
 
         $repository = $this->getService(UserRepository::class);
@@ -87,7 +103,7 @@ class UserDeleteApiTest extends WebTestCase
         $client = self::createClient();
         $deletedUser = $this->getUserByUsername('JohnDoe');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete');
+        $client->request('DELETE', '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account');
         self::assertResponseStatusCodeSame(401);
     }
 
@@ -104,7 +120,11 @@ class UserDeleteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:delete');
 
         // Ban user a second time with the API
-        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'DELETE',
+            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);

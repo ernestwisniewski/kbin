@@ -2,7 +2,7 @@
     {% if showSectionTitle %}
         <h3>{{ 'magazine'|trans }}</h3>
     {% endif %}
-    {% if app.user and magazine.userIsOwner(app.user) and not is_route_name_contains('magazine_panel') %}
+    {% if app.user and (magazine.userIsOwner(app.user) or is_granted('ROLE_ADMIN'))  and not is_route_name_contains('magazine_panel') %}
         <div class="panel">
             <a href="{{ path('magazine_panel_general', {name: magazine.name}) }}" class="btn btn__primary">Magazine panel</a>
         </div>

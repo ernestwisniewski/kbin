@@ -64,9 +64,7 @@ class MagazineRepository extends ServiceEntityRepository
     public function findOneByName(?string $name): ?Magazine
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.visibility = :visibility')
             ->andWhere('LOWER(m.name) = LOWER(:name)')
-            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('name', $name)
             ->getQuery()
             ->getOneOrNullResult();

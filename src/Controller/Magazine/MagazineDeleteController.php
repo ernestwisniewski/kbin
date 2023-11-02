@@ -25,7 +25,18 @@ class MagazineDeleteController extends AbstractController
 
         $this->manager->delete($magazine);
 
-        return $this->redirectToRoute('front');
+        return $this->redirectToRefererOrHome($request);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', subject: 'magazine')]
+    public function restore(Magazine $magazine, Request $request): Response
+    {
+        $this->validateCsrf('magazine_restore', $request->request->get('token'));
+
+        $this->manager->restore($magazine);
+
+        return $this->redirectToRefererOrHome($request);
     }
 
     #[IsGranted('ROLE_USER')]
@@ -35,6 +46,17 @@ class MagazineDeleteController extends AbstractController
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 
         $this->manager->purge($magazine);
+
+        return $this->redirectToRoute('front');
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[IsGranted('purge', subject: 'magazine')]
+    public function purgeContent(Magazine $magazine, Request $request): Response
+    {
+        $this->validateCsrf('magazine_purge_content', $request->request->get('token'));
+
+        $this->manager->purge($magazine, true);
 
         return $this->redirectToRefererOrHome($request);
     }

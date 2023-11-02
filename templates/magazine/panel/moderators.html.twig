@@ -14,6 +14,8 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
+    {% include 'magazine/_visibility_info.html.twig' %}
+
     <h1 hidden>{{ 'moderators'|trans }}</h1>
     {% include 'magazine/_moderators_list.html.twig' %}
     {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}

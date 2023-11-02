@@ -45,7 +45,7 @@
                 <form action="{{ path('user_purge_content', {username: user.username}) }}" method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_purge_content') }}">
-                    <button type="submit" class="btn btn__secondary" title="{{ 'purge_content_desc'|trans }}">
+                    <button type="submit" class="btn btn__danger" title="{{ 'purge_content_desc'|trans }}">
                         <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_content'|trans }}
                     </button>
                 </form>
@@ -60,7 +60,7 @@
                 <form action="{{ path('user_purge_account', {username: user.username}) }}" method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_purge_account') }}">
-                    <button type="submit" class="btn btn__secondary" title="{{ 'purge_account_desc'|trans }}">
+                    <button type="submit" class="btn btn__danger" title="{{ 'purge_account_desc'|trans }}">
                         <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
                     </button>
                 </form>

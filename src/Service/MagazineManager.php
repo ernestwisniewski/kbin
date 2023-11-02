@@ -17,6 +17,7 @@ use App\Event\Magazine\MagazineBlockedEvent;
 use App\Event\Magazine\MagazineSubscribedEvent;
 use App\Factory\MagazineFactory;
 use App\Message\DeleteImageMessage;
+use App\Message\MagazinePurgeMessage;
 use App\Repository\ImageRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\MagazineSubscriptionRequestRepository;
@@ -135,10 +136,16 @@ class MagazineManager
         $this->entityManager->flush();
     }
 
-    public function purge(Magazine $magazine): void
+    public function restore(Magazine $magazine): void
     {
-        $this->entityManager->remove($magazine);
+        $magazine->restore();
+
         $this->entityManager->flush();
+    }
+
+    public function purge(Magazine $magazine, bool $contentOnly = false): void
+    {
+        $this->bus->dispatch(new MagazinePurgeMessage($magazine->getId(), $contentOnly));
     }
 
     public function createDto(Magazine $magazine): MagazineDto

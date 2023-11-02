@@ -14,6 +14,8 @@
 
 {% block body %}
     {% include 'magazine/panel/_options.html.twig' %}
+    {% include 'magazine/_visibility_info.html.twig' %}
+
     <h1 hidden>{{ 'bans'|trans }}</h1>
     {% if bans|length %}
         <div id="content" class="section bans bans-table table-responsive">

@@ -18,7 +18,7 @@ class UserPurgeApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge_account', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -35,7 +35,8 @@ class UserPurgeApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:purge');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge_account', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -52,7 +53,7 @@ class UserPurgeApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:purge');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge_account', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
         self::assertResponseStatusCodeSame(204);
 
         $repository = $this->getService(UserRepository::class);
@@ -69,7 +70,7 @@ class UserPurgeApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:purge');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) ($purgedUser->getId() * 10).'/purge', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request('DELETE', '/api/admin/users/'.(string) ($purgedUser->getId() * 10).'/purge_account', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
         self::assertResponseStatusCodeSame(404);
 
         $repository = $this->getService(UserRepository::class);
@@ -82,7 +83,7 @@ class UserPurgeApiTest extends WebTestCase
         $client = self::createClient();
         $purgedUser = $this->getUserByUsername('JohnDoe');
 
-        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge');
+        $client->request('DELETE', '/api/admin/users/'.(string) $purgedUser->getId().'/purge_account');
         self::assertResponseStatusCodeSame(401);
     }
 }

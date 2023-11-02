@@ -84,8 +84,6 @@ class DeleteUserHandler
             || $this->removePosts()
             || $this->removeMessages();
 
-        $this->entityManager->clear();
-
         if ($retry) {
             $this->bus->dispatch($message);
         } else {
@@ -397,7 +395,13 @@ class DeleteUserHandler
 
     private function removeFavourites(): bool
     {
-        $subjects = $this->entityManager->getRepository(Favourite::class)->findByUser($this->user);
+        $subjects = $this->entityManager->getRepository(Favourite::class)->findBy(
+            [
+                'user' => $this->user,
+            ],
+            ['createdAt' => 'DESC'],
+            $this->batchSize
+        );
 
         $retry = false;
 

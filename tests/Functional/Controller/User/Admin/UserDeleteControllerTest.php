@@ -21,9 +21,9 @@ class UserDeleteControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/user');
 
-        $this->assertSelectorExists('#sidebar .panel form[action$="delete"]');
+        $this->assertSelectorExists('#sidebar .panel form[action$="delete_account"]');
         $client->submit(
-            $crawler->filter('#sidebar .panel form[action$="delete"]')->selectButton('Delete account')->form()
+            $crawler->filter('#sidebar .panel form[action$="delete_account"]')->selectButton('Delete account')->form()
         );
 
         $this->assertResponseRedirects();
@@ -42,9 +42,9 @@ class UserDeleteControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/u/user');
 
-        $this->assertSelectorExists('#sidebar .panel form[action$="purge"]');
+        $this->assertSelectorExists('#sidebar .panel form[action$="purge_account"]');
         $client->submit(
-            $crawler->filter('#sidebar .panel form[action$="purge"]')->selectButton('Purge account')->form()
+            $crawler->filter('#sidebar .panel form[action$="purge_account"]')->selectButton('Purge account')->form()
         );
 
         $this->assertResponseRedirects();
