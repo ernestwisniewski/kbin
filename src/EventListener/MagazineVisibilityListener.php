@@ -18,7 +18,7 @@ class MagazineVisibilityListener
 
     public function onKernelControllerArguments(ControllerArgumentsEvent $event): void
     {
-        $magazine = array_filter($event->getArguments(), fn($argument) => $argument instanceof Magazine);
+        $magazine = array_filter($event->getArguments(), fn ($argument) => $argument instanceof Magazine);
 
         if (!$magazine) {
             return;

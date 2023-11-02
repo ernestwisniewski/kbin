@@ -98,7 +98,6 @@ class MagazinePurgeHandler
                 $this->batchSize
             );
 
-
         $retry = false;
 
         foreach ($entries as $entry) {

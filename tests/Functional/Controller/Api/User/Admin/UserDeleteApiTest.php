@@ -21,7 +21,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $client->request(
             'DELETE',
-            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            '/api/admin/users/'.(string) $deletedUser->getId().'/delete_account',
             server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
         );
         self::assertResponseStatusCodeSame(403);
@@ -42,7 +42,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $client->request(
             'DELETE',
-            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            '/api/admin/users/'.(string) $deletedUser->getId().'/delete_account',
             server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
         );
         self::assertResponseStatusCodeSame(403);
@@ -63,7 +63,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $client->request(
             'DELETE',
-            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            '/api/admin/users/'.(string) $deletedUser->getId().'/delete_account',
             server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
         );
         self::assertResponseIsSuccessful();
@@ -88,7 +88,7 @@ class UserDeleteApiTest extends WebTestCase
 
         $client->request(
             'DELETE',
-            '/api/admin/users/'.(string)($deletedUser->getId() * 10).'/delete_account',
+            '/api/admin/users/'.(string) ($deletedUser->getId() * 10).'/delete_account',
             server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
         );
         self::assertResponseStatusCodeSame(404);
@@ -103,7 +103,7 @@ class UserDeleteApiTest extends WebTestCase
         $client = self::createClient();
         $deletedUser = $this->getUserByUsername('JohnDoe');
 
-        $client->request('DELETE', '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account');
+        $client->request('DELETE', '/api/admin/users/'.(string) $deletedUser->getId().'/delete_account');
         self::assertResponseStatusCodeSame(401);
     }
 
@@ -122,7 +122,7 @@ class UserDeleteApiTest extends WebTestCase
         // Ban user a second time with the API
         $client->request(
             'DELETE',
-            '/api/admin/users/'.(string)$deletedUser->getId().'/delete_account',
+            '/api/admin/users/'.(string) $deletedUser->getId().'/delete_account',
             server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
         );
         self::assertResponseIsSuccessful();
