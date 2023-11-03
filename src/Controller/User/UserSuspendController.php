@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class UserDeleteRequestController extends AbstractController
+class UserSuspendController extends AbstractController
 {
     public function __construct(
         private readonly UserManager $userManager,
@@ -23,39 +23,39 @@ class UserDeleteRequestController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    public function request(Request $request): Response
+    public function suspend(Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $this->validateCsrf('user_delete', $request->request->get('token'));
+        $this->validateCsrf('user_suspend', $request->request->get('token'));
 
         $limiter = $this->userDeleteLimiter->create($this->ipResolver->resolve());
         if (false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 
-        $this->userManager->deleteRequest($this->getUserOrThrow());
+        $this->userManager->suspend($this->getUserOrThrow());
 
-        $this->addFlash('success', 'delete_account_request_send');
+        $this->addFlash('success', 'account_suspended');
 
         return $this->redirectToRefererOrHome($request);
     }
 
     #[IsGranted('ROLE_USER')]
-    public function revoke(Request $request): Response
+    public function reinstate(Request $request): Response
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $this->validateCsrf('user_delete', $request->request->get('token'));
+        $this->validateCsrf('user_suspend', $request->request->get('token'));
 
         $limiter = $this->userDeleteLimiter->create($this->ipResolver->resolve());
         if (false === $limiter->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
 
-        $this->userManager->revokeDeleteRequest($this->getUserOrThrow());
+        $this->userManager->reinstate($this->getUserOrThrow());
 
-        $this->addFlash('success', 'delete_account_request_revoke');
+        $this->addFlash('success', 'account_reinstated');
 
         return $this->redirectToRefererOrHome($request);
     }

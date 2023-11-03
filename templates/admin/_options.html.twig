@@ -41,5 +41,11 @@
                 {{ 'federation'|trans|lower }}
             </a>
         </li>
+        <li>
+            <a href="{{ path('admin_deletion_users') }}"
+               class="{{ html_classes({'active': is_route_name('admin_deletion_users') or is_route_name('admin_deletion_magazines')}) }}">
+                {{ 'deletion'|trans|lower }}
+            </a>
+        </li>
     </menu>
 </aside>

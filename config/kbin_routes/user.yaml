@@ -101,8 +101,23 @@ user_delete_account:
   methods: [ POST ]
 
 user_delete_request:
-  controller: App\Controller\User\UserDeleteRequestController
+  controller: App\Controller\User\UserDeleteRequestController::request
   path: /u/{username}/delete_request
+  methods: [ POST ]
+
+user_delete_request_revoke:
+  controller: App\Controller\User\UserDeleteRequestController::revoke
+  path: /u/{username}/delete_request_revoke
+  methods: [ POST ]
+
+user_suspend:
+  controller: App\Controller\User\UserSuspendController::suspend
+  path: /u/{username}/suspend
+  methods: [ POST ]
+
+user_reinstate:
+  controller: App\Controller\User\UserSuspendController::reinstate
+  path: /u/{username}/reinstate
   methods: [ POST ]
 
 user_ban:

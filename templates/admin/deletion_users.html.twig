@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'deletion'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-deletion{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    <div class="pills">
+        <menu>
+            <li>
+                <a href="{{ path('admin_deletion_users') }}"
+                   class="{{ html_classes({'active': is_route_name('admin_deletion_users')}) }}">
+                    {{ 'users'|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('admin_deletion_magazines') }}"
+                   class="{{ html_classes({'active': is_route_name('admin_deletion_magazines')}) }}">
+                    {{ 'magazines'|trans }}
+                </a>
+            </li>
+        </menu>
+    </div>
+    <div class="section" id="content">
+        <table>
+            <thead>
+            <tr>
+                <td>{{ 'username'|trans }}</td>
+                <td>{{ 'reputation_points'|trans }}</td>
+                <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ component('user_inline', {user: user}) }}</td>
+                    <td>{{ get_reputation_total(user) }}</td>
+                    <td>{{ component('date', {date: user.markedForDeletionAt}) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if(users.haveToPaginate is defined and users.haveToPaginate) %}
+        {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
+    {% else %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+{% endblock %}

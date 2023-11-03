@@ -6,8 +6,10 @@ namespace App\Entity;
 
 use App\Entity\Contracts\ActivityPubActorInterface;
 use App\Entity\Contracts\ApiResourceInterface;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Traits\ActivityPubActorTrait;
 use App\Entity\Traits\CreatedAtTrait;
+use App\Entity\Traits\VisibilityTrait;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +18,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -35,9 +38,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
     new UniqueConstraint(name: 'user_email_idx', columns: ['email']),
     new UniqueConstraint(name: 'user_username_idx', columns: ['username']),
 ])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface, BackupCodeInterface, EquatableInterface, ActivityPubActorInterface, ApiResourceInterface
+#[Index(columns: ['visibility'], name: 'user_visibility_idx')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface, VisibilityInterface, TwoFactorInterface, BackupCodeInterface, EquatableInterface, ActivityPubActorInterface, ApiResourceInterface
 {
     use ActivityPubActorTrait;
+    use VisibilityTrait;
     use CreatedAtTrait {
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
@@ -85,6 +90,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     public ?string $about = null;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive = null;
+    #[Column(type: 'datetimetz', nullable: true)]
+    public ?\DateTime $markedForDeletionAt = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $fields = null;
     #[Column(type: 'string', nullable: true)]
@@ -785,5 +792,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
                 return $code !== $existingCode;
             })
         );
+    }
+
+    public function softDelete(): void
+    {
+        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+    }
+
+    public function trash(): void
+    {
+        $this->visibility = self::VISIBILITY_TRASHED;
+    }
+
+    public function restore(): void
+    {
+        $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 }

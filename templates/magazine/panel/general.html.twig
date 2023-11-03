@@ -56,7 +56,7 @@
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('magazine_delete') }}">
                             <button type="submit" class="btn btn__primary">
-                                <i class="fa-solid fa-trash"></i> {{ 'delete_magazine'|trans }}
+                                <i class="fa-solid fa-dumpster"></i> {{ 'delete_magazine'|trans }}
                             </button>
                         </form>
                     {% else %}
@@ -64,7 +64,7 @@
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('magazine_restore') }}">
                             <button type="submit" class="btn btn__primary">
-                                <i class="fa-solid fa-trash"></i> {{ 'restore_magazine'|trans }}
+                                <i class="fa-solid fa-dumpster"></i> {{ 'restore_magazine'|trans }}
                             </button>
                         </form>
                     {% endif %}
@@ -75,7 +75,7 @@
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('magazine_purge_content') }}">
                             <button type="submit" class="btn btn__danger">
-                                <i class="fa-solid fa-trash"></i> {{ 'purge_content'|trans }}
+                                <i class="fa-solid fa-dumpster"></i> {{ 'purge_content'|trans }}
                             </button>
                         </form>
                     </div>
@@ -84,7 +84,7 @@
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('magazine_purge') }}">
                             <button type="submit" class="btn btn__danger">
-                                <i class="fa-solid fa-trash"></i> {{ 'purge_magazine'|trans }}
+                                <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_magazine'|trans }}
                             </button>
                         </form>
                     </div>

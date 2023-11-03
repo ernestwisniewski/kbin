@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\DTO\CardanoWalletAddressDto;
 use App\DTO\UserDto;
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
 use App\Entity\UserFollowRequest;
 use App\Event\User\UserBlockEvent;
@@ -196,8 +197,8 @@ class UserManager
             }
 
             if ($this->security->isGranted('edit_profile', $user)
-                    && !$user->isTotpAuthenticationEnabled()
-                    && $dto->totpSecret) {
+                && !$user->isTotpAuthenticationEnabled()
+                && $dto->totpSecret) {
                 $user->setTotpSecret($dto->totpSecret);
             }
 
@@ -307,5 +308,37 @@ class UserManager
         $this->entityManager->flush();
 
         $this->bus->dispatch(new DeleteImageMessage($image));
+    }
+
+    public function deleteRequest(User $user): void
+    {
+        $user->markedForDeletionAt = new \DateTime();
+        $user->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function revokeDeleteRequest(User $user): void
+    {
+        $user->markedForDeletionAt = null;
+        $user->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function suspend(User $user): void
+    {
+        $user->markedForDeletionAt = null;
+        $user->visibility = VisibilityInterface::VISIBILITY_TRASHED;
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function reinstate(User $user): void
+    {
+        $this->revokeDeleteRequest($user);
     }
 }

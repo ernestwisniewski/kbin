@@ -80,23 +80,26 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $user = $this->security->getUser();
 
         $qb = $this->createQueryBuilder('e')
-            ->select('e', 'm', 'u', 'd')
-            ->where('e.visibility = :e_visibility')
-            ->andWhere('m.visibility = :m_visibility')
+            ->addSelect('e', 'm', 'u', 'd')
+            ->where('e.visibility = :visibility')
+            ->andWhere('m.visibility = :visible')
+            ->andWhere('u.visibility = :visible')
             ->join('e.magazine', 'm')
             ->join('e.user', 'u')
             ->leftJoin('e.domain', 'd');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
-                'e.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND e.visibility = :pVisibility)'
+                'e.user IN (SELECT IDENTITY(euf.following) FROM '.UserFollow::class.' euf WHERE euf.follower = :euf_user AND e.visibility = :euf_visibility)'
             )
-                ->setParameter('pUser', $user)
-                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+                ->setParameter('euf_user', $user)
+                ->setParameter('euf_visibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        } else {
+            $qb->orWhere('e.user IS NULL');
         }
 
-        $qb->setParameter('e_visibility', $criteria->visibility)
-            ->setParameter('m_visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+        $qb->setParameter('visibility', $criteria->visibility)
+            ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
         $this->addStickyClause($qb, $criteria);
@@ -319,10 +322,13 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         return $qb
             ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
-            ->andWhere('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
+            ->andWhere('e.isAdult = false')
             ->join('e.magazine', 'm')
+            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
@@ -335,10 +341,13 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $qb = $this->createQueryBuilder('e');
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
+            ->andWhere('e.visibility = :visibility')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
-            ->andWhere('e.visibility = :visibility')
             ->join('e.magazine', 'm')
+            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(
                 ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
@@ -355,9 +364,12 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $qb
             ->where('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.apId IS NULL')
             ->join('e.magazine', 'm')
+            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
@@ -375,22 +387,29 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     private function countAll(EntryPageView|Criteria $criteria): int
     {
-        return $this->cache->get('entries_count_'.$criteria->magazine?->name, function (ItemInterface $item) use ($criteria): int {
-            $item->expiresAfter(60);
+        return $this->cache->get(
+            'entries_count_'.$criteria->magazine?->name,
+            function (ItemInterface $item) use ($criteria): int {
+                $item->expiresAfter(60);
 
-            if (!$criteria->magazine) {
-                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Entry p WHERE p.visibility = :visibility')
-                    ->setParameter('visibility', 'visible');
-            } else {
-                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Entry p WHERE p.visibility = :visibility AND p.magazine = :magazine')
-                    ->setParameters(['visibility' => 'visible', 'magazine' => $criteria->magazine]);
-            }
+                if (!$criteria->magazine) {
+                    $query = $this->_em->createQuery(
+                        'SELECT COUNT(p.id) FROM App\Entity\Entry p WHERE p.visibility = :visibility'
+                    )
+                        ->setParameter('visibility', 'visible');
+                } else {
+                    $query = $this->_em->createQuery(
+                        'SELECT COUNT(p.id) FROM App\Entity\Entry p WHERE p.visibility = :visibility AND p.magazine = :magazine'
+                    )
+                        ->setParameters(['visibility' => 'visible', 'magazine' => $criteria->magazine]);
+                }
 
-            try {
-                return $query->getSingleScalarResult();
-            } catch (NoResultException $e) {
-                return 0;
+                try {
+                    return $query->getSingleScalarResult();
+                } catch (NoResultException $e) {
+                    return 0;
+                }
             }
-        });
+        );
     }
 }

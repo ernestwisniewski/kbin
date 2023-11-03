@@ -68,6 +68,8 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public ?string $customCss = null;
     #[Column(type: 'datetimetz', nullable: true)]
     public ?\DateTime $lastActive = null;
+    #[Column(type: 'datetimetz', nullable: true)]
+    public ?\DateTime $markedForDeletionAt = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $tags = null;
     #[OneToMany(mappedBy: 'magazine', targetEntity: Moderator::class, cascade: ['persist'])]
@@ -298,6 +300,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
 
     public function softDelete(): void
     {
+        $this->markedForDeletionAt = new \DateTime();
         $this->visibility = self::VISIBILITY_SOFT_DELETED;
     }
 
@@ -308,6 +311,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
 
     public function restore(): void
     {
+        $this->markedForDeletionAt = null;
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     }
 

@@ -15,6 +15,7 @@
 
 {% block body %}
     {% include('user/settings/_options.html.twig') %}
+    {% include 'layout/_flash.html.twig' %}
     <div id="content" class="section">
         <div class="container">
             <h1 hidden>{{ 'general'|trans }}</h1>
@@ -38,7 +39,7 @@
             {{ form_row(form.notifyOnNewPostReply, {label: 'notify_on_new_post_reply', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.notifyOnNewPostCommentReply, {label: 'notify_on_new_post_comment_reply', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.notifyOnNewEntry, {label: 'notify_on_new_entry', row_attr: {class: 'checkbox'}}) }}
-            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}  
+            {{ form_row(form.notifyOnNewPost, {label: 'notify_on_new_posts', row_attr: {class: 'checkbox'}}) }}
             <div class="row actions">
                 {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>
@@ -47,15 +48,47 @@
     </div>
     <div class="section">
         <div class="container">
-            <h2>{{'request_account_deletion_title'|trans}}</h2>
-            <p>{{'request_account_deletion_description'|trans}}</p>
-            <form action="{{ path('user_delete_request', {username: app.user.username}) }}" method="POST"
-                onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
-                <button type="submit" class="btn btn__danger">
-                    <i class="fa-solid fa-trash"></i> {{ 'request_account_deletion_button'|trans }}
-                </button>
-            </form>
+            <h2>{{ 'request_account_deletion_title'|trans }}</h2>
+            <p>{{ 'request_account_deletion_description'|trans }}</p>
+            {% if app.user.visibility is same as 'soft_deleted' %}
+                <form action="{{ path('user_delete_request_revoke', {username: app.user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                      class="mb-2">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+                    <button type="submit" class="btn btn__danger">
+                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'request_account_deletion_revoke_button'|trans }}
+                    </button>
+                </form>
+            {% else %}
+                <form action="{{ path('user_delete_request', {username: app.user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                      class="mb-2">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_delete') }}">
+                    <button type="submit" class="btn btn__danger">
+                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'request_account_deletion_button'|trans }}
+                    </button>
+                </form>
+            {% endif %}
+
+            <p>{{ 'user_suspend_desc'|trans }}</p>
+            {% if app.user.visibility is same as 'trashed' %}
+                <form action="{{ path('user_reinstate', {username: app.user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">
+                    <button type="submit" class="btn btn__primary">
+                        <i class="fa-solid fa-dumpster"></i> {{ 'reinstate_account'|trans }}
+                    </button>
+                </form>
+            {% else %}
+                <form action="{{ path('user_suspend', {username: app.user.username}) }}" method="POST"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                      class="mb-2">
+                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">
+                    <button type="submit" class="btn btn__primary">
+                        <i class="fa-solid fa-dumpster"></i> {{ 'suspend_account'|trans }}
+                    </button>
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

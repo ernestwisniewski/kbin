@@ -79,21 +79,24 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         $qb = $this->createQueryBuilder('p')
             ->select('p', 'm', 'u')
-            ->where('p.visibility = :p_visibility')
+            ->where('p.visibility = :visibility')
             ->join('p.magazine', 'm')
             ->join('p.user', 'u')
-            ->andWhere('m.visibility = :m_visibility');
+            ->andWhere('m.visibility = :visible')
+            ->andWhere('u.visibility = :visible');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
-                'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :pUser AND p.visibility = :pVisibility)'
+                'p.user IN (SELECT IDENTITY(puf.following) FROM '.UserFollow::class.' puf WHERE puf.follower = :puf_user AND p.visibility = :puf_visibility)'
             )
-                ->setParameter('pUser', $user)
-                ->setParameter('pVisibility', VisibilityInterface::VISIBILITY_PRIVATE);
+                ->setParameter('puf_user', $user)
+                ->setParameter('puf_visibility', VisibilityInterface::VISIBILITY_PRIVATE);
+        } else {
+            $qb->orWhere('p.user IS NULL');
         }
 
-        $qb->setParameter('p_visibility', $criteria->visibility)
-            ->setParameter('m_visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+        $qb->setParameter('visibility', $criteria->visibility)
+            ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE);
 
         $this->addTimeClause($qb, $criteria);
         $this->addStickyClause($qb, $criteria);
@@ -292,11 +295,14 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         return $qb
             ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
-            ->andWhere('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.name != :name')
+            ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
+            ->join('p.user', 'u')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'name' => $tag])
             ->setMaxResults($limit)
@@ -309,10 +315,13 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $qb = $this->createQueryBuilder('p');
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
-            ->andWhere('m.isAdult = false')
             ->andWhere('p.visibility = :visibility')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('u.visibility = :visibility')
             ->andWhere('p.isAdult = false')
+            ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
+            ->join('p.user', 'u')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(
                 ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
@@ -403,22 +412,31 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
     private function countAll(EntryPageView|Criteria $criteria): int
     {
-        return $this->cache->get('posts_count_'.$criteria->magazine?->name, function (ItemInterface $item) use ($criteria): int {
-            $item->expiresAfter(60);
+        return $this->cache->get(
+            'posts_count_'.$criteria->magazine?->name,
+            function (ItemInterface $item) use ($criteria): int {
+                $item->expiresAfter(60);
 
-            if (!$criteria->magazine) {
-                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility')
-                    ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
-            } else {
-                $query = $this->_em->createQuery('SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility AND p.magazine = :magazine')
-                    ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'magazine' => $criteria->magazine]);
-            }
+                if (!$criteria->magazine) {
+                    $query = $this->_em->createQuery(
+                        'SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility'
+                    )
+                        ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+                } else {
+                    $query = $this->_em->createQuery(
+                        'SELECT COUNT(p.id) FROM App\Entity\Post p WHERE p.visibility = :visibility AND p.magazine = :magazine'
+                    )
+                        ->setParameters(
+                            ['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'magazine' => $criteria->magazine]
+                        );
+                }
 
-            try {
-                return $query->getSingleScalarResult();
-            } catch (NoResultException $e) {
-                return 0;
+                try {
+                    return $query->getSingleScalarResult();
+                } catch (NoResultException $e) {
+                    return 0;
+                }
             }
-        });
+        );
     }
 }

@@ -112,3 +112,7 @@ framework:
       policy: 'fixed_window'
       limit: 3
       interval: '2 minutes'
+    user_delete:
+      policy: 'fixed_window'
+      limit: 4
+      interval: '1 day'

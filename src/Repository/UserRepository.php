@@ -261,6 +261,31 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $pagerfanta;
     }
 
+    public function findForDeletionPaginated(int $page): PagerfantaInterface
+    {
+        $query = $this->createQueryBuilder('u')
+            ->where('u.apId IS NULL')
+            ->andWhere('u.visibility = :visibility')
+            ->orderBy('u.markedForDeletionAt', 'ASC')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_SOFT_DELETED)
+            ->getQuery();
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
         if (!$user instanceof User) {
@@ -344,8 +369,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->setParameters(['emptyString' => '', 'lastActive' => (new \DateTime())->modify('-7 days')]);
     }
 
-    public function findWithAboutPaginated(int $page, string $group = self::USERS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
-    {
+    public function findWithAboutPaginated(
+        int $page,
+        string $group = self::USERS_ALL,
+        int $perPage = self::PER_PAGE
+    ): PagerfantaInterface {
         $query = $this->findWithAboutQueryBuilder($group)->getQuery();
 
         $pagerfanta = new Pagerfanta(
@@ -387,8 +415,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         return $qb->orderBy('u.lastActive', 'DESC');
     }
 
-    public function findBannedPaginated(int $page, string $group = self::USERS_ALL, int $perPage = self::PER_PAGE): PagerfantaInterface
-    {
+    public function findBannedPaginated(
+        int $page,
+        string $group = self::USERS_ALL,
+        int $perPage = self::PER_PAGE
+    ): PagerfantaInterface {
         $query = $this->findBannedQueryBuilder($group)->getQuery();
 
         $pagerfanta = new Pagerfanta(

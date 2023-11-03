@@ -25,6 +25,16 @@ admin_pages:
   path: /admin/pages/{page}
   methods: [ GET, POST ]
 
+admin_deletion_users:
+  controller: App\Controller\Admin\AdminDeletionController::users
+  path: /admin/deletion/users
+  methods: [ GET ]
+
+admin_deletion_magazines:
+  controller: App\Controller\Admin\AdminDeletionController::magazines
+  path: /admin/deletion/magazines
+  methods: [ GET ]
+
 admin_cc:
   controller: App\Controller\Admin\AdminClearCacheController
   path: /admin/cc
