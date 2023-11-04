@@ -59,6 +59,10 @@ class PostVoter extends Voter
 
     private function canDelete(Post $post, User $user): bool
     {
+        if ($user->isAdmin() || $user->isModerator()) {
+            return true;
+        }
+
         if ($post->user === $user) {
             return true;
         }
@@ -95,6 +99,6 @@ class PostVoter extends Voter
 
     private function canModerate(Post $post, User $user): bool
     {
-        return $post->magazine->userIsModerator($user) || $user->isAdmin();
+        return $post->magazine->userIsModerator($user) || $user->isAdmin() || $user->isModerator();
     }
 }

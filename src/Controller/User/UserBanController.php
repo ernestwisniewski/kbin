@@ -7,6 +7,7 @@ namespace App\Controller\User;
 use App\Controller\AbstractController;
 use App\Entity\User;
 use App\Service\UserManager;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserBanController extends AbstractController
 {
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_MODERATOR")'))]
     public function ban(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));
@@ -32,7 +33,7 @@ class UserBanController extends AbstractController
         return $this->redirectToRefererOrHome($request);
     }
 
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_MODERATOR")'))]
     public function unban(User $user, UserManager $manager, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));

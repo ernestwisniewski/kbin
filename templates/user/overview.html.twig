@@ -11,14 +11,14 @@
 {% endblock %}
 
 {% block sidebar_top %}
-    {% if is_granted('ROLE_ADMIN') and app.user != user %}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') and app.user != user %}
         <div class="section magazine">
             <h3>{{ 'admin_panel'|trans }}</h3>
             <div class="panel">
-                {% if user.isTotpAuthenticationEnabled %}
+                {% if user.isTotpAuthenticationEnabled and is_granted('ROLE_ADMIN') %}
                     <form action="{{ path('user_2fa_remove', {username: user.username}) }}"
                           method="POST"
-                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_2fa_remove') }}">
                         <button type="submit" class="btn btn__secondary">
                             <i class="fa fa-mobile"></i> {{ '2fa.remove'|trans }}
@@ -34,36 +34,38 @@
                         <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}
                     </button>
                 </form>
-                <hr>
-                <form action="{{ path('user_delete_content', {username: user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_delete_content') }}">
-                    <button type="submit" class="btn btn__secondary" title="{{ 'delete_content_desc'|trans }}">
-                        <i class="fa fa-dumpster"></i> {{ 'delete_content'|trans }}
-                    </button>
-                </form>
-                <form action="{{ path('user_purge_content', {username: user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_purge_content') }}">
-                    <button type="submit" class="btn btn__danger" title="{{ 'purge_content_desc'|trans }}">
-                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_content'|trans }}
-                    </button>
-                </form>
-                <hr>
-                <form action="{{ path('user_delete_account', {username: user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_delete_account') }}">
-                    <button type="submit" class="btn btn__secondary" title="{{ 'delete_account_desc'|trans }}">
-                        <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
-                    </button>
-                </form>
-                <form action="{{ path('user_purge_account', {username: user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_purge_account') }}">
-                    <button type="submit" class="btn btn__danger" title="{{ 'purge_account_desc'|trans }}">
-                        <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
-                    </button>
-                </form>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <hr>
+                    <form action="{{ path('user_delete_content', {username: user.username}) }}" method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_delete_content') }}">
+                        <button type="submit" class="btn btn__secondary" title="{{ 'delete_content_desc'|trans }}">
+                            <i class="fa fa-dumpster"></i> {{ 'delete_content'|trans }}
+                        </button>
+                    </form>
+                    <form action="{{ path('user_purge_content', {username: user.username}) }}" method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_purge_content') }}">
+                        <button type="submit" class="btn btn__danger" title="{{ 'purge_content_desc'|trans }}">
+                            <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_content'|trans }}
+                        </button>
+                    </form>
+                    <hr>
+                    <form action="{{ path('user_delete_account', {username: user.username}) }}" method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_delete_account') }}">
+                        <button type="submit" class="btn btn__secondary" title="{{ 'delete_account_desc'|trans }}">
+                            <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
+                        </button>
+                    </form>
+                    <form action="{{ path('user_purge_account', {username: user.username}) }}" method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_purge_account') }}">
+                        <button type="submit" class="btn btn__danger" title="{{ 'purge_account_desc'|trans }}">
+                            <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
+                        </button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     {% endif %}

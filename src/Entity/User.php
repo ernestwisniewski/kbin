@@ -651,6 +651,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
         return \in_array('ROLE_ADMIN', $this->getRoles());
     }
 
+    public function isModerator(): bool
+    {
+        return \in_array('ROLE_MODERATOR', $this->getRoles());
+    }
+
     public function getRoles(): array
     {
         $roles = $this->roles;

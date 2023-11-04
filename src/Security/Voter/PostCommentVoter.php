@@ -60,6 +60,10 @@ class PostCommentVoter extends Voter
 
     private function canDelete(PostComment $comment, User $user): bool
     {
+        if ($user->isAdmin() || $user->isModerator()) {
+            return true;
+        }
+
         if ($comment->user === $user) {
             return true;
         }
@@ -86,6 +90,6 @@ class PostCommentVoter extends Voter
 
     private function canModerate(PostComment $comment, User $user): bool
     {
-        return $comment->magazine->userIsModerator($user) || $user->isAdmin();
+        return $comment->magazine->userIsModerator($user) || $user->isAdmin() || $user->isModerator();
     }
 }

@@ -24,6 +24,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('admin_moderators') }}"
+               class="{{ html_classes({'active': is_route_name('admin_moderators')}) }}">
+                {{ 'moderators'|trans|lower }}
+            </a>
+        </li>
+        <li>
             <a href="{{ path('admin_reports') }}"
                class="{{ html_classes({'active': is_route_name('admin_reports')}) }}">
                 {{ 'reports'|trans|lower }}

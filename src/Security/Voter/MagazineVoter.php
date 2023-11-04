@@ -64,7 +64,7 @@ class MagazineVoter extends Voter
 
     private function canEdit(Magazine $magazine, User $user): bool
     {
-        return $magazine->userIsOwner($user) || $user->isAdmin();
+        return $magazine->userIsOwner($user) || $user->isAdmin() || $user->isModerator();
     }
 
     private function canDelete(Magazine $magazine, User $user): bool
@@ -79,7 +79,7 @@ class MagazineVoter extends Voter
 
     private function canModerate(Magazine $magazine, User $user): bool
     {
-        return $magazine->userIsModerator($user) || $user->isAdmin();
+        return $magazine->userIsModerator($user) || $user->isAdmin() || $user->isModerator();
     }
 
     public function canSubscribe(Magazine $magazine, User $user): bool

@@ -561,4 +561,27 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->getQuery()
             ->getResult();
     }
+
+    public function findModerators(int $page = 1): PagerfantaInterface
+    {
+        $query = $this->createQueryBuilder('u')
+            ->where("JSONB_CONTAINS(u.roles, '\"".'ROLE_MODERATOR'."\"') = true")
+            ->andWhere('u.visibility = :visibility')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
 }

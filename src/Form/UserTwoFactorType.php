@@ -24,7 +24,6 @@ class UserTwoFactorType extends AbstractType
                     'mapped' => false,
                     'attr' => [
                         'autocomplete' => 'one-time-code',
-                        'autofocus' => true,
                         'inputmode' => 'numeric',
                         'pattern' => '[0-9]*',
                     ],

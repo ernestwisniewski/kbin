@@ -35,6 +35,16 @@ admin_deletion_magazines:
   path: /admin/deletion/magazines
   methods: [ GET ]
 
+admin_moderators:
+  controller: App\Controller\Admin\AdminModeratorController::moderators
+  path: /admin/moderators
+  methods: [ GET, POST ]
+
+admin_moderator_purge:
+  controller: App\Controller\Admin\AdminModeratorController::removeModerator
+  path: /admin/moderators/purge/{username}
+  methods: [ POST ]
+
 admin_cc:
   controller: App\Controller\Admin\AdminClearCacheController
   path: /admin/cc

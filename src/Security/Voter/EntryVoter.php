@@ -50,6 +50,10 @@ class EntryVoter extends Voter
 
     private function canEdit(Entry $entry, User $user): bool
     {
+        if ($user->isAdmin() || $user->isModerator()) {
+            return true;
+        }
+
         if ($entry->user === $user) {
             return true;
         }
@@ -59,6 +63,10 @@ class EntryVoter extends Voter
 
     private function canDelete(Entry $entry, User $user): bool
     {
+        if ($user->isAdmin() || $user->isModerator()) {
+            return true;
+        }
+
         if ($entry->user === $user) {
             return true;
         }
@@ -95,6 +103,6 @@ class EntryVoter extends Voter
 
     private function canModerate(Entry $entry, User $user): bool
     {
-        return $entry->magazine->userIsModerator($user) || $user->isAdmin();
+        return $entry->magazine->userIsModerator($user) || $user->isAdmin() || $user->isModerator();
     }
 }

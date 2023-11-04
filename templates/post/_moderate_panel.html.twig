@@ -35,7 +35,7 @@
                 </form>
             </li>
         {% endif %}
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
             <li class="actions">
                 <form name="change_magazine"
                       action="{{ path('post_change_magazine', {magazine_name: post.magazine.name, post_id: post.id}) }}"

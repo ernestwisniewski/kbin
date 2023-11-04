@@ -60,7 +60,7 @@ class EntryCommentVoter extends Voter
 
     private function canDelete(EntryComment $comment, User $user): bool
     {
-        if ($user->isAdmin()) {
+        if ($user->isAdmin() || $user->isModerator()) {
             return true;
         }
 
@@ -90,6 +90,6 @@ class EntryCommentVoter extends Voter
 
     private function canModerate(EntryComment $comment, User $user): bool
     {
-        return $comment->magazine->userIsModerator($user) || $user->isAdmin();
+        return $comment->magazine->userIsModerator($user) || $user->isAdmin() || $user->isModerator();
     }
 }

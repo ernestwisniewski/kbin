@@ -56,7 +56,7 @@ security:
         # This ensures that the form can only be accessed when two-factor authentication is in progress.
         - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_MODERATOR] }
         - { path: ^/authorize, roles: PUBLIC_ACCESS }
         - { path: ^/token, roles: PUBLIC_ACCESS }
         - { path: ^/api/doc, roles: PUBLIC_ACCESS }

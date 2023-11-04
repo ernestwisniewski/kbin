@@ -180,6 +180,14 @@
                                 </a>
                             </li>
                         {% endif %}
+                        {% if is_granted('ROLE_MODERATOR') %}
+                            <li>
+                                <a href="{{ path('admin_reports') }}"
+                                   class="{{ html_classes({'active': is_route_name_starts_with('admin')}) }}">
+                                    {{ 'reports'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                         <li><a href="{{ logout_path() }}">{{ 'logout'|trans }}</a></li>
                     </ul>
                 </li>

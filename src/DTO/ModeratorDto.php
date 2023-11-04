@@ -18,7 +18,7 @@ class ModeratorDto
     #[Assert\NotBlank]
     public ?User $user = null;
 
-    public function __construct(Magazine $magazine)
+    public function __construct(?Magazine $magazine)
     {
         $this->magazine = $magazine;
     }

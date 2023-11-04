@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'moderators'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazine-panel page-magazine-moderators{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    {% if moderators|length %}
+        <div id="content" class="section users users-columns">
+            <ul>
+                {% for moderator in moderators %}
+                    <li>
+                        {% if moderator.avatar %}
+                            {{ component('user_avatar', {user: moderator}) }}
+                        {% endif %}
+                        <div>
+                            <a href="{{ path('user_overview', {username: moderator.username}) }}">
+                                {{ moderator.username|username(true) }}
+                            </a>
+                            <small>{{ component('date', {date: moderator.createdAt}) }}</small>
+                        </div>
+                        <div class="actions">
+                            <form method="post"
+                                  action="{{ path('admin_moderator_purge', {username: moderator.username}) }}"
+                                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                <input type="hidden" name="token" value="{{ csrf_token('remove_moderator') }}">
+                                <button type="submit" class="btn btn__secondary">{{ 'delete'|trans }}</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}
+            {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
+        {% endif %}
+    {% else %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    <div class="section moderator-add">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="row">
+                {{ form_errors(form.user) }}
+            </div>
+            <div>
+                {{ form_label(form.user, 'username') }}
+                {{ form_widget(form.user) }}
+            </div>
+            <div class="actions row">
+                {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
