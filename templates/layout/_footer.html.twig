@@ -69,7 +69,7 @@
                         : null %}
                     {% set current = app.request.cookies.get('kbin_lang') ?? header_accept_language ?? kbin_default_lang() %}
                     <select data-action="kbin#changeLang">
-                        {% for code in ['zh_CN', 'en, 'de', 'el', 'eo', 'es', 'fr', 'it', 'ja', 'nl', 'pl', 'pt', 'tr', 'zh_TW'] %}
+                        {% for code in ['zh_CN', 'en', 'de', 'el', 'eo', 'es', 'fr', 'it', 'ja', 'nl', 'pl', 'pt', 'tr', 'zh_TW'] %}
                             <option value="{{ code }}" {{ code is same as current ? 'selected' : '' }}>{{ code|language_name(code) }}</option>
                         {% endfor %}
                     </select>
