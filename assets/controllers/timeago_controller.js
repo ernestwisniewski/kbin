@@ -11,6 +11,7 @@ import pl from 'timeago.js/lib/lang/pl';
 import pt from 'timeago.js/lib/lang/pt_BR';
 import tr from 'timeago.js/lib/lang/tr';
 import zh_TW from 'timeago.js/lib/lang/zh_TW';
+import zh_CN from 'timeago.js/lib/lang/zh_CN';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -22,7 +23,7 @@ export default class extends Controller {
         }
 
         const lang = document.documentElement.lang;
-        const languages = { de, el, es, fr, it, ja, nl, pl, pt, tr, zh_TW };
+        const languages = { de, el, es, fr, it, ja, nl, pl, pt, tr, zh_TW, zh_CN };
 
         if (languages[lang]) {
             timeago.register(lang, languages[lang]);
