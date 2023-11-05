@@ -413,9 +413,13 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         );
     }
 
-    public function findCross(string $title, ?string $url)
+    public function findCross(string $title, ?string $url): array
     {
         $qb = $this->createQueryBuilder('e');
+
+        if (\strlen($title) <= 10 && !$url) {
+            return [];
+        }
 
         if (\strlen($title) > 10) {
             $qb->where('e.title = :title')
