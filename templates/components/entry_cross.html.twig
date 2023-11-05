@@ -1,0 +1,161 @@
+<article{{ attributes.defaults({
+    class: html_classes('entry entry-cross section section--small subject', {
+        'own': app.user and entry.isAuthor(app.user),
+    })}).without('id') }}
+        id="entry-{{ entry.id }}"
+        data-controller="subject preview mentions"
+        data-action="notifications:Notification@window->subject#notification">
+    <aside class="meta entry__meta">
+        {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+            <a href="{{ entry_url(entry) }}">{{ 'crossposted'|trans }}</a> {{ 'by'|trans }}
+        {% elseif(entry.visibility is same as 'trashed') %}
+            <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
+        {% elseif(entry.visibility is same as 'soft_deleted') %}
+            <p class="text-muted">{{ 'deleted_by_author' }}</p>
+        {% endif %}
+        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) -}}
+        ,
+        {{ component('date', {date: entry.createdAt}) }}
+        {{ component('date_edited', {createdAt: entry.createdAt, editedAt: entry.editedAt}) }}
+        {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}
+        <footer>
+            {% if entry.visibility in ['visible', 'private'] %}
+                <menu>
+                    {% if entry.sticky %}
+                        <li>
+                            <i class="fa-solid fa-thumbtack" aria-label="{{ 'pinned'|trans }}"></i>
+                        </li>
+                    {% endif %}
+                    {% if entry.type is same as 'article' %}
+                        <li class="meta-link">
+                            <i class="fa-regular fa-newspaper" aria-label="{{ 'article'|trans }}"></i>
+                        </li>
+                    {% endif %}
+                    {% if entry.hasEmbed %}
+                        {% set image = entry.image ? uploaded_asset(entry.image.filePath) : '' %}
+                        <li>
+                            <button class="show-preview"
+                                    data-action="preview#show"
+                                    aria-label="{{ 'preview'|trans }}"
+                                    data-preview-url-param="{{ entry.url ?? image }}"
+                                    data-preview-ratio-param="{{ entry.domain and entry.domain.shouldRatio ? true : false }}">
+                                <i class="fa-solid fa-photo-film"></i>
+                            </button>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a class="stretched-link"
+                           href="{{ entry_url(entry) ~ '#comments' }}">
+                            <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}
+                        </a>
+                    </li>
+                    <li>
+                        {{ component('boost', {
+                            subject: entry
+                        }) }}
+                    </li>
+                    <li class="dropdown">
+                        <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+                        <ul class="dropdown__menu" data-controller="clipboard">
+                            <li>
+                                <a href="{{ path('entry_report', {id: entry.id}) }}"
+                                   class="{{ html_classes({'active': is_route_name('entry_report')}) }}"
+                                   data-action="subject#getForm">
+                                    {{ 'report'|trans|lower }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ entry_voters_url(entry, 'up') }}"
+                                   class="{{ html_classes({'active': is_route_name('entry_fav') or is_route_name('entry_voters')}) }}">
+                                    {{ 'activity'|trans|lower }}
+                                </a>
+                            </li>
+
+                            {% if entry.domain %}
+                                <li>
+                                    <a href="{{ path('domain_entries', {name: entry.domain.name}) }}">{{ 'more_from_domain'|trans|lower }}</a>
+                                </li>
+                            {% endif %}
+
+                            <li>
+                                <a data-action="clipboard#copy"
+                                   href="{{ entry_url(entry) }}">{{ 'copy_url'|trans|lower }}</a>
+                            </li>
+                            <li>
+                                <a data-action="clipboard#copy"
+                                   href="{{ entry.apId ?? path('ap_entry', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}">
+                                    {{ 'copy_url_to_fediverse'|trans|lower }}
+                                </a>
+                            </li>
+                            {% if is_granted('edit', entry) %}
+                                <li>
+                                    <a href="{{ entry_edit_url(entry) }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_edit')}) }}">
+                                        {{ 'edit'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if app.user and entry.isAuthor(app.user) %}
+                                <li>
+                                    <form method="post"
+                                          action="{{ entry_delete_url(entry) }}"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                        <input type="hidden" name="token" value="{{ csrf_token('entry_delete') }}">
+                                        <button type="submit">{{ 'delete'|trans|lower }}</button>
+                                    </form>
+                                </li>
+                            {% endif %}
+                            {% if is_granted('moderate', entry) %}
+                                <li>
+                                    <a href="{{ entry_moderate_url(entry) }}"
+                                       class="{{ html_classes({'active': is_route_name('entry_moderate')}) }}"
+                                       data-action="subject#showModPanel">
+                                        {{ 'moderate'|trans|lower }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+            {% elseif(entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                <menu>
+                    <li>
+                        <form method="post"
+                              action="{{ path('entry_restore', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('entry_restore') }}">
+                            <button type="submit">{{ 'restore'|trans|lower }}</button>
+                        </form>
+                    </li>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+            {% else %}
+                <menu>
+                    <li data-subject-target="loader" style="display:none">
+                        <div class="loader" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </li>
+                </menu>
+            {% endif %}
+            <div data-subject-target="container" class="js-container">
+            </div>
+        </footer>
+    </aside>
+    {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
+    {% endif %}
+    {% if entry.visibility in ['visible', 'private'] %}
+        {{ component('vote', {
+            subject: entry,
+        }) }}
+    {% endif %}
+</article>

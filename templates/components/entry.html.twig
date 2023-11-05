@@ -1,9 +1,11 @@
 {% if not app.user or (app.user and not app.user.isBlocked(entry.user)) %}
     {% if entry.visibility is same as 'private' and (not app.user or not app.user.isFollower(entry.user)) %}
         <div class="section section--small"
-             style="z-index:3; position:relative;margin-bottom:0;">
+             style="z-index:3; position:relative;">
             Private
         </div>
+    {% elseif entry.cross %}
+        {{ component('entry_cross', {entry: entry}) }}
     {% else %}
         <article{{ attributes.defaults({
             class: html_classes('entry section subject', {

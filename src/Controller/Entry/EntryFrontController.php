@@ -9,6 +9,7 @@ use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\PageView\EntryPageView;
+use App\Pagination\Pagerfanta as KbinPagerfanta;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
@@ -57,6 +58,8 @@ class EntryFrontController extends AbstractController
 
         $method = $criteria->resolveSort($sortBy);
         $posts = $this->$method($criteria);
+
+        $posts = $this->handleCrossposts($posts);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -272,5 +275,30 @@ class EntryFrontController extends AbstractController
     private function commented(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
+    }
+
+    private function handleCrossposts($pagination): PagerfantaInterface
+    {
+        $posts = $pagination->getCurrentPageResults();
+
+        $firstIndexes = [];
+        $results = [];
+
+        foreach ($posts as $item) {
+            $groupingField = !empty($item->url) ? $item->url : $item->title;
+            if (!\in_array($groupingField, $firstIndexes)) {
+                $results[] = $item;
+                $firstIndexes[] = $groupingField;
+            } else {
+                $insertIndex = array_search($groupingField, array_column($results, 'url')) + 1;
+                array_splice($results, $insertIndex, 0, [$item]);
+                $results[$insertIndex]->cross = true;
+            }
+        }
+
+        $pagerfanta = new KbinPagerfanta($pagination->getAdapter());
+        $pagerfanta->setCurrentPageResults($results);
+
+        return $pagerfanta;
     }
 }

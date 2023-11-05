@@ -166,7 +166,7 @@
       margin: 0;
       height: 110px;
       width: 100%;
-      
+
       .view-compact & {
         margin: 0 10px 10px 10px;
         height: calc(100% - 10px);
@@ -261,7 +261,7 @@
     grid-area: meta;
     align-self: flex-end;
 
-    .edited{
+    .edited {
       font-style: italic;
     }
   }
@@ -342,28 +342,34 @@
         right: 0;
       }
 
-      h1,h2,h3,h4,h5,h6{
+      h1, h2, h3, h4, h5, h6 {
         margin: 1rem auto;
       }
-      h1{       
-        font-size: 1.25rem;      
+
+      h1 {
+        font-size: 1.25rem;
       }
-      h2{
+
+      h2 {
         font-size: 1.20rem;
       }
-      h3{
+
+      h3 {
         font-size: 1.15rem;
       }
-      h4{
+
+      h4 {
         font-size: 1.10rem;
       }
-      h5{
+
+      h5 {
         font-size: 1.05rem;
       }
-      h6{
+
+      h6 {
         font-size: 1rem;
       }
-      
+
     }
 
     .no-image-placeholder {
@@ -395,6 +401,44 @@
     position: relative;
     top: -2px;
     padding: .25rem;
+  }
+}
+
+.entry-cross {
+  grid-template-areas: "vote meta" !important;
+  grid-template-columns: min-content 1fr !important;
+  margin-top: -.5rem;
+
+  header {
+    p {
+      font-size: .9rem;
+    }
+  }
+
+  .vote span {
+    font-size: .7rem;
+  }
+
+  .vote button {
+    height: 1.5rem
+  }
+
+  .vote {
+    margin-right: 0 !important;
+  }
+
+  footer {
+    margin-bottom: 0;
+  }
+
+  .meta {
+    align-self: center;
+  }
+
+  footer {
+    align-self: center;
+    margin-left: 0;
+    margin-bottom: 0 !important;
   }
 }
 

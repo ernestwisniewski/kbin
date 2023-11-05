@@ -15,6 +15,7 @@ use App\Form\EntryCommentType;
 use App\PageView\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
+use App\Repository\EntryRepository;
 use App\Service\MentionManager;
 use Pagerfanta\PagerfantaInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -33,6 +34,7 @@ class EntrySingleController extends AbstractController
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
         ?string $sortBy,
+        EntryRepository $entryRepository,
         EntryCommentRepository $repository,
         EventDispatcherInterface $dispatcher,
         MentionManager $mentionManager,
@@ -84,6 +86,7 @@ class EntrySingleController extends AbstractController
                 'magazine' => $magazine,
                 'comments' => $comments,
                 'entry' => $entry,
+                'crossPosts' => $entryRepository->findCross($entry->title, $entry->url),
                 'form' => $this->createForm(EntryCommentType::class, $dto, [
                     'action' => $this->generateUrl(
                         'entry_comment_create',

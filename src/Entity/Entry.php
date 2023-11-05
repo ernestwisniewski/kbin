@@ -123,7 +123,10 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     public ?array $mentions = null;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryComment::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     public Collection $comments;
-    #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'entry', targetEntity: EntryVote::class, cascade: [
+        'persist',
+        'remove',
+    ], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $votes;
     #[OneToMany(mappedBy: 'entry', targetEntity: EntryReport::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
@@ -154,6 +157,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     private string $titleTs;
     #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
     private ?string $bodyTs = null;
+    public bool $cross = false;
 
     public function __construct(
         string $title,
