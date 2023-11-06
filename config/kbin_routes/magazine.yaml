@@ -23,6 +23,11 @@ magazine_purge_content:
   path: /m/{name}/purge_content
   methods: [ POST ]
 
+magazine_abandoned:
+  controller: App\Controller\Magazine\MagazineAbandonedController
+  path: /magazines/abandoned
+  methods: [ GET ]
+
 magazine_list_all:
   controller: App\Controller\Magazine\MagazineListController
   defaults: { sortBy: hot, view: table }

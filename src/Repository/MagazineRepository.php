@@ -74,8 +74,7 @@ class MagazineRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('m')
             ->andWhere('m.visibility = :visibility')
-            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
-        ;
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
 
         if ($criteria->query) {
             $restrictions = 'LOWER(m.name) LIKE LOWER(:q) OR LOWER(m.title) LIKE LOWER(:q)';
@@ -155,8 +154,11 @@ class MagazineRepository extends ServiceEntityRepository
         return $pagerfanta;
     }
 
-    public function findModerators(Magazine $magazine, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
-    {
+    public function findModerators(
+        Magazine $magazine,
+        ?int $page = 1,
+        int $perPage = self::PER_PAGE
+    ): PagerfantaInterface {
         $criteria = Criteria::create()->orderBy(['createdAt' => 'ASC']);
 
         $moderators = new Pagerfanta(new SelectableAdapter($magazine->moderators, $criteria));
@@ -244,8 +246,11 @@ class MagazineRepository extends ServiceEntityRepository
         return $magazine->badges;
     }
 
-    public function findModeratedMagazines(User $user, ?int $page = 1, int $perPage = self::PER_PAGE): PagerfantaInterface
-    {
+    public function findModeratedMagazines(
+        User $user,
+        ?int $page = 1,
+        int $perPage = self::PER_PAGE
+    ): PagerfantaInterface {
         $dql =
             'SELECT m FROM '.Magazine::class.' m WHERE m IN ('.
             'SELECT IDENTITY(md.magazine) FROM '.Moderator::class.' md WHERE md.user = :user) ORDER BY m.apId DESC, m.lastActive DESC';
@@ -482,6 +487,34 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere('m.visibility = :visibility')
             ->orderBy('m.markedForDeletionAt', 'ASC')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_SOFT_DELETED)
+            ->getQuery();
+
+        $pagerfanta = new Pagerfanta(
+            new QueryAdapter(
+                $query
+            )
+        );
+
+        try {
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
+            $pagerfanta->setCurrentPage($page);
+        } catch (NotValidCurrentPageException $e) {
+            throw new NotFoundHttpException();
+        }
+
+        return $pagerfanta;
+    }
+
+    public function findAbandoned(int $page = 1): PagerfantaInterface
+    {
+        $query = $this->createQueryBuilder('m')
+            ->where('mod.magazine IS NOT NULL')
+            ->andWhere('mod.isOwner = true')
+            ->andWhere('u.lastActive < :date')
+            ->join('m.moderators', 'mod')
+            ->join('mod.user', 'u')
+            ->setParameter('date', new \DateTime('-1 month'))
+            ->orderBy('u.lastActive', 'ASC')
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(

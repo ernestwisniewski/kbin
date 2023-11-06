@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'magazines'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-magazines page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'magazines'|trans }}</h1>
+    </header>
+    {% include 'magazine/_options.html.twig' %}
+    <div id="content">
+        {% if magazines|length %}
+            <div class="section">
+                <div class="magazines table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>{{ 'name'|trans }}</th>
+                            {% for column in ['threads', 'comments', 'posts'] %}
+                                <th>{{ column|trans }}</th>
+                            {% endfor %}
+                            <th style="text-align: center">
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for magazine in magazines %}
+                            <tr>
+                                <td>{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</td>
+                                <td>{{ magazine.entryCount }}</td>
+                                <td>{{ magazine.entryCommentCount }}</td>
+                                <td>{{ magazine.postCount + magazine.postCommentCount }}</td>
+                                <td>
+                                    <aside class="magazine__subscribe">
+                                        <div class='action'>
+                                            <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }}</span>
+                                        </div>
+                                        <form action="#"
+                                              name="magazine_request_ownership"
+                                              method="post">
+                                            <button type="submit"
+                                                    class="btn btn__secondary action">
+                                                <i class="fa-sharp fa-solid fa-folder-minus"></i><span> transfer of ownership</span>
+                                            </button>
+                                            <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+                                        </form>
+                                    </aside>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="magazines magazine-list-mobile">
+                    {% for magazine in magazines %}
+                        <div class="magazine">
+                            <div class="magazine__top">
+                                <div class="magazine__inline">{{ component('magazine_inline', { magazine: magazine, stretchedLink: true, showAvatar: true, fullName: true}) }}</div>
+                                <div class="magazine__information">
+                                    <span class="magazine__info"><span
+                                                class="value">{{ magazine.entryCount }}</span><span
+                                                class="label">{{ 'threads'|trans }}</span></span>
+                                    <span class="magazine__info"><span
+                                                class="value">{{ magazine.entryCommentCount }}</span><span
+                                                class="label">{{ 'comments'|trans }}</span></span>
+                                    <span class="magazine__info"><span
+                                                class="value">{{ magazine.postCount + magazine.postCommentCount }}</span><span
+                                                class="label">{{ 'posts'|trans }}</span></span>
+                                </div>
+                                <div class="magazine__sub">
+                                    <td>
+                                        <aside class="magazine__subscribe">
+                                            <div class='action'>
+                                                <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }}</span>
+                                            </div>
+                                            <form action="#"
+                                                  name="magazine_request_ownership"
+                                                  method="post">
+                                                <button type="submit"
+                                                        class="btn btn__secondary action">
+                                                    <i class="fa-sharp fa-solid fa-folder-minus"></i><span> transfer of ownership</span>
+                                                </button>
+                                                <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+                                            </form>
+                                        </aside>
+                                    </td>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if(magazines.haveToPaginate is defined and magazines.haveToPaginate) %}
+                {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}
+            {% endif %}
+        {% else %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+
+    </div>
+{% endblock %}
