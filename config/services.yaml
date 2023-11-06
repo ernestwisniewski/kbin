@@ -88,11 +88,11 @@ services:
     arguments:
       - version: '%amazon.s3.version%'
         region: '%amazon.s3.region%'
-        endpoint: '%amazon.s3.endpoint%'
+#        endpoint: '%amazon.s3.endpoint%'
         credentials:
           key: '%amazon.s3.key%'
           secret: '%amazon.s3.secret%'
-          #proxies: [ 'https://media.karab.in' ]
+          proxies: [ '%amazon.s3.endpoint%' ]
 
   #  kbin.imagine.cache.resolver.amazon_s3:
   #    class: Liip\ImagineBundle\Imagine\Cache\Resolver\AwsS3Resolver
