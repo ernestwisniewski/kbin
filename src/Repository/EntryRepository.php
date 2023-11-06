@@ -413,26 +413,30 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         );
     }
 
-    public function findCross(string $title, ?string $url): array
+    public function findCross(Entry $entry): array
     {
         $qb = $this->createQueryBuilder('e');
 
-        if (\strlen($title) <= 10 && !$url) {
+        if (\strlen($entry->title) <= 10 && !$entry->url) {
             return [];
         }
 
-        if (\strlen($title) > 10) {
+        if (\strlen($entry->title) > 10) {
             $qb->where('e.title = :title')
-                ->setParameter('title', $title);
+                ->setParameter('title', $entry->title);
         }
 
-        if ($url) {
+        if ($entry->url) {
             $qb->orWhere('e.url = :url')
-                ->setParameter('url', $url);
+                ->setParameter('url', $entry->url);
         }
 
-        $qb->andWhere('e.visibility = :visibility')
-            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
+        $qb->andWhere('e.id != :id')
+            ->andWhere('e.visibility = :visibility')
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
+            ->setParameter('id', $entry->getId())
+            ->orderBy('e.createdAt', 'DESC')
+            ->setMaxResults(5);
 
         return $qb->getQuery()->getResult();
     }

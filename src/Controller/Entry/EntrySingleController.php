@@ -86,7 +86,7 @@ class EntrySingleController extends AbstractController
                 'magazine' => $magazine,
                 'comments' => $comments,
                 'entry' => $entry,
-                'crossPosts' => $entryRepository->findCross($entry->title, $entry->url),
+                'crossPosts' => $entryRepository->findCross($entry),
                 'form' => $this->createForm(EntryCommentType::class, $dto, [
                     'action' => $this->generateUrl(
                         'entry_comment_create',

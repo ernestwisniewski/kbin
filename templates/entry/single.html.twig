@@ -35,7 +35,7 @@
             showBody:true
         }) }}
         {% for cross in crossPosts %}
-            {{ component('entry_cross', {entry: entry}) }}
+            {{ component('entry_cross', {entry: cross}) }}
         {% endfor %}
         {% include 'layout/_flash.html.twig' %}
         {% include 'entry/comment/_options.html.twig' %}
