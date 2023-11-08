@@ -33,11 +33,11 @@ added: Añadido
 general: General
 views: Visualizaciones
 created_at: Creado
-owner: Propietaria/o
-subscribers: Suscriptores/as
+owner: Propietario/a
+subscribers: Suscriptores
 down_votes: Votos negativos
 no_comments: No hay comentarios
-online: En linea
+online: En línea
 comments: Comentarios
 posts: Publicaciones
 replies: Respuestas
@@ -109,7 +109,7 @@ email_verify: Confirma la dirección de correo electrónico
 email_confirm_expire: Ten en cuenta que el enlace caducará en una hora.
 select_magazine: Selecciona una revista
 add_new: Añadir nuevo
-url: Enlace
+url: URL
 title: Título
 already_have_account: ¿Tienes una cuenta?
 agree_terms: Consentimiento para %terms_link_start%Terms and Conditions%terms_link_end%
@@ -292,15 +292,15 @@ bronze_magazine: Revista famosa
 bronze_magazine_desc: 20 seguidoras/es han creado una revista
 silver_personality: Personalidad de plata
 silver_personality_desc: 50 seguidoras/es
-silver_commentator_desc: 10 comentarios buenos
+silver_commentator_desc: 10 muy buenos comentarios
 silver_scout: Medalla de plata de explorador
 silver_commentator: Medalla de plata de comentador/a
-silver_scout_desc: 10 enlaces excelentes
+silver_scout_desc: 10 muy buenos enlaces
 silver_redactor: Medalla de plata de redactor
-silver_redactor_desc: 10 hilos excelentes
+silver_redactor_desc: 10 muy buenos hilos
 silver_poster: Medalla de plata de publicador
 silver_poster_desc: 10 publicaciones excelentes
-silver_link: Enlace excelente
+silver_link: Muy buen enlace
 silver_photo: Muy buena foto
 silver_comment: Muy buen comentario
 silver_post: Muy buena publicación
@@ -375,8 +375,8 @@ left: Izquierda
 right: Derecha
 federation: Federación
 status: Status
-on: Activo
-off: Inactivo
+on: Encendido
+off: Apagado
 instances: Instancias
 upload_file: Cargar archivo
 from_url: de una URL
@@ -506,8 +506,9 @@ bot_body_content: "¡Bienvenido al Bot de /kbin! Este bot juega un papel crucial
   red social federada conocida como fediverso. Proporciona a los usuarios una forma
   estandarizada de publicar contenidos, seguir a otros usuarios y participar en interacciones
   sociales como gustar, compartir y comentar hilos o mensajes."
-your_account_is_not_active: Su cuenta no ha sido activada. Compruebe su correo electrónico
-  y haga clic en el enlace de activación para continuar
+your_account_is_not_active: Su cuenta no ha sido activada. Por favor compruebe su
+  correo electrónico para instrucciones de activación de cuenta o <a href="%link_target%">solicite
+  un nuevo correo electrónico de activación de cuenta.</a>
 more_from_domain: Más del dominio
 your_account_has_been_banned: Tu cuenta ha sido bloqueada
 infinite_scroll_help: Cargue automáticamente más contenido cuando llegue al final
@@ -533,3 +534,117 @@ request_account_deletion_title: Eliminación de la cuenta
 request_account_deletion_description: Se notificará al administrador que desea eliminar
   su cuenta.
 request_account_deletion_button: Solicitar la eliminación de la cuenta
+oauth2.grant.moderate.magazine.reports.all: Administrar reportes en sus revistas moderadas.
+resend_account_activation_email_error: Hubo un problema enviando esta solicitud. Puede
+  que no haya una cuenta asociada a ese correo electrónico o tal vez ya ha sido activada.
+oauth2.grant.moderate.magazine.trash.read: Ver contenido descartado en sus revistas
+  moderadas.
+email_confirm_button_text: Confirme su solicitud de cambio de contraseña
+oauth2.grant.moderate.magazine_admin.create: Crear nuevas revistas.
+errors.server429.title: 429 Demasiadas Solicitudes
+oauth2.grant.moderate.magazine_admin.edit_theme: Editar el CSS personalizado de alguna
+  de sus propias revistas.
+oauth2.grant.moderate.magazine_admin.tags: Crear o quitar etiquetas de sus revistas
+  propias.
+oauth2.grant.admin.entry.purge: Eliminar completamente algún hilo de su instancia.
+oauth.consent.to_allow_access: Para permitir este acceso, haga clic en el botón 'Permitir'
+  abajo
+email.delete.description: El siguiente usuario ha solicitado que su cuenta sea eliminada
+oauth.consent.app_requesting_permissions: quiere realizar las siguientes acciones
+  en su nombre
+oauth2.grant.moderate.magazine_admin.delete: Eliminar alguna de sus propias revistas.
+oauth2.grant.moderate.magazine.reports.action: Aceptar o rechazar reportes en sus
+  revistas moderadas.
+oauth.consent.allow: Permitir
+oauth2.grant.vote.general: Votar positivo, negativo o impulsar hilos, publicaciones
+  o comentarios.
+custom_css: CSS Personalizada
+oauth2.grant.moderate.magazine_admin.all: Crear, editar, o eliminar sus propias revistas.
+block: Bloquear
+oauth2.grant.report.general: Reportar hilos, publicaciones o comentarios.
+oauth2.grant.moderate.magazine.list: Leer una lista de sus revistas moderadas.
+oauth2.grant.admin.all: Realizar cualquier tarea administrativa en su instancia.
+errors.server404.title: 404 No encontrado
+resend_account_activation_email_success: Si una cuenta asociada con ese correo electrónico
+  existe, nosotros enviaremos un nuevo correo electrónico de activación.
+errors.server403.title: 403 Prohibido
+oauth2.grant.moderate.magazine.reports.read: Leer reportes en sus revistas moderadas.
+ignore_magazines_custom_css: Ignorar la CSS personalizada de las revistas
+oauth.consent.deny: Denegar
+oauth.consent.title: Formulario de Consentimiento de OAuth2
+resend_account_activation_email: Reenviar el correo electrónico de activación de cuenta
+errors.server500.title: 500 Error del servidor
+oauth2.grant.moderate.magazine_admin.update: Editar reglas, descripción, estado NSFW
+  o ícono de alguna de sus propias revistas.
+oauth2.grant.write.general: Crear o editar cualquiera de sus hilos, publicaciones
+  o comentarios.
+resend_account_activation_email_question: ¿Cuenta inactiva?
+resend_account_activation_email_description: Ingrese el correo electrónico asociado
+  a su cuenta. Vamos a enviarle otro correo electrónico de activación.
+oauth2.grant.read.general: Leer todo el contenido al que tiene acceso.
+oauth2.grant.domain.all: Suscribirse o bloquear dominios, y ver los dominios a los
+  que está suscripto o ha bloqueado.
+errors.server500.description: Lo sentimos, algo salió mal de nuestro lado. Estamos
+  trabajando en solucionar este problema, por favor compruebe de nuevo pronto.
+oauth.client_not_granted_message_read_permission: Esta aplicación no recibió permiso
+  para leer sus mensajes.
+restrict_oauth_clients: Restringir la creación de Cliente OAuth a los Administradores
+oauth2.grant.delete.general: Eliminar cualquiera de sus hilos, publicaciones o comentarios.
+unblock: Desbloquear
+oauth2.grant.moderate.magazine_admin.stats: Ver el contenido, votar y ver las estadísticas
+  de sus revistas propias.
+oauth.consent.grant_permissions: Otorgar Permisos
+oauth2.grant.moderate.magazine.ban.delete: Permitir usuarios en sus revistas moderadas.
+oauth.client_identifier.invalid: ¡ID Inválido del Cliente OAuth!
+oauth.consent.app_has_permissions: ya puede realizar las siguientes acciones
+email.delete.title: Solicitud de eliminación de cuenta de usuario
+oauth2.grant.block.general: Bloquear o desbloquear cualquier revista, dominio o usuario,
+  y ver las revistas, dominios y usuarios que ha bloqueado.
+oauth2.grant.subscribe.general: Suscribirse o seguir a cualquier revista, dominio
+  o usuario, y ver las revistas, dominios y usuarios a los que está suscripto.
+oauth2.grant.moderate.magazine_admin.moderators: Agregar o quitar moderadores de alguna
+  de sus revistas propias.
+email_confirm_link_help: Alternativamente puede copiar y pegar lo siguiente en su
+  navegador
+oauth2.grant.moderate.magazine_admin.badges: Crear o quitar insignias de sus revistas
+  propias.
+oauth2.grant.post.edit: Editar sus publicaciones existentes.
+oauth2.grant.post.vote: Votar positivo, impulsar o votar negativo alguna publicación.
+oauth2.grant.entry.report: Reportar algún hilo.
+oauth2.grant.domain.subscribe: Suscribirse o desuscribirse de dominios y ver los dominios
+  a los que está suscripto.
+oauth2.grant.post_comment.edit: Editar sus comentarios existentes en publicaciones.
+oauth2.grant.entry.create: Crear nuevos hilos.
+oauth2.grant.magazine.block: Bloquear o desbloquear revistas y ver las revistas que
+  ha boqueado.
+oauth2.grant.magazine.subscribe: Suscribirse o desuscribirse a revistas y ver las
+  revistas a las que se ha suscripto.
+oauth2.grant.post_comment.report: Reportar algún comentario en una publicación.
+oauth2.grant.magazine.all: Suscribirse o bloquear revistas, y ver las revistas a las
+  que se ha suscripto o ha bloqueado.
+oauth2.grant.entry.vote: Votar positivo, impulsar o votar negativo algún hilo.
+oauth2.grant.post_comment.vote: Votar positivo, impulsar o votar negativo algún comentario
+  en un publicación.
+oauth2.grant.post.report: Reportar alguna publicación.
+oauth2.grant.entry_comment.create: Crear nuevos comentarios en hilos.
+oauth2.grant.entry_comment.report: Reportar algún comentario en un hilo.
+oauth2.grant.entry_comment.all: Crear, editar o eliminar sus comentarios en hilos.
+  y votar, impulsar o reportar algún comentario en un hilo.
+oauth2.grant.entry_comment.delete: Eliminar sus existentes comentarios en hilos.
+oauth2.grant.entry.edit: Editar sus hilos existentes.
+oauth2.grant.entry_comment.edit: Editar sus existentes comentarios en hilos.
+oauth2.grant.entry.delete: Eliminar sus hilos existentes.
+oauth2.grant.post_comment.delete: Eliminar sus comentarios existentes en publicaciones.
+oauth2.grant.entry_comment.vote: Votar positivo, impulsar o votar negativo algún comentario
+  en un hilo.
+oauth2.grant.entry.all: Crear, editar o eliminar sus hilos, y votar, impulsar o reportar
+  algún hilo.
+oauth2.grant.post_comment.all: Crear, editar o eliminar sus comentarios en publicaciones,
+  y votar, impulsar o reportar algún comentario en una publicación.
+oauth2.grant.post.all: Crear, editar o eliminar sus microblogs, y votar, impulsar
+  o reportar algún microblog.
+oauth2.grant.post_comment.create: Crear nuevos comentarios en publicaciones.
+oauth2.grant.post.delete: Eliminar sus publicaciones existentes.
+oauth2.grant.post.create: Crear nuevas publicaciones.
+oauth2.grant.domain.block: Bloquear o desbloquear dominios y ver los dominios que
+  ha bloqueado.

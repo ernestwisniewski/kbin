@@ -525,3 +525,12 @@ federation_page_enabled: Strona federacji włączona
 request_account_deletion_title: Usuwanie konta
 flash_post_unpin_success: Wpis został odpięty.
 flash_post_pin_success: Wpis został przypięty.
+email_confirm_button_text: Potwierdź żądanie zmiany hasła
+errors.server429.title: 429 Zbyt wiele żądań
+errors.server403.title: 403 Zabronione
+resend_account_activation_email: Wyślij ponownie email aktywujący konto
+request_account_deletion_button: Żądanie usunięcia konta
+errors.server500.title: 500 Błąd serwera
+resend_account_activation_email_question: Nieaktywne konto?
+request_account_deletion_description: Administrator zostanie powiadomiony o tym, że
+  chcesz usunąć swoje konto.

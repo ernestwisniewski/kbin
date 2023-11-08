@@ -4,6 +4,10 @@
   padding: .7rem;
   cursor: pointer;
 
+  span {
+    margin-left: .5rem;
+  }
+
   &__danger {
     background: var(--kbin-button-danger-bg);;
     border: var(--kbin-button-danger-border);
@@ -76,15 +80,15 @@ textarea {
   font-family: var(--kbin-body-font-family);
   font-size: .9rem;
 
-  &::placeholder{
-    color: var(--kbin-input-placeholder-text-color)!important;
+  &::placeholder {
+    color: var(--kbin-input-placeholder-text-color) !important;
   }
 }
 
 input,
 textarea,
 select,
-button{
+button {
 
   &[disabled] {
     opacity: 0.5;
@@ -100,12 +104,12 @@ textarea {
   width: 100%;
 }
 
-input[type=radio]{
-  border-radius:  50%;
+input[type=radio] {
+  border-radius: 50%;
 }
 
 input[type=checkbox],
-input[type=radio]{
+input[type=radio] {
   -webkit-appearance: none;
   appearance: none;
   font-size: 0.9rem;
@@ -118,14 +122,14 @@ input[type=radio]{
   align-content: center;
   cursor: pointer;
 
-  &::before{
+  &::before {
     font-family: var(--kbin-font-awesome-font-family);
     content: "\f00c";
     transform: scale(0);
     transition: 100ms transform ease-in;
   }
 
-  &:checked::before{
+  &:checked::before {
     transform: scale(1);
   }
 
@@ -149,7 +153,7 @@ input[type=select-one] {
   width: 100%;
 }
 
-.password-preview{
+.password-preview {
   display: grid;
   grid-template-areas:
       "label label"
@@ -158,22 +162,22 @@ input[type=select-one] {
   align-items: end;
   grid-template-columns: 2fr 0fr;
 
-  label{
+  label {
     grid-area: label;
   }
 
   input[type=password],
-  input[type=text]{
+  input[type=text] {
     grid-area: password;
     width: 100%;
 
-    .rounded-edges &{
-      border-top-right-radius: 0px!important;
-      border-bottom-right-radius: 0px!important;
+    .rounded-edges & {
+      border-top-right-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
     }
   }
 
-  .password-preview-button{
+  .password-preview-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,13 +187,12 @@ input[type=select-one] {
     height: 100%;
     margin: 0;
 
-    .rounded-edges &{
-      border-top-left-radius: 0px!important;
-      border-bottom-left-radius: 0px!important;
+    .rounded-edges & {
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
     }
   }
 }
-
 
 
 form {
@@ -209,11 +212,11 @@ form {
     }
   }
 
-  .help-text{
+  .help-text {
     font-size: 0.8rem;
   }
 
-  .length-indicator{
+  .length-indicator {
     font-size: 0.8rem;
   }
 }
@@ -346,33 +349,33 @@ form {
   margin: 0;
 
   > img {
-      height: max-content;
-      order: -2;
-      flex: calc(100% - 2.5rem);
-      width: 100%;
-      max-height: 15rem;
-      margin-bottom: .75rem;
-      object-fit: contain;
-      background-color: hsla(0, 0%, 0%, 0.75);
+    height: max-content;
+    order: -2;
+    flex: calc(100% - 2.5rem);
+    width: 100%;
+    max-height: 15rem;
+    margin-bottom: .75rem;
+    object-fit: contain;
+    background-color: hsla(0, 0%, 0%, 0.75);
 
-      .rounded-edges & {
-        border-radius: var(--kbin-rounded-edges-radius);
+    .rounded-edges & {
+      border-radius: var(--kbin-rounded-edges-radius);
+    }
+
+    + .btn-link {
+      order: -1;
+      width: 2rem;
+      height: 2rem;
+      margin-left: -2.25rem;
+      color: var(--kbin-button-secondary-text-color);
+      background: var(--kbin-button-secondary-bg);
+      border: var(--kbin-button-secondary-border);
+
+      &:hover {
+        color: var(--kbin-button-secondary-text-hover-color);
+        background: var(--kbin-button-secondary-hover-bg);
       }
-
-      + .btn-link {
-        order: -1;
-        width: 2rem;
-        height: 2rem;
-        margin-left: -2.25rem;
-        color: var(--kbin-button-secondary-text-color);
-        background: var(--kbin-button-secondary-bg);
-        border: var(--kbin-button-secondary-border);
-
-        &:hover {
-          color: var(--kbin-button-secondary-text-hover-color);
-          background: var(--kbin-button-secondary-hover-bg);
-        }
-      }
+    }
   }
 }
 

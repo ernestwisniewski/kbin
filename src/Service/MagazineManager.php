@@ -10,7 +10,9 @@ use App\DTO\MagazineThemeDto;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\MagazineBan;
+use App\Entity\MagazineOwnershipRequest;
 use App\Entity\Moderator;
+use App\Entity\ModeratorRequest;
 use App\Entity\User;
 use App\Event\Magazine\MagazineBanEvent;
 use App\Event\Magazine\MagazineBlockedEvent;
@@ -290,5 +292,61 @@ class MagazineManager
         $this->entityManager->flush();
 
         $this->bus->dispatch(new DeleteImageMessage($image));
+    }
+
+    public function removeSubscriptions(Magazine $magazine): void
+    {
+        foreach ($magazine->subscriptions as $subscription) {
+            $this->unsubscribe($subscription->magazine, $subscription->user);
+        }
+    }
+
+    public function toggleOwnershipRequest(Magazine $magazine, User $user): void
+    {
+        $request = $this->entityManager->getRepository(MagazineOwnershipRequest::class)->findOneBy([
+            'magazine' => $magazine,
+            'user' => $user,
+        ]);
+
+        if ($request) {
+            $this->entityManager->remove($request);
+            $this->entityManager->flush();
+
+            return;
+        }
+
+        $request = new MagazineOwnershipRequest($magazine, $user);
+
+        $this->entityManager->persist($request);
+        $this->entityManager->flush();
+    }
+
+    public function acceptOwnershipRequest(Magazine $magazine, User $user): void
+    {
+        $this->addModerator(new ModeratorDto($magazine, $user));
+    }
+
+    public function toggleModeratorRequest(Magazine $magazine, User $user): void
+    {
+        $request = $this->entityManager->getRepository(ModeratorRequest::class)->findOneBy([
+            'magazine' => $magazine,
+            'user' => $user,
+        ]);
+
+        if ($request) {
+            $this->entityManager->remove($request);
+            $this->entityManager->flush();
+
+            return;
+        }
+
+        $request = new ModeratorRequest($magazine, $user);
+
+        $this->entityManager->persist($request);
+        $this->entityManager->flush();
+    }
+
+    public function acceptModeratorRequest(Magazine $magazine, User $user): void
+    {
     }
 }

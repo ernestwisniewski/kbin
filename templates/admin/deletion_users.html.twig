@@ -30,31 +30,33 @@
             </li>
         </menu>
     </div>
-    <div class="section" id="content">
-        <table>
-            <thead>
-            <tr>
-                <td>{{ 'username'|trans }}</td>
-                <td>{{ 'reputation_points'|trans }}</td>
-                <td></td>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
+    {% if users|length %}
+        <div class="section" id="content">
+            <table>
+                <thead>
                 <tr>
-                    <td>{{ component('user_inline', {user: user}) }}</td>
-                    <td>{{ get_reputation_total(user) }}</td>
-                    <td>{{ component('date', {date: user.markedForDeletionAt}) }}</td>
+                    <td>{{ 'username'|trans }}</td>
+                    <td>{{ 'reputation_points'|trans }}</td>
+                    <td></td>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% if(users.haveToPaginate is defined and users.haveToPaginate) %}
-        {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ component('user_inline', {user: user}) }}</td>
+                        <td>{{ get_reputation_total(user) }}</td>
+                        <td>{{ component('date', {date: user.markedForDeletionAt}) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
         <aside class="section section--muted">
             <p>{{ 'empty'|trans }}</p>
         </aside>
+    {% endif %}
+    {% if(users.haveToPaginate is defined and users.haveToPaginate) %}
+        {{ pagerfanta(users, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 {% endblock %}

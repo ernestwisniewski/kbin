@@ -9,8 +9,8 @@ threads: スレッド
 microblog: ミニブログ
 people: ユーザー
 events: イベント
-magazine: マガジン
-magazines: マガジン
+magazine: 雑誌
+magazines: 雑誌ら
 search: 検索
 add: 追加
 select_channel: チャンネルを選択
@@ -24,7 +24,7 @@ commented: コメントの多い順
 change_view: 表示を変更
 filter_by_time: 時間でフィルター
 filter_by_type: 投稿でフィルター
-favourites: お気に入り
+favourites: お気に入りら
 favourite: お気に入り
 more: さらに
 avatar: アバター
@@ -51,7 +51,7 @@ activity: アクティビティ
 cover: プロフィールのバナー
 related_posts: 関連投稿
 random_posts: 最近のコメント
-federated_user_info: 連合しているサーバーからプロフィールが受信されていない可能性があります。
+federated_user_info: このプロフィールは連合サーバから、 かも知れない未完だ。
 go_to_original_instance: 連合元インスタンスで表示する。
 empty: 投稿なし
 subscribe: 購読する
@@ -91,7 +91,7 @@ try_again: もう一度
 up_vote: ブースト
 down_vote: 「よくない」
 email_confirm_header: こんにちは！メールアドレスを検証してください。
-email_confirm_content: アカウントを有効にする場合は下のリンクをクリックしてください。
+email_confirm_content: kbinのアカウントアクティブ化をレディ？アカウントを有効にする場合は下のリンクをクリックしてください。
 email_verify: メールアドレスの検証
 email_confirm_title: メールアドレスを検証してください。
 select_magazine: マガジンを選択
@@ -146,7 +146,7 @@ photos: 画像
 videos: 動画
 report: 通報
 share: シェア
-copy_url_to_fediverse: 連合用URLをコピー
+copy_url_to_fediverse: オリジナルURLをコピー
 share_on_fediverse: フェディバースへシェア
 edit: 編集
 are_you_sure: よろしいですか？
@@ -171,7 +171,7 @@ email_confirm_expire: リンクの有効期限は１時間です。
 enter_your_comment: コメントを入力してください
 fediverse: フェディバース
 create_new_magazine: 新しいマガジンを作成
-federated_magazine_info: 連合するサーバーからマガジンの情報がないため不完全な場合があります。
+federated_magazine_info: この雑誌は連合サーバから、 かも知れない未完だ。
 add_new_photo: 新しい画像を追加
 image_alt: 画像の代替テキスト
 moderated: モデレートしている雑誌
@@ -184,9 +184,9 @@ reset_password: パスワードをリセットする
 repeat_password: パスワードを再入力
 classic_view: クラシック表示
 table_view: テーブル表示
-copy_url: URLをコピー
+copy_url: kbinのURLをコピー
 edit_link: リンクを編集する
-edit_comment: コメントを編集する
+edit_comment: 上書き保存
 general: 全般
 hide_adult: R-18・NSFWを非表示する
 featured_magazines: おすすめのマガジン
@@ -469,3 +469,61 @@ inactive: 非アクティブ
 mercure_enabled: Mercureが有効
 report_issue: バグを報告
 tokyo_night: 東京ナイト
+oauth2.grant.post.edit: 既存ポストをエディット 。
+oauth2.grant.user.message.all: メッセージを読んで、 他ユーザーにメッセージを飛ばす。
+oauth2.grant.moderate.magazine_admin.create: 新しい雑誌を作る。
+filter.adult.hide: R18/NSFWを見せない
+toolbar.bold: ボールド
+toolbar.header: ヘッダー
+oauth2.grant.user.message.read: メッセージを読む。
+filter.fields.only_names: 名前だけ
+oauth2.grant.entry.create: 新しいスレッドを作る。
+filter.adult.show: R18/NSFWを見せる
+oauth.consent.allow: 許す
+filter.adult.only: R18/NSFWだけ
+filter.fields.names_and_descriptions: 名前と記述
+oauth2.grant.user.profile.all: プロフィールを読んで、 エディットする。
+oauth2.grant.entry_comment.create: スレッドに新しいコメントを作る。
+oauth.consent.deny: 打ち消す
+oauth2.grant.entry_comment.delete: スレッドに既存コメントを消す。
+subject_reported_exists: このコンテンツはもう報告しました。
+oauth2.grant.entry.edit: 既存スレッドをエディットする。
+oauth2.grant.entry_comment.edit: スレッドに既存コメントをエディットする。
+oauth2.grant.user.profile.read: プロフィールを読む。
+toolbar.link: リンク
+moderation.report.ban_user_title: ユーザーを禁止します
+oauth2.grant.entry.delete: 既存スレッドを消す。
+toolbar.code: コード
+oauth2.grant.user.message.create: 他ユーザーにメッセージを飛ばす。
+update_comment: コメントをアップデート
+oauth2.grant.post_comment.create: ポストに新しいコメントを作る。
+oauth2.grant.post.delete: 既存ポストを消す。
+oauth2.grant.post.create: 新しいポストを作る。
+toolbar.image: 映像
+toolbar.italic: 斜体
+oauth2.grant.user.profile.edit: プロフィールをエディット。
+moderation.report.approve_report_title: 通知を許す
+moderation.report.reject_report_title: 通知を断る
+errors.server429.title: ４２９要望する過ぎる
+local_and_federated: ローカルと連合
+toolbar.ordered_list: 順序付きリスト
+custom_css: カスタムCSS
+toolbar.quote: 引き合いに出す
+toolbar.unordered_list: 順序不同リスト
+errors.server404.title: ４０４見つからない
+resend_account_activation_email: もう一度アカウントアクティブ化メールを飛ばす
+request_account_deletion_button: アカウント削除を要望する
+errors.server500.title: ５００サーバエラー
+toolbar.mention: メンション
+oauth2.grant.write.general: スレッドとポストとコメントを作ってか、 エディットする。
+single_settings: 単一
+resend_account_activation_email_question: 非活動アカウント？
+your_account_has_been_banned: アカウントは禁しました
+oauth2.grant.delete.general: スレッドとポストとコメントを消す。
+request_account_deletion_title: アカウント削除
+oauth2.grant.user.notification.delete: 通知を晴れる。
+email.delete.title: ユーザーのアカウント削除を要望する
+comment_reply_position: コメントのレスの位置
+kbin_bot: kbinのボット
+federation_page_enabled: 連合は使用可能をしました
+show_avatars_on_comments: コメントでアバターを見せる

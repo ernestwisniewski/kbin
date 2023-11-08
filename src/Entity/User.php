@@ -146,6 +146,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public bool $ignoreMagazinesCustomCss = false;
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
+    #[OneToMany(mappedBy: 'user', targetEntity: MagazineOwnershipRequest::class)]
+    public Collection $magazineOwnershipRequests;
+    #[OneToMany(mappedBy: 'user', targetEntity: ModeratorRequest::class)]
+    public Collection $moderatorRequests;
     #[OneToMany(mappedBy: 'user', targetEntity: Entry::class)]
     public Collection $entries;
     #[OneToMany(mappedBy: 'user', targetEntity: EntryVote::class, fetch: 'EXTRA_LAZY')]
@@ -249,6 +253,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
         $this->apProfileId = $apProfileId;
         $this->apId = $apId;
         $this->moderatorTokens = new ArrayCollection();
+        $this->magazineOwnershipRequests = new ArrayCollection();
+        $this->moderatorRequests = new ArrayCollection();
         $this->entries = new ArrayCollection();
         $this->entryVotes = new ArrayCollection();
         $this->entryComments = new ArrayCollection();
@@ -812,5 +818,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public function restore(): void
     {
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
+    }
+
+    public function hasModeratorRequest(Magazine $magazine): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $magazine));
+
+        return $this->moderatorRequests->matching($criteria)->count() > 0;
+    }
+
+    public function hasMagazineOwnershipRequest(Magazine $magazine): bool
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('magazine', $magazine));
+
+        return $this->magazineOwnershipRequests->matching($criteria)->count() > 0;
     }
 }

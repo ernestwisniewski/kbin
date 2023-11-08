@@ -1,5 +1,10 @@
 <section class="user-list section">
-    <h3>{{ 'moderators'|trans }}</h3>
+    <h3 style="display: flex;justify-content: space-between;">
+        {{ 'moderators'|trans }}
+        <a href="{{ path('magazine_moderators', {name: magazine.name}) }}">
+            <i class="fa-solid fa-hand-point-up" title="{{ 'apply_for_moderator'|trans }}"></i>
+        </a>
+    </h3>
     <ul>
         {% for moderator in magazine.moderators|slice(0, 5) %}
             <li>

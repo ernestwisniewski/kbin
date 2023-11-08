@@ -44,15 +44,23 @@
                                         <div class='action'>
                                             <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }}</span>
                                         </div>
-                                        <form action="#"
-                                              name="magazine_request_ownership"
-                                              method="post">
-                                            <button type="submit"
-                                                    class="btn btn__secondary action">
-                                                <i class="fa-sharp fa-solid fa-folder-minus"></i><span> transfer of ownership</span>
-                                            </button>
-                                            <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
-                                        </form>
+                                        {% if not app.user or not magazine.userIsOwner(app.user) %}
+                                            <form action="{{ path('magazine_ownership_request', {name: magazine.name}) }}"
+                                                  name="magazine_request_ownership"
+                                                  method="post">
+                                                <button type="submit"
+                                                        class="btn btn__secondary action">
+                                                    <i class="fa-sharp fa-solid fa-hand-point-up"></i>
+                                                    {% if not app.user or not app.user.hasMagazineOwnershipRequest(magazine) %}
+                                                        <span>{{ 'request_magazine_ownership'|trans }}</span>
+                                                    {% else %}
+                                                        <span>{{ 'cancel_request'|trans }}</span>
+                                                    {% endif %}
+                                                </button>
+                                                <input type="hidden" name="token"
+                                                       value="{{ csrf_token('magazine_ownership_request') }}">
+                                            </form>
+                                        {% endif %}
                                     </aside>
                                 </td>
                             </tr>
@@ -82,20 +90,27 @@
                                             <div class='action'>
                                                 <i class="fa-solid fa-users"></i><span>{{ magazine.subscriptionsCount }}</span>
                                             </div>
-                                            <form action="#"
-                                                  name="magazine_request_ownership"
-                                                  method="post">
-                                                <button type="submit"
-                                                        class="btn btn__secondary action">
-                                                    <i class="fa-sharp fa-solid fa-folder-minus"></i><span> transfer of ownership</span>
-                                                </button>
-                                                <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
-                                            </form>
+                                            {% if not app.user or not magazine.userIsOwner(app.user) %}
+                                                <form action="{{ path('magazine_ownership_request', {name: magazine.name}) }}"
+                                                      name="magazine_request_ownership"
+                                                      method="post">
+                                                    <button type="submit"
+                                                            class="btn btn__secondary action">
+                                                        <i class="fa-sharp fa-solid fa-hand-point-up"></i>
+                                                        {% if not app.user or not app.user.hasMagazineOwnershipRequest(magazine) %}
+                                                            <span>{{ 'request_magazine_ownership'|trans }}</span>
+                                                        {% else %}
+                                                            <span>{{ 'cancel_request'|trans }}</span>
+                                                        {% endif %}
+                                                    </button>
+                                                    <input type="hidden" name="token"
+                                                           value="{{ csrf_token('magazine_ownership_request') }}">
+                                                </form>
+                                            {% endif %}
                                         </aside>
                                     </td>
                                 </div>
                             </div>
-
                         </div>
                     {% endfor %}
                 </div>

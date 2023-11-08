@@ -21,7 +21,7 @@
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_2fa_remove') }}">
                         <button type="submit" class="btn btn__secondary">
-                            <i class="fa fa-mobile"></i> {{ '2fa.remove'|trans }}
+                            <i class="fa fa-mobile"></i> <span>{{ '2fa.remove'|trans }}</span>
                         </button>
                     </form>
                     <hr>
@@ -31,23 +31,31 @@
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                     <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
                     <button type="submit" class="btn btn__secondary">
-                        <i class="fa fa-ban"></i> {{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}
+                        <i class="fa fa-ban"></i> <span>{{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}</span>
                     </button>
                 </form>
                 {% if is_granted('ROLE_ADMIN') %}
+                    <form action="{{ path('user_remove_following', {username: user.username}) }}"
+                          method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_remove_following') }}">
+                        <button type="submit" class="btn btn__secondary">
+                            <i class="fa fa-solid fa-users-slash"></i> <span>{{ 'remove_following'|trans }}</span>
+                        </button>
+                    </form>
                     <hr>
                     <form action="{{ path('user_delete_content', {username: user.username}) }}" method="POST"
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_delete_content') }}">
                         <button type="submit" class="btn btn__secondary" title="{{ 'delete_content_desc'|trans }}">
-                            <i class="fa fa-dumpster"></i> {{ 'delete_content'|trans }}
+                            <i class="fa fa-dumpster"></i> <span>{{ 'delete_content'|trans }}</span>
                         </button>
                     </form>
                     <form action="{{ path('user_purge_content', {username: user.username}) }}" method="POST"
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_purge_content') }}">
                         <button type="submit" class="btn btn__danger" title="{{ 'purge_content_desc'|trans }}">
-                            <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_content'|trans }}
+                            <i class="fa-solid fa-dumpster-fire"></i> <span>{{ 'purge_content'|trans }}</span>
                         </button>
                     </form>
                     <hr>
@@ -55,14 +63,14 @@
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_delete_account') }}">
                         <button type="submit" class="btn btn__secondary" title="{{ 'delete_account_desc'|trans }}">
-                            <i class="fa fa-dumpster"></i> {{ 'delete_account'|trans }}
+                            <i class="fa fa-dumpster"></i> <span>{{ 'delete_account'|trans }}</span>
                         </button>
                     </form>
                     <form action="{{ path('user_purge_account', {username: user.username}) }}" method="POST"
                           onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                         <input type="hidden" name="token" value="{{ csrf_token('user_purge_account') }}">
                         <button type="submit" class="btn btn__danger" title="{{ 'purge_account_desc'|trans }}">
-                            <i class="fa-solid fa-dumpster-fire"></i> {{ 'purge_account'|trans }}
+                            <i class="fa-solid fa-dumpster-fire"></i> <span>{{ 'purge_account'|trans }}</span>
                         </button>
                     </form>
                 {% endif %}

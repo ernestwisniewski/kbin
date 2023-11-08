@@ -14,6 +14,22 @@
 
 {% block body %}
     <h1>{{ 'moderators'|trans }}</h1>
+    {% if not app.user or not magazine.userIsOwner(app.user) %}
+        <form action="{{ path('magazine_moderator_request', {name: magazine.name}) }}"
+              method="POST"
+              class="float-end mb-2"
+              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+            <input type="hidden" name="token" value="{{ csrf_token('moderator_request') }}">
+            <button type="submit" class="btn btn__secondary">
+                <i class="fa-solid fa-hand-point-up"></i>
+                {% if not app.user or not app.user.hasModeratorRequest(magazine) %}
+                    <span>{{ 'apply_for_moderator'|trans }}</span>
+                {% else %}
+                    <span>{{ 'cancel_request'|trans }}</span>
+                {% endif %}
+            </button>
+        </form>
+    {% endif %}
     {% include 'magazine/_moderators_list.html.twig' %}
     {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}
         {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}

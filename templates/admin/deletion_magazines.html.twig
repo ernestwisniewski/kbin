@@ -30,45 +30,47 @@
             </li>
         </menu>
     </div>
-    <div class="section" id="content">
-        <table>
-            <thead>
-            <tr>
-                <td>{{ 'name'|trans }}</td>
-                <td>{{ 'entries'|trans }}</td>
-                <td>{{ 'posts'|trans }}</td>
-                <td></td>
-            </tr>
-            </thead>
-            <tbody>
-            {% for magazine in magazines %}
+    {% if  magazines|length %}
+        <div class="section" id="content">
+            <table>
+                <thead>
                 <tr>
-                    <td>
-                        {% if magazine.icon %}
-                            <figure>
-                                <img width="32" height="32"
-                                     src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
-                                     alt="{{ magazine.name ~' '~ 'avatar'|trans|lower }}">
-                            </figure>
-                        {% endif %}
-                        <div>
-                            <a href="{{ path('front_magazine', {name: magazine.name}) }}"
-                               class="stretched-link">{{ magazine.name }}</a>
-                        </div>
-                    </td>
-                    <td>{{ magazine.entryCount }}</td>
-                    <td>{{ magazine.postCount }}</td>
-                    <td>{{ component('date', {date: magazine.markedForDeletionAt}) }}</td>
+                    <td>{{ 'name'|trans }}</td>
+                    <td>{{ 'entries'|trans }}</td>
+                    <td>{{ 'posts'|trans }}</td>
+                    <td></td>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    {% if(magazines.haveToPaginate is defined and magazines.haveToPaginate) %}
-        {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}
+                </thead>
+                <tbody>
+                {% for magazine in magazines %}
+                    <tr>
+                        <td>
+                            {% if magazine.icon %}
+                                <figure>
+                                    <img width="32" height="32"
+                                         src="{{ asset(magazine.icon.filePath) | imagine_filter('avatar_thumb') }}"
+                                         alt="{{ magazine.name ~' '~ 'avatar'|trans|lower }}">
+                                </figure>
+                            {% endif %}
+                            <div>
+                                <a href="{{ path('front_magazine', {name: magazine.name}) }}"
+                                   class="stretched-link">{{ magazine.name }}</a>
+                            </div>
+                        </td>
+                        <td>{{ magazine.entryCount }}</td>
+                        <td>{{ magazine.postCount }}</td>
+                        <td>{{ component('date', {date: magazine.markedForDeletionAt}) }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
         <aside class="section section--muted">
             <p>{{ 'empty'|trans }}</p>
         </aside>
+    {% endif %}
+    {% if(magazines.haveToPaginate is defined and magazines.haveToPaginate) %}
+        {{ pagerfanta(magazines, null, {'pageParameter':'[p]'}) }}
     {% endif %}
 {% endblock %}

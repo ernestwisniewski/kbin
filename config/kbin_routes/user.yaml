@@ -140,6 +140,11 @@ user_note:
   path: /u/{username}/note
   methods: [ POST ]
 
+user_remove_following:
+  controller: App\Controller\User\UserRemoveFollowing
+  path: /u/{username}/remove_following
+  methods: [ POST ]
+
 notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications
   path: /settings/notifications

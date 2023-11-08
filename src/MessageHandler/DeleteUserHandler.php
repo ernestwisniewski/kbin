@@ -12,9 +12,11 @@ use App\Entity\EntryComment;
 use App\Entity\Favourite;
 use App\Entity\MagazineBan;
 use App\Entity\MagazineBlock;
+use App\Entity\MagazineOwnershipRequest;
 use App\Entity\MagazineSubscription;
 use App\Entity\Message;
 use App\Entity\Moderator;
+use App\Entity\ModeratorRequest;
 use App\Entity\Notification;
 use App\Entity\Post;
 use App\Entity\PostComment;
@@ -93,6 +95,8 @@ class DeleteUserHandler
             $this->removeMod();
             $this->removeBans();
             $this->removeMessagesParticipants();
+            $this->removeModeratorRequests();
+            $this->removeModeratorOwnershipRequests();
 
             if ($message->contentOnly) {
                 return;
@@ -497,5 +501,25 @@ class DeleteUserHandler
         $stmt->bindValue('userId', $this->user->getId());
 
         $stmt->executeQuery();
+    }
+
+    private function removeModeratorRequests(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.ModeratorRequest::class.' r WHERE r.user = :userId'
+        );
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeModeratorOwnershipRequests(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.MagazineOwnershipRequest::class.' r WHERE r.user = :userId'
+        );
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
     }
 }

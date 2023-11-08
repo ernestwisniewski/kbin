@@ -7,6 +7,8 @@ namespace App\MessageHandler;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
+use App\Entity\MagazineOwnershipRequest;
+use App\Entity\ModeratorRequest;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Report;
@@ -55,6 +57,9 @@ class MagazinePurgeHandler
         if ($retry) {
             $this->bus->dispatch($message);
         } else {
+            $this->removeModeratorRequests();
+            $this->removeModeratorOwnershipRequests();
+
             if ($message->contentOnly) {
                 return;
             }
@@ -161,5 +166,25 @@ class MagazinePurgeHandler
         $query->execute();
 
         return false;
+    }
+
+    private function removeModeratorRequests(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.ModeratorRequest::class.' r WHERE r.magazine = :magazineId'
+        );
+        $query->setParameter('magazineId', $this->magazine->getId());
+        $query->execute();
+    }
+
+    private function removeModeratorOwnershipRequests(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.MagazineOwnershipRequest::class.' r WHERE r.magazine = :magazineId'
+        );
+        $query->setParameter('magazineId', $this->magazine->getId());
+        $query->execute();
     }
 }

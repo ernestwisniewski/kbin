@@ -341,4 +341,11 @@ class UserManager
     {
         $this->revokeDeleteRequest($user);
     }
+
+    public function removeFollowing(User $user): void
+    {
+        foreach ($user->follows as $follow) {
+            $this->unfollow($user, $follow->following);
+        }
+    }
 }

@@ -70,25 +70,25 @@
                 </form>
             {% endif %}
 
-            <p>{{ 'user_suspend_desc'|trans }}</p>
-            {% if app.user.visibility is same as 'trashed' %}
-                <form action="{{ path('user_reinstate', {username: app.user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">
-                    <button type="submit" class="btn btn__primary">
-                        <i class="fa-solid fa-dumpster"></i> {{ 'reinstate_account'|trans }}
-                    </button>
-                </form>
-            {% else %}
-                <form action="{{ path('user_suspend', {username: app.user.username}) }}" method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
-                      class="mb-2">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">
-                    <button type="submit" class="btn btn__primary">
-                        <i class="fa-solid fa-dumpster"></i> {{ 'suspend_account'|trans }}
-                    </button>
-                </form>
-            {% endif %}
+{#            <p>{{ 'user_suspend_desc'|trans }}</p>#}
+{#            {% if app.user.visibility is same as 'trashed' %}#}
+{#                <form action="{{ path('user_reinstate', {username: app.user.username}) }}" method="POST"#}
+{#                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">#}
+{#                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">#}
+{#                    <button type="submit" class="btn btn__primary">#}
+{#                        <i class="fa-solid fa-dumpster"></i> {{ 'reinstate_account'|trans }}#}
+{#                    </button>#}
+{#                </form>#}
+{#            {% else %}#}
+{#                <form action="{{ path('user_suspend', {username: app.user.username}) }}" method="POST"#}
+{#                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"#}
+{#                      class="mb-2">#}
+{#                    <input type="hidden" name="token" value="{{ csrf_token('user_suspend') }}">#}
+{#                    <button type="submit" class="btn btn__primary">#}
+{#                        <i class="fa-solid fa-dumpster"></i> {{ 'suspend_account'|trans }}#}
+{#                    </button>#}
+{#                </form>#}
+{#            {% endif %}#}
         </div>
     </div>
 {% endblock %}
