@@ -181,6 +181,14 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
         return !$user->moderatorTokens->matching($criteria)->isEmpty();
     }
 
+    public function getOwnerModerator(): Moderator
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('isOwner', true));
+
+        return $this->moderators->matching($criteria)->first();
+    }
+
     public function getOwner(): User
     {
         $criteria = Criteria::create()

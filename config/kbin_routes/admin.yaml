@@ -45,6 +45,21 @@ admin_moderator_purge:
   path: /admin/moderators/purge/{username}
   methods: [ POST ]
 
+admin_magazine_ownership_requests:
+  controller: App\Controller\Admin\AdminMagazineOwnershipRequestController::requests
+  path: /admin/magazine_ownership
+  methods: [ GET ]
+
+admin_magazine_ownership_requests_accept:
+  controller: App\Controller\Admin\AdminMagazineOwnershipRequestController::accept
+  path: /admin/magazine_ownership/{name}/{username}/accept
+  methods: [ POST ]
+
+admin_magazine_ownership_requests_reject:
+  controller: App\Controller\Admin\AdminMagazineOwnershipRequestController::reject
+  path: /admin/magazine_ownership/{name}/{username}/reject
+  methods: [ POST ]
+
 admin_cc:
   controller: App\Controller\Admin\AdminClearCacheController
   path: /admin/cc

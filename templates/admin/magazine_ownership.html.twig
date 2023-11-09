@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'ownership_requests'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-ownership-requests{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    {% if requests|length %}
+        <div class="section" id="content">
+            <table>
+                <thead>
+                <tr>
+                    <td>{{ 'magazine'|trans }}</td>
+                    <td>{{ 'user'|trans }}</td>
+                    <td>{{ 'reputation_points'|trans }}</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ component('magazine_inline', {magazine: request.magazine}) }}</td>
+                        <td>{{ component('user_inline', {user: request.user}) }}</td>
+                        <td>{{ get_reputation_total(request.user) }}</td>
+                        <td>
+                            <aside class="magazine__subscribe">
+                                <form action="{{ path('admin_magazine_ownership_requests_accept', {name: request.magazine.name, username: request.user.username}) }}"
+                                      name="ownership_requests_accept"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                      method="post">
+                                    <button type="submit"
+                                            title="{{ 'accept'|trans }}"
+                                            class="btn btn__secondary">
+                                        {{ 'accept'|trans }}
+                                    </button>
+                                    <input type="hidden" name="token" value="{{ csrf_token('admin_magazine_ownership_requests_accept') }}">
+                                </form>
+                                <form action="{{ path('admin_magazine_ownership_requests_reject', {name: request.magazine.name, username: request.user.username}) }}"
+                                      name="ownership_requests_reject"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                      method="post">
+                                    <button type="submit"
+                                            class="btn btn__secondary"
+                                            title="{{ 'reject'|trans }}">
+                                        <i class="fa-solid fa-ban"></i>
+                                    </button>
+                                    <input type="hidden" name="token"
+                                           value="{{ csrf_token('admin_magazine_ownership_requests_reject') }}">
+                                </form>
+                            </aside>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <aside class="section section--muted">
+            <p>{{ 'empty'|trans }}</p>
+        </aside>
+    {% endif %}
+    {% if(requests.haveToPaginate is defined and requests.haveToPaginate) %}
+        {{ pagerfanta(requests, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+{% endblock %}

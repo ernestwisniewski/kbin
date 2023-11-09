@@ -19,21 +19,11 @@ class MagazineModeratorRequestController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('subscribe', subject: 'magazine')]
-    public function toggle(Magazine $magazine, Request $request): Response
+    public function __invoke(Magazine $magazine, Request $request): Response
     {
         $this->validateCsrf('moderator_request', $request->request->get('token'));
 
         $this->manager->toggleModeratorRequest($magazine, $this->getUserOrThrow());
-
-        return $this->redirectToRefererOrHome($request);
-    }
-
-    #[IsGranted('ROLE_ADMIN')]
-    public function accept(Magazine $magazine, Request $request): Response
-    {
-        $this->validateCsrf('moderator_request_accept', $request->request->get('token'));
-
-        $this->manager->acceptModeratorRequest($magazine, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }

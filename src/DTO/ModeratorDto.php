@@ -21,5 +21,6 @@ class ModeratorDto
     public function __construct(?Magazine $magazine, User $user = null)
     {
         $this->magazine = $magazine;
+        $this->user = $user;
     }
 }

@@ -81,23 +81,11 @@ magazine_remove_subscriptions:
   methods: [ POST ]
 
 magazine_moderator_request:
-  controller: App\Controller\Magazine\MagazineModeratorRequestController::toggle
+  controller: App\Controller\Magazine\MagazineModeratorRequestController
   path: /m/{name}/moderator_request
-  methods: [ POST ]
-
-magazine_moderator_request_accept:
-  controller: App\Controller\Magazine\MagazineModeratorRequestController::accept
-  path: /m/{name}/moderator_request_accept
   methods: [ POST ]
 
 magazine_ownership_request:
   controller: App\Controller\Magazine\MagazineOwnershipRequestController::toggle
   path: /m/{name}/ownership_request
   methods: [ POST ]
-
-magazine_ownership_request_accept:
-  controller: App\Controller\Magazine\MagazineOwnershipRequestController::accept
-  path: /m/{name}/ownership_request
-  methods: [ POST ]
-
-

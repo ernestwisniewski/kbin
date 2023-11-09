@@ -75,3 +75,19 @@ magazine_panel_stats:
   defaults: { statsType: content, statsPeriod: 31, withFederated: false }
   path: /m/{name}/panel/stats/{statsType}/{statsPeriod}/{withFederated}
   methods: [ GET ]
+
+magazine_panel_moderator_requests:
+  controller: App\Controller\Magazine\Panel\MagazineModeratorRequestsController::requests
+  path: /m/{name}/panel/moderator_requests
+  methods: [ GET ]
+
+magazine_panel_moderator_request_accept:
+  controller: App\Controller\Magazine\Panel\MagazineModeratorRequestsController::accept
+  path: /m/{name}/moderator_requests/{username}/accept
+  methods: [ POST ]
+
+magazine_panel_moderator_request_reject:
+  controller: App\Controller\Magazine\Panel\MagazineModeratorRequestsController::reject
+  path: /m/{name}/panel/moderator_requests/{username}/reject
+  methods: [ POST ]
+

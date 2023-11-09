@@ -307,26 +307,40 @@ class EntryFrontController extends AbstractController
         $posts = $pagination->getCurrentPageResults();
 
         $firstIndexes = [];
-        $results = [];
+        $tmp = [];
+        $duplicates = [];
 
-        foreach ($posts as $item) {
-            $groupingField = !empty($item->url) ? $item->url : $item->title;
+        foreach ($posts as $post) {
+            $groupingField = !empty($post->url) ? $post->url : $post->title;
+
             if (!\in_array($groupingField, $firstIndexes)) {
-                $results[] = $item;
+                $tmp[] = $post;
                 $firstIndexes[] = $groupingField;
             } else {
-                $insertIndex = array_search($groupingField, array_column($results, 'url')) + 1;
-                array_splice($results, $insertIndex, 0, [$item]);
-                $results[$insertIndex]->cross = true;
+                if (!\in_array($groupingField, array_column($duplicates, 'groupingField'), true)) {
+                    $duplicates[] = (object) [
+                        'groupingField' => $groupingField,
+                        'items' => [],
+                    ];
+                }
+
+                $duplicateIndex = array_search($groupingField, array_column($duplicates, 'groupingField'));
+                $duplicates[$duplicateIndex]->items[] = $post;
+
+                $post->cross = true;
             }
         }
 
-        for ($i = 0; $i < \count($results) - 1; ++$i) {
-            if (true === $results[$i]->cross && true === $results[$i + 1]->cross) {
-                $temp = $results[$i];
-                $results[$i] = $results[$i + 1];
-                $results[$i + 1] = $temp;
-                ++$i;
+        $results = [];
+        foreach ($tmp as $item) {
+            $results[] = $item;
+            $groupingField = !empty($item->url) ? $item->url : $item->title;
+
+            $duplicateIndex = array_search($groupingField, array_column($duplicates, 'groupingField'));
+            if (false !== $duplicateIndex) {
+                foreach ($duplicates[$duplicateIndex]->items as $duplicateItem) {
+                    $results[] = $duplicateItem;
+                }
             }
         }
 

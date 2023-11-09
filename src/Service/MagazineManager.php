@@ -45,7 +45,7 @@ class MagazineManager
         private readonly MagazineSubscriptionRequestRepository $requestRepository,
         private readonly MagazineSubscriptionRepository $subscriptionRepository,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ImageRepository $imageRepository
+        private readonly ImageRepository $imageRepository,
     ) {
     }
 
@@ -216,11 +216,11 @@ class MagazineManager
         return $ban;
     }
 
-    public function addModerator(ModeratorDto $dto): void
+    public function addModerator(ModeratorDto $dto, ?bool $isOwner = false): void
     {
         $magazine = $dto->magazine;
 
-        $magazine->addModerator(new Moderator($magazine, $dto->user, false, true));
+        $magazine->addModerator(new Moderator($magazine, $dto->user, $isOwner, true));
 
         $this->entityManager->flush();
 
@@ -323,7 +323,17 @@ class MagazineManager
 
     public function acceptOwnershipRequest(Magazine $magazine, User $user): void
     {
-        $this->addModerator(new ModeratorDto($magazine, $user));
+        $this->removeModerator($magazine->getOwnerModerator());
+
+        $this->addModerator(new ModeratorDto($magazine, $user), true);
+
+        $request = $this->entityManager->getRepository(MagazineOwnershipRequest::class)->findOneBy([
+            'magazine' => $magazine,
+            'user' => $user,
+        ]);
+
+        $this->entityManager->remove($request);
+        $this->entityManager->flush();
     }
 
     public function toggleModeratorRequest(Magazine $magazine, User $user): void
@@ -348,5 +358,14 @@ class MagazineManager
 
     public function acceptModeratorRequest(Magazine $magazine, User $user): void
     {
+        $this->addModerator(new ModeratorDto($magazine, $user));
+
+        $request = $this->entityManager->getRepository(ModeratorRequest::class)->findOneBy([
+            'magazine' => $magazine,
+            'user' => $user,
+        ]);
+
+        $this->entityManager->remove($request);
+        $this->entityManager->flush();
     }
 }

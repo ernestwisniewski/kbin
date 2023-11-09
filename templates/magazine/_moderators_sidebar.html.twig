@@ -2,7 +2,9 @@
     <h3 style="display: flex;justify-content: space-between;">
         {{ 'moderators'|trans }}
         <a href="{{ path('magazine_moderators', {name: magazine.name}) }}">
-            <i class="fa-solid fa-hand-point-up" title="{{ 'apply_for_moderator'|trans }}"></i>
+            <i class="fa-solid fa-hand-point-up"
+               title="{{ 'apply_for_moderator'|trans }}"></i> {% if is_granted('edit', magazine) and magazine.moderatorRequests|length %}
+                <small>({{ magazine.moderatorRequests|length }})</small>{% endif %}
         </a>
     </h3>
     <ul>
