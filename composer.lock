@@ -13308,16 +13308,16 @@
         },
         {
             "name": "symfony/ux-autocomplete",
-            "version": "v2.13.0",
+            "version": "v2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-autocomplete.git",
-                "reference": "588eec246ec5261940fdec84367fd16539dfcb47"
+                "reference": "6b21ca8dbe60bc499ada3b1c438c43daa0a0876e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-autocomplete/zipball/588eec246ec5261940fdec84367fd16539dfcb47",
-                "reference": "588eec246ec5261940fdec84367fd16539dfcb47",
+                "url": "https://api.github.com/repos/symfony/ux-autocomplete/zipball/6b21ca8dbe60bc499ada3b1c438c43daa0a0876e",
+                "reference": "6b21ca8dbe60bc499ada3b1c438c43daa0a0876e",
                 "shasum": ""
             },
             "require": {
@@ -13379,7 +13379,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-autocomplete/tree/v2.13.0"
+                "source": "https://github.com/symfony/ux-autocomplete/tree/v2.13.1"
             },
             "funding": [
                 {
@@ -13395,20 +13395,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-07T21:10:32+00:00"
+            "time": "2023-11-09T07:28:48+00:00"
         },
         {
             "name": "symfony/ux-chartjs",
-            "version": "v2.13.0",
+            "version": "v2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-chartjs.git",
-                "reference": "8c0dd710bdfd06c57cd39b76a1657f61eebf080d"
+                "reference": "6d4dc1ba2ac8f81ca364eecf73f063972a97685c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/8c0dd710bdfd06c57cd39b76a1657f61eebf080d",
-                "reference": "8c0dd710bdfd06c57cd39b76a1657f61eebf080d",
+                "url": "https://api.github.com/repos/symfony/ux-chartjs/zipball/6d4dc1ba2ac8f81ca364eecf73f063972a97685c",
+                "reference": "6d4dc1ba2ac8f81ca364eecf73f063972a97685c",
                 "shasum": ""
             },
             "require": {
@@ -13459,7 +13459,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-chartjs/tree/v2.13.0"
+                "source": "https://github.com/symfony/ux-chartjs/tree/v2.13.1"
             },
             "funding": [
                 {
@@ -13475,20 +13475,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-07T21:10:32+00:00"
+            "time": "2023-11-09T15:20:50+00:00"
         },
         {
             "name": "symfony/ux-twig-component",
-            "version": "v2.13.0",
+            "version": "v2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-twig-component.git",
-                "reference": "835d54faa24d9baa7db76167bc296c8d32ea6617"
+                "reference": "7635b2e41f222724aa7d806965da46600cf3aad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/835d54faa24d9baa7db76167bc296c8d32ea6617",
-                "reference": "835d54faa24d9baa7db76167bc296c8d32ea6617",
+                "url": "https://api.github.com/repos/symfony/ux-twig-component/zipball/7635b2e41f222724aa7d806965da46600cf3aad4",
+                "reference": "7635b2e41f222724aa7d806965da46600cf3aad4",
                 "shasum": ""
             },
             "require": {
@@ -13543,7 +13543,7 @@
                 "twig"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-twig-component/tree/v2.13.0"
+                "source": "https://github.com/symfony/ux-twig-component/tree/v2.13.1"
             },
             "funding": [
                 {
@@ -13559,7 +13559,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-07T21:10:30+00:00"
+            "time": "2023-11-08T14:37:05+00:00"
         },
         {
             "name": "symfony/validator",
