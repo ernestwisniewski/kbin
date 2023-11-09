@@ -85,6 +85,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->andWhere('m.visibility = :visible')
             ->andWhere('u.visibility = :visible')
             ->join('e.magazine', 'm')
+            ->join('e.user', 'u')
             ->leftJoin('e.domain', 'd');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
