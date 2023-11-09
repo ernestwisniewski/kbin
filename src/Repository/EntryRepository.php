@@ -85,7 +85,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->andWhere('m.visibility = :visible')
             ->andWhere('u.visibility = :visible')
             ->join('e.magazine', 'm')
-            ->join('e.user', 'u')
             ->leftJoin('e.domain', 'd');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
@@ -94,8 +93,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             )
                 ->setParameter('euf_user', $user)
                 ->setParameter('euf_visibility', VisibilityInterface::VISIBILITY_PRIVATE);
-        } else {
-            $qb->orWhere('e.user IS NULL');
         }
 
         $qb->setParameter('visibility', $criteria->visibility)
@@ -324,11 +321,9 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
             ->andWhere('e.visibility = :visibility')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
             ->join('e.magazine', 'm')
-            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)
@@ -343,11 +338,9 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
             ->andWhere('e.visibility = :visibility')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
             ->join('e.magazine', 'm')
-            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(
                 ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
@@ -365,11 +358,9 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->where('e.isAdult = false')
             ->andWhere('e.visibility = :visibility')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.apId IS NULL')
             ->join('e.magazine', 'm')
-            ->join('e.user', 'u')
             ->orderBy('e.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
             ->setMaxResults($limit)

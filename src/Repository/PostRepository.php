@@ -82,8 +82,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->where('p.visibility = :visibility')
             ->join('p.magazine', 'm')
             ->join('p.user', 'u')
-            ->andWhere('m.visibility = :visible')
-            ->andWhere('u.visibility = :visible');
+            ->andWhere('m.visibility = :visible');
 
         if ($user && VisibilityInterface::VISIBILITY_VISIBLE === $criteria->visibility) {
             $qb->orWhere(
@@ -91,8 +90,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             )
                 ->setParameter('puf_user', $user)
                 ->setParameter('puf_visibility', VisibilityInterface::VISIBILITY_PRIVATE);
-        } else {
-            $qb->orWhere('p.user IS NULL');
         }
 
         $qb->setParameter('visibility', $criteria->visibility)
@@ -297,12 +294,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
             ->andWhere('p.visibility = :visibility')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('u.visibility = :visibility')
             ->andWhere('m.name != :name')
             ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
-            ->join('p.user', 'u')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE, 'name' => $tag])
             ->setMaxResults($limit)
@@ -317,11 +312,9 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
             ->andWhere('p.visibility = :visibility')
             ->andWhere('m.visibility = :visibility')
-            ->andWhere('u.visibility = :visibility')
             ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
-            ->join('p.user', 'u')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(
                 ['name' => "%{$name}%", 'title' => "%{$name}%", 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
@@ -338,8 +331,10 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb
             ->where('p.isAdult = false')
             ->andWhere('p.visibility = :visibility')
-            ->andWhere('p.apId IS NULL')
+            ->andWhere('m.visibility = :visibility')
+            ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
+            ->andWhere('p.apId IS NULL')
             ->join('p.magazine', 'm')
             ->orderBy('p.createdAt', 'DESC')
             ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
