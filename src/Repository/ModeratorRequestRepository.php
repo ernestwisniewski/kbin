@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Magazine;
 use App\Entity\ModeratorRequest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,10 +30,12 @@ class ModeratorRequestRepository extends ServiceEntityRepository
         parent::__construct($registry, ModeratorRequest::class);
     }
 
-    public function findAllPaginated(?int $page): PagerfantaInterface
+    public function findAllPaginated(Magazine $magazine, ?int $page): PagerfantaInterface
     {
         $qb = $this->createQueryBuilder('r')
-            ->orderBy('r.createdAt', 'ASC');
+            ->where('r.magazine = :magazine')
+            ->orderBy('r.createdAt', 'ASC')
+            ->setParameter('magazine', $magazine);
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(

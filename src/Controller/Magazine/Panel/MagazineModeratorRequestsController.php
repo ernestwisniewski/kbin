@@ -26,7 +26,7 @@ class MagazineModeratorRequestsController extends AbstractController
     {
         return $this->render('magazine/panel/moderator_requests.html.twig', [
             'magazine' => $magazine,
-            'requests' => $this->repository->findAllPaginated($request->get('page', 1)),
+            'requests' => $this->repository->findAllPaginated($magazine, $request->get('page', 1)),
         ]);
     }
 
