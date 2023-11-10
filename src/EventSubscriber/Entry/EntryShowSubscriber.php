@@ -47,7 +47,7 @@ readonly class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        array_map(fn($notification) => $notification->status = Notification::STATUS_READ, $notifications);
+        array_map(fn ($notification) => $notification->status = Notification::STATUS_READ, $notifications);
 
         $this->entityManager->flush();
     }
