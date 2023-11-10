@@ -814,3 +814,7 @@ ownership_requests: Ownership requests
 accept: Accept
 pending: Pending
 moderator_requests: Mod requests
+spam_protection: Spam protection
+open_original_url: Open original URL
+enable_spam_protection: Enable spam protection
+disable_spam_protection: Disable spam protection
