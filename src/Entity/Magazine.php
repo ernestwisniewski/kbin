@@ -181,6 +181,11 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
         return !$user->moderatorTokens->matching($criteria)->isEmpty();
     }
 
+    public function isAbandoned(): bool
+    {
+        return $this->getOwner()->lastActive < new \DateTime('-1 month');
+    }
+
     public function getOwnerModerator(): Moderator
     {
         $criteria = Criteria::create()

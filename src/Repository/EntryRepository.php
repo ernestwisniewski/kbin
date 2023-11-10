@@ -413,18 +413,18 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             return [];
         }
 
-        if (\strlen($entry->title) > 10) {
+        if ($entry->url) {
+            $qb->where('e.url = :url')
+                ->setParameter('url', $entry->url);
+        } else {
             $qb->where('e.title = :title')
                 ->setParameter('title', $entry->title);
         }
 
-        if ($entry->url) {
-            $qb->orWhere('e.url = :url')
-                ->setParameter('url', $entry->url);
-        }
-
         $qb->andWhere('e.id != :id')
+            ->andWhere('m.visibility = :visibility')
             ->andWhere('e.visibility = :visibility')
+            ->join('e.magazine', 'm')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->setParameter('id', $entry->getId())
             ->orderBy('e.createdAt', 'DESC')

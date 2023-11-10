@@ -34,9 +34,7 @@
             showShortSentence: false,
             showBody:true
         }) }}
-        {% for cross in crossPosts %}
-            {{ component('entry_cross', {entry: cross}) }}
-        {% endfor %}
+        {{ component('entries_cross', {entry: entry}) }}
         {% include 'layout/_flash.html.twig' %}
         {% include 'entry/comment/_options.html.twig' %}
         

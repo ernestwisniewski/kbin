@@ -262,7 +262,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         );
     }
 
-    public function countPostCommentsByMagazine(Magazine $magazine)
+    public function countPostCommentsByMagazine(Magazine $magazine): int
     {
         return \intval(
             $this->createQueryBuilder('p')
@@ -279,7 +279,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $this->createQueryBuilder('p')
             ->where('p.visibility != :visibility')
             ->andWhere('p.user = :user')
-            ->setParameters(['visibility' => Post::VISIBILITY_SOFT_DELETED, 'user' => $user])
+            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_SOFT_DELETED, 'user' => $user])
             ->orderBy('p.id', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()

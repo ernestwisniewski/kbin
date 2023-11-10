@@ -14,22 +14,42 @@
 
 {% block body %}
     <h1>{{ 'moderators'|trans }}</h1>
-    {% if not app.user or not magazine.userIsModerator(app.user) %}
-        <form action="{{ path('magazine_moderator_request', {name: magazine.name}) }}"
-              method="POST"
-              class="float-end mb-2"
-              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-            <input type="hidden" name="token" value="{{ csrf_token('moderator_request') }}">
-            <button type="submit" class="btn btn__secondary">
-                <i class="fa-solid fa-hand-point-up"></i>
-                {% if not app.user or not app.user.hasModeratorRequest(magazine) %}
-                    <span>{{ 'apply_for_moderator'|trans }}</span>
-                {% else %}
-                    <span>{{ 'cancel_request'|trans }}</span>
-                {% endif %}
-            </button>
-        </form>
-    {% endif %}
+    <div class="flex">
+        {% if not app.user or not magazine.userIsModerator(app.user) %}
+            <form action="{{ path('magazine_moderator_request', {name: magazine.name}) }}"
+                  method="POST"
+                  class="float-end mb-2"
+                  onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                <input type="hidden" name="token" value="{{ csrf_token('moderator_request') }}">
+                <button type="submit" class="btn btn__secondary">
+                    <i class="fa-solid fa-hand-point-up"></i>
+                    {% if not app.user or not app.user.hasModeratorRequest(magazine) %}
+                        <span>{{ 'apply_for_moderator'|trans }}</span>
+                    {% else %}
+                        <span>{{ 'cancel_request'|trans }}</span>
+                    {% endif %}
+                </button>
+            </form>
+        {% endif %}
+        {% if not app.user or not magazine.userIsOwner(app.user) and magazine.isAbandoned() %}
+            <form action="{{ path('magazine_ownership_request', {name: magazine.name}) }}"
+                  name="magazine_request_ownership"
+                  class="float-end mb-2"
+                  method="post">
+                <button type="submit"
+                        class="btn btn__secondary">
+                    <i class="fa-sharp fa-solid fa-hand-point-up"></i>
+                    {% if not app.user or not app.user.hasMagazineOwnershipRequest(magazine) %}
+                        <span>{{ 'request_magazine_ownership'|trans }}</span>
+                    {% else %}
+                        <span>{{ 'cancel_request'|trans }}</span>
+                    {% endif %}
+                </button>
+                <input type="hidden" name="token"
+                       value="{{ csrf_token('magazine_ownership_request') }}">
+            </form>
+        {% endif %}
+    </div>
     {% include 'magazine/_moderators_list.html.twig' %}
     {% if(moderators.haveToPaginate is defined and moderators.haveToPaginate) %}
         {{ pagerfanta(moderators, null, {'pageParameter':'[p]'}) }}
