@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use App\Entity\Badge;
 use App\Entity\Magazine;
 use App\Validator\Unique;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Unique({"magazine", "name"}, entityClass="App\Entity\Badge", errorPath="name")
- */
+#[Unique(Badge::class, errorPath: 'name', fields: ['magazine', 'name'])]
 #[OA\Schema()]
 class BadgeDto
 {

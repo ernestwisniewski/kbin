@@ -18,7 +18,7 @@
         "babdev/pagerfanta-bundle": "^v4.0.0",
         "composer/package-versions-deprecated": "^1.11.99.5",
         "debril/rss-atom-bundle": "^5.1",
-        "doctrine/annotations": "^1.0",
+        "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",

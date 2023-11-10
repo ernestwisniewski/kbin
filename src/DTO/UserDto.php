@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\DTO\Contracts\UserDtoInterface;
+use App\Entity\User;
 use App\Utils\RegPatterns;
 use App\Validator\Unique;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-/**
- * @Unique(entityClass="App\Entity\User", errorPath="username", fields={"username"}, idFields="id")
- * @Unique(entityClass="App\Entity\User", errorPath="email", fields={"email"}, idFields="id")
- */
+#[Unique(User::class, errorPath: 'email', fields: ['email'], idFields: ['id'])]
+#[Unique(User::class, errorPath: 'username', fields: ['username'], idFields: ['id'])]
 class UserDto implements UserDtoInterface
 {
     public const MAX_USERNAME_LENGTH = 30;

@@ -4,79 +4,47 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-use Doctrine\Common\Annotations\Annotation\Target;
+use Attribute;
+use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 /**
- * For this to work when editing something, the DTO must hold the ID of the
- * entity being edited, and the ID mapped using `$idFields`.
- *
- * @Annotation
- *
- * @Target({"CLASS"})
+ * For this to work when editing something, the DTO must hold the ID
+ * of the entity being edited, and the ID mapped using `$idFields`.
  */
+#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
 class Unique extends Constraint
 {
     public const NOT_UNIQUE_ERROR = 'eec1b008-c55b-4d91-b5ad-f0b201eb8ada';
 
-    protected static $errorNames = [
+    protected const ERROR_NAMES = [
         self::NOT_UNIQUE_ERROR => 'NOT_UNIQUE_ERROR',
     ];
 
-    public $message = 'This value is already used.';
+    public string $message = 'This value is already used.';
 
     /**
-     * @var string
+     * @param non-empty-array<int|string, string> $fields      DTO -> entity field mapping
+     * @param array<int|string, string>           $idFields    DTO -> entity ID field mapping
+     * @param class-string                        $entityClass
      */
-    public $entityClass;
-
-    /**
-     * DTO -> entity field mapping.
-     *
-     * @var string[]
-     */
-    public $fields;
-
-    /**
-     * DTO -> entity ID field mapping.
-     *
-     * @var string[]|null
-     */
-    public $idFields;
-
-    public $errorPath = '';
-
-    public function __construct($options = null)
-    {
-        parent::__construct($options);
-
-        $fields = $options['fields'] ?? $options['value'];
-
-        if (!\is_array($fields) && !\is_string($fields)) {
-            throw new UnexpectedTypeException($fields, 'array or string');
-        }
-
-        $fields = (array) $fields;
+    #[HasNamedArguments]
+    public function __construct(
+        public string $entityClass,
+        public string $errorPath,
+        public array $fields,
+        public array $idFields = [],
+    ) {
+        parent::__construct([]);
 
         if (0 === \count($fields)) {
-            throw new InvalidOptionsException('fields option must have at least one field', ['fields']);
+            throw new InvalidOptionsException('`fields` option must have at least one field', ['fields']);
         }
 
-        if (!$options['entityClass']) {
+        if ('' === $this->entityClass) {
             throw new InvalidOptionsException('Bad entity class', ['entityClass']);
         }
-    }
-
-    public function getRequiredOptions(): array
-    {
-        return ['fields', 'entityClass'];
-    }
-
-    public function getDefaultOption(): string
-    {
-        return 'fields';
     }
 
     public function getTargets(): array

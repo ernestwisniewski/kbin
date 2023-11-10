@@ -12,9 +12,7 @@ use App\Validator\Unique;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @Unique(entityClass="App\Entity\Magazine", errorPath="name", fields={"name"}, idFields="id")
- */
+#[Unique(Magazine::class, errorPath: 'name', fields: ['name'], idFields: ['id'])]
 class MagazineDto
 {
     public const MAX_NAME_LENGTH = 25;
