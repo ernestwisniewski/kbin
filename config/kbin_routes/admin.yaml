@@ -65,6 +65,11 @@ admin_cc:
   path: /admin/cc
   methods: [ GET ]
 
+admin_spam_protection_toggle:
+  controller: App\Controller\Admin\AdminUserSpamProtectionController
+  path: /admin/spam_protection/{username}/toggle
+  methods: [ POST ]
+
 admin_dashboard:
   controller: App\Controller\Admin\AdminDashboardController
   path: /admin/{statsPeriod}/{withFederated}

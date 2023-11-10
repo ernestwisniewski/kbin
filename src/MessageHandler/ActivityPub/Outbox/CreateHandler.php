@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
+use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -25,7 +26,8 @@ class CreateHandler
         private readonly CreateWrapper $createWrapper,
         private readonly EntityManagerInterface $entityManager,
         private readonly ActivityPubManager $activityPubManager,
-        private readonly SettingsManager $settingsManager
+        private readonly SettingsManager $settingsManager,
+        private readonly UserManager $userManager
     ) {
     }
 
@@ -36,6 +38,12 @@ class CreateHandler
         }
 
         $entity = $this->entityManager->getRepository($message->type)->find($message->id);
+
+        if ($this->settingsManager->get('KBIN_SPAM_PROTECTION')) {
+            if ($this->userManager->getReputationTotal($entity->user) < 8 && $entity->user->spamProtection) {
+                return;
+            }
+        }
 
         $activity = $this->createWrapper->build($entity);
 

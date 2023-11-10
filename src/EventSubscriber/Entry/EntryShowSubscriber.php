@@ -12,15 +12,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Tchoulom\ViewCounterBundle\Counter\ViewCounter as Counter;
 
-class EntryShowSubscriber implements EventSubscriberInterface
+readonly class EntryShowSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly Counter $viewCounter,
-        private readonly Security $security,
-        private readonly NotificationRepository $repository,
-        private readonly EntityManagerInterface $entityManager
+        private Security $security,
+        private NotificationRepository $repository,
+        private EntityManagerInterface $entityManager
     ) {
     }
 

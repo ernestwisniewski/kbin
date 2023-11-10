@@ -1,0 +1,69 @@
+<li class="dropdown">
+    <button class="stretched-link" data-subject-target="more">{{ 'more'|trans|lower }}</button>
+    <ul class="dropdown__menu" data-controller="clipboard">
+        <li>
+            <a href="{{ path('post_comment_report', {id: comment.id}) }}"
+               class="{{ html_classes({'active': is_route_name('post_comment_report')}) }}"
+               data-action="subject#getForm">
+                {{ 'report'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ post_comment_voters_url(comment) }}"
+               class="{{ html_classes({'active': is_route_name('post_comment_favourites') or is_route_name('post_comment_voters')}) }}">
+                {{ 'activity'|trans|lower }}
+            </a>
+        </li>
+        <hr>
+        <li>
+            <a data-action="clipboard#copy"
+               href="{{ post_url(comment.post) }}#{{ get_url_fragment(comment) }}">
+                {{ 'copy_url'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a data-action="clipboard#copy"
+               href="{{ comment.apId ?? path('ap_post_comment', {magazine_name: comment.magazine.name, post_id: comment.post.id, comment_id: comment.id}) }}">
+                {{ 'copy_url_to_fediverse'|trans|lower }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ comment.apId ?? path('ap_post_comment', {magazine_name: comment.magazine.name, post_id: comment.post.id, comment_id: comment.id}) }}"
+               target="_blank">
+                {{ 'open_original_url'|trans|lower }}
+            </a>
+        </li>
+        {% if app.user and comment.isAuthor(app.user) or is_granted('moderate', comment) %}
+            <hr>
+        {% endif %}
+        {% if is_granted('edit', comment) %}
+            <li>
+                <a href="{{ post_comment_edit_url(comment) }}"
+                   class="{{ html_classes({'active': is_route_name('post_comment_edit')}) }}"
+                   data-action="subject#getForm">
+                    {{ 'edit'|trans|lower }}
+                </a>
+            </li>
+        {% endif %}
+        {% if app.user and comment.isAuthor(app.user) %}
+            <li>
+                <form method="post"
+                      action="{{ post_comment_delete_url(comment) }}"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token"
+                           value="{{ csrf_token('post_comment_delete') }}">
+                    <button type="submit">{{ 'delete'|trans|lower }}</button>
+                </form>
+            </li>
+        {% endif %}
+        {% if is_granted('moderate', comment) %}
+            <li>
+                <a href="{{ post_comment_moderate_url(comment) }}"
+                   class="{{ html_classes({'active': is_route_name('post_comment_moderate')}) }}"
+                   data-action="subject#showModPanel">
+                    {{ 'moderate'|trans|lower }}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</li>
