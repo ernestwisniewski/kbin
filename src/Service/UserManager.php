@@ -323,7 +323,7 @@ readonly class UserManager
     public function deleteRequest(User $user): void
     {
         $user->markedForDeletionAt = new \DateTime();
-        $user->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
+        $user->visibility = VisibilityInterface::VISIBILITY_TRASHED;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

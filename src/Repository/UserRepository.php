@@ -267,7 +267,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->where('u.apId IS NULL')
             ->andWhere('u.visibility = :visibility')
             ->orderBy('u.markedForDeletionAt', 'ASC')
-            ->setParameter('visibility', VisibilityInterface::VISIBILITY_SOFT_DELETED)
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_TRASHED)
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(
