@@ -63,7 +63,6 @@ class EntryFactory
             $dto->favouriteCount,
             $dto->isOc,
             $dto->isAdult,
-            $dto->views,
             $dto->createdAt,
             $dto->editedAt,
             $dto->lastActive,
@@ -93,7 +92,6 @@ class EntryFactory
         $dto->lang = $entry->lang;
         $dto->badges = $entry->badges;
         $dto->slug = $entry->slug;
-        $dto->views = $entry->views;
         $dto->score = $entry->score;
         $dto->visibility = $entry->visibility;
         $dto->ip = $entry->ip;

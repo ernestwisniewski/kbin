@@ -43,7 +43,6 @@ class EntryDto implements ContentVisibilityInterface
     public bool $isPinned = false;
     public ?Collection $badges = null;
     public ?string $slug = null;
-    public int $views = 0;
     public int $score = 0;
     public ?string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public ?string $ip = null;

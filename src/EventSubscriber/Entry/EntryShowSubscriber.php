@@ -34,16 +34,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
 
     public function onShowEntry(EntryHasBeenSeenEvent $event): void
     {
-        $this->saveView($event->entry);
         $this->readMessage($event->entry);
-    }
-
-    private function saveView(Entry $entry): void
-    {
-        try {
-            $this->viewCounter->saveView($entry);
-        } catch (\Exception $e) {
-        }
     }
 
     private function readMessage(Entry $entry): void
@@ -58,7 +49,7 @@ class EntryShowSubscriber implements EventSubscriberInterface
             return;
         }
 
-        array_map(fn ($notification) => $notification->status = Notification::STATUS_READ, $notifications);
+        array_map(fn($notification) => $notification->status = Notification::STATUS_READ, $notifications);
 
         $this->entityManager->flush();
     }

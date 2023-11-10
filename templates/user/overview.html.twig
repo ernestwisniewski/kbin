@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block sidebar_top %}
-    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') and app.user != user %}
+    {% if (is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR')) and app.user != user %}
         <div class="section magazine">
             <h3>{{ 'admin_panel'|trans }}</h3>
             <div class="panel">

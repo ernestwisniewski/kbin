@@ -144,7 +144,6 @@ class EntryUpdateApiTest extends WebTestCase
         self::assertTrue($jsonData['isOc']);
         self::assertTrue($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertSame(0, $jsonData['views']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['editedAt'], 'editedAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
@@ -289,7 +288,6 @@ class EntryUpdateApiTest extends WebTestCase
         self::assertTrue($jsonData['isOc']);
         self::assertTrue($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertSame(0, $jsonData['views']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['editedAt'], 'editedAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
@@ -444,7 +442,6 @@ class EntryUpdateApiTest extends WebTestCase
         self::assertTrue($jsonData['isOc']);
         self::assertTrue($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertSame(0, $jsonData['views']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['editedAt'], 'editedAt date format invalid');
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');

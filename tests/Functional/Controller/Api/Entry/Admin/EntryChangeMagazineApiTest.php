@@ -102,7 +102,6 @@ class EntryChangeMagazineApiTest extends WebTestCase
         self::assertFalse($jsonData['isOc']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertSame(0, $jsonData['views']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
         self::assertNull($jsonData['editedAt']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');

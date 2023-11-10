@@ -15,7 +15,6 @@
     {{ component('user_actions', {user: entry.user}) }}
     <ul class="info">
         <li>{{ 'added'|trans }}: {{ component('date', {date: entry.createdAt}) }}</li>
-        <li>{{ 'views'|trans }}: <span>{{ entry.views }}</span></li>
         <li>{{ 'online'|trans }}: <span>-</span></li>
         <li>{{ 'ratio'|trans }}:
             <span>{{ entry.countUpvotes }} {% if entry.countUpvotes %}({{ (entry.countUpvotes / entry.countVotes)|format_percent_number }}){% endif %}</span>

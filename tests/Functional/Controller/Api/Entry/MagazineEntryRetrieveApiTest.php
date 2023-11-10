@@ -433,7 +433,6 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         self::assertFalse($jsonData['items'][0]['isOc']);
         self::assertFalse($jsonData['items'][0]['isAdult']);
         self::assertFalse($jsonData['items'][0]['isPinned']);
-        self::assertSame(0, $jsonData['items'][0]['views']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['createdAt'], 'createdAt date format invalid');
         self::assertNull($jsonData['items'][0]['editedAt']);
         self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['lastActive'], 'lastActive date format invalid');

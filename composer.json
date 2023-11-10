@@ -101,7 +101,6 @@
         "symfony/yaml": "6.3.*",
         "symfonycasts/reset-password-bundle": "^1.13",
         "symfonycasts/verify-email-bundle": "^1.2",
-        "tchoulom/view-counter-bundle": "^6.0",
         "twig/cssinliner-extra": "^3.7",
         "twig/extra-bundle": "^3.7",
         "twig/html-extra": "^3.5",

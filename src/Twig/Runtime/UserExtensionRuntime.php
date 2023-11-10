@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace App\Twig\Runtime;
 
 use App\Entity\User;
-use App\Repository\ReputationRepository;
 use App\Service\MentionManager;
+use App\Service\UserManager;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class UserExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly Security $security,
-        private readonly ReputationRepository $reputationRepository,
-        private readonly CacheInterface $cache,
-        private readonly MentionManager $mentionManager
+        private readonly MentionManager $mentionManager,
+        private readonly UserManager $userManager
     ) {
     }
 
@@ -47,13 +44,6 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
 
     public function getReputationTotal(User $user): int
     {
-        return $this->cache->get(
-            "user_reputation_{$user->getId()}",
-            function (ItemInterface $item) use ($user) {
-                $item->expiresAfter(60);
-
-                return $this->reputationRepository->getUserReputationTotal($user);
-            }
-        );
+        return $this->userManager->getReputationTotal($user);
     }
 }
