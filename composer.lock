@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0fa377546edabaea29db24da1837509",
+    "content-hash": "38b73ca70e3a4a42083952298ac7ce94",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -62,16 +62,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.285.2",
+            "version": "3.285.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "93165f8e241678b17f15212523dfe96f50307af1"
+                "reference": "afa1e722f1b2c95644f375dc1a19072e4daf67be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/93165f8e241678b17f15212523dfe96f50307af1",
-                "reference": "93165f8e241678b17f15212523dfe96f50307af1",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/afa1e722f1b2c95644f375dc1a19072e4daf67be",
+                "reference": "afa1e722f1b2c95644f375dc1a19072e4daf67be",
                 "shasum": ""
             },
             "require": {
@@ -151,9 +151,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.285.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.285.3"
             },
-            "time": "2023-11-09T01:20:37+00:00"
+            "time": "2023-11-09T19:07:19+00:00"
         },
         {
             "name": "babdev/pagerfanta-bundle",
@@ -14222,72 +14222,6 @@
                 "source": "https://github.com/SymfonyCasts/verify-email-bundle/tree/v1.14.0"
             },
             "time": "2023-09-22T11:15:22+00:00"
-        },
-        {
-            "name": "tchoulom/view-counter-bundle",
-            "version": "6.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tchoulom/ViewCounterBundle.git",
-                "reference": "21408fcdb9677f7887670d085601c792219c8f72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tchoulom/ViewCounterBundle/zipball/21408fcdb9677f7887670d085601c792219c8f72",
-                "reference": "21408fcdb9677f7887670d085601c792219c8f72",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.0.2",
-                "symfony/framework-bundle": "^6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": ">5.7"
-            },
-            "type": "symfony-bundle",
-            "autoload": {
-                "psr-4": {
-                    "Tchoulom\\ViewCounterBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ernest TCHOULOM",
-                    "email": "tchoulomernest@yahoo.fr",
-                    "homepage": "https://www.linkedin.com/in/ernest-tchoulom-69422025/"
-                }
-            ],
-            "description": "The \"View Counter\" bundle",
-            "keywords": [
-                "Count the number of views of a page",
-                "Google Charts",
-                "page view count",
-                "page views",
-                "pages views counter",
-                "statistics",
-                "statistics bundle",
-                "statistics of web pages",
-                "statistics symfony",
-                "view count",
-                "view counter",
-                "view counter bundle",
-                "view counter interface",
-                "view counter symfony",
-                "viewership",
-                "viewership measurement"
-            ],
-            "support": {
-                "issues": "https://github.com/tchoulom/ViewCounterBundle/issues",
-                "source": "https://github.com/tchoulom/ViewCounterBundle/tree/6.1.0"
-            },
-            "time": "2022-12-13T21:53:08+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

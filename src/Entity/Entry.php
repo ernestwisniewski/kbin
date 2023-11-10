@@ -378,7 +378,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string)$amount : '';
+        return $amount > 0 ? (string) $amount : '';
     }
 
     public function isAdult(): bool

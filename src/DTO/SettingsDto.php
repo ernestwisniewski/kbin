@@ -25,6 +25,7 @@ class SettingsDto implements \JsonSerializable
         public array $KBIN_BANNED_INSTANCES,
         public bool $KBIN_HEADER_LOGO,
         public bool $KBIN_CAPTCHA_ENABLED,
+        public bool $KBIN_SPAM_PROTECTION,
         public bool $KBIN_MERCURE_ENABLED,
         public bool $KBIN_FEDERATION_PAGE_ENABLED,
         public bool $KBIN_ADMIN_ONLY_OAUTH_CLIENTS,
@@ -48,6 +49,7 @@ class SettingsDto implements \JsonSerializable
         $dto->KBIN_BANNED_INSTANCES = $this->KBIN_BANNED_INSTANCES ?? $dto->KBIN_BANNED_INSTANCES;
         $dto->KBIN_HEADER_LOGO = $this->KBIN_HEADER_LOGO ?? $dto->KBIN_HEADER_LOGO;
         $dto->KBIN_CAPTCHA_ENABLED = $this->KBIN_CAPTCHA_ENABLED ?? $dto->KBIN_CAPTCHA_ENABLED;
+        $dto->KBIN_SPAM_PROTECTION = $this->KBIN_SPAM_PROTECTION ?? $dto->KBIN_SPAM_PROTECTION;
         $dto->KBIN_MERCURE_ENABLED = $this->KBIN_MERCURE_ENABLED ?? $dto->KBIN_MERCURE_ENABLED;
         $dto->KBIN_FEDERATION_PAGE_ENABLED = $this->KBIN_FEDERATION_PAGE_ENABLED ?? $dto->KBIN_FEDERATION_PAGE_ENABLED;
         $dto->KBIN_ADMIN_ONLY_OAUTH_CLIENTS = $this->KBIN_ADMIN_ONLY_OAUTH_CLIENTS ?? $dto->KBIN_ADMIN_ONLY_OAUTH_CLIENTS;
@@ -73,6 +75,7 @@ class SettingsDto implements \JsonSerializable
             'KBIN_BANNED_INSTANCES' => $this->KBIN_BANNED_INSTANCES,
             'KBIN_HEADER_LOGO' => $this->KBIN_HEADER_LOGO,
             'KBIN_CAPTCHA_ENABLED' => $this->KBIN_CAPTCHA_ENABLED,
+            'KBIN_SPAM_PROTECTION' => $this->KBIN_SPAM_PROTECTION,
             'KBIN_MERCURE_ENABLED' => $this->KBIN_MERCURE_ENABLED,
             'KBIN_FEDERATION_PAGE_ENABLED' => $this->KBIN_FEDERATION_PAGE_ENABLED,
             'KBIN_ADMIN_ONLY_OAUTH_CLIENTS' => $this->KBIN_ADMIN_ONLY_OAUTH_CLIENTS,

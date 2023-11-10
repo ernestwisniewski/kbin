@@ -26,14 +26,28 @@
                     </form>
                     <hr>
                 {% endif %}
-                <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
-                      method="POST"
-                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
-                    <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
-                    <button type="submit" class="btn btn__secondary">
-                        <i class="fa fa-ban"></i> <span>{{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}</span>
-                    </button>
-                </form>
+                {% if not user.isAdmin() or not user.isModerator() %}
+                    <form action="{{ path(user.isBanned ? 'user_unban' : 'user_ban', {username: user.username}) }}"
+                          method="POST"
+                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                        <input type="hidden" name="token" value="{{ csrf_token('user_ban') }}">
+                        <button type="submit" class="btn btn__secondary">
+                            <i class="fa fa-ban"></i>
+                            <span>{{ user.isBanned ? 'unban_account'|trans : 'ban_account'|trans }}</span>
+                        </button>
+                    </form>
+                    {% if not user.apId %}
+                        <form action="{{ path('admin_spam_protection_toggle', {username: user.username}) }}"
+                              method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('spam_protection') }}">
+                            <button type="submit" class="btn btn__secondary">
+                                <i class="fa fa-bug-slash"></i>
+                                <span>{{ user.spamProtection ? 'disable_spam_protection'|trans : 'enable_spam_protection'|trans }}</span>
+                            </button>
+                        </form>
+                    {% endif %}
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <form action="{{ path('user_remove_following', {username: user.username}) }}"
                           method="POST"

@@ -187,11 +187,11 @@ class MagazineManager
 
     public function ban(Magazine $magazine, User $user, User $bannedBy, MagazineBanDto $dto): ?MagazineBan
     {
-        Assert::nullOrGreaterThan($dto->expiredAt, new \DateTime());
-
         if ($user->isAdmin() || $magazine->userIsModerator($user)) {
             throw new UserCannotBeBanned();
         }
+
+        Assert::nullOrGreaterThan($dto->expiredAt, new \DateTime());
 
         $ban = $magazine->addBan($user, $bannedBy, $dto->reason, $dto->expiredAt);
 
