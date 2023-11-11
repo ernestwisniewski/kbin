@@ -818,3 +818,5 @@ spam_protection: Spam protection
 open_original_url: Open original URL
 enable_spam_protection: Enable spam protection
 disable_spam_protection: Disable spam protection
+ap_resend: Resend to the fediverse
+turbo_mode: Turbo mode (experimental)

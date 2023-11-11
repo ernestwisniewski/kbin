@@ -511,6 +511,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->where('mod.magazine IS NOT NULL')
             ->andWhere('mod.isOwner = true')
             ->andWhere('u.lastActive < :date')
+            ->andWhere('m.apId IS NULL')
             ->join('m.moderators', 'mod')
             ->join('mod.user', 'u')
             ->setParameter('date', new \DateTime('-1 month'))

@@ -50,10 +50,6 @@ class EntryVoter extends Voter
 
     private function canEdit(Entry $entry, User $user): bool
     {
-        if ($user->isAdmin() || $user->isModerator()) {
-            return true;
-        }
-
         if ($entry->user === $user) {
             return true;
         }
