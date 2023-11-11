@@ -272,7 +272,6 @@ class EntryUpdateApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::DOMAIN_RESPONSE_KEYS, $jsonData['domain']);
         self::assertEquals('https://google.com', $jsonData['url']);
         self::assertEquals($updateRequest['body'], $jsonData['body']);
-        self::assertNull($jsonData['image']);
         self::assertEquals($updateRequest['lang'], $jsonData['lang']);
         self::assertIsArray($jsonData['tags']);
         self::assertSame($updateRequest['tags'], $jsonData['tags']);

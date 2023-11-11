@@ -54,6 +54,6 @@ class PostCreateController extends AbstractController
 
         return $this->render('post/create.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200));
     }
 }

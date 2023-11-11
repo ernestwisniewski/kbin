@@ -24,6 +24,7 @@ class UserSettingsManager
             $user->notifyOnNewPostReply,
             $user->notifyOnNewPostCommentReply,
             $user->hideAdult,
+            $user->turboMode,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
             $user->addMentionsEntries,
@@ -46,6 +47,7 @@ class UserSettingsManager
         $user->notifyOnNewPostCommentReply = $dto->notifyOnNewPostCommentReply;
         $user->homepage = $dto->homepage;
         $user->hideAdult = $dto->hideAdult;
+        $user->turboMode = $dto->turboMode;
         $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
         $user->showProfileFollowings = $dto->showProfileFollowings;
         $user->addMentionsEntries = $dto->addMentionsEntries;

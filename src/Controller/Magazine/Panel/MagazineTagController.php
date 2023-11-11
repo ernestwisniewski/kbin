@@ -37,6 +37,6 @@ class MagazineTagController extends AbstractController
         return $this->render('magazine/panel/tags.html.twig', [
             'magazine' => $magazine,
             'form' => $form,
-        ]);
+        ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200));
     }
 }

@@ -93,6 +93,7 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
+            false,
             User::HOMEPAGE_MOD,
             ['test'],
             ['en']
@@ -115,6 +116,7 @@ class UserUpdateApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read user:profile:edit user:profile:read');
 
         $settings = (new UserSettingsDto(
+            false,
             false,
             false,
             false,

@@ -31,6 +31,11 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
+            ->add(
+                'turboMode',
+                CheckboxType::class,
+                ['required' => false]
+            )
             ->add('homepage', ChoiceType::class, [
                     'autocomplete' => true,
                     'choices' => [

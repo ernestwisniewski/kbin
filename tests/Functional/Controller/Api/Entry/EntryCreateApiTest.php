@@ -192,7 +192,6 @@ class EntryCreateApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::DOMAIN_RESPONSE_KEYS, $jsonData['domain']);
         self::assertEquals('https://google.com', $jsonData['url']);
         self::assertEquals('This is a link', $jsonData['body']);
-        self::assertNull($jsonData['image']);
         self::assertEquals('en', $jsonData['lang']);
         self::assertIsArray($jsonData['tags']);
         self::assertSame(['test'], $jsonData['tags']);

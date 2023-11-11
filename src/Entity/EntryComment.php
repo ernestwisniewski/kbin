@@ -33,6 +33,7 @@ use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: EntryCommentRepository::class)]
 #[Index(columns: ['up_votes'], name: 'entry_comment_up_votes_idx')]
+#[Index(columns: ['score'], name: 'entry_comment_score_idx')]
 #[Index(columns: ['last_active'], name: 'entry_comment_last_active_at_idx')]
 #[Index(columns: ['created_at'], name: 'entry_comment_created_at_idx')]
 #[Index(columns: ['body_ts'], name: 'entry_comment_body_ts_idx')]
@@ -72,6 +73,8 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     public bool $isAdult = false;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
+    #[Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    public int $score = 0;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive = null;
     #[Column(type: 'string', nullable: true)]

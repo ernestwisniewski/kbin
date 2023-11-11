@@ -160,7 +160,7 @@ class DomainRetrieveApi extends DomainBaseApi
 
         $dtos = [];
         foreach ($domains->getCurrentPageResults() as $value) {
-            \assert($value instanceof DomainDto);
+            \assert($value instanceof Domain);
             array_push($dtos, $this->serializeDomain($value));
         }
 

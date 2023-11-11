@@ -1,6 +1,5 @@
 {%- set TYPE_GENERAL = constant('App\\Repository\\StatsRepository::TYPE_GENERAL') -%}
 {%- set TYPE_CONTENT = constant('App\\Repository\\StatsRepository::TYPE_CONTENT') -%}
-{%- set TYPE_VIEWS = constant('App\\Repository\\StatsRepository::TYPE_VIEWS') -%}
 {%- set TYPE_VOTES = constant('App\\Repository\\StatsRepository::TYPE_VOTES') -%}
 <aside class="options options--top" id="options">
     <div></div>
@@ -21,12 +20,6 @@
             <a href="{{ path('stats', {statsType: TYPE_VOTES}) }}"
                class="{{ html_classes({'active': route_has_param('statsType', TYPE_VOTES)}) }}">
                 {{ TYPE_VOTES|trans|lower }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ path('stats', {statsType: TYPE_VIEWS}) }}"
-               class="{{ html_classes({'active': route_has_param('statsType', TYPE_VIEWS)}) }}">
-                {{ TYPE_VIEWS|trans|lower }}
             </a>
         </li>
     </menu>

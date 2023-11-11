@@ -33,6 +33,7 @@ use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostCommentRepository::class)]
 #[Index(columns: ['up_votes'], name: 'post_comment_up_votes_idx')]
+#[Index(columns: ['score'], name: 'post_comment_score_idx')]
 #[Index(columns: ['last_active'], name: 'post_comment_last_active_at_idx')]
 #[Index(columns: ['created_at'], name: 'post_comment_created_at_idx')]
 #[Index(columns: ['body_ts'], name: 'post_comment_body_ts_idx')]
@@ -70,6 +71,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public string $lang = 'en';
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
+    #[Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    public int $score = 0;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;
     #[Column(type: 'string', nullable: true)]

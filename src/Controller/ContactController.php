@@ -14,8 +14,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
-    public function __invoke(SiteRepository $repository, ContactManager $manager, IpResolver $ipResolver, Request $request): Response
-    {
+    public function __invoke(
+        SiteRepository $repository,
+        ContactManager $manager,
+        IpResolver $ipResolver,
+        Request $request
+    ): Response {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
 
@@ -38,10 +42,12 @@ class ContactController extends AbstractController
         $site = $repository->findAll();
 
         return $this->render(
-            'page/contact.html.twig', [
+            'page/contact.html.twig',
+            [
                 'body' => $site[0]->contact ?? '',
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

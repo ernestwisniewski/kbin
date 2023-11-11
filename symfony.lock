@@ -770,6 +770,9 @@
     "symfony/ux-chartjs": {
         "version": "v2.7.1"
     },
+    "symfony/ux-turbo": {
+        "version": "v2.13.2"
+    },
     "symfony/ux-twig-component": {
         "version": "v2.7.1"
     },

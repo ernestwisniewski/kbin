@@ -6,12 +6,15 @@ namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
 use App\Repository\MagazineBanRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 
 #[Entity(repositoryClass: MagazineBanRepository::class)]
 class MagazineBan
@@ -33,6 +36,8 @@ class MagazineBan
     public ?string $reason = null;
     #[Column(type: 'datetimetz', nullable: true)]
     public ?\DateTimeInterface $expiredAt = null;
+    #[OneToMany(mappedBy: 'ban', targetEntity: MagazineBanNotification::class, cascade: ['remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    public Collection $notifications;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
@@ -50,6 +55,7 @@ class MagazineBan
         $this->bannedBy = $bannedBy;
         $this->reason = $reason;
         $this->expiredAt = $expiredAt;
+        $this->notifications = new ArrayCollection();
 
         $this->createdAtTraitConstruct();
     }

@@ -46,7 +46,7 @@ class ReportController extends AbstractController
                 'form' => $form->createView(),
                 'magazine' => $subject->magazine,
                 'subject' => $subject,
-            ]
+            ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

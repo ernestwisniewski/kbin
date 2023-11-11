@@ -42,7 +42,8 @@ class MessageThreadController extends AbstractController
                 'user' => $this->getUserOrThrow(),
                 'thread' => $thread,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

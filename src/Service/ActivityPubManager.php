@@ -30,7 +30,7 @@ use League\HTMLToMarkdown\HtmlConverter;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-readonly class ActivityPubManager
+class ActivityPubManager
 {
     public function __construct(
         private Server $server,
@@ -252,7 +252,7 @@ readonly class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
         ); // @todo multiple images
 
         if (\count($images)) {
@@ -334,7 +334,7 @@ readonly class ActivityPubManager
                 array_merge(
                     \is_array($activity['cc']) ? $activity['cc'] : [$activity['cc']],
                     \is_array($activity['to']) ? $activity['to'] : [$activity['to']]
-                ), fn($val) => !\in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl, []])
+                ), fn ($val) => !\in_array($val, [ActivityPubActivityInterface::PUBLIC_URL, $followersUrl, []])
             )
         );
 
@@ -345,14 +345,14 @@ readonly class ActivityPubManager
             }
         }
 
-        return array_map(fn($user) => $user->apInboxUrl, $users);
+        return array_map(fn ($user) => $user->apInboxUrl, $users);
     }
 
     public function handleVideos(array $attachment): ?VideoDto
     {
         $videos = array_filter(
             $attachment,
-            fn($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
         );
 
         if (\count($videos)) {
@@ -370,13 +370,13 @@ readonly class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
         );
 
         array_shift($images);
 
         if (\count($images)) {
-            return array_map(fn($val) => (new ImageDto())->create(
+            return array_map(fn ($val) => (new ImageDto())->create(
                 $val['url'],
                 $val['mediaType'],
                 !empty($val['name']) ? $val['name'] : $val['mediaType']
@@ -390,11 +390,11 @@ readonly class ActivityPubManager
     {
         $videos = array_filter(
             $attachment,
-            fn($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Video']) && VideoManager::isVideoUrl($val['url'])
         );
 
         if (\count($videos)) {
-            return array_map(fn($val) => (new VideoDto())->create(
+            return array_map(fn ($val) => (new VideoDto())->create(
                 $val['url'],
                 $val['mediaType'],
                 !empty($val['name']) ? $val['name'] : $val['mediaType']

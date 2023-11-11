@@ -56,9 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
         self::THEME_LIGHT,
     ];
 
-    public const MODE_NORMAL = 'normal';
-    public const MODE_TURBO = 'turbo';
-
     public const HOMEPAGE_ALL = 'front';
     public const HOMEPAGE_SUB = 'front_subscribed';
     public const HOMEPAGE_MOD = 'front_moderated';
@@ -94,10 +91,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public ?\DateTime $markedForDeletionAt = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $fields = null;
-    #[Column(type: 'string', nullable: true)]
-    public ?string $cardanoWalletId = null;
-    #[Column(type: 'string', nullable: true)]
-    public ?string $cardanoWalletAddress = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthGithubId = null;
     #[Column(type: 'string', nullable: true)]
@@ -140,6 +133,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public bool $isDeleted = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isBot = false;
+    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    public bool $turboMode = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $spamProtection = true;
     #[Column(type: 'text', nullable: true)]

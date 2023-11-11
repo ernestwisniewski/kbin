@@ -38,7 +38,8 @@ class MagazineThemeController extends AbstractController
             [
                 'magazine' => $magazine,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

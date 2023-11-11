@@ -47,7 +47,8 @@ class MagazineBadgeController extends AbstractController
                 'badges' => $badges,
                 'magazine' => $magazine,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

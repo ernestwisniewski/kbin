@@ -62,9 +62,6 @@ parameters:
   mercure_public_url: '%env(MERCURE_PUBLIC_URL)%'
   mercure_subscriptions_token: '%env(MERCURE_JWT_SECRET)%'
 
-  cardano_wallet_url: '%env(CARDANO_WALLET_URL)%'
-  cardano_explorer_url: '%env(CARDANO_EXPLORER_URL)%'
-
   sso_only_mode: '%env(bool:default::SSO_ONLY_MODE)%'
 
 services:
@@ -75,8 +72,6 @@ services:
       $kbinDomain: '%kbin_domain%'
       $html5Validation: '%html5_validation%'
       $uploadedAssetsBaseUrl: '%uploads_base_url%'
-      $cardanoWalletUrl: '%cardano_wallet_url%'
-      $cardanoExplorerUrl: '%cardano_explorer_url%'
       $mercurePublicUrl: '%mercure_public_url%'
       $mercureSubscriptionsToken: '%mercure_subscriptions_token%'
       $kbinApiItemsPerPage: '%kbin_api_items_per_page%'

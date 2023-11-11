@@ -41,7 +41,8 @@ class AdminModeratorController extends AbstractController
             [
                 'moderators' => $moderators,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

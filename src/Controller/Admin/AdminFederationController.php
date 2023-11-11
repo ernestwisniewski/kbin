@@ -9,6 +9,7 @@ use App\DTO\InstancesDto;
 use App\Form\InstancesType;
 use App\Service\SettingsManager;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdminFederationController extends AbstractController
@@ -40,7 +41,8 @@ class AdminFederationController extends AbstractController
             'admin/federation.html.twig',
             [
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

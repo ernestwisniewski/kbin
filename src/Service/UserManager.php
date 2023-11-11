@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\DTO\CardanoWalletAddressDto;
 use App\DTO\UserDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
@@ -258,14 +257,6 @@ readonly class UserManager
     {
         $this->tokenStorage->setToken(null);
         $this->requestStack->getSession()->invalidate();
-    }
-
-    public function attachWallet(User $user, CardanoWalletAddressDto $dto): void
-    {
-        $user->cardanoWalletAddress = $dto->walletAddress;
-
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
     }
 
     public function ban(User $user): void

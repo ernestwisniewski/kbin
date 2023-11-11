@@ -33,6 +33,6 @@ class AdminSettingsController extends AbstractController
 
         return $this->render('admin/settings.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200));
     }
 }

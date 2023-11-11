@@ -46,7 +46,8 @@ class MagazineListController extends AbstractController
                 'magazines' => $magazines,
                 'view' => $view,
                 'criteria' => $criteria,
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 }

@@ -18,6 +18,7 @@ class UserSettingsDto implements \JsonSerializable
         public ?bool $notifyOnNewPostReply = null,
         public ?bool $notifyOnNewPostCommentReply = null,
         public ?bool $hideAdult = null,
+        public ?bool $turboMode = null,
         public ?bool $showProfileSubscriptions = null,
         public ?bool $showProfileFollowings = null,
         public ?bool $addMentionsEntries = null,
@@ -43,6 +44,7 @@ class UserSettingsDto implements \JsonSerializable
             'notifyOnNewPostReply' => $this->notifyOnNewPostReply,
             'notifyOnNewPostCommentReply' => $this->notifyOnNewPostCommentReply,
             'hideAdult' => $this->hideAdult,
+            'turboMode' => $this->turboMode,
             'showProfileSubscriptions' => $this->showProfileSubscriptions,
             'showProfileFollowings' => $this->showProfileFollowings,
             'addMentionsEntries' => $this->addMentionsEntries,
@@ -64,6 +66,7 @@ class UserSettingsDto implements \JsonSerializable
         $dto->notifyOnNewPostReply = $this->notifyOnNewPostReply ?? $dto->notifyOnNewPostReply;
         $dto->notifyOnNewPostCommentReply = $this->notifyOnNewPostCommentReply ?? $dto->notifyOnNewPostCommentReply;
         $dto->hideAdult = $this->hideAdult ?? $dto->hideAdult;
+        $dto->turboMode = $this->turboMode ?? $dto->turboMode;
         $dto->showProfileSubscriptions = $this->showProfileSubscriptions ?? $dto->showProfileSubscriptions;
         $dto->showProfileFollowings = $this->showProfileFollowings ?? $dto->showProfileFollowings;
         $dto->addMentionsEntries = $this->addMentionsEntries ?? $dto->addMentionsEntries;

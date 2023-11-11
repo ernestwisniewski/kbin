@@ -328,17 +328,25 @@ class MagazineManager
 
     public function acceptOwnershipRequest(Magazine $magazine, User $user): void
     {
-        $this->removeModerator($magazine->getOwnerModerator());
+        $this->entityManager->beginTransaction();
 
-        $this->addModerator(new ModeratorDto($magazine, $user), true);
+        try {
+            $this->removeModerator($magazine->getOwnerModerator());
 
-        $request = $this->entityManager->getRepository(MagazineOwnershipRequest::class)->findOneBy([
-            'magazine' => $magazine,
-            'user' => $user,
-        ]);
+            $this->addModerator(new ModeratorDto($magazine, $user), true);
 
-        $this->entityManager->remove($request);
-        $this->entityManager->flush();
+            $request = $this->entityManager->getRepository(MagazineOwnershipRequest::class)->findOneBy([
+                'magazine' => $magazine,
+                'user' => $user,
+            ]);
+
+            $this->entityManager->remove($request);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->entityManager->rollback();
+
+            return;
+        }
     }
 
     public function toggleModeratorRequest(Magazine $magazine, User $user): void

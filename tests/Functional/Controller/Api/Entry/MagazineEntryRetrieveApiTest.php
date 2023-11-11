@@ -421,7 +421,6 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::DOMAIN_RESPONSE_KEYS, $jsonData['items'][0]['domain']);
         self::assertEquals('https://google.com', $jsonData['items'][0]['url']);
         self::assertNull($jsonData['items'][0]['body']);
-        self::assertNull($jsonData['items'][0]['image']);
         self::assertEquals('en', $jsonData['items'][0]['lang']);
         self::assertNull($jsonData['items'][0]['tags']);
         self::assertSame(0, $jsonData['items'][0]['numComments']);

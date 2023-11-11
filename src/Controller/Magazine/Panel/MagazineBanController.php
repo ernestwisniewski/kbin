@@ -61,7 +61,8 @@ class MagazineBanController extends AbstractController
                 'magazine' => $magazine,
                 'user' => $user,
                 'form' => $form->createView(),
-            ]
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 

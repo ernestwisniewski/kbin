@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 #[Entity]
 class MagazineBanNotification extends Notification
 {
-    #[ManyToOne(targetEntity: MagazineBan::class)]
+    #[ManyToOne(targetEntity: MagazineBan::class, inversedBy: 'notifications')]
     #[JoinColumn(nullable: true)]
     public ?MagazineBan $ban = null;
 

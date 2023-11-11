@@ -25,7 +25,7 @@ class AdminMagazineOwnershipRequestController extends AbstractController
     public function requests(Request $request): Response
     {
         return $this->render('admin/magazine_ownership.html.twig', [
-            'requests' => $this->repository->findAllPaginated($request->get('page', 1)),
+            'requests' => $this->repository->findAllPaginated($request->get('p', 1)),
         ]);
     }
 

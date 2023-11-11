@@ -51,6 +51,6 @@ class ResendActivationEmailController extends AbstractController
 
         return $this->render('resend_verification_email/resend.html.twig', [
             'form' => $form,
-        ]);
+        ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200));
     }
 }
