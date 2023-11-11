@@ -342,6 +342,7 @@ class MagazineManager
 
             $this->entityManager->remove($request);
             $this->entityManager->flush();
+            $this->entityManager->commit();
         } catch (\Exception $e) {
             $this->entityManager->rollback();
 

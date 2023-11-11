@@ -820,3 +820,5 @@ enable_spam_protection: Enable spam protection
 disable_spam_protection: Disable spam protection
 ap_resend: Resend to the fediverse
 turbo_mode: Turbo mode (experimental)
+refresh_magazine: Refresh magazine
+refresh_user: Refresh user

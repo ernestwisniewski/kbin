@@ -89,3 +89,8 @@ magazine_ownership_request:
   controller: App\Controller\Magazine\MagazineOwnershipRequestController::toggle
   path: /m/{name}/ownership_request
   methods: [ POST ]
+
+magazine_ap_refresh:
+  controller: App\Controller\Magazine\MagazineApRefresh
+  path: /m/{name}/magazine_ap_refresh
+  methods: [ POST ]

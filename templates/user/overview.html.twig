@@ -15,6 +15,18 @@
         <div class="section magazine">
             <h3>{{ 'admin_panel'|trans }}</h3>
             <div class="panel">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+                    {% if user.apId %}
+                        <form action="{{ path('user_ap_refresh', {username: user.username}) }}" method="POST"
+                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                            <input type="hidden" name="token" value="{{ csrf_token('user_ap_refresh') }}">
+                            <button type="submit" class="btn btn__secondary">
+                                <i class="fa-solid fa-arrows-rotate"></i>
+                                <span>{{ 'refresh_user'|trans }}</span>
+                            </button>
+                        </form>
+                    {% endif %}
+                {% endif %}
                 {% if user.isTotpAuthenticationEnabled and is_granted('ROLE_ADMIN') %}
                     <form action="{{ path('user_2fa_remove', {username: user.username}) }}"
                           method="POST"
