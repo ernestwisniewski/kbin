@@ -142,7 +142,7 @@ class ApHttpClient
                         $this->magazineRepository->save($magazine, true);
                     }
 
-                    throw new InvalidApPostException("AP Get fail: {$apProfileId}, ".$r->getContent(false));
+                    throw new InvalidApPostException("AP Get fail: {$apProfileId}, ".$e->getMessage());
                 }
 
                 $item->expiresAt(new \DateTime('+1 hour'));
