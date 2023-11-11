@@ -145,6 +145,11 @@ user_remove_following:
   path: /u/{username}/remove_following
   methods: [ POST ]
 
+user_spam_protection_toggle:
+  controller: App\Controller\User\UserSpamProtectionController
+  path: /u/{username}/spam_protection
+  methods: [ POST ]
+
 notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications
   path: /settings/notifications

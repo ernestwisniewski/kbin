@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-class AdminUserSpamProtectionController extends AbstractController
+class UserSpamProtectionController extends AbstractController
 {
     public function __construct(
         private readonly UserManager $manager,

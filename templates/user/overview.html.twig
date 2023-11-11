@@ -37,7 +37,7 @@
                         </button>
                     </form>
                     {% if not user.apId %}
-                        <form action="{{ path('admin_spam_protection_toggle', {username: user.username}) }}"
+                        <form action="{{ path('user_spam_protection_toggle', {username: user.username}) }}"
                               method="POST"
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('spam_protection') }}">

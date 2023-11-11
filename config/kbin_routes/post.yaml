@@ -34,6 +34,12 @@ post_comment_purge:
   path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/purge
   methods: [ POST ]
 
+post_comment_ap_resend:
+  controller: App\Controller\ApResendContentController::postComment
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/reply/{comment_id}/ap_resend
+  methods: [ POST ]
+
 post_comment_change_lang:
   controller: App\Controller\Post\Comment\PostCommentChangeLangController
   defaults: { slug: - }
@@ -174,6 +180,12 @@ post_purge:
   controller: App\Controller\Post\PostDeleteController::purge
   defaults: { slug: -, }
   path: /m/{magazine_name}/p/{post_id}/{slug}/purge
+  methods: [ POST ]
+
+post_ap_resend:
+  controller: App\Controller\ApResendContentController::post
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/p/{post_id}/{slug}/ap_resend
   methods: [ POST ]
 
 post_image_delete:

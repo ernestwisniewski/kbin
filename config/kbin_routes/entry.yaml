@@ -28,6 +28,12 @@ entry_comment_purge:
   path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/purge
   methods: [ POST ]
 
+entry_comment_ap_resend:
+  controller: App\Controller\ApResendContentController::entryComment
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/t/{entry_id}/{slug}/comments/{comment_id}/ap_resend
+  methods: [ POST ]
+
 entry_comment_change_lang:
   controller: App\Controller\Entry\Comment\EntryCommentChangeLangController
   defaults: { slug: - }
@@ -164,6 +170,12 @@ entry_purge:
   controller: App\Controller\Entry\EntryDeleteController::purge
   defaults: { slug: -, sortBy: hot }
   path: /m/{magazine_name}/t/{entry_id}/{slug}/purge
+  methods: [ POST ]
+
+entry_ap_resend:
+  controller: App\Controller\ApResendContentController::entry
+  defaults: { slug: -, }
+  path: /m/{magazine_name}/e/{entry_id}/{slug}/ap_resend
   methods: [ POST ]
 
 entry_image_delete:

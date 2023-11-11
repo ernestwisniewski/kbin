@@ -36,6 +36,16 @@
             </li>
         {% endif %}
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+            <li>
+                <form action="{{ path('entry_ap_resend', {magazine_name: entry.magazine.name,entry_id: entry.id,}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('entry_ap_resend') }}">
+                    <button type="submit">
+                        <span>{{ 'ap_resend'|trans|lower }}</span>
+                    </button>
+                </form>
+            </li>
             <li class="actions">
                 <form name="change_magazine"
                       action="{{ path('entry_change_magazine', {magazine_name: entry.magazine.name, entry_id: entry.id}) }}"

@@ -514,7 +514,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->join('m.moderators', 'mod')
             ->join('mod.user', 'u')
             ->setParameter('date', new \DateTime('-1 month'))
-            ->orderBy('u.lastActive', 'ASC')
+            ->orderBy('m.subscriptionsCount', 'DESC')
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(

@@ -26,6 +26,18 @@
                 </form>
             </li>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+            <li>
+                <form action="{{ path('entry_comment_ap_resend', {magazine_name: comment.magazine.name, entry_id: comment.entry.id, comment_id: comment.id}) }}"
+                      method="post"
+                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                    <input type="hidden" name="token" value="{{ csrf_token('entry_comment_ap_resend') }}">
+                    <button type="submit">
+                        <span>{{ 'ap_resend'|trans|lower }}</span>
+                    </button>
+                </form>
+            </li>
+        {% endif %}
         <li class="actions">
             {{ form_start(form, {action: path('entry_comment_change_lang', {magazine_name: magazine.name, entry_id: entry.id, comment_id: comment.id})}) }}
             {{ form_row(form.lang, {label: false, row_attr: {class: 'checkbox'}}) }}
