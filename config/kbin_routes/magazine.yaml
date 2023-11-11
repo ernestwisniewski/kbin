@@ -92,5 +92,5 @@ magazine_ownership_request:
 
 magazine_ap_refresh:
   controller: App\Controller\Magazine\MagazineApRefresh
-  path: /m/{name}/magazine_ap_refresh
+  path: /m/{name}/ap_refresh
   methods: [ POST ]

@@ -152,7 +152,7 @@ user_spam_protection_toggle:
 
 user_ap_refresh:
   controller: App\Controller\User\UserApRefresh
-  path: /u/{username}/user_ap_refresh
+  path: /u/{username}/ap_refresh
   methods: [ POST ]
 
 notifications_front:
