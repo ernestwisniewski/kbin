@@ -10,13 +10,14 @@ export default class extends Controller {
     lengthIndicator
 
     connect(){
-        if(!this.hasMaxValue){
+        if(!this.hasMaxValue || document.getElementById(`${this.element.id}_max_length`)){
             return;
         }
 
         //create a html element to display the current/max text
         let indicator = document.createElement('div');
 
+        indicator.id = `${this.element.id}_max_length`;
         indicator.classList.add('length-indicator');
 
         this.element.insertAdjacentElement('afterend', indicator);
