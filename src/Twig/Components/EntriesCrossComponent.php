@@ -6,6 +6,7 @@ namespace App\Twig\Components;
 
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
+use App\Service\CacheService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -35,9 +36,9 @@ final class EntriesCrossComponent
                 $item->expiresAfter(60);
                 $entries = $this->repository->findCross($this->entry);
 
-                $item->tag(['entry_'.$this->entry->getId()]);
+                $item->tag('entry_'.$this->entry->getId());
                 foreach ($entries as $entry) {
-                    $item->tag(['entry_'.$entry->getId()]);
+                    $item->tag('entry_'.$entry->getId());
                 }
 
                 return $this->twig->render(

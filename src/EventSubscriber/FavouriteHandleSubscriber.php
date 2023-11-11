@@ -6,6 +6,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\VotableInterface;
+use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Event\FavouriteEvent;
@@ -57,6 +58,7 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
         match (\get_class($subject)) {
             EntryComment::class => $this->clearEntryCommentCache($subject),
             PostComment::class => $this->clearPostCommentCache($subject),
+            Entry::class => $this->clearEntryCache($subject),
             default => null
         };
 
@@ -72,7 +74,7 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
         }
     }
 
-    private function deleteFavouriteCache(FavouriteInterface $subject)
+    private function deleteFavouriteCache(FavouriteInterface $subject): void
     {
         $this->cache->delete($this->cacheService->getFavouritesCacheKey($subject));
     }
@@ -82,11 +84,18 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
         $this->cache->invalidateTags(['entry_comment_'.$comment->root?->getId() ?? $comment->getId()]);
     }
 
-    private function clearPostCommentCache(PostComment $comment)
+    private function clearPostCommentCache(PostComment $comment): void
     {
         $this->cache->invalidateTags([
             'post_'.$comment->post->getId(),
             'post_comment_'.$comment->root?->getId() ?? $comment->getId(),
+        ]);
+    }
+
+    private function clearEntryCache(Entry $entry): void
+    {
+        $this->cache->invalidateTags([
+            'entry_'.$entry->getId(),
         ]);
     }
 }
