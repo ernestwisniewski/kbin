@@ -51,7 +51,7 @@
         <div class="container">
             <h2>{{ 'request_account_deletion_title'|trans }}</h2>
             <p>{{ 'request_account_deletion_description'|trans }}</p>
-            {% if app.user.visibility is same as 'soft_deleted' %}
+            {% if app.user.visibility is same as 'trashed' %}
                 <form action="{{ path('user_delete_request_revoke', {username: app.user.username}) }}" method="POST"
                       onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
                       class="mb-2">
