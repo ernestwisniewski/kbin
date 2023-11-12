@@ -133,8 +133,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public bool $isDeleted = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
     public bool $isBot = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    public bool $turboMode = false;
     #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
     public bool $spamProtection = true;
     #[Column(type: 'text', nullable: true)]

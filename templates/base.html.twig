@@ -68,7 +68,9 @@
         'topbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is same as 'true',
         'fixed-navbar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_FIXED_NAVBAR')) is same as 'true',
         'sidebar-left': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SIDEBAR_POSITION')) is same as constant('App\\Controller\\User\\ThemeSettingsController::LEFT'),
-    }) }}" data-controller="kbin notifications" data-turbo="{% if app.user and app.user.turboMode is same as true %}true{% else %}false{% endif %}">
+    }) }}"
+      data-controller="kbin notifications"
+      data-turbo="{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TURBO')) is same as 'true' %}true{% else %}false{% endif %}">
 {% include 'layout/_header.html.twig' with {header_nav: block('header_nav')} %}
 <div id="middle" class="{%- block mainClass -%}page{%- endblock %}">
     <div class="kbin-container">

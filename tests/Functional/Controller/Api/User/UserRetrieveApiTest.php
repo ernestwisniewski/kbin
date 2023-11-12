@@ -18,7 +18,6 @@ class UserRetrieveApiTest extends WebTestCase
         'notifyOnNewPostReply',
         'notifyOnNewPostCommentReply',
         'hideAdult',
-        'turboMode',
         'showProfileSubscriptions',
         'showProfileFollowings',
         'addMentionsEntries',
