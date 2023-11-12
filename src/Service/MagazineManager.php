@@ -75,7 +75,9 @@ class MagazineManager
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 
-        $this->subscribe($magazine, $user);
+        if (!$dto->apId) {
+            $this->subscribe($magazine, $user);
+        }
 
         return $magazine;
     }
