@@ -7,6 +7,7 @@ namespace App\EventSubscriber;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Event\VoteEvent;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
@@ -63,7 +64,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function clearCache(VotableInterface $votable)
+    public function clearCache(VotableInterface $votable): void
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($votable));
 
@@ -71,6 +72,24 @@ class VoteHandleSubscriber implements EventSubscriberInterface
             $this->cache->invalidateTags([
                 'entry_'.$votable->getId(),
             ]);
+
+            return;
+        }
+
+        if ($votable instanceof EntryComment) {
+
+
+            if( $votable->root) {
+                $this->cache->invalidateTags(['entry_comment_'.$votable?->root?->getId() ?? $votable->getId()]);
+            }
+        }
+
+        if ($votable instanceof Post) {
+            $this->cache->invalidateTags([
+                'post_'.$votable->getId(),
+            ]);
+
+            return;
         }
 
         if ($votable instanceof PostComment) {
@@ -78,10 +97,8 @@ class VoteHandleSubscriber implements EventSubscriberInterface
                 'post_'.$votable->post->getId(),
                 'post_comment_'.$votable?->root?->getId() ?? $votable->getId(),
             ]);
-        }
 
-        if ($votable instanceof EntryComment && $votable->root) {
-            $this->cache->invalidateTags(['entry_comment_'.$votable?->root?->getId() ?? $votable->getId()]);
+            return;
         }
     }
 }

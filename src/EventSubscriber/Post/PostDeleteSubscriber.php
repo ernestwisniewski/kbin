@@ -13,6 +13,7 @@ use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class PostDeleteSubscriber implements EventSubscriberInterface
 {
@@ -20,6 +21,7 @@ class PostDeleteSubscriber implements EventSubscriberInterface
         private readonly MessageBusInterface $bus,
         private readonly PostRepository $postRepository,
         private readonly DeleteWrapper $deleteWrapper,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -34,6 +36,10 @@ class PostDeleteSubscriber implements EventSubscriberInterface
     public function onPostDeleted(PostDeletedEvent $event)
     {
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
+
+        $this->cache->invalidateTags([
+            'entry_'.$event->post->getId(),
+        ]);
     }
 
     public function onPostBeforePurge(PostBeforePurgeEvent $event): void

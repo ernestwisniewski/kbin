@@ -239,6 +239,7 @@ class EntryManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryRestoredEvent($entry, $user));
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
     }
 
     public function pin(Entry $entry): Entry
@@ -248,6 +249,7 @@ class EntryManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryPinEvent($entry));
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
 
         return $entry;
     }
@@ -267,6 +269,8 @@ class EntryManager implements ContentManagerInterface
         $this->entityManager->flush();
 
         $this->bus->dispatch(new DeleteImageMessage($image));
+
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
     }
 
     public function getSortRoute(string $sortBy): string
@@ -302,6 +306,6 @@ class EntryManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->cache->invalidateTags(['entry_'.$entry->getId()]);
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
     }
 }
