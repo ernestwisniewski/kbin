@@ -56,14 +56,14 @@ final class EntryComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $key = $this->isSingle.$this->showShortSentence.$this->showBody.$this->showMagazineName;
-        $key .= $this->canSeeTrash.$this->entry->getId().$this->security->getUser()?->getId();
-        $key .= $this->requestStack->getCurrentRequest()?->getLocale();
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS);
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW);
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS);
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS);
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS);
+        $key = $this->isSingle.'_'.$this->showShortSentence.'_'.$this->showBody.'_'.$this->showMagazineName.'_';
+        $key .= $this->canSeeTrash.$this->entry->getId().'_'.$this->security->getUser()?->getId().'_';
+        $key .= $this->canSeeTrashed().'_'.$this->requestStack->getCurrentRequest()?->getLocale().'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
 
         return $this->cache->get(
             "entries_cross_".hash('sha256', $key),
@@ -81,7 +81,7 @@ final class EntryComponent
                         'showShortSentence' => $this->showShortSentence,
                         'showBody' => $this->showBody,
                         'showMagazineName' => $this->showMagazineName,
-                        'canSeeTrash' => $this->canSeeTrash,
+                        'canSeeTrashed' => $this->canSeeTrashed(),
                     ]
                 );
             }

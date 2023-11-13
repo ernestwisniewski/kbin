@@ -35,7 +35,7 @@
                 asLink: true
             }) }}
             <div class="content">
-                {% if post.visibility in ['visible', 'private'] or (post.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% if post.visibility in ['visible', 'private'] or (post.visibility is same as 'trashed' and canSeeTrashed) %}
                     {{ post.body|markdown|raw }}
                 {% elseif(post.visibility is same as 'trashed') %}
                     <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
@@ -104,7 +104,7 @@
                         url: post_voters_url(post, 'up'),
                         'data-post-target': 'voters'
                     }) }}
-                {% elseif(post.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% elseif(post.visibility is same as 'trashed' and canSeeTrashed) %}
                     <menu>
                         <li>
                             <form method="post"

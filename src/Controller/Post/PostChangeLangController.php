@@ -7,6 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
+use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostChangeLangController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(private readonly PostManager $manager)
     {
     }
 
@@ -27,9 +28,7 @@ class PostChangeLangController extends AbstractController
         Post $post,
         Request $request
     ): Response {
-        $post->lang = $request->get('lang')['lang'];
-
-        $this->entityManager->flush();
+        $this->manager->changeLang($post, $request->get('lang')['lang']);
 
         return $this->redirectToRefererOrHome($request);
     }

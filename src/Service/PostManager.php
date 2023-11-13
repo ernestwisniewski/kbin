@@ -257,4 +257,24 @@ class PostManager implements ContentManagerInterface
 
         $this->dispatcher->dispatch(new PostEditedEvent($post));
     }
+
+    public function markAsAdult(Post $post, bool $marked = true): void
+    {
+        $post->isAdult = $marked;
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostEditedEvent($post));
+    }
+
+    public function changeLang(Post $post, string $lang = 'en'): void
+    {
+        $post->lang = $lang;
+
+        $this->entityManager->persist($post);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new PostEditedEvent($post));
+    }
 }

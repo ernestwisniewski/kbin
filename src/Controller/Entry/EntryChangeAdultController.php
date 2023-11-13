@@ -7,7 +7,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\EntryManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryChangeAdultController extends AbstractController
 {
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager
-    ) {
+    public function __construct(private readonly EntryManager $manager)
+    {
     }
 
     #[IsGranted('moderate', subject: 'entry')]
@@ -30,9 +29,7 @@ class EntryChangeAdultController extends AbstractController
     ): Response {
         $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $entry->isAdult = 'on' === $request->get('adult');
-
-        $this->entityManager->flush();
+        $this->manager->markAsAdult($entry, 'on' === $request->get('adult'));
 
         return $this->redirectToRefererOrHome($request);
     }

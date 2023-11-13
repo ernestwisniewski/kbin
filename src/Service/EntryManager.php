@@ -78,7 +78,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -151,7 +151,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $this->imageRepository->find($dto->image->id);
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -304,6 +304,27 @@ class EntryManager implements ContentManagerInterface
         $magazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($magazine);
         $magazine->entryCount = $this->entryRepository->countEntriesByMagazine($magazine);
 
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
+    }
+
+    public function markAsAdult(Entry $entry, bool $marked = true): void
+    {
+        $entry->isAdult = $marked;
+
+        $this->entityManager->persist($entry);
+        $this->entityManager->flush();
+
+        $this->dispatcher->dispatch(new EntryEditedEvent($entry));
+    }
+
+
+    public function changeLang(Entry $entry, string $lang = 'en'): void
+    {
+        $entry->lang = $lang;
+
+        $this->entityManager->persist($entry);
         $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new EntryEditedEvent($entry));

@@ -39,10 +39,10 @@ final class PostComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $key = $this->isSingle.$this->showMagazineName.$this->dateAsUrl.$this->showCommentsPreview.$this->showExpand;
-        $key .= $this->canSeeTrash.$this->post->getId().$this->security->getUser()?->getId();
-        $key .= $this->requestStack->getCurrentRequest()?->getLocale();
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW);
+        $key = $this->isSingle.'_'.$this->showMagazineName.'_'.$this->dateAsUrl.'_'.$this->showCommentsPreview.'_';
+        $key .= $this->showExpand.'_'.$this->canSeeTrash.'_'.$this->post->getId().'_'.$this->security->getUser()?->getId();
+        $key .= $this->canSeeTrashed().'_'.$this->requestStack->getCurrentRequest()?->getLocale().'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW).'_';
 
         return $this->cache->get(
             "entries_cross_".hash('sha256', $key),
@@ -61,7 +61,7 @@ final class PostComponent
                         'showCommentsPreview' => $this->showCommentsPreview,
                         'dateAsUrl' => $this->dateAsUrl,
                         'showExpand' => $this->showExpand,
-                        'canSeeTrash' => $this->canSeeTrash,
+                        'canSeeTrashed' => $this->canSeeTrashed(),
                     ]
                 );
             }

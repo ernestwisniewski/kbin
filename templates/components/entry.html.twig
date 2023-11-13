@@ -17,7 +17,7 @@
                 data-controller="subject preview mentions"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
-                {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and canSeeTrashed) %}
                     {% if isSingle %}
                         <h1>
                             {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
@@ -54,7 +54,7 @@
                     <p class="text-muted">{{ 'deleted_by_author' }}</p>
                 {% endif %}
             </header>
-            {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+            {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and canSeeTrashed) %}
                 {% if entry.body and showShortSentence %}
                     <div class="content short-desc">
                         <p>{{ get_short_sentence(entry.body|markdown|raw, striptags = true) }}</p>
@@ -159,7 +159,7 @@
                             </div>
                         </li>
                     </menu>
-                {% elseif(entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% elseif(entry.visibility is same as 'trashed' and canSeeTrashed) %}
                     <menu>
                         <li>
                             <form method="post"

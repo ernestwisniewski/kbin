@@ -38,7 +38,7 @@ class PostDeleteSubscriber implements EventSubscriberInterface
         $this->bus->dispatch(new PostDeletedNotificationMessage($event->post->getId()));
 
         $this->cache->invalidateTags([
-            'entry_'.$event->post->getId(),
+            'post_'.$event->post->getId(),
         ]);
     }
 
