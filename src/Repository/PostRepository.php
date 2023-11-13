@@ -326,19 +326,35 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
     public function findLast(int $limit = 1): array
     {
-        $qb = $this->createQueryBuilder('p');
+        $conn = $this->_em->getConnection();
+        $sql = '
+            SELECT p.id
+            FROM post p
+            JOIN magazine m ON p.magazine_id = m.id
+            WHERE p.is_adult = false
+              AND p.visibility = :visible
+              AND m.visibility = :visible
+              AND m.is_adult = false
+              AND p.ap_id IS NULL
+              AND p.created_at >= :time
+            ORDER BY random(), p.created_at DESC
+            LIMIT :limit;    
+        ';
 
-        return $qb
-            ->where('p.isAdult = false')
-            ->andWhere('p.visibility = :visibility')
-            ->andWhere('m.visibility = :visibility')
-            ->andWhere('p.isAdult = false')
-            ->andWhere('m.isAdult = false')
-            ->andWhere('p.apId IS NULL')
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindValue('visible', VisibilityInterface::VISIBILITY_VISIBLE);
+        $stmt->bindValue('time', (new \DateTime('-2 days'))->format('Y-m-d H:i:s'));
+        $stmt->bindValue('limit', $limit);
+
+        $stmt = $stmt->executeQuery();
+        $ids = $stmt->fetchAllAssociative();
+
+        return $this->createQueryBuilder('p')
             ->join('p.magazine', 'm')
-            ->orderBy('p.createdAt', 'DESC')
-            ->setParameters(['visibility' => VisibilityInterface::VISIBILITY_VISIBLE])
-            ->setMaxResults($limit)
+            ->leftJoin('p.image', 'i')
+            ->where('p.id IN (:ids)')
+            ->setParameter('ids', $ids)
             ->getQuery()
             ->getResult();
     }

@@ -10,10 +10,11 @@ use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class PostEditSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly MessageBusInterface $bus)
+    public function __construct(private readonly MessageBusInterface $bus, private readonly CacheInterface $cache)
     {
     }
 
@@ -34,5 +35,9 @@ class PostEditSubscriber implements EventSubscriberInterface
         if (!$event->post->apId) {
             $this->bus->dispatch(new UpdateMessage($event->post->getId(), \get_class($event->post)));
         }
+
+        $this->cache->invalidateTags([
+            'post_'.$event->post->getId(),
+        ]);
     }
 }

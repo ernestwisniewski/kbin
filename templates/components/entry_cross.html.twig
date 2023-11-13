@@ -13,11 +13,11 @@
         {% elseif(entry.visibility is same as 'soft_deleted') %}
             <p class="text-muted">{{ 'deleted_by_author' }}</p>
         {% endif %}
-        {{ component('user_inline', {user: entry.user, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS')) is same as 'true'}) -}}
+        {{ component('user_inline', {user: entry.user}) -}}
         ,
         {{ component('date', {date: entry.createdAt}) }}
         {{ component('date_edited', {createdAt: entry.createdAt, editedAt: entry.editedAt}) }}
-        {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine, showAvatar: app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS')) is same as 'true'}) }}
+        {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}
         <footer>
             {% if entry.visibility in ['visible', 'private'] %}
                 <menu>

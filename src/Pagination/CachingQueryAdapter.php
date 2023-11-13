@@ -23,7 +23,7 @@ readonly class CachingQueryAdapter implements AdapterInterface
             return $nbResult->get();
         }
 
-        $nbResult->expiresAfter(60);
+        $nbResult->expiresAfter($this->queryAdapter->getNbResults() > 25000 ? 86400 : 60);
         $nbResult->set($this->queryAdapter->getNbResults());
         $this->pool->save($nbResult);
 

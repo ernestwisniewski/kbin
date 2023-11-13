@@ -10,10 +10,11 @@ use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class EntryEditSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly MessageBusInterface $bus)
+    public function __construct(private readonly MessageBusInterface $bus, private readonly CacheInterface $cache)
     {
     }
 
@@ -34,5 +35,9 @@ class EntryEditSubscriber implements EventSubscriberInterface
         if (!$event->entry->apId) {
             $this->bus->dispatch(new UpdateMessage($event->entry->getId(), \get_class($event->entry)));
         }
+
+        $this->cache->invalidateTags([
+            'entry_'.$event->entry->getId(),
+        ]);
     }
 }

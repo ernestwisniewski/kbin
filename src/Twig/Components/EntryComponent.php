@@ -4,17 +4,29 @@ declare(strict_types=1);
 
 namespace App\Twig\Components;
 
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
+use Symfony\UX\TwigComponent\ComponentAttributes;
+use Twig\Environment;
 
-#[AsTwigComponent('entry')]
+#[AsTwigComponent('entry', template: 'components/_cached.html.twig')]
 final class EntryComponent
 {
-    public function __construct(private readonly AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly CacheInterface $cache,
+        private readonly Environment $twig,
+        private readonly RequestStack $requestStack,
+        private readonly Security $security
+    ) {
     }
 
     public ?Entry $entry;
@@ -40,6 +52,40 @@ final class EntryComponent
         }
 
         return $attr;
+    }
+
+    public function getHtml(ComponentAttributes $attributes): string
+    {
+        $key = $this->isSingle.$this->showShortSentence.$this->showBody.$this->showMagazineName;
+        $key .= $this->canSeeTrash.$this->entry->getId().$this->security->getUser()?->getId();
+        $key .= $this->requestStack->getCurrentRequest()?->getLocale();
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS);
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW);
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS);
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS);
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS);
+
+        return $this->cache->get(
+            "entries_cross_".hash('sha256', $key),
+            function (ItemInterface $item) use ($attributes) {
+                $item->expiresAfter(1800);
+
+                $item->tag('entry_'.$this->entry->getId());
+
+                return $this->twig->render(
+                    'components/entry.html.twig',
+                    [
+                        'attributes' => $attributes,
+                        'entry' => $this->entry,
+                        'isSingle' => $this->isSingle,
+                        'showShortSentence' => $this->showShortSentence,
+                        'showBody' => $this->showBody,
+                        'showMagazineName' => $this->showMagazineName,
+                        'canSeeTrash' => $this->canSeeTrash,
+                    ]
+                );
+            }
+        );
     }
 
     public function canSeeTrashed(): bool

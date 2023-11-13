@@ -200,6 +200,8 @@ class PostManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
+        $this->dispatcher->dispatch(new PostEditedEvent($post));
+
         return $post;
     }
 
@@ -253,6 +255,6 @@ class PostManager implements ContentManagerInterface
 
         $this->entityManager->flush();
 
-        $this->cache->invalidateTags(['post_'.$post->getId()]);
+        $this->dispatcher->dispatch(new PostEditedEvent($post));
     }
 }

@@ -10,6 +10,9 @@
             showMagazineName: magazine is not defined or not magazine,
             showCommentsPreview: true
         }) }}
+        {% if(post.commentCount) %}
+            {{ component('post_comments_preview', {post: post, 'data-post-target': 'preview'}) }}
+        {% endif %}
     {% endfor %}
     {% if(posts.haveToPaginate is defined and posts.haveToPaginate) %}
         {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}

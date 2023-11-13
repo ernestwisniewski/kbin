@@ -19,7 +19,7 @@ class TwigGlobalSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'kernel.request'::class => 'registerTwigGlobalUserSettings',
+            'kernel.request' => 'registerTwigGlobalUserSettings',
         ];
     }
 

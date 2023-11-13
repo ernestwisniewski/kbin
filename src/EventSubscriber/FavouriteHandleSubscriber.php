@@ -8,6 +8,7 @@ use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
+use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Event\FavouriteEvent;
 use App\Message\ActivityPub\Outbox\LikeMessage;
@@ -59,6 +60,7 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
             EntryComment::class => $this->clearEntryCommentCache($subject),
             PostComment::class => $this->clearPostCommentCache($subject),
             Entry::class => $this->clearEntryCache($subject),
+            Post::class => $this->clearPostCache($subject),
             default => null
         };
 
@@ -96,6 +98,13 @@ class FavouriteHandleSubscriber implements EventSubscriberInterface
     {
         $this->cache->invalidateTags([
             'entry_'.$entry->getId(),
+        ]);
+    }
+
+    private function clearPostCache(Post $post): void
+    {
+        $this->cache->invalidateTags([
+            'post_'.$post->getId(),
         ]);
     }
 }

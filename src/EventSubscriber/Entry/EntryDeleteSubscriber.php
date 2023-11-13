@@ -13,6 +13,7 @@ use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class EntryDeleteSubscriber implements EventSubscriberInterface
 {
@@ -20,6 +21,7 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
         private readonly MessageBusInterface $bus,
         private readonly EntryRepository $entryRepository,
         private readonly DeleteWrapper $deleteWrapper,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -34,13 +36,17 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
+
+        $this->cache->invalidateTags([
+            'entry_'.$event->entry->getId(),
+        ]);
     }
 
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine(
-            $event->entry->magazine
-        ) - 1;
+                $event->entry->magazine
+            ) - 1;
 
         $this->bus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
 

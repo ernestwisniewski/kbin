@@ -4,13 +4,20 @@ declare(strict_types=1);
 
 namespace App\Twig\Components;
 
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 use Symfony\UX\TwigComponent\Attribute\PostMount;
+use Symfony\UX\TwigComponent\ComponentAttributes;
+use Twig\Environment;
 
-#[AsTwigComponent('post')]
+#[AsTwigComponent('post', template: 'components/_cached.html.twig')]
 final class PostComponent
 {
     public Post $post;
@@ -22,8 +29,43 @@ final class PostComponent
     public bool $canSeeTrash = false;
 
     public function __construct(
-        private readonly AuthorizationCheckerInterface $authorizationChecker
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly CacheInterface $cache,
+        private readonly Environment $twig,
+        private readonly RequestStack $requestStack,
+        private readonly Security $security
     ) {
+    }
+
+    public function getHtml(ComponentAttributes $attributes): string
+    {
+        $key = $this->isSingle.$this->showMagazineName.$this->dateAsUrl.$this->showCommentsPreview.$this->showExpand;
+        $key .= $this->canSeeTrash.$this->post->getId().$this->security->getUser()?->getId();
+        $key .= $this->requestStack->getCurrentRequest()?->getLocale();
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW);
+
+        return $this->cache->get(
+            "entries_cross_".hash('sha256', $key),
+            function (ItemInterface $item) use ($attributes) {
+                $item->expiresAfter(1800);
+
+                $item->tag('post_'.$this->post->getId());
+
+                return $this->twig->render(
+                    'components/post.html.twig',
+                    [
+                        'attributes' => $attributes,
+                        'post' => $this->post,
+                        'isSingle' => $this->isSingle,
+                        'showMagazineName' => $this->showMagazineName,
+                        'showCommentsPreview' => $this->showCommentsPreview,
+                        'dateAsUrl' => $this->dateAsUrl,
+                        'showExpand' => $this->showExpand,
+                        'canSeeTrash' => $this->canSeeTrash,
+                    ]
+                );
+            }
+        );
     }
 
     #[PostMount]
