@@ -13,7 +13,7 @@
         {% elseif(entry.visibility is same as 'soft_deleted') %}
             <p class="text-muted">{{ 'deleted_by_author' }}</p>
         {% endif %}
-        {{ component('user_inline', {user: entry.user}) -}}
+        {{ component('user_inline', {user: entry.user, showAvatar: false}) -}}
         ,
         {{ component('date', {date: entry.createdAt}) }}
         {{ component('date_edited', {createdAt: entry.createdAt, editedAt: entry.editedAt}) }}
