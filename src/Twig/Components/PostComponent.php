@@ -45,7 +45,7 @@ final class PostComponent
         $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW).'_';
 
         return $this->cache->get(
-            "entries_cross_".hash('sha256', $key),
+            'post_'.hash('sha256', $key),
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(1800);
 

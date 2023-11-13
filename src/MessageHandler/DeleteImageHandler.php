@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
-use App\Event\Entry\EntryEditedEvent;
 use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]

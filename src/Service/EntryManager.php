@@ -78,7 +78,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -151,7 +151,7 @@ class EntryManager implements ContentManagerInterface
             $entry->image = $this->imageRepository->find($dto->image->id);
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
@@ -318,7 +318,6 @@ class EntryManager implements ContentManagerInterface
 
         $this->dispatcher->dispatch(new EntryEditedEvent($entry));
     }
-
 
     public function changeLang(Entry $entry, string $lang = 'en'): void
     {

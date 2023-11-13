@@ -6,7 +6,6 @@ namespace App\Twig\Components;
 
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
-use App\Service\CacheService;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;

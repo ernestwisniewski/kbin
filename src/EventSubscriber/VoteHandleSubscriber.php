@@ -77,9 +77,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         }
 
         if ($votable instanceof EntryComment) {
-
-
-            if( $votable->root) {
+            if ($votable->root) {
                 $this->cache->invalidateTags(['entry_comment_'.$votable?->root?->getId() ?? $votable->getId()]);
             }
         }

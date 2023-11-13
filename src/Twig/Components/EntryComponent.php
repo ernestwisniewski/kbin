@@ -67,7 +67,7 @@ final class EntryComponent
         $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
 
         return $this->cache->get(
-            "entries_cross_".hash('sha256', $key),
+            'entry_'.hash('sha256', $key),
             function (ItemInterface $item) use ($attributes) {
                 $item->expiresAfter(1800);
 
