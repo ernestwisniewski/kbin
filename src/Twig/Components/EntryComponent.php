@@ -58,7 +58,8 @@ final class EntryComponent
     {
         $key = $this->isSingle.'_'.$this->showShortSentence.'_'.$this->showBody.'_'.$this->showMagazineName.'_';
         $key .= $this->canSeeTrash.$this->entry->getId().'_'.$this->security->getUser()?->getId().'_';
-        $key .= $this->canSeeTrashed().'_'.$this->requestStack->getCurrentRequest()?->getLocale().'_';
+        $key .= $this->canSeeTrashed().'_'.$this->entry->cross.'_';
+        $key .= $this->requestStack->getCurrentRequest()?->getLocale().'_';
         $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
         $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW).'_';
         $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS).'_';
