@@ -23,7 +23,7 @@ class MagazineDeleteController extends AbstractController
     {
         $this->validateCsrf('magazine_delete', $request->request->get('token'));
 
-        $this->manager->delete($magazine);
+        $this->manager->trash($magazine);
 
         return $this->redirectToRefererOrHome($request);
     }

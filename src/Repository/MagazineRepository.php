@@ -488,7 +488,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->where('m.apId IS NULL')
             ->andWhere('m.visibility = :visibility')
             ->orderBy('m.markedForDeletionAt', 'ASC')
-            ->setParameter('visibility', VisibilityInterface::VISIBILITY_SOFT_DELETED)
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_TRASHED)
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(

@@ -36,7 +36,7 @@ class TagRepository
         (SELECT id, created_at, 'post' AS type FROM post WHERE tags @> :tag = true AND visibility = :visibility)
         UNION
         (SELECT id, created_at, 'post_comment' AS type FROM post_comment WHERE tags @> :tag = true AND visibility = :visibility)
-        ORDER BY created_at DESC LIMIT 20000";
+        ORDER BY created_at DESC LIMIT 25000";
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('tag', "\"$tag\"");
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);

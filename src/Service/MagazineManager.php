@@ -141,6 +141,13 @@ class MagazineManager
         $this->entityManager->flush();
     }
 
+    public function trash(Magazine $magazine): void
+    {
+        $magazine->trash();
+
+        $this->entityManager->flush();
+    }
+
     public function restore(Magazine $magazine): void
     {
         $magazine->restore();
