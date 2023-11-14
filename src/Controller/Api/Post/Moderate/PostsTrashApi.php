@@ -80,7 +80,7 @@ class PostsTrashApi extends PostsBaseApi
         $manager->trash($moderator, $post);
 
         // Force response to have all fields visible
-        $visibility = $post->visibility;
+        $visibility = $post->getVisibility();
         $post->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
         $response = $this->serializePost($factory->createDto($post))->jsonSerialize();
         $response['visibility'] = $visibility;

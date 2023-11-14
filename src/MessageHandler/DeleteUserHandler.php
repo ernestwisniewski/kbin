@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
@@ -114,6 +115,7 @@ class DeleteUserHandler
                 $this->user->email = '!deleted'.$this->user->getId().'@kbin.del';
                 $this->user->isVerified = false;
                 $this->user->isDeleted = true;
+                $this->user->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
 
                 $this->entityManager->persist($this->user);
                 $this->entityManager->flush();

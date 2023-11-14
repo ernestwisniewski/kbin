@@ -105,27 +105,27 @@ class EntryDto implements ContentVisibilityInterface
 
     public function getVisibility(): string
     {
-        return $this->visibility;
+        return trim($this->visibility);
     }
 
     public function isVisible(): bool
     {
-        return VisibilityInterface::VISIBILITY_VISIBLE === $this->visibility;
+        return VisibilityInterface::VISIBILITY_VISIBLE === $this->getVisibility();
     }
 
     public function isPrivate(): bool
     {
-        return VisibilityInterface::VISIBILITY_PRIVATE === $this->visibility;
+        return VisibilityInterface::VISIBILITY_PRIVATE === $this->getVisibility();
     }
 
     public function isSoftDeleted(): bool
     {
-        return VisibilityInterface::VISIBILITY_SOFT_DELETED === $this->visibility;
+        return VisibilityInterface::VISIBILITY_SOFT_DELETED === $this->getVisibility();
     }
 
     public function isTrashed(): bool
     {
-        return VisibilityInterface::VISIBILITY_TRASHED === $this->visibility;
+        return VisibilityInterface::VISIBILITY_TRASHED === $this->getVisibility();
     }
 
     public function getType(): string

@@ -91,7 +91,7 @@ class ReportResponseDto implements \JsonSerializable
     {
         $serializedSubject = null;
         if ($this->subject) {
-            $visibility = $this->subject->visibility;
+            $visibility = $this->subject->getVisibility();
             $this->subject->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
             $serializedSubject = $this->subject->jsonSerialize();
             $serializedSubject['visibility'] = $visibility;

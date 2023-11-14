@@ -790,12 +790,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
 
     public function softDelete(): void
     {
-        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+        $this->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
     }
 
     public function trash(): void
     {
-        $this->visibility = self::VISIBILITY_TRASHED;
+        $this->visibility = VisibilityInterface::VISIBILITY_TRASHED;
     }
 
     public function restore(): void

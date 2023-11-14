@@ -48,11 +48,11 @@ final class EntryCommentComponent
 
     public function canSeeTrashed(): bool
     {
-        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->comment->visibility) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->comment->getVisibility()) {
             return true;
         }
 
-        if (VisibilityInterface::VISIBILITY_TRASHED === $this->comment->visibility
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->comment->getVisibility()
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->comment

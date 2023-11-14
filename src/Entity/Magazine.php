@@ -320,12 +320,12 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public function softDelete(): void
     {
         $this->markedForDeletionAt = new \DateTime();
-        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+        $this->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
     }
 
     public function trash(): void
     {
-        $this->visibility = self::VISIBILITY_TRASHED;
+        $this->visibility = VisibilityInterface::VISIBILITY_TRASHED;
     }
 
     public function restore(): void

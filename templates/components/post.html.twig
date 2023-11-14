@@ -1,5 +1,5 @@
 {% if not app.user or (app.user and not app.user.isBlocked(post.user)) %}
-    {% if post.visibility is same as 'private' and (not app.user or not app.user.isFollower(post.user)) %}
+    {% if post.getVisibility() is same as 'private' and (not app.user or not app.user.isFollower(post.user)) %}
         <div class="section section--small"
              style="z-index:3; position:relative;margin-bottom:0;">
             Private
@@ -35,15 +35,15 @@
                 asLink: true
             }) }}
             <div class="content">
-                {% if post.visibility in ['visible', 'private'] or (post.visibility is same as 'trashed' and canSeeTrashed) %}
+                {% if post.getVisibility() in ['visible', 'private'] or (post.getVisibility() is same as 'trashed' and canSeeTrashed) %}
                     {{ post.body|markdown|raw }}
-                {% elseif(post.visibility is same as 'trashed') %}
+                {% elseif(post.getVisibility() is same as 'trashed') %}
                     <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
-                {% elseif(post.visibility is same as 'soft_deleted') %}
+                {% elseif(post.getVisibility() is same as 'soft_deleted') %}
                     <p class="text-muted">{{ 'deleted_by_author' }}</p>
                 {% endif %}
             </div>
-            {% if post.visibility in ['visible', 'private'] %}
+            {% if post.getVisibility() in ['visible', 'private'] %}
                 {{ component('vote', {
                     subject: post,
                     showDownvote: false
@@ -59,7 +59,7 @@
                         </a>
                     </figure>
                 {% endif %}
-                {% if post.visibility in ['visible', 'private'] %}
+                {% if post.getVisibility() in ['visible', 'private'] %}
                     <menu>
                         {% if post.sticky %}
                             <li>
@@ -104,7 +104,7 @@
                         url: post_voters_url(post, 'up'),
                         'data-post-target': 'voters'
                     }) }}
-                {% elseif(post.visibility is same as 'trashed' and canSeeTrashed) %}
+                {% elseif(post.getVisibility() is same as 'trashed' and canSeeTrashed) %}
                     <menu>
                         <li>
                             <form method="post"

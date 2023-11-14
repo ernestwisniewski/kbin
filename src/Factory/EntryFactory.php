@@ -93,7 +93,7 @@ class EntryFactory
         $dto->badges = $entry->badges;
         $dto->slug = $entry->slug;
         $dto->score = $entry->score;
-        $dto->visibility = $entry->visibility;
+        $dto->visibility = $entry->getVisibility();
         $dto->ip = $entry->ip;
         $dto->tags = $entry->tags;
         $dto->createdAt = $entry->createdAt;

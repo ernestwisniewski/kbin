@@ -91,7 +91,7 @@ class EntryCommentFactory
         $dto->parent = $comment->parent;
         $dto->isAdult = $comment->isAdult;
         $dto->image = $comment->image ? $this->imageFactory->createDto($comment->image) : null;
-        $dto->visibility = $comment->visibility;
+        $dto->visibility = $comment->getVisibility();
         $dto->uv = $comment->countUpVotes();
         $dto->dv = $comment->countDownVotes();
         $dto->favouriteCount = $comment->favouriteCount;

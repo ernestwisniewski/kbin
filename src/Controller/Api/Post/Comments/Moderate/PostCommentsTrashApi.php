@@ -80,7 +80,7 @@ class PostCommentsTrashApi extends PostsBaseApi
         $manager->trash($moderator, $comment);
 
         // Force response to have all fields visible
-        $visibility = $comment->visibility;
+        $visibility = $comment->getVisibility();
         $comment->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
         $response = $this->serializePostComment($factory->createDto($comment))->jsonSerialize();
         $response['visibility'] = $visibility;

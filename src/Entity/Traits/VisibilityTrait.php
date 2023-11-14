@@ -10,7 +10,10 @@ use JetBrains\PhpStorm\Pure;
 
 trait VisibilityTrait
 {
-    #[ORM\Column(options: ['default' => VisibilityInterface::VISIBILITY_VISIBLE])]
+    #[ORM\Column(type: 'string', length: 20, options: [
+        'fixed' => true,
+        'default' => VisibilityInterface::VISIBILITY_VISIBLE,
+    ])]
     public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
 
     #[Pure]
@@ -21,7 +24,7 @@ trait VisibilityTrait
 
     public function getVisibility(): string
     {
-        return $this->visibility;
+        return trim($this->visibility);
     }
 
     #[Pure]

@@ -67,7 +67,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
-        $comment->visibility = $dto->visibility;
+        $comment->visibility = $dto->getVisibility();
         $comment->apId = $dto->apId;
         $comment->magazine->lastActive = new \DateTime();
         $comment->user->lastActive = new \DateTime();
@@ -102,7 +102,7 @@ class PostCommentManager implements ContentManagerInterface
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;
-        $comment->visibility = $dto->visibility;
+        $comment->visibility = $dto->getVisibility();
         $comment->editedAt = new \DateTimeImmutable('@'.time());
         if (empty($comment->body) && null === $comment->image) {
             throw new \Exception('Comment body and image cannot be empty');
@@ -175,7 +175,7 @@ class PostCommentManager implements ContentManagerInterface
 
     public function restore(User $user, PostComment $comment): void
     {
-        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->visibility) {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->getVisibility()) {
             throw new \Exception('Invalid visibility');
         }
 

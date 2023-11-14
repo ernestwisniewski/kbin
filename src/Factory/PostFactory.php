@@ -75,7 +75,7 @@ class PostFactory
         $dto->uv = $post->countUpVotes();
         $dto->dv = $post->countDownVotes();
         $dto->favouriteCount = $post->favouriteCount;
-        $dto->visibility = $post->visibility;
+        $dto->visibility = $post->getVisibility();
         $dto->createdAt = $post->createdAt;
         $dto->editedAt = $post->editedAt;
         $dto->lastActive = $post->lastActive;

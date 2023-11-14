@@ -88,11 +88,11 @@ final class PostComponent
 
     public function canSeeTrashed(): bool
     {
-        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->post->visibility) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE === $this->post->getVisibility()) {
             return true;
         }
 
-        if (VisibilityInterface::VISIBILITY_TRASHED === $this->post->visibility
+        if (VisibilityInterface::VISIBILITY_TRASHED === $this->post->getVisibility()
             && $this->authorizationChecker->isGranted(
                 'moderate',
                 $this->post

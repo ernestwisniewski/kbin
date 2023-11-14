@@ -174,11 +174,11 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     private function handlePrivateComments(ArrayCollection $comments, ?User $user): ArrayCollection
     {
         return $comments->filter(function (PostComment $val) use ($user) {
-            if ($user && self::VISIBILITY_PRIVATE === $val->visibility) {
+            if ($user && VisibilityInterface::VISIBILITY_PRIVATE === $val->getVisibility()) {
                 return $user->isFollower($val->user);
             }
 
-            return self::VISIBILITY_VISIBLE === $val->visibility;
+            return VisibilityInterface::VISIBILITY_VISIBLE === $val->getVisibility();
         });
     }
 
@@ -236,12 +236,12 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
 
     public function softDelete(): void
     {
-        $this->visibility = self::VISIBILITY_SOFT_DELETED;
+        $this->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
     }
 
     public function trash(): void
     {
-        $this->visibility = self::VISIBILITY_TRASHED;
+        $this->visibility = VisibilityInterface::VISIBILITY_TRASHED;
     }
 
     public function restore(): void

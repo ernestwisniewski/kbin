@@ -1,5 +1,5 @@
 {% if not app.user or (app.user and not app.user.isBlocked(entry.user)) %}
-    {% if entry.visibility is same as 'private' and (not app.user or not app.user.isFollower(entry.user)) %}
+    {% if entry.getVisibility() is same as 'private' and (not app.user or not app.user.isFollower(entry.user)) %}
         <div class="section section--small"
              style="z-index:3; position:relative;">
             Private
@@ -17,7 +17,7 @@
                 data-controller="subject preview mentions"
                 data-action="notifications:Notification@window->subject#notification">
             <header>
-                {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and canSeeTrashed) %}
+                {% if entry.getVisibility() in ['visible', 'private'] or (entry.getVisibility() is same as 'trashed' and canSeeTrashed) %}
                     {% if isSingle %}
                         <h1>
                             {% if entry.isAdult %}<small class="badge danger">18+</small>{% endif %}
@@ -48,13 +48,13 @@
                             {% endif %}
                         </h2>
                     {% endif %}
-                {% elseif(entry.visibility is same as 'trashed') %}
+                {% elseif(entry.getVisibility() is same as 'trashed') %}
                     <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
-                {% elseif(entry.visibility is same as 'soft_deleted') %}
+                {% elseif(entry.getVisibility() is same as 'soft_deleted') %}
                     <p class="text-muted">{{ 'deleted_by_author' }}</p>
                 {% endif %}
             </header>
-            {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and canSeeTrashed) %}
+            {% if entry.getVisibility() in ['visible', 'private'] or (entry.getVisibility() is same as 'trashed' and canSeeTrashed) %}
                 {% if entry.body and showShortSentence %}
                     <div class="content short-desc">
                         <p>{{ get_short_sentence(entry.body|markdown|raw, striptags = true) }}</p>
@@ -111,13 +111,13 @@
                     </div>
                 {% endif %}
             {% endif %}
-            {% if entry.visibility in ['visible', 'private'] %}
+            {% if entry.getVisibility() in ['visible', 'private'] %}
                 {{ component('vote', {
                     subject: entry,
                 }) }}
             {% endif %}
             <footer>
-                {% if entry.visibility in ['visible', 'private'] %}
+                {% if entry.getVisibility() in ['visible', 'private'] %}
                     <menu>
                         {% if entry.sticky %}
                             <li>
@@ -159,7 +159,7 @@
                             </div>
                         </li>
                     </menu>
-                {% elseif(entry.visibility is same as 'trashed' and canSeeTrashed) %}
+                {% elseif(entry.getVisibility() is same as 'trashed' and canSeeTrashed) %}
                     <menu>
                         <li>
                             <form method="post"

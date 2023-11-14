@@ -26,7 +26,7 @@ class MagazineVisibilityListener
 
         $magazine = array_values($magazine)[0];
 
-        if (VisibilityInterface::VISIBILITY_VISIBLE !== $magazine->visibility) {
+        if (VisibilityInterface::VISIBILITY_VISIBLE !== $magazine->getVisibility()) {
             if (null === $this->security->getUser()
                 || false === $magazine->userIsOwner($this->security->getUser())
                 && false === $this->security->isGranted('ROLE_ADMIN')) {

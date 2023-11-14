@@ -75,7 +75,7 @@ class PostManager implements ContentManagerInterface
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $post->visibility = $dto->visibility;
+        $post->visibility = $dto->getVisibility();
         $post->apId = $dto->apId;
         $post->magazine->lastActive = new \DateTime();
         $post->user->lastActive = new \DateTime();
@@ -107,7 +107,7 @@ class PostManager implements ContentManagerInterface
         }
         $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $post->visibility = $dto->visibility;
+        $post->visibility = $dto->getVisibility();
         $post->editedAt = new \DateTimeImmutable('@'.time());
         if (empty($post->body) && null === $post->image) {
             throw new \Exception('Post body and image cannot be empty');
@@ -182,7 +182,7 @@ class PostManager implements ContentManagerInterface
 
     public function restore(User $user, Post $post): void
     {
-        if (VisibilityInterface::VISIBILITY_TRASHED !== $post->visibility) {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $post->getVisibility()) {
             throw new \Exception('Invalid visibility');
         }
 

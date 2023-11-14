@@ -162,7 +162,7 @@ class PostCommentResponseDto implements \JsonSerializable
             'favourites' => $this->favourites,
             'isFavourited' => $this->isFavourited,
             'userVote' => $this->userVote,
-            'visibility' => $this->visibility,
+            'visibility' => $this->getVisibility(),
             'apId' => $this->apId,
             'mentions' => $this->mentions,
             'tags' => $this->tags,

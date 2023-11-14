@@ -6,11 +6,11 @@
         data-controller="subject preview mentions"
         data-action="notifications:Notification@window->subject#notification">
     <aside class="meta entry__meta">
-        {% if entry.visibility in ['visible', 'private'] or (entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+        {% if entry.getVisibility() in ['visible', 'private'] or (entry.getVisibility() is same as 'trashed' and this.canSeeTrashed) %}
             <a href="{{ entry_url(entry) }}">{{ 'crossposted'|trans }}</a> {{ 'by'|trans }}
-        {% elseif(entry.visibility is same as 'trashed') %}
+        {% elseif(entry.getVisibility() is same as 'trashed') %}
             <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
-        {% elseif(entry.visibility is same as 'soft_deleted') %}
+        {% elseif(entry.getVisibility() is same as 'soft_deleted') %}
             <p class="text-muted">{{ 'deleted_by_author' }}</p>
         {% endif %}
         {{ component('user_inline', {user: entry.user, showAvatar: false}) -}}
@@ -19,7 +19,7 @@
         {{ component('date_edited', {createdAt: entry.createdAt, editedAt: entry.editedAt}) }}
         {{ 'to'|trans }} {{ component('magazine_inline', {magazine: entry.magazine}) }}
         <footer>
-            {% if entry.visibility in ['visible', 'private'] %}
+            {% if entry.getVisibility() in ['visible', 'private'] %}
                 <menu>
                     {% if entry.sticky %}
                         <li>
@@ -61,7 +61,7 @@
                         </div>
                     </li>
                 </menu>
-            {% elseif(entry.visibility is same as 'trashed' and this.canSeeTrashed) %}
+            {% elseif(entry.getVisibility() is same as 'trashed' and this.canSeeTrashed) %}
                 <menu>
                     <li>
                         <form method="post"
@@ -92,7 +92,7 @@
     </aside>
     {% if not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) or app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'true' %}
     {% endif %}
-    {% if entry.visibility in ['visible', 'private'] %}
+    {% if entry.getVisibility() in ['visible', 'private'] %}
         {{ component('vote', {
             subject: entry,
         }) }}

@@ -164,7 +164,7 @@ class BaseApi extends AbstractController
                  * @var Entry $content
                  */
                 $dto = $this->entryFactory->createResponseDto($content);
-                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->getVisibility();
                 $toReturn = $dto->jsonSerialize();
                 $toReturn['itemType'] = 'entry';
                 break;
@@ -173,7 +173,7 @@ class BaseApi extends AbstractController
                  * @var EntryComment $content
                  */
                 $dto = $this->entryCommentFactory->createResponseDto($content);
-                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->getVisibility();
                 $toReturn = $dto->jsonSerialize();
                 $toReturn['itemType'] = 'entry_comment';
                 break;
@@ -182,7 +182,7 @@ class BaseApi extends AbstractController
                  * @var Post $content
                  */
                 $dto = $this->postFactory->createResponseDto($content);
-                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->getVisibility();
                 $toReturn = $dto->jsonSerialize();
                 $toReturn['itemType'] = 'post';
                 break;
@@ -191,7 +191,7 @@ class BaseApi extends AbstractController
                  * @var PostComment $content
                  */
                 $dto = $this->postCommentFactory->createResponseDto($content);
-                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->visibility;
+                $dto->visibility = $forceVisible ? VisibilityInterface::VISIBILITY_VISIBLE : $dto->getVisibility();
                 $toReturn = $dto->jsonSerialize();
                 $toReturn['itemType'] = 'post_comment';
                 break;
@@ -200,7 +200,7 @@ class BaseApi extends AbstractController
         }
 
         if ($forceVisible) {
-            $toReturn['visibility'] = $content->visibility;
+            $toReturn['visibility'] = $content->getVisibility();
         }
 
         return $toReturn;
@@ -223,7 +223,7 @@ class BaseApi extends AbstractController
         );
 
         if ($response->subject) {
-            $response->subject->visibility = 'visible';
+            $response->subject->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
         }
 
         $toReturn = $response->jsonSerialize();

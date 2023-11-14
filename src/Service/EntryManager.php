@@ -82,7 +82,7 @@ class EntryManager implements ContentManagerInterface
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
-        $entry->visibility = $dto->visibility;
+        $entry->visibility = $dto->getVisibility();
         $entry->apId = $dto->apId;
         $entry->magazine->lastActive = new \DateTime();
         $entry->user->lastActive = new \DateTime();
@@ -145,7 +145,7 @@ class EntryManager implements ContentManagerInterface
         $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult || $entry->magazine->isAdult;
         $entry->slug = $this->slugger->slug($dto->title);
-        $entry->visibility = $dto->visibility;
+        $entry->visibility = $dto->getVisibility();
         $oldImage = $entry->image;
         if ($dto->image && $dto->image->id !== $entry->image->getId()) {
             $entry->image = $this->imageRepository->find($dto->image->id);
@@ -229,7 +229,7 @@ class EntryManager implements ContentManagerInterface
 
     public function restore(User $user, Entry $entry): void
     {
-        if (VisibilityInterface::VISIBILITY_TRASHED !== $entry->visibility) {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $entry->getVisibility()) {
             throw new \Exception('Invalid visibility');
         }
 

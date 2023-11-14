@@ -19,7 +19,7 @@ trait VisibilityAwareDtoTrait
             throw new \LogicException('handleDeletion requires $keysToDelete to be set.');
         }
         if (
-            false !== array_search($this->visibility, [
+            false !== array_search($this->getVisibility(), [
                 VisibilityInterface::VISIBILITY_VISIBLE,
                 VisibilityInterface::VISIBILITY_PRIVATE,
             ])
@@ -30,5 +30,10 @@ trait VisibilityAwareDtoTrait
         array_walk($value, fn (&$val, $key) => $val = false !== array_search($key, self::$keysToDelete) ? null : $val);
 
         return $value;
+    }
+
+    public function getVisibility(): string
+    {
+        return trim($this->visibility);
     }
 }

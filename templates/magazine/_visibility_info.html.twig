@@ -1,4 +1,4 @@
-{% if magazine.visibility is same as 'soft_deleted' %}
+{% if magazine.getVisibility() is same as 'soft_deleted' %}
     <div class="alert alert__danger">
         <p>{{ 'magazine_is_deleted'|trans({
                 '%link_target%': path('magazine_panel_general', {'name': magazine.name})

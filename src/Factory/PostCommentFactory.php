@@ -94,7 +94,7 @@ class PostCommentFactory
         $dto->uv = $comment->countUpVotes();
         $dto->dv = $comment->countDownVotes();
         $dto->favourites = $comment->favouriteCount;
-        $dto->visibility = $comment->visibility;
+        $dto->visibility = $comment->getVisibility();
         $dto->createdAt = $comment->createdAt;
         $dto->editedAt = $comment->editedAt;
         $dto->lastActive = $comment->lastActive;

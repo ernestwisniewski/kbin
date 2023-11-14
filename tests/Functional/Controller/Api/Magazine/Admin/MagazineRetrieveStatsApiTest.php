@@ -123,6 +123,9 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         self::assertIsArray($jsonData['post_comment']);
         self::assertEmpty($jsonData['post_comment']);
         self::assertArrayKeysMatch(self::VOTE_ITEM_KEYS, $jsonData['entry'][0]);
+        $now = new \DateTime();
+        $now->setTime((int) $now->format('H'), 0);
+        $nowTimestamp = $now->getTimestamp();
         $voteTimestamp = (new \DateTimeImmutable($jsonData['entry'][0]['datetime']))->getTimestamp();
         if ($nowTimestamp !== $voteTimestamp) {
             self::assertEquals(abs($nowTimestamp - $voteTimestamp), 3600);

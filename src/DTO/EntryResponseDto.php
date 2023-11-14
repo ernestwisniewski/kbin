@@ -146,7 +146,7 @@ class EntryResponseDto implements \JsonSerializable
             'createdAt' => $this->createdAt->format(\DateTimeInterface::ATOM),
             'editedAt' => $this->editedAt?->format(\DateTimeInterface::ATOM),
             'lastActive' => $this->lastActive?->format(\DateTimeInterface::ATOM),
-            'visibility' => $this->visibility,
+            'visibility' => $this->getVisibility(),
             'type' => $this->type,
             'slug' => $this->slug,
             'apId' => $this->apId,

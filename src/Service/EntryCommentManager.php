@@ -176,7 +176,7 @@ class EntryCommentManager implements ContentManagerInterface
 
     public function restore(User $user, EntryComment $comment): void
     {
-        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->visibility) {
+        if (VisibilityInterface::VISIBILITY_TRASHED !== $comment->getVisibility()) {
             throw new \Exception('Invalid visibility');
         }
 

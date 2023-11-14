@@ -1,5 +1,5 @@
 {% if not app.user or (app.user and not app.user.isBlocked(comment.user)) %}
-    {% if comment.visibility is same as 'private' and (not app.user or not app.user.isFollower(comment.user)) %}
+    {% if comment.getVisibility() is same as 'private' and (not app.user or not app.user.isFollower(comment.user)) %}
         <div class="section section--small {{ 'comment-level--' ~ this.getLevel() }}"
              style="z-index:3; position:relative;margin-bottom:0;">
             Private
@@ -40,19 +40,19 @@
             }) }}
 
             <div class="content">
-                {% if comment.visibility in ['visible', 'private'] or (comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% if comment.getVisibility() in ['visible', 'private'] or (comment.getVisibility() is same as 'trashed' and this.canSeeTrashed) %}
                     {{ comment.body|markdown|raw }}
-                {% elseif(comment.visibility is same as 'trashed') %}
+                {% elseif(comment.getVisibility() is same as 'trashed') %}
                     <p class="text-muted">{{ 'deleted_by_moderator' }}</p>
-                {% elseif(comment.visibility is same as 'soft_deleted') %}
+                {% elseif(comment.getVisibility() is same as 'soft_deleted') %}
                     <p class="text-muted">{{ 'deleted_by_author' }}</p>
                 {% endif %}
             </div>
-            {% if comment.visibility in ['visible', 'private'] %}
+            {% if comment.getVisibility() in ['visible', 'private'] %}
                 {{ component('vote', {subject: comment}) }}
             {% endif %}
             <footer>
-                {% if (comment.visibility in ['visible', 'private'] or comment.visibility is same as 'trashed' and this.canSeeTrashed) and comment.image %}
+                {% if (comment.getVisibility() in ['visible', 'private'] or comment.getVisibility() is same as 'trashed' and this.canSeeTrashed) and comment.image %}
                     <figure>
                         <a href="{{ uploaded_asset(comment.image.filePath) }}"
                            class="thumb">
@@ -62,7 +62,7 @@
                         </a>
                     </figure>
                 {% endif %}
-                {% if comment.visibility in ['visible', 'private'] %}
+                {% if comment.getVisibility() in ['visible', 'private'] %}
                     <menu>
                         <li>
                             <a class="stretched-link"
@@ -79,7 +79,7 @@
                             </div>
                         </li>
                     </menu>
-                {% elseif(comment.visibility is same as 'trashed' and this.canSeeTrashed) %}
+                {% elseif(comment.getVisibility() is same as 'trashed' and this.canSeeTrashed) %}
                     <menu>
                         <li>
                             <form method="post"

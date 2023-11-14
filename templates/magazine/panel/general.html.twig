@@ -50,7 +50,7 @@
         <div class="container">
             <div>
                 <div class="mb-2">
-                    {% if magazine.visibility is same as 'visible' %}
+                    {% if magazine.getVisibility() is same as 'visible' %}
                         <form action="{{ path('magazine_delete', {name: magazine.name}) }}" method="POST"
                               onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
                             <input type="hidden" name="token" value="{{ csrf_token('magazine_delete') }}">

@@ -82,7 +82,7 @@ class EntriesTrashApi extends EntriesBaseApi
         $response = $this->serializeEntry($factory->createDto($entry));
 
         // Force response to have all fields visible
-        $visibility = $response->visibility;
+        $visibility = $response->getVisibility();
         $response->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
         $response = $response->jsonSerialize();
         $response['visibility'] = $visibility;
