@@ -57,23 +57,23 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Magazine $magazine;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Image $image = null;
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'children')]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?EntryComment $parent = null;
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'nested')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?EntryComment $root = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body = null;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $lang = 'en';
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isAdult = false;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
-    #[Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    #[Column(type: 'integer', options: ['default' => 0])]
     public int $score = 0;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive = null;

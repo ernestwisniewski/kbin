@@ -35,14 +35,14 @@ class Client extends AbstractClient implements ClientEntityInterface
     private ?string $description = null;
 
     #[OneToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     private ?User $user = null;
 
     #[OneToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     private ?Image $image = null;
 
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     private ?string $contactEmail = null;
 
     #[OneToMany(mappedBy: 'client', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]

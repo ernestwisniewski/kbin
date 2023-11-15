@@ -31,7 +31,7 @@ class UserNote
     #[ManyToOne(targetEntity: User::class)]
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?User $target;
-    #[ORM\Column(type: 'text', nullable: false)]
+    #[Column(type: 'text')]
     public string $body;
     #[Id]
     #[GeneratedValue]

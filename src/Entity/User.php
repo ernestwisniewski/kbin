@@ -73,15 +73,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
     #[JoinColumn(nullable: true)]
     public ?Image $cover = null;
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(type: 'string', unique: true)]
     public string $email;
-    #[Column(type: 'string', unique: true, nullable: false)]
+    #[Column(type: 'string', unique: true)]
     public string $username;
-    #[Column(type: 'json', nullable: false, options: ['jsonb' => true])]
+    #[Column(type: 'json', options: ['jsonb' => true])]
     public array $roles = [];
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $followersCount = 0;
-    #[Column(type: 'string', nullable: false, options: ['default' => User::HOMEPAGE_ALL])]
+    #[Column(type: 'string', options: ['default' => User::HOMEPAGE_ALL])]
     public string $homepage = self::HOMEPAGE_ALL;
     #[Column(type: 'text', nullable: true)]
     public ?string $about = null;
@@ -99,45 +99,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public ?string $oauthFacebookId = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $oauthKeycloakId = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    #[Column(type: 'boolean', options: ['default' => true])]
     public bool $hideAdult = true;
-    #[Column(type: 'json', nullable: false, options: ['jsonb' => true, 'default' => '[]'])]
+    #[Column(type: 'json', options: ['jsonb' => true, 'default' => '[]'])]
     public array $preferredLanguages = [];
     #[Column(type: 'array', nullable: true)]
     public ?array $featuredMagazines = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    #[Column(type: 'boolean', options: ['default' => true])]
     public bool $showProfileSubscriptions = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    #[Column(type: 'boolean', options: ['default' => true])]
     public bool $showProfileFollowings = true;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewEntry = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewEntryReply = true;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewEntryCommentReply = true;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewPost = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewPostReply = true;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $notifyOnNewPostCommentReply = true;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $addMentionsEntries = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    #[Column(type: 'boolean', options: ['default' => true])]
     public bool $addMentionsPosts = true;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isBanned = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isVerified = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isDeleted = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isBot = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => true])]
+    #[Column(type: 'boolean', options: ['default' => true])]
     public bool $spamProtection = true;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $ignoreMagazinesCustomCss = false;
     #[OneToMany(mappedBy: 'user', targetEntity: Moderator::class)]
     public Collection $moderatorTokens;
@@ -226,11 +226,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     #[GeneratedValue]
     #[Column(type: 'integer')]
     private int $id;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     private string $password;
     #[Column(type: 'string', nullable: true)]
     private ?string $totpSecret = null;
-    #[Column(type: 'json', nullable: false, options: ['jsonb' => true, 'default' => '[]'])]
+    #[Column(type: 'json', options: ['jsonb' => true, 'default' => '[]'])]
     private array $totpBackupCodes = [];
     #[OneToMany(mappedBy: 'user', targetEntity: OAuth2UserConsent::class, orphanRemoval: true)]
     private Collection $oAuth2UserConsents;

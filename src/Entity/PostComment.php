@@ -57,21 +57,21 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Magazine $magazine;
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'children')]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?PostComment $parent;
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'nested')]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?PostComment $root = null;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Image $image = null;
     #[Column(type: 'text', length: 4500)]
     public ?string $body;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $lang = 'en';
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
-    #[Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    #[Column(type: 'integer', options: ['default' => 0])]
     public int $score = 0;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;
@@ -81,9 +81,9 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public ?array $tags = null;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public ?array $mentions = null;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isAdult = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public ?bool $updateMark = false;
     #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]

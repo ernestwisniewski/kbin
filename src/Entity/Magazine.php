@@ -42,9 +42,9 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public const MAX_RULES_LENGTH = 10000;
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Image $icon = null;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $name;
     #[Column(type: 'string')]
     public ?string $title;
@@ -52,17 +52,17 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public ?string $description = null;
     #[Column(type: 'text', length: self::MAX_RULES_LENGTH, nullable: true)]
     public ?string $rules = null;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $subscriptionsCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $entryCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $entryCommentCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $postCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $postCommentCount = 0;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isAdult = false;
     #[Column(type: 'text', nullable: true)]
     public ?string $customCss = null;

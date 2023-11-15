@@ -60,13 +60,13 @@ abstract class Report
     #[JoinColumn(nullable: false)]
     public User $reported;
     #[ManyToOne(targetEntity: User::class)]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?User $consideredBy = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $reason = null;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $weight = 1;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $status = self::STATUS_PENDING;
     #[Id]
     #[GeneratedValue]

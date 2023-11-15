@@ -6,11 +6,13 @@ namespace App\DTO;
 
 class PageDto
 {
+    public string $title;
     public string $body;
+    public string $lang = 'en';
 
-    public function create(string $body): self
+    public function create(string $title, ?string $lang = 'en'): self
     {
-        $this->body = $body;
+        $this->title = $title;
 
         return $this;
     }

@@ -12,14 +12,29 @@ use Doctrine\ORM\Mapping\Id;
 #[Entity]
 class Site
 {
+    /**
+     * @deprecated Use Page Entity instead
+     */
     #[Column(type: 'text', nullable: true)]
     public ?string $terms = null;
+    /**
+     * @deprecated Use Page Entity instead
+     */
     #[Column(type: 'text', nullable: true)]
     public ?string $privacyPolicy = null;
+    /**
+     * @deprecated Use Page Entity instead
+     */
     #[Column(type: 'text', nullable: true)]
     public ?string $faq = null;
+    /**
+     * @deprecated Use Page Entity instead
+     */
     #[Column(type: 'text', nullable: true)]
     public ?string $about = null;
+    /**
+     * @deprecated Use Page Entity instead
+     */
     #[Column(type: 'text', nullable: true)]
     public ?string $contact = null;
     #[Column(type: 'text', nullable: true)]

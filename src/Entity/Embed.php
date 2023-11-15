@@ -22,9 +22,9 @@ class Embed
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $url;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $hasEmbed = false;
     #[Id]
     #[GeneratedValue]

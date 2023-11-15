@@ -17,9 +17,9 @@ use Doctrine\ORM\Mapping\OrderBy;
 #[Entity(repositoryClass: AwardTypeRepository::class)]
 class AwardType
 {
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $name;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $category;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $count = 0;

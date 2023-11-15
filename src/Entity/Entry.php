@@ -78,36 +78,36 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Magazine $magazine;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Image $image = null;
     #[ManyToOne(targetEntity: Domain::class, inversedBy: 'entries')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Domain $domain = null;
     #[Column(type: 'string', nullable: true)]
     public ?string $slug = null;
-    #[Column(type: 'string', length: self::MAX_TITLE_LENGTH, nullable: false)]
+    #[Column(type: 'string', length: self::MAX_TITLE_LENGTH)]
     public string $title;
     #[Column(type: 'string', length: 2048, nullable: true)]
     public ?string $url = null;
     #[Column(type: 'text', length: self::MAX_BODY_LENGTH, nullable: true)]
     public ?string $body = null;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $type = self::ENTRY_TYPE_ARTICLE;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $lang = 'en';
     #[Column(type: 'boolean', options: ['default' => false])]
     public bool $isOc = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $hasEmbed = false;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $commentCount = 0;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $score = 0;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isAdult = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $sticky = false;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive = null;

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Id;
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Settings
 {
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $name;
     #[Column(type: 'string', nullable: true)]
     public ?string $value = null;

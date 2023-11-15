@@ -20,11 +20,11 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Image
 {
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $filePath;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $fileName;
-    #[Column(type: 'binary', length: 32, nullable: false)]
+    #[Column(type: 'binary', length: 32)]
     public $sha256;
     #[Column(type: 'integer', nullable: true)]
     public ?int $width = null;

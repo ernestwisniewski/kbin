@@ -21,7 +21,7 @@ class Badge
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'badges')]
     #[JoinColumn(onDelete: 'CASCADE')]
     public Magazine $magazine;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public ?string $name;
     #[OneToMany(mappedBy: 'badge', targetEntity: EntryBadge::class, cascade: ['remove'], orphanRemoval: true)]
     public Collection $badges;

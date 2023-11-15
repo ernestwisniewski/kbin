@@ -29,9 +29,9 @@ class Moderator
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'moderators')]
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public Magazine $magazine;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isOwner = false;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isConfirmed = false;
     #[Id]
     #[GeneratedValue]

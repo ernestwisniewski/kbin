@@ -34,9 +34,9 @@ class Message
     #[ManyToOne(targetEntity: User::class)]
     #[JoinColumn(nullable: false)]
     public User $sender;
-    #[Column(type: 'text', nullable: false)]
+    #[Column(type: 'text')]
     public string $body;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $status = self::STATUS_NEW;
     #[Id]
     #[GeneratedValue]

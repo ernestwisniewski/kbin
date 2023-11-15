@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class PostCommentCreatedNotification extends Notification
 {
     #[ManyToOne(targetEntity: PostComment::class, inversedBy: 'notifications')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?PostComment $postComment = null;
 
     public function __construct(User $receiver, PostComment $comment)

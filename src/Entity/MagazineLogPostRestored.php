@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class MagazineLogPostRestored extends MagazineLog
 {
     #[ManyToOne(targetEntity: Post::class)]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?Post $post;
 
     public function __construct(Post $post, User $user)

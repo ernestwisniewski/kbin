@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class EntryEditedNotification extends Notification
 {
     #[ManyToOne(targetEntity: Entry::class, inversedBy: 'notifications')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Entry $entry = null;
 
     public function __construct(User $receiver, Entry $entry)

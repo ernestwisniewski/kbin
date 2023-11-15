@@ -21,7 +21,7 @@ admin_federation:
   methods: [ GET, POST ]
 
 admin_pages:
-  controller: App\Controller\Admin\AdminPagesController
+  controller: App\Controller\Admin\AdminPageController
   path: /admin/pages/{page}
   methods: [ GET, POST ]
 

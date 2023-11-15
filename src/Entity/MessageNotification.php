@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class MessageNotification extends Notification
 {
     #[ManyToOne(targetEntity: Message::class, inversedBy: 'notifications')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Message $message = null;
 
     public function __construct(

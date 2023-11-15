@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class EntryFavourite extends Favourite
 {
     #[ManyToOne(targetEntity: Entry::class, inversedBy: 'favourites')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Entry $entry = null;
 
     public function __construct(User $user, Entry $entry)

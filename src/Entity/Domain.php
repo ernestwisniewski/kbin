@@ -25,9 +25,9 @@ class Domain
 {
     #[OneToMany(mappedBy: 'domain', targetEntity: Entry::class)]
     public Collection $entries;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $name;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $entryCount = 0;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $subscriptionsCount = 0;

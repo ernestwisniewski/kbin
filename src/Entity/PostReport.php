@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class PostReport extends Report
 {
     #[ManyToOne(targetEntity: Post::class, inversedBy: 'reports')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Post $post = null;
 
     public function __construct(User $reporting, Post $post, string $reason = null)

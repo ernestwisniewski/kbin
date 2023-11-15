@@ -61,23 +61,23 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public ?Magazine $magazine;
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn]
     public ?Image $image = null;
     #[Column(type: 'string', length: 255, nullable: true)]
     public string $slug;
     #[Column(type: 'text', length: 15000, nullable: true)]
     public ?string $body = null;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $lang = 'en';
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $commentCount = 0;
     #[Column(type: 'integer', options: ['default' => 0])]
     public int $favouriteCount = 0;
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $score = 0;
-    #[Column(type: 'boolean', nullable: false)]
+    #[Column(type: 'boolean')]
     public bool $isAdult = false;
-    #[Column(type: 'boolean', nullable: false, options: ['default' => false])]
+    #[Column(type: 'boolean', options: ['default' => false])]
     public bool $sticky = false;
     #[Column(type: 'datetimetz')]
     public ?\DateTime $lastActive;

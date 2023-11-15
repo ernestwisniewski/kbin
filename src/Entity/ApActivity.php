@@ -24,11 +24,11 @@ class ApActivity
     #[JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public User $user;
     #[ManyToOne(targetEntity: Magazine::class, inversedBy: 'awards')]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?Magazine $magazine;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public int $subjectId;
-    #[Column(type: 'string', nullable: false)]
+    #[Column(type: 'string')]
     public string $type;
     #[Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     public string $body;

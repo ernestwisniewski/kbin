@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class MagazineLogEntryCommentRestored extends MagazineLog
 {
     #[ManyToOne(targetEntity: EntryComment::class)]
-    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?EntryComment $entryComment = null;
 
     public function __construct(EntryComment $comment, User $user)

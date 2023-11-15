@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 class EntryCommentReport extends Report
 {
     #[ManyToOne(targetEntity: EntryComment::class, inversedBy: 'reports')]
-    #[JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    #[JoinColumn(onDelete: 'SET NULL')]
     public ?EntryComment $entryComment = null;
 
     public function __construct(User $reporting, EntryComment $comment, string $reason = null)

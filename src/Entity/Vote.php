@@ -21,7 +21,7 @@ class Vote implements VoteInterface
         CreatedAtTrait::__construct as createdAtTraitConstruct;
     }
 
-    #[Column(type: 'integer', nullable: false)]
+    #[Column(type: 'integer')]
     public int $choice;
     #[ManyToOne(targetEntity: User::class)]
     #[JoinColumn(nullable: false)]
