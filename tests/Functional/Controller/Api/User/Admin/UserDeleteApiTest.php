@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\User\Admin;
 
+use App\Kbin\User\UserDelete;
 use App\Repository\UserRepository;
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class UserDeleteApiTest extends WebTestCase
@@ -114,7 +114,7 @@ class UserDeleteApiTest extends WebTestCase
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: true);
         $deletedUser = $this->getUserByUsername('JohnDoe');
 
-        $this->getService(UserManager::class)->delete($deletedUser);
+        ($this->getService(UserDelete::class))($deletedUser);
 
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:delete');

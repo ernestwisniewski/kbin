@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Kbin\User\UserUnfollow;
 use App\Repository\UserRepository;
-use App\Service\UserManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,7 +18,7 @@ class UserUnsubCommand extends Command
 {
     public function __construct(
         private readonly UserRepository $repository,
-        private readonly UserManager $manager
+        private readonly UserUnfollow $userUnfollow
     ) {
         parent::__construct();
     }
@@ -35,7 +35,7 @@ class UserUnsubCommand extends Command
 
         if ($user) {
             foreach ($user->followers as $follower) {
-                $this->manager->unfollow($follower->follower, $user);
+                ($this->userUnfollow)($follower->follower, $user);
             }
 
             $io->success('User unsubscribed');

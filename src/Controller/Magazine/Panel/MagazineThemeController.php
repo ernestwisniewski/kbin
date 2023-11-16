@@ -8,14 +8,14 @@ use App\Controller\AbstractController;
 use App\DTO\MagazineThemeDto;
 use App\Entity\Magazine;
 use App\Form\MagazineThemeType;
-use App\Kbin\Magazine\MagazineChangeTheme;
+use App\Kbin\Magazine\MagazineThemeChange;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineThemeController extends AbstractController
 {
-    public function __construct(private readonly MagazineChangeTheme $magazineChangeTheme)
+    public function __construct(private readonly MagazineThemeChange $magazineThemeChange)
     {
     }
 
@@ -29,7 +29,7 @@ class MagazineThemeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $magazine = ($this->magazineChangeTheme)($dto);
+            $magazine = ($this->magazineThemeChange)($dto);
             $this->redirectToRefererOrHome($request);
         }
 

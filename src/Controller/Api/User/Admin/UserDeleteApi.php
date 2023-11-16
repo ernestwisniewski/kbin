@@ -8,7 +8,7 @@ use App\Controller\Api\User\UserBaseApi;
 use App\DTO\UserResponseDto;
 use App\Entity\User;
 use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\Kbin\User\UserDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -95,13 +95,13 @@ class UserDeleteApi extends UserBaseApi
     public function __invoke(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserDelete $userDelete,
         UserFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->delete($user);
+        $userDelete($user);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),

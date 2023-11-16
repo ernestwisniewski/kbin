@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\PostComment;
+namespace App\Kbin\User;
 
-use App\Entity\PostComment;
+use App\Entity\User;
 use App\Message\DeleteImageMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-readonly class PostCommentDetachImage
+class UserAvatarDetach
 {
     public function __construct(
         private MessageBusInterface $messageBus,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function __invoke(PostComment $comment): void
+    public function __invoke(User $user): void
     {
-        $image = $comment->image->filePath;
+        if (!$user->avatar) {
+            return;
+        }
 
-        $comment->image = null;
+        $image = $user->avatar->filePath;
 
-        $this->entityManager->persist($comment);
+        $user->avatar = null;
+
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         $this->messageBus->dispatch(new DeleteImageMessage($image));

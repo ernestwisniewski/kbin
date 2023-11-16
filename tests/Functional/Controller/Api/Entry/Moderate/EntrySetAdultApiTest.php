@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -70,10 +70,10 @@ class EntrySetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -209,10 +209,10 @@ class EntrySetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $entry->isAdult = true;

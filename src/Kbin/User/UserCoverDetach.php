@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\EntryComment;
+namespace App\Kbin\User;
 
-use App\Entity\EntryComment;
+use App\Entity\User;
 use App\Message\DeleteImageMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-readonly class EntryCommentDetachImage
+class UserCoverDetach
 {
     public function __construct(
         private MessageBusInterface $messageBus,
@@ -17,13 +17,17 @@ readonly class EntryCommentDetachImage
     ) {
     }
 
-    public function __invoke(EntryComment $comment): void
+    public function __invoke(User $user): void
     {
-        $image = $comment->image->filePath;
+        if (!$user->cover) {
+            return;
+        }
 
-        $comment->image = null;
+        $image = $user->cover->filePath;
 
-        $this->entityManager->persist($comment);
+        $user->cover = null;
+
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         $this->messageBus->dispatch(new DeleteImageMessage($image));

@@ -8,7 +8,7 @@ use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
 use App\Factory\MagazineFactory;
-use App\Kbin\Magazine\MagazineDetachIcon;
+use App\Kbin\Magazine\MagazineIconDetach;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -94,13 +94,13 @@ class MagazineDeleteIconApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineDetachIcon $magazineDetachIcon,
+        MagazineIconDetach $magazineIconDetach,
         MagazineFactory $magazineFactory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $magazineDetachIcon($magazine);
+        $magazineIconDetach($magazine);
 
         $imageDto = null;
         $dto = MagazineThemeResponseDto::create(

@@ -8,7 +8,7 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Kbin\PostComment\PostCommentDetachImage;
+use App\Kbin\PostComment\PostCommentImageDetach;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostCommentDeleteImageController extends AbstractController
 {
     public function __construct(
-        private readonly PostCommentDetachImage $postCommentDetachImage
+        private readonly PostCommentImageDetach $postCommentImageDetach
     ) {
     }
 
@@ -32,7 +32,7 @@ class PostCommentDeleteImageController extends AbstractController
         PostComment $comment,
         Request $request
     ): Response {
-        ($this->postCommentDetachImage)($comment);
+        ($this->postCommentImageDetach)($comment);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonSuccessResponse();

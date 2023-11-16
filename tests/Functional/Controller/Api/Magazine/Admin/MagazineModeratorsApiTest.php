@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -26,10 +26,10 @@ class MagazineModeratorsApiTest extends WebTestCase
         $client = self::createClient();
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('yesamod');
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}");
 
@@ -65,10 +65,10 @@ class MagazineModeratorsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('yesamod');
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
@@ -92,10 +92,10 @@ class MagazineModeratorsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse(
             $client,
@@ -122,13 +122,13 @@ class MagazineModeratorsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse(
             $client,
@@ -187,10 +187,10 @@ class MagazineModeratorsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $moderator = $this->getUserByUsername('yesamod');
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse(
             $client,

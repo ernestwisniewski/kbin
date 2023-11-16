@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Twig\Runtime;
 
 use App\Entity\User;
+use App\Kbin\User\UserReputationGet;
 use App\Service\MentionManager;
-use App\Service\UserManager;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -15,7 +15,7 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
     public function __construct(
         private readonly Security $security,
         private readonly MentionManager $mentionManager,
-        private readonly UserManager $userManager
+        private readonly UserReputationGet $userReputationGet
     ) {
     }
 
@@ -44,6 +44,6 @@ class UserExtensionRuntime implements RuntimeExtensionInterface
 
     public function getReputationTotal(User $user): int
     {
-        return $this->userManager->getReputationTotal($user);
+        return ($this->userReputationGet)($user);
     }
 }

@@ -6,7 +6,7 @@ namespace App\Security;
 
 use App\DTO\UserDto;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserCreate;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -28,7 +28,7 @@ class GithubAuthenticator extends OAuth2Authenticator
         private readonly ClientRegistry $clientRegistry,
         private readonly RouterInterface $router,
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserManager $userManager,
+        private readonly UserCreate $userCreate,
         private readonly Slugger $slugger
     ) {
     }
@@ -71,7 +71,7 @@ class GithubAuthenticator extends OAuth2Authenticator
 
                     $dto->plainPassword = bin2hex(random_bytes(20));
 
-                    $user = $this->userManager->create($dto, false);
+                    $user = ($this->userCreate)($dto, false);
                     $user->oauthGithubId = $githubUser->getId();
                     $user->isVerified = true;
                 }

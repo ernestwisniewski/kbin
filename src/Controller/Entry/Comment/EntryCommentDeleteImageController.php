@@ -8,7 +8,7 @@ use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Kbin\EntryComment\EntryCommentDetachImage;
+use App\Kbin\EntryComment\EntryCommentImageDetach;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryCommentDeleteImageController extends AbstractController
 {
     public function __construct(
-        private readonly EntryCommentDetachImage $entryCommentDetachImage
+        private readonly EntryCommentImageDetach $entryCommentImageDetach
     ) {
     }
 
@@ -33,7 +33,7 @@ class EntryCommentDeleteImageController extends AbstractController
         EntryComment $comment,
         Request $request
     ): Response {
-        ($this->entryCommentDetachImage)($comment);
+        ($this->entryCommentImageDetach)($comment);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

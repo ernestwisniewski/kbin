@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\User\Profile;
 
 use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\User\UserFollow;
 use App\Service\DomainManager;
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class UserSubControllerTest extends WebTestCase
@@ -31,7 +31,7 @@ class UserSubControllerTest extends WebTestCase
         $client = $this->createClient();
         $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
 
-        $this->getService(UserManager::class)->follow($user, $this->getUserByUsername('JohnDoe'));
+        ($this->getService(UserFollow::class))($user, $this->getUserByUsername('JohnDoe'));
 
         $crawler = $client->request('GET', '/settings/subscriptions/people');
         $client->click($crawler->filter('#main .pills')->selectLink('People')->link());

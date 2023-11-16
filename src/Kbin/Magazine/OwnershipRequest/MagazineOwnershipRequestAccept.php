@@ -7,16 +7,16 @@ namespace App\Kbin\Magazine\OwnershipRequest;
 use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
-use App\Kbin\Magazine\Moderator\MagazineRemoveModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
+use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use App\Repository\MagazineOwnershipRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-readonly class MagazineAcceptOwnershipRequest
+readonly class MagazineOwnershipRequestAccept
 {
     public function __construct(
-        private MagazineRemoveModerator $magazineRemoveModerator,
-        private MagazineAddModerator $magazineAddModerator,
+        private MagazineModeratorRemove $magazineModeratorRemove,
+        private MagazineModeratorAdd $magazineModeratorAdd,
         private MagazineOwnershipRequestRepository $magazineOwnershipRequestRepository,
         private EntityManagerInterface $entityManager,
     ) {
@@ -27,9 +27,9 @@ readonly class MagazineAcceptOwnershipRequest
         $this->entityManager->beginTransaction();
 
         try {
-            ($this->magazineRemoveModerator)($magazine->getOwnerModerator());
+            ($this->magazineModeratorRemove)($magazine->getOwnerModerator());
 
-            ($this->magazineAddModerator)(new ModeratorDto($magazine, $user), true);
+            ($this->magazineModeratorAdd)(new ModeratorDto($magazine, $user), true);
 
             $request = $this->magazineOwnershipRequestRepository->findOneBy([
                 'magazine' => $magazine,

@@ -6,8 +6,8 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Kbin\Magazine\OwnershipRequest\MagazineAcceptOwnershipRequest;
-use App\Kbin\Magazine\OwnershipRequest\MagazineToggleOwnershipRequest;
+use App\Kbin\Magazine\OwnershipRequest\MagazineOwnershipRequestAccept;
+use App\Kbin\Magazine\OwnershipRequest\MagazineOwnershipRequestToggle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -15,8 +15,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineOwnershipRequestController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineToggleOwnershipRequest $magazineToggleOwnershipRequest,
-        private readonly MagazineAcceptOwnershipRequest $magazineAcceptOwnershipRequest
+        private readonly MagazineOwnershipRequestToggle $magazineOwnershipRequestToggle,
+        private readonly MagazineOwnershipRequestAccept $magazineOwnershipRequestAccept
     ) {
     }
 
@@ -26,7 +26,7 @@ class MagazineOwnershipRequestController extends AbstractController
     {
         $this->validateCsrf('magazine_ownership_request', $request->request->get('token'));
 
-        ($this->magazineToggleOwnershipRequest)($magazine, $this->getUserOrThrow());
+        ($this->magazineOwnershipRequestToggle)($magazine, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -36,7 +36,7 @@ class MagazineOwnershipRequestController extends AbstractController
     {
         $this->validateCsrf('magazine_ownership_request', $request->request->get('token'));
 
-        ($this->magazineAcceptOwnershipRequest)($magazine, $this->getUserOrThrow());
+        ($this->magazineOwnershipRequestAccept)($magazine, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }

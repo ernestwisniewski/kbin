@@ -10,10 +10,10 @@ use App\DTO\OAuth2ClientDto;
 use App\DTO\UserDto;
 use App\Entity\Client;
 use App\Factory\ClientFactory;
+use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
 use App\Service\ImageManager;
 use App\Service\SettingsManager;
-use App\Service\UserManager;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
@@ -110,7 +110,7 @@ class CreateClientApi extends BaseApi
     public function __invoke(
         ClientManagerInterface $manager,
         ClientFactory $clientFactory,
-        UserManager $userManager,
+        UserCreate $userCreate,
         UserRepository $userRepository,
         SettingsManager $settingsManager,
         ValidatorInterface $validator,
@@ -164,7 +164,7 @@ class CreateClientApi extends BaseApi
             // This user is a bot user.
             $userDto->isBot = true;
             // Rate limiting is handled by the apiClientLimiter
-            $user = $userManager->create($userDto, false, false);
+            $user = $userCreate($userDto, false, false);
             $client->setUser($user);
         }
         $client->setDescription($dto->description);
@@ -282,7 +282,7 @@ class CreateClientApi extends BaseApi
     public function uploadImage(
         ClientManagerInterface $manager,
         ClientFactory $clientFactory,
-        UserManager $userManager,
+        UserCreate $userCreate,
         UserRepository $userRepository,
         SettingsManager $settingsManager,
         ValidatorInterface $validator,
@@ -330,7 +330,7 @@ class CreateClientApi extends BaseApi
             // This user is a bot user.
             $userDto->isBot = true;
             // Rate limiting is handled by the apiClientLimiter
-            $user = $userManager->create($userDto, false, false);
+            $user = $userCreate($userDto, false, false);
             $client->setUser($user);
         }
         $client->setDescription($dto->description);

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\DTO\UserDto;
+use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
-use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -25,7 +25,7 @@ class UserCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserRepository $repository,
-        private readonly UserManager $manager
+        private readonly UserCreate $userCreate
     ) {
         parent::__construct();
     }
@@ -71,7 +71,7 @@ class UserCommand extends Command
         $dto = (new UserDto())->create($input->getArgument('username'), $input->getArgument('email'));
         $dto->plainPassword = $input->getArgument('password');
 
-        $user = $this->manager->create($dto, false);
+        $user = ($this->userCreate)($dto, false);
 
         if ($input->getOption('admin')) {
             $user->setOrRemoveAdminRole();

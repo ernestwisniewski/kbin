@@ -7,7 +7,8 @@ namespace App\Controller\Api\User;
 use App\DTO\UserResponseDto;
 use App\Entity\User;
 use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\Kbin\User\UserFollow;
+use App\Kbin\User\UserUnfollow;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -91,7 +92,7 @@ class UserFollowApi extends UserBaseApi
     public function follow(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserFollow $userFollow,
         UserFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
@@ -101,7 +102,7 @@ class UserFollowApi extends UserBaseApi
             throw new BadRequestHttpException('You cannot follow yourself');
         }
 
-        $manager->follow($this->getUserOrThrow(), $user);
+        $userFollow($this->getUserOrThrow(), $user);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),
@@ -181,7 +182,7 @@ class UserFollowApi extends UserBaseApi
     public function unfollow(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserUnfollow $userUnfollow,
         UserFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
@@ -191,7 +192,7 @@ class UserFollowApi extends UserBaseApi
             throw new BadRequestHttpException('You cannot follow yourself');
         }
 
-        $manager->unfollow($this->getUserOrThrow(), $user);
+        $userUnfollow($this->getUserOrThrow(), $user);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),

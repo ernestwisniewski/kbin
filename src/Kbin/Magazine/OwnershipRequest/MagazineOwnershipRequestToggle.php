@@ -2,25 +2,27 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\Magazine\ModeratorRequest;
+namespace App\Kbin\Magazine\OwnershipRequest;
 
 use App\Entity\Magazine;
-use App\Entity\ModeratorRequest;
+use App\Entity\MagazineOwnershipRequest;
 use App\Entity\User;
-use App\Repository\ModeratorRequestRepository;
+use App\Repository\MagazineOwnershipRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-readonly class MagazineToggleModeratorRequest
+readonly class MagazineOwnershipRequestToggle
 {
     public function __construct(
-        private ModeratorRequestRepository $moderatorRequestRepository,
+        private MagazineOwnershipRequestRepository $magazineOwnershipRequestRepository,
         private EntityManagerInterface $entityManager,
     ) {
     }
 
-    public function __invoke(Magazine $magazine, User $user): void
-    {
-        $request = $this->moderatorRequestRepository->findOneBy([
+    public function __invoke(
+        Magazine $magazine,
+        User $user
+    ): void {
+        $request = $this->magazineOwnershipRequestRepository->findOneBy([
             'magazine' => $magazine,
             'user' => $user,
         ]);
@@ -32,7 +34,7 @@ readonly class MagazineToggleModeratorRequest
             return;
         }
 
-        $request = new ModeratorRequest($magazine, $user);
+        $request = new MagazineOwnershipRequest($magazine, $user);
 
         $this->entityManager->persist($request);
         $this->entityManager->flush();

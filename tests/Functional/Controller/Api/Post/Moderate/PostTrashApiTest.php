@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Kbin\Post\PostTrash;
 use App\Tests\WebTestCase;
 
@@ -70,10 +70,10 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -197,10 +197,10 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         $postTrash = $this->getService(PostTrash::class);
         $postTrash($user, $post);

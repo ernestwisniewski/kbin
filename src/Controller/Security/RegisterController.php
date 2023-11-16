@@ -6,15 +6,15 @@ namespace App\Controller\Security;
 
 use App\Controller\AbstractController;
 use App\Form\UserRegisterType;
+use App\Kbin\User\UserCreate;
 use App\Service\IpResolver;
-use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends AbstractController
 {
     public function __invoke(
-        UserManager $manager,
+        UserCreate $userCreate,
         Request $request,
         IpResolver $ipResolver
     ): Response {
@@ -33,7 +33,7 @@ class RegisterController extends AbstractController
             $dto = $form->getData();
             $dto->ip = $ipResolver->resolve();
 
-            $manager->create($dto);
+            $userCreate($dto);
 
             $this->addFlash(
                 'success',

@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-readonly class EntryDetachImage
+readonly class EntryImageDetach
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

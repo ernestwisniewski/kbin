@@ -10,7 +10,7 @@ use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
-use App\Kbin\Magazine\Moderator\MagazineRemoveModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -110,7 +110,7 @@ class MagazineRemoveModeratorsApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'user_id')]
         User $user,
-        MagazineRemoveModerator $magazineRemoveModerator,
+        MagazineModeratorRemove $magazineModeratorRemove,
         MagazineFactory $factory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
@@ -124,7 +124,7 @@ class MagazineRemoveModeratorsApi extends MagazineBaseApi
             throw new BadRequestHttpException('Given user is not a moderator of this magazine');
         }
 
-        $magazineRemoveModerator($moderator);
+        $magazineModeratorRemove($moderator);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

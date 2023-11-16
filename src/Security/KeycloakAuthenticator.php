@@ -6,9 +6,9 @@ namespace App\Security;
 
 use App\DTO\UserDto;
 use App\Entity\User;
+use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
 use App\Service\IpResolver;
-use App\Service\UserManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -31,7 +31,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator
         private readonly ClientRegistry $clientRegistry,
         private readonly RouterInterface $router,
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserManager $userManager,
+        private readonly UserCreate $userCreate,
         private readonly IpResolver $ipResolver,
         private readonly Slugger $slugger,
         private readonly UserRepository $userRepository,
@@ -94,7 +94,7 @@ class KeycloakAuthenticator extends OAuth2Authenticator
                 $dto->plainPassword = bin2hex(random_bytes(20));
                 $dto->ip = $this->ipResolver->resolve();
 
-                $user = $this->userManager->create($dto, false);
+                $user = ($this->userCreate)($dto, false);
                 $user->oauthKeycloakId = $keycloakUser->getId();
                 $user->isVerified = true;
 

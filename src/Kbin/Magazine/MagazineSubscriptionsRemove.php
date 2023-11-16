@@ -6,7 +6,7 @@ namespace App\Kbin\Magazine;
 
 use App\Entity\Magazine;
 
-readonly class MagazineRemoveSubscriptions
+readonly class MagazineSubscriptionsRemove
 {
     public function __construct(
         private MagazineUnsubscribe $magazineUnsubscribe

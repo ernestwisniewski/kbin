@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
+use App\Kbin\User\UserReputationGet;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\MagazineRepository;
@@ -11,7 +12,6 @@ use App\Repository\UserRepository;
 use App\Service\ActivityPub\Wrapper\CreateWrapper;
 use App\Service\ActivityPubManager;
 use App\Service\SettingsManager;
-use App\Service\UserManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -27,7 +27,7 @@ class CreateHandler
         private readonly EntityManagerInterface $entityManager,
         private readonly ActivityPubManager $activityPubManager,
         private readonly SettingsManager $settingsManager,
-        private readonly UserManager $userManager
+        private readonly UserReputationGet $userReputationGet
     ) {
     }
 
@@ -40,7 +40,7 @@ class CreateHandler
         $entity = $this->entityManager->getRepository($message->type)->find($message->id);
 
         if ($this->settingsManager->get('KBIN_SPAM_PROTECTION')) {
-            if ($this->userManager->getReputationTotal($entity->user) < 8 && $entity->user->spamProtection) {
+            if (($this->userReputationGet)($entity->user) < 8 && $entity->user->spamProtection) {
                 return;
             }
         }

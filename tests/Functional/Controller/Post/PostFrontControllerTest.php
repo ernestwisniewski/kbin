@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller\Post;
 
 use App\DTO\ModeratorDto;
 use App\Kbin\Magazine\MagazineSubscribe;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -97,10 +97,10 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($this->getMagazineByName('acme'));
         $moderator->user = $this->getUserByUsername('Actor');
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         $client->loginUser($this->getUserByUsername('Actor'));
 

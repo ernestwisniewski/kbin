@@ -6,7 +6,8 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserBan;
+use App\Kbin\User\UserUnban;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,12 +16,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserBanController extends AbstractController
 {
+    public function __construct(private UserBan $userBan, private UserUnban $userUnban)
+    {
+    }
+
     #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_MODERATOR")'))]
-    public function ban(User $user, UserManager $manager, Request $request): Response
+    public function ban(User $user, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));
 
-        $manager->ban($user);
+        ($this->userBan)($user);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -34,11 +39,11 @@ class UserBanController extends AbstractController
     }
 
     #[IsGranted(new Expression('is_granted("ROLE_ADMIN") or is_granted("ROLE_MODERATOR")'))]
-    public function unban(User $user, UserManager $manager, Request $request): Response
+    public function unban(User $user, Request $request): Response
     {
         $this->validateCsrf('user_ban', $request->request->get('token'));
 
-        $manager->unban($user);
+        ($this->userUnban)($user);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

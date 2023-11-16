@@ -11,7 +11,7 @@ use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-readonly class PostChangeMagazine
+readonly class PostMagazineChange
 {
     public function __construct(
         private PostRepository $postRepository,

@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Controller\AbstractController;
+use App\Kbin\User\UserDeleteRequest\UserPauseAccount;
+use App\Kbin\User\UserDeleteRequest\UserPauseAccountRevoke;
 use App\Service\IpResolver;
-use App\Service\UserManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -16,7 +17,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UserSuspendController extends AbstractController
 {
     public function __construct(
-        private readonly UserManager $userManager,
+        private readonly UserPauseAccount $userPauseAccount,
+        private readonly UserPauseAccountRevoke $userPauseAccountRevoke,
         private readonly RateLimiterFactory $userDeleteLimiter,
         private readonly IpResolver $ipResolver
     ) {
@@ -34,7 +36,7 @@ class UserSuspendController extends AbstractController
             throw new TooManyRequestsHttpException();
         }
 
-        $this->userManager->suspend($this->getUserOrThrow());
+        ($this->userPauseAccount)($this->getUserOrThrow());
 
         $this->addFlash('success', 'account_suspended');
 
@@ -53,7 +55,7 @@ class UserSuspendController extends AbstractController
             throw new TooManyRequestsHttpException();
         }
 
-        $this->userManager->reinstate($this->getUserOrThrow());
+        ($this->userPauseAccountRevoke)($this->getUserOrThrow());
 
         $this->addFlash('success', 'account_reinstated');
 

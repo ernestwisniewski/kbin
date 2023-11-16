@@ -9,7 +9,7 @@ use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Factory\EntryFactory;
-use App\Kbin\Entry\EntryChangeMagazine;
+use App\Kbin\Entry\EntryMagazineChange;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -101,13 +101,13 @@ class EntriesChangeMagazineApi extends EntriesBaseApi
         Entry $entry,
         #[MapEntity(id: 'target_id')]
         Magazine $target,
-        EntryChangeMagazine $entryChangeMagazine,
+        EntryMagazineChange $entryMagazineChange,
         EntryFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $entryChangeMagazine($entry, $target);
+        $entryMagazineChange($entry, $target);
 
         return new JsonResponse(
             $this->serializeEntry($factory->createDto($entry)),

@@ -11,7 +11,7 @@ use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -111,7 +111,7 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'user_id')]
         User $user,
-        MagazineAddModerator $magazineAddModerator,
+        MagazineModeratorAdd $magazineModeratorAdd,
         MagazineFactory $factory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
@@ -129,7 +129,7 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
 
         $dto->user = $user;
 
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

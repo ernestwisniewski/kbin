@@ -7,8 +7,8 @@ namespace App\Controller\Api\User;
 use App\DTO\ImageUploadDto;
 use App\DTO\UserResponseDto;
 use App\Factory\UserFactory;
+use App\Kbin\User\UserEdit;
 use App\Service\ImageManager;
-use App\Service\UserManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -97,7 +97,8 @@ class UserUpdateImagesApi extends UserBaseApi
     #[Security(name: 'oauth2', scopes: ['user:profile:edit'])]
     #[IsGranted('ROLE_OAUTH2_USER:PROFILE:EDIT')]
     public function avatar(
-        UserManager $manager,
+        UserEdit $userEdit,
+        UserFactory $userFactory,
         UserFactory $factory,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
@@ -105,11 +106,11 @@ class UserUpdateImagesApi extends UserBaseApi
 
         $image = $this->handleUploadedImage();
 
-        $dto = $manager->createDto($this->getUserOrThrow());
+        $dto = $userFactory->createDto($this->getUserOrThrow());
 
         $dto->avatar = $image ? $this->imageFactory->createDto($image) : $dto->avatar;
 
-        $user = $manager->edit($this->getUserOrThrow(), $dto);
+        $user = $userEdit($this->getUserOrThrow(), $dto);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),
@@ -196,7 +197,8 @@ class UserUpdateImagesApi extends UserBaseApi
     #[Security(name: 'oauth2', scopes: ['user:profile:edit'])]
     #[IsGranted('ROLE_OAUTH2_USER:PROFILE:EDIT')]
     public function cover(
-        UserManager $manager,
+        UserEdit $userEdit,
+        UserFactory $userFactory,
         UserFactory $factory,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
@@ -204,11 +206,11 @@ class UserUpdateImagesApi extends UserBaseApi
 
         $image = $this->handleUploadedImage();
 
-        $dto = $manager->createDto($this->getUserOrThrow());
+        $dto = $userFactory->createDto($this->getUserOrThrow());
 
         $dto->cover = $image ? $this->imageFactory->createDto($image) : $dto->cover;
 
-        $user = $manager->edit($this->getUserOrThrow(), $dto);
+        $user = $userEdit($this->getUserOrThrow(), $dto);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),

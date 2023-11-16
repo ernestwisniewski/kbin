@@ -9,7 +9,7 @@ use App\Event\Entry\EntryEditedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-readonly class EntryChangeLang
+readonly class EntryLangChange
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

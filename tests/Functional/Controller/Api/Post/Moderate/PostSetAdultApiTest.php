@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -70,10 +70,10 @@ class PostSetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -202,10 +202,10 @@ class PostSetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $post->isAdult = true;

@@ -7,9 +7,10 @@ namespace App\Controller\User\Profile;
 use App\Controller\AbstractController;
 use App\DTO\UserDto;
 use App\Entity\User;
+use App\Factory\UserFactory;
 use App\Form\UserTwoFactorType;
+use App\Kbin\User\UserEdit;
 use App\Service\TwoFactorManager;
-use App\Service\UserManager;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
@@ -33,7 +34,8 @@ class User2FAController extends AbstractController
     public const BACKUP_SESSION_KEY = 'totp_backup_codes';
 
     public function __construct(
-        private readonly UserManager $manager,
+        private readonly UserEdit $userEdit,
+        private readonly UserFactory $userFactory,
         private readonly TwoFactorManager $twoFactorManager,
         private readonly TotpAuthenticatorInterface $totpAuthenticator,
         private readonly TranslatorInterface $translator,
@@ -63,7 +65,7 @@ class User2FAController extends AbstractController
             $request->getSession()->set(self::BACKUP_SESSION_KEY, $backupCodes);
         }
 
-        $dto = $this->manager->createDto($user);
+        $dto = $this->userFactory->createDto($user);
         $dto->totpSecret = $totpSecret;
 
         // QR code generation needs a user with a code. Add one for that then immediately remove
@@ -175,13 +177,13 @@ class User2FAController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()
-                && $form->has('totpCode')
-                && !$this->setupHasValidCode($dto->totpSecret, $form->get('totpCode')->getData())) {
+            && $form->has('totpCode')
+            && !$this->setupHasValidCode($dto->totpSecret, $form->get('totpCode')->getData())) {
             $form->get('totpCode')->addError(new FormError($this->translator->trans('2fa.code_invalid')));
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->edit($this->getUser(), $dto);
+            ($this->userEdit)($this->getUser(), $dto);
 
             if ($dto->totpSecret) {
                 $this->security->logout(false);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Controller\AbstractController;
-use App\Service\UserManager;
+use App\Kbin\User\UserCoverDetach;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserCoverDeleteController extends AbstractController
 {
-    public function __construct(private readonly UserManager $userManager)
+    public function __construct(private readonly UserCoverDetach $userCoverDetach)
     {
     }
 
@@ -22,7 +22,7 @@ class UserCoverDeleteController extends AbstractController
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $this->userManager->detachCover($this->getUserOrThrow());
+        ($this->userCoverDetach)($this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

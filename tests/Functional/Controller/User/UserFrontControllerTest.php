@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\User;
 
 use App\Kbin\Magazine\MagazineSubscribe;
-use App\Service\UserManager;
+use App\Kbin\User\UserFollow;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -96,8 +96,8 @@ class UserFrontControllerTest extends WebTestCase
         $user1 = $this->getUserByUsername('JohnDoe');
         $user2 = $this->getUserByUsername('JaneDoe');
 
-        $manager = $this->getService(UserManager::class);
-        $manager->follow($user2, $user1);
+        $userFollow = $this->getService(UserFollow::class);
+        $userFollow($user2, $user1);
 
         $client->loginUser($user1);
 
@@ -115,8 +115,8 @@ class UserFrontControllerTest extends WebTestCase
         $user1 = $this->getUserByUsername('JohnDoe');
         $user2 = $this->getUserByUsername('JaneDoe');
 
-        $manager = $this->getService(UserManager::class);
-        $manager->follow($user1, $user2);
+        $userFollow = $this->getService(UserFollow::class);
+        $userFollow($user1, $user2);
 
         $client->loginUser($user1);
 

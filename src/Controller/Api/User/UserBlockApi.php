@@ -7,7 +7,8 @@ namespace App\Controller\Api\User;
 use App\DTO\UserResponseDto;
 use App\Entity\User;
 use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\Kbin\User\UserBlock;
+use App\Kbin\User\UserUnblock;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -90,7 +91,7 @@ class UserBlockApi extends UserBaseApi
     public function block(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserBlock $userBlock,
         UserFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
@@ -100,7 +101,7 @@ class UserBlockApi extends UserBaseApi
             throw new BadRequestHttpException('You cannot block yourself');
         }
 
-        $manager->block($this->getUserOrThrow(), $user);
+        $userBlock($this->getUserOrThrow(), $user);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),
@@ -179,7 +180,7 @@ class UserBlockApi extends UserBaseApi
     public function unblock(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserUnblock $userUnblock,
         UserFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
@@ -189,7 +190,7 @@ class UserBlockApi extends UserBaseApi
             throw new BadRequestHttpException('You cannot block yourself');
         }
 
-        $manager->unblock($this->getUserOrThrow(), $user);
+        $userUnblock($this->getUserOrThrow(), $user);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),

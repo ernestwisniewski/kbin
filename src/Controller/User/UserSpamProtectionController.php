@@ -6,7 +6,7 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserSpamProtectionToggle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UserSpamProtectionController extends AbstractController
 {
     public function __construct(
-        private readonly UserManager $manager,
+        private readonly UserSpamProtectionToggle $userSpamProtectionToggle,
     ) {
     }
 
@@ -23,7 +23,7 @@ class UserSpamProtectionController extends AbstractController
     {
         $this->validateCsrf('spam_protection', $request->request->get('token'));
 
-        $this->manager->toggleSpamProtection($user);
+        ($this->userSpamProtectionToggle)($user);
 
         return $this->redirectToRefererOrHome($request);
     }

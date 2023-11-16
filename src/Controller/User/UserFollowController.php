@@ -6,7 +6,8 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserFollow;
+use App\Kbin\User\UserUnfollow;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,13 +15,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserFollowController extends AbstractController
 {
+    public function __construct(private UserFollow $userFollow, private UserUnfollow $userUnfollow)
+    {
+    }
+
     #[IsGranted('ROLE_USER')]
     #[IsGranted('follow', subject: 'following')]
-    public function follow(User $following, UserManager $manager, Request $request): Response
+    public function follow(User $following, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $manager->follow($this->getUserOrThrow(), $following);
+        ($this->userFollow)($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($following);
@@ -31,11 +36,11 @@ class UserFollowController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('follow', subject: 'following')]
-    public function unfollow(User $following, UserManager $manager, Request $request): Response
+    public function unfollow(User $following, Request $request): Response
     {
         $this->validateCsrf('follow', $request->request->get('token'));
 
-        $manager->unfollow($this->getUserOrThrow(), $following);
+        ($this->userUnfollow)($this->getUserOrThrow(), $following);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($following);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 
 class MagazinePurgeApiTest extends WebTestCase
@@ -70,10 +70,10 @@ class MagazinePurgeApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write admin:magazine:purge');
         $token = $codes['token_type'].' '.$codes['access_token'];

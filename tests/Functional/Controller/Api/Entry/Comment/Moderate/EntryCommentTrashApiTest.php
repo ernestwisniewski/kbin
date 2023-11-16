@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller\Api\Entry\Comment\Moderate;
 
 use App\DTO\ModeratorDto;
 use App\Kbin\EntryComment\EntryCommentTrash;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 
 class EntryCommentTrashApiTest extends WebTestCase
@@ -31,10 +31,10 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -83,10 +83,10 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -185,10 +185,10 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineAddModerator($moderator);
+        $magazineModeratorAdd($moderator);
 
         $entryCommentTrash = $this->getService(EntryCommentTrash::class);
         $entryCommentTrash($user, $comment);

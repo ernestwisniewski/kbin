@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\User\Admin;
 
+use App\Kbin\User\UserBan;
 use App\Repository\UserRepository;
-use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
 class UserBanApiTest extends WebTestCase
@@ -19,7 +19,11 @@ class UserBanApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/ban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/ban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -33,11 +37,15 @@ class UserBanApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: true);
         $bannedUser = $this->getUserByUsername('JohnDoe');
-        $this->getService(UserManager::class)->ban($bannedUser);
+        ($this->getService(UserBan::class))($bannedUser);
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/unban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/unban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -54,7 +62,11 @@ class UserBanApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/ban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/ban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -68,11 +80,15 @@ class UserBanApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: false);
         $bannedUser = $this->getUserByUsername('JohnDoe');
-        $this->getService(UserManager::class)->ban($bannedUser);
+        ($this->getService(UserBan::class))($bannedUser);
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/unban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/unban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(403);
 
         $repository = $this->getService(UserRepository::class);
@@ -89,7 +105,11 @@ class UserBanApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/ban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/ban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);
@@ -109,12 +129,16 @@ class UserBanApiTest extends WebTestCase
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: true);
         $bannedUser = $this->getUserByUsername('JohnDoe');
 
-        $this->getService(UserManager::class)->ban($bannedUser);
+        ($this->getService(UserBan::class))($bannedUser);
 
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/unban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/unban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);
@@ -136,7 +160,11 @@ class UserBanApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) ($bannedUser->getId() * 10).'/ban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) ($bannedUser->getId() * 10).'/ban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(404);
 
         $repository = $this->getService(UserRepository::class);
@@ -151,12 +179,16 @@ class UserBanApiTest extends WebTestCase
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: true);
         $bannedUser = $this->getUserByUsername('JohnDoe');
 
-        $this->getService(UserManager::class)->ban($bannedUser);
+        ($this->getService(UserBan::class))($bannedUser);
 
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) ($bannedUser->getId() * 10).'/unban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) ($bannedUser->getId() * 10).'/unban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseStatusCodeSame(404);
 
         $repository = $this->getService(UserRepository::class);
@@ -189,13 +221,17 @@ class UserBanApiTest extends WebTestCase
         $testUser = $this->getUserByUsername('UserWithoutAbout', isAdmin: true);
         $bannedUser = $this->getUserByUsername('JohnDoe');
 
-        $this->getService(UserManager::class)->ban($bannedUser);
+        ($this->getService(UserBan::class))($bannedUser);
 
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
         // Ban user a second time with the API
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/ban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/ban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);
@@ -220,7 +256,11 @@ class UserBanApiTest extends WebTestCase
         $client->loginUser($testUser);
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read admin:user:ban');
 
-        $client->request('POST', '/api/admin/users/'.(string) $bannedUser->getId().'/unban', server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]);
+        $client->request(
+            'POST',
+            '/api/admin/users/'.(string) $bannedUser->getId().'/unban',
+            server: ['HTTP_AUTHORIZATION' => $codes['token_type'].' '.$codes['access_token']]
+        );
         self::assertResponseIsSuccessful();
 
         $jsonData = self::getJsonResponse($client);

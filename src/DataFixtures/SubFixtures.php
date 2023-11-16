@@ -6,7 +6,8 @@ namespace App\DataFixtures;
 
 use App\Kbin\Magazine\MagazineBlock;
 use App\Kbin\Magazine\MagazineSubscribe;
-use App\Service\UserManager;
+use App\Kbin\User\UserBlock;
+use App\Kbin\User\UserFollow;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,7 +16,8 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
     public function __construct(
         private readonly MagazineSubscribe $magazineSubscribe,
         private readonly MagazineBlock $magazineBlock,
-        private readonly UserManager $userManager
+        private readonly UserFollow $userFollow,
+        private readonly UserBlock $userBlock
     ) {
     }
 
@@ -71,14 +73,14 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(0, 2);
 
             if (0 === $roll) {
-                $this->userManager->block(
+                ($this->userBlock)(
                     $this->getReference('user_'.$f),
                     $this->getReference('user_'.$u)
                 );
                 continue;
             }
 
-            $this->userManager->follow(
+            ($this->userFollow)(
                 $this->getReference('user_'.$f),
                 $this->getReference('user_'.$u)
             );

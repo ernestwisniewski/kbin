@@ -10,7 +10,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
-readonly class MagazineAddModerator
+readonly class MagazineModeratorAdd
 {
     public function __construct(
         private CacheInterface $cache,

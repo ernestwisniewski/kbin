@@ -8,7 +8,7 @@ use App\DTO\UserProfileRequestDto;
 use App\DTO\UserResponseDto;
 use App\DTO\UserSettingsDto;
 use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\Kbin\User\UserEdit;
 use App\Service\UserSettingsManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -75,7 +75,8 @@ class UserUpdateApi extends UserBaseApi
     #[Security(name: 'oauth2', scopes: ['user:profile:edit'])]
     #[IsGranted('ROLE_OAUTH2_USER:PROFILE:EDIT')]
     public function profile(
-        UserManager $manager,
+        UserEdit $userEdit,
+        UserFactory $userFactory,
         ValidatorInterface $validator,
         UserFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
@@ -91,11 +92,11 @@ class UserUpdateApi extends UserBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $dto = $manager->createDto($this->getUserOrThrow());
+        $dto = $userFactory->createDto($this->getUserOrThrow());
 
         $dto->about = $deserialized->about;
 
-        $user = $manager->edit($this->getUserOrThrow(), $dto);
+        $user = $userEdit($this->getUserOrThrow(), $dto);
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($user)),

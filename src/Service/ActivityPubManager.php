@@ -17,6 +17,7 @@ use App\Factory\ActivityPub\PersonFactory;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
 use App\Kbin\Magazine\MagazineCreate;
+use App\Kbin\User\UserCreate;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\UpdateActorMessage;
 use App\Message\DeleteImageMessage;
@@ -36,7 +37,7 @@ class ActivityPubManager
     public function __construct(
         private Server $server,
         private UserRepository $userRepository,
-        private UserManager $userManager,
+        private UserCreate $userCreate,
         private UserFactory $userFactory,
         private MagazineCreate $magazineCreate,
         private MagazineFactory $magazineFactory,
@@ -197,7 +198,7 @@ class ActivityPubManager
     private function createUser(string $actorUrl): User
     {
         $webfinger = $this->webfinger($actorUrl);
-        $this->userManager->create(
+        ($this->userCreate)(
             $this->userFactory->createDtoFromAp($actorUrl, $webfinger->getHandle()),
             false,
             false

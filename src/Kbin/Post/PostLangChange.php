@@ -9,7 +9,7 @@ use App\Event\Post\PostEditedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-readonly class PostChangeLang
+readonly class PostLangChange
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

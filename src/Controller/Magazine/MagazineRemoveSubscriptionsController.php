@@ -6,14 +6,14 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Kbin\Magazine\MagazineRemoveSubscriptions;
+use App\Kbin\Magazine\MagazineSubscriptionsRemove;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineRemoveSubscriptionsController extends AbstractController
 {
-    public function __construct(private readonly MagazineRemoveSubscriptions $magazineRemoveSubscriptions)
+    public function __construct(private readonly MagazineSubscriptionsRemove $magazineSubscriptionsRemove)
     {
     }
 
@@ -22,7 +22,7 @@ class MagazineRemoveSubscriptionsController extends AbstractController
     {
         $this->validateCsrf('magazine_remove_subscriptions', $request->request->get('token'));
 
-        ($this->magazineRemoveSubscriptions)($magazine);
+        ($this->magazineSubscriptionsRemove)($magazine);
 
         return $this->redirectToRefererOrHome($request);
     }

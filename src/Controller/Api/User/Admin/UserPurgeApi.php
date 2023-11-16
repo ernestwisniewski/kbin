@@ -6,7 +6,7 @@ namespace App\Controller\Api\User\Admin;
 
 use App\Controller\Api\User\UserBaseApi;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -93,12 +93,12 @@ class UserPurgeApi extends UserBaseApi
     public function __invoke(
         #[MapEntity(id: 'user_id')]
         User $user,
-        UserManager $manager,
+        UserDelete $userDelete,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->delete($user, purge: true);
+        $userDelete($user, purge: true);
 
         return new JsonResponse(
             status: 204,

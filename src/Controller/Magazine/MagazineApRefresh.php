@@ -6,7 +6,7 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Kbin\Magazine\MagazineDetachIcon;
+use App\Kbin\Magazine\MagazineIconDetach;
 use App\Service\ActivityPubManager;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineApRefresh extends AbstractController
 {
     public function __construct(
-        private readonly MagazineDetachIcon $magazineDetachIcon,
+        private readonly MagazineIconDetach $magazineIconDetach,
         private readonly ActivityPubManager $activityPubManager
     ) {
     }
@@ -26,7 +26,7 @@ class MagazineApRefresh extends AbstractController
     {
         $this->validateCsrf('magazine_ap_refresh', $request->request->get('token'));
 
-        ($this->magazineDetachIcon)($magazine);
+        ($this->magazineIconDetach)($magazine);
 
         $this->activityPubManager->updateMagazine($magazine->apProfileId);
 

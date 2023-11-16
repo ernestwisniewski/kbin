@@ -11,7 +11,7 @@ use App\Repository\EntryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-readonly class EntryChangeMagazine
+readonly class EntryMagazineChange
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

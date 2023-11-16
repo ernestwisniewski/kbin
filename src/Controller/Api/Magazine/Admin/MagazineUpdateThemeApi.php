@@ -12,7 +12,7 @@ use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
 use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
-use App\Kbin\Magazine\MagazineChangeTheme;
+use App\Kbin\Magazine\MagazineThemeChange;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -123,7 +123,7 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineChangeTheme $magazineChangeTheme,
+        MagazineThemeChange $magazineThemeChange,
         MagazineFactory $magazineFactory,
         ImageFactory $imageFactory,
         ValidatorInterface $validator,
@@ -146,7 +146,7 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $magazineChangeTheme($dto);
+        $magazineThemeChange($dto);
 
         $imageDto = $magazine->icon ? $this->imageFactory->createDto($magazine->icon) : null;
         $dto = MagazineThemeResponseDto::create(

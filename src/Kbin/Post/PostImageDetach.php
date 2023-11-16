@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\Magazine;
+namespace App\Kbin\Post;
 
-use App\Entity\Magazine;
+use App\Entity\Post;
 use App\Message\DeleteImageMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-readonly class MagazineDetachIcon
+readonly class PostImageDetach
 {
     public function __construct(
         private MessageBusInterface $messageBus,
@@ -17,17 +17,13 @@ readonly class MagazineDetachIcon
     ) {
     }
 
-    public function __invoke(Magazine $magazine): void
+    public function __invoke(Post $post): void
     {
-        if (!$magazine->icon) {
-            return;
-        }
+        $image = $post->image->filePath;
 
-        $image = $magazine->icon->filePath;
+        $post->image = null;
 
-        $magazine->icon = null;
-
-        $this->entityManager->persist($magazine);
+        $this->entityManager->persist($post);
         $this->entityManager->flush();
 
         $this->messageBus->dispatch(new DeleteImageMessage($image));

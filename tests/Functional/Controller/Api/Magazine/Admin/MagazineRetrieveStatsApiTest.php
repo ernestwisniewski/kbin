@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
 use App\Event\Entry\EntryHasBeenSeenEvent;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Service\FavouriteManager;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
@@ -67,10 +67,10 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $this->getUserByUsername('JohnDoe');
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:stats');
         $token = $codes['token_type'].' '.$codes['access_token'];

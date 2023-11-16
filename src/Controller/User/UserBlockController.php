@@ -6,7 +6,8 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserBlock;
+use App\Kbin\User\UserUnblock;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +15,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserBlockController extends AbstractController
 {
+    public function __construct(private readonly UserBlock $userBlock, private readonly UserUnblock $userUnblock)
+    {
+    }
+
     #[IsGranted('ROLE_USER')]
-    public function block(User $blocked, UserManager $manager, Request $request): Response
+    public function block(User $blocked, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $manager->block($this->getUserOrThrow(), $blocked);
+        ($this->userBlock)($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($blocked);
@@ -29,11 +34,11 @@ class UserBlockController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    public function unblock(User $blocked, UserManager $manager, Request $request): Response
+    public function unblock(User $blocked, Request $request): Response
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $manager->unblock($this->getUserOrThrow(), $blocked);
+        ($this->userUnblock)($this->getUserOrThrow(), $blocked);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($blocked);

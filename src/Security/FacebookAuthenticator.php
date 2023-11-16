@@ -7,10 +7,10 @@ namespace App\Security;
 use App\DTO\UserDto;
 use App\Entity\Image;
 use App\Entity\User;
+use App\Kbin\User\UserCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use App\Service\IpResolver;
-use App\Service\UserManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -33,7 +33,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
         private readonly ClientRegistry $clientRegistry,
         private readonly RouterInterface $router,
         private readonly EntityManagerInterface $entityManager,
-        private readonly UserManager $userManager,
+        private readonly UserCreate $userCreate,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
         private readonly IpResolver $ipResolver,
@@ -91,7 +91,7 @@ class FacebookAuthenticator extends OAuth2Authenticator
                     $dto->plainPassword = bin2hex(random_bytes(20));
                     $dto->ip = $this->ipResolver->resolve();
 
-                    $user = $this->userManager->create($dto, false);
+                    $user = ($this->userCreate)($dto, false);
                     $user->oauthFacebookId = $facebookUser->getId();
                     $user->avatar = $this->getAvatar($facebookUser->getPictureUrl());
                     $user->isVerified = true;

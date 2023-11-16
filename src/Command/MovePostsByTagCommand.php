@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Magazine;
-use App\Kbin\Post\PostChangeMagazine;
+use App\Kbin\Post\PostMagazineChange;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,7 +25,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MovePostsByTagCommand extends Command
 {
     public function __construct(
-        private readonly PostChangeMagazine $postChangeMagazine,
+        private readonly PostMagazineChange $postMagazineChange,
         private readonly EntityManagerInterface $entityManager,
         private readonly MagazineRepository $magazineRepository,
         private readonly PostRepository $postRepository
@@ -60,7 +60,7 @@ class MovePostsByTagCommand extends Command
 
         foreach ($posts as $post) {
             $output->writeln((string) $post->getId());
-            ($this->postChangeMagazine)($post, $magazine);
+            ($this->postMagazineChange)($post, $magazine);
         }
 
         return Command::SUCCESS;

@@ -6,49 +6,53 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Service\UserManager;
+use App\Kbin\User\UserDelete;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserDeleteController extends AbstractController
 {
+    public function __construct(private UserDelete $userDelete)
+    {
+    }
+
     #[IsGranted('ROLE_ADMIN')]
-    public function purgeContent(User $user, UserManager $manager, Request $request): Response
+    public function purgeContent(User $user, Request $request): Response
     {
         $this->validateCsrf('user_purge_content', $request->request->get('token'));
 
-        $manager->delete($user, true, true);
+        ($this->userDelete)($user, true, true);
 
         return $this->redirectToRefererOrHome($request);
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteContent(User $user, UserManager $manager, Request $request): Response
+    public function deleteContent(User $user, Request $request): Response
     {
         $this->validateCsrf('user_delete_content', $request->request->get('token'));
 
-        $manager->delete($user, false, true);
+        ($this->userDelete)($user, false, true);
 
         return $this->redirectToRefererOrHome($request);
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function purgeAccount(User $user, UserManager $manager, Request $request): Response
+    public function purgeAccount(User $user, Request $request): Response
     {
         $this->validateCsrf('user_purge_account', $request->request->get('token'));
 
-        $manager->delete($user, true);
+        ($this->userDelete)($user, true);
 
         return $this->redirectToRoute('front');
     }
 
     #[IsGranted('ROLE_ADMIN')]
-    public function deleteAccount(User $user, UserManager $manager, Request $request): Response
+    public function deleteAccount(User $user, Request $request): Response
     {
         $this->validateCsrf('user_delete_account', $request->request->get('token'));
 
-        $manager->delete($user);
+        ($this->userDelete)($user);
 
         return $this->redirectToRoute('front');
     }

@@ -7,7 +7,7 @@ namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 use App\DTO\BadgeDto;
 use App\DTO\ModeratorDto;
 use App\Kbin\Entry\Badge\EntryBadgeCreate;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -89,10 +89,10 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
@@ -116,10 +116,10 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
+        $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineAddModerator($dto);
+        $magazineModeratorAdd($dto);
 
         $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
         $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));

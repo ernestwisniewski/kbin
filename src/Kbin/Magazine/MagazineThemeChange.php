@@ -9,7 +9,7 @@ use App\Entity\Magazine;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-readonly class MagazineChangeTheme
+readonly class MagazineThemeChange
 {
     public function __construct(
         private ImageRepository $imageRepository,

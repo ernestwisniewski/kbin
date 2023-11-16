@@ -9,8 +9,8 @@ use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Form\ModeratorType;
-use App\Kbin\Magazine\Moderator\MagazineAddModerator;
-use App\Kbin\Magazine\Moderator\MagazineRemoveModerator;
+use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
+use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use App\Repository\MagazineRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +20,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineModeratorController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineAddModerator $magazineAddModerator,
-        private readonly MagazineRemoveModerator $magazineRemoveModerator,
+        private readonly MagazineModeratorAdd $magazineModeratorAdd,
+        private readonly MagazineModeratorRemove $magazineModeratorRemove,
         private readonly MagazineRepository $repository,
     ) {
     }
@@ -36,7 +36,7 @@ class MagazineModeratorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            ($this->magazineAddModerator)($dto);
+            ($this->magazineModeratorAdd)($dto);
         }
 
         $moderators = $this->repository->findModerators($magazine, $this->getPageNb($request));
@@ -63,7 +63,7 @@ class MagazineModeratorController extends AbstractController
     ): Response {
         $this->validateCsrf('remove_moderator', $request->request->get('token'));
 
-        ($this->magazineRemoveModerator)($moderator);
+        ($this->magazineModeratorRemove)($moderator);
 
         return $this->redirectToRefererOrHome($request);
     }

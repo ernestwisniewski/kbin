@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Controller\AbstractController;
-use App\Service\UserManager;
+use App\Kbin\User\UserThemeToggle;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +13,14 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserThemeController extends AbstractController
 {
-    #[IsGranted('ROLE_USER')]
-    public function __invoke(UserManager $manager, Request $request): Response
+    public function __construct(private UserThemeToggle $userThemeToggle)
     {
-        $manager->toggleTheme($this->getUserOrThrow());
+    }
+
+    #[IsGranted('ROLE_USER')]
+    public function __invoke(Request $request): Response
+    {
+        ($this->userThemeToggle)($this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

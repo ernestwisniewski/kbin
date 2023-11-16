@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine;
 
-readonly class MagazineAcceptSubscription
+readonly class MagazineSubscriptionAccept
 {
 }

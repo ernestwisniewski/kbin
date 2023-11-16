@@ -6,7 +6,8 @@ namespace App\Controller\Api\User;
 
 use App\DTO\UserResponseDto;
 use App\Factory\UserFactory;
-use App\Service\UserManager;
+use App\Kbin\User\UserAvatarDetach;
+use App\Kbin\User\UserCoverDetach;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,13 +70,13 @@ class UserDeleteImagesApi extends UserBaseApi
     #[Security(name: 'oauth2', scopes: ['user:profile:edit'])]
     #[IsGranted('ROLE_OAUTH2_USER:PROFILE:EDIT')]
     public function avatar(
-        UserManager $manager,
+        UserAvatarDetach $userAvatarDetach,
         UserFactory $factory,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiImageLimiter);
 
-        $manager->detachAvatar($this->getUserOrThrow());
+        $userAvatarDetach($this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($this->getUserOrThrow())),
@@ -136,13 +137,13 @@ class UserDeleteImagesApi extends UserBaseApi
     #[Security(name: 'oauth2', scopes: ['user:profile:edit'])]
     #[IsGranted('ROLE_OAUTH2_USER:PROFILE:EDIT')]
     public function cover(
-        UserManager $manager,
+        UserCoverDetach $userCoverDetach,
         UserFactory $factory,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiImageLimiter);
 
-        $manager->detachCover($this->getUserOrThrow());
+        $userCoverDetach($this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeUser($factory->createDto($this->getUserOrThrow())),

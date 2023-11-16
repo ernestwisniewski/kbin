@@ -35,9 +35,12 @@ use App\Kbin\Post\PostDelete;
 use App\Kbin\Post\PostPurge;
 use App\Kbin\PostComment\PostCommentDelete;
 use App\Kbin\PostComment\PostCommentPurge;
+use App\Kbin\User\UserAvatarDetach;
+use App\Kbin\User\UserCoverDetach;
+use App\Kbin\User\UserUnblock;
+use App\Kbin\User\UserUnfollow;
 use App\Message\DeleteUserMessage;
 use App\Service\FavouriteManager;
-use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -52,7 +55,10 @@ class DeleteUserHandler
     private string $op;
 
     public function __construct(
-        private readonly UserManager $userManager,
+        private readonly UserAvatarDetach $userAvatarDetach,
+        private readonly UserCoverDetach $userCoverDetach,
+        private readonly UserUnfollow $userUnfollow,
+        private readonly UserUnblock $userUnblock,
         private readonly MagazineUnsubscribe $magazineUnsubscribe,
         private readonly MagazineUnblock $magazineUnblock,
         private readonly EntryCommentDelete $entryCommentDelete,
@@ -136,8 +142,8 @@ class DeleteUserHandler
     private function removeMeta(): void
     {
         if (!$this->user->isAccountDeleted()) {
-            $this->userManager->detachAvatar($this->user);
-            $this->userManager->detachCover($this->user);
+            ($this->userAvatarDetach)($this->user);
+            ($this->userCoverDetach)($this->user);
             $this->user->isDeleted = true;
             $this->user->about = null;
         }
@@ -206,7 +212,7 @@ class DeleteUserHandler
         foreach ($subscriptions as $subscription) {
             $retry = true;
 
-            $this->userManager->unfollow($this->user, $subscription->following);
+            ($this->userUnfollow)($this->user, $subscription->following);
         }
 
         return $retry;
@@ -229,7 +235,7 @@ class DeleteUserHandler
         foreach ($subscriptions as $subscription) {
             $retry = true;
 
-            $this->userManager->unblock($this->user, $subscription->blocked);
+            ($this->userUnblock)($this->user, $subscription->blocked);
         }
 
         return $retry;

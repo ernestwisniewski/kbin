@@ -6,10 +6,11 @@ namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
 use App\DTO\UserDto;
+use App\Factory\UserFactory;
 use App\Form\UserBasicType;
 use App\Form\UserEmailType;
 use App\Form\UserPasswordType;
-use App\Service\UserManager;
+use App\Kbin\User\UserEdit;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -22,7 +23,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class UserEditController extends AbstractController
 {
     public function __construct(
-        private readonly UserManager $manager,
+        private readonly UserEdit $userEdit,
+        private readonly UserFactory $userFactory,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly TranslatorInterface $translator,
         private readonly Security $security,
@@ -34,7 +36,7 @@ class UserEditController extends AbstractController
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $dto = $this->manager->createDto($this->getUserOrThrow());
+        $dto = $this->userFactory->createDto($this->getUserOrThrow());
 
         $form = $this->handleForm($this->createForm(UserBasicType::class, $dto), $dto, $request);
         if (!$form instanceof FormInterface) {
@@ -58,7 +60,7 @@ class UserEditController extends AbstractController
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $dto = $this->manager->createDto($this->getUserOrThrow());
+        $dto = $this->userFactory->createDto($this->getUserOrThrow());
 
         $form = $this->handleForm($this->createForm(UserEmailType::class, $dto), $dto, $request);
         if (!$form instanceof FormInterface) {
@@ -82,7 +84,7 @@ class UserEditController extends AbstractController
     {
         $this->denyAccessUnlessGranted('edit_profile', $this->getUserOrThrow());
 
-        $dto = $this->manager->createDto($this->getUserOrThrow());
+        $dto = $this->userFactory->createDto($this->getUserOrThrow());
 
         $form = $this->handleForm($this->createForm(UserPasswordType::class, $dto), $dto, $request);
         if (!$form instanceof FormInterface) {
@@ -124,7 +126,7 @@ class UserEditController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $this->getUser()->email;
-            $this->manager->edit($this->getUser(), $dto);
+            ($this->userEdit)($this->getUser(), $dto);
 
             if ($dto->email !== $email || $dto->plainPassword) {
                 $this->security->logout(false);

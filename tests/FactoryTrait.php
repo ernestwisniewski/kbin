@@ -40,12 +40,12 @@ use App\Kbin\Post\PostCreate;
 use App\Kbin\Post\PostDelete;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\Kbin\PostComment\PostCommentDelete;
+use App\Kbin\User\UserCreate;
 use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
 use App\Service\FavouriteManager;
 use App\Service\MessageManager;
-use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -185,8 +185,7 @@ trait FactoryTrait
         /** @var ClientManagerInterface $clientManager */
         $clientManager = self::getContainer()->get(ClientManagerInterface::class);
 
-        /** @var UserManager $userManager */
-        $userManager = self::getContainer()->get(UserManager::class);
+        $userCreate = self::getContainer()->get(UserCreate::class);
 
         $client = new Client('/kbin Test Client', 'testclient', 'testsecret');
 
@@ -195,7 +194,7 @@ trait FactoryTrait
         $userDto->email = 'test@kbin.test';
         $userDto->plainPassword = hash('sha512', random_bytes(32));
         $userDto->isBot = true;
-        $user = $userManager->create($userDto, false, false);
+        $user = $userCreate($userDto, false, false);
         $client->setUser($user);
 
         $client->setDescription('An OAuth2 client for testing purposes');
