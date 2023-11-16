@@ -8,11 +8,11 @@ use App\Factory\ActivityPub\NodeInfoFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class NodeInfoController
+readonly class NodeInfoController
 {
     public function __construct(
-        private readonly NodeInfoFactory $nodeInfoFactory,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private NodeInfoFactory $nodeInfoFactory,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -21,15 +21,19 @@ class NodeInfoController
         return new JsonResponse([
             'links' => [
                 [
-                    'rel' => NodeInfoFactory::NODE_REL,
-                    'href' => $this->urlGenerator->generate('ap_node_info_v2', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                    'rel' => NodeInfoFactory::NODE_REL_V2_0,
+                    'href' => $this->urlGenerator->generate('ap_node_info_v2', ['version' => '2.0'], UrlGeneratorInterface::ABSOLUTE_URL),
+                ],
+                [
+                    'rel' => NodeInfoFactory::NODE_REL_V2_1,
+                    'href' => $this->urlGenerator->generate('ap_node_info_v2', ['version' => '2.1'], UrlGeneratorInterface::ABSOLUTE_URL),
                 ],
             ],
         ]);
     }
 
-    public function nodeInfoV2(): JsonResponse
+    public function nodeInfoV2(string $version): JsonResponse
     {
-        return new JsonResponse($this->nodeInfoFactory->create());
+        return new JsonResponse($this->nodeInfoFactory->create($version));
     }
 }

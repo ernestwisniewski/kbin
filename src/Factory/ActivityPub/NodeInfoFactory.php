@@ -7,39 +7,58 @@ namespace App\Factory\ActivityPub;
 use App\Repository\StatsContentRepository;
 use App\Service\SettingsManager;
 
-class NodeInfoFactory
+readonly class NodeInfoFactory
 {
-    public const NODE_REL = 'http://nodeinfo.diaspora.software/ns/schema/2.0';
-    public const NODE_PROTOCOL = 'activitypub';
+    public const KBIN_CANONICAL_NAME = 'kbin';
+    public const KBIN_VERSION = '0.10.1';
     public const KBIN_HOMEPAGE = 'https://kbin.pub';
+    public const KBIN_REPOSITORY = 'https://codeberg.org/Kbin/kbin-core';
+    public const NODE_REL_V2_0 = 'https://nodeinfo.diaspora.software/ns/schema/2.0';
+    public const NODE_REL_V2_1 = 'https://nodeinfo.diaspora.software/ns/schema/2.1';
+    public const NODE_PROTOCOL = 'activitypub';
 
     public function __construct(
-        private readonly StatsContentRepository $repository,
-        private readonly SettingsManager $settingsManager
+        private StatsContentRepository $repository,
+        private SettingsManager $settingsManager,
     ) {
     }
 
-    public function create(): array
+    public function create(string $version): array
     {
-        return [
-            'version' => '2.0',
-            'software' => [
-                'name' => 'kbin',
-                'version' => '0.10.1',
+        $software = match ($version) {
+            '2.0' => [
+                'name' => self::KBIN_CANONICAL_NAME,
+                'version' => self::KBIN_VERSION,
             ],
+            '2.1' => [
+                'name' => self::KBIN_CANONICAL_NAME,
+                'version' => self::KBIN_VERSION,
+                'repository' => self::KBIN_REPOSITORY,
+                'homepage' => self::KBIN_HOMEPAGE,
+            ],
+        };
+
+        return [
+            'version' => $version,
+            'software' => $software,
             'protocols' => [
                 self::NODE_PROTOCOL,
             ],
+            'services' => [
+                'outbound' => [],
+                'inbound' => [],
+            ],
+            'openRegistrations' => $this->settingsManager->get('KBIN_REGISTRATIONS_ENABLED'),
             'usage' => [
                 'users' => [
                     'total' => $this->repository->countUsers(),
-                    'activeHalfyear' => $this->repository->countUsers((new \DateTime('now'))->modify('-6 months')),
-                    'activeMonth' => $this->repository->countUsers((new \DateTime('now'))->modify('-1 month')),
+                    'activeHalfyear' => $this->repository->countUsers(new \DateTime('-6 months')),
+                    'activeMonth' => $this->repository->countUsers(new \DateTime('-1 month')),
                 ],
                 'localPosts' => $this->repository->countLocalPosts(),
                 'localComments' => $this->repository->countLocalComments(),
             ],
-            'openRegistrations' => $this->settingsManager->get('KBIN_REGISTRATIONS_ENABLED'),
+            'metadata' => (object) [],
         ];
     }
 }
