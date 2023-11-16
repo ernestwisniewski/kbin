@@ -6,8 +6,9 @@ namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
+use App\Factory\MagazineFactory;
 use App\Form\MagazineType;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineEdit;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -15,7 +16,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineEditController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineManager $manager,
+        private readonly MagazineEdit $magazineEdit,
+        private readonly MagazineFactory $magazineFactory
     ) {
     }
 
@@ -23,13 +25,13 @@ class MagazineEditController extends AbstractController
     #[IsGranted('edit', subject: 'magazine')]
     public function __invoke(Magazine $magazine, Request $request): Response
     {
-        $magazineDto = $this->manager->createDto($magazine);
+        $magazineDto = $this->magazineFactory->createDto($magazine);
 
         $form = $this->createForm(MagazineType::class, $magazineDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->edit($magazine, $magazineDto);
+            ($this->magazineEdit)($magazine, $magazineDto);
 
             $this->addFlash(
                 'success',

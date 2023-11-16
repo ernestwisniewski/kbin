@@ -7,7 +7,8 @@ namespace App\Controller\Api\Magazine\Admin;
 use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
-use App\Service\MagazineManager;
+use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\MagazineDetachIcon;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -23,9 +24,21 @@ class MagazineDeleteIconApi extends MagazineBaseApi
         description: 'Icon removed',
         content: new Model(type: MagazineThemeResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -48,9 +61,21 @@ class MagazineDeleteIconApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -69,15 +94,20 @@ class MagazineDeleteIconApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineManager $manager,
+        MagazineDetachIcon $magazineDetachIcon,
+        MagazineFactory $magazineFactory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->detachIcon($magazine);
+        $magazineDetachIcon($magazine);
 
         $imageDto = null;
-        $dto = MagazineThemeResponseDto::create($manager->createDto($magazine), $magazine->customCss, $imageDto);
+        $dto = MagazineThemeResponseDto::create(
+            $magazineFactory->createDto($magazine),
+            $magazine->customCss,
+            $imageDto
+        );
 
         return new JsonResponse(
             $dto,

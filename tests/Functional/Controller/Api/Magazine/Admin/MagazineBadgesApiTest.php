@@ -6,8 +6,8 @@ namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\BadgeDto;
 use App\DTO\ModeratorDto;
-use App\Service\BadgeManager;
-use App\Service\MagazineManager;
+use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -19,7 +19,8 @@ class MagazineBadgesApiTest extends WebTestCase
     {
         $client = self::createClient();
         $magazine = $this->getMagazineByName('test');
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/badge", parameters: ['name' => 'test']);
+        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/badge", parameters: ['name' => 'test']
+        );
 
         self::assertResponseStatusCodeSame(401);
     }
@@ -28,8 +29,8 @@ class MagazineBadgesApiTest extends WebTestCase
     {
         $client = self::createClient();
         $magazine = $this->getMagazineByName('test');
-        $badgeManager = $this->getService(BadgeManager::class);
-        $badge = $badgeManager->create(BadgeDto::create($magazine, 'test'));
+        $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
+        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
 
         $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}");
 
@@ -47,7 +48,12 @@ class MagazineBadgesApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/badge", parameters: ['name' => 'test'], server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/badge",
+            parameters: ['name' => 'test'],
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -59,13 +65,17 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test');
-        $badgeManager = $this->getService(BadgeManager::class);
-        $badge = $badgeManager->create(BadgeDto::create($magazine, 'test'));
+        $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
+        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -79,15 +89,20 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/badge", parameters: ['name' => 'test'], server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/badge",
+            parameters: ['name' => 'test'],
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -101,18 +116,22 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
-        $badgeManager = $this->getService(BadgeManager::class);
-        $badge = $badgeManager->create(BadgeDto::create($magazine, 'test'));
+        $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
+        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -129,7 +148,12 @@ class MagazineBadgesApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/badge", parameters: ['name' => 'test'], server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/badge",
+            parameters: ['name' => 'test'],
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -150,13 +174,17 @@ class MagazineBadgesApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test');
-        $badgeManager = $this->getService(BadgeManager::class);
-        $badge = $badgeManager->create(BadgeDto::create($magazine, 'test'));
+        $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
+        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);

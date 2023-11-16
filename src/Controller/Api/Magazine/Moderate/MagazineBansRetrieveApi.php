@@ -42,9 +42,21 @@ class MagazineBansRetrieveApi extends MagazineBaseApi
             ]
         ),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -67,9 +79,21 @@ class MagazineBansRetrieveApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -88,7 +112,12 @@ class MagazineBansRetrieveApi extends MagazineBaseApi
         name: 'perPage',
         description: 'Number of bans per page',
         in: 'query',
-        schema: new OA\Schema(type: 'integer', default: MagazineRepository::PER_PAGE, minimum: self::MIN_PER_PAGE, maximum: self::MAX_PER_PAGE)
+        schema: new OA\Schema(
+            type: 'integer',
+            default: MagazineRepository::PER_PAGE,
+            minimum: self::MIN_PER_PAGE,
+            maximum: self::MAX_PER_PAGE
+        )
     )]
     #[OA\Tag(name: 'moderation/magazine')]
     #[Security(name: 'oauth2', scopes: ['moderate:magazine:ban:read'])]

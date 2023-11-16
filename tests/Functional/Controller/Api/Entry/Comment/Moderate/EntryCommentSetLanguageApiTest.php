@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry\Comment\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\WebTestCase;
 
 class EntryCommentSetLanguageApiTest extends WebTestCase
@@ -30,10 +30,10 @@ class EntryCommentSetLanguageApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -41,7 +41,11 @@ class EntryCommentSetLanguageApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/de", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/de",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -60,7 +64,11 @@ class EntryCommentSetLanguageApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:language');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/de", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/de",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -74,10 +82,10 @@ class EntryCommentSetLanguageApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -85,7 +93,11 @@ class EntryCommentSetLanguageApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:language');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/de", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/de",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);

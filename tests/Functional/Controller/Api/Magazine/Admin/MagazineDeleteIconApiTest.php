@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Repository\ImageRepository;
-use App\Service\MagazineManager;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,7 +40,11 @@ class MagazineDeleteIconApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/icon", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/icon",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -54,15 +58,19 @@ class MagazineDeleteIconApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/icon", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/icon",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -100,9 +108,16 @@ class MagazineDeleteIconApiTest extends WebTestCase
         self::assertArrayKeysMatch(self::IMAGE_KEYS, $jsonData['icon']);
         self::assertSame(96, $jsonData['icon']['width']);
         self::assertSame(96, $jsonData['icon']['height']);
-        self::assertEquals('a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png', $jsonData['icon']['filePath']);
+        self::assertEquals(
+            'a8/1c/a81cc2fea35eeb232cd28fcb109b3eb5a4e52c71bce95af6650d71876c1bcbb7.png',
+            $jsonData['icon']['filePath']
+        );
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/icon", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/icon",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);

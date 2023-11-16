@@ -39,8 +39,12 @@ class EntriesBaseApi extends BaseApi
         $response = $this->entryFactory->createResponseDto($dto);
 
         if ($this->isGranted('ROLE_OAUTH2_ENTRY:VOTE')) {
-            $response->isFavourited = $dto instanceof EntryDto ? $dto->isFavourited : $dto->isFavored($this->getUserOrThrow());
-            $response->userVote = $dto instanceof EntryDto ? $dto->userVote : $dto->getUserChoice($this->getUserOrThrow());
+            $response->isFavourited = $dto instanceof EntryDto ? $dto->isFavourited : $dto->isFavored(
+                $this->getUserOrThrow()
+            );
+            $response->userVote = $dto instanceof EntryDto ? $dto->userVote : $dto->getUserChoice(
+                $this->getUserOrThrow()
+            );
         }
 
         return $response;
@@ -66,7 +70,12 @@ class EntriesBaseApi extends BaseApi
     protected function deserializeEntry(EntryDto $dto = null, array $context = []): EntryDto
     {
         $dto = $dto ? $dto : new EntryDto();
-        $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), EntryRequestDto::class, 'json', $context);
+        $deserialized = $this->serializer->deserialize(
+            $this->request->getCurrentRequest()->getContent(),
+            EntryRequestDto::class,
+            'json',
+            $context
+        );
         \assert($deserialized instanceof EntryRequestDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
@@ -127,13 +136,18 @@ class EntriesBaseApi extends BaseApi
         /**
          * @var EntryCommentRequestDto $deserialized
          */
-        $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), EntryCommentRequestDto::class, 'json', [
-            'groups' => [
-                'common',
-                'comment',
-                'no-upload',
-            ],
-        ]);
+        $deserialized = $this->serializer->deserialize(
+            $this->request->getCurrentRequest()->getContent(),
+            EntryCommentRequestDto::class,
+            'json',
+            [
+                'groups' => [
+                    'common',
+                    'comment',
+                    'no-upload',
+                ],
+            ]
+        );
 
         $dto->ip = $this->ipResolver->resolve();
 
@@ -177,8 +191,12 @@ class EntriesBaseApi extends BaseApi
         return $commentTree->jsonSerialize();
     }
 
-    public function createEntry(Magazine $magazine, EntryCreate $entryCreate, array $context, ImageDto $image = null): Entry
-    {
+    public function createEntry(
+        Magazine $magazine,
+        EntryCreate $entryCreate,
+        array $context,
+        ImageDto $image = null
+    ): Entry {
         $dto = new EntryDto();
         $dto->magazine = $magazine;
         if (null !== $image) {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -34,7 +34,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -51,7 +55,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -62,10 +70,10 @@ class PostSetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -73,7 +81,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -100,9 +112,17 @@ class PostSetAdultApiTest extends WebTestCase
         self::assertNull($jsonData['userVote']);
         self::assertTrue($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('visible', $jsonData['visibility']);
         self::assertEquals('test-article', $jsonData['slug']);
         self::assertNull($jsonData['apId']);
@@ -141,7 +161,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -163,7 +187,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -174,10 +202,10 @@ class PostSetAdultApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $post->isAdult = true;
@@ -190,7 +218,11 @@ class PostSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -217,9 +249,17 @@ class PostSetAdultApiTest extends WebTestCase
         self::assertNull($jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('visible', $jsonData['visibility']);
         self::assertEquals('test-article', $jsonData['slug']);
         self::assertNull($jsonData['apId']);

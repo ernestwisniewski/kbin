@@ -10,7 +10,8 @@ use App\DTO\MagazineBanResponseDto;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBan;
+use App\Kbin\Magazine\MagazineUnban;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -29,9 +30,21 @@ class MagazineUserBanApi extends MagazineBaseApi
         description: 'User banned',
         content: new Model(type: MagazineBanResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -59,9 +72,21 @@ class MagazineUserBanApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -89,7 +114,7 @@ class MagazineUserBanApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'user_id')]
         User $user,
-        MagazineManager $manager,
+        MagazineBan $magazineBan,
         MagazineFactory $factory,
         SerializerInterface $deserializer,
         ValidatorInterface $validator,
@@ -107,7 +132,7 @@ class MagazineUserBanApi extends MagazineBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $ban = $manager->ban($magazine, $user, $moderator, $ban);
+        $ban = $magazineBan($magazine, $user, $moderator, $ban);
 
         if (!$ban) {
             throw new BadRequestHttpException('Failed to ban user');
@@ -126,9 +151,21 @@ class MagazineUserBanApi extends MagazineBaseApi
         description: 'User unbanned',
         content: new Model(type: MagazineBanResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -151,9 +188,21 @@ class MagazineUserBanApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -180,13 +229,13 @@ class MagazineUserBanApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'user_id')]
         User $user,
-        MagazineManager $manager,
+        MagazineUnban $magazineUnban,
         MagazineFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $ban = $manager->unban($magazine, $user);
+        $ban = $magazineUnban($magazine, $user);
 
         if (!$ban) {
             throw new BadRequestHttpException('Failed to ban user');

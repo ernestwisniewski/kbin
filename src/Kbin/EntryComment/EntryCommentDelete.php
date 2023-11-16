@@ -9,11 +9,11 @@ use App\Entity\EntryComment;
 use App\Entity\User;
 use App\Event\EntryComment\EntryCommentBeforeDeletedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
-use App\Kbin\Contracts\DeleteServiceInterface;
+use App\Kbin\Contract\DeleteContentServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-readonly class EntryCommentDelete implements DeleteServiceInterface
+readonly class EntryCommentDelete implements DeleteContentServiceInterface
 {
     public function __construct(
         private EntryCommentPurge $entryCommentPurge,

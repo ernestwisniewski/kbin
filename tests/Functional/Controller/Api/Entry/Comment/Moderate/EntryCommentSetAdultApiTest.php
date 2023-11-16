@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry\Comment\Moderate;
 
 use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Repository\EntryCommentRepository;
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -32,10 +32,10 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -43,7 +43,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -62,7 +66,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -76,10 +84,10 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -87,7 +95,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -122,10 +134,10 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $comment->isAdult = true;
@@ -138,7 +150,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -162,7 +178,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -176,10 +196,10 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test', magazine: $magazine);
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $comment->isAdult = true;
@@ -194,7 +214,11 @@ class EntryCommentSetAdultApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:entry_comment:set_adult');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/adult/false", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/comment/{$comment->getId()}/adult/false",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);

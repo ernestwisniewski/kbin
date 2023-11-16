@@ -11,8 +11,9 @@ use App\DTO\MagazineThemeRequestDto;
 use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
 use App\Factory\ImageFactory;
+use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\MagazineChangeTheme;
 use App\Service\ImageManager;
-use App\Service\MagazineManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -30,9 +31,21 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         description: 'Theme updated',
         content: new Model(type: MagazineThemeResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -60,9 +73,21 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -98,7 +123,8 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineManager $manager,
+        MagazineChangeTheme $magazineChangeTheme,
+        MagazineFactory $magazineFactory,
         ImageFactory $imageFactory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiModerateLimiter
@@ -120,10 +146,14 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager->changeTheme($dto);
+        $magazineChangeTheme($dto);
 
         $imageDto = $magazine->icon ? $this->imageFactory->createDto($magazine->icon) : null;
-        $dto = MagazineThemeResponseDto::create($manager->createDto($magazine), $magazine->customCss, $imageDto);
+        $dto = MagazineThemeResponseDto::create(
+            $magazineFactory->createDto($magazine),
+            $magazine->customCss,
+            $imageDto
+        );
 
         return new JsonResponse(
             $dto,

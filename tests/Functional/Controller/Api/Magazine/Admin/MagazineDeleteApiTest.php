@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\WebTestCase;
 
 class MagazineDeleteApiTest extends WebTestCase
@@ -30,7 +30,11 @@ class MagazineDeleteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -48,7 +52,11 @@ class MagazineDeleteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:delete');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -62,15 +70,19 @@ class MagazineDeleteApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:delete');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -87,7 +99,11 @@ class MagazineDeleteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:delete');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(204);
     }

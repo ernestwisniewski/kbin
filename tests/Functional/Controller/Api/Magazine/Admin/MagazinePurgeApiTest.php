@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\WebTestCase;
 
 class MagazinePurgeApiTest extends WebTestCase
@@ -30,7 +30,11 @@ class MagazinePurgeApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/admin/magazine/{$magazine->getId()}/purge", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/admin/magazine/{$magazine->getId()}/purge",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -48,7 +52,11 @@ class MagazinePurgeApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write admin:magazine:purge');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/admin/magazine/{$magazine->getId()}/purge", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/admin/magazine/{$magazine->getId()}/purge",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -62,15 +70,19 @@ class MagazinePurgeApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write admin:magazine:purge');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/admin/magazine/{$magazine->getId()}/purge", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/admin/magazine/{$magazine->getId()}/purge",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -87,7 +99,11 @@ class MagazinePurgeApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write admin:magazine:purge');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/admin/magazine/{$magazine->getId()}/purge", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/admin/magazine/{$magazine->getId()}/purge",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -105,7 +121,11 @@ class MagazinePurgeApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write admin:magazine:purge');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/admin/magazine/{$magazine->getId()}/purge", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/admin/magazine/{$magazine->getId()}/purge",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(204);
     }

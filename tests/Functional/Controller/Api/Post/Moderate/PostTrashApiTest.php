@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
 use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Kbin\Post\PostTrash;
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
 class PostTrashApiTest extends WebTestCase
@@ -34,7 +34,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:trash');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/trash", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/trash",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -51,7 +55,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/trash", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/trash",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -62,10 +70,10 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -73,7 +81,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:trash');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/trash", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/trash",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -100,9 +112,17 @@ class PostTrashApiTest extends WebTestCase
         self::assertNull($jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('trashed', $jsonData['visibility']);
         self::assertEquals('test-post', $jsonData['slug']);
         self::assertNull($jsonData['apId']);
@@ -138,7 +158,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:trash');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/restore", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/restore",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -158,7 +182,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/restore", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/restore",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -169,10 +197,10 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($magazine);
         $moderator->user = $user;
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $postTrash = $this->getService(PostTrash::class);
         $postTrash($user, $post);
@@ -183,7 +211,11 @@ class PostTrashApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read moderate:post:trash');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/restore", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'PUT',
+            "/api/moderate/post/{$post->getId()}/restore",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -210,9 +242,17 @@ class PostTrashApiTest extends WebTestCase
         self::assertNull($jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('visible', $jsonData['visibility']);
         self::assertEquals('test-post', $jsonData['slug']);
         self::assertNull($jsonData['apId']);

@@ -7,8 +7,9 @@ namespace App\Controller\Magazine\Panel;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Magazine\ModeratorRequest\MagazineAcceptModeratorRequest;
+use App\Kbin\Magazine\ModeratorRequest\MagazineToggleModeratorRequest;
 use App\Repository\ModeratorRequestRepository;
-use App\Service\MagazineManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -16,7 +17,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineModeratorRequestsController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineManager $manager,
+        private readonly MagazineAcceptModeratorRequest $magazineAcceptModeratorRequest,
+        private readonly MagazineToggleModeratorRequest $magazineToggleModeratorRequest,
         private readonly ModeratorRequestRepository $repository,
     ) {
     }
@@ -36,7 +38,7 @@ class MagazineModeratorRequestsController extends AbstractController
     {
         $this->validateCsrf('magazine_panel_moderator_request_accept', $request->request->get('token'));
 
-        $this->manager->acceptModeratorRequest($magazine, $user);
+        ($this->magazineAcceptModeratorRequest)($magazine, $user);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -47,7 +49,7 @@ class MagazineModeratorRequestsController extends AbstractController
     {
         $this->validateCsrf('magazine_panel_moderator_request_reject', $request->request->get('token'));
 
-        $this->manager->toggleModeratorRequest($magazine, $user);
+        ($this->magazineToggleModeratorRequest)($magazine, $user);
 
         return $this->redirectToRefererOrHome($request);
     }

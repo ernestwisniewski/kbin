@@ -29,13 +29,14 @@ use App\Kbin\Entry\EntryDelete;
 use App\Kbin\Entry\EntryPurge;
 use App\Kbin\EntryComment\EntryCommentDelete;
 use App\Kbin\EntryComment\EntryCommentPurge;
+use App\Kbin\Magazine\MagazineUnblock;
+use App\Kbin\Magazine\MagazineUnsubscribe;
 use App\Kbin\Post\PostDelete;
 use App\Kbin\Post\PostPurge;
 use App\Kbin\PostComment\PostCommentDelete;
 use App\Kbin\PostComment\PostCommentPurge;
 use App\Message\DeleteUserMessage;
 use App\Service\FavouriteManager;
-use App\Service\MagazineManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,7 +53,8 @@ class DeleteUserHandler
 
     public function __construct(
         private readonly UserManager $userManager,
-        private readonly MagazineManager $magazineManager,
+        private readonly MagazineUnsubscribe $magazineUnsubscribe,
+        private readonly MagazineUnblock $magazineUnblock,
         private readonly EntryCommentDelete $entryCommentDelete,
         private readonly EntryCommentPurge $entryCommentPurge,
         private readonly EntryDelete $entryDelete,
@@ -158,7 +160,7 @@ class DeleteUserHandler
         foreach ($subscriptions as $subscription) {
             $retry = true;
 
-            $this->magazineManager->unsubscribe($subscription->magazine, $this->user);
+            ($this->magazineUnsubscribe)($subscription->magazine, $this->user);
         }
 
         return $retry;
@@ -181,7 +183,7 @@ class DeleteUserHandler
         foreach ($subscriptions as $subscription) {
             $retry = true;
 
-            $this->magazineManager->unblock($subscription->magazine, $this->user);
+            ($this->magazineUnblock)($subscription->magazine, $this->user);
         }
 
         return $retry;

@@ -34,9 +34,21 @@ class CreateClientApi extends BaseApi
         description: 'Returns the created oauth2 client. Be sure to save the identifier and secret since these will be how you obtain tokens for the API.',
         content: new Model(type: OAuth2ClientDto::class, groups: ['created', 'common']),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -54,9 +66,21 @@ class CreateClientApi extends BaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\RequestBody(content: new Model(
@@ -101,7 +125,12 @@ class CreateClientApi extends BaseApi
 
         $request = $this->request->getCurrentRequest();
         /** @var OAuth2ClientDto $dto */
-        $dto = $serializer->deserialize($request->getContent(), OAuth2ClientDto::class, 'json', ['groups' => ['creating']]);
+        $dto = $serializer->deserialize(
+            $request->getContent(),
+            OAuth2ClientDto::class,
+            'json',
+            ['groups' => ['creating']]
+        );
 
         $validatorGroups = ['Default', 'creating'];
         // If the client being requested wishes to use the client_credentials flow,
@@ -142,7 +171,9 @@ class CreateClientApi extends BaseApi
         $client->setContactEmail($dto->contactEmail);
         $client->setGrants(...array_map(fn (string $grant) => new Grant($grant), $dto->grants));
         $client->setScopes(...array_map(fn (string $scope) => new Scope($scope), $dto->scopes));
-        $client->setRedirectUris(...array_map(fn (string $redirectUri) => new RedirectUri($redirectUri), $dto->redirectUris));
+        $client->setRedirectUris(
+            ...array_map(fn (string $redirectUri) => new RedirectUri($redirectUri), $dto->redirectUris)
+        );
 
         $manager->save($client);
 
@@ -160,9 +191,21 @@ class CreateClientApi extends BaseApi
         description: 'Returns the created oauth2 client. Be sure to save the identifier and secret since these will be how you obtain tokens for the API.',
         content: new Model(type: OAuth2ClientDto::class, groups: ['Default', 'created', 'common']),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -180,9 +223,21 @@ class CreateClientApi extends BaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\RequestBody(content: new OA\MediaType(
@@ -282,7 +337,9 @@ class CreateClientApi extends BaseApi
         $client->setContactEmail($dto->contactEmail);
         $client->setGrants(...array_map(fn (string $grant) => new Grant($grant), $dto->grants));
         $client->setScopes(...array_map(fn (string $scope) => new Scope($scope), $dto->scopes));
-        $client->setRedirectUris(...array_map(fn (string $redirectUri) => new RedirectUri($redirectUri), $dto->redirectUris));
+        $client->setRedirectUris(
+            ...array_map(fn (string $redirectUri) => new RedirectUri($redirectUri), $dto->redirectUris)
+        );
         $client->setImage($image);
 
         $manager->save($client);

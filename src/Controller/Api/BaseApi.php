@@ -266,8 +266,11 @@ class BaseApi extends AbstractController
         return $response;
     }
 
-    public static function constrainPerPage(mixed $value, int $min = self::MIN_PER_PAGE, int $max = self::MAX_PER_PAGE): int
-    {
+    public static function constrainPerPage(
+        mixed $value,
+        int $min = self::MIN_PER_PAGE,
+        int $max = self::MAX_PER_PAGE
+    ): int {
         return min(max(\intval($value), $min), $max);
     }
 
@@ -281,14 +284,18 @@ class BaseApi extends AbstractController
 
     public function handleLanguageCriteria(Criteria $criteria): void
     {
-        $usePreferred = filter_var($this->request->getCurrentRequest()->get('usePreferredLangs', false), FILTER_VALIDATE_BOOL);
+        $usePreferred = filter_var(
+            $this->request->getCurrentRequest()->get('usePreferredLangs', false),
+            FILTER_VALIDATE_BOOL
+        );
 
         if ($usePreferred && null === $this->getUser()) {
             // Debating between AccessDenied and BadRequest exceptions for this
             throw new AccessDeniedHttpException('You must be logged in to use your preferred languages');
         }
 
-        $languages = $usePreferred ? $this->getUserOrThrow()->preferredLanguages : $this->request->getCurrentRequest()->get('lang');
+        $languages = $usePreferred ? $this->getUserOrThrow()->preferredLanguages : $this->request->getCurrentRequest(
+        )->get('lang');
         if (null !== $languages) {
             if (\is_string($languages)) {
                 $languages = explode(',', $languages);
@@ -342,7 +349,11 @@ class BaseApi extends AbstractController
     protected function reportContent(ReportInterface $reportable): void
     {
         /** @var ReportRequestDto $dto */
-        $dto = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), ReportRequestDto::class, 'json');
+        $dto = $this->serializer->deserialize(
+            $this->request->getCurrentRequest()->getContent(),
+            ReportRequestDto::class,
+            'json'
+        );
 
         $errors = $this->validator->validate($dto);
         if (0 < \count($errors)) {

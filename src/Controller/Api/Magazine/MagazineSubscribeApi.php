@@ -7,7 +7,8 @@ namespace App\Controller\Api\Magazine;
 use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
 use App\Factory\MagazineFactory;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\Magazine\MagazineUnsubscribe;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -23,9 +24,21 @@ class MagazineSubscribeApi extends MagazineBaseApi
         description: 'Magazine subscription status updated',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -43,9 +56,21 @@ class MagazineSubscribeApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -61,13 +86,13 @@ class MagazineSubscribeApi extends MagazineBaseApi
     public function subscribe(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineManager $manager,
+        MagazineSubscribe $magazineSubscribe,
         MagazineFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->subscribe($magazine, $this->getUserOrThrow());
+        $magazineSubscribe($magazine, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),
@@ -80,9 +105,21 @@ class MagazineSubscribeApi extends MagazineBaseApi
         description: 'Magazine subscription status updated',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -100,9 +137,21 @@ class MagazineSubscribeApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -118,13 +167,13 @@ class MagazineSubscribeApi extends MagazineBaseApi
     public function unsubscribe(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineManager $manager,
+        MagazineUnsubscribe $magazineUnsubscribe,
         MagazineFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->unsubscribe($magazine, $this->getUserOrThrow());
+        $magazineUnsubscribe($magazine, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

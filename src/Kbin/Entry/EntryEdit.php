@@ -7,7 +7,7 @@ namespace App\Kbin\Entry;
 use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Event\Entry\EntryEditedEvent;
-use App\Kbin\BadgeManager;
+use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\MentionManager;
 use App\Kbin\TagManager;
 use App\Kbin\Utils\Slugger;
@@ -23,7 +23,7 @@ readonly class EntryEdit
     public function __construct(
         private TagManager $tagManager,
         private MentionManager $mentionManager,
-        private BadgeManager $badgeManager,
+        private EntryBadgeAssign $entryBadgeAssign,
         private Slugger $slugger,
         private ImageRepository $imageRepository,
         private EventDispatcherInterface $eventDispatcher,
@@ -56,7 +56,7 @@ readonly class EntryEdit
         $entry->lang = $dto->lang;
         $entry->editedAt = new \DateTimeImmutable('@'.time());
         if ($dto->badges) {
-            $this->badgeManager->assign($entry, $dto->badges);
+            ($this->entryBadgeAssign)($entry, $dto->badges);
         }
 
         if (empty($entry->body) && empty($entry->title) && null === $entry->image && null === $entry->url) {

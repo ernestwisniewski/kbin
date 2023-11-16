@@ -33,6 +33,9 @@ use App\Kbin\Entry\EntryCreate;
 use App\Kbin\Entry\EntryDelete;
 use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\Magazine\MagazineBan;
+use App\Kbin\Magazine\MagazineCreate;
+use App\Kbin\Magazine\MagazineSubscribe;
 use App\Kbin\Post\PostCreate;
 use App\Kbin\Post\PostDelete;
 use App\Kbin\PostComment\PostCommentCreate;
@@ -41,7 +44,6 @@ use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
 use App\Service\FavouriteManager;
-use App\Service\MagazineManager;
 use App\Service\MessageManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
@@ -284,7 +286,7 @@ trait FactoryTrait
         bool $isAdult = false,
         string $description = null
     ): Magazine {
-        $manager = $this->getService(MagazineManager::class);
+        $magazineCreate = $this->getService(MagazineCreate::class);
 
         $dto = new MagazineDto();
         $dto->name = $name;
@@ -298,7 +300,7 @@ trait FactoryTrait
             $dto->apProfileId = "https://{$host}/m/{$name}";
         }
 
-        $magazine = $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        $magazine = $magazineCreate($dto, $user ?? $this->getUserByUsername('JohnDoe'));
 
         $this->magazines->add($magazine);
 
@@ -323,7 +325,7 @@ trait FactoryTrait
         ($this->getService(PostCommentDelete::class))($owner, $comment);
         ($this->getService(PostDelete::class))($owner, $post);
 
-        $this->getService(MagazineManager::class)->ban(
+        ($this->getService(MagazineBan::class))(
             $magazine,
             $actor,
             $owner,
@@ -385,8 +387,8 @@ trait FactoryTrait
         $entityManager->persist($magazine);
         $entityManager->flush();
 
-        $manager = $this->getService(MagazineManager::class);
-        $manager->subscribe($magazine, $user ?? $this->getUserByUsername('JohnDoe'));
+        $magazineSubscribe = $this->getService(MagazineSubscribe::class);
+        $magazineSubscribe($magazine, $user ?? $this->getUserByUsername('JohnDoe'));
 
         $this->magazines->add($magazine);
 
@@ -588,7 +590,7 @@ trait FactoryTrait
      */
     public function createModlogMessages(): void
     {
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineBan = $this->getService(MagazineBan::class);
         $entryDelete = $this->getService(EntryDelete::class);
         $entryCommentDelete = $this->getService(EntryCommentDelete::class);
         $postDelete = $this->getService(PostDelete::class);
@@ -605,7 +607,12 @@ trait FactoryTrait
         $entryDelete($moderator, $entry);
         $postCommentDelete($moderator, $postComment);
         $postDelete($moderator, $post);
-        $magazineManager->ban($magazine, $user, $moderator, MagazineBanDto::create('test ban', new \DateTimeImmutable('+12 hours')));
+        $magazineBan(
+            $magazine,
+            $user,
+            $moderator,
+            MagazineBanDto::create('test ban', new \DateTimeImmutable('+12 hours'))
+        );
     }
 
     public function getKibbyImageDto(): ImageDto

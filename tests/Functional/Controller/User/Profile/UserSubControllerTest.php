@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User\Profile;
 
+use App\Kbin\Magazine\MagazineSubscribe;
 use App\Service\DomainManager;
-use App\Service\MagazineManager;
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
@@ -17,7 +17,7 @@ class UserSubControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
         $magazine = $this->getMagazineByName('acme');
 
-        $this->getService(MagazineManager::class)->subscribe($magazine, $user);
+        ($this->getService(MagazineSubscribe::class))($magazine, $user);
 
         $crawler = $client->request('GET', '/settings/subscriptions/magazines');
         $client->click($crawler->filter('#main .pills')->selectLink('Magazines')->link());

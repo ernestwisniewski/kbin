@@ -9,7 +9,7 @@ use App\DTO\MagazineResponseDto;
 use App\DTO\MagazineUpdateRequestDto;
 use App\Entity\Magazine;
 use App\Factory\MagazineFactory;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineEdit;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -28,9 +28,21 @@ class MagazineUpdateApi extends MagazineBaseApi
         description: 'Magazine updated',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -58,9 +70,21 @@ class MagazineUpdateApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -77,7 +101,8 @@ class MagazineUpdateApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        MagazineManager $manager,
+        MagazineEdit $magazineEdit,
+        MagazineFactory $magazineFactory,
         ValidatorInterface $validator,
         MagazineFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
@@ -88,7 +113,7 @@ class MagazineUpdateApi extends MagazineBaseApi
             throw new AccessDeniedHttpException();
         }
 
-        $dto = $this->deserializeMagazine($manager->createDto($magazine));
+        $dto = $this->deserializeMagazine($magazineFactory->createDto($magazine));
 
         $errors = $validator->validate($dto);
         if (\count($errors) > 0) {
@@ -99,7 +124,7 @@ class MagazineUpdateApi extends MagazineBaseApi
             throw new BadRequestHttpException('Magazine name cannot be edited');
         }
 
-        $magazine = $manager->edit($magazine, $dto);
+        $magazine = $magazineEdit($magazine, $dto);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

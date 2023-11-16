@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\Magazine\MagazineUnsubscribe;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\MagazineManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +23,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SubMagazineCommand extends Command
 {
     public function __construct(
-        private readonly MagazineManager $manager,
+        private readonly MagazineSubscribe $magazineSubscribe,
+        private readonly MagazineUnsubscribe $magazineUnsubscribe,
         private readonly MagazineRepository $magazineRepository,
         private readonly UserRepository $userRepository
     ) {
@@ -57,9 +59,9 @@ class SubMagazineCommand extends Command
         }
 
         if (!$input->getOption('unsub')) {
-            $this->manager->subscribe($magazine, $user);
+            ($this->magazineSubscribe)($magazine, $user);
         } else {
-            $this->manager->unsubscribe($magazine, $user);
+            ($this->magazineUnsubscribe)($magazine, $user);
         }
 
         return Command::SUCCESS;

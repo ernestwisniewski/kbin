@@ -26,8 +26,12 @@ class PostsBaseApi extends BaseApi
         $response = $this->postFactory->createResponseDto($dto);
 
         if ($this->isGranted('ROLE_OAUTH2_POST:VOTE')) {
-            $response->isFavourited = $dto instanceof PostDto ? $dto->isFavourited : $dto->isFavored($this->getUserOrThrow());
-            $response->userVote = $dto instanceof PostDto ? $dto->userVote : $dto->getUserChoice($this->getUserOrThrow());
+            $response->isFavourited = $dto instanceof PostDto ? $dto->isFavourited : $dto->isFavored(
+                $this->getUserOrThrow()
+            );
+            $response->userVote = $dto instanceof PostDto ? $dto->userVote : $dto->getUserChoice(
+                $this->getUserOrThrow()
+            );
         }
 
         return $response;
@@ -43,13 +47,18 @@ class PostsBaseApi extends BaseApi
     protected function deserializePost(PostDto $dto = null): PostDto
     {
         $dto = $dto ? $dto : new PostDto();
-        $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), PostRequestDto::class, 'json', [
-            'groups' => [
-                'common',
-                'post',
-                'no-upload',
-            ],
-        ]);
+        $deserialized = $this->serializer->deserialize(
+            $this->request->getCurrentRequest()->getContent(),
+            PostRequestDto::class,
+            'json',
+            [
+                'groups' => [
+                    'common',
+                    'post',
+                    'no-upload',
+                ],
+            ]
+        );
         \assert($deserialized instanceof PostRequestDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
@@ -79,8 +88,12 @@ class PostsBaseApi extends BaseApi
         $response = $this->postCommentFactory->createResponseDto($comment);
 
         if ($this->isGranted('ROLE_OAUTH2_POST_COMMENT:VOTE')) {
-            $response->isFavourited = $comment instanceof PostCommentDto ? $comment->isFavourited : $comment->isFavored($this->getUserOrThrow());
-            $response->userVote = $comment instanceof PostCommentDto ? $comment->userVote : $comment->getUserChoice($this->getUserOrThrow());
+            $response->isFavourited = $comment instanceof PostCommentDto ? $comment->isFavourited : $comment->isFavored(
+                $this->getUserOrThrow()
+            );
+            $response->userVote = $comment instanceof PostCommentDto ? $comment->userVote : $comment->getUserChoice(
+                $this->getUserOrThrow()
+            );
         }
 
         return $response;

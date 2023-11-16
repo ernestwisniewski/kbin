@@ -9,9 +9,10 @@ use App\DTO\MagazineBanDto;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\Form\MagazineBanType;
+use App\Kbin\Magazine\MagazineBan;
+use App\Kbin\Magazine\MagazineUnban;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\MagazineManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -19,7 +20,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineBanController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineManager $manager,
+        private readonly MagazineBan $magazineBan,
+        private readonly MagazineUnban $magazineUnban,
         private readonly MagazineRepository $repository,
         private readonly UserRepository $userRepository,
     ) {
@@ -27,7 +29,7 @@ class MagazineBanController extends AbstractController
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function bans(Magazine $magazine, UserRepository $repository, Request $request): Response
+    public function bans(Magazine $magazine, Request $request): Response
     {
         return $this->render(
             'magazine/panel/bans.html.twig',
@@ -50,7 +52,7 @@ class MagazineBanController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->manager->ban($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
+            ($this->magazineBan)($magazine, $user, $this->getUserOrThrow(), $magazineBanDto);
 
             return $this->redirectToRoute('magazine_panel_bans', ['name' => $magazine->name]);
         }
@@ -72,7 +74,7 @@ class MagazineBanController extends AbstractController
     {
         $this->validateCsrf('magazine_unban', $request->request->get('token'));
 
-        $this->manager->unban($magazine, $user);
+        ($this->magazineUnban)($magazine, $user);
 
         return $this->redirectToRefererOrHome($request);
     }

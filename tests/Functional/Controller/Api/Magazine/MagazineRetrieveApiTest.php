@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine;
 
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBlock;
+use App\Kbin\Magazine\MagazineSubscribe;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -171,7 +172,10 @@ class MagazineRetrieveApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:subscribe magazine:block');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write magazine:subscribe magazine:block'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $client->request('GET', "/api/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
@@ -198,10 +202,13 @@ class MagazineRetrieveApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test');
-        $manager = $this->getService(MagazineManager::class);
-        $manager->subscribe($magazine, $user);
+        $magazineSubscribe = $this->getService(MagazineSubscribe::class);
+        $magazineSubscribe($magazine, $user);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:subscribe magazine:block');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write magazine:subscribe magazine:block'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $client->request('GET', "/api/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
@@ -225,13 +232,16 @@ class MagazineRetrieveApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test');
-        $manager = $this->getService(MagazineManager::class);
-        $manager->block($magazine, $user);
+        $magazineBlock = $this->getService(MagazineBlock::class);
+        $magazineBlock($magazine, $user);
         $entityManager = $this->getService(EntityManagerInterface::class);
         $entityManager->persist($user);
         $entityManager->flush();
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:subscribe magazine:block');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write magazine:subscribe magazine:block'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $client->request('GET', "/api/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
@@ -405,7 +415,11 @@ class MagazineRetrieveApiTest extends WebTestCase
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $user = $this->getUserByUsername('testUser');
-        $client->request('GET', "/api/users/{$user->getId()}/magazines/subscriptions", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/users/{$user->getId()}/magazines/subscriptions",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -428,7 +442,11 @@ class MagazineRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:subscribe');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/users/{$user->getId()}/magazines/subscriptions", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/users/{$user->getId()}/magazines/subscriptions",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -462,7 +480,11 @@ class MagazineRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:subscribe');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/users/{$user->getId()}/magazines/subscriptions", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/users/{$user->getId()}/magazines/subscriptions",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -551,8 +573,8 @@ class MagazineRetrieveApiTest extends WebTestCase
         $notBlockedMag = $this->getMagazineByName('someother', $this->getUserByUsername('JaneDoe'));
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
 
-        $manager = $this->getService(MagazineManager::class);
-        $manager->block($magazine, $this->getUserByUsername('JohnDoe'));
+        $magazineBlock = $this->getService(MagazineBlock::class);
+        $magazineBlock($magazine, $this->getUserByUsername('JohnDoe'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:block');
         $token = $codes['token_type'].' '.$codes['access_token'];

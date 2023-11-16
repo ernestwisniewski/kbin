@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Moderate;
 
 use App\DTO\MagazineBanDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBan;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -32,7 +32,11 @@ class MagazineRetrieveBansApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/moderate/magazine/{$magazine->getId()}/bans", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/moderate/magazine/{$magazine->getId()}/bans",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -47,7 +51,11 @@ class MagazineRetrieveBansApiTest extends WebTestCase
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
-        $client->request('GET', "/api/moderate/magazine/{$magazine->getId()}/bans", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/moderate/magazine/{$magazine->getId()}/bans",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -61,14 +69,18 @@ class MagazineRetrieveBansApiTest extends WebTestCase
         $magazine = $this->getMagazineByName('test');
 
         $bannedUser = $this->getUserByUsername('hapless_fool');
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineBan = $this->getService(MagazineBan::class);
         $ban = MagazineBanDto::create('test ban :)');
-        $magazineManager->ban($magazine, $bannedUser, $user, $ban);
+        $magazineBan($magazine, $bannedUser, $user, $ban);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:ban:read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/moderate/magazine/{$magazine->getId()}/bans", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/moderate/magazine/{$magazine->getId()}/bans",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -82,7 +94,10 @@ class MagazineRetrieveBansApiTest extends WebTestCase
         self::assertCount(1, $jsonData['items']);
         self::assertArrayKeysMatch(self::BAN_RESPONSE_KEYS, $jsonData['items'][0]);
         self::assertEquals($ban->reason, $jsonData['items'][0]['reason']);
-        self::assertArrayKeysMatch(MagazineRetrieveApiTest::MAGAZINE_SMALL_RESPONSE_KEYS, $jsonData['items'][0]['magazine']);
+        self::assertArrayKeysMatch(
+            MagazineRetrieveApiTest::MAGAZINE_SMALL_RESPONSE_KEYS,
+            $jsonData['items'][0]['magazine']
+        );
         self::assertSame($magazine->getId(), $jsonData['items'][0]['magazine']['magazineId']);
         self::assertArrayKeysMatch(self::USER_SMALL_RESPONSE_KEYS, $jsonData['items'][0]['bannedUser']);
         self::assertSame($bannedUser->getId(), $jsonData['items'][0]['bannedUser']['userId']);

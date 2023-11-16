@@ -9,11 +9,11 @@ use App\Entity\Entry;
 use App\Entity\User;
 use App\Event\Entry\EntryBeforeDeletedEvent;
 use App\Event\Entry\EntryDeletedEvent;
-use App\Kbin\Contracts\DeleteServiceInterface;
+use App\Kbin\Contract\DeleteContentServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-readonly class EntryDelete implements DeleteServiceInterface
+readonly class EntryDelete implements DeleteContentServiceInterface
 {
     public function __construct(
         private EntryPurge $entryPurge,

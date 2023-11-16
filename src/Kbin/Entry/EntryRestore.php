@@ -10,11 +10,11 @@ use App\Entity\Entry;
 use App\Entity\User;
 use App\Event\Entry\EntryEditedEvent;
 use App\Event\Entry\EntryRestoredEvent;
-use App\Kbin\Contracts\RestoreServiceInterface;
+use App\Kbin\Contract\RestoreContentServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-readonly class EntryRestore implements RestoreServiceInterface
+readonly class EntryRestore implements RestoreContentServiceInterface
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

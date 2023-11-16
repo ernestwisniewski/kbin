@@ -9,7 +9,7 @@ use App\DTO\MagazineResponseDto;
 use App\Entity\Badge;
 use App\Entity\Magazine;
 use App\Factory\MagazineFactory;
-use App\Service\BadgeManager;
+use App\Kbin\Entry\Badge\EntryBadgeDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -26,9 +26,21 @@ class MagazineRemoveBadgesApi extends MagazineBaseApi
         description: 'Badge deleted',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -51,9 +63,21 @@ class MagazineRemoveBadgesApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -80,7 +104,7 @@ class MagazineRemoveBadgesApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'badge_id')]
         Badge $badge,
-        BadgeManager $manager,
+        EntryBadgeDelete $entryBadgeDelete,
         MagazineFactory $factory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
@@ -90,7 +114,7 @@ class MagazineRemoveBadgesApi extends MagazineBaseApi
             throw new NotFoundHttpException('Badge not found on magazine');
         }
 
-        $manager->delete($badge);
+        $entryBadgeDelete($badge);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

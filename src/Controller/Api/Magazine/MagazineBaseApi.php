@@ -13,14 +13,14 @@ use App\DTO\MagazineThemeRequestDto;
 use App\Entity\Magazine;
 use App\Entity\Report;
 use App\Factory\ReportFactory;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineCreate;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Contracts\Service\Attribute\Required;
 
 class MagazineBaseApi extends BaseApi
 {
     private readonly ReportFactory $reportFactory;
-    protected readonly MagazineManager $manager;
+    protected readonly MagazineCreate $magazineCreate;
 
     #[Required]
     public function setReportFactory(ReportFactory $reportFactory)
@@ -29,9 +29,9 @@ class MagazineBaseApi extends BaseApi
     }
 
     #[Required]
-    public function setManager(MagazineManager $manager)
+    public function setMagazineCreate(MagazineCreate $magazineCreate)
     {
-        $this->manager = $manager;
+        $this->magazineCreate = $magazineCreate;
     }
 
     protected function serializeReport(Report $report)
@@ -51,7 +51,11 @@ class MagazineBaseApi extends BaseApi
     protected function deserializeMagazine(MagazineDto $dto = null): MagazineDto
     {
         $dto = $dto ? $dto : new MagazineDto();
-        $deserialized = $this->serializer->deserialize($this->request->getCurrentRequest()->getContent(), MagazineRequestDto::class, 'json');
+        $deserialized = $this->serializer->deserialize(
+            $this->request->getCurrentRequest()->getContent(),
+            MagazineRequestDto::class,
+            'json'
+        );
         \assert($deserialized instanceof MagazineRequestDto);
 
         $dto = $deserialized->mergeIntoDto($dto);
@@ -84,7 +88,7 @@ class MagazineBaseApi extends BaseApi
         }
 
         // Rate limit handled elsewhere
-        $magazine = $this->manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $magazine = ($this->magazineCreate)($dto, $this->getUserOrThrow(), rateLimit: false);
 
         return $magazine;
     }

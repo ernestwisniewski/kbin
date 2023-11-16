@@ -16,6 +16,7 @@ use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Factory\MagazineFactory;
 use App\Factory\UserFactory;
+use App\Kbin\Magazine\MagazineCreate;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\UpdateActorMessage;
 use App\Message\DeleteImageMessage;
@@ -37,7 +38,7 @@ class ActivityPubManager
         private UserRepository $userRepository,
         private UserManager $userManager,
         private UserFactory $userFactory,
-        private MagazineManager $magazineManager,
+        private MagazineCreate $magazineCreate,
         private MagazineFactory $magazineFactory,
         private MagazineRepository $magazineRepository,
         private ApHttpClient $apHttpClient,
@@ -275,7 +276,7 @@ class ActivityPubManager
 
     private function createMagazine(string $actorUrl): Magazine
     {
-        $this->magazineManager->create(
+        ($this->magazineCreate)(
             $this->magazineFactory->createDtoFromAp($actorUrl, $this->buildHandle($actorUrl)),
             $this->userRepository->findAdmin(),
             false

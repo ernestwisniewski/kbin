@@ -6,15 +6,20 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazinePurge;
+use App\Kbin\Magazine\MagazineRestore;
+use App\Kbin\Magazine\MagazineTrash;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineDeleteController extends AbstractController
 {
-    public function __construct(private readonly MagazineManager $manager)
-    {
+    public function __construct(
+        private readonly MagazineTrash $magazineTrash,
+        private readonly MagazineRestore $magazineRestore,
+        private readonly MagazinePurge $magazinePurge,
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -23,7 +28,7 @@ class MagazineDeleteController extends AbstractController
     {
         $this->validateCsrf('magazine_delete', $request->request->get('token'));
 
-        $this->manager->trash($magazine);
+        ($this->magazineTrash)($magazine);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -34,7 +39,7 @@ class MagazineDeleteController extends AbstractController
     {
         $this->validateCsrf('magazine_restore', $request->request->get('token'));
 
-        $this->manager->restore($magazine);
+        ($this->magazineRestore)($magazine);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -45,7 +50,7 @@ class MagazineDeleteController extends AbstractController
     {
         $this->validateCsrf('magazine_purge', $request->request->get('token'));
 
-        $this->manager->purge($magazine);
+        ($this->magazinePurge)($magazine);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -56,7 +61,7 @@ class MagazineDeleteController extends AbstractController
     {
         $this->validateCsrf('magazine_purge_content', $request->request->get('token'));
 
-        $this->manager->purge($magazine, true);
+        ($this->magazinePurge)($magazine, true);
 
         return $this->redirectToRefererOrHome($request);
     }

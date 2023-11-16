@@ -9,8 +9,9 @@ use App\DTO\BadgeDto;
 use App\Entity\Badge;
 use App\Entity\Magazine;
 use App\Form\BadgeType;
+use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Entry\Badge\EntryBadgeDelete;
 use App\Repository\MagazineRepository;
-use App\Service\BadgeManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +21,14 @@ class MagazineBadgeController extends AbstractController
 {
     public function __construct(
         private readonly MagazineRepository $repository,
+        private readonly EntryBadgeCreate $entryBadgeCreate,
+        private readonly EntryBadgeDelete $entryBadgeDelete
     ) {
     }
 
     #[IsGranted('ROLE_USER')]
     #[IsGranted('moderate', subject: 'magazine')]
-    public function badges(Magazine $magazine, BadgeManager $manager, Request $request): Response
+    public function badges(Magazine $magazine, Request $request): Response
     {
         $badges = $this->repository->findBadges($magazine);
 
@@ -36,7 +39,7 @@ class MagazineBadgeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $dto->magazine = $magazine;
-            $manager->create($dto);
+            ($this->entryBadgeCreate)($dto);
 
             return $this->redirectToRefererOrHome($request);
         }
@@ -59,12 +62,11 @@ class MagazineBadgeController extends AbstractController
         Magazine $magazine,
         #[MapEntity(id: 'badge_id')]
         Badge $badge,
-        BadgeManager $manager,
         Request $request
     ): Response {
         $this->validateCsrf('badge_remove', $request->request->get('token'));
 
-        $manager->delete($badge);
+        ($this->entryBadgeDelete)($badge);
 
         return $this->redirectToRefererOrHome($request);
     }

@@ -6,7 +6,8 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBlock;
+use App\Kbin\Magazine\MagazineUnblock;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineBlockController extends AbstractController
 {
-    public function __construct(private readonly MagazineManager $manager)
-    {
+    public function __construct(
+        private readonly MagazineBlock $magazineBlock,
+        private readonly MagazineUnblock $magazineUnblock,
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -24,7 +27,7 @@ class MagazineBlockController extends AbstractController
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $this->manager->block($magazine, $this->getUserOrThrow());
+        ($this->magazineBlock)($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine);
@@ -39,7 +42,7 @@ class MagazineBlockController extends AbstractController
     {
         $this->validateCsrf('block', $request->request->get('token'));
 
-        $this->manager->unblock($magazine, $this->getUserOrThrow());
+        ($this->magazineUnblock)($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine);

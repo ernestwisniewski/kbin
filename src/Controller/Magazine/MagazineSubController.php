@@ -6,7 +6,8 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\Magazine\MagazineUnsubscribe;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MagazineSubController extends AbstractController
 {
-    public function __construct(private readonly MagazineManager $manager)
-    {
+    public function __construct(
+        private readonly MagazineSubscribe $magazineSubscribe,
+        private readonly MagazineUnsubscribe $magazineUnsubscribe
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -24,7 +27,7 @@ class MagazineSubController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->manager->subscribe($magazine, $this->getUserOrThrow());
+        ($this->magazineSubscribe)($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine);
@@ -39,7 +42,7 @@ class MagazineSubController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->manager->unsubscribe($magazine, $this->getUserOrThrow());
+        ($this->magazineUnsubscribe)($magazine, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine);

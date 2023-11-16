@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Entry;
 
 use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Service\FavouriteManager;
-use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -144,8 +145,8 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $magazineManager = $client->getContainer()->get(MagazineManager::class);
-        $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
+        $magazineSubscribe = $this->getService(MagazineSubscribe::class);
+        $magazineSubscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
@@ -176,8 +177,8 @@ class EntryFrontControllerTest extends WebTestCase
 
         $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $magazineManager = $client->getContainer()->get(MagazineManager::class);
-        $magazineManager->subscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
+        $magazineSubscribe = $this->getService(MagazineSubscribe::class);
+        $magazineSubscribe($this->getMagazineByName('acme'), $this->getUserByUsername('Actor'));
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
@@ -191,10 +192,10 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($this->getMagazineByName('acme'));
         $moderator->user = $this->getUserByUsername('Actor');
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $client->loginUser($this->getUserByUsername('Actor'));
 
@@ -225,10 +226,10 @@ class EntryFrontControllerTest extends WebTestCase
 
         $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $magazineManager = $client->getContainer()->get(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $moderator = new ModeratorDto($this->getMagazineByName('acme'));
         $moderator->user = $this->getUserByUsername('Actor');
-        $magazineManager->addModerator($moderator);
+        $magazineAddModerator($moderator);
 
         $client->loginUser($this->getUserByUsername('Actor'));
 

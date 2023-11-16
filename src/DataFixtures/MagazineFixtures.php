@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\DTO\MagazineDto;
+use App\Kbin\Magazine\MagazineCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
-use App\Service\MagazineManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +18,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
     public const MAGAZINES_COUNT = UserFixtures::USERS_COUNT / 3;
 
     public function __construct(
-        private readonly MagazineManager $magazineManager,
+        private readonly MagazineCreate $magazineCreate,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
@@ -50,7 +50,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->badges = $magazine['badges'];
             $dto->icon = $image;
 
-            $entity = $this->magazineManager->create($dto, $magazine['user']);
+            $entity = ($this->magazineCreate)($dto, $magazine['user']);
 
             $this->addReference('magazine_'.$index, $entity);
         }

@@ -7,7 +7,7 @@ namespace App\Kbin\Factory;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
 use App\Entity\Post;
-use App\Kbin\Contracts\DeleteServiceInterface;
+use App\Kbin\Contract\DeleteContentServiceInterface;
 use App\Kbin\Entry\EntryDelete;
 use App\Kbin\EntryComment\EntryCommentDelete;
 use App\Kbin\Post\PostDelete;
@@ -26,7 +26,7 @@ readonly class DeleteServiceFactory
     ) {
     }
 
-    public function create(ContentInterface $subject): DeleteServiceInterface
+    public function create(ContentInterface $subject): DeleteContentServiceInterface
     {
         return match ($this->entityManager->getClassMetadata(\get_class($subject))->name) {
             Entry::class => $this->entryDelete,

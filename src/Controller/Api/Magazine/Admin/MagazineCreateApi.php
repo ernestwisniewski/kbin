@@ -8,6 +8,7 @@ use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\MagazineRequestDto;
 use App\DTO\MagazineResponseDto;
+use App\Factory\MagazineFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -24,9 +25,21 @@ class MagazineCreateApi extends MagazineBaseApi
         description: 'Magazine created',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -44,9 +57,21 @@ class MagazineCreateApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\RequestBody(content: new Model(type: MagazineRequestDto::class))]
@@ -54,6 +79,7 @@ class MagazineCreateApi extends MagazineBaseApi
     #[Security(name: 'oauth2', scopes: ['moderate:magazine_admin:create'])]
     #[IsGranted('ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:CREATE')]
     public function __invoke(
+        MagazineFactory $magazineFactory,
         RateLimiterFactory $apiMagazineLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiMagazineLimiter);
@@ -61,7 +87,7 @@ class MagazineCreateApi extends MagazineBaseApi
         $magazine = $this->createMagazine();
 
         return new JsonResponse(
-            $this->serializeMagazine($this->manager->createDto($magazine)),
+            $this->serializeMagazine($magazineFactory->createDto($magazine)),
             status: 201,
             headers: $headers
         );

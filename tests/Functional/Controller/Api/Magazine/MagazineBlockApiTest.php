@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine;
 
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBlock;
 use App\Tests\WebTestCase;
 
 class MagazineBlockApiTest extends WebTestCase
@@ -32,7 +32,11 @@ class MagazineBlockApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', '/api/magazine/'.(string) $magazine->getId().'/block', server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            '/api/magazine/'.(string) $magazine->getId().'/block',
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -49,7 +53,11 @@ class MagazineBlockApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:block');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', '/api/magazine/'.(string) $magazine->getId().'/block', server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            '/api/magazine/'.(string) $magazine->getId().'/block',
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -97,7 +105,11 @@ class MagazineBlockApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', '/api/magazine/'.(string) $magazine->getId().'/unblock', server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            '/api/magazine/'.(string) $magazine->getId().'/unblock',
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -110,13 +122,17 @@ class MagazineBlockApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test');
-        $manager = $this->getService(MagazineManager::class);
-        $manager->block($magazine, $user);
+        $magazineBlock = $this->getService(MagazineBlock::class);
+        $magazineBlock($magazine, $user);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write magazine:block');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', '/api/magazine/'.(string) $magazine->getId().'/unblock', server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            '/api/magazine/'.(string) $magazine->getId().'/unblock',
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);

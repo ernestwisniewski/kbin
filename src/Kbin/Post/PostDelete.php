@@ -9,11 +9,11 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Event\Post\PostBeforeDeletedEvent;
 use App\Event\Post\PostDeletedEvent;
-use App\Kbin\Contracts\DeleteServiceInterface;
+use App\Kbin\Contract\DeleteContentServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-readonly class PostDelete implements DeleteServiceInterface
+readonly class PostDelete implements DeleteContentServiceInterface
 {
     public function __construct(
         private PostPurge $postPurge,

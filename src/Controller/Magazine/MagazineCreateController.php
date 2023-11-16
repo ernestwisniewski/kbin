@@ -6,8 +6,8 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Form\MagazineType;
+use App\Kbin\Magazine\MagazineCreate;
 use App\Service\IpResolver;
-use App\Service\MagazineManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class MagazineCreateController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineManager $manager,
+        private readonly MagazineCreate $magazineCreate,
         private readonly IpResolver $ipResolver
     ) {
     }
@@ -29,7 +29,7 @@ class MagazineCreateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $dto = $form->getData();
             $dto->ip = $this->ipResolver->resolve();
-            $magazine = $this->manager->create($dto, $this->getUserOrThrow());
+            $magazine = ($this->magazineCreate)($dto, $this->getUserOrThrow());
 
             $this->addFlash(
                 'success',

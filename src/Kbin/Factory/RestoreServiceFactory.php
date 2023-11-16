@@ -9,7 +9,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Kbin\Contracts\RestoreServiceInterface;
+use App\Kbin\Contract\RestoreContentServiceInterface;
 use App\Kbin\Entry\EntryRestore;
 use App\Kbin\EntryComment\EntryCommentRestore;
 use App\Kbin\Post\PostRestore;
@@ -27,7 +27,7 @@ readonly class RestoreServiceFactory
     ) {
     }
 
-    public function create(ContentInterface $subject): RestoreServiceInterface
+    public function create(ContentInterface $subject): RestoreContentServiceInterface
     {
         return match ($this->entityManager->getClassMetadata(\get_class($subject))->name) {
             Entry::class => $this->entryRestore,

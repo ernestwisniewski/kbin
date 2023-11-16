@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Moderate;
 
 use App\DTO\MagazineBanDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBan;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -32,7 +32,11 @@ class MagazineBanApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -48,7 +52,11 @@ class MagazineBanApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:ban:create');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -115,7 +123,11 @@ class MagazineBanApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -131,7 +143,11 @@ class MagazineBanApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:ban:delete');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/ban/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -145,16 +161,20 @@ class MagazineBanApiTest extends WebTestCase
         $magazine = $this->getMagazineByName('test');
         $bannedUser = $this->getUserByUsername('hapless_fool');
 
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddBan = $this->getService(MagazineBan::class);
         $ban = MagazineBanDto::create('test ban <3');
-        $magazineManager->ban($magazine, $bannedUser, $user, $ban);
+        $magazineAddBan($magazine, $bannedUser, $user, $ban);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:ban:delete');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $expiredAt = (new \DateTimeImmutable('+10 seconds'));
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/ban/{$bannedUser->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/ban/{$bannedUser->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);

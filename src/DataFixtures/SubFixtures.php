@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineBlock;
+use App\Kbin\Magazine\MagazineSubscribe;
 use App\Service\UserManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -12,7 +13,8 @@ use Doctrine\Persistence\ObjectManager;
 class SubFixtures extends BaseFixture implements DependentFixtureInterface
 {
     public function __construct(
-        private readonly MagazineManager $magazineManager,
+        private readonly MagazineSubscribe $magazineSubscribe,
+        private readonly MagazineBlock $magazineBlock,
         private readonly UserManager $userManager
     ) {
     }
@@ -36,14 +38,14 @@ class SubFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(0, 2);
 
             if (0 === $roll) {
-                $this->magazineManager->block(
+                ($this->magazineBlock)(
                     $this->getReference('magazine_'.$m),
                     $this->getReference('user_'.$u)
                 );
                 continue;
             }
 
-            $this->magazineManager->subscribe(
+            ($this->magazineSubscribe)(
                 $this->getReference('magazine_'.$m),
                 $this->getReference('user_'.$u)
             );

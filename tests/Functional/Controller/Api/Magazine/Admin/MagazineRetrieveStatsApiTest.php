@@ -6,8 +6,8 @@ namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
 use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Service\FavouriteManager;
-use App\Service\MagazineManager;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,10 +45,18 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/votes", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/votes",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/content", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/content",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -59,18 +67,26 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $this->getUserByUsername('JohnDoe');
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:stats');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/votes", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/votes",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/content", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/content",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseStatusCodeSame(403);
     }
 
@@ -83,7 +99,12 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test');
 
-        $entry = $this->getEntryByTitle('Stats test', body: 'This is gonna be a statistic', magazine: $magazine, user: $user);
+        $entry = $this->getEntryByTitle(
+            'Stats test',
+            body: 'This is gonna be a statistic',
+            magazine: $magazine,
+            user: $user
+        );
 
         $requestStack = $this->getService(RequestStack::class);
         $requestStack->push(Request::create('/'));
@@ -105,9 +126,15 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         // Start a day ago to avoid timezone issues when testing on machines with non-UTC timezones
-        $startString = rawurlencode($entry->getCreatedAt()->add(\DateInterval::createFromDateString('-1 day'))->format(\DateTimeImmutable::ATOM));
+        $startString = rawurlencode(
+            $entry->getCreatedAt()->add(\DateInterval::createFromDateString('-1 day'))->format(\DateTimeImmutable::ATOM)
+        );
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/votes?resolution=hour&start=$startString", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/votes?resolution=hour&start=$startString",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -134,7 +161,11 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         self::assertSame(0, $jsonData['entry'][0]['down']);
         self::assertSame(1, $jsonData['entry'][0]['boost']);
 
-        $client->request('GET', "/api/stats/magazine/{$magazine->getId()}/content?resolution=hour&start=$startString", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/stats/magazine/{$magazine->getId()}/content?resolution=hour&start=$startString",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);

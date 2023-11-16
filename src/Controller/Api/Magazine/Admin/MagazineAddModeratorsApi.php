@@ -11,7 +11,7 @@ use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
 use App\Factory\MagazineFactory;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -28,9 +28,21 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
         description: 'Moderator added',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -58,9 +70,21 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -87,13 +111,15 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'user_id')]
         User $user,
-        MagazineManager $manager,
+        MagazineAddModerator $magazineAddModerator,
         MagazineFactory $factory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $moderator = $magazine->moderators->findFirst(fn (int $index, Moderator $moderator) => $moderator->user->getId() === $user->getId());
+        $moderator = $magazine->moderators->findFirst(
+            fn (int $index, Moderator $moderator) => $moderator->user->getId() === $user->getId()
+        );
 
         if (null !== $moderator) {
             throw new BadRequestHttpException('The user is already a moderator of this magazine');
@@ -103,7 +129,7 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
 
         $dto->user = $user;
 
-        $manager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

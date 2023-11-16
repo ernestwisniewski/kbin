@@ -9,7 +9,7 @@ use App\DTO\BadgeDto;
 use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
 use App\Factory\MagazineFactory;
-use App\Service\BadgeManager;
+use App\Kbin\Entry\Badge\EntryBadgeCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -28,9 +28,21 @@ class MagazineAddBadgesApi extends MagazineBaseApi
         description: 'Badge created',
         content: new Model(type: MagazineResponseDto::class),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Response(
@@ -58,9 +70,21 @@ class MagazineAddBadgesApi extends MagazineBaseApi
         description: 'You are being rate limited',
         content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
         headers: [
-            new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
-            new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
-            new OA\Header(header: 'X-RateLimit-Limit', schema: new OA\Schema(type: 'integer'), description: 'Number of requests available'),
+            new OA\Header(
+                header: 'X-RateLimit-Remaining',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests left until you will be rate limited'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Retry-After',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Unix timestamp to retry the request after'
+            ),
+            new OA\Header(
+                header: 'X-RateLimit-Limit',
+                schema: new OA\Schema(type: 'integer'),
+                description: 'Number of requests available'
+            ),
         ]
     )]
     #[OA\Parameter(
@@ -80,7 +104,7 @@ class MagazineAddBadgesApi extends MagazineBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        BadgeManager $manager,
+        EntryBadgeCreate $entryBadgeCreate,
         MagazineFactory $factory,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
@@ -92,7 +116,8 @@ class MagazineAddBadgesApi extends MagazineBaseApi
         /**
          * @var BadgeDto $dto
          */
-        $dto = $serializer->deserialize($request->getContent(), BadgeDto::class, 'json', ['groups' => ['create-badge']]);
+        $dto = $serializer->deserialize($request->getContent(), BadgeDto::class, 'json', ['groups' => ['create-badge']]
+        );
 
         $dto->magazine = $magazine;
 
@@ -101,7 +126,7 @@ class MagazineAddBadgesApi extends MagazineBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager->create($dto);
+        $entryBadgeCreate($dto);
 
         return new JsonResponse(
             $this->serializeMagazine($factory->createDto($magazine)),

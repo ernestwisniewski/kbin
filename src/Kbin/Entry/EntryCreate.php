@@ -10,7 +10,7 @@ use App\Entity\User;
 use App\Event\Entry\EntryCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Factory\EntryFactory;
-use App\Kbin\BadgeManager;
+use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\MentionManager;
 use App\Kbin\TagManager;
 use App\Kbin\Utils\Slugger;
@@ -27,7 +27,7 @@ readonly class EntryCreate
     public function __construct(
         private TagManager $tagManager,
         private MentionManager $mentionManager,
-        private BadgeManager $badgeManager,
+        private EntryBadgeAssign $entryBadgeAssign,
         private Slugger $slugger,
         private UrlCleaner $urlCleaner,
         private EntryFactory $entryFactory,
@@ -78,7 +78,7 @@ readonly class EntryCreate
         $entry = $this->setType($dto, $entry);
 
         if ($dto->badges) {
-            $this->badgeManager->assign($entry, $dto->badges);
+            ($this->entryBadgeAssign)($entry, $dto->badges);
         }
 
         $this->entityManager->persist($entry);

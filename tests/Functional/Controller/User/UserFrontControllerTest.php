@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User;
 
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\MagazineSubscribe;
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -77,8 +77,8 @@ class UserFrontControllerTest extends WebTestCase
         $this->getMagazineByName('kbin');
         $this->getMagazineByName('mag', $this->getUserByUsername('JaneDoe'));
 
-        $manager = $this->getService(MagazineManager::class);
-        $manager->subscribe($this->getMagazineByName('mag'), $user);
+        $magazineSubscribe = $this->getService(MagazineSubscribe::class);
+        $magazineSubscribe($this->getMagazineByName('mag'), $user);
 
         $client->loginUser($user);
 

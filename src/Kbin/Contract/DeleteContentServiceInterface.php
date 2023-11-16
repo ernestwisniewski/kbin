@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\Contracts;
+namespace App\Kbin\Contract;
 
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\User;
 
-interface DeleteServiceInterface
+interface DeleteContentServiceInterface
 {
     public function __invoke(User $user, ContentInterface $subject);
 }

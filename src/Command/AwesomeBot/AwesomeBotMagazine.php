@@ -7,9 +7,9 @@ namespace App\Command\AwesomeBot;
 use App\DTO\BadgeDto;
 use App\DTO\MagazineDto;
 use App\Entity\Magazine;
+use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Magazine\MagazineCreate;
 use App\Repository\UserRepository;
-use App\Service\BadgeManager;
-use App\Service\MagazineManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Pure;
@@ -27,8 +27,8 @@ class AwesomeBotMagazine extends Command
 {
     public function __construct(
         private readonly UserRepository $repository,
-        private readonly MagazineManager $magazineManager,
-        private readonly BadgeManager $badgeManager
+        private readonly MagazineCreate $magazineCreate,
+        private readonly EntryBadgeCreate $entryBadgeCreate
     ) {
         parent::__construct();
     }
@@ -63,7 +63,7 @@ class AwesomeBotMagazine extends Command
             $dto->description = 'Powered by '.$input->getArgument('url');
             $dto->setOwner($user);
 
-            $magazine = $this->magazineManager->create($dto, $user);
+            $magazine = ($this->magazineCreate)($dto, $user);
 
             $this->createBadges(
                 $magazine,
@@ -96,9 +96,7 @@ class AwesomeBotMagazine extends Command
 
         $badges = [];
         foreach ($labels as $label) {
-            $this->badgeManager->create(
-                BadgeDto::create($magazine, $label)
-            );
+            ($this->entryBadgeCreate)(BadgeDto::create($magazine, $label));
         }
 
         return new ArrayCollection($badges);

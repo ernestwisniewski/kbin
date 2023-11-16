@@ -6,11 +6,12 @@ namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Magazine\MagazineSubscribe;
+use App\Kbin\Magazine\MagazineUnsubscribe;
 use App\Message\ActivityPub\Inbox\FollowMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPub\Wrapper\AcceptWrapper;
 use App\Service\ActivityPubManager;
-use App\Service\MagazineManager;
 use App\Service\UserManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -21,7 +22,8 @@ class FollowHandler
     public function __construct(
         private readonly ActivityPubManager $activityPubManager,
         private readonly UserManager $userManager,
-        private readonly MagazineManager $magazineManager,
+        private readonly MagazineSubscribe $magazineSubscribe,
+        private readonly MagazineUnsubscribe $magazineUnsubscribe,
         private readonly ApHttpClient $client,
         private readonly AcceptWrapper $acceptWrapper
     ) {
@@ -72,7 +74,7 @@ class FollowHandler
     {
         match (true) {
             $object instanceof User => $this->userManager->follow($actor, $object),
-            $object instanceof Magazine => $this->magazineManager->subscribe($object, $actor),
+            $object instanceof Magazine => ($this->magazineSubscribe)($object, $actor),
             default => throw new \LogicException(),
         };
     }
@@ -101,7 +103,7 @@ class FollowHandler
     {
         match (true) {
             $object instanceof User => $this->userManager->unfollow($actor, $object),
-            $object instanceof Magazine => $this->magazineManager->unsubscribe($object, $actor),
+            $object instanceof Magazine => ($this->magazineUnsubscribe)($object, $actor),
             default => throw new \LogicException(),
         };
     }
@@ -111,17 +113,13 @@ class FollowHandler
         if ($object instanceof User) {
             $this->userManager->acceptFollow($object, $actor);
         }
-
-        //        if ($object instanceof Magazine) {
-        //            $this->magazineManager->acceptFollow($actor, $object);
-        //        }
     }
 
     private function handleReject(User $actor, User|Magazine $object): void
     {
         match (true) {
             $object instanceof User => $this->userManager->rejectFollow($object, $actor),
-            $object instanceof Magazine => $this->magazineManager->unsubscribe($object, $actor),
+            $object instanceof Magazine => ($this->magazineUnsubscribe)($object, $actor),
             default => throw new \LogicException(),
         };
     }

@@ -9,11 +9,11 @@ use App\Entity\PostComment;
 use App\Entity\User;
 use App\Event\PostComment\PostCommentBeforeDeletedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
-use App\Kbin\Contracts\DeleteServiceInterface;
+use App\Kbin\Contract\DeleteContentServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-readonly class PostCommentDelete implements DeleteServiceInterface
+readonly class PostCommentDelete implements DeleteContentServiceInterface
 {
     public function __construct(
         private PostCommentPurge $postCommentPurge,

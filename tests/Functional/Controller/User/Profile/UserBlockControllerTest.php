@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User\Profile;
 
+use App\Kbin\Magazine\MagazineBlock;
 use App\Service\DomainManager;
-use App\Service\MagazineManager;
 use App\Service\UserManager;
 use App\Tests\WebTestCase;
 
@@ -17,7 +17,7 @@ class UserBlockControllerTest extends WebTestCase
         $client->loginUser($user = $this->getUserByUsername('JaneDoe'));
         $magazine = $this->getMagazineByName('acme');
 
-        $this->getService(MagazineManager::class)->block($magazine, $user);
+        ($this->getService(MagazineBlock::class))($magazine, $user);
 
         $crawler = $client->request('GET', '/settings/blocked/magazines');
         $client->click($crawler->filter('#main .pills')->selectLink('Magazines')->link());

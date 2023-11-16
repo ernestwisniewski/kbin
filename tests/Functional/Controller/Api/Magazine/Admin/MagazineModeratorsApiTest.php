@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\DTO\ModeratorDto;
-use App\Service\MagazineManager;
+use App\Kbin\Magazine\Moderator\MagazineAddModerator;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -26,10 +26,10 @@ class MagazineModeratorsApiTest extends WebTestCase
         $client = self::createClient();
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('yesamod');
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}");
 
@@ -48,7 +48,11 @@ class MagazineModeratorsApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -61,15 +65,19 @@ class MagazineModeratorsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('yesamod');
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -84,15 +92,22 @@ class MagazineModeratorsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:moderators');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine_admin:moderators'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -107,18 +122,25 @@ class MagazineModeratorsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
 
         $magazine = $this->getMagazineByName('test', $owner);
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
         $dto = new ModeratorDto($magazine);
         $dto->user = $user;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:moderators');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine_admin:moderators'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$user->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -133,10 +155,17 @@ class MagazineModeratorsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:moderators');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine_admin:moderators'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/mod/{$moderator->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$moderator->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
@@ -158,12 +187,15 @@ class MagazineModeratorsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $moderator = $this->getUserByUsername('yesamod');
-        $magazineManager = $this->getService(MagazineManager::class);
+        $magazineAddModerator = $this->getService(MagazineAddModerator::class);
         $dto = new ModeratorDto($magazine);
         $dto->user = $moderator;
-        $magazineManager->addModerator($dto);
+        $magazineAddModerator($dto);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:moderators');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine_admin:moderators'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
         $client->request('GET', "/api/magazine/{$magazine->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
@@ -178,7 +210,11 @@ class MagazineModeratorsApiTest extends WebTestCase
         self::assertArrayKeysMatch(MagazineRetrieveApiTest::MODERATOR_RESPONSE_KEYS, $jsonData['moderators'][1]);
         self::assertSame($moderator->getId(), $jsonData['moderators'][1]['userId']);
 
-        $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/mod/{$moderator->getId()}", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'DELETE',
+            "/api/moderate/magazine/{$magazine->getId()}/mod/{$moderator->getId()}",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
