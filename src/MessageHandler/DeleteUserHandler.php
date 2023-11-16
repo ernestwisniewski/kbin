@@ -25,13 +25,17 @@ use App\Entity\Report;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Kbin\Entry\EntryDelete;
+use App\Kbin\Entry\EntryPurge;
+use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\EntryComment\EntryCommentPurge;
+use App\Kbin\Post\PostDelete;
+use App\Kbin\Post\PostPurge;
+use App\Kbin\PostComment\PostCommentDelete;
+use App\Kbin\PostComment\PostCommentPurge;
 use App\Message\DeleteUserMessage;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
 use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,10 +53,14 @@ class DeleteUserHandler
     public function __construct(
         private readonly UserManager $userManager,
         private readonly MagazineManager $magazineManager,
-        private readonly EntryCommentManager $entryCommentManager,
-        private readonly EntryManager $entryManager,
-        private readonly PostCommentManager $postCommentManager,
-        private readonly PostManager $postManager,
+        private readonly EntryCommentDelete $entryCommentDelete,
+        private readonly EntryCommentPurge $entryCommentPurge,
+        private readonly EntryDelete $entryDelete,
+        private readonly EntryPurge $entryPurge,
+        private readonly PostCommentDelete $postCommentDelete,
+        private readonly PostCommentPurge $postCommentPurge,
+        private readonly PostDelete $postDelete,
+        private readonly PostPurge $postPurge,
         private readonly VoteManager $voteManager,
         private readonly FavouriteManager $favouriteManager,
         private readonly MessageBusInterface $bus,
@@ -273,7 +281,11 @@ class DeleteUserHandler
 
         foreach ($comments as $comment) {
             $retry = true;
-            $this->entryCommentManager->{$this->op}($this->user, $comment);
+            if ('purge' === $this->op) {
+                ($this->entryCommentPurge)($this->user, $comment);
+            } else {
+                ($this->entryCommentDelete)($this->user, $comment);
+            }
         }
 
         return $retry;
@@ -301,7 +313,11 @@ class DeleteUserHandler
 
         foreach ($entries as $entry) {
             $retry = true;
-            $this->entryManager->{$this->op}($this->user, $entry);
+            if ('purge' === $this->op) {
+                ($this->entryPurge)($this->user, $entry);
+            } else {
+                ($this->entryDelete)($this->user, $entry);
+            }
         }
 
         return $retry;
@@ -329,7 +345,11 @@ class DeleteUserHandler
 
         foreach ($comments as $comment) {
             $retry = true;
-            $this->postCommentManager->{$this->op}($this->user, $comment);
+            if ('purge' === $this->op) {
+                ($this->postCommentPurge)($this->user, $comment);
+            } else {
+                ($this->postCommentDelete)($this->user, $comment);
+            }
         }
 
         return $retry;
@@ -357,7 +377,11 @@ class DeleteUserHandler
 
         foreach ($posts as $post) {
             $retry = true;
-            $this->postManager->{$this->op}($this->user, $post);
+            if ('purge' === $this->op) {
+                ($this->postPurge)($this->user, $post);
+            } else {
+                ($this->postDelete)($this->user, $post);
+            }
         }
 
         return $retry;

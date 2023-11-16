@@ -10,7 +10,7 @@ use App\DTO\EntryCommentRequestDto;
 use App\DTO\EntryCommentResponseDto;
 use App\Entity\EntryComment;
 use App\Factory\EntryCommentFactory;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentEdit;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,7 +88,7 @@ class EntryCommentsUpdateApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
-        EntryCommentManager $manager,
+        EntryCommentEdit $entryCommentEdit,
         EntryCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiUpdateLimiter
@@ -105,7 +105,7 @@ class EntryCommentsUpdateApi extends EntriesBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $comment = $manager->edit($comment, $dto);
+        $comment = $entryCommentEdit($comment, $dto);
 
         return new JsonResponse(
             $this->serializeCommentTree($comment),

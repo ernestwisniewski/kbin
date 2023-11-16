@@ -10,11 +10,11 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Form\PostCommentType;
+use App\Kbin\PostComment\PostCommentCreate;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Service\IpResolver;
 use App\Service\MentionManager;
-use App\Service\PostCommentManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class PostCommentCreateController extends AbstractController
     use PostCommentResponseTrait;
 
     public function __construct(
-        private readonly PostCommentManager $manager,
+        private readonly PostCommentCreate $postCommentCreate,
         private readonly PostCommentRepository $repository,
         private readonly IpResolver $ipResolver,
         private readonly MentionManager $mentionManager
@@ -105,7 +105,9 @@ class PostCommentCreateController extends AbstractController
                 $mentions = $this->mentionManager->addHandle($parent->mentions);
                 $mentions = array_filter(
                     $mentions,
-                    fn (string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle([$this->getUser()->username])[0]
+                    fn (string $mention) => $mention !== $handle && $mention !== $this->mentionManager->addHandle(
+                        [$this->getUser()->username]
+                    )[0]
                 );
 
                 $dto->body .= PHP_EOL.PHP_EOL;
@@ -136,7 +138,7 @@ class PostCommentCreateController extends AbstractController
 
     private function handleValidRequest(PostCommentDto $dto, Request $request): Response
     {
-        $comment = $this->manager->create($dto, $this->getUserOrThrow());
+        $comment = ($this->postCommentCreate)($dto, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getPostCommentJsonSuccessResponse($comment);

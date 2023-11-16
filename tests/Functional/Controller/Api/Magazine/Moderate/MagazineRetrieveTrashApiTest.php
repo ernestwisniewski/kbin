@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Moderate;
 
 use App\Entity\Contracts\VisibilityInterface;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryDelete;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -61,8 +61,8 @@ class MagazineRetrieveTrashApiTest extends WebTestCase
         $reportedUser = $this->getUserByUsername('hapless_fool');
         $entry = $this->getEntryByTitle('Delete test', body: 'This is gonna be deleted', magazine: $magazine, user: $reportedUser);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->delete($user, $entry);
+        $entryDelete = $this->getService(EntryDelete::class);
+        $entryDelete($user, $entry);
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:trash:read');
         $token = $codes['token_type'].' '.$codes['access_token'];

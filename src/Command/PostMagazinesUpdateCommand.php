@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Entity\Post;
+use App\Kbin\Post\PostChangeMagazine;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
-use App\Service\PostManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +21,7 @@ class PostMagazinesUpdateCommand extends Command
 {
     public function __construct(
         private readonly PostRepository $postRepository,
-        private readonly PostManager $postManager,
+        private readonly PostChangeMagazine $postChangeMagazine,
         private readonly MagazineRepository $magazineRepository
     ) {
         parent::__construct();
@@ -47,13 +47,13 @@ class PostMagazinesUpdateCommand extends Command
         foreach ($post->tags as $tag) {
             if ($magazine = $this->magazineRepository->findOneByName($tag)) {
                 $output->writeln($magazine->name);
-                $this->postManager->changeMagazine($post, $magazine);
+                ($this->postChangeMagazine)($post, $magazine);
                 break;
             }
 
             if ($magazine = $this->magazineRepository->findByTag($tag)) {
                 $output->writeln($magazine->name);
-                $this->postManager->changeMagazine($post, $magazine);
+                ($this->postChangeMagazine)($post, $magazine);
                 break;
             }
         }

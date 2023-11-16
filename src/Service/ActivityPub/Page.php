@@ -9,10 +9,10 @@ use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
 use App\Factory\ImageFactory;
+use App\Kbin\Entry\EntryCreate;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
-use App\Service\EntryManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,7 +22,7 @@ class Page
         private readonly ApActivityRepository $repository,
         private readonly MarkdownConverter $markdownConverter,
         private readonly MagazineRepository $magazineRepository,
-        private readonly EntryManager $entryManager,
+        private readonly EntryCreate $entryCreate,
         private readonly ActivityPubManager $activityPubManager,
         private readonly EntityManagerInterface $entityManager,
         private readonly SettingsManager $settingsManager,
@@ -84,11 +84,7 @@ class Page
             $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
         }
 
-        return $this->entryManager->create(
-            $dto,
-            $actor,
-            false
-        );
+        return ($this->entryCreate)($dto, $actor, false);
     }
 
     private function getVisibility(array $object, User $actor): string

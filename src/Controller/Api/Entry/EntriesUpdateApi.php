@@ -7,7 +7,12 @@ namespace App\Controller\Api\Entry;
 use App\DTO\EntryRequestDto;
 use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
-use App\Service\EntryManager;
+use App\Factory\EntryFactory;
+use App\Kbin\Entry\EntryEdit;
+use App\Schema\Errors\ForbiddenErrorSchema;
+use App\Schema\Errors\NotFoundErrorSchema;
+use App\Schema\Errors\TooManyRequestsErrorSchema;
+use App\Schema\Errors\UnauthorizedErrorSchema;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -33,22 +38,22 @@ class EntriesUpdateApi extends EntriesBaseApi
     #[OA\Response(
         response: 401,
         description: 'Permission denied due to missing or expired token',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\UnauthorizedErrorSchema::class))
+        content: new OA\JsonContent(ref: new Model(type: UnauthorizedErrorSchema::class))
     )]
     #[OA\Response(
         response: 403,
         description: 'You do not have permission to update this entry',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\ForbiddenErrorSchema::class))
+        content: new OA\JsonContent(ref: new Model(type: ForbiddenErrorSchema::class))
     )]
     #[OA\Response(
         response: 404,
         description: 'Entry not found',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\NotFoundErrorSchema::class))
+        content: new OA\JsonContent(ref: new Model(type: NotFoundErrorSchema::class))
     )]
     #[OA\Response(
         response: 429,
         description: 'You are being rate limited',
-        content: new OA\JsonContent(ref: new Model(type: \App\Schema\Errors\TooManyRequestsErrorSchema::class)),
+        content: new OA\JsonContent(ref: new Model(type: TooManyRequestsErrorSchema::class)),
         headers: [
             new OA\Header(header: 'X-RateLimit-Remaining', schema: new OA\Schema(type: 'integer'), description: 'Number of requests left until you will be rate limited'),
             new OA\Header(header: 'X-RateLimit-Retry-After', schema: new OA\Schema(type: 'integer'), description: 'Unix timestamp to retry the request after'),
@@ -75,13 +80,14 @@ class EntriesUpdateApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryEdit $entryEdit,
+        EntryFactory $entryFactory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $dto = $this->deserializeEntry($manager->createDto($entry), context: [
+        $dto = $this->deserializeEntry($entryFactory->createDto($entry), context: [
             'groups' => [
                 'common',
                 Entry::ENTRY_TYPE_ARTICLE,
@@ -93,7 +99,7 @@ class EntriesUpdateApi extends EntriesBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $entry = $manager->edit($entry, $dto);
+        $entry = $entryEdit($entry, $dto);
 
         return new JsonResponse(
             $this->serializeEntry($entry),

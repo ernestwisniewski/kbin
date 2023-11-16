@@ -10,7 +10,7 @@ use App\DTO\PostCommentRequestDto;
 use App\DTO\PostCommentResponseDto;
 use App\Entity\PostComment;
 use App\Factory\PostCommentFactory;
-use App\Service\PostCommentManager;
+use App\Kbin\PostComment\PostCommentEdit;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,7 +88,7 @@ class PostCommentsUpdateApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        PostCommentManager $manager,
+        PostCommentEdit $postCommentEdit,
         PostCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiUpdateLimiter
@@ -105,7 +105,7 @@ class PostCommentsUpdateApi extends PostsBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $comment = $manager->edit($comment, $dto);
+        $comment = $postCommentEdit($comment, $dto);
 
         return new JsonResponse(
             $this->serializePostCommentTree($comment),

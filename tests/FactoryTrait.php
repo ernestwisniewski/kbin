@@ -29,16 +29,20 @@ use App\Entity\Site;
 use App\Entity\User;
 use App\Factory\ImageFactory;
 use App\Factory\MagazineFactory;
+use App\Kbin\Entry\EntryCreate;
+use App\Kbin\Entry\EntryDelete;
+use App\Kbin\EntryComment\EntryCommentCreate;
+use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\Post\PostCreate;
+use App\Kbin\Post\PostDelete;
+use App\Kbin\PostComment\PostCommentCreate;
+use App\Kbin\PostComment\PostCommentDelete;
 use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
 use App\Service\FavouriteManager;
 use App\Service\MagazineManager;
 use App\Service\MessageManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use App\Service\UserManager;
 use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -93,8 +97,14 @@ trait FactoryTrait
         ];
     }
 
-    private function createUser(string $username, string $email = null, string $password = null, $active = true, $hideAdult = true, $about = null): User
-    {
+    private function createUser(
+        string $username,
+        string $email = null,
+        string $password = null,
+        $active = true,
+        $hideAdult = true,
+        $about = null
+    ): User {
         $manager = $this->getService(EntityManagerInterface::class);
 
         $user = new User($email ?: $username.'@example.com', $username, $password ?: 'secret');
@@ -230,8 +240,13 @@ trait FactoryTrait
         ];
     }
 
-    protected function getUserByUsername(string $username, bool $isAdmin = false, bool $hideAdult = true, string $about = null, bool $active = true): User
-    {
+    protected function getUserByUsername(
+        string $username,
+        bool $isAdmin = false,
+        bool $hideAdult = true,
+        string $about = null,
+        bool $active = true
+    ): User {
         $user = $this->users->filter(
             static function (User $user) use ($username) {
                 return $user->getUsername() === $username;
@@ -300,13 +315,13 @@ trait FactoryTrait
 
         $entry = $this->getEntryByTitle('test', null, 'test', $magazine, $actor);
         $comment = $this->createEntryComment('test', $entry, $regular);
-        $this->getService(EntryCommentManager::class)->delete($owner, $comment);
-        $this->getService(EntryManager::class)->delete($owner, $entry);
+        ($this->getService(EntryCommentDelete::class))($owner, $comment);
+        ($this->getService(EntryDelete::class))($owner, $entry);
 
         $post = $this->createPost('test', $magazine, $actor);
         $comment = $this->createPostComment('test', $post, $regular);
-        $this->getService(PostCommentManager::class)->delete($owner, $comment);
-        $this->getService(PostManager::class)->delete($owner, $post);
+        ($this->getService(PostCommentDelete::class))($owner, $comment);
+        ($this->getService(PostDelete::class))($owner, $post);
 
         $this->getService(MagazineManager::class)->ban(
             $magazine,
@@ -411,7 +426,7 @@ trait FactoryTrait
         ImageDto $imageDto = null,
         string $lang = 'en',
     ): Entry {
-        $manager = $this->getService(EntryManager::class);
+        $entryCreate = $this->getService(EntryCreate::class);
 
         $dto = new EntryDto();
         $dto->magazine = $magazine;
@@ -422,7 +437,7 @@ trait FactoryTrait
         $dto->lang = $lang;
         $dto->image = $imageDto;
 
-        $entry = $manager->create($dto, $user);
+        $entry = $entryCreate($dto, $user);
 
         $this->entries->add($entry);
 
@@ -437,7 +452,7 @@ trait FactoryTrait
         ImageDto $imageDto = null,
         string $lang = 'en',
     ): EntryComment {
-        $manager = $this->getService(EntryCommentManager::class);
+        $entryCommentCreate = $this->getService(EntryCommentCreate::class);
         $repository = $this->getService(ImageRepository::class);
 
         if ($parent) {
@@ -455,24 +470,35 @@ trait FactoryTrait
         }
         $dto->lang = $lang;
 
-        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        return $entryCommentCreate($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPost(string $body, Magazine $magazine = null, User $user = null, ImageDto $imageDto = null, string $lang = 'en'): Post
-    {
-        $manager = $this->getService(PostManager::class);
+    public function createPost(
+        string $body,
+        Magazine $magazine = null,
+        User $user = null,
+        ImageDto $imageDto = null,
+        string $lang = 'en'
+    ): Post {
+        $postCreate = $this->getService(PostCreate::class);
         $dto = new PostDto();
         $dto->magazine = $magazine ?: $this->getMagazineByName('acme');
         $dto->body = $body;
         $dto->lang = $lang;
         $dto->image = $imageDto;
 
-        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        return $postCreate($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPostComment(string $body, Post $post = null, User $user = null, ImageDto $imageDto = null, PostComment $parent = null, string $lang = 'en'): PostComment
-    {
-        $manager = $this->getService(PostCommentManager::class);
+    public function createPostComment(
+        string $body,
+        Post $post = null,
+        User $user = null,
+        ImageDto $imageDto = null,
+        PostComment $parent = null,
+        string $lang = 'en'
+    ): PostComment {
+        $postCommentCreate = $this->getService(PostCommentCreate::class);
 
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');
@@ -481,12 +507,16 @@ trait FactoryTrait
         $dto->image = $imageDto;
         $dto->parent = $parent;
 
-        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        return $postCommentCreate($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
-    public function createPostCommentReply(string $body, Post $post = null, User $user = null, PostComment $parent = null): PostComment
-    {
-        $manager = $this->getService(PostCommentManager::class);
+    public function createPostCommentReply(
+        string $body,
+        Post $post = null,
+        User $user = null,
+        PostComment $parent = null
+    ): PostComment {
+        $postCommentCreate = $this->getService(PostCommentCreate::class);
 
         $dto = new PostCommentDto();
         $dto->post = $post ?? $this->createPost('test post content');
@@ -494,7 +524,7 @@ trait FactoryTrait
         $dto->lang = 'en';
         $dto->parent = $parent ?? $this->createPostComment('test parent comment', $dto->post);
 
-        return $manager->create($dto, $user ?? $this->getUserByUsername('JohnDoe'));
+        return $postCommentCreate($dto, $user ?? $this->getUserByUsername('JohnDoe'));
     }
 
     public function createImage(string $fileName): Image
@@ -516,7 +546,11 @@ trait FactoryTrait
 
         $dto = new MessageDto();
         $dto->body = 'test message';
-        $messageManager->toThread($dto, $from ?? $this->getUserByUsername('JaneDoe'), $to ?? $this->getUserByUsername('JohnDoe'));
+        $messageManager->toThread(
+            $dto,
+            $from ?? $this->getUserByUsername('JaneDoe'),
+            $to ?? $this->getUserByUsername('JohnDoe')
+        );
 
         return $repository->findOneBy(['user' => $to ?? $this->getUserByUsername('JohnDoe')]);
     }
@@ -555,10 +589,10 @@ trait FactoryTrait
     public function createModlogMessages(): void
     {
         $magazineManager = $this->getService(MagazineManager::class);
-        $entryManager = $this->getService(EntryManager::class);
-        $entryCommentManager = $this->getService(EntryCommentManager::class);
-        $postManager = $this->getService(PostManager::class);
-        $postCommentManager = $this->getService(PostCommentManager::class);
+        $entryDelete = $this->getService(EntryDelete::class);
+        $entryCommentDelete = $this->getService(EntryCommentDelete::class);
+        $postDelete = $this->getService(PostDelete::class);
+        $postCommentDelete = $this->getService(PostCommentDelete::class);
         $moderator = $this->getUserByUsername('moderator');
         $magazine = $this->getMagazineByName('acme', $moderator);
         $user = $this->getUserByUsername('user');
@@ -567,10 +601,10 @@ trait FactoryTrait
         $postComment = $this->createPostComment('test comment', $post, $user);
         $entryComment = $this->createEntryComment('test comment 2', $entry, $user);
 
-        $entryCommentManager->delete($moderator, $entryComment);
-        $entryManager->delete($moderator, $entry);
-        $postCommentManager->delete($moderator, $postComment);
-        $postManager->delete($moderator, $post);
+        $entryCommentDelete($moderator, $entryComment);
+        $entryDelete($moderator, $entry);
+        $postCommentDelete($moderator, $postComment);
+        $postDelete($moderator, $post);
         $magazineManager->ban($magazine, $user, $moderator, MagazineBanDto::create('test ban', new \DateTimeImmutable('+12 hours')));
     }
 
@@ -583,7 +617,9 @@ trait FactoryTrait
         // Uploading a file appears to delete the file at the given path, so make a copy before upload
         copy($this->kibbyPath, $this->kibbyPath.'.tmp');
         /** @var Image $image */
-        $image = $imageRepository->findOrCreateFromUpload(new UploadedFile($this->kibbyPath.'.tmp', 'kibby_emoji.png', 'image/png'));
+        $image = $imageRepository->findOrCreateFromUpload(
+            new UploadedFile($this->kibbyPath.'.tmp', 'kibby_emoji.png', 'image/png')
+        );
         self::assertNotNull($image);
         $image->altText = 'kibby';
         $entityManager->persist($image);

@@ -7,7 +7,9 @@ namespace App\Controller\Post\Comment;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\PostComment;
-use App\Service\PostCommentManager;
+use App\Kbin\PostComment\PostCommentDelete;
+use App\Kbin\PostComment\PostCommentPurge;
+use App\Kbin\PostComment\PostCommentRestore;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +17,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostCommentDeleteController extends AbstractController
 {
-    public function __construct(private readonly PostCommentManager $manager)
-    {
+    public function __construct(
+        private readonly PostCommentDelete $postCommentDelete,
+        private readonly PostCommentRestore $postCommentRestore,
+        private readonly PostCommentPurge $postCommentPurge,
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -30,7 +35,7 @@ class PostCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_comment_delete', $request->request->get('token'));
 
-        $this->manager->delete($this->getUserOrThrow(), $comment);
+        ($this->postCommentDelete)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -46,7 +51,7 @@ class PostCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_comment_restore', $request->request->get('token'));
 
-        $this->manager->restore($this->getUserOrThrow(), $comment);
+        ($this->postCommentRestore)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -62,7 +67,7 @@ class PostCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_comment_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $comment);
+        ($this->postCommentPurge)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToRefererOrHome($request);
     }

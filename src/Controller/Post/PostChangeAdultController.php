@@ -7,7 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
-use App\Service\PostManager;
+use App\Kbin\Post\PostMarkAsAdult;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostChangeAdultController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager)
+    public function __construct(private readonly PostMarkAsAdult $postMarkAsAdult)
     {
     }
 
@@ -29,7 +29,7 @@ class PostChangeAdultController extends AbstractController
     ): Response {
         $this->validateCsrf('change_adult', $request->request->get('token'));
 
-        $this->manager->markAsAdult($post, 'on' === $request->get('adult'));
+        ($this->postMarkAsAdult)($post, 'on' === $request->get('adult'));
 
         return $this->redirectToRefererOrHome($request);
     }

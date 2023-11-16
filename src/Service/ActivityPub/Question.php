@@ -16,12 +16,12 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Factory\ImageFactory;
+use App\Kbin\EntryComment\EntryCommentCreate;
+use App\Kbin\Post\PostCreate;
+use App\Kbin\PostComment\PostCommentCreate;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPubManager;
-use App\Service\EntryCommentManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use App\Service\SettingsManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -29,9 +29,9 @@ class Question
 {
     public function __construct(
         private readonly ApActivityRepository $repository,
-        private readonly PostManager $postManager,
-        private readonly EntryCommentManager $entryCommentManager,
-        private readonly PostCommentManager $postCommentManager,
+        private readonly PostCreate $postCreate,
+        private readonly EntryCommentCreate $entryCommentCreate,
+        private readonly PostCommentCreate $postCommentCreate,
         private readonly MagazineRepository $magazineRepository,
         private readonly ActivityPubManager $activityPubManager,
         private readonly EntityManagerInterface $entityManager,
@@ -90,11 +90,7 @@ class Question
             $dto->lang = $this->settingsManager->get('KBIN_DEFAULT_LANG');
         }
 
-        return $this->entryCommentManager->create(
-            $dto,
-            $actor,
-            false
-        );
+        return ($this->entryCommentCreate)($dto, $actor, false);
     }
 
     private function getVisibility(array $object, User $actor): string
@@ -214,11 +210,7 @@ class Question
         $this->handleDate($dto, $object['published']);
         $this->handleSensitiveMedia($dto, $object);
 
-        return $this->postManager->create(
-            $dto,
-            $actor,
-            false
-        );
+        return ($this->postCreate)($dto, $actor, false);
     }
 
     private function createPostComment(
@@ -261,10 +253,6 @@ class Question
         $this->handleDate($dto, $object['published']);
         $this->handleSensitiveMedia($dto, $object);
 
-        return $this->postCommentManager->create(
-            $dto,
-            $actor,
-            false
-        );
+        return ($this->postCommentCreate)($dto, $actor, false);
     }
 }

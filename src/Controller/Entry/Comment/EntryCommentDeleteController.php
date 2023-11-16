@@ -8,7 +8,9 @@ use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\EntryComment\EntryCommentPurge;
+use App\Kbin\EntryComment\EntryCommentRestore;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +19,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryCommentDeleteController extends AbstractController
 {
     public function __construct(
-        private readonly EntryCommentManager $manager,
+        private readonly EntryCommentDelete $entryCommentDelete,
+        private readonly EntryCommentRestore $entryCommentRestore,
+        private readonly EntryCommentPurge $entryCommentPurge,
     ) {
     }
 
@@ -34,7 +38,7 @@ class EntryCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_comment_delete', $request->request->get('token'));
 
-        $this->manager->delete($this->getUserOrThrow(), $comment);
+        ($this->entryCommentDelete)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToEntry($entry);
     }
@@ -52,7 +56,7 @@ class EntryCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_comment_restore', $request->request->get('token'));
 
-        $this->manager->restore($this->getUserOrThrow(), $comment);
+        ($this->entryCommentRestore)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToEntry($entry);
     }
@@ -70,7 +74,7 @@ class EntryCommentDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_comment_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $comment);
+        ($this->entryCommentPurge)($this->getUserOrThrow(), $comment);
 
         return $this->redirectToRefererOrHome($request);
     }

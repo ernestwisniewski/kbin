@@ -9,10 +9,11 @@ use App\DTO\PostCommentDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Factory\PostCommentFactory;
 use App\Form\PostCommentType;
+use App\Kbin\PostComment\PostCommentEdit;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
-use App\Service\PostCommentManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,8 @@ class PostCommentEditController extends AbstractController
     use PostCommentResponseTrait;
 
     public function __construct(
-        private readonly PostCommentManager $manager,
+        private readonly PostCommentEdit $postCommentEdit,
+        private readonly PostCommentFactory $postCommentFactory,
         private readonly PostCommentRepository $repository
     ) {
     }
@@ -41,7 +43,7 @@ class PostCommentEditController extends AbstractController
         PostComment $comment,
         Request $request,
     ): Response {
-        $dto = $this->manager->createDto($comment);
+        $dto = $this->postCommentFactory->createDto($comment);
 
         $form = $this->getCreateForm($dto, $comment);
         $form->handleRequest($request);
@@ -100,7 +102,7 @@ class PostCommentEditController extends AbstractController
 
     private function handleValidRequest(PostCommentDto $dto, PostComment $comment, Request $request): Response
     {
-        $comment = $this->manager->edit($comment, $dto);
+        $comment = ($this->postCommentEdit)($comment, $dto);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getPostCommentJsonSuccessResponse($comment);

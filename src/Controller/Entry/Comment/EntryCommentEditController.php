@@ -9,10 +9,11 @@ use App\DTO\EntryCommentDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
+use App\Factory\EntryCommentFactory;
 use App\Form\EntryCommentType;
+use App\Kbin\EntryComment\EntryCommentEdit;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
-use App\Service\EntryCommentManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,8 @@ class EntryCommentEditController extends AbstractController
     use EntryCommentResponseTrait;
 
     public function __construct(
-        private readonly EntryCommentManager $manager,
+        private readonly EntryCommentEdit $entryCommentEdit,
+        private readonly EntryCommentFactory $entryCommentFactory,
         private readonly EntryCommentRepository $repository,
     ) {
     }
@@ -41,7 +43,7 @@ class EntryCommentEditController extends AbstractController
         EntryComment $comment,
         Request $request,
     ): Response {
-        $dto = $this->manager->createDto($comment);
+        $dto = $this->entryCommentFactory->createDto($comment);
 
         $form = $this->getForm($dto, $comment);
         $form->handleRequest($request);
@@ -88,7 +90,7 @@ class EntryCommentEditController extends AbstractController
 
     private function handleValidRequest(EntryCommentDto $dto, EntryComment $comment, Request $request): Response
     {
-        $comment = $this->manager->edit($comment, $dto);
+        $comment = ($this->entryCommentEdit)($comment, $dto);
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonCommentSuccessResponse($comment);

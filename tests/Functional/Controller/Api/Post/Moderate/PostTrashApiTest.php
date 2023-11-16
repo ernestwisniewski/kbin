@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
 use App\DTO\ModeratorDto;
+use App\Kbin\Post\PostTrash;
 use App\Service\MagazineManager;
-use App\Service\PostManager;
 use App\Tests\WebTestCase;
 
 class PostTrashApiTest extends WebTestCase
@@ -115,8 +115,8 @@ class PostTrashApiTest extends WebTestCase
         $user = $this->getUserByUsername('user');
         $post = $this->createPost('test post', magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->trash($user, $post);
+        $postTrash = $this->getService(PostTrash::class);
+        $postTrash($user, $post);
 
         $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/restore");
         self::assertResponseStatusCodeSame(401);
@@ -129,8 +129,8 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->trash($user, $post);
+        $postTrash = $this->getService(PostTrash::class);
+        $postTrash($user, $post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -149,8 +149,8 @@ class PostTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->trash($user, $post);
+        $postTrash = $this->getService(PostTrash::class);
+        $postTrash($user, $post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -174,8 +174,8 @@ class PostTrashApiTest extends WebTestCase
         $moderator->user = $user;
         $magazineManager->addModerator($moderator);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->trash($user, $post);
+        $postTrash = $this->getService(PostTrash::class);
+        $postTrash($user, $post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

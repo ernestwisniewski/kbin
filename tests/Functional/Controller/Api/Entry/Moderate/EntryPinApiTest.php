@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Moderate;
 
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPin;
 use App\Tests\WebTestCase;
 
 class EntryPinApiTest extends WebTestCase
@@ -113,8 +113,8 @@ class EntryPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($entry);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($entry);
 
         $client->jsonRequest('PUT', "/api/moderate/entry/{$entry->getId()}/pin");
         self::assertResponseStatusCodeSame(401);
@@ -127,8 +127,8 @@ class EntryPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($entry);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -147,8 +147,8 @@ class EntryPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($entry);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -167,8 +167,8 @@ class EntryPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($entry);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

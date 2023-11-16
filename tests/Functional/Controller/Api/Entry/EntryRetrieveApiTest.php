@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry;
 
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPin;
 use App\Service\FavouriteManager;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
@@ -275,8 +275,8 @@ class EntryRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->getEntryByTitle('another entry', url: 'https://google.com', magazine: $magazine);
         // Check that pinned entries don't get pinned to the top of the instance, just the magazine
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($second);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($second);
 
         $client->request('GET', '/api/entries');
         self::assertResponseIsSuccessful();
@@ -414,8 +414,8 @@ class EntryRetrieveApiTest extends WebTestCase
         $second = $this->getEntryByTitle('another entry', url: 'https://google.com', magazine: $magazine, lang: 'de');
         $this->getEntryByTitle('a dutch entry', body: 'some body', magazine: $magazine, lang: 'nl');
         // Check that pinned entries don't get pinned to the top of the instance, just the magazine
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($second);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($second);
 
         $client->request('GET', '/api/entries?lang[]=en&lang[]=de');
         self::assertResponseIsSuccessful();
@@ -555,8 +555,8 @@ class EntryRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->getEntryByTitle('another entry', url: 'https://google.com', magazine: $magazine);
         // Check that pinned entries don't get pinned to the top of the instance, just the magazine
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->pin($second);
+        $entryPin = $this->getService(EntryPin::class);
+        $entryPin($second);
 
         $client->request('GET', '/api/entries?usePreferredLangs=true');
         self::assertResponseStatusCodeSame(403);

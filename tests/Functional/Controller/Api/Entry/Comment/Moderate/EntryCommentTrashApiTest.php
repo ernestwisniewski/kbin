@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry\Comment\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentTrash;
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
@@ -104,8 +104,8 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry);
 
-        $entryCommentManager = $this->getService(EntryCommentManager::class);
-        $entryCommentManager->trash($this->getUserByUsername('user'), $comment);
+        $entryCommentTrash = $this->getService(EntryCommentTrash::class);
+        $entryCommentTrash($this->getUserByUsername('user'), $comment);
 
         $client->jsonRequest('PUT', "/api/moderate/comment/{$comment->getId()}/restore");
 
@@ -120,8 +120,8 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $entryCommentManager = $this->getService(EntryCommentManager::class);
-        $entryCommentManager->trash($user, $comment);
+        $entryCommentTrash = $this->getService(EntryCommentTrash::class);
+        $entryCommentTrash($user, $comment);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -142,8 +142,8 @@ class EntryCommentTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry, $user2);
 
-        $entryCommentManager = $this->getService(EntryCommentManager::class);
-        $entryCommentManager->trash($user, $comment);
+        $entryCommentTrash = $this->getService(EntryCommentTrash::class);
+        $entryCommentTrash($user, $comment);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -170,8 +170,8 @@ class EntryCommentTrashApiTest extends WebTestCase
         $moderator->user = $user;
         $magazineManager->addModerator($moderator);
 
-        $entryCommentManager = $this->getService(EntryCommentManager::class);
-        $entryCommentManager->trash($user, $comment);
+        $entryCommentTrash = $this->getService(EntryCommentTrash::class);
+        $entryCommentTrash($user, $comment);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

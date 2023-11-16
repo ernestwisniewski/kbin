@@ -7,7 +7,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryDetachImage;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryDeleteImageController extends AbstractController
 {
     public function __construct(
-        private readonly EntryManager $manager,
+        private readonly EntryDetachImage $entryDetachImage,
     ) {
     }
 
@@ -30,7 +30,7 @@ class EntryDeleteImageController extends AbstractController
         Entry $entry,
         Request $request
     ): Response {
-        $this->manager->detachImage($entry);
+        ($this->entryDetachImage)($entry);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

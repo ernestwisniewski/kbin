@@ -11,7 +11,8 @@ use App\DTO\EntryResponseDto;
 use App\DTO\ImageUploadDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Factory\EntryFactory;
+use App\Kbin\Entry\EntryCreate;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -88,12 +89,12 @@ class MagazineEntryCreateApi extends EntriesBaseApi
     public function article(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        EntryManager $manager,
+        EntryCreate $entryCreate,
         RateLimiterFactory $apiEntryLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiEntryLimiter);
 
-        $entry = $this->createEntry($magazine, $manager, context: [
+        $entry = $this->createEntry($magazine, $entryCreate, context: [
             'groups' => [
                 Entry::ENTRY_TYPE_ARTICLE,
                 'common',
@@ -166,12 +167,13 @@ class MagazineEntryCreateApi extends EntriesBaseApi
     public function link(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        EntryManager $manager,
+        EntryCreate $entryCreate,
+        EntryFactory $entryFactory,
         RateLimiterFactory $apiEntryLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiEntryLimiter);
 
-        $entry = $this->createEntry($magazine, $manager, context: [
+        $entry = $this->createEntry($magazine, $entryCreate, context: [
             'groups' => [
                 Entry::ENTRY_TYPE_LINK,
                 'common',
@@ -179,7 +181,7 @@ class MagazineEntryCreateApi extends EntriesBaseApi
         ]);
 
         return new JsonResponse(
-            $this->serializeEntry($manager->createDto($entry)),
+            $this->serializeEntry($entryFactory->createDto($entry)),
             status: 201,
             headers: $headers
         );
@@ -239,12 +241,13 @@ class MagazineEntryCreateApi extends EntriesBaseApi
     public function video(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        EntryManager $manager,
+        EntryCreate $entryCreate,
+        EntryFactory $entryFactory,
         RateLimiterFactory $apiEntryLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiEntryLimiter);
 
-        $entry = $this->createEntry($magazine, $manager, [
+        $entry = $this->createEntry($magazine, $entryCreate, [
             'groups' => [
                 Entry::ENTRY_TYPE_VIDEO,
                 'common',
@@ -252,7 +255,7 @@ class MagazineEntryCreateApi extends EntriesBaseApi
         ]);
 
         return new JsonResponse(
-            $this->serializeEntry($manager->createDto($entry)),
+            $this->serializeEntry($entryFactory->createDto($entry)),
             status: 201,
             headers: $headers
         );
@@ -329,7 +332,8 @@ class MagazineEntryCreateApi extends EntriesBaseApi
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
         ValidatorInterface $validator,
-        EntryManager $manager,
+        EntryCreate $entryCreate,
+        EntryFactory $entryFactory,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiImageLimiter);
@@ -360,10 +364,10 @@ class MagazineEntryCreateApi extends EntriesBaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $entry = $manager->create($dto, $this->getUserOrThrow());
+        $entry = $entryCreate($dto, $this->getUserOrThrow());
 
         return new JsonResponse(
-            $this->serializeEntry($manager->createDto($entry)),
+            $this->serializeEntry($entryFactory->createDto($entry)),
             status: 201,
             headers: $headers
         );

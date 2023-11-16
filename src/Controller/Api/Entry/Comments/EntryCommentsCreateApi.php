@@ -12,7 +12,7 @@ use App\DTO\ImageUploadDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Factory\EntryCommentFactory;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -92,7 +92,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         Entry $entry,
         #[MapEntity(id: 'comment_id')]
         ?EntryComment $parent,
-        EntryCommentManager $manager,
+        EntryCommentCreate $entryCommentCreate,
         EntryCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiCommentLimiter
@@ -118,7 +118,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         }
 
         // Rate limiting already taken care of
-        $comment = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $comment = $entryCommentCreate($dto, $this->getUserOrThrow(), rateLimit: false);
         $dto = $factory->createDto($comment);
         $dto->parent = $parent;
 
@@ -202,7 +202,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         Entry $entry,
         #[MapEntity(id: 'comment_id')]
         ?EntryComment $parent,
-        EntryCommentManager $manager,
+        EntryCommentCreate $entryCommentCreate,
         EntryCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiImageLimiter
@@ -232,7 +232,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         }
 
         // Rate limiting already taken care of
-        $comment = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $comment = $entryCommentCreate($dto, $this->getUserOrThrow(), rateLimit: false);
         $dto = $factory->createDto($comment);
         $dto->parent = $parent;
 

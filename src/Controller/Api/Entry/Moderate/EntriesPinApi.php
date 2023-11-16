@@ -8,7 +8,7 @@ use App\Controller\Api\Entry\EntriesBaseApi;
 use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
 use App\Factory\EntryFactory;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPin;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -67,13 +67,13 @@ class EntriesPinApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryPin $entryPin,
         EntryFactory $factory,
         RateLimiterFactory $apiModerateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->pin($entry);
+        $entryPin($entry);
 
         return new JsonResponse(
             $this->serializeEntry($factory->createDto($entry)),

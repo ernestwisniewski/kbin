@@ -7,7 +7,7 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
-use App\Service\PostManager;
+use App\Kbin\Post\PostPin;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostPinController extends AbstractController
 {
     public function __construct(
-        private readonly PostManager $manager,
+        private readonly PostPin $postPin,
     ) {
     }
 
@@ -31,7 +31,7 @@ class PostPinController extends AbstractController
     ): Response {
         $this->validateCsrf('post_pin', $request->request->get('token'));
 
-        $entry = $this->manager->pin($post);
+        $entry = ($this->postPin)($post);
 
         $this->addFlash(
             'success',

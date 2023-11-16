@@ -12,11 +12,11 @@ use App\Entity\ModeratorRequest;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Report;
+use App\Kbin\Entry\EntryPurge;
+use App\Kbin\EntryComment\EntryCommentPurge;
+use App\Kbin\Post\PostPurge;
+use App\Kbin\PostComment\PostCommentPurge;
 use App\Message\MagazinePurgeMessage;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -29,10 +29,10 @@ class MagazinePurgeHandler
     private int $batchSize = 5;
 
     public function __construct(
-        private readonly EntryCommentManager $entryCommentManager,
-        private readonly EntryManager $entryManager,
-        private readonly PostCommentManager $postCommentManager,
-        private readonly PostManager $postManager,
+        private readonly EntryCommentPurge $entryCommentPurge,
+        private readonly EntryPurge $entryPurge,
+        private readonly PostCommentPurge $postCommentPurge,
+        private readonly PostPurge $postPurge,
         private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -85,7 +85,7 @@ class MagazinePurgeHandler
 
         foreach ($comments as $comment) {
             $retry = true;
-            $this->entryCommentManager->purge($comment->user, $comment);
+            ($this->entryCommentPurge)($comment->user, $comment);
         }
 
         return $retry;
@@ -107,7 +107,7 @@ class MagazinePurgeHandler
 
         foreach ($entries as $entry) {
             $retry = true;
-            $this->entryManager->purge($entry->user, $entry);
+            ($this->entryPurge)($entry->user, $entry);
         }
 
         return $retry;
@@ -128,7 +128,7 @@ class MagazinePurgeHandler
         $retry = false;
         foreach ($comments as $comment) {
             $retry = true;
-            $this->postCommentManager->purge($comment->user, $comment);
+            ($this->postCommentPurge)($comment->user, $comment);
         }
 
         return $retry;
@@ -150,7 +150,7 @@ class MagazinePurgeHandler
 
         foreach ($posts as $post) {
             $retry = true;
-            $this->postManager->purge($post->user, $post);
+            ($this->postPurge)($post->user, $post);
         }
 
         return $retry;

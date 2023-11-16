@@ -6,8 +6,8 @@ namespace App\DataFixtures;
 
 use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
+use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Repository\ImageRepository;
-use App\Service\EntryCommentManager;
 use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,7 +18,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
     public const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
     public function __construct(
-        private readonly EntryCommentManager $commentManager,
+        private readonly EntryCommentCreate $entryCommentCreate,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
@@ -40,7 +40,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
             $dto->body = $comment['body'];
             $dto->lang = 'en';
 
-            $entity = $this->commentManager->create($dto, $comment['user']);
+            $entity = ($this->entryCommentCreate)($dto, $comment['user']);
 
             $manager->persist($entity);
 
@@ -84,7 +84,7 @@ class EntryCommentFixtures extends BaseFixture implements DependentFixtureInterf
         );
         $dto->lang = 'en';
 
-        $entity = $this->commentManager->create($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
+        $entity = ($this->entryCommentCreate)($dto, $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT)));
 
         $roll = rand(1, 400);
         if ($roll % 10) {

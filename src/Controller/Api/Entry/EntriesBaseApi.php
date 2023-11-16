@@ -15,7 +15,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Factory\EntryCommentFactory;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryCreate;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -177,7 +177,7 @@ class EntriesBaseApi extends BaseApi
         return $commentTree->jsonSerialize();
     }
 
-    public function createEntry(Magazine $magazine, EntryManager $manager, array $context, ImageDto $image = null): Entry
+    public function createEntry(Magazine $magazine, EntryCreate $entryCreate, array $context, ImageDto $image = null): Entry
     {
         $dto = new EntryDto();
         $dto->magazine = $magazine;
@@ -200,6 +200,6 @@ class EntriesBaseApi extends BaseApi
             throw new BadRequestHttpException((string) $errors);
         }
 
-        return $manager->create($dto, $this->getUserOrThrow());
+        return $entryCreate($dto, $this->getUserOrThrow());
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post;
 
+use App\Kbin\Post\PostPin;
 use App\Service\FavouriteManager;
-use App\Service\PostManager;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -256,8 +256,8 @@ class PostRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->createPost('another post', magazine: $magazine);
         // Check that pinned posts don't get pinned to the top of the instance, just the magazine
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($second);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($second);
 
         $client->request('GET', '/api/posts');
         self::assertResponseIsSuccessful();
@@ -379,8 +379,8 @@ class PostRetrieveApiTest extends WebTestCase
         $second = $this->createPost('another post', magazine: $magazine, lang: 'de');
         $this->createPost('a dutch post', magazine: $magazine, lang: 'nl');
         // Check that pinned posts don't get pinned to the top of the instance, just the magazine
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($second);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($second);
 
         $client->request('GET', '/api/posts?lang[]=en&lang[]=de');
         self::assertResponseIsSuccessful();
@@ -504,8 +504,8 @@ class PostRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->createPost('another post', magazine: $magazine);
         // Check that pinned posts don't get pinned to the top of the instance, just the magazine
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($second);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($second);
 
         $client->request('GET', '/api/posts?usePreferredLangs=true');
         self::assertResponseStatusCodeSame(403);

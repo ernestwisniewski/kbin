@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Command\AwesomeBot;
 
 use App\DTO\EntryDto;
+use App\Kbin\Entry\EntryCreate;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use DOMElement;
 use Symfony\Component\BrowserKit\HttpBrowser;
@@ -28,7 +28,7 @@ class AwesomeBotEntries extends Command
     // bin/console kbin:awesome-bot:entries:create awesome-vue-bot vue https://github.com/vuejs/awesome-vue h3
 
     public function __construct(
-        private readonly EntryManager $entryManager,
+        private readonly EntryCreate $entryCreate,
         private readonly UserRepository $userRepository,
         private readonly MagazineRepository $magazineRepository,
         private readonly EntryRepository $entryRepository
@@ -115,7 +115,7 @@ class AwesomeBotEntries extends Command
             $dto->url = $item['url'];
             $dto->badges = $item['badges'];
 
-            $this->entryManager->create($dto, $user);
+            ($this->entryCreate)($dto, $user);
         }
 
         return Command::SUCCESS;

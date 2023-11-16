@@ -8,7 +8,7 @@ use App\DTO\PostRequestDto;
 use App\DTO\PostResponseDto;
 use App\Entity\Post;
 use App\Factory\PostFactory;
-use App\Service\PostManager;
+use App\Kbin\Post\PostEdit;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -78,7 +78,8 @@ class PostsUpdateApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'post_id')]
         Post $post,
-        PostManager $manager,
+        PostEdit $postEdit,
+        PostFactory $postFactory,
         ValidatorInterface $validator,
         PostFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
@@ -89,14 +90,14 @@ class PostsUpdateApi extends PostsBaseApi
             throw new AccessDeniedHttpException();
         }
 
-        $dto = $this->deserializePost($manager->createDto($post));
+        $dto = $this->deserializePost($postFactory->createDto($post));
 
         $errors = $validator->validate($dto);
         if (\count($errors) > 0) {
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $post = $manager->edit($post, $dto);
+        $post = $postEdit($post, $dto);
 
         return new JsonResponse(
             $this->serializePost($factory->createDto($post)),

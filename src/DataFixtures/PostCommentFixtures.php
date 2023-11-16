@@ -6,9 +6,9 @@ namespace App\DataFixtures;
 
 use App\DTO\PostCommentDto;
 use App\Entity\PostComment;
+use App\Kbin\PostComment\PostCommentCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
-use App\Service\PostCommentManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,15 +17,12 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
 {
     public const COMMENTS_COUNT = EntryFixtures::ENTRIES_COUNT * 3;
 
-    private PostCommentManager $postCommentManager;
-
     public function __construct(
-        PostCommentManager $postCommentManager,
+        private readonly PostCommentCreate $postCommentCreate,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
-        $this->postCommentManager = $postCommentManager;
     }
 
     public function getDependencies(): array
@@ -43,7 +40,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
             $dto->body = $comment['body'];
             $dto->lang = 'en';
 
-            $entity = $this->postCommentManager->create($dto, $comment['user']);
+            $entity = ($this->postCommentCreate)($dto, $comment['user']);
 
             $manager->persist($entity);
 
@@ -86,7 +83,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
         );
         $dto->lang = 'en';
 
-        $entity = $this->postCommentManager->create(
+        $entity = ($this->postCommentCreate)(
             $dto,
             $this->getReference('user_'.rand(1, UserFixtures::USERS_COUNT))
         );

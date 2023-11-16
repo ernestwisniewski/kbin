@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\DTO\PostDto;
+use App\Kbin\Post\PostCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
-use App\Service\PostManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -17,7 +17,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
     public const ENTRIES_COUNT = MagazineFixtures::MAGAZINES_COUNT * 15;
 
     public function __construct(
-        private readonly PostManager $postManager,
+        private readonly PostCreate $postCreate,
         private readonly ImageManager $imageManager,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
@@ -41,7 +41,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
             $dto->ip = $post['ip'];
             $dto->lang = 'en';
 
-            $entity = $this->postManager->create($dto, $post['user']);
+            $entity = ($this->postCreate)($dto, $post['user']);
 
             $roll = rand(1, 400);
             if ($roll % 7) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
-use App\Service\PostManager;
+use App\Kbin\Post\PostPin;
 use App\Tests\WebTestCase;
 
 class PostPinApiTest extends WebTestCase
@@ -106,8 +106,8 @@ class PostPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($post);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($post);
 
         $client->jsonRequest('PUT', "/api/moderate/post/{$post->getId()}/pin");
         self::assertResponseStatusCodeSame(401);
@@ -120,8 +120,8 @@ class PostPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($post);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -140,8 +140,8 @@ class PostPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($post);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -160,8 +160,8 @@ class PostPinApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $post = $this->createPost('test article', user: $user, magazine: $magazine);
 
-        $postManager = $this->getService(PostManager::class);
-        $postManager->pin($post);
+        $postPin = $this->getService(PostPin::class);
+        $postPin($post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

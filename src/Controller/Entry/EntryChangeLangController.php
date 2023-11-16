@@ -7,7 +7,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryChangeLang;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryChangeLangController extends AbstractController
 {
     public function __construct(
-        private readonly EntryManager $manager
+        private readonly EntryChangeLang $changeLang
     ) {
     }
 
@@ -28,7 +28,7 @@ class EntryChangeLangController extends AbstractController
         Entry $entry,
         Request $request
     ): Response {
-        $this->manager->changeLang($entry, $request->get('lang')['lang']);
+        ($this->changeLang)($entry, $request->get('lang')['lang']);
 
         return $this->redirectToRefererOrHome($request);
     }

@@ -12,8 +12,8 @@ use App\DTO\PostCommentResponseDto;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Factory\PostCommentFactory;
+use App\Kbin\PostComment\PostCommentCreate;
 use App\Service\ImageManager;
-use App\Service\PostCommentManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -92,7 +92,7 @@ class PostCommentsCreateApi extends PostsBaseApi
         Post $post,
         #[MapEntity(id: 'comment_id')]
         ?PostComment $parent,
-        PostCommentManager $manager,
+        PostCommentCreate $postCommentCreate,
         PostCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiCommentLimiter
@@ -118,7 +118,7 @@ class PostCommentsCreateApi extends PostsBaseApi
         }
 
         // Rate limit handled above
-        $comment = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $comment = $postCommentCreate($dto, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
             $this->serializePostComment($factory->createDto($comment)),
@@ -200,7 +200,7 @@ class PostCommentsCreateApi extends PostsBaseApi
         Post $post,
         #[MapEntity(id: 'comment_id')]
         ?PostComment $parent,
-        PostCommentManager $manager,
+        PostCommentCreate $postCommentCreate,
         PostCommentFactory $factory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiImageLimiter
@@ -229,7 +229,7 @@ class PostCommentsCreateApi extends PostsBaseApi
         }
 
         // Rate limit handled above
-        $comment = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $comment = $postCommentCreate($dto, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
             $this->serializePostComment($factory->createDto($comment)),

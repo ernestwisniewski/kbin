@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post;
 
 use App\Entity\Post;
-use App\Service\PostManager;
+use App\Kbin\Post\PostDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -65,7 +65,7 @@ class PostsDeleteApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'post_id')]
         Post $post,
-        PostManager $manager,
+        PostDelete $postDelete,
         RateLimiterFactory $apiDeleteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiDeleteLimiter);
@@ -74,7 +74,7 @@ class PostsDeleteApi extends PostsBaseApi
             throw new AccessDeniedHttpException();
         }
 
-        $manager->delete($this->getUserOrThrow(), $post);
+        $postDelete($this->getUserOrThrow(), $post);
 
         return new JsonResponse(status: 204, headers: $headers);
     }

@@ -6,7 +6,7 @@ namespace App\Controller\Api\Entry\Admin;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Entity\Entry;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPurge;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,12 +69,12 @@ class EntriesPurgeApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryPurge $entryPurge,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->purge($this->getUserOrThrow(), $entry);
+        $entryPurge($this->getUserOrThrow(), $entry);
 
         return new JsonResponse(
             status: 204,

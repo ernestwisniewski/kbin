@@ -9,7 +9,8 @@ use App\DTO\EntryResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Factory\EntryFactory;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryRestore;
+use App\Kbin\Entry\EntryTrash;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,7 +70,7 @@ class EntriesTrashApi extends EntriesBaseApi
     public function trash(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryTrash $entryTrash,
         EntryFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -77,7 +78,7 @@ class EntriesTrashApi extends EntriesBaseApi
 
         $moderator = $this->getUserOrThrow();
 
-        $manager->trash($moderator, $entry);
+        $entryTrash($moderator, $entry);
 
         $response = $this->serializeEntry($factory->createDto($entry));
 
@@ -146,7 +147,7 @@ class EntriesTrashApi extends EntriesBaseApi
     public function restore(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryRestore $entryRestore,
         EntryFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -155,7 +156,7 @@ class EntriesTrashApi extends EntriesBaseApi
         $moderator = $this->getUserOrThrow();
 
         try {
-            $manager->restore($moderator, $entry);
+            $entryRestore($moderator, $entry);
         } catch (\Exception $e) {
             throw new BadRequestHttpException('The entry cannot be restored because it was not trashed!');
         }

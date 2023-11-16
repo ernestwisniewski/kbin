@@ -6,7 +6,7 @@ namespace App\Controller\Api\Entry\Comments\Admin;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Entity\EntryComment;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentPurge;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,12 +69,12 @@ class EntryCommentsPurgeApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
-        EntryCommentManager $manager,
+        EntryCommentPurge $entryCommentPurge,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->purge($this->getUserOrThrow(), $comment);
+        $entryCommentPurge($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(
             status: 204,

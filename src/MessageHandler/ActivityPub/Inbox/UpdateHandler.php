@@ -13,18 +13,17 @@ use App\Factory\EntryCommentFactory;
 use App\Factory\EntryFactory;
 use App\Factory\PostCommentFactory;
 use App\Factory\PostFactory;
+use App\Kbin\Entry\EntryEdit;
+use App\Kbin\EntryComment\EntryCommentEdit;
+use App\Kbin\Post\PostEdit;
+use App\Kbin\PostComment\PostCommentEdit;
 use App\Message\ActivityPub\Inbox\UpdateMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\MarkdownConverter;
 use App\Service\ActivityPubManager;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
 class UpdateHandler
@@ -35,16 +34,15 @@ class UpdateHandler
         private readonly ActivityPubManager $activityPubManager,
         private readonly ApActivityRepository $apActivityRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EntryManager $entryManager,
-        private readonly EntryCommentManager $entryCommentManager,
-        private readonly PostManager $postManager,
-        private readonly PostCommentManager $postCommentManager,
+        private readonly EntryEdit $entryEdit,
+        private readonly EntryCommentEdit $entryCommentEdit,
+        private readonly PostEdit $postEdit,
+        private readonly PostCommentEdit $postCommentEdit,
         private readonly MarkdownConverter $markdownConverter,
         private readonly EntryFactory $entryFactory,
         private readonly EntryCommentFactory $entryCommentFactory,
         private readonly PostFactory $postFactory,
         private readonly PostCommentFactory $postCommentFactory,
-        private readonly MessageBusInterface $bus,
     ) {
     }
 
@@ -67,35 +65,25 @@ class UpdateHandler
         $object = $this->entityManager->getRepository($object['type'])->find((int) $object['id']);
 
         if (Entry::class === \get_class($object)) {
-            $fn = 'editEntry';
+            $fn = 'entry';
         }
 
         if (EntryComment::class === \get_class($object)) {
-            $fn = 'editEntryComment';
+            $fn = 'entryComment';
         }
 
         if (Post::class === \get_class($object)) {
-            $fn = 'editPost';
+            $fn = 'post';
         }
 
         if (PostComment::class === \get_class($object)) {
-            $fn = 'editPostComment';
+            $fn = 'postComment';
         }
 
         $this->$fn($object, $actor);
-
-        //        if (null === $object->magazine->apId) {
-        //            $this->bus->dispatch(
-        //                new \App\Message\ActivityPub\Outbox\UpdateMessage(
-        //                    $actor->getId(),
-        //                    $object->getId(),
-        //                    get_class($object)
-        //                )
-        //            );
-        //        }
     }
 
-    private function editEntry(Entry $entry, User $user)
+    private function entry(Entry $entry, User $user): void
     {
         $dto = $this->entryFactory->createDto($entry);
 
@@ -107,10 +95,10 @@ class UpdateHandler
             $dto->body = null;
         }
 
-        $this->entryManager->edit($entry, $dto);
+        ($this->entryEdit)($entry, $dto);
     }
 
-    private function editEntryComment(EntryComment $comment, User $user)
+    private function entryComment(EntryComment $comment, User $user): void
     {
         $dto = $this->entryCommentFactory->createDto($comment);
 
@@ -120,10 +108,10 @@ class UpdateHandler
             $dto->body = null;
         }
 
-        $this->entryCommentManager->edit($comment, $dto);
+        ($this->entryCommentEdit)($comment, $dto);
     }
 
-    private function editPost(Post $post, User $user)
+    private function post(Post $post, User $user): void
     {
         $dto = $this->postFactory->createDto($post);
 
@@ -133,10 +121,10 @@ class UpdateHandler
             $dto->body = null;
         }
 
-        $this->postManager->edit($post, $dto);
+        ($this->postEdit)($post, $dto);
     }
 
-    private function editPostComment(PostComment $comment, User $user)
+    private function postComment(PostComment $comment, User $user): void
     {
         $dto = $this->postCommentFactory->createDto($comment);
 
@@ -146,6 +134,6 @@ class UpdateHandler
             $dto->body = null;
         }
 
-        $this->postCommentManager->edit($comment, $dto);
+        ($this->postCommentEdit)($comment, $dto);
     }
 }

@@ -10,8 +10,8 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Form\EntryCommentType;
+use App\Kbin\EntryComment\EntryCommentCreate;
 use App\PageView\EntryCommentPageView;
-use App\Service\EntryCommentManager;
 use App\Service\IpResolver;
 use App\Service\MentionManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -27,7 +27,7 @@ class EntryCommentCreateController extends AbstractController
     use EntryCommentResponseTrait;
 
     public function __construct(
-        private readonly EntryCommentManager $manager,
+        private readonly EntryCommentCreate $entryCommentCreate,
         private readonly RequestStack $requestStack,
         private readonly IpResolver $ipResolver,
         private readonly MentionManager $mentionManager
@@ -128,7 +128,7 @@ class EntryCommentCreateController extends AbstractController
 
     private function handleValidRequest(EntryCommentDto $dto, Request $request): Response
     {
-        $comment = $this->manager->create($dto, $this->getUserOrThrow());
+        $comment = ($this->entryCommentCreate)($dto, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonCommentSuccessResponse($comment);

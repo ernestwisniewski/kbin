@@ -7,8 +7,9 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
+use App\Factory\EntryFactory;
+use App\Kbin\Entry\EntryEdit;
 use App\PageView\EntryPageView;
-use App\Service\EntryManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,8 @@ class EntryEditController extends AbstractController
     use EntryFormTrait;
 
     public function __construct(
-        private readonly EntryManager $manager,
+        private readonly EntryEdit $entryEdit,
+        private readonly EntryFactory $entryFactory
     ) {
     }
 
@@ -34,7 +36,7 @@ class EntryEditController extends AbstractController
         Entry $entry,
         Request $request
     ): Response {
-        $dto = $this->manager->createDto($entry);
+        $dto = $this->entryFactory->createDto($entry);
 
         $form = $this->createFormByType((new EntryPageView(1))->resolveType($entry->type), $dto);
         $form->handleRequest($request);
@@ -44,7 +46,7 @@ class EntryEditController extends AbstractController
                 throw new AccessDeniedHttpException();
             }
 
-            $entry = $this->manager->edit($entry, $dto);
+            $entry = ($this->entryEdit)($entry, $dto);
 
             $this->addFlash(
                 'success',

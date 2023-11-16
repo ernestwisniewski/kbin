@@ -6,7 +6,7 @@ namespace App\Controller\Api\Post\Comments\Admin;
 
 use App\Controller\Api\Post\PostsBaseApi;
 use App\Entity\PostComment;
-use App\Service\PostCommentManager;
+use App\Kbin\PostComment\PostCommentPurge;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,12 +69,12 @@ class PostCommentsPurgeApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        PostCommentManager $manager,
+        PostCommentPurge $postCommentPurge,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
 
-        $manager->purge($this->getUserOrThrow(), $comment);
+        $postCommentPurge($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(
             status: 204,

@@ -7,10 +7,10 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\DTO\EntryDto;
 use App\Entity\Magazine;
+use App\Exception\UserBannedException;
+use App\Kbin\Entry\EntryCreate;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +24,7 @@ class EntryCreateController extends AbstractController
     use EntryFormTrait;
 
     public function __construct(
-        private readonly EntryManager $manager,
-        private readonly EntryCommentManager $commentManager,
+        private readonly EntryCreate $entryCreate,
         private readonly ValidatorInterface $validator,
         private readonly IpResolver $ipResolver
     ) {
@@ -48,7 +47,12 @@ class EntryCreateController extends AbstractController
                 throw new AccessDeniedHttpException();
             }
 
-            $entry = $this->manager->create($dto, $this->getUserOrThrow());
+            try {
+                $entry = ($this->entryCreate)($dto, $this->getUser());
+            } catch (UserBannedException $e) {
+                // @todo add flash message
+                throw $e;
+            }
 
             $this->addFlash(
                 'success',

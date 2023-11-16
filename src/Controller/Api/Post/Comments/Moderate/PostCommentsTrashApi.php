@@ -9,7 +9,8 @@ use App\DTO\PostCommentResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Factory\PostCommentFactory;
-use App\Service\PostCommentManager;
+use App\Kbin\PostComment\PostCommentRestore;
+use App\Kbin\PostComment\PostCommentTrash;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,7 +70,7 @@ class PostCommentsTrashApi extends PostsBaseApi
     public function trash(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        PostCommentManager $manager,
+        PostCommentTrash $postCommentTrash,
         PostCommentFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -77,7 +78,7 @@ class PostCommentsTrashApi extends PostsBaseApi
 
         $moderator = $this->getUserOrThrow();
 
-        $manager->trash($moderator, $comment);
+        $postCommentTrash($moderator, $comment);
 
         // Force response to have all fields visible
         $visibility = $comment->getVisibility();
@@ -144,7 +145,7 @@ class PostCommentsTrashApi extends PostsBaseApi
     public function restore(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        PostCommentManager $manager,
+        PostCommentRestore $postCommentRestore,
         PostCommentFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -153,7 +154,7 @@ class PostCommentsTrashApi extends PostsBaseApi
         $moderator = $this->getUserOrThrow();
 
         try {
-            $manager->restore($moderator, $comment);
+            $postCommentRestore($moderator, $comment);
         } catch (\Exception $e) {
             throw new BadRequestHttpException('The comment cannot be restored because it was not trashed!');
         }

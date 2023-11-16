@@ -10,8 +10,9 @@ use App\DTO\PostDto;
 use App\DTO\PostRequestDto;
 use App\DTO\PostResponseDto;
 use App\Entity\Magazine;
+use App\Factory\PostFactory;
+use App\Kbin\Post\PostCreate;
 use App\Service\ImageManager;
-use App\Service\PostManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -77,7 +78,8 @@ class PostsCreateApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        PostManager $manager,
+        PostCreate $postCreate,
+        PostFactory $postFactory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiPostLimiter
     ): JsonResponse {
@@ -102,10 +104,10 @@ class PostsCreateApi extends PostsBaseApi
         }
 
         // Rate limit handled elsewhere
-        $post = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $post = $postCreate($dto, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
-            $this->serializePost($manager->createDto($post)),
+            $this->serializePost($postFactory->createDto($post)),
             status: 201,
             headers: $headers
         );
@@ -170,7 +172,8 @@ class PostsCreateApi extends PostsBaseApi
     public function uploadImage(
         #[MapEntity(id: 'magazine_id')]
         Magazine $magazine,
-        PostManager $manager,
+        PostCreate $postCreate,
+        PostFactory $postFactory,
         ValidatorInterface $validator,
         RateLimiterFactory $apiImageLimiter
     ): JsonResponse {
@@ -198,10 +201,10 @@ class PostsCreateApi extends PostsBaseApi
         }
 
         // Rate limit handled elsewhere
-        $post = $manager->create($dto, $this->getUserOrThrow(), rateLimit: false);
+        $post = $postCreate($dto, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
-            $this->serializePost($manager->createDto($post)),
+            $this->serializePost($postFactory->createDto($post)),
             status: 201,
             headers: $headers
         );

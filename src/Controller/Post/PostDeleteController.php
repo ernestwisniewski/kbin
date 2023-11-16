@@ -7,7 +7,9 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
-use App\Service\PostManager;
+use App\Kbin\Post\PostDelete;
+use App\Kbin\Post\PostPurge;
+use App\Kbin\Post\PostRestore;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +17,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostDeleteController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager)
-    {
+    public function __construct(
+        private readonly PostDelete $postDelete,
+        private readonly PostRestore $postRestore,
+        private readonly PostPurge $postPurge
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
@@ -30,7 +35,7 @@ class PostDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_delete', $request->request->get('token'));
 
-        $this->manager->delete($this->getUserOrThrow(), $post);
+        ($this->postDelete)($this->getUserOrThrow(), $post);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -46,7 +51,7 @@ class PostDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_restore', $request->request->get('token'));
 
-        $this->manager->restore($this->getUserOrThrow(), $post);
+        ($this->postRestore)($this->getUserOrThrow(), $post);
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -62,7 +67,7 @@ class PostDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('post_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $post);
+        ($this->postPurge)($this->getUserOrThrow(), $post);
 
         return $this->redirectToMagazine($magazine);
     }

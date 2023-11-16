@@ -6,12 +6,12 @@ namespace App\EventSubscriber\Post;
 
 use App\Entity\Post;
 use App\Event\Post\PostCreatedEvent;
+use App\Kbin\Post\PostChangeMagazine;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostCreatedNotificationMessage;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;
-use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -22,7 +22,7 @@ class PostCreateSubscriber implements EventSubscriberInterface
         private readonly MessageBusInterface $bus,
         private readonly MagazineRepository $magazineRepository,
         private readonly PostRepository $postRepository,
-        private readonly PostManager $postManager,
+        private readonly PostChangeMagazine $postChangeMagazine,
         private readonly EntityManagerInterface $entityManager
     ) {
     }
@@ -60,12 +60,12 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
         foreach ($post->tags as $tag) {
             if ($magazine = $this->magazineRepository->findOneByName($tag)) {
-                $this->postManager->changeMagazine($post, $magazine);
+                ($this->postChangeMagazine)($post, $magazine);
                 break;
             }
 
             if ($magazine = $this->magazineRepository->findByTag($tag)) {
-                $this->postManager->changeMagazine($post, $magazine);
+                ($this->postChangeMagazine)($post, $magazine);
                 break;
             }
         }

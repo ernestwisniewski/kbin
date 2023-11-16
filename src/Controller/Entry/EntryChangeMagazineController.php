@@ -7,8 +7,8 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
+use App\Kbin\Entry\EntryChangeMagazine;
 use App\Repository\MagazineRepository;
-use App\Service\EntryManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryChangeMagazineController extends AbstractController
 {
     public function __construct(
-        private readonly EntryManager $manager,
+        private readonly EntryChangeMagazine $entryChangeMagazine,
         private readonly MagazineRepository $repository
     ) {
     }
@@ -34,7 +34,7 @@ class EntryChangeMagazineController extends AbstractController
 
         $newMagazine = $this->repository->findOneByName($request->get('change_magazine')['new_magazine']);
 
-        $this->manager->changeMagazine($entry, $newMagazine);
+        ($this->entryChangeMagazine)($entry, $newMagazine);
 
         return $this->redirectToRefererOrHome($request);
     }

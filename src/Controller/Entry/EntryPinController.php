@@ -7,7 +7,7 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPin;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryPinController extends AbstractController
 {
     public function __construct(
-        private readonly EntryManager $manager,
+        private readonly EntryPin $entryPin,
     ) {
     }
 
@@ -31,7 +31,7 @@ class EntryPinController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_pin', $request->request->get('token'));
 
-        $entry = $this->manager->pin($entry);
+        $entry = ($this->entryPin)($entry);
 
         $this->addFlash(
             'success',

@@ -7,10 +7,11 @@ namespace App\Controller\Post;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
+use App\Factory\PostFactory;
 use App\Form\PostType;
+use App\Kbin\Post\PostEdit;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;
-use App\Service\PostManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class PostEditController extends AbstractController
 {
-    public function __construct(private readonly PostManager $manager)
+    public function __construct(private readonly PostEdit $postEdit, private readonly PostFactory $postFactory)
     {
     }
 
@@ -34,7 +35,7 @@ class PostEditController extends AbstractController
         Request $request,
         PostCommentRepository $repository
     ): Response {
-        $dto = $this->manager->createDto($post);
+        $dto = $this->postFactory->createDto($post);
 
         $form = $this->createForm(PostType::class, $dto);
         $form->handleRequest($request);
@@ -44,7 +45,7 @@ class PostEditController extends AbstractController
                 throw new AccessDeniedHttpException();
             }
 
-            $post = $this->manager->edit($post, $dto);
+            $post = ($this->postEdit)($post, $dto);
 
             if ($request->isXmlHttpRequest()) {
                 return new JsonResponse(

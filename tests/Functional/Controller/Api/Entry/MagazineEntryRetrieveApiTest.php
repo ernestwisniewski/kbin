@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry;
 
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryPin;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,7 +83,7 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
     {
         $client = self::createClient();
         $voteManager = $this->getService(VoteManager::class);
-        $entryManager = $this->getService(EntryManager::class);
+        $entryPin = $this->getService(EntryPin::class);
         $voter = $this->getUserByUsername('voter');
         $first = $this->getEntryByTitle('an entry', body: 'test');
         $this->createEntryComment('up the ranking', $first);
@@ -93,7 +93,7 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $voteManager->vote(1, $second, $voter, rateLimit: false);
         $this->createEntryComment('test', $second, $voter);
         $third = $this->getEntryByTitle('a pinned entry', url: 'https://google.com', magazine: $magazine);
-        $entryManager->pin($third);
+        $entryPin($third);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));

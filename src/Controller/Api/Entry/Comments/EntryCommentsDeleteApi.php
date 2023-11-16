@@ -7,7 +7,7 @@ namespace App\Controller\Api\Entry\Comments;
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\EntryComment;
-use App\Service\EntryCommentManager;
+use App\Kbin\EntryComment\EntryCommentDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -68,12 +68,12 @@ class EntryCommentsDeleteApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
-        EntryCommentManager $manager,
+        EntryCommentDelete $entryCommentDelete,
         RateLimiterFactory $apiDeleteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiDeleteLimiter);
 
-        $manager->delete($this->getUserOrThrow(), $comment);
+        $entryCommentDelete($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(status: 204, headers: $headers);
     }

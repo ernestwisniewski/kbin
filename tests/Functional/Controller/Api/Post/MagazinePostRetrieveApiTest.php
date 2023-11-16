@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post;
 
-use App\Service\PostManager;
+use App\Kbin\Post\PostPin;
 use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
@@ -82,7 +82,7 @@ class MagazinePostRetrieveApiTest extends WebTestCase
     {
         $client = self::createClient();
         $voteManager = $this->getService(VoteManager::class);
-        $postManager = $this->getService(PostManager::class);
+        $postPin = $this->getService(PostPin::class);
         $voter = $this->getUserByUsername('voter');
         $first = $this->createPost('a post');
         $this->createPostComment('up the ranking', $first);
@@ -92,7 +92,7 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $voteManager->vote(1, $second, $voter, rateLimit: false);
         $this->createPostComment('test', $second, $voter);
         $third = $this->createPost('a pinned post', magazine: $magazine);
-        $postManager->pin($third);
+        $postPin($third);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));

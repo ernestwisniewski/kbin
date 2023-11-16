@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry\Moderate;
 
 use App\DTO\ModeratorDto;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryTrash;
 use App\Service\MagazineManager;
 use App\Tests\WebTestCase;
 
@@ -122,8 +122,8 @@ class EntryTrashApiTest extends WebTestCase
         $user = $this->getUserByUsername('user');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->trash($user, $entry);
+        $entryTrash = $this->getService(EntryTrash::class);
+        $entryTrash($user, $entry);
 
         $client->jsonRequest('PUT', "/api/moderate/entry/{$entry->getId()}/restore");
         self::assertResponseStatusCodeSame(401);
@@ -136,8 +136,8 @@ class EntryTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->trash($user, $entry);
+        $entryTrash = $this->getService(EntryTrash::class);
+        $entryTrash($user, $entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -156,8 +156,8 @@ class EntryTrashApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme', $user);
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->trash($user, $entry);
+        $entryTrash = $this->getService(EntryTrash::class);
+        $entryTrash($user, $entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -181,8 +181,8 @@ class EntryTrashApiTest extends WebTestCase
         $moderator->user = $user;
         $magazineManager->addModerator($moderator);
 
-        $entryManager = $this->getService(EntryManager::class);
-        $entryManager->trash($user, $entry);
+        $entryTrash = $this->getService(EntryTrash::class);
+        $entryTrash($user, $entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

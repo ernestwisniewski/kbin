@@ -7,7 +7,9 @@ namespace App\Controller\Entry;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryDelete;
+use App\Kbin\Entry\EntryPurge;
+use App\Kbin\Entry\EntryRestore;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +18,9 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class EntryDeleteController extends AbstractController
 {
     public function __construct(
-        private readonly EntryManager $manager,
+        private readonly EntryDelete $entryDelete,
+        private readonly EntryPurge $entryPurge,
+        private readonly EntryRestore $entryRestore
     ) {
     }
 
@@ -31,7 +35,7 @@ class EntryDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_delete', $request->request->get('token'));
 
-        $this->manager->delete($this->getUserOrThrow(), $entry);
+        ($this->entryDelete)($this->getUserOrThrow(), $entry);
 
         $this->addFlash(
             'danger',
@@ -52,7 +56,7 @@ class EntryDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_restore', $request->request->get('token'));
 
-        $this->manager->restore($this->getUserOrThrow(), $entry);
+        ($this->entryRestore)($this->getUserOrThrow(), $entry);
 
         return $this->redirectToMagazine($magazine);
     }
@@ -68,7 +72,7 @@ class EntryDeleteController extends AbstractController
     ): Response {
         $this->validateCsrf('entry_purge', $request->request->get('token'));
 
-        $this->manager->purge($this->getUserOrThrow(), $entry);
+        ($this->entryPurge)($this->getUserOrThrow(), $entry);
 
         return $this->redirectToRefererOrHome($request);
     }

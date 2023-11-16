@@ -9,13 +9,13 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Kbin\Entry\EntryDelete;
+use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\Post\PostDelete;
+use App\Kbin\PostComment\PostCommentDelete;
 use App\Message\ActivityPub\Inbox\DeleteMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPubManager;
-use App\Service\EntryCommentManager;
-use App\Service\EntryManager;
-use App\Service\PostCommentManager;
-use App\Service\PostManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -27,10 +27,10 @@ class DeleteHandler
         private readonly ActivityPubManager $activityPubManager,
         private readonly ApActivityRepository $apActivityRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly EntryManager $entryManager,
-        private readonly EntryCommentManager $entryCommentManager,
-        private readonly PostManager $postManager,
-        private readonly PostCommentManager $postCommentManager
+        private readonly EntryDelete $entryDelete,
+        private readonly EntryCommentDelete $entryCommentDelete,
+        private readonly PostDelete $postDelete,
+        private readonly PostCommentDelete $postCommentDelete
     ) {
     }
 
@@ -75,21 +75,21 @@ class DeleteHandler
 
     private function deleteEntry(Entry $entry, User $user): void
     {
-        $this->entryManager->delete($user, $entry);
+        ($this->entryDelete)($user, $entry);
     }
 
     private function deleteEntryComment(EntryComment $comment, User $user): void
     {
-        $this->entryCommentManager->delete($user, $comment);
+        ($this->entryCommentDelete)($user, $comment);
     }
 
     private function deletePost(Post $post, User $user): void
     {
-        $this->postManager->delete($user, $post);
+        ($this->postDelete)($user, $post);
     }
 
     private function deletePostComment(PostComment $comment, User $user): void
     {
-        $this->postCommentManager->delete($user, $comment);
+        ($this->postCommentDelete)($user, $comment);
     }
 }

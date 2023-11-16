@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry;
 
 use App\Entity\Entry;
-use App\Service\EntryManager;
+use App\Kbin\Entry\EntryDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -65,7 +65,7 @@ class EntriesDeleteApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        EntryManager $manager,
+        EntryDelete $entryDelete,
         RateLimiterFactory $apiDeleteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiDeleteLimiter);
@@ -74,7 +74,7 @@ class EntriesDeleteApi extends EntriesBaseApi
             throw new AccessDeniedHttpException();
         }
 
-        $manager->delete($this->getUserOrThrow(), $entry);
+        $entryDelete($this->getUserOrThrow(), $entry);
 
         return new JsonResponse(status: 204, headers: $headers);
     }

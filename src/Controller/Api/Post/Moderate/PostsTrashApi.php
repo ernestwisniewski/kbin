@@ -9,7 +9,8 @@ use App\DTO\PostResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
 use App\Factory\PostFactory;
-use App\Service\PostManager;
+use App\Kbin\Post\PostRestore;
+use App\Kbin\Post\PostTrash;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -69,7 +70,7 @@ class PostsTrashApi extends PostsBaseApi
     public function trash(
         #[MapEntity(id: 'post_id')]
         Post $post,
-        PostManager $manager,
+        PostTrash $postTrash,
         PostFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -77,7 +78,7 @@ class PostsTrashApi extends PostsBaseApi
 
         $moderator = $this->getUserOrThrow();
 
-        $manager->trash($moderator, $post);
+        $postTrash($moderator, $post);
 
         // Force response to have all fields visible
         $visibility = $post->getVisibility();
@@ -144,7 +145,7 @@ class PostsTrashApi extends PostsBaseApi
     public function restore(
         #[MapEntity(id: 'post_id')]
         Post $post,
-        PostManager $manager,
+        PostRestore $postRestore,
         PostFactory $factory,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
@@ -153,7 +154,7 @@ class PostsTrashApi extends PostsBaseApi
         $moderator = $this->getUserOrThrow();
 
         try {
-            $manager->restore($moderator, $post);
+            $postRestore($moderator, $post);
         } catch (\Exception $e) {
             throw new BadRequestHttpException('The post cannot be restored because it was not trashed!');
         }

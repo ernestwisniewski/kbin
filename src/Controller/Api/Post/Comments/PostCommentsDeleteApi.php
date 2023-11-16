@@ -7,7 +7,7 @@ namespace App\Controller\Api\Post\Comments;
 use App\Controller\Api\Post\PostsBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\PostComment;
-use App\Service\PostCommentManager;
+use App\Kbin\PostComment\PostCommentDelete;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -68,12 +68,12 @@ class PostCommentsDeleteApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        PostCommentManager $manager,
+        PostCommentDelete $postCommentDelete,
         RateLimiterFactory $apiDeleteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiDeleteLimiter);
 
-        $manager->delete($this->getUserOrThrow(), $comment);
+        $postCommentDelete($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(status: 204, headers: $headers);
     }

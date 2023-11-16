@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Command\AwesomeBot;
 
 use App\DTO\EntryDto;
+use App\Kbin\Entry\EntryCreate;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
-use App\Service\EntryManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use DOMElement;
 use Symfony\Component\BrowserKit\HttpBrowser;
@@ -25,7 +25,7 @@ use Symfony\Component\HttpClient\HttpClient;
 class AwesomeBotFixtures extends Command
 {
     public function __construct(
-        private readonly EntryManager $entryManager,
+        private readonly EntryCreate $entryCreate,
         private readonly UserRepository $userRepository,
         private readonly MagazineRepository $magazineRepository,
         private readonly EntryRepository $entryRepository,
@@ -124,7 +124,7 @@ class AwesomeBotFixtures extends Command
             $dto->url = $item['url'];
             $dto->badges = $item['badges'];
 
-            $entry = $this->entryManager->create($dto, $item['user']);
+            $entry = ($this->entryCreate)($dto, $item['user']);
 
             $io->info("(m/{$entry->magazine->name}) {$entry->title}");
 
