@@ -250,7 +250,7 @@ bronze: ブロンズ
 bronze_autobiographer: 自分語り
 font_size: 文字サイズ
 rounded_edges: 丸角
-flash_register_success: 
+flash_register_success:
   ようこそ！アカウント登録ができました。まだ一段残ります！メールアドレスにアカウント検証リンクを送信しました。アカウントを確認するためにメールボックスを見て下さい。
 restored_thread_by: はこのアカウントが作成したスレッドを復旧しました：
 removed_post_by: はこのアカウントが作成した投稿を削除しました：

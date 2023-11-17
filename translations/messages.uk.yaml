@@ -1,0 +1,855 @@
+type.photo: Зображення
+type.video: Відео
+type.smart_contract: Розумний контракт
+thread: Гілка
+threads: Гілки
+microblog: Мікроблог
+people: Люди
+events: Події
+magazines: Спільноти
+search: Шукати
+add: Додати
+select_channel: Показати
+login: Увійти
+top: Провідні
+hot: Гарячі
+active: Активні
+oldest: Старі
+commented: Коментовані
+change_view: Змінити вигляд
+filter_by_type: Фільтр за типом
+favourites: Уподобання
+favourite: Уподоба
+avatar: Аватар
+added: Додано
+views: Перегляди
+down_votes: Невподобання
+no_comments: Немає коментарів
+created_at: Створено
+owner: Власник
+subscribers: Підписники
+online: У мережі
+comments: Коментарі
+replies: Відповіді
+moderators: Модератори
+mod_log: Журнал модерації
+add_comment: Додати коментар
+markdown_howto: Як працює редактор?
+enter_your_comment: Введіть ваш коментар
+activity: Залученість
+cover: Обкладинка
+add_post: Додати допис
+related_posts: Схожі дописи
+random_posts: Випадкові дописи
+federated_user_info: Профіль із федерованого сервера, може відображатися не повністю.
+go_to_original_instance: Переглянути на оригінальному інстансі.
+empty: Пусто
+subscribe: Підписатися
+unsubscribe: Відписатися
+reply: Відповісти
+login_or_email: Імʼя користувача або е-пошта
+password: Пароль
+dont_have_account: Немає облікового запису?
+you_cant_login: Забули свій пароль?
+already_have_account: Вже є обліковий запис?
+register: Зареєструватися
+show_more: Показати більше
+username: Імʼя користувача
+email: Е-пошта
+terms: Умови використання
+privacy_policy: Політика приватності
+about_instance: Про інстанс
+all_magazines: Усі спільноти
+stats: Статистика
+to: до
+in: в
+follow: Відстежувати
+awards: Відзнаки
+create_new_magazine: Створити нову спільноту
+add_new_article: Додати нову гілку
+add_new_link: Додати нове посилання
+add_new_post: Додати новий допис
+add_new_video: Додати нове відео
+contact: Звʼязок
+faq: FAQ
+rss: RSS
+change_theme: Змінити тему
+useful: Корисне
+help: Довідка
+reset_check_email_desc2: Якщо ви не отримали електронного листа, перевірте теку зі
+  спамом.
+try_again: Спробуйте знову
+up_vote: Дати поштовх
+down_vote: Невподобати
+email_confirm_header: Вітаємо! Необхідно підтвердити вашу адресу е-пошти.
+email_verify: Підтвердити адресу е-пошти
+email_confirm_expire: 'Зверніть увагу: термін дії посилання закінчується за годину.'
+email_confirm_title: Необхідно підтвердити вашу адресу е-пошти.
+add_new: Додати
+url: URL
+title: Заголовок
+body: Основний текст
+tags: Теги
+is_adult: 18+ / делікатне
+image: Зображення
+image_alt: Опис зображення
+name: Імʼя
+description: Опис
+rules: Правила
+domain: Домен
+subscriptions: Підписки
+following: Відстежувані
+overview: Огляд
+cards: Картки
+columns: Стовпці
+user: Користувач
+moderated: Модероване
+ratio: Рейтинг
+people_local: Місцеві
+people_federated: Федеровані
+select_magazine: Оберіть спільноту
+show_profile_followings: Показувати відстежуваних
+related_tags: Повʼязані теги
+go_to_content: Перейти до вмісту
+go_to_filters: Перейти до фільтрів
+go_to_search: Перейти до пошуку
+1w: 1 тиждень
+1m: 1 місяць
+1y: 1 рік
+links: Посилання
+articles: Гілки
+photos: Зображення
+videos: Відео
+share: Поширити
+report: Поскаржитися
+copy_url: Скопіювати локальне посилання
+share_on_fediverse: Поширити на Федіверс
+edit: Редагувати
+are_you_sure: Ви впевнені?
+moderate: Модерувати
+reason: Причина
+edit_article: Редагувати гілку
+edit_photo: Редагувати зображення
+delete: Видалити
+edit_post: Редагувати допис
+settings: Налаштування
+general: Загальні
+profile: Профіль
+blocked: Заблоковане
+reports: Скарги
+notifications: Сповіщення
+messages: Повідомлення
+homepage: Головна
+subscribed: Підписане
+all: Усе
+logout: Вийти
+classic_view: Класичний вигляд
+compact_view: Компактний вигляд
+tree_view: Вигляд дерева
+table_view: Вигляд таблиці
+cards_view: Вигляд карток
+3h: 3 години
+6h: 6 годин
+12h: 12 годин
+1d: 1 день
+featured_magazines: Рекомендовані спільноти
+privacy: Приватність
+notify_on_new_entry: Нові гілки (посилання чи статті) в будь-якій спільноті, на яку
+  ви підписані
+removed_thread_by: видаляє гілку, створену
+restored_thread_by: відновлює гілку, створену
+bronze_personality_desc: 20 відстежувачів
+bronze_magazine_desc: 20 підписників у спільноти
+silver_personality_desc: 50 відстежувачів
+flash_thread_edit_success: Гілку успішно відредаговано.
+flash_thread_delete_success: Гілку успішно видалено.
+flash_thread_pin_success: Гілку успішно закріплено.
+flash_thread_unpin_success: Гілку успішно відкріплено.
+bronze_article: Бронзова гілка
+bronze_popular_entry: Популярна гілка
+bronze_popular_entry_desc: Гілку відвідано 1000 разів
+bronze_redactor_desc: 10 гарних гілок
+gold_personality_desc: 100 відстежувачів
+silver_redactor_desc: 10 дуже хороших гілок
+silver_article: Срібна гілка
+silver_popular_entry: Популярна гілка
+silver_popular_entry_desc: Гілку відвідано 5000 разів
+silver_entry_week: Гілка тижня
+silver_entry_week_desc: Найкраща гілка тижня
+gold_redactor_desc: 10 відмінних гілок
+gold_article: Золота гілка
+gold_magazine_desc: 100 підписників у спільноти
+gold_popular_entry: Популярна гілка
+gold_entry_month: Гілка місяця
+gold_entry_month_desc: Найкраща гілка місяця
+added_new_thread: Додає нову гілку
+edited_thread: Редагує гілку
+article: Гілка
+random_entries: Випадкові гілки
+related_entries: Схожі гілки
+preferred_languages: Фільтрувати мови гілок і дописів
+browsing_one_thread: Ви переглядаєте лише одну гілку в обговоренні! Усі коментарі
+  доступні на сторінці допису.
+type.link: Посилання
+type.magazine: Спільнота
+newest: Нові
+posts: Дописи
+enter_your_post: Введіть ваш допис
+remember_me: Запамʼятати мене
+fediverse: Федіверс
+check_email: Перевірте вашу е-пошту
+badges: Значки
+unfollow: Не відстежувати
+magazine: Спільнота
+filter_by_time: Фільтр за часом
+add_media: Додати медіа
+federated_magazine_info: Спільнота з федерованого сервера, може відображатися не повністю.
+reset_password: Скинути пароль
+ranking: Ранжування
+reset_check_email_desc: Якщо з вашою адресою е-пошти вже повʼязано обліковий запис,
+  незабаром ви отримаєте електронного листа з посиланням, за яким можна скинути пароль.
+  Посилання стане недійсним за %expire%.
+more: Більше
+repeat_password: Повторіть пароль
+add_new_photo: Додати нове зображення
+email_confirm_content: 'Готові активувати свій обліковий запис /kbin? Натисніть на
+  посилання нижче:'
+agree_terms: Погоджуюся з %terms_link_start%Правилами та умовами%terms_link_end% і
+  %policy_link_start%Політикою приватності%policy_link_end%
+up_votes: Поштовхи
+followers: Відстежувачі
+silver_magazine_desc: 50 підписників у спільноти
+joined: Приєднання
+reputation_points: Бали репутації
+copy_url_to_fediverse: Скопіювати пряме посилання
+edit_link: Редагувати посилання
+edit_comment: Зберегти зміни
+appearance: Вигляд
+chat_view: Вигляд чату
+hide_adult: Приховати делікатний вміст
+show_profile_subscriptions: Показувати підписки на спільноти
+notify_on_new_entry_reply: Коментарі будь-якого рівня у гілках вашого авторства
+bronze_article_desc: У гілки 5 поштовхів
+silver_article_desc: У гілки 10 поштовхів
+notify_on_new_entry_comment_reply: Відповіді на ваші коментарі в будь-яких гілках
+gold_article_desc: У гілки 15 поштовхів
+flash_thread_new_success: Гілку успішно створено і тепер її бачать інші користувачі.
+gold_popular_entry_desc: Гілку відвідано 10000 разів
+mod_remove_your_thread: Модератор видаляє вашу гілку
+comments_count: '{0}коментарів|{1}коментар|]1,Inf[ коментарів'
+oc: ОВ
+go_to_footer: Перейти до нижнього колонтитула
+notify_on_new_post_reply: Відповіді будь-якого рівня на ваші дописи
+notify_on_new_post_comment_reply: Відповіді на ваші коментарі до будь-яких дописів
+notify_on_new_posts: Нові дописи в будь-якій спільноті, на яку ви підписані
+save: Зберегти
+about: Про вас
+old_email: Поточна е-пошта
+new_email: Нова е-пошта
+current_password: Поточний пароль
+new_password: Новий пароль
+new_password_repeat: Підтвердити новий пароль
+change_email: Змінити е-пошту
+change_password: Змінити пароль
+expand: Розгорнути
+domains: Домени
+error: Помилка
+votes: Голоси
+theme: Тема
+dark: Темна
+light: Світла
+solarized_light: Solarized Світла
+font_size: Розмір шрифту
+size: Розмір
+boosts: Поштовхи
+show_users_avatars: Показувати аватари користувачів
+yes: Так
+no: Ні
+show_thumbnails: Показувати мініатюри
+rounded_edges: Заокруглені краї
+removed_comment_by: видаляє коментар, створений
+removed_post_by: видаляє допис, створений
+restored_post_by: відновлює допис, створений
+he_banned: забороняє
+he_unbanned: допускає
+read_all: Усі прочитані
+show_all: Показати все
+flash_magazine_new_success: Спільноту успішно створено. Тепер ви можете додати новий
+  вміст або дослідити панель адміністрування спільноти.
+flash_magazine_edit_success: Спільноту успішно відредаговано.
+too_many_requests: Перевищено ліміт, будь ласка, спробуйте ще раз пізніше.
+set_magazines_bar: Панель спільнот
+set_magazines_bar_desc: введіть назви спільнот, розділивши їх комами
+set_magazines_bar_empty_desc: якщо це поле порожнє, на панелі відображатимуться активні
+  спільноти.
+gold: Золоті
+silver: Срібні
+bronze: Бронзові
+bronze_autobiographer: Автобіограф
+bronze_autobiographer_desc: За заповнення всіх полів профілю
+bronze_personality: Бронзова особа
+bronze_commentator: Бронзовий коментатор
+bronze_commentator_desc: 10 гарних коментарів
+bronze_scout: Бронзовий оглядач
+bronze_scout_desc: 10 гарних посилань
+bronze_redactor: Бронзовий редактор
+bronze_poster: Бронзовий дописувач
+bronze_poster_desc: 10 гарних дописів
+bronze_link: Гарне посилання
+bronze_link_desc: У посилання 5 поштовхів
+bronze_photo: Гарне зображення
+bronze_photo_desc: У зображення 5 поштовхів
+bronze_comment: Гарний коментар
+bronze_comment_desc: У коментаря 5 поштовхів
+bronze_post: Гарний допис
+bronze_post_desc: У допису 5 поштовхів
+bronze_ranking: Номер 3
+bronze_ranking_desc: 3-тє місце в ранжуванні
+bronze_magazine: Відома спільнота
+silver_personality: Срібна особа
+silver_commentator: Срібний коментатор
+silver_commentator_desc: 10 дуже гарних коментарів
+silver_scout: Срібний оглядач
+silver_scout_desc: 10 дуже гарних посилань
+silver_redactor: Срібний редактор
+silver_poster: Срібний дописувач
+silver_poster_desc: 10 дуже гарних дописів
+silver_link: Дуже гарне посилання
+silver_link_desc: У посилання 10 поштовхів
+silver_photo: Дуже гарне зображення
+silver_photo_desc: У зображення 10 поштовхів
+silver_comment: Дуже гарний коментар
+silver_comment_desc: У коментаря 10 поштовхів
+silver_post: Дуже гарний допис
+silver_post_desc: У допису 10 поштовхів
+silver_ranking: Номер 2
+silver_ranking_desc: 2-ге місце в ранжуванні
+silver_magazine: Популярна спільнота
+silver_comment_week: Коментар тижня
+silver_comment_week_desc: Найкращий коментар тижня
+silver_post_week: Допис тижня
+silver_post_week_desc: Найкращий допис тижня
+gold_personality: Золота особа
+gold_commentator: Золотий коментатор
+gold_commentator_desc: 10 відмінних коментарів
+gold_scout: Золотий оглядач
+gold_scout_desc: 10 відмінних посилань
+gold_redactor: Золотий редактор
+gold_poster: Золотий дописувач
+gold_poster_desc: 10 відмінних дописів
+gold_link: Відмінне посилання
+gold_link_desc: У посилання 15 поштовхів
+gold_photo: Відмінне зображення
+gold_photo_desc: У зображення 15 поштовхів
+gold_comment: Відмінний коментар
+gold_comment_desc: У коментаря 15 поштовхів
+gold_post: Відмінний допис
+gold_post_desc: У допису 15 поштовхів
+gold_ranking: Номер 1
+gold_ranking_desc: 1-ше місце в ранжуванні
+gold_magazine: Популярна спільнота
+gold_comment_month: Коментар місяця
+gold_comment_month_desc: Найкращий коментар місяця
+gold_post_month: Допис місяця
+gold_post_month_desc: Найкращий допис місяця
+mod_log_alert: УВАГА! Журнал модерації може містити неприємний або тривожний вміст,
+  який було видалено модераторами. Будь ласка, будьте обережні.
+added_new_comment: Додає новий коментар
+edited_comment: Редагує коментар
+mod_deleted_your_comment: Модератор видаляє ваш коментар
+replied_to_your_comment: Відповідає на ваш коментар
+added_new_post: Додає новий допис
+new_email_repeat: Підтвердити нову е-пошту
+solarized_dark: Solarized Темна
+show_magazines_icons: Показувати значки спільнот
+ranking_disabled: Ранжування вимкнено
+restored_comment_by: відновлює коментар, створений
+collapse: Згорнути
+flash_register_success: Ласкаво просимо! Ваш обліковий запис зареєстровано. Залишився
+  один крок — перевірте свою поштову скриньку на наявність посилання для активації,
+  яке оживить ваш обліковий запис.
+eng: АНГЛ
+ban_expired: Термін заборони —
+edited_post: Редагує допис
+mod_remove_your_post: Модератор видаляє ваш допис
+added_new_reply: Додає нову відповідь
+wrote_message: Пише повідомлення
+banned: Забороняє вас
+removed: Видалено модератором
+deleted: Видалено автором
+mentioned_you: Згадує вас
+comment: Коментар
+post: Допис
+purge: Очистити
+send_message: Надіслати повідомлення
+message: Повідомлення
+infinite_scroll: Нескінченна прокрутка
+show_top_bar: Показувати верхню панель
+sticky_navbar: Закріплена навігаційна панель
+subject_reported: На цей вміст подано скаргу.
+sidebar_position: Положення бічної панелі
+left: Ліворуч
+right: Праворуч
+federation: Федерація
+status: Стан
+on: Увімк.
+off: Вимк.
+instances: Інстанси
+upload_file: Додати файл
+from_url: З вебадреси
+reject: Відмовити
+approve: Схвалити
+ban: Заборонити
+filters: Фільтри
+approved: Схвалено
+rejected: Відхилено
+add_badge: Додати значок
+bans: Заборонені
+created: Створено
+expires: Спливає
+perm: Назавжди
+expired_at: Закінчився
+add_ban: Заборонити
+trash: Кошик
+icon: Значок
+done: Готово
+pin: Закріпити
+unpin: Відкріпити
+change_magazine: Змінити спільноту
+change_language: Змінити мову
+change: Змінити
+pinned: Закріплене
+preview: Попередній перегляд
+reputation: Репутація
+note: Примітка
+writing: Написання
+users: Користувачі
+content: Вміст
+week: Тиждень
+weeks: Тижні
+months: Місяці
+year: Рік
+federated: Федерований
+local: Місцеві
+dashboard: Панель керування
+contact_email: Е-пошта для звʼязку
+instance: Інстанс
+pages: Сторінки
+FAQ: ЧаП
+inactive: Неактивні
+federation_enabled: Федерацію ввімкнено
+registrations_enabled: Реєстрацію увімкнено
+registration_disabled: Реєстрацію вимкнено
+restore: Відновити
+add_mentions_posts: Автоматично додавати теги згадок у дописах
+Password is invalid: Пароль недійсний.
+Your account has been banned: Ваш обліковий запис заборонено.
+firstname: Імʼя
+send: Надіслати
+active_users: Активні зараз
+delete_account: Видалити обліковий запис
+ban_account: Заборонити обліковий запис
+unban_account: Допустити обліковий запис
+delete_account_request_send: Ваш запит на видалення облікового запису надіслано.
+related_magazines: Схожі спільноти
+random_magazines: Випадкові спільноти
+magazine_panel_tags_info: Вкажіть, лише якщо ви хочете, щоб вміст із Федіверсу додавався
+  до цієї спільноти на підставі тегів
+sidebar: Бічна панель
+auto_preview: Автоматичний перегляд медіа
+dynamic_lists: Рухомі списки
+banned_instances: Заборонені інстанси
+kbin_intro_title: Досліджуйте Федіверс
+kbin_intro_desc: це децентралізована платформа для збору вмісту та ведення мікроблогів,
+  яка діє у мережі Федіверсу.
+kbin_promo_title: Створіть свій власний інстанс
+kbin_promo_desc: '%link_start%Клонуйте сховище%link_end% і розбудовуйте Федіверс'
+captcha_enabled: Капча увімкнена
+header_logo: Логотип заголовка
+return: Повернутися
+boost: Дати поштовх
+mercure_enabled: Mercure увімкнено
+report_issue: Повідомити про помилку
+tokyo_night: Tokyo Night
+magazine_panel: Панель спільноти
+add_moderator: Додати модератора
+month: Місяць
+type_search_term: Введіть пошуковий запит
+add_mentions_entries: Автоматично додавати теги згадок у гілках
+purge_account: Повністю видалити обліковий запис
+admin_panel: Панель адміністратора
+Your account is not active: Ваш обліковий запис не активний.
+meta: Метаінформація
+infinite_scroll_help: Автоматично завантажувати більше вмісту, коли ви досягнете низу
+  сторінки.
+sticky_navbar_help: Панель навігації прилипне до верху сторінки, коли ви прокрутите
+  вниз.
+auto_preview_help: Автоматично розгортати попередній перегляд медіа.
+reload_to_apply: Перезавантажте сторінку, щоб застосувати зміни
+filter.origin.label: Виберіть походження
+filter.fields.label: Виберіть поля для пошуку
+filter.adult.label: Виберіть, чи відображати делікатний вміст
+filter.adult.only: Тільки делікатний вміст
+filter.fields.only_names: Тільки назви
+filter.fields.names_and_descriptions: Назви та описи
+filter.adult.hide: Сховати делікатний вміст
+filter.adult.show: Показувати делікатний вміст
+local_and_federated: Місцеві та федеративні
+kbin_bot: /kbin Бот
+bot_body_content: "Ласкаво просимо до /kbin Бота! Цей бот відіграє вирішальну роль
+  в активації функціональності ActivityPub у /kbin. Він забезпечує /kbin спілкування
+  та федерацію з іншими інстансами у Федіверсі.\n\nActivityPub — це мережевий протокол
+  відкритого стандарту. Він дозволяє децентралізованим платформам соціальних мереж
+  спілкуватися та взаємодіяти одна з одною. Це дозволяє користувачам на різних інстансах
+  (серверах) стежити, взаємодіяти та ділитися вмістом у федеративній соціальній мережі,
+  відомій як Федіверс. Він надає користувачам стандартизований спосіб публікувати
+  вміст, відстежувати інших користувачів та брати участь у соціальних взаємодіях:
+  наприклад, уподобати, поширити чи коментувати гілки або дописи."
+type.article: Гілка
+password_confirm_header: Необхідно підтвердити запит на зміну пароля.
+your_account_is_not_active: Ваш обліковий запис не було активовано. Перевірте свою
+  е-пошту, щоб отримати інструкції щодо активації облікового запису, або <a href="%link_target%">надішліть
+  запит на новий електронний лист для активації облікового запису.</a>
+your_account_has_been_banned: Ваш обліковий запис заборонено
+toolbar.bold: Жирний
+toolbar.header: Заголовок
+toolbar.quote: Цитата
+toolbar.code: Код
+toolbar.link: Посилання
+toolbar.image: Зображення
+toolbar.mention: Згадка
+toolbar.unordered_list: Невпорядкований список
+toolbar.italic: Курсив
+toolbar.ordered_list: Упорядкований список
+toolbar.strikethrough: Закреслений
+federation_page_enabled: Сторінку федерації ввімкнено
+federation_page_allowed_description: Відомі інстанси, з якими ми федеруємо
+federation_page_disallowed_description: Інстанси, з якими ми не федеруємо
+federated_search_only_loggedin: Федерований пошук обмежено, якщо ви не ввійшли
+request_account_deletion_title: Видалення облікового запису
+request_account_deletion_button: Запит на видалення облікового запису
+request_account_deletion_description: Адміністратор отримає сповіщення про те, що
+  ви хочете видалити свій обліковий запис.
+more_from_domain: Більше з домену
+errors.server500.title: 500 Помилка сервера
+errors.server500.description: Вибачте, в нас щось пішло не так. Ми працюємо над розвʼязанням
+  цієї проблеми, завітайте пізніше.
+errors.server429.title: 429 Забагато запитів
+errors.server404.title: 404 Не знайдено
+errors.server403.title: 403 Заборонено
+email_confirm_button_text: Необхідно підтвердити запит на зміну пароля
+email_confirm_link_help: Крім того, ви можете скопіювати та вставити наступне у свій
+  браузер
+email.delete.description: Наступний користувач подав запит на видалення свого облікового
+  запису
+email.delete.title: Запит на видалення облікового запису
+resend_account_activation_email: Повторно надіслати електронного листа для активації
+  облікового запису
+oauth.consent.app_requesting_permissions: хоче виконати наступні дії від вашого імені
+oauth2.grant.subscribe.general: Підписуватись або відстежувати будь-яку спільноту,
+  домен або користувача, а також переглядати спільноти, домени та користувачів, на
+  яких ви підписані.
+oauth2.grant.block.general: Блокувати або розблокувати будь-яку спільноту, домен або
+  користувача, а також переглядати спільноти, домени та користувачів, яких ви заблокували.
+resend_account_activation_email_question: Неактивний обліковий запис?
+resend_account_activation_email_error: Під час надсилання цього запиту виникла проблема.
+  Можливо, з цією е-поштою не повʼязано облікового запису або він уже активований.
+resend_account_activation_email_success: Якщо обліковий запис, повʼязаний із цією
+  е-поштою, існує, ми надішлемо нового електронного листа для активації.
+resend_account_activation_email_description: Введіть адресу е-пошти, повʼязану з вашим
+  обліковим записом. Ми надішлемо вам іншого електронного листа для активації.
+custom_css: Користувацький CSS
+ignore_magazines_custom_css: Ігнорувати користувацький CSS спільнот
+oauth.consent.title: Форма згоди OAuth2
+oauth.consent.grant_permissions: Надати дозволи
+oauth.consent.app_has_permissions: вже може виконувати наступні дії
+oauth.consent.to_allow_access: Щоб дозволити цей доступ, натисніть кнопку «Дозволити»
+  нижче
+oauth.consent.allow: Дозволити
+oauth.consent.deny: Заборонити
+oauth.client_identifier.invalid: Недійсний ідентифікатор клієнта OAuth!
+oauth.client_not_granted_message_read_permission: Ця програма не отримала дозволу
+  на читання ваших повідомлень.
+restrict_oauth_clients: Дозволити створення клієнта OAuth2 лише адміністраторам
+block: Блокувати
+unblock: Розблокувати
+oauth2.grant.read.general: Читати весь вміст, до якого ви маєте доступ.
+oauth2.grant.write.general: Створювати або редагувати будь-які ваші гілки, дописи
+  чи коментарі.
+oauth2.grant.delete.general: Видаляти будь-які ваші гілки, дописи чи коментарі.
+oauth2.grant.report.general: Скаржитися на гілки, дописи чи коментарі.
+oauth2.grant.vote.general: Голосувати за, проти або давати поштовх гілкам, дописам
+  чи коментарям.
+oauth2.grant.domain.all: Підписуватись, блокувати, а також переглядати домени, на
+  які ви підписалися або заблокували.
+oauth2.grant.domain.subscribe: Підписуватись, відписуватись, а також переглядати домени,
+  на які ви підписані.
+oauth2.grant.post.edit: Редагувати ваші наявні дописи.
+oauth2.grant.entry.report: Скаржитися на будь-яку гілку.
+oauth2.grant.post_comment.edit: Редагувати ваші наявні коментарі до дописів.
+oauth2.grant.entry.create: Створювати нові гілки.
+oauth2.grant.magazine.subscribe: Підписуватись, відписуватись, а також переглядати
+  спільноти, на які ви підписалися.
+oauth2.grant.magazine.all: Підписуватись, блокувати, а також переглядати спільноти,
+  на які ви підписалися або заблокували.
+oauth2.grant.entry.vote: Голосувати за, проти або давати поштовх будь-якій гілці.
+oauth2.grant.entry_comment.create: Створювати нові коментарі в гілках.
+oauth2.grant.entry_comment.report: Скаржитися на будь-який коментар у гілці.
+oauth2.grant.entry_comment.all: Створювати, редагувати або видаляти ваші коментарі
+  в гілках, а також голосувати, давати поштовх або скаржитися на будь-який коментар
+  у гілці.
+oauth2.grant.entry_comment.delete: Видаляти ваші наявні коментарі в гілках.
+oauth2.grant.entry.edit: Редагувати ваші наявні гілки.
+oauth2.grant.entry_comment.edit: Редагувати ваші наявні коментарі в гілках.
+oauth2.grant.entry.delete: Видаляти ваші наявні гілки.
+oauth2.grant.post_comment.delete: Видаляти ваші наявні коментарі до дописів.
+oauth2.grant.entry_comment.vote: Голосувати за, проти або давати поштовх будь-якому
+  коментарю в гілці.
+oauth2.grant.entry.all: Створювати, редагувати або видаляти ваші гілки, а також голосувати,
+  давати поштовх або скаржитися на будь-яку гілку.
+oauth2.grant.post.delete: Видаляти ваші наявні дописи.
+oauth2.grant.domain.block: Блокувати або розблокувати домени та переглядати домени,
+  які ви заблокували.
+oauth2.grant.magazine.block: Блокувати або розблокувати спільноти та переглядати спільноти,
+  які ви заблокували.
+2fa.authentication_code.label: Код автентифікації
+2fa.remove: Видалити 2FA
+account_settings_changed: Налаштування вашого облікового запису успішно змінено. Вам
+  доведеться увійти знову.
+2fa.add: Додати до мого облікового запису
+2fa.disable: Вимкнути двофакторну автентифікацію
+2fa.backup_codes.recommendation: Рекомендуємо зберігати копію цих кодів у безпечному
+  місці.
+oauth2.grant.post_comment.report: Скаржитися на будь-який коментар до допису.
+show_avatars_on_comments: Показувати аватари в коментарях
+oauth2.grant.post.report: Скаржитися на будь-який допис.
+flash_post_pin_success: Допис успішно закріплено.
+2fa.enable: Увімкнути двофакторну автентифікацію
+2fa.user_active_tfa.title: Використовує 2FA
+moderation.report.ban_user_title: Заборонити користувача
+cancel: Скасувати
+flash_post_unpin_success: Допис успішно відкріплено.
+delete_content: Видалити вміст
+two_factor_backup: Резервні коди двофакторної автентифікації
+password_and_2fa: Пароль і 2FA
+update_comment: Оновити коментар
+two_factor_authentication: Двофакторна автентифікація
+oauth2.grant.post_comment.create: Створювати нові коментарі до дописів.
+oauth2.grant.post.create: Створювати нові дописи.
+purge_content: Повністю видалити вміст
+subject_reported_exists: На цей вміст уже подано скаргу.
+oauth2.grant.moderate.post.trash: Видаляти або відновлювати дописи у ваших модерованих
+  спільнотах.
+moderation.report.approve_report_title: Прийняти скаргу
+moderation.report.reject_report_title: Відхилити скаргу
+oauth2.grant.moderate.magazine.reports.all: Управляти скаргами у ваших модерованих
+  спільнотах.
+oauth2.grant.admin.federation.update: Додавати або видаляти інстанси у список/зі списку
+  дефедерованих.
+oauth2.grant.user.message.all: Читати ваші повідомлення та надсилати повідомлення
+  іншим користувачам.
+oauth2.grant.moderate.magazine.trash.read: Переглядати видалений вміст у ваших модерованих
+  спільнотах.
+oauth2.grant.moderate.magazine_admin.create: Створювати нові спільноти.
+oauth2.grant.post.vote: Голосувати за, проти або давати поштовх будь-якому допису.
+restore_magazine: Відновити спільноту
+delete_content_desc: Видалити вміст користувача, залишивши відповіді інших користувачів
+  у створених гілках, дописах і коментарях.
+magazine_theme_appearance_custom_css: Власний CSS для застосування під час перегляду
+  вашої спільноти відвідувачами.
+purge_account_desc: Повністю видалити обліковий запис, включаючи видалення відповідей
+  інших користувачів у створених гілках, дописах і коментарях.
+2fa.backup_codes.help: 'Скористайтеся цими кодами, якщо у вас не буде пристрою двофакторної
+  автентифікації або програми. <strong>Збережіть їх просто зараз</strong>, оскільки
+  вони більше ніколи не відображатимуться. Памʼятайте: ви зможете використати кожен
+  із них <strong>лише один раз</strong>.'
+oauth2.grant.user.oauth_clients.edit: Редагувати дозволи, які ви надали іншим програмам
+  OAuth2.
+oauth2.grant.user.all: Читати і редагувати ваш профіль, повідомлення чи сповіщення;
+  читати і редагувати дозволи, які ви надали іншим програмам; відстежувати або блокувати
+  інших користувачів; переглядати списки користувачів, яких ви відстежуєте або блокуєте.
+oauth2.grant.moderate.post.set_adult: Позначати дописи як «Делікатне» у ваших модерованих
+  спільнотах.
+oauth2.grant.moderate.magazine_admin.edit_theme: Редагувати користувацький CSS будь-якої
+  вашої спільноти.
+oauth2.grant.moderate.magazine_admin.tags: Створювати або видаляти теги з ваших спільнот.
+moderation.report.ban_user_description: Бажаєте заборонити користувачу (%username%),
+  який створив цей вміст, доступ до цієї спільноти?
+oauth2.grant.moderate.entry.pin: Закріплювати гілки вгорі у ваших модерованих спільнотах.
+oauth2.grant.user.message.read: Читати ваші повідомлення.
+oauth2.grant.admin.entry.purge: Повністю видаляти будь-яку гілку з вашого інстансу.
+2fa.verify: Підтвердити
+oauth2.grant.admin.magazine.all: Переміщати гілки між спільнотами або повністю видаляти
+  спільноти на вашому інстансі.
+oauth2.grant.admin.instance.settings.read: Переглядати налаштування на вашому інстансі.
+oauth2.grant.moderate.post_comment.all: Модерувати коментарі до дописів у ваших модерованих
+  спільнотах.
+last_active: Остання активність
+magazine_theme_appearance_icon: Власний значок для спільноти. Якщо не вибрано жодного,
+  буде використано значок за замовчуванням.
+oauth2.grant.moderate.magazine.ban.create: Забороняти користувачів у ваших модерованих
+  спільнотах.
+oauth2.grant.admin.user.delete: Видаляти користувачів з вашого інстансу.
+oauth2.grant.moderate.post.change_language: Змінювати мову дописів у ваших модерованих
+  спільнотах.
+oauth2.grant.moderate.magazine_admin.delete: Видаляти будь-які ваші спільноти.
+oauth2.grant.moderate.entry_comment.all: Модерувати коментарі в гілках у ваших модерованих
+  спільнотах.
+oauth2.grant.admin.magazine.move_entry: Переміщати гілки між спільнотами на вашому
+  інстансі.
+oauth2.grant.moderate.post.pin: Закріплювати дописи вгорі у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine.reports.action: Приймати і відхиляти скарги у ваших
+  модерованих спільнотах.
+oauth2.grant.admin.magazine.purge: Повністю видаляти спільноти на вашому інстансі.
+oauth2.grant.user.notification.read: Читати ваші сповіщення, у тому числі сповіщення
+  про повідомлення.
+oauth2.grant.admin.user.all: Забороняти, перевіряти або повністю видаляти користувачів
+  на вашому інстансі.
+oauth2.grant.moderate.magazine_admin.all: Створювати, редагувати або видаляти ваші
+  спільноти.
+comment_reply_position_help: Розмістити форму відповіді на коментар вгорі або внизу
+  сторінки. Якщо «Нескінченна прокрутка» ввімкнена, форма завжди відображатиметься
+  вгорі.
+oauth2.grant.post_comment.vote: Голосувати за, проти або давати поштовх будь-якому
+  коментарю до допису.
+oauth2.grant.user.oauth_clients.read: Читати дозволи, які ви надали іншим програмам
+  OAuth2.
+oauth2.grant.moderate.entry.change_language: Змінювати мову гілок у ваших модерованих
+  спільнотах.
+oauth2.grant.moderate.all: Виконувати будь-яку дію модерації, на яку ви маєте дозвіл,
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine.ban.all: Управляти заборонами у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine.all: Управляти заборонами, скаргами, а також переглядати
+  видалене у ваших модерованих спільнотах.
+oauth2.grant.admin.federation.all: Переглядати й оновлювати дефедеровані наразі інстанси.
+oauth2.grant.user.notification.all: Читати й очищати ваші сповіщення.
+oauth2.grant.moderate.magazine.list: Читати список ваших модерованих спільнот.
+oauth2.grant.admin.post.purge: Повністю видаляти будь-який допис із вашого інстансу.
+oauth2.grant.moderate.magazine.ban.read: Переглядати заборонених користувачів у ваших
+  модерованих спільнотах.
+oauth2.grant.user.profile.all: Читати і редагувати ваш профіль.
+oauth2.grant.admin.user.ban: Забороняти або допускати користувачів на вашому інстансі.
+oauth2.grant.admin.all: Виконувати будь-які адміністративні дії на вашому інстансі.
+oauth2.grant.moderate.magazine.reports.read: Читати скарги у ваших модерованих спільнотах.
+2fa.qr_code_img.alt: QR-код, який дозволяє налаштувати двофакторну автентифікацію
+  для вашого облікового запису
+oauth2.grant.user.follow: Відстежувати або не відстежувати користувачів, а також читати
+  список користувачів, яких ви відстежуєте.
+moderation.report.approve_report_confirmation: Ви впевнені, що хочете прийняти цю
+  скаргу?
+magazine_is_deleted: Спільноту видалено. Ви можете <a href="%link_target%">відновити</a>
+  її протягом 30 днів.
+oauth2.grant.moderate.entry.all: Модерувати гілки у ваших модерованих спільнотах.
+delete_account_desc: Видалити обліковий запис, залишивши відповіді інших користувачів
+  у створених гілках, дописах і коментарях.
+oauth2.grant.moderate.entry_comment.set_adult: Позначати коментарі в гілках як «Делікатне»
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.entry_comment.trash: Видаляти або відновлювати коментарі в гілках
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.post.all: Модерувати дописи у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine_admin.update: Редагувати правила, опис, статус «Делікатне»
+  або значок будь-якої вашої спільноти.
+oauth2.grant.moderate.entry.trash: Видаляти або відновлювати гілки у ваших модерованих
+  спільнотах.
+oauth2.grant.user.oauth_clients.all: Читати і редагувати дозволи, які ви надали іншим
+  програмам OAuth2.
+2fa.code_invalid: Код автентифікації недійсний
+oauth2.grant.user.profile.read: Читати ваш профіль.
+oauth2.grant.admin.oauth_clients.read: Переглядати клієнти OAuth2, наявні на вашому
+  інстансі, а також статистику їх використання.
+single_settings: Окреме
+oauth2.grant.moderate.post_comment.set_adult: Позначати коментарі до дописів як «Делікатне»
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.post_comment.change_language: Змінювати мову коментарів до дописів
+  у ваших модерованих спільнотах.
+2fa.available_apps: Щоб відсканувати цей QR-код, використовуйте програму двофакторної
+  автентифікації, наприклад %google_authenticator%, %aegis% (Android) чи %raivo% (iOS).
+oauth2.grant.admin.user.verify: Перевіряти користувачів на вашому інстансі.
+oauth2.grant.admin.instance.information.edit: Оновлювати на вашому інстансі сторінки
+  «Про інстанс», «FAQ», «Звʼязок», «Умови використання» і «Політика приватності».
+purge_content_desc: Повністю видалити вміст користувача, включаючи видалення відповідей
+  інших користувачів у створених гілках, дописах і коментарях.
+oauth2.grant.admin.oauth_clients.revoke: Відкликати доступ до клієнтів OAuth2 на вашому
+  інстансі.
+oauth2.grant.admin.instance.settings.edit: Оновлювати налаштування на вашому інстансі.
+oauth2.grant.moderate.entry.set_adult: Позначати гілки як «Делікатне» у ваших модерованих
+  спільнотах.
+oauth2.grant.admin.instance.stats: Переглядати статистику вашого інстансу.
+oauth2.grant.admin.instance.settings.all: Переглядати або оновлювати налаштування
+  на вашому інстансі.
+magazine_theme_appearance_background_image: Власне зображення для тла вашої спільноти.
+oauth2.grant.admin.federation.read: Переглядати список дефедерованих інстансів.
+oauth2.grant.moderate.entry_comment.change_language: Змінювати мову коментарів у гілках
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine_admin.stats: Переглядати вміст, статистику голосів
+  і переглядів ваших спільнот.
+oauth2.grant.user.message.create: Надсилати повідомлення іншим користувачам.
+delete_magazine: Видалити спільноту
+oauth2.grant.admin.oauth_clients.all: Переглядати або відкликати клієнти OAuth2, наявні
+  на вашому інстансі.
+2fa.backup-create.label: Створити нові резервні коди автентифікації
+oauth2.grant.moderate.magazine.ban.delete: Допускати користувачів у ваших модерованих
+  спільнотах.
+2fa.backup: Ваші резервні коди автентифікації
+oauth2.grant.post_comment.all: Створювати, редагувати або видаляти ваші коментарі
+  до дописів, а також голосувати, давати поштовх або скаржитися на будь-який коментар
+  до допису.
+oauth2.grant.admin.user.purge: Повністю видаляти користувачів з вашого інстансу.
+2fa.qr_code_link.title: Перейшовши за цим посиланням, ви дозволите вашій платформі
+  зареєструвати цю двофакторну автентифікацію
+2fa.backup-create.help: Ви можете створити нові резервні коди автентифікації; це зробить
+  наявні коди недійсними.
+oauth2.grant.user.notification.delete: Очищати ваші сповіщення.
+show_avatars_on_comments_help: Показати/приховати аватари користувачів під час перегляду
+  коментарів до окремої гілки чи допису.
+2fa.verify_authentication_code.label: Введіть код двофакторної автентифікації, щоб
+  підтвердити налаштування
+oauth2.grant.post.all: Створювати, редагувати або видаляти ваші мікроблоги, а також
+  голосувати, давати поштовх або скаржитися на будь-який мікроблог.
+moderation.report.reject_report_confirmation: Ви впевнені, що хочете відхилити цю
+  скаргу?
+oauth2.grant.user.block: Блокувати або розблокувати користувачів, а також читати список
+  користувачів, яких ви блокуєте.
+oauth2.grant.moderate.post_comment.trash: Видаляти або відновлювати коментарі до дописів
+  у ваших модерованих спільнотах.
+oauth2.grant.moderate.magazine_admin.moderators: Додавати або видаляти модераторів
+  у будь-якій вашій спільноті.
+oauth2.grant.admin.entry_comment.purge: Повністю видаляти будь-який коментар у гілці
+  з вашого інстансу.
+comment_reply_position: Розміщення форми для відповіді
+oauth2.grant.admin.instance.all: Переглядати й оновлювати налаштування інстансу або
+  інформацію про нього.
+oauth2.grant.user.profile.edit: Редагувати ваш профіль.
+purge_magazine: Повністю видалити спільноту
+magazine_deletion: Видалення спільноти
+oauth2.grant.admin.post_comment.purge: Повністю видаляти будь-який коментар до допису
+  з вашого інстансу.
+oauth2.grant.moderate.magazine_admin.badges: Створювати або видаляти значки з ваших
+  спільнот.
+suspend_account: Призупинити обліковий запис
+account_suspended: Обліковий запис призупинено.
+deletion: Видалення
+delete_account_request_revoke: Ваш запит на видалення облікового запису відкликано.
+user_suspend_desc: Призупинення облікового запису приховує ваш вміст на інстансі,
+  але не видаляє його остаточно. Ви можете відновити свій обліковий запис будь-коли.
+account_reinstated: Обліковий запис відновлено.
+request_account_deletion_revoke_button: Відкликати запит на видалення облікового запису
+reinstate_account: Відновити обліковий запис
+remove_subscriptions: Видалити підписки
+apply_for_moderator: Подати заявку на модератора
+request_magazine_ownership: Запит на право власності на спільноту
+cancel_request: Скасувати запит
+ownership_requests: Запити на право власності
+pending: Очікують
+accept: Прийняти
+moderator_requests: Запити на права модератора
+remove_following: Видалити відстежуваних
+abandoned: Покинуті
+open_original_url: Відкрити пряме посилання
+spam_protection: Захист від спаму
+disable_spam_protection: Вимкнути захист від спаму
+enable_spam_protection: Увімкнути захист від спаму
+ap_resend: Повторно надіслати у Федіверс
+turbo_mode: Турборежим (експериментально)
+refresh_user: Оновити користувача
+refresh_magazine: Оновити спільноту

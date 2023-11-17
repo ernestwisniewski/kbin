@@ -828,9 +828,23 @@ user_suspend_desc: Deaktivierung versteckt deine Inhalte vor anderen Benutzern d
   werden.
 account_reinstated: Das Konto wurde reaktiviert.
 remove_subscriptions: Abonnemente entfernen
-request_account_deletion_revoke_button: Die Anfrage zur Kontolöschung zurückziehen.
+request_account_deletion_revoke_button: Anfrage zur Kontolöschung zurückziehen
 delete_magazine: Magazin löschen
 request_magazine_ownership: Magazineigentum anfordern
 reinstate_account: Konto reaktivieren
 purge_magazine: Magazin und sämtliche Inhalte löschen
 magazine_deletion: Magazinlöschung
+cancel_request: Abbruchsanfrage
+abandoned: Verlassen
+ownership_requests: Eigentumsanfragen
+pending: Ausstehend
+accept: Akzeptieren
+moderator_requests: Moderatorbewerbungen
+disable_spam_protection: Spamschutz deaktivieren
+open_original_url: Ursprüngliche URL öffnen
+ap_resend: Erneut an Fediverse senden
+refresh_user: Benutzer aktualisieren
+turbo_mode: Turbomodus (experimentell)
+spam_protection: Spamschutz
+refresh_magazine: Magazin aktualisieren
+enable_spam_protection: Spamschutz aktivieren

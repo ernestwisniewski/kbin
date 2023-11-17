@@ -7,7 +7,7 @@ thread: 帖子
 threads: 帖子
 microblog: 微鋪
 people: 人
-events: 事件
+events: 熱議
 magazines: 刊版
 search: 搜尋
 add: 發表
@@ -237,7 +237,7 @@ classic_view: 傳統版面
 cover: 封面
 to: 傳給
 in: 在
-agree_terms: 
+agree_terms:
   同意%terms_link_start%使用條款%terms_link_end%和%policy_link_start%隱私政策%policy_link_end%
 email_verify: 確認電子郵件地址
 email_confirm_expire: 請注意，此連結於一小時後失效。

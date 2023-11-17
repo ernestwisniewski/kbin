@@ -1,0 +1,486 @@
+type.link: Link
+type.article: Tråd
+type.photo: Foto
+type.video: Video
+type.smart_contract: Intelligent kontrakt
+type.magazine: Magasin
+thread: Tråd
+threads: Tråde
+microblog: Mikroblog
+people: Folk
+events: Begivenheder
+magazine: Magasin
+magazines: Magasiner
+add: Tilføj
+select_channel: Vælg en kanal
+login: Log ind
+top: Top
+hot: Hot
+active: Aktiv
+newest: Nyeste
+oldest: Ældste
+commented: Kommenteret
+change_view: Skift visning
+filter_by_time: Filtrér efter tid
+filter_by_type: Filtrér efter type
+comments_count: '{0}kommentarer|{1}kommentar|]1,Inf[ kommentarer'
+favourites: Favoritter
+favourite: Favorit
+more: Mere
+avatar: Avatar
+views: Visninger
+up_votes: Boosts
+down_votes: Reduceringer
+no_comments: Ingen kommentarer
+created_at: Oprettet
+owner: Ejer
+subscribers: Abonnenter
+online: Online
+comments: Kommentarer
+posts: Indlæg
+replies: Svar
+moderators: Moderatorer
+mod_log: Moderationslog
+add_comment: Tilføj kommentar
+add_post: Tilføj indlæg
+add_media: Tilføj medie
+markdown_howto: Hvordan virker editoren?
+activity: Aktivitet
+cover: Forside
+related_posts: Relaterede indlæg
+random_posts: Tilfældige indlæg
+federated_magazine_info: Magasinet er fra en fødereret server og kan være ufuldstændigt.
+go_to_original_instance: Se mere på den originale instans.
+empty: Tom
+subscribe: Abonnér
+unsubscribe: Afabonnér
+unfollow: Affølg
+reply: Svar
+login_or_email: Login eller email
+password: Kodeord
+remember_me: Husk mig
+you_cant_login: Glemt dit kodeord?
+already_have_account: Har allerede en konto?
+register: Registrér
+reset_password: Nulstil kodeord
+show_more: Vis mere
+to: til
+in: i
+username: Brugernavn
+email: Email
+repeat_password: Gentag kodeord
+terms: Servicevilkår
+privacy_policy: Privatlivspolitik
+about_instance: Om
+all_magazines: Alle magasiner
+stats: Statistik
+fediverse: Fødiverset
+awards: Priser
+ranking: Placering
+create_new_magazine: Lav et nyt magasin
+add_new_article: Lav en ny tråd
+add_new_link: Tilføj nyt link
+add_new_photo: Tilføj nyt foto
+add_new_post: Tilføj nyt indlæg
+contact: Kontakt
+faq: FAQ
+rss: RSS
+change_theme: Skift tema
+useful: Brugbar
+help: Hjælp
+check_email: Check din email
+reset_check_email_desc2: Hvis du ikke modtager en email vær venlig at tjekke i din
+  spam-mappe.
+try_again: Forsøg igen
+up_vote: Boost
+down_vote: Reducér
+email_confirm_header: Hej! Bekræft din e-mailadresse.
+email_confirm_content: 'Er du klar til at aktivere din Kbin-konto? Klik på linket
+  nedenfor:'
+email_verify: Bekræft e-mailadresse
+email_confirm_expire: Læg mærke til at linket udløber efter en time.
+email_confirm_title: Bekræft din e-mailadresse.
+select_magazine: Vælg et magasin
+url: URL
+title: Titel
+body: Krop
+tags: Tags
+badges: Badges
+eng: ENG
+oc: OC
+image: Billede
+image_alt: Alternativ tekst til billede
+name: Navn
+description: Beskrivelse
+rules: Regler
+domain: Domæne
+followers: Følgere
+following: Følger
+overview: Overblik
+cards: Kort
+columns: Søjler
+user: Bruger
+joined: Forbundet
+moderated: Modereret
+ratio: Ratio
+people_local: Lokal
+people_federated: Fødereret
+reputation_points: Omdømmepoint
+related_tags: Relaterede tags
+go_to_filters: Gå til filtre
+go_to_search: Gå til søgning
+go_to_footer: Gå til sidefod
+subscribed: Abonneret
+all: Alle
+logout: Log ud
+classic_view: Klassisk visning
+compact_view: Kompakt visning
+chat_view: Chat visning
+tree_view: Trævisning
+table_view: Tabelvisning
+cards_view: Kortvisning
+3h: 3t
+6h: 6t
+12h: 12t
+1d: 1d
+1w: 1u
+1m: 1m
+1y: 1å
+articles: Tråde
+photos: Foto
+videos: Videoer
+report: Rapporter
+edit: Rediger
+are_you_sure: Er du sikker?
+moderate: Moderer
+reason: Årsag
+edit_link: Rediger link
+share: Del
+copy_url: Kopier URL
+copy_url_to_fediverse: Kopier URL til Fødiverset
+share_on_fediverse: Del på Fødiverset
+edit_article: Rediger tråd
+edit_photo: Rediger foto
+delete: Slet
+edit_post: Rediger indlæg
+edit_comment: Rediger kommentar
+settings: Indstillinger
+general: Generelt
+profile: Profil
+blocked: Blokeret
+reports: Rapporteringer
+notifications: Notifikationer
+messages: Beskeder
+appearance: Udseende
+homepage: Hjemmeside
+hide_adult: Skjul NSFW indhold
+featured_magazines: Fremhævet magasin
+privacy: Privatliv
+show_profile_subscriptions: Vis abonnementer på magasiner
+show_profile_followings: Vis følgere
+notify_on_new_entry_reply: Underret mig om kommentarer på mine tråde
+notify_on_new_entry_comment_reply: Underret mig når der er svar til kommentarer på
+  mine tråde
+notify_on_new_post_reply: Underret mig når der er svar til mine indlæg
+notify_on_new_post_comment_reply: Underret mig når der er svar til mine kommentarer
+  i indlæg
+notify_on_new_entry: Underret mig om nye tråde i magasiner jeg abonnerer på
+notify_on_new_posts: Underret mig om nye indlæg i magasiner jeg abonnerer på
+save: Gem
+about: Om
+old_email: Nuværende e-mail
+new_email: Ny e-mail
+new_email_repeat: Bekræft ny e-mail
+current_password: Nuværende kodeord
+new_password: Nyt kodeord
+new_password_repeat: Bekræft nyt kodeord
+change_email: Skift e-mail
+change_password: Skift kodeord
+expand: Udvid
+collapse: kollaps
+error: Fejl
+votes: Stemmer
+theme: Tema
+dark: Mørk
+light: Lys
+solarized_light: Solariseret Lys
+solarized_dark: Solariseret Mørk
+font_size: Fontstørrelse
+size: Størrelse
+boosts: Boosts
+show_users_avatars: Vis brugeres avatarer
+yes: Ja
+no: Nej
+show_magazines_icons: Vis magasiners ikoner
+show_thumbnails: Vis thumbnails
+rounded_edges: Runde kanter
+removed_thread_by: har fjernet tråd af
+restored_thread_by: har genoprettet tråd af
+removed_comment_by: har fjernet kommentar af
+restored_comment_by: har genoprettet kommentar af
+removed_post_by: har fjernet indlæg af
+restored_post_by: har genoprettet indlæg af
+he_banned: bandlys
+he_unbanned: afbandlys
+read_all: Læs alt
+show_all: Vis alt
+ranking_disabled: Placering er slået fra
+flash_thread_new_success: Denne tråd er blevet succesfuldt oprettet og er ny synlig
+  for andre brugere.
+flash_thread_edit_success: Denne tråd er blevet succesfuldt rettet.
+flash_thread_delete_success: Denne tråd er blevet succesfuldt slettet.
+flash_thread_pin_success: Denne tråd er blevet succesfuldt fastgjort.
+flash_thread_unpin_success: Denne tråd er blevet succesfuldt frigjort.
+flash_magazine_new_success: Magasiner er blevet succesfuldt oprettet. Du kan nu tilføje
+  nyt indhold eller udforske magasinets administratorpanel.
+flash_magazine_edit_success: Magasinet er blevet succesfuldt rettet.
+too_many_requests: Begrænsning nået, prøv venligst igen senere.
+set_magazines_bar: Magasinbar
+set_magazines_bar_desc: tilføj magasinnavne efter kommaet
+set_magazines_bar_empty_desc: hvis feltet er tomt bliver aktive magasiner vist på
+  baren.
+gold: Guld
+silver: Sølv
+bronze: Bronze
+bronze_autobiographer: Selvbiograf
+bronze_autobiographer_desc: For at udfylde alt i profilen
+bronze_personality: Bronzepersonlighed
+bronze_personality_desc: 20 følgere
+bronze_commentator: Bronzekommentator
+bronze_commentator_desc: 10 gode kommentarer
+bronze_scout: Bronzespejder
+bronze_scout_desc: 10 gode links
+bronze_redactor: Bronzeredaktør
+bronze_redactor_desc: 10 gode tråde
+bronze_poster: Bronzeskribent
+bronze_poster_desc: 10 gode indlæg
+bronze_link: Godt link
+bronze_link_desc: Indlægget er blevet boosted fem gange
+bronze_article: Bronzetråd
+bronze_article_desc: Tråden er blevet boosted fem gange
+bronze_photo: Godt foto
+bronze_photo_desc: Fotoet er blevet boosted fem gange
+bronze_comment: God kommentar
+bronze_comment_desc: Kommentaren er blevet boosted fem gange
+bronze_post: Godt indlæg
+bronze_post_desc: Indlægget er blevet boosted fem gange
+bronze_ranking: Nummer tre
+bronze_ranking_desc: Tredje placering
+bronze_popular_entry: Populær tråd
+bronze_popular_entry_desc: Tråd besøgt 1000 gange
+bronze_magazine: Berømt magasin
+bronze_magazine_desc: 20 følgere har lavet magasiner
+silver_personality: Sølvpersonlighed
+silver_personality_desc: 50 følgere
+silver_commentator: Sølvkommentator
+silver_commentator_desc: 10 rigtigt gode kommentarer
+silver_scout: Sølvspejder
+silver_scout_desc: 10 rigtigt gode links
+silver_redactor: Sølvredaktør
+silver_redactor_desc: 10 rigtigt gode tråde
+silver_poster: Sølvskribent
+silver_poster_desc: 10 rigtigt gode indlæg
+silver_link: Rigtigt godt link
+silver_link_desc: Indlægget er blevet boosted ti gange
+silver_article: Sølvtråd
+silver_article_desc: Tråden er blevet boosted ti gange
+silver_photo: Rigtigt godt foto
+silver_photo_desc: Fotoet er blevet boosted ti gange
+silver_comment: Rigtigt god kommentar
+silver_comment_desc: Kommentaren er blevet boosted ti gange
+silver_post: Rigtigt godt indlæg
+silver_post_desc: Indlægget er blevet boosted ti gange
+silver_ranking: Nummer to
+silver_ranking_desc: Anden placering
+silver_popular_entry: Populær tråd
+silver_popular_entry_desc: Tråd vist 5000 gange
+silver_magazine: Populært magasin
+silver_magazine_desc: 50 følgere har lavet magasiner
+silver_entry_week: Ugens tråd
+silver_entry_week_desc: Ugens bedste tråd
+silver_comment_week: Ugens kommentar
+silver_comment_week_desc: Ugens bedste kommentar
+silver_post_week: Ugens indlæg
+silver_post_week_desc: Ugens bedste indlæg
+gold_personality: Guldpersonlighed
+gold_personality_desc: 100 følgere
+gold_commentator: Guldkommentator
+gold_commentator_desc: Ti fremragende kommentarer
+gold_scout: Guldspejder
+gold_scout_desc: Ti fremragende links
+gold_redactor: Guldredaktør
+gold_redactor_desc: Ti fremragende tråde
+gold_poster: Guldskribent
+gold_poster_desc: Ti fremragende indlæg
+gold_link: Fremragende link
+gold_link_desc: Indlægget er blevet boosted 15 gange
+gold_article: Guldtråd
+gold_article_desc: Tråden er blevet boosted 15 gange
+gold_photo: Fremragende foto
+gold_photo_desc: Fotoet er blevet boosted 15 gange
+gold_comment: Fremragende kommentar
+gold_comment_desc: Kommentaren er blevet boosted 15 gange
+gold_post: Fremragende indlæg
+gold_post_desc: Indlægget er blevet boosted 15 gange
+gold_ranking: Nummer et
+gold_ranking_desc: Første placering
+gold_popular_entry: Populær tråd
+gold_popular_entry_desc: Tråd besøgt 10000 gange
+gold_magazine: Populært magasin
+gold_magazine_desc: 100 følgere har lavet magasiner
+gold_entry_month: Månedens tråd
+gold_entry_month_desc: Månedens bedste tråd
+gold_comment_month: Månedens kommentar
+gold_comment_month_desc: Månedens bedste kommentar
+gold_post_month: Månedens indlæg
+gold_post_month_desc: Månedens bedste indlæg
+mod_log_alert: Advarsel - Modloggen kan indholde ubehageligt eller foruroligende indhold
+  der er blevet fjernet af moderatorerne. Vær forsigtig.
+added_new_thread: Tilføjet en ny tråd
+edited_thread: Redigeret en tråd
+mod_remove_your_thread: En moderator fjernede din tråd
+added_new_comment: Tilføjet en ny kommentar
+edited_comment: Redigeret en kommentar
+replied_to_your_comment: Svarede på din kommentar
+mod_deleted_your_comment: En moderator slettede din kommentar
+added_new_post: Tilføjet et nyt indlæg
+edited_post: Redigerede et indlæg
+mod_remove_your_post: En moderator fjernede dit indlæg
+added_new_reply: Tilføjet et nyt svar
+wrote_message: Skrev en besked
+banned: Bandlyste dig
+deleted: Slettet af forfatter
+mentioned_you: Nævnte dig
+comment: Kommentar
+post: Indlæg
+ban_expired: Bandlysning udløbet
+purge: Udrensning
+send_message: Send besked
+message: Besked
+infinite_scroll: Uendeligt scroll
+show_top_bar: Vis top bar
+sticky_navbar: Klæbrig navbar
+subject_reported: Indhold er blevet rapporteret.
+sidebar_position: Position af sidebar
+left: Venstre
+right: Højre
+federation: Føderation
+status: Status
+on: Til
+off: Fra
+instances: Instanser
+upload_file: Upload fil
+from_url: Fra url
+magazine_panel: Magasinpanel
+reject: Afvis
+approve: Godkend
+ban: Bandlys
+filters: Filtre
+approved: Godkendt
+rejected: Afvist
+add_moderator: Tilføj moderator
+add_badge: Tilføj badge
+bans: Bandlysninger
+created: Oprettet
+expires: Udløber
+perm: Permanent
+expired_at: Udløb
+add_ban: Opret bandlysning
+trash: Affald
+icon: Ikon
+done: Færdig
+change_magazine: Skift magasin
+change_language: Skift sprog
+change: Skift
+pin: Fastgør
+unpin: Løsriv
+pinned: Fastgjort
+preview: Forhåndsvisning
+article: Tråd
+reputation: Omdømme
+note: Note
+writing: Skriver
+users: Brugere
+content: Indhold
+week: Uge
+weeks: Uger
+month: Måned
+months: Måneder
+year: År
+federated: Fødereret
+local: Lokal
+admin_panel: Adminpanel
+dashboard: Instrumentbræt
+contact_email: Kontakt e-mail
+meta: Meta
+instance: Instans
+pages: Sider
+FAQ: FAQ
+inactive: Inaktiv
+type_search_term: Indtast søgeord
+federation_enabled: Føderation aktiveret
+registrations_enabled: Registreringer aktiveret
+registration_disabled: Registreringer deaktiveret
+restore: Gendan
+add_mentions_entries: Tilføj nævnetags i indgange
+add_mentions_posts: Tilføj nævnetags i indlæg
+Password is invalid: Kodeord er ugyldigt.
+Your account is not active: Din konto er ikke aktiv.
+Your account has been banned: Din konto er blevet bandlyst.
+firstname: Fornavn
+send: Send
+active_users: Aktive folk
+random_entries: Tilfældige tråde
+related_entries: Relaterede tråde
+delete_account: Slet konto
+purge_account: Udrens konto
+ban_account: Bandlys konto
+unban_account: Fjern bandlysning af konto
+delete_account_request_send: Din anmodning for at få slettet din konto er blevet indsendt.
+related_magazines: Relaterede magasiner
+random_magazines: Tilfældige magasiner
+magazine_panel_tags_info: Giv kun hvis du vil have indhold fra fødiverset inkluderet
+  i dette magasin baseret på tags
+sidebar: Sidebar
+auto_preview: Auto media forhåndsvisning
+dynamic_lists: Dynamiske lister
+banned_instances: Bandlyste instanser
+kbin_intro_title: Udforsk Fødiverset
+kbin_intro_desc: det er en decentral platform til aggregering af indhold og microblogging
+  som opererer i Fødiversnetværket.
+kbin_promo_title: Skab din egen instans
+kbin_promo_desc: '%link_start%Klon repo%link_end% og udvikl fødiverset'
+captcha_enabled: Captcha aktiveret
+header_logo: Headerlogo
+browsing_one_thread: Du kigger kun på en tråd i diskussionen! Alle kommentarer er
+  tilgængelige på indlæggets side.
+return: Tilbage
+boost: Boost
+mercure_enabled: Mercure aktiveret
+report_issue: Rapporter problem
+tokyo_night: Nat i Tokyo
+search: Søg
+added: Tilføjet
+enter_your_comment: Skriv kommentar
+enter_your_post: Skriv indlæg
+federated_user_info: Profilen er fra en fødereret server og kan være ufuldstændigt.
+follow: Følg
+dont_have_account: Har ikke en konto?
+agree_terms: Giv samtykke til %terms_link_start%Vilkår og Betingelser%terms_link_end%
+  og %policy_link_start%Privatlivspolitik%policy_link_end%
+add_new_video: Tilføj ny video
+reset_check_email_desc: Hvis der allerede er en konto tilknyttet din e-mailadresse,
+  skulle du snarest modtage en mail med et link, som du kan bruge til at nulstille
+  dit kodeord. Dette link vil udløbe i løbet af %expire%.
+add_new: Tilføj ny
+is_adult: 18+ / NSFW
+subscriptions: Abonnementer
+go_to_content: Gå til indhold
+links: Links
+domains: Domæner
+flash_register_success: Velkommen ombord! Din konto er nu registreret. Et sidste skridt
+  - check din mail for en aktiveringslink der får liv i din konto.
+removed: Fjernet af mod
+preferred_languages: Filtrér på sprog af tråde og indlæg
+toolbar.code: Kode
+toolbar.image: Billede
