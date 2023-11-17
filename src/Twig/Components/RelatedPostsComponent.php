@@ -68,7 +68,7 @@ final class RelatedPostsComponent
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
                     self::TYPE_MAGAZINE => $this->repository->findRelatedByTag(
-                        $this->mentionManager->getUsername($this->magazine),
+                        $this->mentionManager->getUsername(explode('@', $this->magazine)[0]),
                         $this->limit + 20
                     ),
                     default => $this->repository->findLast($this->limit + 150),
