@@ -81,8 +81,7 @@ The inspiration came from platforms like [Postmill](https://postmill.xyz/), [Str
 - [rideranton](https://codeberg.org/rideranton?tab=activity)
 - [AnonymousLlama](https://github.com/simonrcodrington)
 
-
-  https://codeberg.org/org/Kbin/teams
+https://codeberg.org/org/Kbin/teams
 
 ### Design Team
 
