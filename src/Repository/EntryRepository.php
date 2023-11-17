@@ -83,7 +83,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             ->addSelect('e', 'm', 'u', 'd')
             ->where('e.visibility = :visibility')
             ->andWhere('m.visibility = :visible')
-            ->andWhere('u.visibility = :visible')
             ->join('e.magazine', 'm')
             ->join('e.user', 'u')
             ->leftJoin('e.domain', 'd');
