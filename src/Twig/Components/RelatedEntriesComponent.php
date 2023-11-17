@@ -63,7 +63,7 @@ final class RelatedEntriesComponent
         return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(1800);
+                $item->expiresAfter(300);
 
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
@@ -76,9 +76,9 @@ final class RelatedEntriesComponent
 
                 $entries = array_filter(
                     $entries,
-                    fn(Entry $e) => !$e->isAdult
+                    fn (Entry $e) => !$e->isAdult
                         && !$e->magazine->isAdult
-                        && $e->magazine->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE
+                        && VisibilityInterface::VISIBILITY_VISIBLE === $e->magazine->getVisibility()
                 );
 
                 if (\count($entries) > $this->limit) {

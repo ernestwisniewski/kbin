@@ -63,7 +63,7 @@ final class RelatedPostsComponent
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(1800);
+                $item->expiresAfter(300);
 
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
@@ -76,7 +76,7 @@ final class RelatedPostsComponent
 
                 $posts = array_filter($posts, fn (Post $p) => !$p->isAdult
                     && !$p->magazine->isAdult
-                    && $p->magazine->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE
+                    && VisibilityInterface::VISIBILITY_VISIBLE === $p->magazine->getVisibility()
                 );
 
                 if (\count($posts) > $this->limit) {
