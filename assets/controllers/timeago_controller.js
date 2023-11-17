@@ -2,6 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 import * as timeago from 'timeago.js';
 import de from 'timeago.js/lib/lang/de';
 import el from 'timeago.js/lib/lang/el';
+import eo from '../utils/timeago-esperanto';
 import es from 'timeago.js/lib/lang/es';
 import fr from 'timeago.js/lib/lang/fr';
 import it from 'timeago.js/lib/lang/it';
@@ -22,7 +23,7 @@ export default class extends Controller {
         }
 
         const lang = document.documentElement.lang;
-        const languages = { de, el, es, fr, it, ja, nl, pl, pt, tr, zh_TW };
+        const languages = { de, el, eo, es, fr, it, ja, nl, pl, pt, tr, zh_TW };
 
         if (languages[lang]) {
             timeago.register(lang, languages[lang]);
