@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Service\MentionManager;
@@ -62,7 +63,7 @@ final class RelatedPostsComponent
         return $this->cache->get(
             "related_posts_{$magazine}_{$this->tag}_{$postId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(60);
+                $item->expiresAfter(1800);
 
                 $posts = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
@@ -73,7 +74,10 @@ final class RelatedPostsComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
-                $posts = array_filter($posts, fn (Post $p) => !$p->isAdult && !$p->magazine->isAdult);
+                $posts = array_filter($posts, fn (Post $p) => !$p->isAdult
+                    && !$p->magazine->isAdult
+                    && $p->magazine->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE
+                );
 
                 if (\count($posts) > $this->limit) {
                     shuffle($posts); // randomize the order

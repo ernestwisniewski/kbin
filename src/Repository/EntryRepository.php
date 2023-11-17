@@ -318,7 +318,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $this->createQueryBuilder('e')
             ->andWhere("JSONB_CONTAINS(e.tags, '\"".$tag."\"') = true")
             ->andWhere('e.visibility = :visibility')
-            ->andWhere('m.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
             ->join('e.magazine', 'm')
@@ -334,7 +333,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         return $this->createQueryBuilder('e')
             ->where('m.name LIKE :name OR m.title LIKE :title')
             ->andWhere('e.visibility = :visibility')
-            ->andWhere('m.visibility = :visibility')
             ->andWhere('m.isAdult = false')
             ->andWhere('e.isAdult = false')
             ->join('e.magazine', 'm')
@@ -356,7 +354,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             JOIN magazine m ON e.magazine_id = m.id
             WHERE e.is_adult = false
               AND e.visibility = :visible
-              AND m.visibility = :visible
               AND m.is_adult = false
               AND e.ap_id IS NULL
               AND e.created_at >= :time

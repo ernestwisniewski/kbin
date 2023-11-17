@@ -293,7 +293,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         return $qb
             ->andWhere("JSONB_CONTAINS(p.tags, '\"".$tag."\"') = true")
             ->andWhere('p.visibility = :visibility')
-            ->andWhere('m.visibility = :visibility')
             ->andWhere('m.name != :name')
             ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
@@ -311,7 +310,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         return $qb->where('m.name LIKE :name OR m.title LIKE :title')
             ->andWhere('p.visibility = :visibility')
-            ->andWhere('m.visibility = :visibility')
             ->andWhere('p.isAdult = false')
             ->andWhere('m.isAdult = false')
             ->join('p.magazine', 'm')
@@ -333,7 +331,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             JOIN magazine m ON p.magazine_id = m.id
             WHERE p.is_adult = false
               AND p.visibility = :visible
-              AND m.visibility = :visible
               AND m.is_adult = false
               AND p.ap_id IS NULL
               AND p.created_at >= :time

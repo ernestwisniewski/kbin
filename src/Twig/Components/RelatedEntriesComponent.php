@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Twig\Components;
 
+use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Repository\EntryRepository;
 use App\Service\MentionManager;
@@ -62,7 +63,7 @@ final class RelatedEntriesComponent
         return $this->cache->get(
             "related_entries_{$magazine}_{$this->tag}_{$entryId}_{$this->type}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(60);
+                $item->expiresAfter(1800);
 
                 $entries = match ($this->type) {
                     self::TYPE_TAG => $this->repository->findRelatedByMagazine($this->tag, $this->limit + 20),
@@ -73,7 +74,12 @@ final class RelatedEntriesComponent
                     default => $this->repository->findLast($this->limit + 150),
                 };
 
-                $entries = array_filter($entries, fn (Entry $e) => !$e->isAdult && !$e->magazine->isAdult);
+                $entries = array_filter(
+                    $entries,
+                    fn(Entry $e) => !$e->isAdult
+                        && !$e->magazine->isAdult
+                        && $e->magazine->getVisibility() === VisibilityInterface::VISIBILITY_VISIBLE
+                );
 
                 if (\count($entries) > $this->limit) {
                     shuffle($entries); // randomize the order
