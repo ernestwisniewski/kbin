@@ -1,7 +1,4 @@
-# Kbin
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/maintainability)](https://codeclimate.com/github/ernestwisniewski/kbin/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/ee285c05da04524ea2f9/test_coverage)](https://codeclimate.com/github/ernestwisniewski/kbin/test_coverage)
+# /kbin
 
 /kbin is a modular, decentralized content aggregator and microblogging platform running on the Fediverse network. It can
 communicate with many other ActivityPub services, including Mastodon, Lemmy, Pleroma, Peertube. The initiative aims to
@@ -17,14 +14,16 @@ The inspiration came from platforms like [Postmill](https://postmill.xyz/), [Str
 
 - [https://kbin.pub](https://kbin.pub) - project website
 - [https://kbin.social](https://kbin.social) - main instance
-- [List of instances](https://fedidb.org/software/kbin)
+- [https://karab.in](https://karab.in) - Polish-lang instance
+- [List of all instances](https://fedidb.org/software/kbin)
 
 ## Contributing
 
 - [Official repository on Codeberg](https://codeberg.org/Kbin/kbin-core)
+- [Mirror repository on GitHub](https://github.com/ernestwisniewski/kbin)
 - [Translations](https://translate.codeberg.org/projects/kbin/)
 - [#kbin-space:matrix.org](https://matrix.to/#/#kbin-space:matrix.org)
-- [Contribution guidelines](https://codeberg.org/Kbin/kbin-core/wiki/Contributing) - please read first, including before opening an issue!
+- [Contribution guidelines](docs/contributing.md) - please read first, including before opening an issue
 
 ---
 
@@ -44,11 +43,16 @@ The inspiration came from platforms like [Postmill](https://postmill.xyz/), [Str
 
 ## Documentation
 
-- [User Guide](https://codeberg.org/Kbin/kbin-core/wiki#user-guide)
-- [Admin Guide](https://codeberg.org/Kbin/kbin-core/wiki#admin-guide)
-- [Kbin REST API Reference](https://docs.kbin.pub)
-- [Kbin ActivityPub Reference](https://fedidevs.org/projects/kbin/)
-- Kbin GraphQL Reference
+- [User Guide](docs/user_guide.md)
+- [Unofficial Community Guide](https://unofficial-kbin-guide.surge.sh/)
+- [Bare Metal Deployment Guide](docs/admin_guide.md)
+- [Docker Deployment Guide](docs/docker_deployment_guide.md)
+- [OAuth2 Guide](docs/oauth2_guide.md)
+- [Contributing](docs/contributing.md)
+- [REST API Reference](https://kbin.social/api/docs)
+- [REST API Reference](https://docs.kbin.pub) (deprecated)
+- [ActivityPub Reference](https://fedidevs.org/projects/kbin/)
+- GraphQL Reference
 
 ## Federation
 
@@ -60,21 +64,52 @@ The inspiration came from platforms like [Postmill](https://postmill.xyz/), [Str
 
 ### Unofficial Sources
 
+- [Fediverse Developer Network](https://fedidevs.org/)
+- [Join the Fediverse](https://jointhefediverse.net/)
+- [Join the Fediverse Wiki](https://joinfediverse.wiki/Main_Page)
 - [A highly opinionated guide to learning about ActivityPub](https://tinysubversions.com/notes/reading-activitypub/)
 - [ActivityPub as it has been understood](https://flak.tedunangst.com/post/ActivityPub-as-it-has-been-understood)
 - [Schema Generator 3: A Step Towards Redecentralizing the Web!](https://dunglas.fr/2021/01/schema-generator-3-a-step-towards-redecentralizing-the-web/)
-- [API Platform ActivityPub](https://github.com/api-platform/activity-pub)
+
+## Credits
+
+### Core Team
+
+- [ernest](https://github.com/ernestwisniewski)
+- [szsz](https://github.com/SzymonKaminski)
+- [cooperaj](https://github.com/cooperaj)
+- [rideranton](https://codeberg.org/rideranton?tab=activity)
+- [AnonymousLlama](https://github.com/simonrcodrington)
+
+
+  https://codeberg.org/org/Kbin/teams
+
+### Design Team
+
+- [cody](https://kbin.social/u/cody)
+
 
 ## Languages
 
 - English
+- Chinese
+- Danish
+- Dutch
+- Esperanto
+- French
+- Galician
+- German
+- Greek
+- Italian
+- Japanese
 - Polish
-- Dutch ([Vistaus](https://github.com/Vistaus), [Melroy](https://github.com/melroy89))
-- Japanese ([@dannekrose@brioco.social](https://brioco.social/@dannekrose))
+- Russian
+- Spanish
+- Turkish
+- Ukrainian
 
-## Credits
+https://translate.codeberg.org/projects/kbin/kbin/
 
-- [grumpyDev](https://karab.in/u/grumpyDev): Logotype, icons, kbin-theme
 
 ## Donate
 
@@ -93,7 +128,11 @@ These are people who are actively contributing to /kbin project and are all volu
 
 ###
 
-[<img src="docs/images/partners/browserstack.png" alt="BrowserStack" height="75">](https://www.browserstack.com/open-source)
+[<img src="docs/images/partners/fastly.png" alt="Fastly" height="75">](https://www.fastly.com/fast-forward#apply-for-the-fast-forward-program)
+
+###
+
+[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="150">](https://jb.gg/OpenSourceSupport)
 
 ###
 
@@ -101,7 +140,8 @@ These are people who are actively contributing to /kbin project and are all volu
 
 ###
 
-[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="150">](https://jb.gg/OpenSourceSupport)
+[<img src="docs/images/partners/browserstack.png" alt="BrowserStack" height="75">](https://www.browserstack.com/open-source)
+
 
 ## License
 
