@@ -35,14 +35,14 @@
                 placeholder: 'description',
                 'data-controller': 'input-length rich-textarea autogrow',
                 'data-action' : 'input-length#updateDisplay',
-                'data-input-length-max-value': constant('App\\Kbin\\Magazine\\DTO\\MagazineDto::MAX_DESCRIPTION_LENGTH')
+                'data-input-length-max-value': constant('App\\Entity\\Magazine::MAX_DESCRIPTION_LENGTH')
                 }}) }}
             {{ component('editor_toolbar', {id: 'magazine_rules'}) }}
             {{ form_row(form.rules, {label: false, attr: {
                 placeholder: 'rules',
                 'data-controller': 'input-length rich-textarea autogrow',
                 'data-action' : 'input-length#updateDisplay',
-                'data-input-length-max-value': constant('App\\Kbin\\Magazine\\DTO\\MagazineDto::MAX_RULES_LENGTH')
+                'data-input-length-max-value': constant('App\\Entity\\Magazine::MAX_RULES_LENGTH')
                 }}) }}
             {{ form_row(form.isAdult, {label:'is_adult', row_attr: {class: 'checkbox'}}) }}
             <div class="row actions">
