@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class VoteFixtures extends BaseFixture implements DependentFixtureInterface
 {
-    public function __construct(private readonly VoteManager $voteManager)
+    public function __construct(private readonly VoteCreate $voteCreate)
     {
     }
 
@@ -38,7 +38,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
+            ($this->voteCreate)(
                 rand(0, 4) > 0 ? 1 : -1,
                 $this->getReference('entry_'.$e),
                 $this->getReference('user_'.$u)
@@ -68,7 +68,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
+            ($this->voteCreate)(
                 rand(0, 4) > 0 ? 1 : -1,
                 $this->getReference('entry_comment_'.$c),
                 $this->getReference('user_'.$u)
@@ -90,7 +90,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
+            ($this->voteCreate)(
                 rand(0, 4) > 0 ? 1 : -1,
                 $this->getReference('post_'.$e),
                 $this->getReference('user_'.$u)
@@ -112,7 +112,7 @@ class VoteFixtures extends BaseFixture implements DependentFixtureInterface
                 continue;
             }
 
-            $this->voteManager->vote(
+            ($this->voteCreate)(
                 rand(0, 4) > 0 ? 1 : -1,
                 $this->getReference('post_comment_'.$c),
                 $this->getReference('user_'.$u)

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Comment;
 
+use App\Kbin\Vote\VoteCreate;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class EntryCommentVoteApiTest extends WebTestCase
@@ -128,8 +128,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $this->getUserByUsername('user'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $this->getUserByUsername('user'), rateLimit: false);
 
         $client->request('PUT', "/api/comments/{$comment->getId()}/vote/0");
 
@@ -143,8 +143,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry, $user);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -164,8 +164,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('an entry', body: 'test');
         $comment = $this->createEntryComment('test comment', $entry, $user);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -211,7 +211,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -229,7 +230,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read entry_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -259,7 +261,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -280,7 +283,8 @@ class EntryCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read entry_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request('PUT', "/api/comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);

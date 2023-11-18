@@ -6,12 +6,12 @@ namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Entity\User;
 use App\EventSubscriber\VoteHandleSubscriber;
+use App\Kbin\Vote\VoteUp;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
-use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -24,7 +24,7 @@ class AnnounceHandler
         private readonly ApActivityRepository $repository,
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $bus,
-        private readonly VoteManager $manager,
+        private readonly VoteUp $voteUp,
         private readonly VoteHandleSubscriber $voteHandleSubscriber,
         private readonly ApHttpClient $apHttpClient,
     ) {
@@ -48,18 +48,8 @@ class AnnounceHandler
             $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
             if ($actor instanceof User) {
-                $this->manager->upvote($entity, $actor);
+                ($this->voteUp)($entity, $actor);
                 $this->voteHandleSubscriber->clearCache($entity);
-
-                //                if (null === $entity->magazine->apId) {
-                //                    $this->bus->dispatch(
-                //                        new \App\Message\ActivityPub\Outbox\AnnounceMessage(
-                //                            $actor->getId(),
-                //                            $entity->getId(),
-                //                            get_class($entity)
-                //                        )
-                //                    );
-                //                }
             } else {
                 $entity->lastActive = new \DateTime();
                 $this->entityManager->flush();

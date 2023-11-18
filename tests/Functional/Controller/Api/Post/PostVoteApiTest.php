@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post;
 
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 
 class PostVoteApiTest extends WebTestCase
@@ -76,9 +76,17 @@ class PostVoteApiTest extends WebTestCase
         self::assertSame(1, $jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('test-post', $jsonData['slug']);
         self::assertNull($jsonData['apId']);
     }
@@ -150,9 +158,17 @@ class PostVoteApiTest extends WebTestCase
         self::assertSame(-1, $jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('test-post', $jsonData['slug']);
         self::assertNull($jsonData['apId']);
     }
@@ -174,8 +190,8 @@ class PostVoteApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $post, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $post, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -194,8 +210,8 @@ class PostVoteApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('acme');
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $post, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $post, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -230,9 +246,17 @@ class PostVoteApiTest extends WebTestCase
         self::assertSame(0, $jsonData['userVote']);
         self::assertFalse($jsonData['isAdult']);
         self::assertFalse($jsonData['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('test-post', $jsonData['slug']);
         self::assertNull($jsonData['apId']);
     }

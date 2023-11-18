@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry;
 
 use App\Kbin\Entry\EntryPin;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -82,7 +82,7 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
     public function testApiCanGetMagazineEntriesPinnedFirst(): void
     {
         $client = self::createClient();
-        $voteManager = $this->getService(VoteManager::class);
+        $voteCreate = $this->getService(VoteCreate::class);
         $entryPin = $this->getService(EntryPin::class);
         $voter = $this->getUserByUsername('voter');
         $first = $this->getEntryByTitle('an entry', body: 'test');
@@ -90,7 +90,7 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->getEntryByTitle('another entry', url: 'https://google.com', magazine: $magazine);
         // Upvote and comment on $second so it should come first, but then pin $third so it actually comes first
-        $voteManager->vote(1, $second, $voter, rateLimit: false);
+        $voteCreate(1, $second, $voter, rateLimit: false);
         $this->createEntryComment('test', $second, $voter);
         $third = $this->getEntryByTitle('a pinned entry', url: 'https://google.com', magazine: $magazine);
         $entryPin($third);
@@ -161,7 +161,11 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/entries?sort=newest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/entries?sort=newest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -211,7 +215,11 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/entries?sort=oldest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/entries?sort=oldest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -254,7 +262,11 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/entries?sort=commented", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/entries?sort=commented",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -307,7 +319,11 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/entries?sort=active", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/entries?sort=active",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -341,10 +357,10 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $third = $this->getEntryByTitle('third', url: 'https://google.com');
         $magazine = $first->magazine;
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
-        $voteManager->vote(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
+        $voteCreate(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));
@@ -352,7 +368,11 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/entries?sort=top", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/entries?sort=top",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -432,9 +452,17 @@ class MagazineEntryRetrieveApiTest extends WebTestCase
         self::assertFalse($jsonData['items'][0]['isOc']);
         self::assertFalse($jsonData['items'][0]['isAdult']);
         self::assertFalse($jsonData['items'][0]['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['items'][0]['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('link', $jsonData['items'][0]['type']);
         self::assertEquals('another-entry', $jsonData['items'][0]['slug']);
         self::assertNull($jsonData['items'][0]['apId']);

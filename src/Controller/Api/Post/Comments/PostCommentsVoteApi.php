@@ -9,7 +9,7 @@ use App\DTO\PostCommentResponseDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\PostComment;
 use App\Factory\PostCommentFactory;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -101,7 +101,7 @@ class PostCommentsVoteApi extends PostsBaseApi
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
         int $choice,
-        VoteManager $manager,
+        VoteCreate $voteCreate,
         PostCommentFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
@@ -112,7 +112,7 @@ class PostCommentsVoteApi extends PostsBaseApi
         }
 
         // Rate limit handled above
-        $manager->vote($choice, $comment, $this->getUserOrThrow(), rateLimit: false);
+        $voteCreate($choice, $comment, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
             $this->serializePostComment($factory->createDto($comment)),

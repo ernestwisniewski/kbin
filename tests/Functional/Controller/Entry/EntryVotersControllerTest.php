@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Entry;
 
 use App\Entity\Contracts\VotableInterface;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 
 class EntryVotersControllerTest extends WebTestCase
@@ -17,8 +17,8 @@ class EntryVotersControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VotableInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(VotableInterface::VOTE_UP, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 
@@ -34,8 +34,8 @@ class EntryVotersControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/t/{$entry->getId()}/test-entry-1");
 

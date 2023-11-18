@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post\Comment;
 
+use App\Kbin\Vote\VoteCreate;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class PostCommentVoteApiTest extends WebTestCase
@@ -34,7 +34,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/1", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/1",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -52,7 +56,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read post_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/1", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/1",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -90,7 +98,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/-1", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/-1",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -108,7 +120,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read post_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/-1", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/-1",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -128,8 +144,8 @@ class PostCommentVoteApiTest extends WebTestCase
         $post = $this->createPost('a post');
         $comment = $this->createPostComment('test comment', $post);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $this->getUserByUsername('user'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $this->getUserByUsername('user'), rateLimit: false);
 
         $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/0");
 
@@ -143,8 +159,8 @@ class PostCommentVoteApiTest extends WebTestCase
         $post = $this->createPost('a post');
         $comment = $this->createPostComment('test comment', $post, $user);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -152,7 +168,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/0", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/0",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -164,8 +184,8 @@ class PostCommentVoteApiTest extends WebTestCase
         $post = $this->createPost('a post');
         $comment = $this->createPostComment('test comment', $post, $user);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $comment, $user, rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $comment, $user, rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -173,7 +193,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read post_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/vote/0", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/vote/0",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -211,7 +235,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/favourite",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -229,7 +257,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read post_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/favourite",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);
@@ -259,7 +291,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/favourite",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -280,7 +316,11 @@ class PostCommentVoteApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read post_comment:vote');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('PUT', "/api/post-comments/{$comment->getId()}/favourite", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'PUT',
+            "/api/post-comments/{$comment->getId()}/favourite",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(200);
         $jsonData = self::getJsonResponse($client);

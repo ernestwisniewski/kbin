@@ -39,9 +39,9 @@ use App\Kbin\User\UserAvatarDetach;
 use App\Kbin\User\UserCoverDetach;
 use App\Kbin\User\UserUnblock;
 use App\Kbin\User\UserUnfollow;
+use App\Kbin\Vote\VoteCreate;
 use App\Message\DeleteUserMessage;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -69,7 +69,7 @@ class DeleteUserHandler
         private readonly PostCommentPurge $postCommentPurge,
         private readonly PostDelete $postDelete,
         private readonly PostPurge $postPurge,
-        private readonly VoteManager $voteManager,
+        private readonly VoteCreate $voteCreate,
         private readonly FavouriteManager $favouriteManager,
         private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager
@@ -260,7 +260,7 @@ class DeleteUserHandler
 
             foreach ($subjects as $subject) {
                 $retry = true;
-                $this->voteManager->vote(VotableInterface::VOTE_NONE, $subject, $this->user);
+                ($this->voteCreate)(VotableInterface::VOTE_NONE, $subject, $this->user);
             }
         }
 

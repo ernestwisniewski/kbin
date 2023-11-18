@@ -7,8 +7,8 @@ namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 use App\DTO\ModeratorDto;
 use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
+use App\Kbin\Vote\VoteUp;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -114,8 +114,8 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         $favouriteManager = $this->getService(FavouriteManager::class);
         $favourite = $favouriteManager->toggle($user, $entry);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $vote = $voteManager->upvote($entry, $user);
+        $voteUp = $this->getService(VoteUp::class);
+        $vote = $voteUp($entry, $user);
 
         $entityManager = $this->getService(EntityManagerInterface::class);
         $entityManager->persist($favourite);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Post;
 
 use App\Kbin\Post\PostPin;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -81,7 +81,7 @@ class MagazinePostRetrieveApiTest extends WebTestCase
     public function testApiCanGetMagazinePostsPinnedFirst(): void
     {
         $client = self::createClient();
-        $voteManager = $this->getService(VoteManager::class);
+        $voteCreate = $this->getService(VoteCreate::class);
         $postPin = $this->getService(PostPin::class);
         $voter = $this->getUserByUsername('voter');
         $first = $this->createPost('a post');
@@ -89,7 +89,7 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $second = $this->createPost('another post', magazine: $magazine);
         // Upvote and comment on $second so it should come first, but then pin $third so it actually comes first
-        $voteManager->vote(1, $second, $voter, rateLimit: false);
+        $voteCreate(1, $second, $voter, rateLimit: false);
         $this->createPostComment('test', $second, $voter);
         $third = $this->createPost('a pinned post', magazine: $magazine);
         $postPin($third);
@@ -159,7 +159,11 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/posts?sort=newest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/posts?sort=newest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -209,7 +213,11 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/posts?sort=oldest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/posts?sort=oldest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -252,7 +260,11 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/posts?sort=commented", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/posts?sort=commented",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -305,7 +317,11 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/posts?sort=active", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/posts?sort=active",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -339,10 +355,10 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $third = $this->createPost('third');
         $magazine = $first->magazine;
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
-        $voteManager->vote(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
+        $voteCreate(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));
@@ -350,7 +366,11 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/magazine/{$magazine->getId()}/posts?sort=top", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/magazine/{$magazine->getId()}/posts?sort=top",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -427,9 +447,17 @@ class MagazinePostRetrieveApiTest extends WebTestCase
         self::assertSame(0, $jsonData['items'][0]['userVote']);
         self::assertFalse($jsonData['items'][0]['isAdult']);
         self::assertFalse($jsonData['items'][0]['isPinned']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['items'][0]['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertEquals('another-post', $jsonData['items'][0]['slug']);
         self::assertNull($jsonData['items'][0]['apId']);
     }

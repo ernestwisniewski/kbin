@@ -9,7 +9,7 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class VoteController extends AbstractController
 {
-    public function __construct(private readonly VoteManager $manager)
+    public function __construct(private readonly VoteCreate $voteCreate)
     {
     }
 
@@ -27,7 +27,7 @@ class VoteController extends AbstractController
     {
         $this->validateCsrf('vote', $request->request->get('token'));
 
-        $vote = $this->manager->vote($choice, $votable, $this->getUserOrThrow());
+        $vote = ($this->voteCreate)($choice, $votable, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

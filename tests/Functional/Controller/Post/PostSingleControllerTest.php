@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Post;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Kbin\Vote\VoteCreate;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class PostSingleControllerTest extends WebTestCase
@@ -46,8 +46,8 @@ class PostSingleControllerTest extends WebTestCase
 
         $post = $this->createPost('test post 1');
 
-        $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VotableInterface::VOTE_DOWN, $post, $this->getUserByUsername('JaneDoe'));
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(VotableInterface::VOTE_DOWN, $post, $this->getUserByUsername('JaneDoe'));
 
         $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $post);

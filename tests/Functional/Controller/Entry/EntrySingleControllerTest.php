@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Entry;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Kbin\Vote\VoteCreate;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 
 class EntrySingleControllerTest extends WebTestCase
@@ -65,8 +65,8 @@ class EntrySingleControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
         $manager = $client->getContainer()->get(FavouriteManager::class);
         $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);

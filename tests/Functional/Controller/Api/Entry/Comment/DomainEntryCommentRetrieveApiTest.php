@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Comment;
 
+use App\Kbin\Vote\VoteCreate;
 use App\Service\FavouriteManager;
-use App\Service\VoteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -353,10 +353,10 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $third = $this->createEntryComment('third', $entry);
         $domain = $entry->domain;
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
-        $voteManager->vote(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
+        $voteCreate(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));

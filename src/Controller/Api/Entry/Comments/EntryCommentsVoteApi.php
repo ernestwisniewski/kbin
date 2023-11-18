@@ -9,7 +9,7 @@ use App\DTO\EntryCommentResponseDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\EntryComment;
 use App\Factory\EntryCommentFactory;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -101,7 +101,7 @@ class EntryCommentsVoteApi extends EntriesBaseApi
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
         int $choice,
-        VoteManager $manager,
+        VoteCreate $voteCreate,
         EntryCommentFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
@@ -112,7 +112,7 @@ class EntryCommentsVoteApi extends EntriesBaseApi
         }
 
         // Rate limiting handled above
-        $manager->vote($choice, $comment, $this->getUserOrThrow(), rateLimit: false);
+        $voteCreate($choice, $comment, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
             $this->serializeComment($factory->createDto($comment)),

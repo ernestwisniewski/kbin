@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post\Comment;
 
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -58,8 +58,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -98,7 +106,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?usePreferredLangs=true", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?usePreferredLangs=true",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -139,8 +151,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -194,8 +214,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -215,7 +243,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?lang[]=en&lang[]=de", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?lang[]=en&lang[]=de",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -256,8 +288,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -318,8 +358,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['userVote']);
             self::assertNull($comment['apId']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -382,8 +430,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -457,8 +513,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
             self::assertNull($comment['apId']);
             self::assertNull($comment['tags']);
             self::assertNull($comment['editedAt']);
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['createdAt'], 'createdAt date format invalid');
-            self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $comment['lastActive'], 'lastActive date format invalid');
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['createdAt'],
+                'createdAt date format invalid'
+            );
+            self::assertStringMatchesFormat(
+                '%d-%d-%dT%d:%d:%d%i:00',
+                $comment['lastActive'],
+                'lastActive date format invalid'
+            );
         }
     }
 
@@ -486,7 +550,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?sort=newest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?sort=newest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -536,7 +604,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?sort=oldest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?sort=oldest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -586,7 +658,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?sort=active", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?sort=active",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -620,10 +696,10 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $second = $this->createPostComment('second', $post);
         $third = $this->createPostComment('third', $post);
 
-        $voteManager = $this->getService(VoteManager::class);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
-        $voteManager->vote(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
-        $voteManager->vote(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(1, $first, $this->getUserByUsername('voter1'), rateLimit: false);
+        $voteCreate(1, $first, $this->getUserByUsername('voter2'), rateLimit: false);
+        $voteCreate(1, $second, $this->getUserByUsername('voter1'), rateLimit: false);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));
@@ -631,7 +707,11 @@ class PostCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/posts/{$post->getId()}/comments?sort=hot", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/posts/{$post->getId()}/comments?sort=hot",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -696,8 +776,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
         self::assertNull($jsonData['apId']);
         self::assertNull($jsonData['tags']);
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
     }
 
     public function testApiCanGetPostCommentById(): void
@@ -743,8 +831,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
         self::assertNull($jsonData['apId']);
         self::assertNull($jsonData['tags']);
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
     }
 
     public function testApiCanGetPostCommentByIdWithDepth(): void
@@ -794,8 +890,16 @@ class PostCommentRetrieveApiTest extends WebTestCase
         self::assertNull($jsonData['apId']);
         self::assertNull($jsonData['tags']);
         self::assertNull($jsonData['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['createdAt'], 'createdAt date format invalid');
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['createdAt'],
+            'createdAt date format invalid'
+        );
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['lastActive'],
+            'lastActive date format invalid'
+        );
 
         $depth = 0;
         $current = $jsonData;

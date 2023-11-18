@@ -41,12 +41,12 @@ use App\Kbin\Post\PostDelete;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\Kbin\PostComment\PostCommentDelete;
 use App\Kbin\User\UserCreate;
+use App\Kbin\Vote\VoteCreate;
 use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
 use App\Service\FavouriteManager;
 use App\Service\MessageManager;
-use App\Service\VoteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
@@ -63,8 +63,8 @@ trait FactoryTrait
             $favManager = $this->getService(FavouriteManager::class);
             $favManager->toggle($user, $subject);
         } else {
-            $voteManager = $this->getService(VoteManager::class);
-            $voteManager->vote($choice, $subject, $user);
+            $voteCreate = $this->getService(VoteCreate::class);
+            $voteCreate($choice, $subject, $user);
         }
     }
 

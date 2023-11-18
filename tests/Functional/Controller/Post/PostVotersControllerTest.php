@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Post;
 
 use App\Entity\Contracts\VotableInterface;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use App\Tests\WebTestCase;
 
 class PostVotersControllerTest extends WebTestCase
@@ -17,8 +17,8 @@ class PostVotersControllerTest extends WebTestCase
 
         $post = $this->createPost('test post 1');
 
-        $manager = $client->getContainer()->get(VoteManager::class);
-        $manager->vote(VotableInterface::VOTE_UP, $post, $this->getUserByUsername('JaneDoe'));
+        $voteCreate = $this->getService(VoteCreate::class);
+        $voteCreate(VotableInterface::VOTE_UP, $post, $this->getUserByUsername('JaneDoe'));
 
         $crawler = $client->request('GET', "/m/acme/p/{$post->getId()}/test-post-1");
 

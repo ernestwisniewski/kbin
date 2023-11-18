@@ -8,7 +8,7 @@ use App\DTO\PostResponseDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Post;
 use App\Factory\PostFactory;
-use App\Service\VoteManager;
+use App\Kbin\Vote\VoteCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -104,7 +104,7 @@ class PostsVoteApi extends PostsBaseApi
         #[MapEntity(id: 'post_id')]
         Post $post,
         int $choice,
-        VoteManager $manager,
+        VoteCreate $voteCreate,
         PostFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
@@ -115,7 +115,7 @@ class PostsVoteApi extends PostsBaseApi
         }
 
         // Rate limit handled above
-        $manager->vote($choice, $post, $this->getUserOrThrow(), rateLimit: false);
+        $voteCreate($choice, $post, $this->getUserOrThrow(), rateLimit: false);
 
         return new JsonResponse(
             $this->serializePost($factory->createDto($post)),
