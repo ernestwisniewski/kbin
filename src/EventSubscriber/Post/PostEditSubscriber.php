@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Post;
 
 use App\Event\Post\PostEditedEvent;
+use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Message\ActivityPub\Outbox\UpdateMessage;
-use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

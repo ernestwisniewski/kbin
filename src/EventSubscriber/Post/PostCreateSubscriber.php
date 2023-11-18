@@ -10,9 +10,9 @@ namespace App\EventSubscriber\Post;
 
 use App\Entity\Post;
 use App\Event\Post\PostCreatedEvent;
+use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Kbin\Post\PostMagazineChange;
 use App\Message\ActivityPub\Outbox\CreateMessage;
-use App\Message\LinkEmbedMessage;
 use App\Message\Notification\PostCreatedNotificationMessage;
 use App\Repository\MagazineRepository;
 use App\Repository\PostRepository;

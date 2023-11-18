@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\EntryComment;
 
 use App\Event\EntryComment\EntryCommentCreatedEvent;
+use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Message\ActivityPub\Outbox\CreateMessage;
-use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryCommentCreatedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

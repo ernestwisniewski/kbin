@@ -20,7 +20,7 @@ readonly class MagazineTrash
 
     public function __invoke(Magazine $magazine): void
     {
-        $magazine->restore();
+        $magazine->trash();
 
         $this->entityManager->flush();
     }

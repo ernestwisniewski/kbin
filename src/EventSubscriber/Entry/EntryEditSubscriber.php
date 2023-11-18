@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryEditedEvent;
+use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Message\ActivityPub\Outbox\UpdateMessage;
-use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryEditedNotificationMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

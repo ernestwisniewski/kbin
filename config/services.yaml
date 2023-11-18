@@ -157,34 +157,34 @@ services:
         $config: '%commonmark.configuration%'
 
   # Language
-  App\EventListener\LanguageListener:
+  App\Kbin\EventListener\LanguageListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 200 }
     arguments: [ '%kbin_default_lang%' ]
 
   # User
-  App\EventListener\UserHomepageListener:
+  App\Kbin\EventListener\UserHomepageListener:
     tags:
       - { name: kernel.event_listener, event: kernel.request, priority: 7 }
 
   # Federation
-  App\EventListener\FederationStatusListener:
+  App\Kbin\EventListener\FederationStatusListener:
     tags:
       - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
     arguments: [ '%kbin_federation_enabled%' ]
 
-  App\EventListener\UserActivityListener:
+  App\Kbin\EventListener\UserActivityListener:
     tags:
       - { name: kernel.event_listener, event: kernel.controller, priority: -5 }
 
 
   # Notifications
-  App\EventListener\ContentNotificationPurgeListener:
+  App\Kbin\EventListener\ContentNotificationPurgeListener:
     tags:
       - { name: doctrine.event_listener, event: preRemove }
 
   # Magazine
-  App\EventListener\MagazineVisibilityListener:
+  App\Kbin\EventListener\MagazineVisibilityListener:
     tags:
       - { name: kernel.event_listener, event: kernel.controller_arguments }
 

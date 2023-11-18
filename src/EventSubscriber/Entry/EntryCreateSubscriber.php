@@ -10,8 +10,8 @@ namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryCreatedEvent;
 use App\Kbin\Entry\MessageBus\EntryEmbedAttachMessage;
+use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Message\ActivityPub\Outbox\CreateMessage;
-use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Repository\EntryRepository;
 use App\Service\DomainManager;

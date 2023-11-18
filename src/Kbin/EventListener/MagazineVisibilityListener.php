@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Kbin\EventListener;
 
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
@@ -14,9 +14,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class MagazineVisibilityListener
+readonly class MagazineVisibilityListener
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private Security $security)
     {
     }
 

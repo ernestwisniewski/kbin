@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\MessageBus;
 
 use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
 

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Kbin\EventListener;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;

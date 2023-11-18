@@ -6,18 +6,18 @@
 
 declare(strict_types=1);
 
-namespace App\EventListener;
+namespace App\Kbin\EventListener;
 
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class FederationStatusListener
+readonly class FederationStatusListener
 {
-    public function __construct(private readonly bool $kbinFederationEnabled)
+    public function __construct(private bool $kbinFederationEnabled)
     {
     }
 
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         if (!$event->isMainRequest() || $this->kbinFederationEnabled) {
             return;

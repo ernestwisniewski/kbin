@@ -21,8 +21,8 @@ readonly class UserDeleteRequestRevoke
 
     public function __invoke(User $user): void
     {
-        $user->markedForDeletionAt = new \DateTime();
-        $user->visibility = VisibilityInterface::VISIBILITY_TRASHED;
+        $user->markedForDeletionAt = null;
+        $user->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();

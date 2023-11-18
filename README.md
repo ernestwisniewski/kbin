@@ -126,17 +126,21 @@ These are people who are actively contributing to /kbin project and are all volu
 [<img src="docs/images/partners/entrust.png" alt="NGI Zero Entrust" height="75">](https://nlnet.nl/project/Kbin/)
 
 ###
+###
 
 [<img src="docs/images/partners/fastly.png" alt="Fastly" height="75">](https://www.fastly.com/fast-forward#apply-for-the-fast-forward-program)
 
+###
 ###
 
 [<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="150">](https://jb.gg/OpenSourceSupport)
 
 ###
+###
 
 [<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io" height="75">](https://www.blackfire.io)
 
+###
 ###
 
 [<img src="docs/images/partners/browserstack.png" alt="BrowserStack" height="75">](https://www.browserstack.com/open-source)

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace App\Kbin\MessageBus;
 
-use App\Message\LinkEmbedMessage;
 use App\Repository\EmbedRepository;
 use App\Utils\Embed;
 use Doctrine\DBAL\DriverManager;
