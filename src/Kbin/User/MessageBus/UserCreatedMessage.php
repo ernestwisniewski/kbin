@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\User\MessageBus;
 
-use App\Message\Contracts\SendConfirmationEmailInterface;
+use App\Kbin\MessageBus\Contracts\SendConfirmationEmailInterface;
 
-class UserUpdatedMessage implements SendConfirmationEmailInterface
+class UserCreatedMessage implements SendConfirmationEmailInterface
 {
     public function __construct(public int $userId)
     {

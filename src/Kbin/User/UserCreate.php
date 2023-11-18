@@ -10,7 +10,7 @@ namespace App\Kbin\User;
 
 use App\Entity\User;
 use App\Kbin\User\DTO\UserDto;
-use App\Message\UserCreatedMessage;
+use App\Kbin\User\MessageBus\UserCreatedMessage;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;

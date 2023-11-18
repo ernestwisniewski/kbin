@@ -13,9 +13,9 @@ use App\Event\Entry\EntryEditedEvent;
 use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\MentionManager;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\TagManager;
 use App\Kbin\Utils\Slugger;
-use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -70,7 +70,7 @@ readonly class EntryEdit
         $this->entityManager->flush();
 
         if ($oldImage && $entry->image !== $oldImage) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldImage->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldImage->filePath));
         }
 
         $this->eventDispatcher->dispatch(new EntryEditedEvent($entry));

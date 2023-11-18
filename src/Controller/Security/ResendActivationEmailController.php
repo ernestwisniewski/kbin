@@ -11,7 +11,7 @@ namespace App\Controller\Security;
 use App\Controller\AbstractController;
 use App\Entity\User;
 use App\Kbin\User\Form\ResendEmailActivationFormType;
-use App\MessageHandler\SentUserConfirmationEmailHandler;
+use App\Kbin\User\MessageBus\UserConfirmationEmailSentHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class ResendActivationEmailController extends AbstractController
     ) {
     }
 
-    public function resend(Request $request, SentUserConfirmationEmailHandler $confirmationHandler): Response
+    public function resend(Request $request, UserConfirmationEmailSentHandler $confirmationHandler): Response
     {
         $form = $this->createForm(ResendEmailActivationFormType::class);
         $form->handleRequest($request);

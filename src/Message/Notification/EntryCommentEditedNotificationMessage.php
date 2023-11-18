@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Message\Notification;
 
-use App\Message\Contracts\AsyncMessageInterface;
+use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
 
 class EntryCommentEditedNotificationMessage implements AsyncMessageInterface
 {

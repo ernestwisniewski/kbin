@@ -6,9 +6,8 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\MessageBus;
 
-use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,17 +15,17 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class DeleteImageHandler
+readonly class ImagePurgeHandler
 {
     public function __construct(
-        private readonly ImageRepository $imageRepository,
-        private readonly ImageManager $imageManager,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ManagerRegistry $managerRegistry
+        private ImageRepository $imageRepository,
+        private ImageManager $imageManager,
+        private EntityManagerInterface $entityManager,
+        private ManagerRegistry $managerRegistry
     ) {
     }
 
-    public function __invoke(DeleteImageMessage $message)
+    public function __invoke(ImagePurgeMessage $message): void
     {
         $image = $this->imageRepository->findOneBy(['filePath' => $message->path]);
 

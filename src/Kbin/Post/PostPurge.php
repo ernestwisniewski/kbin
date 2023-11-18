@@ -11,8 +11,8 @@ namespace App\Kbin\Post;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Event\Post\PostBeforePurgeEvent;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\PostComment\PostCommentPurge;
-use App\Message\DeleteImageMessage;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -43,7 +43,7 @@ readonly class PostPurge
         $this->entityManager->flush();
 
         if ($image) {
-            $this->messageBus->dispatch(new DeleteImageMessage($image));
+            $this->messageBus->dispatch(new ImagePurgeMessage($image));
         }
     }
 }

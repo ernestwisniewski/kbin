@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\Kbin\User;
 
 use App\Entity\User;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\User\DTO\UserDto;
-use App\Message\DeleteImageMessage;
-use App\Message\UserUpdatedMessage;
+use App\Kbin\User\MessageBus\UserUpdatedMessage;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -79,11 +79,11 @@ readonly class UserEdit
         }
 
         if ($oldAvatar && $user->avatar !== $oldAvatar) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldAvatar->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldAvatar->filePath));
         }
 
         if ($oldCover && $user->cover !== $oldCover) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldCover->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldCover->filePath));
         }
 
         if ($mailUpdated) {

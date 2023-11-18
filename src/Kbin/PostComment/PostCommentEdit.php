@@ -10,8 +10,8 @@ namespace App\Kbin\PostComment;
 
 use App\Entity\PostComment;
 use App\Event\PostComment\PostCommentEditedEvent;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\PostComment\DTO\PostCommentDto;
-use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use App\Service\TagManager;
@@ -56,7 +56,7 @@ readonly class PostCommentEdit
         $this->entityManager->flush();
 
         if ($oldImage && $comment->image !== $oldImage) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldImage->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldImage->filePath));
         }
 
         $this->eventDispatcher->dispatch(new PostCommentEditedEvent($comment));

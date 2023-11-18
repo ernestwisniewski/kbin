@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\User\MessageBus;
 
 use App\Entity\User;
-use App\Message\Contracts\SendConfirmationEmailInterface;
+use App\Kbin\MessageBus\Contracts\SendConfirmationEmailInterface;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Service\SettingsManager;
@@ -21,14 +21,14 @@ use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsMessageHandler]
-class SentUserConfirmationEmailHandler
+readonly class UserConfirmationEmailSentHandler
 {
     public function __construct(
-        private readonly SettingsManager $settingsManager,
-        private readonly EmailVerifier $emailVerifier,
-        private readonly UserRepository $repository,
-        private readonly ParameterBagInterface $params,
-        private readonly TranslatorInterface $translator
+        private SettingsManager $settingsManager,
+        private EmailVerifier $emailVerifier,
+        private UserRepository $repository,
+        private ParameterBagInterface $params,
+        private TranslatorInterface $translator
     ) {
     }
 

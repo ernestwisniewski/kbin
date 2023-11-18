@@ -6,11 +6,8 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\MessageBus\Contracts;
 
-class EntryEmbedMessage
+interface AsyncApMessageInterface
 {
-    public function __construct(public int $entryId)
-    {
-    }
 }

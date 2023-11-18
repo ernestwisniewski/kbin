@@ -5,5 +5,5 @@
 framework:
   messenger:
     routing:
-      App\Message\Contracts\AsyncMessageInterface: sync
-      App\Message\Contracts\AsyncApMessageInterface: sync
+      App\Kbin\MessageBus\Contracts\AsyncMessageInterface: sync
+      App\Kbin\MessageBus\Contracts\AsyncApMessageInterface: sync

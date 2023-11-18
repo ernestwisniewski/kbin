@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\Magazine;
 
 use App\Entity\Magazine;
-use App\Message\MagazinePurgeMessage;
+use App\Kbin\Magazine\MessageBus\MagazinePurgeMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 readonly class MagazinePurge

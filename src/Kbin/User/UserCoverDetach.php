@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\User;
 
 use App\Entity\User;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -34,6 +34,6 @@ readonly class UserCoverDetach
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $this->messageBus->dispatch(new DeleteImageMessage($image));
+        $this->messageBus->dispatch(new ImagePurgeMessage($image));
     }
 }

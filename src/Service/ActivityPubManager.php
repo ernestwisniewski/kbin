@@ -20,11 +20,11 @@ use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\MagazineCreate;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\User\Factory\UserFactory;
 use App\Kbin\User\UserCreate;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\UpdateActorMessage;
-use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
@@ -225,7 +225,7 @@ class ActivityPubManager
         if (isset($actor['icon'])) {
             $newImage = $this->handleImages([$actor['icon']]);
             if ($user->avatar && $newImage !== $user->avatar) {
-                $this->bus->dispatch(new DeleteImageMessage($user->avatar->filePath));
+                $this->bus->dispatch(new ImagePurgeMessage($user->avatar->filePath));
             }
             $user->avatar = $newImage;
         }
@@ -233,7 +233,7 @@ class ActivityPubManager
         if (isset($actor['image'])) {
             $newImage = $this->handleImages([$actor['image']]);
             if ($user->cover && $newImage !== $user->cover) {
-                $this->bus->dispatch(new DeleteImageMessage($user->cover->filePath));
+                $this->bus->dispatch(new ImagePurgeMessage($user->cover->filePath));
             }
             $user->cover = $newImage;
         }
@@ -303,7 +303,7 @@ class ActivityPubManager
         if (isset($actor['icon'])) {
             $newImage = $this->handleImages([$actor['icon']]);
             if ($magazine->icon && $newImage !== $magazine->icon) {
-                $this->bus->dispatch(new DeleteImageMessage($magazine->icon->filePath));
+                $this->bus->dispatch(new ImagePurgeMessage($magazine->icon->filePath));
             }
             $magazine->icon = $newImage;
         }

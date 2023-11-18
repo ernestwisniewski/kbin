@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\User\MessageBus;
 
-class DeleteUserMessage
+class UserDeleteMessage
 {
     public function __construct(public int $id, public bool $purge, public bool $contentOnly)
     {

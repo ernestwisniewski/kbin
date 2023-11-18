@@ -12,7 +12,7 @@ use App\Entity\Entry;
 use App\Entity\User;
 use App\Event\Entry\EntryBeforePurgeEvent;
 use App\Kbin\EntryComment\EntryCommentPurge;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -43,7 +43,7 @@ readonly class EntryPurge
         $this->entityManager->flush();
 
         if ($image) {
-            $this->messageBus->dispatch(new DeleteImageMessage($image));
+            $this->messageBus->dispatch(new ImagePurgeMessage($image));
         }
     }
 }

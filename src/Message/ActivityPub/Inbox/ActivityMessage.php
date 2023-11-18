@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Message\ActivityPub\Inbox;
 
-use App\Message\Contracts\AsyncApMessageInterface;
+use App\Kbin\MessageBus\Contracts\AsyncApMessageInterface;
 
 /**
  * @phpstan-type RequestData array{host: string, method: string, uri: string, client: string}

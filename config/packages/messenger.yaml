@@ -32,5 +32,5 @@ framework:
 
     routing:
       # Route your messages to the transports
-      App\Message\Contracts\AsyncMessageInterface: async
-      App\Message\Contracts\AsyncApMessageInterface: async_ap
+      App\Kbin\MessageBus\Contracts\AsyncMessageInterface: async
+      App\Kbin\MessageBus\Contracts\AsyncApMessageInterface: async_ap

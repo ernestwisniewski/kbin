@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\MessageBus;
 
 use App\Message\LinkEmbedMessage;
 use App\Repository\EmbedRepository;

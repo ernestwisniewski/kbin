@@ -6,11 +6,10 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\Entry\MessageBus;
 
 use App\Entity\Entry;
 use App\Entity\Image;
-use App\Message\EntryEmbedMessage;
 use App\Repository\EntryRepository;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;
@@ -20,18 +19,18 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
-class AttachEntryEmbedHandler
+readonly class EntryEmbedAttachHandler
 {
     public function __construct(
-        private readonly EntryRepository $entryRepository,
-        private readonly Embed $embed,
-        private readonly ImageManager $manager,
-        private readonly ImageRepository $imageRepository,
-        private readonly EntityManagerInterface $entityManager
+        private EntryRepository $entryRepository,
+        private Embed $embed,
+        private ImageManager $manager,
+        private ImageRepository $imageRepository,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
-    public function __invoke(EntryEmbedMessage $message): void
+    public function __invoke(EntryEmbedAttachMessage $message): void
     {
         $entry = $this->entryRepository->find($message->entryId);
 

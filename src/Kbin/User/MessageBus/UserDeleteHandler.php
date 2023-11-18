@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\User\MessageBus;
 
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Contracts\VotableInterface;
@@ -44,7 +44,6 @@ use App\Kbin\User\UserCoverDetach;
 use App\Kbin\User\UserUnblock;
 use App\Kbin\User\UserUnfollow;
 use App\Kbin\Vote\VoteCreate;
-use App\Message\DeleteUserMessage;
 use App\Service\FavouriteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -52,7 +51,7 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-class DeleteUserHandler
+class UserDeleteHandler
 {
     private ?User $user;
     private int $batchSize = 5;
@@ -80,7 +79,7 @@ class DeleteUserHandler
     ) {
     }
 
-    public function __invoke(DeleteUserMessage $message): void
+    public function __invoke(UserDeleteMessage $message): void
     {
         $this->user = $this->entityManager
             ->getRepository(User::class)

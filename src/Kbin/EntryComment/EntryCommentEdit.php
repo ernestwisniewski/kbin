@@ -11,7 +11,7 @@ namespace App\Kbin\EntryComment;
 use App\Entity\EntryComment;
 use App\Event\EntryComment\EntryCommentEditedEvent;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use App\Service\TagManager;
@@ -56,7 +56,7 @@ readonly class EntryCommentEdit
         $this->entityManager->flush();
 
         if ($oldImage && $comment->image !== $oldImage) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldImage->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldImage->filePath));
         }
 
         $this->eventDispatcher->dispatch(new EntryCommentEditedEvent($comment));

@@ -10,8 +10,8 @@ namespace App\Kbin\Post;
 
 use App\Entity\Post;
 use App\Event\Post\PostEditedEvent;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\Post\DTO\PostDto;
-use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use App\Service\TagManager;
@@ -57,7 +57,7 @@ readonly class PostEdit
         $this->entityManager->flush();
 
         if ($oldImage && $post->image !== $oldImage) {
-            $this->messageBus->dispatch(new DeleteImageMessage($oldImage->filePath));
+            $this->messageBus->dispatch(new ImagePurgeMessage($oldImage->filePath));
         }
 
         $this->eventDispatcher->dispatch(new PostEditedEvent($post));

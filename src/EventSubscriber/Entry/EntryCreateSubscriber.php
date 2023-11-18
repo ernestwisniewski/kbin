@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryCreatedEvent;
+use App\Kbin\Entry\MessageBus\EntryEmbedAttachMessage;
 use App\Message\ActivityPub\Outbox\CreateMessage;
-use App\Message\EntryEmbedMessage;
 use App\Message\LinkEmbedMessage;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Repository\EntryRepository;
@@ -43,7 +43,7 @@ class EntryCreateSubscriber implements EventSubscriberInterface
         $this->entityManager->flush();
 
         $this->manager->extract($event->entry);
-        $this->bus->dispatch(new EntryEmbedMessage($event->entry->getId()));
+        $this->bus->dispatch(new EntryEmbedAttachMessage($event->entry->getId()));
         $this->bus->dispatch(new EntryCreatedNotificationMessage($event->entry->getId()));
         if ($event->entry->body) {
             $this->bus->dispatch(new LinkEmbedMessage($event->entry->body));

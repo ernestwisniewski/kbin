@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\MessageHandler;
+namespace App\Kbin\Magazine\MessageBus;
 
 use App\Entity\Entry;
 use App\Entity\EntryComment;
@@ -20,7 +20,6 @@ use App\Kbin\Entry\EntryPurge;
 use App\Kbin\EntryComment\EntryCommentPurge;
 use App\Kbin\Post\PostPurge;
 use App\Kbin\PostComment\PostCommentPurge;
-use App\Message\MagazinePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;

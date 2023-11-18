@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\Magazine;
 
 use App\Entity\Magazine;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -34,6 +34,6 @@ readonly class MagazineIconDetach
         $this->entityManager->persist($magazine);
         $this->entityManager->flush();
 
-        $this->messageBus->dispatch(new DeleteImageMessage($image));
+        $this->messageBus->dispatch(new ImagePurgeMessage($image));
     }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\Post;
 
 use App\Entity\Post;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -30,6 +30,6 @@ readonly class PostImageDetach
         $this->entityManager->persist($post);
         $this->entityManager->flush();
 
-        $this->messageBus->dispatch(new DeleteImageMessage($image));
+        $this->messageBus->dispatch(new ImagePurgeMessage($image));
     }
 }

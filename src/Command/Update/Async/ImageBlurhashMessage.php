@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Command\Update\Async;
 
-use App\Message\Contracts\AsyncMessageInterface;
+use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
 
 class ImageBlurhashMessage implements AsyncMessageInterface
 {

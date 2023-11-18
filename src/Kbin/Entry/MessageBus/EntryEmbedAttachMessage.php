@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\Entry\MessageBus;
 
-class MagazinePurgeMessage
+class EntryEmbedAttachMessage
 {
-    public function __construct(public int $id, public bool $contentOnly)
+    public function __construct(public int $entryId)
     {
     }
 }

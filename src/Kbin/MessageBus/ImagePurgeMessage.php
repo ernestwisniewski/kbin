@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\Message;
+namespace App\Kbin\MessageBus;
 
-use App\Message\Contracts\AsyncMessageInterface;
+use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
 
-class DeleteImageMessage implements AsyncMessageInterface
+class ImagePurgeMessage implements AsyncMessageInterface
 {
     public function __construct(public string $path, public bool $force = false)
     {

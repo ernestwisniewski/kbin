@@ -10,7 +10,7 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Event\Entry\EntryEditedEvent;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -33,7 +33,7 @@ readonly class EntryImageDetach
         $this->entityManager->persist($entry);
         $this->entityManager->flush();
 
-        $this->messageBus->dispatch(new DeleteImageMessage($image));
+        $this->messageBus->dispatch(new ImagePurgeMessage($image));
 
         $this->eventDispatcher->dispatch(new EntryEditedEvent($entry));
     }

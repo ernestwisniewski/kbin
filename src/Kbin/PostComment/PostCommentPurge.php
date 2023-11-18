@@ -12,7 +12,7 @@ use App\Entity\PostComment;
 use App\Entity\User;
 use App\Event\PostComment\PostCommentBeforePurgeEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
-use App\Message\DeleteImageMessage;
+use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -39,7 +39,7 @@ readonly class PostCommentPurge
         $this->eventDispatcher->dispatch(new PostCommentPurgedEvent($magazine));
 
         if ($image) {
-            $this->messageBus->dispatch(new DeleteImageMessage($image));
+            $this->messageBus->dispatch(new ImagePurgeMessage($image));
         }
     }
 }
