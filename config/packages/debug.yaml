@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 when@dev:
     debug:
         # Forwards VarDumper Data clones to a centralized server allowing to inspect dumps on CLI or in your browser.

@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # As of Symfony 5.1, deprecations are logged in the dedicated "deprecation" channel when it exists
 #monolog:
 #    channels: [deprecation]

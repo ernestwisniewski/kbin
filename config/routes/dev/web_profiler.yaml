@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 web_profiler_wdt:
   resource: '@WebProfilerBundle/Resources/config/routing/wdt.xml'
   prefix: /_wdt

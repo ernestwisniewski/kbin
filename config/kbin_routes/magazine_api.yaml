@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 # Create an article entry in a magazine
 api_magazine_entry_create_article:
   controller: App\Controller\Api\Entry\MagazineEntryCreateApi::article

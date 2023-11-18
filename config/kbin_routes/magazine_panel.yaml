@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 magazine_panel_bans:
   controller: App\Controller\Magazine\Panel\MagazineBanController::bans
   path: /m/{name}/panel/bans

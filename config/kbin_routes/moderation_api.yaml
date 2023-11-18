@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 api_moderate_entry_toggle_pin:
   controller: App\Controller\Api\Entry\Moderate\EntriesPinApi
   path: /api/moderate/entry/{entry_id}/pin

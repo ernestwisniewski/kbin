@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 api_admin_entry_purge:
   controller: App\Controller\Api\Entry\Admin\EntriesPurgeApi
   path: /api/admin/entry/{entry_id}/purge

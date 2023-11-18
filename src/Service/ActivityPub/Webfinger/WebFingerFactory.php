@@ -2,14 +2,10 @@
 
 declare(strict_types=1);
 
-/*
- * This file is part of the ActivityPhp package.
- *
- * Copyright (c) landrok at github.com/landrok
- *
- * For the full copyright and license information, please see
- * <https://github.com/landrok/activitypub/blob/master/LICENSE>.
- */
+// Copyright (c) landrok at github.com/landrok
+// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
 
 namespace App\Service\ActivityPub\Webfinger;
 

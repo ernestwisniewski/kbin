@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
 #webpack_encore:
     # Cache the entrypoints.json (rebuild Symfony's cache when entrypoints.json changes)
     # Available in version 1.2

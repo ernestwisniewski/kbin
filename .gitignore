@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # IDEA/PhpStorm
 *.iml
 .idea/
