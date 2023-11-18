@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\DTO\MagazineBanResponseDto;
 use App\Entity\Notification;
+use App\Kbin\Magazine\DTO\MagazineBanResponseDto;
 use App\Repository\NotificationRepository;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine\OwnershipRequest;
 
-use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use App\Repository\MagazineOwnershipRequestRepository;
@@ -29,7 +29,7 @@ readonly class MagazineOwnershipRequestAccept
         try {
             ($this->magazineModeratorRemove)($magazine->getOwnerModerator());
 
-            ($this->magazineModeratorAdd)(new ModeratorDto($magazine, $user), true);
+            ($this->magazineModeratorAdd)(new MagazineModeratorDto($magazine, $user), true);
 
             $request = $this->magazineOwnershipRequestRepository->findOneBy([
                 'magazine' => $magazine,

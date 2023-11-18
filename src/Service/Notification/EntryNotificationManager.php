@@ -12,7 +12,7 @@ use App\Entity\EntryEditedNotification;
 use App\Entity\EntryMentionedNotification;
 use App\Entity\Magazine;
 use App\Entity\Notification;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;

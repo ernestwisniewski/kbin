@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\DTO\UserSettingsDto;
 use App\Entity\User;
+use App\Kbin\User\DTO\UserSettingsDto;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserSettingsManager

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
-use App\DTO\BadgeDto;
-use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
 use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -93,7 +93,7 @@ class MagazineAddBadgesApi extends MagazineBaseApi
         description: 'The id of the magazine to update',
         schema: new OA\Schema(type: 'integer'),
     )]
-    #[OA\RequestBody(content: new Model(type: BadgeDto::class, groups: ['create-badge']))]
+    #[OA\RequestBody(content: new Model(type: EntryBadgeDto::class, groups: ['create-badge']))]
     #[OA\Tag(name: 'moderation/magazine/owner')]
     #[Security(name: 'oauth2', scopes: ['moderate:magazine_admin:badges'])]
     #[IsGranted('ROLE_OAUTH2_MODERATE:MAGAZINE_ADMIN:BADGES')]
@@ -114,9 +114,9 @@ class MagazineAddBadgesApi extends MagazineBaseApi
 
         $request = $this->request->getCurrentRequest();
         /**
-         * @var BadgeDto $dto
+         * @var EntryBadgeDto $dto
          */
-        $dto = $serializer->deserialize($request->getContent(), BadgeDto::class, 'json', ['groups' => ['create-badge']]
+        $dto = $serializer->deserialize($request->getContent(), EntryBadgeDto::class, 'json', ['groups' => ['create-badge']]
         );
 
         $dto->magazine = $magazine;

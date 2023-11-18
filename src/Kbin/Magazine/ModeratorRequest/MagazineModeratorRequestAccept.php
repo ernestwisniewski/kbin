@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine\ModeratorRequest;
 
-use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Repository\ModeratorRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ readonly class MagazineModeratorRequestAccept
 
     public function __invoke(Magazine $magazine, User $user): void
     {
-        ($this->magazineModeratorAdd)(new ModeratorDto($magazine, $user));
+        ($this->magazineModeratorAdd)(new MagazineModeratorDto($magazine, $user));
 
         $request = $this->moderatorRequestRepository->findOneBy([
             'magazine' => $magazine,

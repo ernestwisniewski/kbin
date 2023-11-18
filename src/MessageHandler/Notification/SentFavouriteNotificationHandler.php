@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler\Notification;
 
 use App\Entity\Contracts\FavouriteInterface;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Message\Notification\FavouriteNotificationMessage;
 use App\Service\GenerateHtmlClassService;
 use App\Service\SettingsManager;

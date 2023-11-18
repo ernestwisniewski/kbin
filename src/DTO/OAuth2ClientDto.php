@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\Entity\OAuth2UserConsent;
+use App\Kbin\User\DTO\UserSmallResponseDto;
 use App\Utils\RegPatterns;
 use OpenApi\Attributes as OA;
 use Symfony\Component\Serializer\Annotation\Groups;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Factory\VoteFactory;
+use App\Kbin\Vote\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;

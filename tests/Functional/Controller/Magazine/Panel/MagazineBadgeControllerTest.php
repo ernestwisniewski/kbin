@@ -18,8 +18,8 @@ class MagazineBadgeControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/panel/badges');
         $this->assertSelectorTextContains('#main .options__main a.active', 'badges');
         $client->submit(
-            $crawler->filter('#main form[name=badge]')->selectButton('Add badge')->form([
-                'badge[name]' => 'test',
+            $crawler->filter('#main form[name=entry_badge]')->selectButton('Add badge')->form([
+                'entry_badge[name]' => 'test',
             ])
         );
 

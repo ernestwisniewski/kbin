@@ -15,6 +15,12 @@ use App\Entity\PostComment;
 use App\Entity\PostCommentReport;
 use App\Entity\PostReport;
 use App\Entity\Report;
+use App\Kbin\Entry\Factory\EntryFactory;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
+use App\Kbin\Post\Factory\PostFactory;
+use App\Kbin\PostComment\Factory\PostCommentFactory;
+use App\Kbin\User\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ReportFactory

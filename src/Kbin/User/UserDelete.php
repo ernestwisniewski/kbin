@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Message\DeleteUserMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class UserDelete
+readonly class UserDelete
 {
     public function __construct(
         private MessageBusInterface $messageBus,

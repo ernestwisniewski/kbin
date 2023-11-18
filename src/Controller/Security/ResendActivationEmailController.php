@@ -6,7 +6,7 @@ namespace App\Controller\Security;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Form\ResendEmailActivationFormType;
+use App\Kbin\User\Form\ResendEmailActivationFormType;
 use App\MessageHandler\SentUserConfirmationEmailHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

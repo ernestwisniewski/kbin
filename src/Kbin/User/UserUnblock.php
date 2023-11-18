@@ -9,7 +9,7 @@ use App\Event\User\UserBlockEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class UserUnblock
+readonly class UserUnblock
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,

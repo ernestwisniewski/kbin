@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\Entity\Message;
+use App\Kbin\User\DTO\UserSmallResponseDto;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]

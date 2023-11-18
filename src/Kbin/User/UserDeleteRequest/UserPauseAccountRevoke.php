@@ -6,7 +6,7 @@ namespace App\Kbin\User\UserDeleteRequest;
 
 use App\Entity\User;
 
-class UserPauseAccountRevoke
+readonly class UserPauseAccountRevoke
 {
     public function __construct(
         private UserDeleteRequestRevoke $userDeleteRequestRevoke,

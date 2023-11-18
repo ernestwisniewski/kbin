@@ -7,7 +7,7 @@ namespace App\Controller\Api;
 use App\ApiDataProvider\DtoPaginator;
 use App\Controller\AbstractController;
 use App\Entity\Entry;
-use App\Factory\EntryCommentFactory;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use Symfony\Component\HttpFoundation\RequestStack;

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Post\Comment;
 
 use App\Controller\AbstractController;
-use App\DTO\PostCommentDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Form\PostCommentType;
+use App\Kbin\PostComment\DTO\PostCommentDto;
+use App\Kbin\PostComment\Form\PostCommentType;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\PageView\PostCommentPageView;
 use App\Repository\PostCommentRepository;

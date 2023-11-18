@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
-use App\DTO\BadgeDto;
 use App\Entity\Badge;
 use App\Entity\Magazine;
-use App\Form\BadgeType;
 use App\Kbin\Entry\Badge\EntryBadgeCreate;
 use App\Kbin\Entry\Badge\EntryBadgeDelete;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
+use App\Kbin\Entry\Form\EntryBadgeType;
 use App\Repository\MagazineRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,9 +32,9 @@ class MagazineBadgeController extends AbstractController
     {
         $badges = $this->repository->findBadges($magazine);
 
-        $dto = new BadgeDto();
+        $dto = new EntryBadgeDto();
 
-        $form = $this->createForm(BadgeType::class, $dto);
+        $form = $this->createForm(EntryBadgeType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

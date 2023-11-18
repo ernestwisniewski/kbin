@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
+use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;

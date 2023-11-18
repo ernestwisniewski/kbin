@@ -6,7 +6,7 @@ namespace App\Kbin\User;
 
 use App\Entity\User;
 
-class UserFollowingDelete
+readonly class UserFollowingDelete
 {
     public function __construct(
         private UserUnfollow $userUnfollow

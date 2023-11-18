@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\PostDto;
+use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\PostCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;

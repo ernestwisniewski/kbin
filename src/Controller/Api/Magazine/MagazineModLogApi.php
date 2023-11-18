@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Magazine;
 
-use App\DTO\MagazineLogResponseDto;
 use App\Entity\Magazine;
+use App\Kbin\Magazine\DTO\MagazineLogResponseDto;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineRepository;
 use App\Schema\PaginationSchema;

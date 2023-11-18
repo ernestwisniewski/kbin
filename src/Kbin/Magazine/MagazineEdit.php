@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine;
 
-use App\DTO\MagazineDto;
 use App\Entity\Magazine;
+use App\Kbin\Magazine\DTO\MagazineDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Webmozart\Assert\Assert;
 

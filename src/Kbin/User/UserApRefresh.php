@@ -7,7 +7,7 @@ namespace App\Kbin\User;
 use App\Entity\User;
 use App\Service\ActivityPubManager;
 
-class UserApRefresh
+readonly class UserApRefresh
 {
     public function __construct(
         private readonly UserAvatarDetach $userAvatarDetach,

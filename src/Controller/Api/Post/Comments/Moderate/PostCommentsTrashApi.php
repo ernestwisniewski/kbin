@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post\Comments\Moderate;
 
 use App\Controller\Api\Post\PostsBaseApi;
-use App\DTO\PostCommentResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
-use App\Factory\PostCommentFactory;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
+use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\PostComment\PostCommentRestore;
 use App\Kbin\PostComment\PostCommentTrash;
 use Nelmio\ApiDocBundle\Annotation\Model;

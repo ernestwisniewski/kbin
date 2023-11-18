@@ -6,10 +6,11 @@ namespace App\Factory;
 
 use App\DTO\MessageResponseDto;
 use App\DTO\MessageThreadResponseDto;
-use App\DTO\UserResponseDto;
 use App\Entity\Message;
 use App\Entity\MessageThread;
 use App\Entity\User;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\Factory\UserFactory;
 
 class MessageFactory
 {

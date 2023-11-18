@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\DTO\BadgeDto;
 use App\Entity\Badge;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
 
 class BadgeFactory
 {
-    public function createDto(Badge $badge): BadgeDto
+    public function createDto(Badge $badge): EntryBadgeDto
     {
-        return BadgeDto::create(
+        return EntryBadgeDto::create(
             $badge->magazine,
             $badge->name,
             $badge->getId(),

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\DTO\EntryCommentResponseDto;
-use App\DTO\EntryResponseDto;
-use App\DTO\PostCommentResponseDto;
-use App\DTO\PostResponseDto;
+use App\Kbin\Entry\DTO\EntryResponseDto;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 

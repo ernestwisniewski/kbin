@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\User\Admin;
 
 use App\Controller\Api\User\UserBaseApi;
-use App\DTO\UserResponseDto;
 use App\Entity\User;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

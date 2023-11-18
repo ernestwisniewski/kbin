@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\Entry\Badge;
 
-use App\DTO\BadgeDto;
 use App\Entity\Badge;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EntryBadgeCreate
@@ -14,7 +14,7 @@ class EntryBadgeCreate
     {
     }
 
-    public function __invoke(BadgeDto $dto): Badge
+    public function __invoke(EntryBadgeDto $dto): Badge
     {
         $badge = new Badge($dto->magazine, $dto->name);
 

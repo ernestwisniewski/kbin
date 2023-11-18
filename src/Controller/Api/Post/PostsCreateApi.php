@@ -6,11 +6,11 @@ namespace App\Controller\Api\Post;
 
 use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\ImageUploadDto;
-use App\DTO\PostDto;
-use App\DTO\PostRequestDto;
-use App\DTO\PostResponseDto;
 use App\Entity\Magazine;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\DTO\PostRequestDto;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Post\PostCreate;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;

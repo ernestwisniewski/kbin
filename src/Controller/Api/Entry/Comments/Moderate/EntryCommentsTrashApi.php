@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry\Comments\Moderate;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
-use App\DTO\EntryCommentResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\EntryComment;
-use App\Factory\EntryCommentFactory;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\Kbin\EntryComment\EntryCommentRestore;
 use App\Kbin\EntryComment\EntryCommentTrash;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

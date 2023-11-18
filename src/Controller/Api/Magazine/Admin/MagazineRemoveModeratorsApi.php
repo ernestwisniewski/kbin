@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
-use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

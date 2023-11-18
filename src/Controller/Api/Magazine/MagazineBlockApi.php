@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Magazine;
 
-use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\MagazineBlock;
 use App\Kbin\Magazine\MagazineUnblock;
 use Nelmio\ApiDocBundle\Annotation\Model;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Instance;
 
-use App\DTO\MagazineLogResponseDto;
+use App\Kbin\Magazine\DTO\MagazineLogResponseDto;
 use App\Repository\MagazineLogRepository;
 use App\Schema\PaginationSchema;
 use Nelmio\ApiDocBundle\Annotation\Model;

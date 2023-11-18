@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post\Moderate;
 
 use App\Controller\Api\Post\PostsBaseApi;
-use App\DTO\PostResponseDto;
 use App\Entity\Post;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\Post\Factory\PostFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

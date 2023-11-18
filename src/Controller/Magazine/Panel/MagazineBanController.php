@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
-use App\DTO\MagazineBanDto;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Form\MagazineBanType;
+use App\Kbin\Magazine\DTO\MagazineBanDto;
+use App\Kbin\Magazine\Form\MagazineBanType;
 use App\Kbin\Magazine\MagazineBan;
 use App\Kbin\Magazine\MagazineUnban;
 use App\Repository\MagazineRepository;

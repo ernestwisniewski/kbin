@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Entry;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\Factory\EntryFactory;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;

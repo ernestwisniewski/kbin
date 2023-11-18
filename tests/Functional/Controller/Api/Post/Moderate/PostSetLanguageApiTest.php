@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post\Moderate;
 
-use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 
@@ -62,7 +62,7 @@ class PostSetLanguageApiTest extends WebTestCase
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($magazine);
+        $moderator = new MagazineModeratorDto($magazine);
         $moderator->user = $user;
         $magazineModeratorAdd($moderator);
 
@@ -95,7 +95,7 @@ class PostSetLanguageApiTest extends WebTestCase
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($magazine);
+        $moderator = new MagazineModeratorDto($magazine);
         $moderator->user = $user;
         $magazineModeratorAdd($moderator);
 
@@ -156,7 +156,7 @@ class PostSetLanguageApiTest extends WebTestCase
         $post = $this->createPost('test post', user: $user, magazine: $magazine);
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($magazine);
+        $moderator = new MagazineModeratorDto($magazine);
         $moderator->user = $user;
         $magazineModeratorAdd($moderator);
 

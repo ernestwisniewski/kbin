@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Entry\Comment;
 
 use App\Controller\AbstractController;
-use App\DTO\EntryCommentDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Magazine;
-use App\Factory\EntryCommentFactory;
-use App\Form\EntryCommentType;
+use App\Kbin\Entry\Form\EntryCommentType;
+use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentEdit;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\PageView\EntryCommentPageView;
 use App\Repository\EntryCommentRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
-use App\DTO\EntryDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
 use App\Factory\ImageFactory;
+use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EntryCreate;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;

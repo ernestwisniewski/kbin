@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\User;
 
-use App\DTO\UserDto;
 use App\Entity\User;
+use App\Kbin\User\DTO\UserDto;
 use App\Message\UserCreatedMessage;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-class UserCreate
+readonly class UserCreate
 {
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher,

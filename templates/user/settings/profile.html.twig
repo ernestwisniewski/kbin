@@ -31,13 +31,13 @@
                 'data-controller': 'input-length rich-textarea autogrow', 
                 'data-entry-link-create-target': 'user_about',
                 'data-action' : 'input-length#updateDisplay',
-                'data-input-length-max-value' : constant('App\\DTO\\UserDto::MAX_ABOUT_LENGTH')
+                'data-input-length-max-value' : constant('App\\Kbin\\User\\DTO\\UserDto::MAX_ABOUT_LENGTH')
                 }}) }}
             {{ form_row(form.username, {label: 'username', attr: {
                 'data-controller': 'input-length autogrow', 
                 'data-entry-link-create-target': 'user_about',
                 'data-action' : 'input-length#updateDisplay',
-                'data-input-length-max-value' : constant('App\\DTO\\UserDto::MAX_USERNAME_LENGTH')
+                'data-input-length-max-value' : constant('App\\Kbin\\User\\DTO\\UserDto::MAX_USERNAME_LENGTH')
             }}) }}
             {{ form_row(form.avatar, {label: 'avatar'}) }}
             {{ form_row(form.cover, {label: 'cover'}) }}

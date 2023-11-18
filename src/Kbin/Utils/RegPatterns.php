@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Kbin\Utils;
 
-class RegPatterns
+readonly class RegPatterns
 {
     public const MAGAZINE_NAME = '/^[a-zA-Z0-9_]{2,25}$/';
     public const USERNAME = '/^[a-zA-Z0-9_-]{1,30}$/';

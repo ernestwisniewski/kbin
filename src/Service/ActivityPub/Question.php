@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
-use App\DTO\EntryCommentDto;
-use App\DTO\EntryDto;
-use App\DTO\PostCommentDto;
-use App\DTO\PostDto;
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
@@ -16,8 +12,12 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Factory\ImageFactory;
+use App\Kbin\Entry\DTO\EntryDto;
+use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
+use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\PostCreate;
+use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\Repository\ApActivityRepository;
 use App\Repository\MagazineRepository;

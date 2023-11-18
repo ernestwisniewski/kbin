@@ -6,8 +6,8 @@ namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
-use App\Form\MagazineType;
+use App\Kbin\Magazine\Factory\MagazineFactory;
+use App\Kbin\Magazine\Form\MagazineType;
 use App\Kbin\Magazine\MagazineEdit;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\EntryDto;
-use App\DTO\EntryRequestDto;
-use App\DTO\EntryResponseDto;
 use App\DTO\ImageUploadDto;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\DTO\EntryDto;
+use App\Kbin\Entry\DTO\EntryRequestDto;
+use App\Kbin\Entry\DTO\EntryResponseDto;
 use App\Kbin\Entry\EntryCreate;
+use App\Kbin\Entry\Factory\EntryFactory;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

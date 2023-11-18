@@ -6,9 +6,9 @@ namespace App\Controller\Api\Post\Comments;
 
 use App\Controller\Api\Post\PostsBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\PostCommentResponseDto;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;

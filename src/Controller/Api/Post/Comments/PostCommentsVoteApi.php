@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post\Comments;
 
 use App\Controller\Api\Post\PostsBaseApi;
-use App\DTO\PostCommentResponseDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\PostComment;
-use App\Factory\PostCommentFactory;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
+use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\Vote\VoteCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

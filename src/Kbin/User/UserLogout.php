@@ -7,7 +7,7 @@ namespace App\Kbin\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class UserLogout
+readonly class UserLogout
 {
     public function __construct(
         private TokenStorageInterface $tokenStorage,

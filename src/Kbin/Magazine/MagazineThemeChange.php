@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine;
 
-use App\DTO\MagazineThemeDto;
 use App\Entity\Magazine;
+use App\Kbin\Magazine\DTO\MagazineThemeDto;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
-use App\DTO\MagazineResponseDto;
 use App\Entity\Badge;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
 use App\Kbin\Entry\Badge\EntryBadgeDelete;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

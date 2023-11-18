@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\DTO\EntryResponseDto;
+use App\Kbin\Entry\Factory\EntryFactory;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;

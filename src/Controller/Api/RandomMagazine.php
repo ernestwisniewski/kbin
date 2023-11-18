@@ -6,7 +6,7 @@ namespace App\Controller\Api;
 
 use App\ApiDataProvider\DtoPaginator;
 use App\Controller\AbstractController;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
 
 class RandomMagazine extends AbstractController

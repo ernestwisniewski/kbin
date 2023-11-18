@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Schema;
 
-use App\DTO\MagazineResponseDto;
-use App\DTO\UserResponseDto;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\User\DTO\UserResponseDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 

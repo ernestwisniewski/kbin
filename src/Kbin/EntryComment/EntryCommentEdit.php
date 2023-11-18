@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\EntryComment;
 
-use App\DTO\EntryCommentDto;
 use App\Entity\EntryComment;
 use App\Event\EntryComment\EntryCommentEditedEvent;
+use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;

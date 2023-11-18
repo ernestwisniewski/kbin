@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User;
 
-use App\DTO\UserResponseDto;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\Factory\UserFactory;
 use App\Kbin\User\UserAvatarDetach;
 use App\Kbin\User\UserCoverDetach;
 use Nelmio\ApiDocBundle\Annotation\Model;

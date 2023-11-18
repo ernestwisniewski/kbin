@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
-use App\DTO\MagazineResponseDto;
-use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -125,7 +125,7 @@ class MagazineAddModeratorsApi extends MagazineBaseApi
             throw new BadRequestHttpException('The user is already a moderator of this magazine');
         }
 
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
 
         $dto->user = $user;
 

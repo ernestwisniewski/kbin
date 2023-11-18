@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\PostCommentDto;
 use App\Entity\PostComment;
+use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;

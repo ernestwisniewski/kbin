@@ -26,7 +26,7 @@
     {{ form_row(form.body, {label: false, attr: {
         'data-controller': 'input-length rich-textarea autogrow',
         'data-action' : 'input-length#updateDisplay',
-        'data-input-length-max-value': constant('App\\DTO\\PostDto::MAX_BODY_LENGTH')
+        'data-input-length-max-value': constant('App\\Kbin\\Post\\DTO\\PostDto::MAX_BODY_LENGTH')
         }}) }}
 </div>
 <div class="row params">

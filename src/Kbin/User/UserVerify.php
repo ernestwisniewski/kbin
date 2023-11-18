@@ -9,7 +9,7 @@ use App\Security\EmailVerifier;
 use Symfony\Component\HttpFoundation\Request;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
-class UserVerify
+readonly class UserVerify
 {
     public function __construct(
         private EmailVerifier $emailVerifier,

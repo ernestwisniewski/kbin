@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\Magazine;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\MagazineResponseDto;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
 use App\Entity\MagazineSubscription;
 use App\Entity\User;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\PageView\MagazinePageView;
 use App\Repository\Criteria;
 use App\Repository\MagazineRepository;

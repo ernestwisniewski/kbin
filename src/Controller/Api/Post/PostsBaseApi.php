@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post;
 
 use App\Controller\Api\BaseApi;
-use App\DTO\PostCommentDto;
-use App\DTO\PostCommentRequestDto;
-use App\DTO\PostCommentResponseDto;
-use App\DTO\PostDto;
-use App\DTO\PostRequestDto;
-use App\DTO\PostResponseDto;
 use App\Entity\PostComment;
+use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\DTO\PostRequestDto;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\PostComment\DTO\PostCommentDto;
+use App\Kbin\PostComment\DTO\PostCommentRequestDto;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
 
 class PostsBaseApi extends BaseApi
 {

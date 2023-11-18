@@ -6,10 +6,10 @@ namespace App\Controller\Api\Post\Comments;
 
 use App\Controller\Api\Post\PostsBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\PostCommentRequestDto;
-use App\DTO\PostCommentResponseDto;
 use App\Entity\PostComment;
-use App\Factory\PostCommentFactory;
+use App\Kbin\PostComment\DTO\PostCommentRequestDto;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
+use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\PostComment\PostCommentEdit;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
-use App\DTO\ModeratorDto;
 use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Kbin\Vote\VoteUp;
 use App\Service\FavouriteManager;
@@ -68,7 +68,7 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
         $dto->user = $this->getUserByUsername('JohnDoe');
         $magazineModeratorAdd($dto);
 

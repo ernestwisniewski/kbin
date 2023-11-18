@@ -9,7 +9,7 @@ use App\Event\User\UserBlockEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class UserBlock
+readonly class UserBlock
 {
     public function __construct(
         private UserUnfollow $userUnfollow,

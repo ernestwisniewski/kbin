@@ -10,7 +10,7 @@ use App\Repository\UserFollowRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class UserUnfollow
+readonly class UserUnfollow
 {
     public function __construct(
         private UserFollowRequestRepository $userFollowRequestRepository,

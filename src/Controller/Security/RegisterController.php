@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Security;
 
 use App\Controller\AbstractController;
-use App\Form\UserRegisterType;
+use App\Kbin\User\Form\UserRegisterType;
 use App\Kbin\User\UserCreate;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;

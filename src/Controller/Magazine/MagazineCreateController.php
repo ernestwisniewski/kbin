@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
-use App\Form\MagazineType;
+use App\Kbin\Magazine\Form\MagazineType;
 use App\Kbin\Magazine\MagazineCreate;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;

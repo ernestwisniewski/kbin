@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\PostResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\Post\Factory\PostFactory;
 use App\PageView\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\PostRepository;

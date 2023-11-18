@@ -6,6 +6,7 @@ namespace App\Factory;
 
 use App\DTO\OAuth2ClientDto;
 use App\Entity\Client;
+use App\Kbin\User\Factory\UserFactory;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
 use League\Bundle\OAuth2ServerBundle\ValueObject\RedirectUri;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Kbin\Post;
 
-use App\DTO\PostDto;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Event\Post\PostCreatedEvent;
 use App\Exception\UserBannedException;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\Factory\PostFactory;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use App\Service\TagManager;

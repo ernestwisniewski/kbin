@@ -7,7 +7,7 @@ namespace App\Kbin\Utils;
 use App\Entity\Contracts\ApiResourceInterface;
 use Symfony\Component\String\Inflector\EnglishInflector;
 
-class IriGenerator
+readonly class IriGenerator
 {
     public static function getIriFromResource(ApiResourceInterface $apiResource): string
     {

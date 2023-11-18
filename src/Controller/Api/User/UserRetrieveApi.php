@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\User;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\UserResponseDto;
-use App\DTO\UserSettingsDto;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\DTO\UserSettingsDto;
+use App\Kbin\User\Factory\UserFactory;
 use App\Repository\UserRepository;
 use App\Schema\PaginationSchema;
 use App\Service\UserSettingsManager;

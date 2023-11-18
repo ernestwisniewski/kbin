@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Instance\Admin;
 
 use App\Controller\Api\Instance\InstanceBaseApi;
-use App\DTO\PageDto;
 use App\DTO\SiteResponseDto;
 use App\Entity\Site;
+use App\Kbin\StaticPage\DTO\StaticPageDto;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -81,7 +81,7 @@ class InstanceUpdatePagesApi extends InstanceBaseApi
             ),
         ]
     )]
-    #[OA\RequestBody(content: new OA\JsonContent(ref: new Model(type: PageDto::class)))]
+    #[OA\RequestBody(content: new OA\JsonContent(ref: new Model(type: StaticPageDto::class)))]
     #[OA\Parameter(
         name: 'page',
         in: 'path',
@@ -107,8 +107,8 @@ class InstanceUpdatePagesApi extends InstanceBaseApi
             throw new BadRequestHttpException('Page parameter is invalid!');
         }
 
-        /** @var PageDto $dto */
-        $dto = $serializer->deserialize($request->getContent(), PageDto::class, 'json');
+        /** @var StaticPageDto $dto */
+        $dto = $serializer->deserialize($request->getContent(), StaticPageDto::class, 'json');
 
         $errors = $validator->validate($dto);
         if (0 < \count($errors)) {

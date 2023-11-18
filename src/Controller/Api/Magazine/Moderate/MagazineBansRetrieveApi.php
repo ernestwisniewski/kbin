@@ -6,10 +6,10 @@ namespace App\Controller\Api\Magazine\Moderate;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\MagazineBanResponseDto;
 use App\Entity\Magazine;
 use App\Entity\MagazineBan;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineBanResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineRepository;
 use App\Schema\PaginationSchema;
 use Nelmio\ApiDocBundle\Annotation\Model;

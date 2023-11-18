@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
-use App\Form\PostType;
+use App\Kbin\Post\Form\PostType;
 use App\Kbin\Post\PostCreate;
 use App\Repository\Criteria;
 use App\Service\IpResolver;

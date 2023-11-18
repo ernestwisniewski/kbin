@@ -7,7 +7,7 @@ namespace App\Service\Notification;
 use App\Entity\Message;
 use App\Entity\MessageNotification;
 use App\Entity\User;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineSubscriptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mercure\HubInterface;

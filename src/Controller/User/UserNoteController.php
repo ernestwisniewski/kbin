@@ -6,7 +6,7 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\Form\UserNoteType;
+use App\Kbin\User\Form\UserNoteType;
 use App\Service\UserNoteManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

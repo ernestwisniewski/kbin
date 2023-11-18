@@ -5,6 +5,12 @@ declare(strict_types=1);
 namespace App\DTO;
 
 use App\Entity\Contracts\VisibilityInterface;
+use App\Kbin\Entry\DTO\EntryResponseDto;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
+use App\Kbin\Magazine\DTO\MagazineSmallResponseDto;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\PostComment\DTO\PostCommentResponseDto;
+use App\Kbin\User\DTO\UserSmallResponseDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 

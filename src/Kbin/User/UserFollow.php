@@ -11,7 +11,7 @@ use App\Repository\UserFollowRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class UserFollow
+readonly class UserFollow
 {
     public function __construct(
         private UserFollowRequestRepository $userFollowRequestRepository,

@@ -6,8 +6,8 @@ namespace App\Controller\Api\Entry\Comments;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\EntryCommentResponseDto;
 use App\Entity\User;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\PageView\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;

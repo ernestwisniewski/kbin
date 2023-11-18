@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\User\Admin;
 
 use App\Controller\Api\User\UserBaseApi;
-use App\DTO\UserBanResponseDto;
 use App\Entity\User;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserBanResponseDto;
+use App\Kbin\User\Factory\UserFactory;
 use App\Kbin\User\UserBan;
 use App\Kbin\User\UserUnban;
 use Nelmio\ApiDocBundle\Annotation\Model;

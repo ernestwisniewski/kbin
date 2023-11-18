@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User;
 
-use App\DTO\UserResponseDto;
 use App\Entity\User;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\Factory\UserFactory;
 use App\Kbin\User\UserBlock;
 use App\Kbin\User\UserUnblock;
 use Nelmio\ApiDocBundle\Annotation\Model;

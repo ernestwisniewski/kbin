@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Kbin\PostComment;
 
-use App\DTO\PostCommentDto;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Exception\UserBannedException;
-use App\Factory\PostCommentFactory;
+use App\Kbin\PostComment\DTO\PostCommentDto;
+use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use App\Service\TagManager;

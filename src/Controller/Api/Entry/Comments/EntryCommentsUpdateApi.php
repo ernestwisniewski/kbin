@@ -6,11 +6,11 @@ namespace App\Controller\Api\Entry\Comments;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\EntryCommentRequestDto;
-use App\DTO\EntryCommentResponseDto;
 use App\Entity\EntryComment;
-use App\Factory\EntryCommentFactory;
+use App\Kbin\EntryComment\DTO\EntryCommentRequestDto;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\Kbin\EntryComment\EntryCommentEdit;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

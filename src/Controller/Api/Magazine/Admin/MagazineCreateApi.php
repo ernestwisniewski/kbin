@@ -6,9 +6,9 @@ namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\MagazineRequestDto;
-use App\DTO\MagazineResponseDto;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineRequestDto;
+use App\Kbin\Magazine\DTO\MagazineResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Post;
 
-use App\DTO\PostResponseDto;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Post;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Vote\VoteCreate;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

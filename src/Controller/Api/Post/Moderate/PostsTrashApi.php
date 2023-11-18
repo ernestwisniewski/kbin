@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post\Moderate;
 
 use App\Controller\Api\Post\PostsBaseApi;
-use App\DTO\PostResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
-use App\Factory\PostFactory;
+use App\Kbin\Post\DTO\PostResponseDto;
+use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Post\PostRestore;
 use App\Kbin\Post\PostTrash;
 use Nelmio\ApiDocBundle\Annotation\Model;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Controller\AbstractController;
-use App\DTO\ModeratorDto;
 use App\Entity\User;
-use App\Form\ModeratorType;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
+use App\Kbin\Magazine\Form\MagazineModeratorType;
 use App\Repository\UserRepository;
 use App\Service\InstanceManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,9 +25,9 @@ class AdminModeratorController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function moderators(Request $request): Response
     {
-        $dto = new ModeratorDto(null);
+        $dto = new MagazineModeratorDto(null);
 
-        $form = $this->createForm(ModeratorType::class, $dto);
+        $form = $this->createForm(MagazineModeratorType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

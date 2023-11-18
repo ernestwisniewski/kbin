@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\User;
 
-use App\DTO\UserDto;
 use App\Entity\User;
+use App\Kbin\User\DTO\UserDto;
 use App\Message\DeleteImageMessage;
 use App\Message\UserUpdatedMessage;
 use App\Repository\ImageRepository;
@@ -14,7 +14,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserEdit
+readonly class UserEdit
 {
     public function __construct(
         private ImageRepository $imageRepository,

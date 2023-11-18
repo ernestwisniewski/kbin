@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\User;
 
 use App\Controller\Api\BaseApi;
-use App\DTO\UserSettingsDto;
+use App\Kbin\User\DTO\UserSettingsDto;
 
 class UserBaseApi extends BaseApi
 {

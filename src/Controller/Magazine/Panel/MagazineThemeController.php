@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
-use App\DTO\MagazineThemeDto;
 use App\Entity\Magazine;
-use App\Form\MagazineThemeType;
+use App\Kbin\Magazine\DTO\MagazineThemeDto;
+use App\Kbin\Magazine\Form\MagazineThemeType;
 use App\Kbin\Magazine\MagazineThemeChange;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

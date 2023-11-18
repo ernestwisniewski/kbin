@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Kbin\Entry;
 
-use App\DTO\EntryDto;
 use App\Entity\Entry;
 use App\Event\Entry\EntryEditedEvent;
 use App\Kbin\Entry\Badge\EntryBadgeAssign;
+use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\MentionManager;
 use App\Kbin\TagManager;
 use App\Kbin\Utils\Slugger;

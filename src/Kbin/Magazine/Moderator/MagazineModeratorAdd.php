@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine\Moderator;
 
-use App\DTO\ModeratorDto;
 use App\Entity\Moderator;
 use App\Entity\User;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -18,7 +18,7 @@ readonly class MagazineModeratorAdd
     ) {
     }
 
-    public function __invoke(ModeratorDto $dto, ?bool $isOwner = false): void
+    public function __invoke(MagazineModeratorDto $dto, ?bool $isOwner = false): void
     {
         $magazine = $dto->magazine;
 

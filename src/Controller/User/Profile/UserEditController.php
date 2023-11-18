@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
-use App\DTO\UserDto;
-use App\Factory\UserFactory;
-use App\Form\UserBasicType;
-use App\Form\UserEmailType;
-use App\Form\UserPasswordType;
+use App\Kbin\User\DTO\UserDto;
+use App\Kbin\User\Factory\UserFactory;
+use App\Kbin\User\Form\UserBasicType;
+use App\Kbin\User\Form\UserEmailType;
+use App\Kbin\User\Form\UserPasswordType;
 use App\Kbin\User\UserEdit;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormError;

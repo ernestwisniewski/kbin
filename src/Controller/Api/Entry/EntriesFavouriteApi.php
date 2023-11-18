@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Entry;
 
-use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\DTO\EntryResponseDto;
+use App\Kbin\Entry\Factory\EntryFactory;
 use App\Service\FavouriteManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

@@ -8,7 +8,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserDeleteRequestCreate
+readonly class UserDeleteRequestCreate
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Command\AwesomeBot;
 
-use App\DTO\BadgeDto;
-use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
+use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\MagazineCreate;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -96,7 +96,7 @@ class AwesomeBotMagazine extends Command
 
         $badges = [];
         foreach ($labels as $label) {
-            ($this->entryBadgeCreate)(BadgeDto::create($magazine, $label));
+            ($this->entryBadgeCreate)(EntryBadgeDto::create($magazine, $label));
         }
 
         return new ArrayCollection($badges);

@@ -6,7 +6,7 @@ namespace App\Kbin\Utils;
 
 use App\Exception\BadUrlException;
 
-class UrlCleaner
+readonly class UrlCleaner
 {
     // https://gist.github.com/htsign/455bd76d107be1f810c5caa4072c8275
     public const TRACKING_TAGS = [

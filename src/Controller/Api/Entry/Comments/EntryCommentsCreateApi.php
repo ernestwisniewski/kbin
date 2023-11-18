@@ -6,13 +6,13 @@ namespace App\Controller\Api\Entry\Comments;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\EntryCommentRequestDto;
-use App\DTO\EntryCommentResponseDto;
 use App\DTO\ImageUploadDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
-use App\Factory\EntryCommentFactory;
+use App\Kbin\EntryComment\DTO\EntryCommentRequestDto;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

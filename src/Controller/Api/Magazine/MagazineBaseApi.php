@@ -6,13 +6,13 @@ namespace App\Controller\Api\Magazine;
 
 use App\Controller\Api\BaseApi;
 use App\DTO\ImageDto;
-use App\DTO\MagazineDto;
-use App\DTO\MagazineRequestDto;
-use App\DTO\MagazineThemeDto;
-use App\DTO\MagazineThemeRequestDto;
 use App\Entity\Magazine;
 use App\Entity\Report;
 use App\Factory\ReportFactory;
+use App\Kbin\Magazine\DTO\MagazineDto;
+use App\Kbin\Magazine\DTO\MagazineRequestDto;
+use App\Kbin\Magazine\DTO\MagazineThemeDto;
+use App\Kbin\Magazine\DTO\MagazineThemeRequestDto;
 use App\Kbin\Magazine\MagazineCreate;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Contracts\Service\Attribute\Required;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Moderate;
 
-use App\DTO\ModeratorDto;
 use App\Kbin\Entry\EntryTrash;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 
@@ -71,7 +71,7 @@ class EntryTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($magazine);
+        $moderator = new MagazineModeratorDto($magazine);
         $moderator->user = $user;
         $magazineModeratorAdd($moderator);
 
@@ -205,7 +205,7 @@ class EntryTrashApiTest extends WebTestCase
         $entry = $this->getEntryByTitle('test article', body: 'test for favourite', user: $user, magazine: $magazine);
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($magazine);
+        $moderator = new MagazineModeratorDto($magazine);
         $moderator->user = $user;
         $magazineModeratorAdd($moderator);
 

@@ -6,9 +6,9 @@ namespace App\Controller\Post;
 
 use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
-use App\DTO\PostDto;
 use App\Entity\Magazine;
-use App\Form\PostType;
+use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\Form\PostType;
 use App\PageView\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\PostRepository;

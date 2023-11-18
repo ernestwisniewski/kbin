@@ -8,7 +8,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserPauseAccount
+readonly class UserPauseAccount
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

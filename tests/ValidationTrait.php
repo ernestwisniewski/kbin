@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\DTO\MagazineLogResponseDto;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Magazine\DTO\MagazineLogResponseDto;
 
 trait ValidationTrait
 {

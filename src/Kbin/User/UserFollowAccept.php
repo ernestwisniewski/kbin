@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Repository\UserFollowRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserFollowAccept
+readonly class UserFollowAccept
 {
     public function __construct(
         private UserFollowRequestRepository $userFollowRequestRepository,

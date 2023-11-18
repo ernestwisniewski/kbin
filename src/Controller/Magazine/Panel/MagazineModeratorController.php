@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
-use App\DTO\ModeratorDto;
 use App\Entity\Magazine;
 use App\Entity\Moderator;
-use App\Form\ModeratorType;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
+use App\Kbin\Magazine\Form\MagazineModeratorType;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Kbin\Magazine\Moderator\MagazineModeratorRemove;
 use App\Repository\MagazineRepository;
@@ -30,9 +30,9 @@ class MagazineModeratorController extends AbstractController
     #[IsGranted('edit', subject: 'magazine')]
     public function moderators(Magazine $magazine, Request $request): Response
     {
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
 
-        $form = $this->createForm(ModeratorType::class, $dto);
+        $form = $this->createForm(MagazineModeratorType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

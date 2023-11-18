@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\User\Profile;
 
 use App\Controller\AbstractController;
-use App\DTO\UserDto;
 use App\Entity\User;
-use App\Factory\UserFactory;
-use App\Form\UserTwoFactorType;
+use App\Kbin\User\DTO\UserDto;
+use App\Kbin\User\Factory\UserFactory;
+use App\Kbin\User\Form\UserTwoFactorType;
 use App\Kbin\User\UserEdit;
 use App\Service\TwoFactorManager;
 use Endroid\QrCode\Builder\Builder;

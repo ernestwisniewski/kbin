@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\Post;
 
-use App\DTO\PostDto;
 use App\Entity\Post;
 use App\Event\Post\PostEditedEvent;
+use App\Kbin\Post\DTO\PostDto;
 use App\Message\DeleteImageMessage;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;

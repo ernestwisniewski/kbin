@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Command;
 
-use App\DTO\UserDto;
+use App\Kbin\User\DTO\UserDto;
 use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Console\Application;

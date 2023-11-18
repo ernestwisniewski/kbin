@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Security;
 
-use App\DTO\UserDto;
 use App\Entity\User;
+use App\Kbin\User\DTO\UserDto;
 use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
 use App\Service\IpResolver;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\MagazineDto;
+use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\MagazineCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;

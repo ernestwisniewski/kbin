@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Entry;
 
-use App\DTO\EntryDto;
 use App\Entity\Entry;
-use App\Form\EntryArticleType;
-use App\Form\EntryImageType;
-use App\Form\EntryLinkType;
+use App\Kbin\Entry\DTO\EntryDto;
+use App\Kbin\Entry\Form\EntryArticleType;
+use App\Kbin\Entry\Form\EntryImageType;
+use App\Kbin\Entry\Form\EntryLinkType;
 use Symfony\Component\Form\FormInterface;
 
 /**

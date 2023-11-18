@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\DTO\EntryDto;
+use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EntryCreate;
 use App\Repository\ImageRepository;
 use App\Service\ImageManager;

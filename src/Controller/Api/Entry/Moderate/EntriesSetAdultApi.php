@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry\Moderate;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
-use App\DTO\EntryResponseDto;
 use App\Entity\Entry;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\DTO\EntryResponseDto;
+use App\Kbin\Entry\Factory\EntryFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

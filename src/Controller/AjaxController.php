@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DTO\UserNoteDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Form\UserNoteType;
+use App\Kbin\User\DTO\UserNoteDto;
+use App\Kbin\User\Form\UserNoteType;
 use App\PageView\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;

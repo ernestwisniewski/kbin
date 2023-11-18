@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
-use App\DTO\BadgeDto;
-use App\DTO\ModeratorDto;
 use App\Kbin\Entry\Badge\EntryBadgeCreate;
+use App\Kbin\Entry\DTO\EntryBadgeDto;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
@@ -30,7 +30,7 @@ class MagazineBadgesApiTest extends WebTestCase
         $client = self::createClient();
         $magazine = $this->getMagazineByName('test');
         $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
-        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
+        $badge = $entryBadgeCreate(EntryBadgeDto::create($magazine, 'test'));
 
         $client->request('DELETE', "/api/moderate/magazine/{$magazine->getId()}/badge/{$badge->getId()}");
 
@@ -66,7 +66,7 @@ class MagazineBadgesApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
-        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
+        $badge = $entryBadgeCreate(EntryBadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
@@ -90,7 +90,7 @@ class MagazineBadgesApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test', $owner);
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
         $dto->user = $moderator;
         $magazineModeratorAdd($dto);
 
@@ -117,12 +117,12 @@ class MagazineBadgesApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test', $owner);
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
         $dto->user = $moderator;
         $magazineModeratorAdd($dto);
 
         $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
-        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
+        $badge = $entryBadgeCreate(EntryBadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];
@@ -175,7 +175,7 @@ class MagazineBadgesApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test');
         $entryBadgeCreate = $this->getService(EntryBadgeCreate::class);
-        $badge = $entryBadgeCreate(BadgeDto::create($magazine, 'test'));
+        $badge = $entryBadgeCreate(EntryBadgeDto::create($magazine, 'test'));
 
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine_admin:badges');
         $token = $codes['token_type'].' '.$codes['access_token'];

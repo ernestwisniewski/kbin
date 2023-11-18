@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Magazine;
 
-use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineThemeResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;

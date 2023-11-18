@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry\Moderate;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
-use App\DTO\EntryResponseDto;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
-use App\Factory\EntryFactory;
+use App\Kbin\Entry\DTO\EntryResponseDto;
 use App\Kbin\Entry\EntryRestore;
 use App\Kbin\Entry\EntryTrash;
+use App\Kbin\Entry\Factory\EntryFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

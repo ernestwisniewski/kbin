@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\DTO\UserNoteDto;
 use App\Entity\User;
 use App\Entity\UserNote;
+use App\Kbin\User\DTO\UserNoteDto;
 use App\Repository\UserNoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

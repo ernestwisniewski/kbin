@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\UserCannotBeBanned;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserBan
+readonly class UserBan
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

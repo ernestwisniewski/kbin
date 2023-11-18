@@ -19,8 +19,8 @@ class MagazineModeratorControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/m/acme/panel/moderators');
         $this->assertSelectorTextContains('#main .options__main a.active', 'moderators');
         $crawler = $client->submit(
-            $crawler->filter('#main form[name=moderator]')->selectButton('Add moderator')->form([
-                'moderator[user]' => 'JaneDoe',
+            $crawler->filter('#main form[name=magazine_moderator]')->selectButton('Add moderator')->form([
+                'magazine_moderator[user]' => 'JaneDoe',
             ])
         );
         $this->assertSelectorTextContains('#main .users-columns', 'JaneDoe');

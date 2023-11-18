@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Entry\Comments;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
-use App\DTO\EntryCommentResponseDto;
 use App\Entity\EntryComment;
-use App\Factory\EntryCommentFactory;
+use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
+use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\Service\FavouriteManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

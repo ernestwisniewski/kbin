@@ -9,7 +9,7 @@ use App\Repository\ReputationRepository;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
-class UserReputationGet
+readonly class UserReputationGet
 {
     public function __construct(
         private ReputationRepository $reputationRepository,

@@ -6,7 +6,7 @@ namespace App\Controller\Magazine\Panel;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
-use App\Form\MagazineTagsType;
+use App\Kbin\Magazine\Form\MagazineTagsType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

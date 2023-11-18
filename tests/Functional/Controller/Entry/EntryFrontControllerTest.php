@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
-use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\MagazineSubscribe;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Service\FavouriteManager;
@@ -193,7 +193,7 @@ class EntryFrontControllerTest extends WebTestCase
         $client = $this->prepareEntries();
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($this->getMagazineByName('acme'));
+        $moderator = new MagazineModeratorDto($this->getMagazineByName('acme'));
         $moderator->user = $this->getUserByUsername('Actor');
         $magazineModeratorAdd($moderator);
 
@@ -227,7 +227,7 @@ class EntryFrontControllerTest extends WebTestCase
         $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $moderator = new ModeratorDto($this->getMagazineByName('acme'));
+        $moderator = new MagazineModeratorDto($this->getMagazineByName('acme'));
         $moderator->user = $this->getUserByUsername('Actor');
         $magazineModeratorAdd($moderator);
 

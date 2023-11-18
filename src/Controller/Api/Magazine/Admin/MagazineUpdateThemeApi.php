@@ -6,12 +6,12 @@ namespace App\Controller\Api\Magazine\Admin;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\DTO\ImageUploadDto;
-use App\DTO\MagazineThemeDto;
-use App\DTO\MagazineThemeRequestDto;
-use App\DTO\MagazineThemeResponseDto;
 use App\Entity\Magazine;
 use App\Factory\ImageFactory;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineThemeDto;
+use App\Kbin\Magazine\DTO\MagazineThemeRequestDto;
+use App\Kbin\Magazine\DTO\MagazineThemeResponseDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\MagazineThemeChange;
 use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;

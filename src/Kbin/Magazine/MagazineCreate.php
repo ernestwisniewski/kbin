@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine;
 
-use App\DTO\MagazineDto;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\DTO\MagazineDto;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Service\ActivityPub\KeysGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;

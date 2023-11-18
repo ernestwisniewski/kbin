@@ -6,7 +6,7 @@ namespace App\Kbin\Utils;
 
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class Slugger
+readonly class Slugger
 {
     public static function camelCase(string $value): string
     {

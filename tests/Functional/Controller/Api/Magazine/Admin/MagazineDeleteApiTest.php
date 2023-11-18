@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
-use App\DTO\ModeratorDto;
+use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Tests\WebTestCase;
 
@@ -71,7 +71,7 @@ class MagazineDeleteApiTest extends WebTestCase
 
         $magazine = $this->getMagazineByName('test', $owner);
         $magazineModeratorAdd = $this->getService(MagazineModeratorAdd::class);
-        $dto = new ModeratorDto($magazine);
+        $dto = new MagazineModeratorDto($magazine);
         $dto->user = $moderator;
         $magazineModeratorAdd($dto);
 

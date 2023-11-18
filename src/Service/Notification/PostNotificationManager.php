@@ -11,7 +11,7 @@ use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
 use App\Entity\PostEditedNotification;
 use App\Entity\PostMentionedNotification;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;

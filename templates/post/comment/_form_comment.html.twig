@@ -22,7 +22,7 @@
     {{ form_row(form.body, {label: false, attr: {
         'data-controller': 'input-length rich-textarea autogrow',
         'data-action' : 'input-length#updateDisplay',
-        'data-input-length-max-value': constant('App\\DTO\\PostCommentDto::MAX_BODY_LENGTH')
+        'data-input-length-max-value': constant('App\\Kbin\\PostComment\\DTO\\PostCommentDto::MAX_BODY_LENGTH')
     }}) }}
 </div>
 <div class="row actions">

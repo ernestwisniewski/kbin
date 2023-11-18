@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User;
 
-use App\DTO\UserProfileRequestDto;
-use App\DTO\UserResponseDto;
-use App\DTO\UserSettingsDto;
-use App\Factory\UserFactory;
+use App\Kbin\User\DTO\UserProfileRequestDto;
+use App\Kbin\User\DTO\UserResponseDto;
+use App\Kbin\User\DTO\UserSettingsDto;
+use App\Kbin\User\Factory\UserFactory;
 use App\Kbin\User\UserEdit;
 use App\Service\UserSettingsManager;
 use Nelmio\ApiDocBundle\Annotation\Model;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Entry;
 
 use App\Controller\AbstractController;
-use App\DTO\EntryDto;
 use App\Entity\Magazine;
 use App\Exception\UserBannedException;
+use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EntryCreate;
 use App\PageView\EntryPageView;
 use App\Repository\Criteria;

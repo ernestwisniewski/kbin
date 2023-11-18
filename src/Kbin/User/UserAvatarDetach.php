@@ -9,7 +9,7 @@ use App\Message\DeleteImageMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class UserAvatarDetach
+readonly class UserAvatarDetach
 {
     public function __construct(
         private MessageBusInterface $messageBus,

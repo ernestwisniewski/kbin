@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\MessageHandler\Notification;
 
 use App\Entity\Contracts\VotableInterface;
-use App\Factory\MagazineFactory;
+use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\GenerateHtmlClassService;
 use App\Service\SettingsManager;
