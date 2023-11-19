@@ -209,7 +209,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $dql =
             'SELECT COUNT(u.id), u.apInboxUrl FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(us.follower) FROM '.UserFollow::class.' us WHERE us.following = :user)'.
-            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apTimeoutAt IS NULL '.
+            'AND u.apId IS NOT NULL AND u.isBanned = false '.
             'GROUP BY u.apInboxUrl';
 
         $res = $this->getEntityManager()->createQuery($dql)
@@ -346,7 +346,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->where('u.apId IS NOT NULL')
             ->andWhere('u.apDomain IS NULL')
             ->andWhere('u.apDeletedAt IS NULL')
-            ->andWhere('u.apTimeoutAt IS NULL')
             ->setMaxResults(1000)
             ->getQuery()
             ->getResult();
@@ -499,7 +498,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $qb->andWhere($qb->expr()->in('u.id', $user))
             ->andWhere('u.isBanned = false')
             ->andWhere('u.apDeletedAt IS NULL')
-            ->andWhere('u.apTimeoutAt IS NULL')
             ->andWhere('u.about IS NOT NULL')
             ->andWhere('u.avatar IS NOT NULL');
 
@@ -542,7 +540,6 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
                 ->andWhere('u.lastActive >= :lastActive')
                 ->andWhere('u.isBanned = false')
                 ->andWhere('u.apDeletedAt IS NULL')
-                ->andWhere('u.apTimeoutAt IS NULL')
                 ->andWhere('u.avatar IS NOT NULL')
                 ->join('u.avatar', 'a')
                 ->orderBy('u.lastActive', 'DESC')

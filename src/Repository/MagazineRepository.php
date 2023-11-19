@@ -356,7 +356,7 @@ class MagazineRepository extends ServiceEntityRepository
         $dql =
             'SELECT COUNT(u.id), u.apInboxUrl FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine)'.
-            'AND u.apId IS NOT NULL AND u.isBanned = false AND u.apTimeoutAt IS NULL '.
+            'AND u.apId IS NOT NULL AND u.isBanned = false AND '.
             'GROUP BY u.apInboxUrl';
 
         $res = $this->getEntityManager()->createQuery($dql)
@@ -480,7 +480,6 @@ class MagazineRepository extends ServiceEntityRepository
             ->where('m.apId IS NOT NULL')
             ->andWhere('m.apDomain IS NULL')
             ->andWhere('m.apDeletedAt IS NULL')
-            ->andWhere('m.apTimeoutAt IS NULL')
             ->setMaxResults(1000)
             ->getQuery()
             ->getResult();

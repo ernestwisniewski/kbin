@@ -50,12 +50,12 @@ readonly class ActivityHandler
         try {
             if ('Delete' !== $payload['type']) {
                 if (isset($payload['actor']) || isset($payload['attributedTo'])) {
-                    if (!$this->verifyInstanceDomain($payload['actor'] ?? $payload['attributedTo'])) {
+                    if ($this->settingsManager->isBannedInstance($payload['actor'] ?? $payload['attributedTo'])) {
                         return;
                     }
                     $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
                 } else {
-                    if (!$this->verifyInstanceDomain($payload['id'])) {
+                    if ($this->settingsManager->isBannedInstance($payload['id'])) {
                         return;
                     }
 
@@ -155,17 +155,5 @@ readonly class ActivityHandler
         if ('Follow' === $type) {
             $this->bus->dispatch(new FollowMessage($payload));
         }
-    }
-
-    private function verifyInstanceDomain(string $id): bool
-    {
-        if (\in_array(
-            str_replace('www.', '', parse_url($id, PHP_URL_HOST)),
-            $this->settingsManager->get('KBIN_BANNED_INSTANCES') ?? []
-        )) {
-            return false;
-        }
-
-        return true;
     }
 }

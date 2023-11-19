@@ -21,6 +21,7 @@ class InstanceSettingsRetrieveApiTest extends WebTestCase
         'KBIN_FEDERATION_ENABLED',
         'KBIN_REGISTRATIONS_ENABLED',
         'KBIN_BANNED_INSTANCES',
+        'KBIN_BLOCKED_INSTANCES',
         'KBIN_HEADER_LOGO',
         'KBIN_CAPTCHA_ENABLED',
         'KBIN_SPAM_PROTECTION',

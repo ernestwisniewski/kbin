@@ -61,12 +61,21 @@ class SettingsManager
                     FILTER_VALIDATE_BOOLEAN
                 ) ?? $this->kbinRegistrationsEnabled,
                 $this->find($results, 'KBIN_BANNED_INSTANCES') ?? [],
+                $this->find($results, 'KBIN_BLOCKED_INSTANCES') ?? [],
                 $this->find($results, 'KBIN_HEADER_LOGO', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinHeaderLogo,
                 $this->find($results, 'KBIN_CAPTCHA_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinCaptchaEnabled,
                 $this->find($results, 'KBIN_SPAM_PROTECTION', FILTER_VALIDATE_BOOLEAN) ?? false,
                 $this->find($results, 'KBIN_MERCURE_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? true,
-                $this->find($results, 'KBIN_FEDERATION_PAGE_ENABLED', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinFederationPageEnabled,
-                $this->find($results, 'KBIN_ADMIN_ONLY_OAUTH_CLIENTS', FILTER_VALIDATE_BOOLEAN) ?? $this->kbinAdminOnlyOauthClients,
+                $this->find(
+                    $results,
+                    'KBIN_FEDERATION_PAGE_ENABLED',
+                    FILTER_VALIDATE_BOOLEAN
+                ) ?? $this->kbinFederationPageEnabled,
+                $this->find(
+                    $results,
+                    'KBIN_ADMIN_ONLY_OAUTH_CLIENTS',
+                    FILTER_VALIDATE_BOOLEAN
+                ) ?? $this->kbinAdminOnlyOauthClients,
                 $this->find($results, 'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN', FILTER_VALIDATE_BOOLEAN) ?? true
             );
         }
@@ -131,6 +140,19 @@ class SettingsManager
             str_replace('www.', '', parse_url($inboxUrl, PHP_URL_HOST)),
             $this->get('KBIN_BANNED_INSTANCES') ?? []
         );
+    }
+
+    public function isBlockedInstance(string $inboxUrl): bool
+    {
+        return \in_array(
+            str_replace('www.', '', parse_url($inboxUrl, PHP_URL_HOST)),
+            $this->get('KBIN_BLOCKED_INSTANCES') ?? []
+        );
+    }
+
+    public function isInstanceAllowed(string $url): bool
+    {
+        return !$this->isBannedInstance($url) && !$this->isBlockedInstance($url);
     }
 
     public function get(string $name)

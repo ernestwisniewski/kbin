@@ -25,6 +25,7 @@ final class Version20231119083158 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-
+        $this->addSql('DROP INDEX user_username_lower_idx');
+        $this->addSql('DROP INDEX user_email_lower_idx');
     }
 }

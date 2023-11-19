@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
+use App\Kbin\ActivityPub\ActivityPubInstanceBrokenCreate;
 use App\Repository\MagazineRepository;
 use App\Repository\SiteRepository;
 use App\Repository\UserRepository;
@@ -46,7 +47,8 @@ class ApHttpClient
         private readonly CacheInterface $cache,
         private readonly UserRepository $userRepository,
         private readonly MagazineRepository $magazineRepository,
-        private readonly SiteRepository $siteRepository
+        private readonly SiteRepository $siteRepository,
+        private readonly ActivityPubInstanceBrokenCreate $activityPubInstanceBrokenCreate
     ) {
     }
 
@@ -63,6 +65,7 @@ class ApHttpClient
             ]);
 
             if (!str_starts_with((string) $r->getStatusCode(), '2')) {
+                ($this->activityPubInstanceBrokenCreate)($url, $r->getContent(false));
                 throw new InvalidApPostException("Get fail: {$url}, ".$r->getContent(false));
             }
 
@@ -127,24 +130,10 @@ class ApHttpClient
                         'headers' => $this->getInstanceHeaders($apProfileId, null, 'get', ApRequestType::ActivityPub),
                     ]);
                     if (str_starts_with((string) $r->getStatusCode(), '4')) {
-                        if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
-                            $user->apDeletedAt = new \DateTime();
-                            $this->userRepository->save($user, true);
-                        }
-                        if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
-                            $magazine->apDeletedAt = new \DateTime();
-                            $this->magazineRepository->save($magazine, true);
-                        }
+                        ($this->activityPubInstanceBrokenCreate)($apProfileId, $r->getContent(false));
                     }
                 } catch (\Exception $e) {
-                    if ($user = $this->userRepository->findOneByApProfileId($apProfileId)) {
-                        $user->apTimeoutAt = new \DateTime();
-                        $this->userRepository->save($user, true);
-                    }
-                    if ($magazine = $this->magazineRepository->findOneByApProfileId($apProfileId)) {
-                        $magazine->apTimeoutAt = new \DateTime();
-                        $this->magazineRepository->save($magazine, true);
-                    }
+                    ($this->activityPubInstanceBrokenCreate)($apProfileId, $e->getMessage());
 
                     throw new InvalidApPostException("AP Get fail: {$apProfileId}, ".$e->getMessage());
                 }
@@ -178,6 +167,7 @@ class ApHttpClient
         ]);
 
         if (!str_starts_with((string) $req->getStatusCode(), '2')) {
+            ($this->activityPubInstanceBrokenCreate)($url, $req->getContent(false));
             throw new InvalidApPostException("Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body));
         }
 

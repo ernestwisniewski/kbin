@@ -63,9 +63,7 @@ readonly class ChainActivityHandler
                     new ChainActivityMessage($message->chain, null, $message->announce, $message->like)
                 );
             } else {
-                throw new InvalidApGetException(
-                    "Failed to get chain object {$object['inReplyTo']}"
-                );
+                throw new InvalidApGetException("Failed to get chain object {$object['inReplyTo']}");
             }
 
             return;

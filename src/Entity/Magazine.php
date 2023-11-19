@@ -33,6 +33,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Index(columns: ['visibility', 'is_adult'], name: 'magazine_visibility_adult_idx')]
 #[Index(columns: ['visibility'], name: 'magazine_visibility_idx')]
 #[Index(columns: ['is_adult'], name: 'magazine_adult_idx')]
+#[Index(columns: ['ap_id'], name: 'magazine_ap_id_idx')]
+#[Index(columns: ['ap_profile_id'], name: 'magazine_ap_profile_id_idx')]
 #[UniqueConstraint(name: 'magazine_name_idx', columns: ['name'])]
 class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiResourceInterface
 {

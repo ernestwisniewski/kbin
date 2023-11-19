@@ -27,6 +27,8 @@ class SettingsDto implements \JsonSerializable
         public bool $KBIN_REGISTRATIONS_ENABLED,
         #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
         public array $KBIN_BANNED_INSTANCES,
+        #[OA\Property(type: 'array', items: new OA\Items(type: 'string'))]
+        public array $KBIN_BLOCKED_INSTANCES,
         public bool $KBIN_HEADER_LOGO,
         public bool $KBIN_CAPTCHA_ENABLED,
         public bool $KBIN_SPAM_PROTECTION,
@@ -51,6 +53,7 @@ class SettingsDto implements \JsonSerializable
         $dto->KBIN_FEDERATION_ENABLED = $this->KBIN_FEDERATION_ENABLED ?? $dto->KBIN_FEDERATION_ENABLED;
         $dto->KBIN_REGISTRATIONS_ENABLED = $this->KBIN_REGISTRATIONS_ENABLED ?? $dto->KBIN_REGISTRATIONS_ENABLED;
         $dto->KBIN_BANNED_INSTANCES = $this->KBIN_BANNED_INSTANCES ?? $dto->KBIN_BANNED_INSTANCES;
+        $dto->KBIN_BLOCKED_INSTANCES = $this->KBIN_BLOCKED_INSTANCES ?? $dto->KBIN_BLOCKED_INSTANCES;
         $dto->KBIN_HEADER_LOGO = $this->KBIN_HEADER_LOGO ?? $dto->KBIN_HEADER_LOGO;
         $dto->KBIN_CAPTCHA_ENABLED = $this->KBIN_CAPTCHA_ENABLED ?? $dto->KBIN_CAPTCHA_ENABLED;
         $dto->KBIN_SPAM_PROTECTION = $this->KBIN_SPAM_PROTECTION ?? $dto->KBIN_SPAM_PROTECTION;
@@ -77,6 +80,7 @@ class SettingsDto implements \JsonSerializable
             'KBIN_FEDERATION_ENABLED' => $this->KBIN_FEDERATION_ENABLED,
             'KBIN_REGISTRATIONS_ENABLED' => $this->KBIN_REGISTRATIONS_ENABLED,
             'KBIN_BANNED_INSTANCES' => $this->KBIN_BANNED_INSTANCES,
+            'KBIN_BLOCKED_INSTANCES' => $this->KBIN_BLOCKED_INSTANCES,
             'KBIN_HEADER_LOGO' => $this->KBIN_HEADER_LOGO,
             'KBIN_CAPTCHA_ENABLED' => $this->KBIN_CAPTCHA_ENABLED,
             'KBIN_SPAM_PROTECTION' => $this->KBIN_SPAM_PROTECTION,
