@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
+use App\ActivityPub\JsonRdLink;
 use App\Event\ActivityPub\WebfingerResponseEvent;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
