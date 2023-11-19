@@ -13,7 +13,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Kbin\Post\DTO\PostResponseDto;
 use App\Kbin\Post\Factory\PostFactory;
-use App\PageView\PostPageView;
+use App\Kbin\Post\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\PostRepository;
 use App\Schema\PaginationSchema;

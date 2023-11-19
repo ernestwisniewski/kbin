@@ -6,19 +6,19 @@
 
 declare(strict_types=1);
 
-namespace App\PageView;
+namespace App\Kbin\PostComment;
 
+use App\Entity\Post;
 use App\Repository\Criteria;
 
-class EntryPageView extends Criteria
+class PostCommentPageView extends Criteria
 {
     public const SORT_OPTIONS = [
-        self::SORT_ACTIVE,
-        self::SORT_HOT,
         self::SORT_NEW,
+        self::SORT_OLD,
         self::SORT_TOP,
-        self::SORT_COMMENTED,
     ];
 
-    public bool $stickiesFirst = false;
+    public ?Post $post = null;
+    public bool $onlyParents = true;
 }

@@ -14,7 +14,7 @@ use App\Entity\Post;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Post\Form\PostType;
 use App\Kbin\Post\PostEdit;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;

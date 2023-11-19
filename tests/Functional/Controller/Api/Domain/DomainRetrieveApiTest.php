@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Domain;
 
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainBlock;
+use App\Kbin\Domain\DomainSubscribe;
 use App\Tests\WebTestCase;
 
 class DomainRetrieveApiTest extends WebTestCase
@@ -77,8 +78,8 @@ class DomainRetrieveApiTest extends WebTestCase
 
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -123,8 +124,8 @@ class DomainRetrieveApiTest extends WebTestCase
         $this->getEntryByTitle('Test link to a second domain', 'https://example.org');
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -142,8 +143,8 @@ class DomainRetrieveApiTest extends WebTestCase
         $this->getEntryByTitle('Test link to a second domain', 'https://example.org');
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -189,8 +190,8 @@ class DomainRetrieveApiTest extends WebTestCase
         $this->getEntryByTitle('Test link to a second domain', 'https://example.org');
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->block($domain, $user);
+        $domainBlock = $this->getService(DomainBlock::class);
+        $domainBlock($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -208,8 +209,8 @@ class DomainRetrieveApiTest extends WebTestCase
         $this->getEntryByTitle('Test link to a second domain', 'https://example.org');
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->block($domain, $user);
+        $domainBlock = $this->getService(DomainBlock::class);
+        $domainBlock($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -266,8 +267,8 @@ class DomainRetrieveApiTest extends WebTestCase
 
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -295,8 +296,8 @@ class DomainRetrieveApiTest extends WebTestCase
 
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
         $user = $this->getUserByUsername('JohnDoe');
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Kbin\Magazine\Form;
 
-use App\PageView\MagazinePageView;
+use App\Kbin\Magazine\MagazinePageView;
 use App\Repository\Criteria;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

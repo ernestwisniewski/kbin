@@ -12,7 +12,7 @@ use App\ApiDataProvider\DtoPaginator;
 use App\Controller\AbstractController;
 use App\Entity\Post;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 

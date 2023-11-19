@@ -9,23 +9,23 @@ declare(strict_types=1);
 namespace App\EventSubscriber\Entry;
 
 use App\Event\Entry\EntryCreatedEvent;
+use App\Kbin\Domain\DomainExtract;
 use App\Kbin\Entry\MessageBus\EntryEmbedAttachMessage;
 use App\Kbin\MessageBus\LinkEmbedMessage;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Repository\EntryRepository;
-use App\Service\DomainManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class EntryCreateSubscriber implements EventSubscriberInterface
+readonly class EntryCreateSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly MessageBusInterface $bus,
-        private readonly DomainManager $manager,
-        private readonly EntryRepository $entryRepository,
-        private readonly EntityManagerInterface $entityManager
+        private MessageBusInterface $bus,
+        private DomainExtract $domainExtract,
+        private EntryRepository $entryRepository,
+        private EntityManagerInterface $entityManager
     ) {
     }
 
@@ -42,7 +42,7 @@ class EntryCreateSubscriber implements EventSubscriberInterface
 
         $this->entityManager->flush();
 
-        $this->manager->extract($event->entry);
+        ($this->domainExtract)($event->entry);
         $this->bus->dispatch(new EntryEmbedAttachMessage($event->entry->getId()));
         $this->bus->dispatch(new EntryCreatedNotificationMessage($event->entry->getId()));
         if ($event->entry->body) {

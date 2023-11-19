@@ -10,7 +10,8 @@ namespace App\Controller\Domain;
 
 use App\Controller\AbstractController;
 use App\Entity\Domain;
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainSubscribe;
+use App\Kbin\Domain\DomainUnsubscribe;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class DomainSubController extends AbstractController
 {
     public function __construct(
-        private readonly DomainManager $manager,
+        private readonly DomainSubscribe $domainSubscribe,
+        private readonly DomainUnsubscribe $domainUnsubscribe,
     ) {
     }
 
@@ -28,7 +30,7 @@ class DomainSubController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->manager->subscribe($domain, $this->getUserOrThrow());
+        ($this->domainSubscribe)($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($domain);
@@ -42,7 +44,7 @@ class DomainSubController extends AbstractController
     {
         $this->validateCsrf('subscribe', $request->request->get('token'));
 
-        $this->manager->unsubscribe($domain, $this->getUserOrThrow());
+        ($this->domainUnsubscribe)($domain, $this->getUserOrThrow());
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($domain);

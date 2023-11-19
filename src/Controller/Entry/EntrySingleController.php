@@ -16,7 +16,7 @@ use App\Entity\Magazine;
 use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\Form\EntryCommentType;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Service\MentionManager;

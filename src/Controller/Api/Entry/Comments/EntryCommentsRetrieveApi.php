@@ -13,7 +13,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Schema\PaginationSchema;

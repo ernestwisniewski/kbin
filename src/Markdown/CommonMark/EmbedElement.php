@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainShouldRatio;
 use League\CommonMark\Util\HtmlElement;
 
 class EmbedElement
@@ -28,7 +28,7 @@ class EmbedElement
                         'class' => 'show-preview',
                         'data-action' => 'preview#show',
                         'data-preview-url-param' => $url,
-                        'data-preview-ratio-param' => DomainManager::shouldRatio($url) ? '1' : '0',
+                        'data-preview-ratio-param' => DomainShouldRatio::check($url) ? '1' : '0',
                         'aria-label' => 'Show preview',
                     ],
                     new HtmlElement(

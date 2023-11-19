@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Message;
-use App\PageView\MessageThreadPageView;
+use App\Kbin\Message\MessageThreadPageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Pagerfanta\Doctrine\ORM\QueryAdapter;

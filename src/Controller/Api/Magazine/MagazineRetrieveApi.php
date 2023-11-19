@@ -15,7 +15,7 @@ use App\Entity\MagazineSubscription;
 use App\Entity\User;
 use App\Kbin\Magazine\DTO\MagazineResponseDto;
 use App\Kbin\Magazine\Factory\MagazineFactory;
-use App\PageView\MagazinePageView;
+use App\Kbin\Magazine\MagazinePageView;
 use App\Repository\Criteria;
 use App\Repository\MagazineRepository;
 use App\Schema\PaginationSchema;

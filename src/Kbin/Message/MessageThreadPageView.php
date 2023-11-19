@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\PageView;
+namespace App\Kbin\Message;
 
 use App\Entity\MessageThread;
 use App\Repository\Criteria;

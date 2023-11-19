@@ -12,7 +12,7 @@ use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Domain;
 use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;

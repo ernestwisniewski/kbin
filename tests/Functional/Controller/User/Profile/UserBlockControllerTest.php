@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User\Profile;
 
+use App\Kbin\Domain\DomainBlock;
 use App\Kbin\Magazine\MagazineBlock;
 use App\Kbin\User\UserBlock;
-use App\Service\DomainManager;
 use App\Tests\WebTestCase;
 
 class UserBlockControllerTest extends WebTestCase
@@ -47,7 +47,7 @@ class UserBlockControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test1', 'https://kbin.pub');
 
-        $this->getService(DomainManager::class)->block($entry->domain, $user);
+        ($this->getService(DomainBlock::class))($entry->domain, $user);
 
         $crawler = $client->request('GET', '/settings/blocked/domains');
         $client->click($crawler->filter('#main .pills')->selectLink('Domains')->link());

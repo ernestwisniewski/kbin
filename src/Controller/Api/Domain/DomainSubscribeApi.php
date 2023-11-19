@@ -11,7 +11,8 @@ namespace App\Controller\Api\Domain;
 use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Factory\DomainFactory;
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainSubscribe;
+use App\Kbin\Domain\DomainUnsubscribe;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,13 +89,13 @@ class DomainSubscribeApi extends DomainBaseApi
     public function subscribe(
         #[MapEntity(id: 'domain_id')]
         Domain $domain,
-        DomainManager $manager,
+        DomainSubscribe $domainSubscribe,
         DomainFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->subscribe($domain, $this->getUserOrThrow());
+        $domainSubscribe($domain, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeDomain($factory->createDto($domain)),
@@ -168,13 +169,13 @@ class DomainSubscribeApi extends DomainBaseApi
     public function unsubscribe(
         #[MapEntity(id: 'domain_id')]
         Domain $domain,
-        DomainManager $manager,
+        DomainUnsubscribe $domainUnsubscribe,
         DomainFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->unsubscribe($domain, $this->getUserOrThrow());
+        $domainUnsubscribe($domain, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeDomain($factory->createDto($domain)),

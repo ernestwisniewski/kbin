@@ -13,7 +13,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Kbin\PostComment\DTO\PostCommentResponseDto;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
 use App\Schema\PaginationSchema;

@@ -15,7 +15,7 @@ use App\Entity\PostComment;
 use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\Form\PostCommentType;
 use App\Kbin\PostComment\PostCommentCreate;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use App\Service\IpResolver;
 use App\Service\MentionManager;

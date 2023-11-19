@@ -15,7 +15,7 @@ use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;

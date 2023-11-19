@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller\Domain;
 
 use App\Controller\AbstractController;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Repository\DomainRepository;
 use App\Repository\EntryCommentRepository;
 use Symfony\Component\HttpFoundation\Request;

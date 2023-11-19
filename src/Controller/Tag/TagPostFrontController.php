@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
-use App\PageView\PostPageView;
+use App\Kbin\Post\PostPageView;
 use App\Repository\PostRepository;
 use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;

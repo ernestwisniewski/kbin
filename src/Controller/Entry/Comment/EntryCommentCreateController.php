@@ -15,7 +15,7 @@ use App\Entity\Magazine;
 use App\Kbin\Entry\Form\EntryCommentType;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Service\IpResolver;
 use App\Service\MentionManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;

@@ -11,7 +11,8 @@ namespace App\Controller\Api\Domain;
 use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Factory\DomainFactory;
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainBlock;
+use App\Kbin\Domain\DomainUnblock;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,13 +89,13 @@ class DomainBlockApi extends DomainBaseApi
     public function block(
         #[MapEntity(id: 'domain_id')]
         Domain $domain,
-        DomainManager $manager,
+        DomainBlock $domainBlock,
         DomainFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->block($domain, $this->getUserOrThrow());
+        $domainBlock($domain, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeDomain($factory->createDto($domain)),
@@ -168,13 +169,13 @@ class DomainBlockApi extends DomainBaseApi
     public function unblock(
         #[MapEntity(id: 'domain_id')]
         Domain $domain,
-        DomainManager $manager,
+        DomainUnblock $domainUnblock,
         DomainFactory $factory,
         RateLimiterFactory $apiUpdateLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiUpdateLimiter);
 
-        $manager->unblock($domain, $this->getUserOrThrow());
+        $domainUnblock($domain, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeDomain($factory->createDto($domain)),

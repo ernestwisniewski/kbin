@@ -13,7 +13,7 @@ use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\Form\PostType;
-use App\PageView\PostPageView;
+use App\Kbin\Post\PostPageView;
 use App\Repository\Criteria;
 use App\Repository\PostRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\User\Profile;
 
+use App\Kbin\Domain\DomainSubscribe;
 use App\Kbin\Magazine\MagazineSubscribe;
 use App\Kbin\User\UserFollow;
-use App\Service\DomainManager;
 use App\Tests\WebTestCase;
 
 class UserSubControllerTest extends WebTestCase
@@ -47,7 +47,7 @@ class UserSubControllerTest extends WebTestCase
 
         $entry = $this->getEntryByTitle('test1', 'https://kbin.pub');
 
-        $this->getService(DomainManager::class)->subscribe($entry->domain, $user);
+        ($this->getService(DomainSubscribe::class))($entry->domain, $user);
 
         $crawler = $client->request('GET', '/settings/subscriptions/domains');
         $client->click($crawler->filter('#main .pills')->selectLink('Domains')->link());

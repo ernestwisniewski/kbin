@@ -12,7 +12,7 @@ use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\PageView\EntryPageView;
+use App\Kbin\Entry\EntryPageView;
 use App\Pagination\Pagerfanta as KbinPagerfanta;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;

@@ -16,7 +16,7 @@ use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\PostComment\Form\PostCommentType;
 use App\Kbin\PostComment\PostCommentEdit;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\PostCommentRepository;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Form\FormInterface;

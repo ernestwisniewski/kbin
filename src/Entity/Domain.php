@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Contracts\DomainInterface;
+use App\Kbin\Domain\DomainShouldRatio;
 use App\Repository\DomainRepository;
-use App\Service\DomainManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -132,7 +132,7 @@ class Domain
 
     public function shouldRatio(): bool
     {
-        return DomainManager::shouldRatio($this->name);
+        return DomainShouldRatio::check($this->name);
     }
 
     public function __sleep()

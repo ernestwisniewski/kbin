@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Domain;
 
-use App\Service\DomainManager;
+use App\Kbin\Domain\DomainSubscribe;
 use App\Tests\WebTestCase;
 
 class DomainSubscribeApiTest extends WebTestCase
@@ -106,8 +106,8 @@ class DomainSubscribeApiTest extends WebTestCase
 
         $user = $this->getUserByUsername('JohnDoe');
         $domain = $this->getEntryByTitle('Test link to a domain', 'https://example.com')->domain;
-        $manager = $this->getService(DomainManager::class);
-        $manager->subscribe($domain, $user);
+        $domainSubscribe = $this->getService(DomainSubscribe::class);
+        $domainSubscribe($domain, $user);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

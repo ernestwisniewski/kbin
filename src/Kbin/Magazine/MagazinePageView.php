@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\PageView;
+namespace App\Kbin\Magazine;
 
 use App\Repository\Criteria;
 

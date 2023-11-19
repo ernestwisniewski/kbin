@@ -18,7 +18,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\Report;
 use App\Entity\User;
-use App\PageView\MagazinePageView;
+use App\Kbin\Magazine\MagazinePageView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;

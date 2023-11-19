@@ -11,7 +11,7 @@ namespace App\Controller\Entry\Comment;
 use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use Symfony\Component\HttpFoundation\Request;

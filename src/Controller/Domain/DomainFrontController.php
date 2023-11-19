@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller\Domain;
 
 use App\Controller\AbstractController;
-use App\PageView\EntryPageView;
+use App\Kbin\Entry\EntryPageView;
 use App\Repository\Criteria;
 use App\Repository\DomainRepository;
 use App\Repository\EntryRepository;

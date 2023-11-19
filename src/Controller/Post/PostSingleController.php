@@ -16,7 +16,7 @@ use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
 use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\Form\PostCommentType;
-use App\PageView\PostCommentPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\PostCommentRepository;
 use App\Service\MentionManager;

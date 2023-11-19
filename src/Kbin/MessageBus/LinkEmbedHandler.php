@@ -16,12 +16,12 @@ use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class LinkEmbedHandler
+readonly class LinkEmbedHandler
 {
     public function __construct(
-        private readonly EmbedRepository $embedRepository,
-        private readonly Embed $embed,
-        private readonly CacheItemPoolInterface $markdownCache,
+        private EmbedRepository $embedRepository,
+        private Embed $embed,
+        private CacheItemPoolInterface $markdownCache,
         private EntityManagerInterface $entityManager,
     ) {
     }

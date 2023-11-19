@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller\Entry\Comment;
 
 use App\Entity\EntryComment;
-use App\PageView\EntryCommentPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

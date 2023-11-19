@@ -13,7 +13,7 @@ use App\Entity\Magazine;
 use App\Exception\UserBannedException;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EntryCreate;
-use App\PageView\EntryPageView;
+use App\Kbin\Entry\EntryPageView;
 use App\Repository\Criteria;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;

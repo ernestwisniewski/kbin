@@ -11,7 +11,7 @@ namespace App\Controller\Magazine;
 use App\Controller\AbstractController;
 use App\Entity\User;
 use App\Kbin\Magazine\Form\MagazinePageViewType;
-use App\PageView\MagazinePageView;
+use App\Kbin\Magazine\MagazinePageView;
 use App\Repository\MagazineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

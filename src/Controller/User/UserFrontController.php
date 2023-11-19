@@ -10,11 +10,11 @@ namespace App\Controller\User;
 
 use App\Controller\AbstractController;
 use App\Entity\User;
-use App\PageView\EntryCommentPageView;
-use App\PageView\EntryPageView;
-use App\PageView\MagazinePageView;
-use App\PageView\PostCommentPageView;
-use App\PageView\PostPageView;
+use App\Kbin\Entry\EntryPageView;
+use App\Kbin\EntryComment\EntryCommentPageView;
+use App\Kbin\Magazine\MagazinePageView;
+use App\Kbin\Post\PostPageView;
+use App\Kbin\PostComment\PostCommentPageView;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
