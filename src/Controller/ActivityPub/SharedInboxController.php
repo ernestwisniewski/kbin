@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace App\Controller\ActivityPub;
 
 use App\Message\ActivityPub\Inbox\ActivityMessage;
-use App\Service\SettingsManager;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 readonly class SharedInboxController
 {
     public function __construct(
-        private SettingsManager $settingsManager,
         private MessageBusInterface $bus,
         private LoggerInterface $logger
     ) {

@@ -14,9 +14,7 @@ use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Kbin\ActivityPub\ActivityPubInstanceBrokenCreate;
-use App\Repository\MagazineRepository;
 use App\Repository\SiteRepository;
-use App\Repository\UserRepository;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpClient\CurlHttpClient;
@@ -45,8 +43,6 @@ class ApHttpClient
         private readonly GroupFactory $groupFactory,
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
-        private readonly UserRepository $userRepository,
-        private readonly MagazineRepository $magazineRepository,
         private readonly SiteRepository $siteRepository,
         private readonly ActivityPubInstanceBrokenCreate $activityPubInstanceBrokenCreate
     ) {
@@ -65,8 +61,8 @@ class ApHttpClient
             ]);
 
             if (!str_starts_with((string) $r->getStatusCode(), '2')) {
-                ($this->activityPubInstanceBrokenCreate)($url, $r->getContent(false));
-                throw new InvalidApPostException("Get fail: {$url}, ".$r->getContent(false));
+                ($this->activityPubInstanceBrokenCreate)($url, "Get fail: {$url}, ".$url.' '.$r->getContent(false));
+                throw new InvalidApPostException("Get fail: {$url}, ".$url.' '.$r->getContent(false));
             }
 
             $item->expiresAt(new \DateTime('+1 hour'));
@@ -103,7 +99,8 @@ class ApHttpClient
                         'headers' => $this->getInstanceHeaders($url, null, 'get', ApRequestType::WebFinger),
                     ]);
                 } catch (\Exception $e) {
-                    throw new InvalidApPostException("WebFinger Get fail: {$url}, ".$r->getContent(false));
+                    ($this->activityPubInstanceBrokenCreate)($url, "WebFinger Get fail: {$url}, ".$e->getMessage());
+                    throw new InvalidApPostException("WebFinger Get fail: {$url}, ".$e->getMessage());
                 }
 
                 $item->expiresAt(new \DateTime('+1 hour'));
@@ -133,8 +130,10 @@ class ApHttpClient
                         ($this->activityPubInstanceBrokenCreate)($apProfileId, $r->getContent(false));
                     }
                 } catch (\Exception $e) {
-                    ($this->activityPubInstanceBrokenCreate)($apProfileId, $e->getMessage());
-
+                    ($this->activityPubInstanceBrokenCreate)(
+                        $apProfileId,
+                        "AP Get fail: {$apProfileId}, ".$e->getMessage()
+                    );
                     throw new InvalidApPostException("AP Get fail: {$apProfileId}, ".$e->getMessage());
                 }
 
@@ -167,7 +166,10 @@ class ApHttpClient
         ]);
 
         if (!str_starts_with((string) $req->getStatusCode(), '2')) {
-            ($this->activityPubInstanceBrokenCreate)($url, $req->getContent(false));
+            ($this->activityPubInstanceBrokenCreate)(
+                $url,
+                "Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body)
+            );
             throw new InvalidApPostException("Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body));
         }
 
@@ -208,8 +210,12 @@ class ApHttpClient
         return $headers;
     }
 
-    private function getInstanceHeaders(string $url, array $body = null, string $method = 'get', ApRequestType $requestType = ApRequestType::ActivityPub): array
-    {
+    private function getInstanceHeaders(
+        string $url,
+        array $body = null,
+        string $method = 'get',
+        ApRequestType $requestType = ApRequestType::ActivityPub
+    ): array {
         $keyId = 'https://'.$this->kbinDomain.'/i/actor#main-key';
         $privateKey = $this->getInstancePrivateKey();
         $headers = self::headersToSign($url, $body ? self::digest($body) : null, $method);
