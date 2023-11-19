@@ -15,24 +15,24 @@ use Doctrine\ORM\EntityManagerInterface;
 readonly class ActivityPubInstanceBrokenCreate
 {
     public function __construct(
-//        private BrokenInstanceRepository $brokenInstanceRepository,
-//        private EntityManagerInterface $entityManager
+        //        private BrokenInstanceRepository $brokenInstanceRepository,
+        //        private EntityManagerInterface $entityManager
     ) {
     }
 
     public function __invoke(string $url, string $exception = null): void
     {
-//        $url = str_replace('www.', '', parse_url($url, PHP_URL_HOST));
-//
-//        $entity = $this->brokenInstanceRepository->findOneByHost($url);
-//
-//        if (!$entity) {
-//            $entity = new BrokenInstance();
-//            $entity->host = $url;
-//            $entity->exception = $exception;
-//
-//            $this->entityManager->persist($entity);
-//            $this->entityManager->flush();
-//        }
+        //        $url = str_replace('www.', '', parse_url($url, PHP_URL_HOST));
+        //
+        //        $entity = $this->brokenInstanceRepository->findOneByHost($url);
+        //
+        //        if (!$entity) {
+        //            $entity = new BrokenInstance();
+        //            $entity->host = $url;
+        //            $entity->exception = $exception;
+        //
+        //            $this->entityManager->persist($entity);
+        //            $this->entityManager->flush();
+        //        }
     }
 }

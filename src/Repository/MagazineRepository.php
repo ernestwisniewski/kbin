@@ -71,7 +71,7 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere('LOWER(m.name) = LOWER(:name)')
             ->setParameter('name', $name)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult()[0];
     }
 
     public function findPaginated(MagazinePageView $criteria): PagerfantaInterface

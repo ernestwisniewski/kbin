@@ -20,6 +20,7 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        report_fields_where_declared: true
         second_level_cache:
             enabled: true
             region_cache_driver:

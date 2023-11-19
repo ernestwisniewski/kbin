@@ -146,8 +146,8 @@ class MentionLinkParser implements InlineParserInterface
         if ($user && $user->apPublicUrl) {
             return [MentionType::RemoteUser, $user];
         }
-
         $magazine = $this->magazineRepository->findOneByName($fullyQualifiedHandle);
+
         // we're aware of this magazine, link to it directly
         if ($magazine && $magazine->apPublicUrl) {
             return [MentionType::RemoteMagazine, $magazine];
