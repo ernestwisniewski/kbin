@@ -51,6 +51,7 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['body_ts'], name: 'entry_body_ts_idx')]
 #[Index(columns: ['title_ts'], name: 'entry_title_ts_idx')]
 #[Index(columns: ['tags'], name: 'entry_tags_idx')]
+#[Index(columns: ['ap_id'], name: 'entry_ap_id_idx')]
 class Entry implements VotableInterface, CommentInterface, DomainInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface, ContentVisibilityInterface
 {
     use VotableTrait;

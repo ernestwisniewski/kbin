@@ -80,7 +80,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         $user = $this->security->getUser();
 
         $qb = $this->createQueryBuilder('p')
-            ->select('p', 'm', 'u')
             ->where('p.visibility = :visibility')
             ->join('p.magazine', 'm')
             ->join('p.user', 'u')

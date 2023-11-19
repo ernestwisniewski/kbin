@@ -82,7 +82,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         $user = $this->security->getUser();
 
         $qb = $this->createQueryBuilder('e')
-            ->addSelect('e', 'm', 'u', 'd')
             ->where('e.visibility = :visibility')
             ->andWhere('m.visibility = :visible')
             ->join('e.magazine', 'm')

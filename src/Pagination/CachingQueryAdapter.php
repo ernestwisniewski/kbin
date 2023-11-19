@@ -27,8 +27,15 @@ readonly class CachingQueryAdapter implements AdapterInterface
             return $nbResult->get();
         }
 
-        $nbResult->expiresAfter($this->queryAdapter->getNbResults() > 25000 ? 86400 : 60);
-        $nbResult->set($this->queryAdapter->getNbResults());
+        $query = clone $this->queryAdapter->getQuery();
+
+        $count = $query->orderBy('count')
+            ->select("count({$query->getDQLPart('from')[0]->getAlias()}.id) as count")
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        $nbResult->expiresAfter($count > 25000 ? 86400 : 60);
+        $nbResult->set($count);
         $this->pool->save($nbResult);
 
         return $nbResult->get();
@@ -41,7 +48,9 @@ readonly class CachingQueryAdapter implements AdapterInterface
 
     private function getCacheKey(): string
     {
-        $query = $this->queryAdapter->getQuery()->getDQL();
+        $query = clone $this->queryAdapter->getQuery();
+        $query = $query->orderBy('id')->getDQL();
+
         $values = $this->queryAdapter->getQuery()->getParameters()->map(function ($val) {
             $value = $val->getValue();
 

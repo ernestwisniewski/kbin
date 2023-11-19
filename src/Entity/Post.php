@@ -47,6 +47,7 @@ use Webmozart\Assert\Assert;
 #[Index(columns: ['last_active'], name: 'post_last_active_at_idx')]
 #[Index(columns: ['body_ts'], name: 'post_body_ts_idx')]
 #[Index(columns: ['tags'], name: 'post_tags_idx')]
+#[Index(columns: ['ap_id'], name: 'post_ap_id_idx')]
 class Post implements VotableInterface, CommentInterface, VisibilityInterface, RankingInterface, ReportInterface, FavouriteInterface, TagInterface, ActivityPubActivityInterface
 {
     use VotableTrait;
