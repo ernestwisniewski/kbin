@@ -67,11 +67,17 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findOneByName(?string $name): ?Magazine
     {
-        return $this->createQueryBuilder('m')
+        $res = $this->createQueryBuilder('m')
             ->andWhere('LOWER(m.name) = LOWER(:name)')
             ->setParameter('name', $name)
             ->getQuery()
-            ->getResult()[0];
+            ->getResult();
+
+        if ($res) {
+            return $res[0];
+        }
+
+        return null;
     }
 
     public function findPaginated(MagazinePageView $criteria): PagerfantaInterface
