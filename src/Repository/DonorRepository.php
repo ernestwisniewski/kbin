@@ -27,16 +27,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class DonorRepository extends ServiceEntityRepository
 {
-    const PER_PAGE = 25;
+    public const PER_PAGE = 10;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Donor::class);
     }
 
-    public function findAllPaginated(?int $page): PagerfantaInterface
+    public function findAllPaginated(int $page): PagerfantaInterface
     {
-        $qb = $this->createQueryBuilder('s')
-            ->orderBy('s.id', 'DESC');
+        $qb = $this->createQueryBuilder('d')
+            ->orderBy('d.id', 'DESC')
+            ->orderBy('d.isActive', 'ASC');
 
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
@@ -45,12 +47,29 @@ class DonorRepository extends ServiceEntityRepository
         );
 
         try {
-            $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
+            $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
 
         return $pagerfanta;
+    }
+
+    public function findActive(): array
+    {
+        return $this->createQueryBuilder('d')
+            ->where('d.isActive = true')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneByEmail(string $email): ?Donor
+    {
+        return $this->createQueryBuilder('d')
+            ->where('LOWER(d.email) = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

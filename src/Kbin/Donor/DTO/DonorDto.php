@@ -22,11 +22,12 @@ class DonorDto
     public ?string $username = null;
     public ?string $url = null;
     public bool $isActive = false;
+    public ?string $ip = null;
 
     public function __construct(
-        ?string $email = null,
-        ?string $username = null,
-        ?string $url = null,
+        string $email = null,
+        string $username = null,
+        string $url = null,
         bool $isActive = false,
         User $user = null
     ) {

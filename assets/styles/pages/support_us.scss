@@ -1,4 +1,23 @@
 .support-us {
+  .users-columns ul, .columns ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .flex {
+    justify-content: space-around;
+  }
+
+  @include media-breakpoint-down(sm) {
+    .flex {
+      display: block;
+      text-align: center;
+
+      img {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
   .container {
     margin: 0 auto;
     max-width: 30rem;
@@ -21,8 +40,13 @@
     list-style: none;
 
   }
+
   details summary::-webkit-details-marker {
     display: none;
+  }
+
+  form {
+    box-sizing: border-box;
   }
 }
 

@@ -133,6 +133,11 @@ These are people who are actively contributing to /kbin project and are all volu
 ###
 ###
 
+[<img src="docs/images/partners/ftdl.png" alt="FTdL" height="75">](https://ftdl.pl/)
+
+###
+###
+
 [<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="170">](https://jb.gg/OpenSourceSupport)
 
 ###

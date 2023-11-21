@@ -19,7 +19,7 @@ readonly class DonorFactory
     {
     }
 
-    public function createDto(?string $email, ?User $user = null): DonorDto
+    public function createDto(?string $email, User $user = null): DonorDto
     {
         $donor = $this->donorRepository->findOneBy(['email' => $email]);
 
@@ -29,7 +29,11 @@ readonly class DonorFactory
             return new DonorDto(
                 $user->email,
                 $user->username,
-                $this->urlGenerator->generate('user_overview', ['username' => $user->username]),
+                $this->urlGenerator->generate(
+                    'user_overview',
+                    ['username' => $user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
                 false,
                 $user
             );

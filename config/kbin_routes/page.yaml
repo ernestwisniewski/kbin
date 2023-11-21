@@ -25,7 +25,7 @@ page_terms:
 support_us:
   controller: App\Controller\SupportUs\SupportUsPageController
   path: /support-us
-  methods: [ GET ]
+  methods: [ GET, POST ]
 
 award_list_all:
   controller: App\Controller\AwardListController

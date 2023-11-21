@@ -14,41 +14,68 @@
 
 {% block body %}
     <h1>{{ 'support_us'|trans }}</h1>
+    {% include 'layout/_flash.html.twig' %}
     <section class="section">
         {{ body|markdown|raw }}
     </section>
-{#    <section class="section">#}
-{#    </section>#}
-{#    <details>#}
-{#        <summary class="btn btn__primary">Support Us</summary>#}
-{#        <div class="section">#}
-{#            <div class="container">#}
-{#                {{ form_start(form) }}#}
-{#                <div class="row">#}
-{#                    {{ form_errors(form.user) }}#}
-{#                </div>#}
-{#                <div>#}
-{#                    {{ form_label(form.user, 'username') }}#}
-{#                    {{ form_widget(form.user) }}#}
-{#                </div>#}
-{#                <div>#}
-{#                    {{ form_label(form.email, 'email') }}#}
-{#                    {{ form_widget(form.email) }}#}
-{#                </div>#}
-{#                <div>#}
-{#                    {{ form_label(form.url, 'url') }}#}
-{#                    {{ form_widget(form.url) }}#}
-{#                </div>#}
-{#                <div class="actions row">#}
-{#                    {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}#}
-{#                </div>#}
-{#                {{ form_end(form) }}#}
-{#            </div>#}
-{#        </div>#}
-{#    </details>#}
-    <section class="section">
-        <div class="container partners">
-            {{ body_bottom|raw }}
-        </div>
-    </section>
+    {% if body_middle %}
+        <section class="section">
+            {{ body_middle|raw }}
+        </section>
+    {% endif %}
+    {% if donors|length %}
+    <div class="section users users-columns">
+        <ul>
+            {% for donor in donors %}
+                <li>
+                    {% if donor.user and donor.user.avatar %}
+                        {{ component('user_avatar', {user: donor.user }) }}
+                    {% endif %}
+                    <div>
+                        <a href="{{ donor.url }}" rel="{{ get_rel(donor.url) }}"
+                           class="stretched-link">{{ donor.username }}</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% if not donor %}
+        <details>
+            <summary class="btn btn__secondary">{{ 'add_yourself_to_donors_list'|trans }}</summary>
+            <div class="section">
+                <div class="container">
+                    {{ form_start(form) }}
+                    <div class="row">
+                        {{ form_errors(form.username) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.username, 'username') }}
+                        {{ form_widget(form.username) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.email, 'email') }}
+                        {{ form_widget(form.email) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.url, 'url') }}
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="actions row">
+                        {{ form_row(form.submit, { 'label': 'send_request', attr: {class: 'btn btn__primary'} }) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </details>
+    {% else %}
+        {# @todo remove from list #}
+    {% endif %}
+    {% if body_bottom %}
+        <section class="section">
+            <div class="container partners">
+                {{ body_bottom|raw }}
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}

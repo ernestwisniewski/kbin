@@ -7,9 +7,7 @@ namespace App\Tests\Functional\Controller\Api\Search;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
 use App\Kbin\ActivityPub\ActivityPubInstanceBrokenCreate;
-use App\Repository\MagazineRepository;
 use App\Repository\SiteRepository;
-use App\Repository\UserRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\SettingsManager;
 use App\Tests\WebTestCase;
@@ -417,8 +415,6 @@ class SearchApiTest extends WebTestCase
             $this->getService(GroupFactory::class),
             $logger ?? $this->getService(LoggerInterface::class),
             $cache,
-            $this->getService(UserRepository::class),
-            $this->getService(MagazineRepository::class),
             $this->getService(SiteRepository::class),
             $this->getService(ActivityPubInstanceBrokenCreate::class),
         );

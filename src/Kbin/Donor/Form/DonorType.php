@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace App\Kbin\Donor\Form;
 
-use App\Form\DataTransformer\UserTransformer;
 use App\Kbin\Donor\DTO\DonorDto;
 use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
@@ -27,16 +26,10 @@ class DonorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('user', options: [
-                'attr' => ['autocomplete' => 'new-password'],
-            ])
+            ->add('username')
             ->add('email', EmailType::class)
             ->add('url', UrlType::class)
             ->add('submit', SubmitType::class);
-
-        $builder->get('user')->addModelTransformer(
-            new UserTransformer($this->userRepository)
-        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

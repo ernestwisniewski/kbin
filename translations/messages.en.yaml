@@ -824,3 +824,8 @@ refresh_magazine: Refresh magazine
 refresh_user: Refresh user
 support_us: Support Us
 add_yourself_to_donors_list: Add yourself to the list of supporters
+send_request: Send request
+send_req: Send request
+thanks_for_support_request: Thank you for your support! After a quick verification,
+  your nickname has been added to the list. We appreciate your dedication to our community.
+  Cheers!

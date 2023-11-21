@@ -20,7 +20,7 @@
             {{ form_start(formGeneral, {'action': path('admin_pages_support_us', {'section': 'supportUs'})}) }}
             {{ form_row(formGeneral.title, {label: false, attr: {placeholder: 'title'}}) }}
             {{ component('editor_toolbar', {id: 'page_body'}) }}
-            {{ form_row(formGeneral.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow', 'data-entry-link-create-target': 'admin_pages'}}) }}
+            {{ form_row(formGeneral.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow'}}) }}
             <div class="row actions">
                 {{ form_row(formGeneral.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>
@@ -29,10 +29,75 @@
     </div>
     <div class="section" id="content">
         <div class="container">
+            {{ form_start(formMiddle, {'action': path('admin_pages_support_us', {'section': 'supportUsMiddle'})}) }}
+            {{ form_row(formMiddle.title, {label: false, attr: {placeholder: 'title'}}) }}
+            {{ form_row(formMiddle.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow'}}) }}
+            <div class="row actions">
+                {{ form_row(formMiddle.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(formMiddle) }}
+        </div>
+    </div>
+    {% if donors|length %}
+        <section class="section">
+            <table>
+                <thead>
+                <tr>
+                    <th>{{ 'username'|trans }}</th>
+                    <th>{{ 'email'|trans }}</th>
+                    <th>{{ 'url'|trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for donor in donors %}
+                    <tr>
+                        <td>{{ donor.username }}</td>
+                        <td>{{ donor.email }}</td>
+                        <td>{{ donor.url }}</td>
+                        <td>
+                            <aside class="magazine__subscribe">
+                                {% if not donor.isActive %}
+                                    <form action="{{ path('admin_pages_support_us_donor_accept', {donor: donor.id}) }}"
+                                          name="ownership_requests_accept"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                          method="post">
+                                        <button type="submit"
+                                                title="{{ 'accept'|trans }}"
+                                                class="btn btn__secondary">
+                                            {{ 'accept'|trans }}
+                                        </button>
+                                        <input type="hidden" name="token" value="{{ csrf_token('admin_pages_support_us_donor_accept') }}">
+                                    </form>
+                                {% endif %}
+                                <form action="{{ path('admin_pages_support_us_donor_reject', {donor: donor.id}) }}"
+                                      name="ownership_requests_reject"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                      method="post">
+                                    <button type="submit"
+                                            class="btn btn__secondary"
+                                            title="{{ 'reject'|trans }}">
+                                        <i class="fa-solid fa-ban"></i> {% if donor.isActive %}{{ 'reject'|trans }}{% endif %}
+                                    </button>
+                                    <input type="hidden" name="token"
+                                           value="{{ csrf_token('admin_pages_support_us_donor_reject') }}">
+                                </form>
+                            </aside>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    {% endif %}
+    {% if(donors.haveToPaginate is defined and donors.haveToPaginate) %}
+        {{ pagerfanta(donors, null, {'pageParameter':'[p]'}) }}
+    {% endif %}
+    <div class="section" id="content">
+        <div class="container">
             {{ form_start(formBottom, {'action': path('admin_pages_support_us', {'section': 'supportUsBottom'})}) }}
             {{ form_row(formBottom.title, {label: false, attr: {placeholder: 'title'}}) }}
-            {{ component('editor_toolbar', {id: 'page_body'}) }}
-            {{ form_row(formBottom.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow', 'data-entry-link-create-target': 'admin_pages'}}) }}
+            {{ form_row(formBottom.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow'}}) }}
             <div class="row actions">
                 {{ form_row(formBottom.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
             </div>

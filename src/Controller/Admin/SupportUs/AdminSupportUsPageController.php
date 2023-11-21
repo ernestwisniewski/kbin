@@ -12,6 +12,7 @@ use App\Controller\AbstractController;
 use App\Kbin\StaticPage\Factory\StaticPageFactory;
 use App\Kbin\StaticPage\Form\StaticPageType;
 use App\Kbin\StaticPage\StaticPageSave;
+use App\Repository\DonorRepository;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,8 @@ class AdminSupportUsPageController extends AbstractController
 {
     public function __construct(
         private readonly StaticPageSave $staticPageSave,
-        private readonly StaticPageFactory $staticPageFactory
+        private readonly StaticPageFactory $staticPageFactory,
+        private readonly DonorRepository $donorRepository
     ) {
     }
 
@@ -30,13 +32,15 @@ class AdminSupportUsPageController extends AbstractController
     {
         $submitted = false;
         $supportUs = $this->getForm('supportUs');
+        $supportUsMiddle = $this->getForm('supportUsMiddle');
         $supportUsBottom = $this->getForm('supportUsBottom');
 
         $$section->handleRequest($request);
 
         if (
-            ($supportUs->isSubmitted() && $supportUs->isValid()) ||
-            ($supportUsBottom->isSubmitted() && $supportUsBottom->isValid())
+            ($supportUs->isSubmitted() && $supportUs->isValid())
+            || ($supportUsMiddle->isSubmitted() && $supportUsMiddle->isValid())
+            || ($supportUsBottom->isSubmitted() && $supportUsBottom->isValid())
         ) {
             $submitted = true;
             ($this->staticPageSave)(
@@ -49,7 +53,9 @@ class AdminSupportUsPageController extends AbstractController
             'admin/support_us.html.twig',
             [
                 'formGeneral' => $supportUs->createView(),
+                'formMiddle' => $supportUsMiddle->createView(),
                 'formBottom' => $supportUsBottom->createView(),
+                'donors' => $this->donorRepository->findAllPaginated($request->query->getInt('p', 1)),
             ],
             new Response(
                 null, $submitted ? 422 : 200
