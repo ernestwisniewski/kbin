@@ -1,0 +1,40 @@
+<div class="pills">
+    <menu>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'about'}) }}"
+               class="{{ html_classes({'active': route_has_param('page', 'about')}) }}">
+                {{ 'about_instance'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'faq'}) }}"
+               class="{{ html_classes({'active': route_has_param('page', 'faq')}) }}">
+                {{ 'FAQ'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'contact'}) }}"
+               class="{{ html_classes({'active': route_has_param('page', 'contact')}) }}">
+                {{ 'contact'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'terms'}) }}"
+               class="{{ html_classes({'active': route_has_param('page', 'terms')}) }}">
+                {{ 'terms'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages', {page: 'privacyPolicy'}) }}"
+               class="{{ html_classes({'active': route_has_param('page', 'privacyPolicy')}) }}">
+                {{ 'privacy_policy'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('admin_pages_support_us') }}"
+               class="{{ html_classes({'active': is_route_name('admin_pages_support_us')}) }}">
+                {{ 'support_us'|trans }}
+            </a>
+        </li>
+    </menu>
+</div>

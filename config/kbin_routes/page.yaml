@@ -22,6 +22,11 @@ page_terms:
   path: /terms
   methods: [ GET ]
 
+support_us:
+  controller: App\Controller\SupportUs\SupportUsPageController
+  path: /support-us
+  methods: [ GET ]
+
 award_list_all:
   controller: App\Controller\AwardListController
   defaults: { category: ~ }

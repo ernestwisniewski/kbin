@@ -123,7 +123,7 @@ These are people who are actively contributing to /kbin project and are all volu
 
 ###
 
-[<img src="docs/images/partners/entrust.png" alt="NGI Zero Entrust" height="75">](https://nlnet.nl/project/Kbin/)
+[<img src="docs/images/partners/entrust.svg" alt="NGI Zero Entrust" height="175">](https://nlnet.nl/project/Kbin/)
 
 ###
 ###
@@ -133,18 +133,19 @@ These are people who are actively contributing to /kbin project and are all volu
 ###
 ###
 
-[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="150">](https://jb.gg/OpenSourceSupport)
+[<img src="docs/images/partners/jb_beam.png" alt="JetBrains" height="170">](https://jb.gg/OpenSourceSupport)
 
 ###
 ###
 
-[<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io" height="75">](https://www.blackfire.io)
+[<img src="docs/images/partners/blackfire-io.png" alt="blackfire.io" height="75">](https://www.blackfire.io/open-source/)
 
 ###
 ###
 
-[<img src="docs/images/partners/browserstack.png" alt="BrowserStack" height="75">](https://www.browserstack.com/open-source)
+[<img src="docs/images/partners/browserstack.svg" alt="BrowserStack" height="75">](https://www.browserstack.com/open-source)
 
+###
 
 ## License
 

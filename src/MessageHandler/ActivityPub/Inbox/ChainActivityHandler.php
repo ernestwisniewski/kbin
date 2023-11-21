@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
-use App\Exception\InvalidApGetException;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Message\ActivityPub\Inbox\LikeMessage;
@@ -20,14 +19,14 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-readonly class ChainActivityHandler
+class ChainActivityHandler
 {
     public function __construct(
-        private ApHttpClient $client,
-        private MessageBusInterface $bus,
-        private ApActivityRepository $repository,
-        private Note $note,
-        private Page $page
+        private readonly ApHttpClient $client,
+        private readonly MessageBusInterface $bus,
+        private readonly ApActivityRepository $repository,
+        private readonly Note $note,
+        private readonly Page $page
     ) {
     }
 
@@ -39,13 +38,7 @@ readonly class ChainActivityHandler
             return;
         }
 
-        $message->chain = array_filter($message->chain);
-
         $object = end($message->chain);
-
-        if (empty($object)) {
-            return;
-        }
 
         // Handle parent objects
         if (isset($object['inReplyTo']) && $object['inReplyTo']) {
@@ -57,14 +50,8 @@ readonly class ChainActivityHandler
                 return;
             }
 
-            if ($activtyObject = $this->client->getActivityObject($object['inReplyTo'])) {
-                $message->chain[] = $activtyObject;
-                $this->bus->dispatch(
-                    new ChainActivityMessage($message->chain, null, $message->announce, $message->like)
-                );
-            } else {
-                throw new InvalidApGetException("Failed to get chain object {$object['inReplyTo']}");
-            }
+            $message->chain[] = $this->client->getActivityObject($object['inReplyTo']);
+            $this->bus->dispatch(new ChainActivityMessage($message->chain, null, $message->announce, $message->like));
 
             return;
         }
@@ -101,7 +88,7 @@ readonly class ChainActivityHandler
     {
         $object = end($chain);
 
-        if (!empty($object)) {
+        if ($object) {
             match ($this->getType($object)) {
                 'Question' => $this->note->create($object),
                 'Note' => $this->note->create($object),

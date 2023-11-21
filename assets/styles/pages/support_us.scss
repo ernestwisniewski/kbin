@@ -1,0 +1,29 @@
+.support-us {
+  .container {
+    margin: 0 auto;
+    max-width: 30rem;
+  }
+
+  .container.partners {
+    text-align: center;
+  }
+
+  .container .frame {
+    background: #fff;
+    padding: 10px;
+  }
+
+  summary {
+    text-align: center;
+    margin: 0 auto .5rem auto;
+    max-width: 30rem;
+    display: block;
+    list-style: none;
+
+  }
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+

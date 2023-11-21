@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'support_us'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}support-us{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'support_us'|trans }}</h1>
+    <section class="section">
+        {{ body|markdown|raw }}
+    </section>
+{#    <section class="section">#}
+{#    </section>#}
+{#    <details>#}
+{#        <summary class="btn btn__primary">Support Us</summary>#}
+{#        <div class="section">#}
+{#            <div class="container">#}
+{#                {{ form_start(form) }}#}
+{#                <div class="row">#}
+{#                    {{ form_errors(form.user) }}#}
+{#                </div>#}
+{#                <div>#}
+{#                    {{ form_label(form.user, 'username') }}#}
+{#                    {{ form_widget(form.user) }}#}
+{#                </div>#}
+{#                <div>#}
+{#                    {{ form_label(form.email, 'email') }}#}
+{#                    {{ form_widget(form.email) }}#}
+{#                </div>#}
+{#                <div>#}
+{#                    {{ form_label(form.url, 'url') }}#}
+{#                    {{ form_widget(form.url) }}#}
+{#                </div>#}
+{#                <div class="actions row">#}
+{#                    {{ form_row(form.submit, { 'label': 'add_moderator', attr: {class: 'btn btn__primary'} }) }}#}
+{#                </div>#}
+{#                {{ form_end(form) }}#}
+{#            </div>#}
+{#        </div>#}
+{#    </details>#}
+    <section class="section">
+        <div class="container partners">
+            {{ body_bottom|raw }}
+        </div>
+    </section>
+{% endblock %}

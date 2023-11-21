@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'support_us'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-admin-settings page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include 'admin/_options.html.twig' %}
+    {% include 'admin/_pages.html.twig' %}
+    <div class="section" id="content">
+        <div class="container">
+            {{ form_start(formGeneral, {'action': path('admin_pages_support_us', {'section': 'supportUs'})}) }}
+            {{ form_row(formGeneral.title, {label: false, attr: {placeholder: 'title'}}) }}
+            {{ component('editor_toolbar', {id: 'page_body'}) }}
+            {{ form_row(formGeneral.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow', 'data-entry-link-create-target': 'admin_pages'}}) }}
+            <div class="row actions">
+                {{ form_row(formGeneral.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(formGeneral) }}
+        </div>
+    </div>
+    <div class="section" id="content">
+        <div class="container">
+            {{ form_start(formBottom, {'action': path('admin_pages_support_us', {'section': 'supportUsBottom'})}) }}
+            {{ form_row(formBottom.title, {label: false, attr: {placeholder: 'title'}}) }}
+            {{ component('editor_toolbar', {id: 'page_body'}) }}
+            {{ form_row(formBottom.body, {label: false, attr: {placeholder: 'body', 'data-controller': 'rich-textarea autogrow', 'data-entry-link-create-target': 'admin_pages'}}) }}
+            <div class="row actions">
+                {{ form_row(formBottom.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(formBottom) }}
+        </div>
+    </div>
+{% endblock %}

@@ -21,7 +21,7 @@ readonly class StaticPageSave
     ) {
     }
 
-    public function save(string $name, StaticPageDto $dto): Page
+    public function __invoke(string $name, StaticPageDto $dto): Page
     {
         $page = $this->repository->findOneBy(['name' => $name]);
 

@@ -24,6 +24,13 @@ admin_federation:
   path: /admin/federation
   methods: [ GET, POST ]
 
+admin_pages_support_us:
+  controller: App\Controller\Admin\SupportUs\AdminSupportUsPageController
+  path: /admin/pages/supportUs/{section}
+  defaults:
+    section: 'supportUs'
+  methods: [ GET, POST ]
+
 admin_pages:
   controller: App\Controller\Admin\AdminPageController
   path: /admin/pages/{page}
