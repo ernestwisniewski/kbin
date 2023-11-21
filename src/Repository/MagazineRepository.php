@@ -362,7 +362,7 @@ class MagazineRepository extends ServiceEntityRepository
         $dql =
             'SELECT COUNT(u.id), u.apInboxUrl FROM '.User::class.' u WHERE u IN ('.
             'SELECT IDENTITY(ms.user) FROM '.MagazineSubscription::class.' ms WHERE ms.magazine = :magazine)'.
-            'AND u.apId IS NOT NULL AND u.isBanned = false AND '.
+            'AND u.apId IS NOT NULL AND u.isBanned = false '.
             'GROUP BY u.apInboxUrl';
 
         $res = $this->getEntityManager()->createQuery($dql)

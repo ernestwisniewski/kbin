@@ -1,9 +1,5 @@
 <?php
 
-// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
-//
-// SPDX-License-Identifier: AGPL-3.0-only
-
 declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
@@ -39,6 +35,10 @@ readonly class ActivityHandler
     {
         $payload = @json_decode($message->payload, true);
 
+        if (!$payload) {
+            return;
+        }
+
         if ($message->request && $message->headers) {
             $this->signatureValidator->validate($message->request, $message->headers, $message->payload);
         }
@@ -48,21 +48,23 @@ readonly class ActivityHandler
         }
 
         try {
-            if (isset($payload['actor']) || isset($payload['attributedTo'])) {
-                if (!$this->verifyInstanceDomain($payload['actor'] ?? $payload['attributedTo'])) {
-                    return;
+            if ('Delete' !== $payload['type']) {
+                if (isset($payload['actor']) || isset($payload['attributedTo'])) {
+                    if ($this->settingsManager->isBannedInstance($payload['actor'] ?? $payload['attributedTo'])) {
+                        return;
+                    }
+                    $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
+                } else {
+                    if ($this->settingsManager->isBannedInstance($payload['id'])) {
+                        return;
+                    }
+
+                    $user = $this->manager->findActorOrCreate($payload['id']);
                 }
-                $user = $this->manager->findActorOrCreate($payload['actor'] ?? $payload['attributedTo']);
-            } else {
-                if (!$this->verifyInstanceDomain($payload['id'])) {
-                    return;
-                }
-                $user = $this->manager->findActorOrCreate($payload['id']);
             }
         } catch (\Exception $e) {
             $this->logger->error('payload: '.json_encode($payload));
-
-            return;
+            throw $e;
         }
 
         if ($user instanceof User && $user->isBanned) {
@@ -89,7 +91,7 @@ readonly class ActivityHandler
             case 'Article':
             case 'Question':
                 $this->bus->dispatch(new CreateMessage($payload));
-            // no break
+                break;
             case 'Announce':
                 $this->bus->dispatch(new AnnounceMessage($payload));
                 break;
@@ -153,17 +155,5 @@ readonly class ActivityHandler
         if ('Follow' === $type) {
             $this->bus->dispatch(new FollowMessage($payload));
         }
-    }
-
-    private function verifyInstanceDomain(string $id): bool
-    {
-        if (\in_array(
-            str_replace('www.', '', parse_url($id, PHP_URL_HOST)),
-            $this->settingsManager->get('KBIN_BANNED_INSTANCES') ?? []
-        )) {
-            return false;
-        }
-
-        return true;
     }
 }
