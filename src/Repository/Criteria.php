@@ -100,6 +100,9 @@ abstract class Criteria
     public string $visibility = VisibilityInterface::VISIBILITY_VISIBLE;
     public string $federation = self::AP_ALL;
     public bool $subscribed = false;
+    public bool $showSubscribedUsers = true;
+    public bool $showSubscribedMagazines = true;
+    public bool $showSubscribedDomains = true;
     public ?string $tag = null;
     public ?string $domain = null;
     public ?array $languages = null;

@@ -21,6 +21,7 @@ use App\Entity\Moderator;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Pagination\AdapterFactory;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;
@@ -28,7 +29,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Pagerfanta\Doctrine\ORM\QueryAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
@@ -46,23 +46,17 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
     public const SORT_DEFAULT = 'active';
     public const PER_PAGE = 15;
 
-    private Security $security;
-
-    public function __construct(ManagerRegistry $registry, Security $security)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly Security $security,
+        private readonly AdapterFactory $adapterFactory,
+    ) {
         parent::__construct($registry, EntryComment::class);
-
-        $this->security = $security;
     }
 
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
     {
-        $pagerfanta = new Pagerfanta(
-            new QueryAdapter(
-                $this->getEntryQueryBuilder($criteria),
-                false
-            )
-        );
+        $pagerfanta = new Pagerfanta($this->adapterFactory->create($this->getEntryQueryBuilder($criteria)));
 
         try {
             $pagerfanta->setMaxPerPage($criteria->perPage ?? self::PER_PAGE);
@@ -163,16 +157,22 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         if ($criteria->subscribed) {
-            $qb->andWhere(
-                'c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :follower) 
-                OR 
-                c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :follower)
-                OR
-                c.user = :follower
-                OR
-                ce.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :follower)'
-            );
-            $qb->setParameter('follower', $user);
+            $subQuery = 'e.user = :user';
+
+            if ($criteria->showSubscribedUsers) {
+                $subQuery .= ' OR c.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)';
+            }
+
+            if ($criteria->showSubscribedMagazines) {
+                $subQuery .= ' OR c.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
+            }
+
+            if ($criteria->showSubscribedDomains) {
+                $subQuery .= ' OR ce.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)';
+            }
+
+            $qb->andWhere($subQuery)
+                ->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->moderated) {

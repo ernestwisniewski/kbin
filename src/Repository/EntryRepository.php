@@ -127,7 +127,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
     }
 
-    private function filter(QueryBuilder $qb, EntryPageView $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, EntryPageView $criteria): void
     {
         $user = $this->security->getUser();
 
@@ -165,15 +165,21 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         if ($criteria->subscribed) {
-            $qb->andWhere(
-                'e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
-                OR 
-                e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
-                OR 
-                e.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)
-                OR
-                e.user = :user'
-            )
+            $subQuery = 'e.user = :user';
+
+            if ($criteria->showSubscribedUsers) {
+                $subQuery .= ' OR e.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)';
+            }
+
+            if ($criteria->showSubscribedMagazines) {
+                $subQuery .= ' OR e.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
+            }
+
+            if ($criteria->showSubscribedDomains) {
+                $subQuery .= ' OR e.domain IN (SELECT IDENTITY(ds.domain) FROM '.DomainSubscription::class.' ds WHERE ds.user = :user)';
+            }
+
+            $qb->andWhere($subQuery)
                 ->setParameter('user', $this->security->getUser());
         }
 
@@ -233,8 +239,6 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         $qb->addOrderBy('e.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
         $qb->addOrderBy('e.id', 'DESC');
-
-        return $qb;
     }
 
     public function hydrate(Entry ...$entries): void

@@ -124,7 +124,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, Criteria $criteria): void
     {
         $user = $this->security->getUser();
 
@@ -147,14 +147,18 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($criteria->subscribed) {
-            $qb->andWhere(
-                'p.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user) 
-                OR 
-                p.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)
-                OR
-                p.user = :user'
-            );
-            $qb->setParameter('user', $this->security->getUser());
+            $subQuery = 'p.user = :user';
+
+            if ($criteria->showSubscribedUsers) {
+                $subQuery .= ' OR p.user IN (SELECT IDENTITY(uf.following) FROM '.UserFollow::class.' uf WHERE uf.follower = :user)';
+            }
+
+            if ($criteria->showSubscribedMagazines) {
+                $subQuery .= ' OR p.magazine IN (SELECT IDENTITY(ms.magazine) FROM '.MagazineSubscription::class.' ms WHERE ms.user = :user)';
+            }
+
+            $qb->andWhere($subQuery)
+                ->setParameter('user', $this->security->getUser());
         }
 
         if ($criteria->moderated) {
@@ -212,8 +216,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
 
         $qb->addOrderBy('p.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
         $qb->addOrderBy('p.id', 'DESC');
-
-        return $qb;
     }
 
     public function hydrate(Post ...$posts): void

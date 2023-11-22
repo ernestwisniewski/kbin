@@ -280,3 +280,8 @@ theme_settings:
   controller: App\Controller\User\ThemeSettingsController
   path: /settings/theme/{key}/{value}
   methods: [ GET ]
+
+user_settings:
+  controller: App\Controller\User\UserSettingsController
+  path: /settings/front/{key}/{value}
+  methods: [ GET ]

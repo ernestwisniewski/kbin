@@ -33,7 +33,7 @@ class MessageThreadRepository extends ServiceEntityRepository
         parent::__construct($registry, MessageThread::class);
     }
 
-    public function findUserMessages(?User $user, int $page, int $perPage = self::PER_PAGE)
+    public function findUserMessages(?User $user, int $page, int $perPage = self::PER_PAGE): Pagerfanta
     {
         $qb = $this->createQueryBuilder('mt')
             ->where(':user MEMBER OF mt.participants')

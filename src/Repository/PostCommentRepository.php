@@ -114,7 +114,7 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         }
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria)
+    private function filter(QueryBuilder $qb, Criteria $criteria): void
     {
         if ($criteria->post) {
             $qb->andWhere('c.post = :post')

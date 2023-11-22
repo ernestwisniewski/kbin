@@ -107,6 +107,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public ?string $oauthKeycloakId = null;
     #[Column(type: 'boolean', options: ['default' => true])]
     public bool $hideAdult = true;
+    #[Column(type: 'boolean', options: ['default' => true])]
+    public bool $showSubscribedUsers = true;
+    #[Column(type: 'boolean', options: ['default' => true])]
+    public bool $showSubscribedMagazines = true;
+    #[Column(type: 'boolean', options: ['default' => true])]
+    public bool $showSubscribedDomains = true;
     #[Column(type: 'json', options: ['jsonb' => true, 'default' => '[]'])]
     public array $preferredLanguages = [];
     #[Column(type: 'array', nullable: true)]

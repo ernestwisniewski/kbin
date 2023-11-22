@@ -12,9 +12,9 @@ use App\Entity\User;
 use App\Kbin\User\DTO\UserSettingsDto;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserSettingsManager
+readonly class UserSettingsManager
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 
@@ -28,6 +28,9 @@ class UserSettingsManager
             $user->notifyOnNewPostReply,
             $user->notifyOnNewPostCommentReply,
             $user->hideAdult,
+            $user->showSubscribedUsers,
+            $user->showSubscribedMagazines,
+            $user->showSubscribedDomains,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
             $user->addMentionsEntries,
@@ -50,6 +53,9 @@ class UserSettingsManager
         $user->notifyOnNewPostCommentReply = $dto->notifyOnNewPostCommentReply;
         $user->homepage = $dto->homepage;
         $user->hideAdult = $dto->hideAdult;
+        $user->showSubscribedUsers = $dto->showSubscribedUsers;
+        $user->showSubscribedMagazines = $dto->showSubscribedMagazines;
+        $user->showSubscribedDomains = $dto->showSubscribedDomains;
         $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
         $user->showProfileFollowings = $dto->showProfileFollowings;
         $user->addMentionsEntries = $dto->addMentionsEntries;

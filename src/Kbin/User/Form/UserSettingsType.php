@@ -35,6 +35,21 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
+            ->add(
+                'showSubscribedUsers',
+                CheckboxType::class,
+                ['required' => false]
+            )
+            ->add(
+                'showSubscribedMagazines',
+                CheckboxType::class,
+                ['required' => false]
+            )
+            ->add(
+                'showSubscribedDomains',
+                CheckboxType::class,
+                ['required' => false]
+            )
             ->add('homepage', ChoiceType::class, [
                     'autocomplete' => true,
                     'choices' => [

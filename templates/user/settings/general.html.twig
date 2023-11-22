@@ -21,12 +21,17 @@
             <h1 hidden>{{ 'general'|trans }}</h1>
             {{ form_start(form) }}
             <h2>{{ 'appearance'|trans }}</h2>
+            {{ form_row(form.customCss, {label: 'custom_css', row_attr: {class: 'textarea'}}) }}
+            {{ form_row(form.ignoreMagazinesCustomCss, {label: 'ignore_magazines_custom_css', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'feed'|trans }}</h2>
             {{ form_row(form.homepage, {label: 'homepage'}) }}
             {{ form_row(form.preferredLanguages, {label: 'preferred_languages'}) }}
             {{ form_row(form.featuredMagazines, {label: 'featured_magazines'}) }}
-            {{ form_row(form.customCss, {label: 'custom_css', row_attr: {class: 'textarea'}}) }}
-            {{ form_row(form.ignoreMagazinesCustomCss, {label: 'ignore_magazines_custom_css', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.hideAdult, {label: 'hide_adult', row_attr: {class: 'checkbox'}}) }}
+            <h2>{{ 'sub_channel'|trans }}</h2>
+            {{ form_row(form.showSubscribedUsers, {label: 'show_subscribed_users', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.showSubscribedMagazines, {label: 'show_subscribed_magazines', row_attr: {class: 'checkbox'}}) }}
+            {{ form_row(form.showSubscribedDomains, {label: 'show_subscribed_domains', row_attr: {class: 'checkbox'}}) }}
             <h2>{{ 'writing'|trans }}</h2>
             {{ form_row(form.addMentionsEntries, {label: 'add_mentions_entries', row_attr: {class: 'checkbox'}}) }}
             {{ form_row(form.addMentionsPosts, {label: 'add_mentions_posts', row_attr: {class: 'checkbox'}}) }}

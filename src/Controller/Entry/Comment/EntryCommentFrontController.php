@@ -48,12 +48,17 @@ class EntryCommentFrontController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function subscribed(?string $sortBy, ?string $time, Request $request): Response
     {
+        $user = $this->getUserOrThrow();
+
         $params = [];
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
+        $criteria->showSubscribedUsers = $user->showSubscribedUsers;
+        $criteria->showSubscribedMagazines = $user->showSubscribedMagazines;
+        $criteria->showSubscribedDomains = $user->showSubscribedDomains;
 
         $params['comments'] = $this->repository->findByCriteria($criteria);
 

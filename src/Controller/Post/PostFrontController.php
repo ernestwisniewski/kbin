@@ -70,6 +70,8 @@ class PostFrontController extends AbstractController
             ->setFederation('false' === $request->cookies->get(ThemeSettingsController::KBIN_FEDERATION_ENABLED, true) ? Criteria::AP_LOCAL : Criteria::AP_ALL)
             ->setTime($criteria->resolveTime($time));
         $criteria->subscribed = true;
+        $criteria->showSubscribedUsers = $user->showSubscribedUsers;
+        $criteria->showSubscribedMagazines = $user->showSubscribedMagazines;
 
         if (0 < \count($user->preferredLanguages)) {
             $criteria->languages = $user->preferredLanguages;

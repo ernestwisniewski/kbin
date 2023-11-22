@@ -829,3 +829,8 @@ send_req: Send request
 thanks_for_support_request: Thank you for your support! After a quick verification,
   your nickname has been added to the list. We appreciate your dedication to our community.
   Cheers!
+feed: Feed
+sub_channel: Sub Channel
+show_subscribed_users: Show subscribed users
+show_subscribed_magazines: Show subscribed magazines
+show_subscribed_domains: Show subscribed domains

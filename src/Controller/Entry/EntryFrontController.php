@@ -107,6 +107,9 @@ class EntryFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->subscribed = true;
+        $criteria->showSubscribedUsers = $user->showSubscribedUsers;
+        $criteria->showSubscribedMagazines = $user->showSubscribedMagazines;
+        $criteria->showSubscribedDomains = $user->showSubscribedDomains;
 
         if (0 < \count($user->preferredLanguages)) {
             $criteria->languages = $user->preferredLanguages;

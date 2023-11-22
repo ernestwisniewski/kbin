@@ -121,6 +121,9 @@ trait FactoryTrait
         $user->showProfileFollowings = true;
         $user->showProfileSubscriptions = true;
         $user->hideAdult = $hideAdult;
+        $user->showSubscribedUsers = true;
+        $user->showSubscribedMagazines = true;
+        $user->showSubscribedDomains = true;
         $user->about = $about;
         $user->avatar = $this->createImage(bin2hex(random_bytes(20)).'.png');
 
@@ -254,7 +257,7 @@ trait FactoryTrait
             }
         )->first();
 
-        $user = $user ?: $this->createUser($username, hideAdult: $hideAdult, about: $about, active: $active);
+        $user = $user ?: $this->createUser($username, active: $active, hideAdult: $hideAdult, about: $about);
 
         if ($isAdmin) {
             $user->roles = ['ROLE_ADMIN'];

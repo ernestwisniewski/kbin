@@ -22,6 +22,9 @@ class UserSettingsDto implements \JsonSerializable
         public ?bool $notifyOnNewPostReply = null,
         public ?bool $notifyOnNewPostCommentReply = null,
         public ?bool $hideAdult = null,
+        public ?bool $showSubscribedUsers = null,
+        public ?bool $showSubscribedMagazines = null,
+        public ?bool $showSubscribedDomains = null,
         public ?bool $showProfileSubscriptions = null,
         public ?bool $showProfileFollowings = null,
         public ?bool $addMentionsEntries = null,
@@ -47,6 +50,9 @@ class UserSettingsDto implements \JsonSerializable
             'notifyOnNewPostReply' => $this->notifyOnNewPostReply,
             'notifyOnNewPostCommentReply' => $this->notifyOnNewPostCommentReply,
             'hideAdult' => $this->hideAdult,
+            'showSubscribedUsers' => $this->showSubscribedUsers,
+            'showSubscribedMagazines' => $this->showSubscribedMagazines,
+            'showSubscribedDomains' => $this->showSubscribedDomains,
             'showProfileSubscriptions' => $this->showProfileSubscriptions,
             'showProfileFollowings' => $this->showProfileFollowings,
             'addMentionsEntries' => $this->addMentionsEntries,
@@ -68,6 +74,9 @@ class UserSettingsDto implements \JsonSerializable
         $dto->notifyOnNewPostReply = $this->notifyOnNewPostReply ?? $dto->notifyOnNewPostReply;
         $dto->notifyOnNewPostCommentReply = $this->notifyOnNewPostCommentReply ?? $dto->notifyOnNewPostCommentReply;
         $dto->hideAdult = $this->hideAdult ?? $dto->hideAdult;
+        $dto->showSubscribedUsers = $this->showSubscribedUsers ?? $dto->showSubscribedUsers;
+        $dto->showSubscribedMagazines = $this->showSubscribedMagazines ?? $dto->showSubscribedMagazines;
+        $dto->showSubscribedDomains = $this->showSubscribedDomains ?? $dto->showSubscribedDomains;
         $dto->showProfileSubscriptions = $this->showProfileSubscriptions ?? $dto->showProfileSubscriptions;
         $dto->showProfileFollowings = $this->showProfileFollowings ?? $dto->showProfileFollowings;
         $dto->addMentionsEntries = $this->addMentionsEntries ?? $dto->addMentionsEntries;
