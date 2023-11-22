@@ -10,8 +10,8 @@ namespace App\ActivityPub;
 
 use ActivityPhp\Server as ActivityPub;
 use ActivityPhp\Type;
+use ActivityPhp\Type\Ontology\Lemmy;
 use ActivityPhp\Type\Validator;
-use App\ActivityPub\Ontology\Lemmy;
 use App\ActivityPub\Ontology\Mastodon;
 use App\ActivityPub\Ontology\Peertube;
 use App\ActivityPub\Ontology\Pleroma;

@@ -17,8 +17,8 @@ use App\Kbin\User\UserEdit;
 use App\Service\TwoFactorManager;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
-use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\RoundBlockSizeMode;
 use Endroid\QrCode\Writer\PngWriter;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -128,10 +128,10 @@ class User2FAController extends AbstractController
             ->writerOptions([])
             ->data($this->totpAuthenticator->getQRContent($this->getUserOrThrow()))
             ->encoding(new Encoding('UTF-8'))
-            ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
+            ->errorCorrectionLevel(ErrorCorrectionLevel::High)
             ->size(250)
             ->margin(0)
-            ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
+            ->roundBlockSizeMode(RoundBlockSizeMode::Margin)
             ->build();
 
         return new Response($result->getString(), 200, ['Content-Type' => 'image/png']);
