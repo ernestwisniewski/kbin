@@ -853,3 +853,14 @@ ap_resend: Повторно надіслати у Федіверс
 turbo_mode: Турборежим (експериментально)
 refresh_user: Оновити користувача
 refresh_magazine: Оновити спільноту
+support_us: Підтримайте нас
+send_req: Надіслати запит
+add_yourself_to_donors_list: Додавайтеся до списку тих, хто нас підтримує
+send_request: Надіслати запит
+thanks_for_support_request: Дякуємо Вам за підтримку! Після швидкої перевірки Ваш
+  псевдонім додано до списку. Ми цінуємо Вашу відданість нашій спільноті.
+show_subscribed_users: Показувати підписаних користувачів
+show_subscribed_domains: Показувати підписані домени
+sub_channel: Субканал
+show_subscribed_magazines: Показувати підписані спільноти
+feed: Стрічка

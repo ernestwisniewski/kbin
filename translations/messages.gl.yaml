@@ -13,7 +13,7 @@ search: Buscar
 add: Engadir
 select_channel: Escolle unha canle
 login: Acceder
-top: Arriba
+top: votos
 hot: En voga
 active: Activo
 newest: Máis novo
@@ -842,3 +842,14 @@ enable_spam_protection: Activar a protección contra spam
 refresh_user: Actualizar usuaria
 turbo_mode: Modo Turbo (experimental)
 refresh_magazine: Actualizar revista
+send_req: Envía a petición
+support_us: Axúdanos
+add_yourself_to_donors_list: Únete á lista de persoas que nos apoian
+send_request: Envía a petición
+thanks_for_support_request: Grazas pola túa axuda! Tras unha rápida comprobación,
+  engadimos o teu nome á lista. Agradecemos a túa participación na comunidade. Saúdos!
+show_subscribed_users: Mostrar usuarias subscritas
+show_subscribed_domains: Mostrar dominios subscritos
+sub_channel: Subcanle
+show_subscribed_magazines: Mostrar revistas subscritas
+feed: Orixe

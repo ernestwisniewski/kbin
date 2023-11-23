@@ -848,3 +848,15 @@ turbo_mode: Turbomodus (experimentell)
 spam_protection: Spamschutz
 refresh_magazine: Magazin aktualisieren
 enable_spam_protection: Spamschutz aktivieren
+send_req: Anfrage senden
+show_subscribed_users: Gefolgte Benutzer anzeigen
+support_us: Unterstütze uns
+add_yourself_to_donors_list: Füge dich der Liste von Unterstützern zu
+show_subscribed_domains: Abonnierte Domänen anzeigen
+sub_channel: Unterkanal
+show_subscribed_magazines: Abonnierte Magazine anzeigen
+send_request: Anfrage senden
+thanks_for_support_request: Vielen Dank für deine Unterstützung! Nach einer schnellen
+  Überprüfung wurde dein Spitzname zur Liste hinzugefügt. Wir schätzen dein Engagement
+  für unsere Gemeinschaft. Danke!
+feed: Feed
