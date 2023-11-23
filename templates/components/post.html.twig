@@ -54,6 +54,7 @@
                     <figure>
                         <a class="thumb" href="{{ uploaded_asset(post.image.filePath) }}">
                             <img class="thumb-subject"
+                                 {% if post.isAdult %}style="filter: blur(8px);"{% endif %}
                                  src="{{ asset(post.image.filePath) |imagine_filter('post_thumb') }}"
                                  alt="{{ post.image.altText }}">
                         </a>

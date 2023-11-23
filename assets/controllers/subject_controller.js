@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/en\>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import {Controller} from '@hotwired/stimulus';
 import {fetch, ok} from "../utils/http";
 import {useIntersection} from 'stimulus-use'
@@ -35,6 +39,7 @@ export default class extends Controller {
             useIntersection(this)
         }
 
+        this.handleSpoilers()
         this.checkHeight();
         this.handleAdultThumbs()
     }
@@ -425,5 +430,21 @@ export default class extends Controller {
                 });
             }
         }
+    }
+
+    handleSpoilers() {
+        const regexp = /(?<!\S)(:::|<p>:::)\s+spoiler\s+(?<title>[^\n]+)\n(?<body>.*(?:.*\n)+?)(:::(?:<br\/>|<\/p>)?|$)/gm;
+        let content = this.element.querySelector('.content').innerHTML;
+
+        let matches;
+        while ((matches = regexp.exec(content)) !== null) {
+            const title = matches.groups.title.trim();
+            const body = matches.groups.body.trim();
+
+            const replacement = `<details><summary>${title}</summary>${body}</details>`;
+            content = content.replace(matches[0], replacement);
+        }
+
+        this.element.querySelector('.content').innerHTML = content;
     }
 }

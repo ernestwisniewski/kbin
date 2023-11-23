@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/en\>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import {ApplicationController,useThrottle} from 'stimulus-use'
 import {fetch,ok} from "../utils/http";
 import router from "../utils/routing";

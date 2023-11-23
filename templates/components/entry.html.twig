@@ -85,6 +85,7 @@
                             <a href="{{ is_route_name('entry_single') ? entry.url : entry_url(entry) }}"
                                rel="{{ get_rel(is_route_name('entry_single') ? entry.url : entry_url(entry)) }}">
                                 <img class="thumb-subject"
+                                     {% if entry.isAdult %}style="filter: blur(8px);"{% endif %}
                                      src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>
@@ -97,6 +98,7 @@
                             <a href="{{ is_route_name('entry_single') ? uploaded_asset(entry.image.filePath) : entry_url(entry) }}"
                                class="{{ html_classes({'thumb': is_route_name('entry_single')}) }}">
                                 <img class="thumb-subject"
+                                     {% if entry.isAdult %}style="filter: blur(8px);"{% endif %}
                                      src="{{ asset(entry.image.filePath) |imagine_filter('entry_thumb') }}"
                                      alt="{{ entry.image.altText }}">
                             </a>

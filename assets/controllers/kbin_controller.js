@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/en\>
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
 import {ApplicationController, useDebounce} from 'stimulus-use'
 
 /* stimulusFetch: 'lazy' */

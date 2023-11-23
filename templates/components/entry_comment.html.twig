@@ -57,6 +57,7 @@
                         <a href="{{ uploaded_asset(comment.image.filePath) }}"
                            class="thumb">
                             <img class="thumb-subject"
+                                 {% if comment.isAdult %}style="filter: blur(8px);"{% endif %}
                                  src="{{ asset(comment.image.filePath) |imagine_filter('post_thumb') }}"
                                  alt="{{ comment.image.altText }}">
                         </a>
