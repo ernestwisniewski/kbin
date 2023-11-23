@@ -43,7 +43,7 @@ export default class extends Controller {
         this.checkHeight();
         this.handleAdultThumbs()
     }
-    
+
     async getForm(event) {
         event.preventDefault();
 
@@ -79,7 +79,7 @@ export default class extends Controller {
                         textarea.selectionEnd = firstLineEnd + 1;
                     }
                 }
-                
+
                 textarea.focus();
             }
         } catch (e) {
@@ -304,7 +304,7 @@ export default class extends Controller {
     updateVotes(data) {
         this.upvoteCounterTarget.innerText = `(${data.detail.up})`;
 
-        if(data.detail.up > 0) {
+        if (data.detail.up > 0) {
             this.upvoteCounterTarget.classList.remove('hidden');
         } else {
             this.upvoteCounterTarget.classList.add('hidden');
@@ -434,7 +434,12 @@ export default class extends Controller {
 
     handleSpoilers() {
         const regexp = /(?<!\S)(:::|<p>:::)\s+spoiler\s+(?<title>[^\n]+)\n(?<body>.*(?:.*\n)+?)(:::(?:<br\/>|<\/p>)?|$)/gm;
-        let content = this.element.querySelector('.content').innerHTML;
+        let content = this.element.querySelector('.content');
+        if (!content) {
+            return;
+        }
+
+        content = content.innerHTML;
 
         let matches;
         while ((matches = regexp.exec(content)) !== null) {
