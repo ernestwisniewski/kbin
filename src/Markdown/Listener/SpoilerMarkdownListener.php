@@ -28,7 +28,6 @@ final class SpoilerMarkdownListener implements EventSubscriberInterface
         $html = $event->getRenderedContent();
         $content = $html->getContent();
 
-        $content = strip_tags($content, ['<p>', '<br>', '<a>', '<strong>', '<i>', '<img>']);
         $regexp = '/(?<!\S)(?:::|<p>:::)\s+spoiler\s+(?<title>.+)\n(?<body>.(?:.*\n)+?):::(<br\/>|<\/p>)?\n/m';
 
         preg_match_all($regexp, $content, $matches, PREG_SET_ORDER);
