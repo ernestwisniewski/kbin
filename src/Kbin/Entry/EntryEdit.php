@@ -48,7 +48,7 @@ readonly class EntryEdit
         $entry->slug = $this->slugger->slug($dto->title);
         $entry->visibility = $dto->getVisibility();
         $oldImage = $entry->image;
-        if ($dto->image && $dto->image->id !== $entry->image->getId()) {
+        if ($dto->image && $dto->image->id !== $entry->image?->getId()) {
             $entry->image = $this->imageRepository->find($dto->image->id);
         }
         $entry->tags = $dto->tags ? $this->tagManager->extract(

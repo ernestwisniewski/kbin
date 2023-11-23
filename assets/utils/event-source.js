@@ -1,6 +1,12 @@
 export default function
     subscribe(topics, cb) {
-    const url = new URL(document.getElementById("mercure-url").textContent.trim());
+    const mercureElement = document.getElementById("mercure-url");
+
+    if (!mercureElement) {
+        return;
+    }
+
+    const url = new URL(mercureElement.textContent.trim());
 
     topics.forEach(topic => {
         url.searchParams.append('topic', topic);
