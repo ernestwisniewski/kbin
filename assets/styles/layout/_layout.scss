@@ -80,6 +80,10 @@ menu {
   overflow: hidden !important;
   // padding: 3px !important;
 
+  details {
+    margin-bottom: 1rem;
+  }
+
   blockquote {
     border-left: 2px solid var(--kbin-blockquote-color);
     margin: 0 0 1rem 1rem !important;
@@ -124,11 +128,11 @@ table thead tr {
   text-align: left;
 }
 
-table th{
+table th {
   background-color: var(--kbin-bg);
 }
 
-table th a{
+table th a {
   overflow-wrap: normal !important;
 }
 
@@ -270,11 +274,11 @@ figure {
     visibility: hidden;
   }
 
-  &.hide{
+  &.hide {
     display: none;
   }
 
-  &.small{
+  &.small {
     width: 14px;
     height: 14px;
     border-width: 3px;
@@ -401,7 +405,7 @@ p > code {
 }
 
 .boost-link {
-  &.active{
+  &.active {
     color: var(--kbin-boosted-color);
   }
 }
