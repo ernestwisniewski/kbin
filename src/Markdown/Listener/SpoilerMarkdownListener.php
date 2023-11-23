@@ -10,6 +10,7 @@ namespace App\Markdown\Listener;
 
 use App\Markdown\Event\ConvertMarkdown;
 use League\CommonMark\Output\RenderedContent;
+use League\CommonMark\Output\RenderedContentInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class SpoilerMarkdownListener implements EventSubscriberInterface
@@ -28,14 +29,19 @@ final class SpoilerMarkdownListener implements EventSubscriberInterface
         $html = $event->getRenderedContent();
         $content = $html->getContent();
 
-        $regexp = '/(?<!\S)(?:::|<p>:::)\s+spoiler\s+(?<title>.+)\n(?<body>.(?:.*\n)+?):::(<br\/>|<\/p>)?\n/m';
-
+        $regexp = '/(?<!\S)(:::|<p>:::)\s+spoiler\s+(?<title>[^\n]+)\n(?<body>.*(?:.*\n)+?)(:::(?:<br\/>|<\/p>)?|$)/m';
         preg_match_all($regexp, $content, $matches, PREG_SET_ORDER);
-
-        if (!$matches) {
-            return;
+        if ($matches) {
+            $this->render($event, $matches, $content, $html);
         }
+    }
 
+    private function render(
+        ConvertMarkdown $event,
+        array $matches,
+        string $content,
+        RenderedContentInterface $html
+    ): void {
         foreach ($matches as $match) {
             $content = str_replace(
                 $match[0],
