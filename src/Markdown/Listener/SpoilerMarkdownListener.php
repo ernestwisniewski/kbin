@@ -26,9 +26,10 @@ final class SpoilerMarkdownListener implements EventSubscriberInterface
     public function postConvertMarkdown(ConvertMarkdown $event): void
     {
         $html = $event->getRenderedContent();
-        $content = str_replace("\r", '', $html->getContent());
-        $content = strip_tags($content);
-        $regexp = '/(?<!\S):::\s+spoiler\s+(?<title>.+)\n(?<body>.(?:.*\n)+?):::/m';
+        $content = $html->getContent();
+
+        $content = strip_tags($content, ['<p>', '<br>', '<a>', '<strong>', '<i>', '<img>']);
+        $regexp = '/(?<!\S)(?:::|<p>:::)\s+spoiler\s+(?<title>.+)\n(?<body>.(?:.*\n)+?):::(<br\/>|<\/p>)?\n/m';
 
         preg_match_all($regexp, $content, $matches, PREG_SET_ORDER);
 
