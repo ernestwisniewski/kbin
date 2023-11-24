@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Inbox;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
 use App\Message\ActivityPub\Inbox\LikeMessage;
 use App\Repository\ApActivityRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
-use App\Service\FavouriteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -26,7 +26,7 @@ class LikeHandler
         private readonly ApActivityRepository $repository,
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $bus,
-        private readonly FavouriteManager $manager,
+        private readonly FavouriteToggle $favouriteToggle,
         private readonly ApHttpClient $apHttpClient,
     ) {
     }
@@ -48,7 +48,7 @@ class LikeHandler
 
             $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
-            $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_LIKE);
+            ($this->favouriteToggle)($actor, $entity, FavouriteToggle::TYPE_LIKE);
         }
 
         if ('Undo' === $message->payload['type']) {
@@ -57,7 +57,7 @@ class LikeHandler
                 $entity = $this->entityManager->getRepository($activity['type'])->find((int) $activity['id']);
                 $actor = $this->activityPubManager->findActorOrCreate($message->payload['actor']);
 
-                $this->manager->toggle($actor, $entity, FavouriteManager::TYPE_UNLIKE);
+                ($this->favouriteToggle)($actor, $entity, FavouriteToggle::TYPE_UNLIKE);
             }
         }
 

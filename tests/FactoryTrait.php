@@ -27,6 +27,7 @@ use App\Kbin\Entry\EntryDelete;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Kbin\EntryComment\EntryCommentDelete;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\DTO\MagazineBanDto;
 use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\Factory\MagazineFactory;
@@ -45,7 +46,6 @@ use App\Kbin\Vote\VoteCreate;
 use App\Repository\ImageRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\SiteRepository;
-use App\Service\FavouriteManager;
 use App\Service\MessageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -60,8 +60,8 @@ trait FactoryTrait
     public function createVote(int $choice, VotableInterface $subject, User $user): void
     {
         if (VotableInterface::VOTE_UP === $choice) {
-            $favManager = $this->getService(FavouriteManager::class);
-            $favManager->toggle($user, $subject);
+            $favouriteToggle = $this->getService(FavouriteToggle::class);
+            $favouriteToggle($user, $subject);
         } else {
             $voteCreate = $this->getService(VoteCreate::class);
             $voteCreate($choice, $subject, $user);

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post\Comment;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 
 class PostCommentVoteApiTest extends WebTestCase
@@ -282,8 +282,8 @@ class PostCommentVoteApiTest extends WebTestCase
         $post = $this->createPost('a post');
         $comment = $this->createPostComment('test comment', $post, $user);
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($user, $comment);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($user, $comment);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);
@@ -307,8 +307,8 @@ class PostCommentVoteApiTest extends WebTestCase
         $post = $this->createPost('a post');
         $comment = $this->createPostComment('test comment', $post, $user);
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($user, $comment);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($user, $comment);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

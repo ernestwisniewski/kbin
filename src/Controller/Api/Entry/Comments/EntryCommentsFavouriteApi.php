@@ -12,7 +12,7 @@ use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Entity\EntryComment;
 use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\Kbin\EntryComment\Factory\EntryCommentFactory;
-use App\Service\FavouriteManager;
+use App\Kbin\Favourite\FavouriteToggle;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -91,19 +91,19 @@ class EntryCommentsFavouriteApi extends EntriesBaseApi
     )]
     #[OA\Tag(name: 'entry_comment')]
     // TODO: Bots should not be able to vote
-    //       *sad beep boop*
+    // *sad beep boop*
     #[Security(name: 'oauth2', scopes: ['entry_comment:vote'])]
     #[IsGranted('ROLE_OAUTH2_ENTRY_COMMENT:VOTE')]
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         EntryComment $comment,
-        FavouriteManager $manager,
+        FavouriteToggle $favouriteToggle,
         EntryCommentFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiVoteLimiter);
 
-        $manager->toggle($this->getUserOrThrow(), $comment);
+        $favouriteToggle($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(
             $this->serializeComment($factory->createDto($comment)),

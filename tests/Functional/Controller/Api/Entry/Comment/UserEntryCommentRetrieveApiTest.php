@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Comment;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -308,10 +308,10 @@ class UserEntryCommentRetrieveApiTest extends WebTestCase
         $third = $this->createEntryComment('third', $entry);
         $user = $entry->user;
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($this->getUserByUsername('voter1'), $first);
-        $favouriteManager->toggle($this->getUserByUsername('voter2'), $first);
-        $favouriteManager->toggle($this->getUserByUsername('voter1'), $second);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($this->getUserByUsername('voter1'), $first);
+        $favouriteToggle($this->getUserByUsername('voter2'), $first);
+        $favouriteToggle($this->getUserByUsername('voter1'), $second);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));

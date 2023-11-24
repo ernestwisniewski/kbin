@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Entry;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\MagazineSubscribe;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -243,8 +243,8 @@ class EntryFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle(
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle(
             $this->getUserByUsername('Actor'),
             $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
         );
@@ -278,8 +278,8 @@ class EntryFrontControllerTest extends WebTestCase
 
         $this->getEntryByTitle('test entry 1', 'https://kbin.pub');
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle(
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle(
             $this->getUserByUsername('Actor'),
             $this->getEntryByTitle('test entry 1', 'https://kbin.pub')
         );

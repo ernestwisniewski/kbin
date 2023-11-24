@@ -11,7 +11,7 @@ namespace App\Controller\Api\Entry;
 use App\Entity\Entry;
 use App\Kbin\Entry\DTO\EntryResponseDto;
 use App\Kbin\Entry\Factory\EntryFactory;
-use App\Service\FavouriteManager;
+use App\Kbin\Favourite\FavouriteToggle;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,13 +88,13 @@ class EntriesFavouriteApi extends EntriesBaseApi
     public function __invoke(
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
-        FavouriteManager $manager,
+        FavouriteToggle $favouriteToggle,
         EntryFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiVoteLimiter);
 
-        $manager->toggle($this->getUserOrThrow(), $entry);
+        $favouriteToggle($this->getUserOrThrow(), $entry);
 
         return new JsonResponse(
             $this->serializeEntry($factory->createDto($entry)),

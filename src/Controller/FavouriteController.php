@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Contracts\FavouriteInterface;
-use App\Service\FavouriteManager;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Service\GenerateHtmlClassService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +18,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class FavouriteController extends AbstractController
 {
-    public function __construct(private readonly GenerateHtmlClassService $classService)
-    {
+    public function __construct(
+        private readonly GenerateHtmlClassService $classService,
+        private readonly FavouriteToggle $favouriteToggle
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
-    public function __invoke(FavouriteInterface $subject, Request $request, FavouriteManager $manager): Response
+    public function __invoke(FavouriteInterface $subject, Request $request): Response
     {
         $this->validateCsrf('favourite', $request->request->get('token'));
 
-        $manager->toggle($this->getUserOrThrow(), $subject);
+        ($this->favouriteToggle)($this->getUserOrThrow(), $subject);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

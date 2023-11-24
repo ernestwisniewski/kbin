@@ -10,9 +10,9 @@ namespace App\Controller\Api\Post\Comments;
 
 use App\Controller\Api\Post\PostsBaseApi;
 use App\Entity\PostComment;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\PostComment\DTO\PostCommentResponseDto;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
-use App\Service\FavouriteManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -97,13 +97,13 @@ class PostCommentsFavouriteApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'comment_id')]
         PostComment $comment,
-        FavouriteManager $manager,
+        FavouriteToggle $favouriteToggle,
         PostCommentFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiVoteLimiter);
 
-        $manager->toggle($this->getUserOrThrow(), $comment);
+        $favouriteToggle($this->getUserOrThrow(), $comment);
 
         return new JsonResponse(
             $this->serializePostComment($factory->createDto($comment)),

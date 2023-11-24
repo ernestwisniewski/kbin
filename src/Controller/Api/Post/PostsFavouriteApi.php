@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post;
 
 use App\Entity\Post;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Post\DTO\PostResponseDto;
 use App\Kbin\Post\Factory\PostFactory;
-use App\Service\FavouriteManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -88,13 +88,13 @@ class PostsFavouriteApi extends PostsBaseApi
     public function __invoke(
         #[MapEntity(id: 'post_id')]
         Post $post,
-        FavouriteManager $manager,
+        FavouriteToggle $favouriteToggle,
         PostFactory $factory,
         RateLimiterFactory $apiVoteLimiter
     ): JsonResponse {
         $headers = $this->rateLimit($apiVoteLimiter);
 
-        $manager->toggle($this->getUserOrThrow(), $post);
+        $favouriteToggle($this->getUserOrThrow(), $post);
 
         return new JsonResponse(
             $this->serializePost($factory->createDto($post)),

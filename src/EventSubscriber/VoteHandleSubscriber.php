@@ -14,10 +14,10 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Event\VoteEvent;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Message\ActivityPub\Outbox\AnnounceMessage;
 use App\Message\Notification\VoteNotificationMessage;
 use App\Service\CacheService;
-use App\Service\FavouriteManager;
 use Doctrine\Common\Util\ClassUtils;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -30,7 +30,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
         private readonly MessageBusInterface $bus,
         private readonly CacheService $cacheService,
         private readonly CacheInterface $cache,
-        private readonly FavouriteManager $favouriteManager,
+        private readonly FavouriteToggle $favouriteToggle,
     ) {
     }
 
@@ -45,7 +45,7 @@ class VoteHandleSubscriber implements EventSubscriberInterface
     public function onVote(VoteEvent $event): void
     {
         if (VotableInterface::VOTE_DOWN === $event->vote->choice) {
-            $this->favouriteManager->toggle($event->vote->user, $event->votable, FavouriteManager::TYPE_UNLIKE);
+            ($this->favouriteToggle)($event->vote->user, $event->votable, FavouriteToggle::TYPE_UNLIKE);
         }
 
         $this->clearCache($event->votable);

@@ -125,6 +125,9 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
+            true,
+            true,
+            true,
             false,
             false,
             false,
@@ -153,9 +156,9 @@ class UserUpdateApiTest extends WebTestCase
         self::assertFalse($jsonData['notifyOnNewPostReply']);
         self::assertFalse($jsonData['notifyOnNewPostCommentReply']);
         self::assertFalse($jsonData['hideAdult']);
-        self::assertFalse($jsonData['showSubscribedUsers']);
-        self::assertFalse($jsonData['showSubscribedMagazines']);
-        self::assertFalse($jsonData['showSubscribedDomains']);
+        self::assertTrue($jsonData['showSubscribedUsers']);
+        self::assertTrue($jsonData['showSubscribedMagazines']);
+        self::assertTrue($jsonData['showSubscribedDomains']);
         self::assertFalse($jsonData['showProfileSubscriptions']);
         self::assertFalse($jsonData['showProfileFollowings']);
         self::assertFalse($jsonData['addMentionsEntries']);
@@ -179,9 +182,9 @@ class UserUpdateApiTest extends WebTestCase
         self::assertFalse($jsonData['notifyOnNewPostReply']);
         self::assertFalse($jsonData['notifyOnNewPostCommentReply']);
         self::assertFalse($jsonData['hideAdult']);
-        self::assertFalse($jsonData['showSubscribedUsers']);
-        self::assertFalse($jsonData['showSubscribedMagazines']);
-        self::assertFalse($jsonData['showSubscribedDomains']);
+        self::assertTrue($jsonData['showSubscribedUsers']);
+        self::assertTrue($jsonData['showSubscribedMagazines']);
+        self::assertTrue($jsonData['showSubscribedDomains']);
         self::assertFalse($jsonData['showProfileSubscriptions']);
         self::assertFalse($jsonData['showProfileFollowings']);
         self::assertFalse($jsonData['addMentionsEntries']);

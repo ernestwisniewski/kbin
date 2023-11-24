@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Post;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\MagazineSubscribe;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -129,8 +129,8 @@ class PostFrontControllerTest extends WebTestCase
     {
         $client = $this->prepareEntries();
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($this->getUserByUsername('Actor'), $this->createPost('test post 3'));
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($this->getUserByUsername('Actor'), $this->createPost('test post 3'));
 
         $client->loginUser($this->getUserByUsername('Actor'));
 

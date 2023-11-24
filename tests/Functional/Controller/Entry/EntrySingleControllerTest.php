@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Entry;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 
 class EntrySingleControllerTest extends WebTestCase
@@ -68,9 +68,9 @@ class EntrySingleControllerTest extends WebTestCase
         $voteCreate = $this->getService(VoteCreate::class);
         $voteCreate(VotableInterface::VOTE_DOWN, $entry, $this->getUserByUsername('JaneDoe'));
 
-        $manager = $client->getContainer()->get(FavouriteManager::class);
-        $manager->toggle($this->getUserByUsername('JohnDoe'), $entry);
-        $manager->toggle($this->getUserByUsername('JaneDoe'), $entry);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($this->getUserByUsername('JohnDoe'), $entry);
+        $favouriteToggle($this->getUserByUsername('JaneDoe'), $entry);
 
         $client->request('GET', "/m/acme/t/{$entry->getId()}/-/test-entry-1");
 

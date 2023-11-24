@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Post;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Post\PostPin;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -214,8 +214,8 @@ class PostRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $this->createPost('another post', magazine: $magazine);
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($user, $post);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($user, $post);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

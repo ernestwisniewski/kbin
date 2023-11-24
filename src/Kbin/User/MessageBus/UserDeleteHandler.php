@@ -33,6 +33,7 @@ use App\Kbin\Entry\EntryDelete;
 use App\Kbin\Entry\EntryPurge;
 use App\Kbin\EntryComment\EntryCommentDelete;
 use App\Kbin\EntryComment\EntryCommentPurge;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\MagazineUnblock;
 use App\Kbin\Magazine\MagazineUnsubscribe;
 use App\Kbin\Post\PostDelete;
@@ -44,7 +45,6 @@ use App\Kbin\User\UserCoverDetach;
 use App\Kbin\User\UserUnblock;
 use App\Kbin\User\UserUnfollow;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -73,7 +73,7 @@ class UserDeleteHandler
         private readonly PostDelete $postDelete,
         private readonly PostPurge $postPurge,
         private readonly VoteCreate $voteCreate,
-        private readonly FavouriteManager $favouriteManager,
+        private readonly FavouriteToggle $favouriteToggle,
         private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -448,7 +448,7 @@ class UserDeleteHandler
 
         foreach ($subjects as $subject) {
             $retry = true;
-            $this->favouriteManager->toggle($this->user, $subject->getSubject(), FavouriteManager::TYPE_UNLIKE);
+            ($this->favouriteToggle)($this->user, $subject->getSubject(), FavouriteToggle::TYPE_UNLIKE);
         }
 
         return $retry;

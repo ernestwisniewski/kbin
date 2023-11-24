@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Entry;
 
 use App\Kbin\Entry\EntryPin;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -226,8 +226,8 @@ class EntryRetrieveApiTest extends WebTestCase
         $magazine = $this->getMagazineByNameNoRSAKey('somemag');
         $this->getEntryByTitle('another entry', url: 'https://google.com', magazine: $magazine);
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($user, $entry);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($user, $entry);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($user);

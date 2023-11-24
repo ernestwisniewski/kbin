@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Entry\Comment;
 
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -105,7 +105,8 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?d=2", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request('GET', "/api/domain/{$domain->getId()}/comments?d=2", server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -167,7 +168,11 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?sort=newest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/domain/{$domain->getId()}/comments?sort=newest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -218,7 +223,11 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?sort=oldest", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/domain/{$domain->getId()}/comments?sort=oldest",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -269,7 +278,11 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?sort=active", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/domain/{$domain->getId()}/comments?sort=active",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -304,10 +317,10 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $third = $this->createEntryComment('third', $entry);
         $domain = $entry->domain;
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favouriteManager->toggle($this->getUserByUsername('voter1'), $first);
-        $favouriteManager->toggle($this->getUserByUsername('voter2'), $first);
-        $favouriteManager->toggle($this->getUserByUsername('voter1'), $second);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favouriteToggle($this->getUserByUsername('voter1'), $first);
+        $favouriteToggle($this->getUserByUsername('voter2'), $first);
+        $favouriteToggle($this->getUserByUsername('voter1'), $second);
 
         self::createOAuth2AuthCodeClient();
         $client->loginUser($this->getUserByUsername('user'));
@@ -315,7 +328,11 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?sort=top", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/domain/{$domain->getId()}/comments?sort=top",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -364,7 +381,11 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read');
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('GET', "/api/domain/{$domain->getId()}/comments?sort=hot", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'GET',
+            "/api/domain/{$domain->getId()}/comments?sort=hot",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         self::assertResponseIsSuccessful();
         $jsonData = self::getJsonResponse($client);
 
@@ -443,9 +464,17 @@ class DomainEntryCommentRetrieveApiTest extends WebTestCase
         self::assertFalse($jsonData['items'][0]['isFavourited']);
         self::assertSame(0, $jsonData['items'][0]['userVote']);
         self::assertFalse($jsonData['items'][0]['isAdult']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['createdAt'], 'createdAt date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['createdAt'],
+            'createdAt date format invalid'
+        );
         self::assertNull($jsonData['items'][0]['editedAt']);
-        self::assertStringMatchesFormat('%d-%d-%dT%d:%d:%d%i:00', $jsonData['items'][0]['lastActive'], 'lastActive date format invalid');
+        self::assertStringMatchesFormat(
+            '%d-%d-%dT%d:%d:%d%i:00',
+            $jsonData['items'][0]['lastActive'],
+            'lastActive date format invalid'
+        );
         self::assertNull($jsonData['items'][0]['apId']);
     }
 }

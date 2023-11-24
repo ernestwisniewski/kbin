@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
 use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;
 use App\Kbin\Vote\VoteUp;
-use App\Service\FavouriteManager;
 use App\Tests\WebTestCase;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -111,8 +111,8 @@ class MagazineRetrieveStatsApiTest extends WebTestCase
         $dispatcher = $this->getService(EventDispatcherInterface::class);
         $dispatcher->dispatch(new EntryHasBeenSeenEvent($entry));
 
-        $favouriteManager = $this->getService(FavouriteManager::class);
-        $favourite = $favouriteManager->toggle($user, $entry);
+        $favouriteToggle = $this->getService(FavouriteToggle::class);
+        $favourite = $favouriteToggle($user, $entry);
 
         $voteUp = $this->getService(VoteUp::class);
         $vote = $voteUp($entry, $user);
