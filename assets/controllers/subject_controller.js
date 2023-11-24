@@ -433,7 +433,7 @@ export default class extends Controller {
     }
 
     handleSpoilers() {
-        const regexp = /(?<!\S)(:::|<p>:::)\s+spoiler\s+(?<title>[^\n]+)\n(?<body>.*(?:.*\n)+?)(:::(?:<br\/>|<\/p>)?|$)/gm;
+        const regexp = /(\s|^)(:::|<p>:::)\s+spoiler\s+([^\n]+)\n((?:.*(?:.*\n)+?))(:::(?:<br\/>|<\/p>)?|$)/gm;
         let content = this.element.querySelector('.content');
         if (!content) {
             return;
@@ -443,10 +443,11 @@ export default class extends Controller {
 
         let matches;
         while ((matches = regexp.exec(content)) !== null) {
-            const title = matches.groups.title.trim();
-            const body = matches.groups.body.trim();
+            const prefix = matches[1];
+            const title = matches[3].trim();
+            const body = matches[4].trim();
 
-            const replacement = `<details><summary>${title}</summary>${body}</details>`;
+            const replacement = `${prefix}<details><summary>${title}</summary>${body}</details>`;
             content = content.replace(matches[0], replacement);
         }
 

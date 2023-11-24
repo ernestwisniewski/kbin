@@ -11,9 +11,8 @@ namespace App\Markdown\Listener;
 use App\Markdown\Event\ConvertMarkdown;
 use League\CommonMark\Output\RenderedContent;
 use League\CommonMark\Output\RenderedContentInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class SpoilerMarkdownListener //@todo move to ap response
+final class SpoilerMarkdownListener // @todo move to ap response
 {
     public static function getSubscribedEvents(): array
     {

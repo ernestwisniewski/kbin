@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import {Controller, ActionEvent} from '@hotwired/stimulus';
+import {ActionEvent, Controller} from '@hotwired/stimulus';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -14,11 +14,13 @@ export default class extends Controller {
     connect() {
         const activeTabFragment = window.location.hash;
 
-        if (activeTabFragment) {
-            this.actionsTarget.querySelector(`a[href="${activeTabFragment}"]`).classList.add('active');
-
-            this.activeTabValue = activeTabFragment.substring(1);
+        if (!activeTabFragment || !['#federation', '#settings'].includes(activeTabFragment)) {
+            return;
         }
+
+        this.actionsTarget.querySelector(`a[href="${activeTabFragment}"]`).classList.add('active');
+
+        this.activeTabValue = activeTabFragment.substring(1);
     }
 
     /** @param {ActionEvent} e */
