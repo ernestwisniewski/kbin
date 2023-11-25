@@ -317,7 +317,7 @@ figure {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .select div {

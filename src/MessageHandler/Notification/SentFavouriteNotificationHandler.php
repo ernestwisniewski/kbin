@@ -53,7 +53,6 @@ class SentFavouriteNotificationHandler
 
             $this->publisher->publish($update);
         } catch (\Exception $e) {
-            dd($e);
         }
     }
 

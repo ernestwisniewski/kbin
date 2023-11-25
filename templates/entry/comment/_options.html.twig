@@ -1,40 +1,44 @@
 <aside class="options" id="options">
     {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::ENTRY_COMMENTS_VIEW')) is not same as constant('App\\Controller\\User\\ThemeSettingsController::CHAT') %}
-    <div></div>
-    <menu class="options__main">
-        <li>
-            <a href="{{ options_url('sortBy', 'top') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'top')}) }}">
-                {{ 'top'|trans|lower }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ options_url('sortBy', 'hot') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'hot')}) }}">
-                {{ 'hot'|trans|lower }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ options_url('sortBy', 'active') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'active')}) }}">
-                {{ 'active'|trans|lower }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ options_url('sortBy', 'newest') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'newest')}) }}">
-                {{ 'newest'|trans|lower }}
-            </a>
-        </li>
-        <li>
-            <a href="{{ options_url('sortBy', 'oldest') }}"
-               class="{{ html_classes({'active': route_has_param('sortBy', 'oldest')}) }}">
-                {{ 'oldest'|trans|lower }}
-            </a>
-        </li>
-    </menu>
+        <div></div>
+        <menu class="options__main">
+            <li>
+                <a href="{{ options_url('sortBy', 'top') }}"
+                   class="{{ html_classes({'active': route_has_param('sortBy', 'top')}) }}">
+                    {{ 'top'|trans|lower }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ options_url('sortBy', 'hot') }}"
+                   class="{{ html_classes({'active': route_has_param('sortBy', 'hot')}) }}">
+                    {{ 'hot'|trans|lower }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ options_url('sortBy', 'active') }}"
+                   class="{{ html_classes({'active': route_has_param('sortBy', 'active')}) }}">
+                    {{ 'active'|trans|lower }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ options_url('sortBy', 'newest') }}"
+                   class="{{ html_classes({'active': route_has_param('sortBy', 'newest')}) }}">
+                    {{ 'newest'|trans|lower }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ options_url('sortBy', 'oldest') }}"
+                   class="{{ html_classes({'active': route_has_param('sortBy', 'oldest')}) }}">
+                    {{ 'oldest'|trans|lower }}
+                </a>
+            </li>
+        </menu>
     {% else %}
-        <div class="options__title"><h2>{{ 'comments'|trans }} ({{ entry.commentCount }})</h2></div>
+        {% if entry is defined %}
+            <div class="options__title"><h2>{{ 'comments'|trans }} ({{ entry.commentCount }})</h2></div>
+        {% else %}
+            <div></div>
+        {% endif %}
     {% endif %}
     <menu class="options__layout">
         <li class="dropdown">

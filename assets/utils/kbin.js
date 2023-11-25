@@ -33,6 +33,6 @@ export function getTypeFromNotification(data) {
 }
 
 export function getLevel(element) {
-    let level = parseInt(element.className.replace('comment-level--1', '').split('--')[1]);
+    let level = parseInt(element.className.split('--')[1]);
     return isNaN(level) ? 1 : level;
 }

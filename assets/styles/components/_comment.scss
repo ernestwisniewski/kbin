@@ -44,7 +44,7 @@ $comment-margin-sm: .3rem;
 
   &:hover,
   &:focus-visible {
-    z-index: 3;
+    z-index: 5;
   }
 
   header {
@@ -86,9 +86,12 @@ $comment-margin-sm: .3rem;
     grid-area: avatar;
     display: none;
     margin: 0;
-   
 
-    img{
+    a {
+      display: flex;
+    }
+
+    img {
       width: 30px;
       height: 30px;
     }
@@ -142,6 +145,7 @@ $comment-margin-sm: .3rem;
   }
 
   footer {
+    position: relative;
     color: var(--kbin-meta-text-color);
     font-size: .75rem;
     font-weight: 300;
@@ -232,8 +236,17 @@ $comment-margin-sm: .3rem;
 }
 
 .show-comment-avatar {
-  .comment>figure {
+  .comment > figure {
     display: block;
+  }
+
+  .comment-wrap {
+    @include media-breakpoint-up(md) {
+      padding: 1rem 1rem 1rem 1.4rem !important;
+      position: absolute !important;
+      top: -0.5rem;
+      left: -3.5rem;
+    }
   }
 }
 

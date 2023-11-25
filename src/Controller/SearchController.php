@@ -70,7 +70,6 @@ class SearchController extends AbstractController
                         ];
                     }
                 } catch (\Exception $e) {
-                    dd($e);
                 }
             }
         }
