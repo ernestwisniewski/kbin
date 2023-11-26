@@ -12,15 +12,20 @@ use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Factory\ActivityPub\PostNoteFactory;
+use App\Kbin\SpamProtection\Exception\SpamProtectionVerificationFailed;
+use App\Kbin\SpamProtection\SpamProtectionCheck;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PostController extends AbstractController
 {
-    public function __construct(private readonly PostNoteFactory $postNoteFactory)
-    {
+    public function __construct(
+        private readonly PostNoteFactory $postNoteFactory,
+        private readonly SpamProtectionCheck $spamProtectionCheck
+    ) {
     }
 
     public function __invoke(
@@ -32,6 +37,12 @@ class PostController extends AbstractController
     ): Response {
         if ($post->apId) {
             return $this->redirect($post->apId);
+        }
+
+        try {
+            ($this->spamProtectionCheck)($post->user);
+        } catch (SpamProtectionVerificationFailed $e) {
+            throw new AccessDeniedHttpException();
         }
 
         $response = new JsonResponse($this->postNoteFactory->create($post, true));

@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 namespace App\MessageHandler\ActivityPub\Outbox;
 
-use App\Kbin\User\UserReputationGet;
+use App\Kbin\SpamProtection\Exception\SpamProtectionVerificationFailed;
+use App\Kbin\SpamProtection\SpamProtectionCheck;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeliverMessage;
 use App\Repository\MagazineRepository;
@@ -31,7 +32,7 @@ class CreateHandler
         private readonly EntityManagerInterface $entityManager,
         private readonly ActivityPubManager $activityPubManager,
         private readonly SettingsManager $settingsManager,
-        private readonly UserReputationGet $userReputationGet
+        private readonly SpamProtectionCheck $spamProtectionCheck
     ) {
     }
 
@@ -43,10 +44,10 @@ class CreateHandler
 
         $entity = $this->entityManager->getRepository($message->type)->find($message->id);
 
-        if ($this->settingsManager->get('KBIN_SPAM_PROTECTION')) {
-            if (($this->userReputationGet)($entity->user) < 8 && $entity->user->spamProtection) {
-                return;
-            }
+        try {
+            ($this->spamProtectionCheck)($entity->user);
+        } catch (SpamProtectionVerificationFailed $e) {
+            return;
         }
 
         $activity = $this->createWrapper->build($entity);

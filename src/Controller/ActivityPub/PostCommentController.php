@@ -14,17 +14,22 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Factory\ActivityPub\PostCommentNoteFactory;
+use App\Kbin\SpamProtection\Exception\SpamProtectionVerificationFailed;
+use App\Kbin\SpamProtection\SpamProtectionCheck;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PostCommentController extends AbstractController
 {
     use PrivateContentTrait;
 
-    public function __construct(private readonly PostCommentNoteFactory $commentNoteFactory)
-    {
+    public function __construct(
+        private readonly PostCommentNoteFactory $commentNoteFactory,
+        private readonly SpamProtectionCheck $spamProtectionCheck
+    ) {
     }
 
     public function __invoke(
@@ -38,6 +43,12 @@ class PostCommentController extends AbstractController
     ): Response {
         if ($comment->apId) {
             return $this->redirect($comment->apId);
+        }
+
+        try {
+            ($this->spamProtectionCheck)($comment->user);
+        } catch (SpamProtectionVerificationFailed $e) {
+            throw new AccessDeniedHttpException();
         }
 
         $this->handlePrivateContent($post);

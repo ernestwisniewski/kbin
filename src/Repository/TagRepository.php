@@ -13,18 +13,21 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Kbin\Pagination\KbinUnionPagerfanta;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class TagRepository
 {
     public const PER_PAGE = 25;
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private CacheInterface $cache)
     {
     }
 
@@ -46,38 +49,34 @@ class TagRepository
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
         $stmt = $stmt->executeQuery();
 
-        $pagerfanta = new Pagerfanta(
-            new ArrayAdapter(
-                $stmt->fetchAllAssociative()
-            )
-        );
+        $result = $this->cache->get('tag_'.$tag, function (ItemInterface $item) use ($stmt) {
+            $item->expiresAfter(60);
 
-        $countAll = $pagerfanta->count();
+            return json_encode($stmt->fetchAllAssociative());
+        });
 
-        try {
-            $pagerfanta->setMaxPerPage(20000);
-            $pagerfanta->setCurrentPage(1);
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
+        $result = json_decode($result, true);
 
-        $result = $pagerfanta->getCurrentPageResults();
+        $countAll = \count($result);
+
+        $startIndex = ($page - 1) * self::PER_PAGE;
+        $result = \array_slice($result, $startIndex, self::PER_PAGE);
 
         $entries = $this->entityManager->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+            ['id' => $this->getOverviewIds($result, 'entry')]
         );
         $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
+            ['id' => $this->getOverviewIds($result, 'entry_comment')]
         );
         $post = $this->entityManager->getRepository(Post::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post')]
+            ['id' => $this->getOverviewIds($result, 'post')]
         );
         $postComment = $this->entityManager->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
+            ['id' => $this->getOverviewIds($result, 'post_comment')]
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -85,10 +84,16 @@ class TagRepository
             )
         );
 
+        $pagerfanta = new KbinUnionPagerfanta(
+            new ArrayAdapter(
+                $result
+            )
+        );
+
         try {
+            $pagerfanta->setNbResults($countAll);
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
@@ -98,8 +103,8 @@ class TagRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
 
-        return array_map(fn ($subject) => $subject['id'], $result);
+        return array_map(fn($subject) => $subject['id'], $result);
     }
 }
