@@ -50,7 +50,7 @@ class TagRepository
         $stmt = $stmt->executeQuery();
 
         $result = $this->cache->get('tag_'.$tag, function (ItemInterface $item) use ($stmt) {
-            $item->expiresAfter(60);
+            $item->expiresAfter(30);
 
             return json_encode($stmt->fetchAllAssociative());
         });

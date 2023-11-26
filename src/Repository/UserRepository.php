@@ -115,7 +115,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     {
         // @todo union adapter
         $result = $this->cache->get('user_'.$user->getId(), function (ItemInterface $item) use ($user) {
-            $item->expiresAfter(900);
+            $item->expiresAfter(30);
 
             return json_encode($this->getPublicActivityQuery($user)->fetchAllAssociative());
         });
