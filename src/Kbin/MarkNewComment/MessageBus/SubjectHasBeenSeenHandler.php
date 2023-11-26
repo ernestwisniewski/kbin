@@ -46,7 +46,6 @@ readonly class SubjectHasBeenSeenHandler implements AsyncMessageInterface
             $entity->lastActive = new \DateTime();
         } else {
             $entity->lastActive = new \DateTime();
-            $this->entityManager->flush();
         }
 
         $this->entityManager->persist($entity);

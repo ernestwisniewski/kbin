@@ -13,6 +13,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Kbin\MarkNewComment\MessageBus\SubjectHasBeenSeenMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 readonly class MarkNewCommentViewSubject
 {
@@ -27,7 +28,10 @@ readonly class MarkNewCommentViewSubject
         }
 
         $this->messageBus->dispatch(
-            new SubjectHasBeenSeenMessage($user->getId(), $subject->getId(), \get_class($subject))
+            new SubjectHasBeenSeenMessage($user->getId(), $subject->getId(), \get_class($subject)),
+            [
+                new DelayStamp(5000),
+            ]
         );
     }
 }

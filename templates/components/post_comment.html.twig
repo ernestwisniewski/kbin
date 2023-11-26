@@ -11,6 +11,7 @@
         <blockquote{{ attributes.defaults({
             class: html_classes('section comment post-comment subject ' ~ 'comment-level--' ~ this.getLevel(),{
                 'own': app.user and comment.isAuthor(app.user),
+                'new-comment': is_new_comment(app.user, comment),
                 'author': comment.isAuthor(comment.post.user),
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
