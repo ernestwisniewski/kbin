@@ -18,6 +18,7 @@ use App\Repository\EntryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 readonly class EntryCreateSubscriber implements EventSubscriberInterface
 {
@@ -25,7 +26,8 @@ readonly class EntryCreateSubscriber implements EventSubscriberInterface
         private MessageBusInterface $bus,
         private DomainExtract $domainExtract,
         private EntryRepository $entryRepository,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private CacheInterface $cache
     ) {
     }
 
@@ -38,6 +40,8 @@ readonly class EntryCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCreated(EntryCreatedEvent $event): void
     {
+        $this->cache->invalidateTags(['user_'.$event->entry->user->getId()]);
+
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine($event->entry->magazine);
 
         $this->entityManager->flush();

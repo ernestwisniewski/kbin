@@ -16,6 +16,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\UserFollow;
+use App\Kbin\Pagination\KbinUnionPagerfanta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\QueryBuilder;
@@ -31,6 +32,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -50,7 +53,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         self::USERS_REMOTE,
     ];
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private CacheInterface $cache)
     {
         parent::__construct($registry, User::class);
     }
@@ -111,24 +114,18 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
     {
         // @todo union adapter
-        $stmt = $this->getPublicActivityQuery($user);
+        $result = $this->cache->get('user_'.$user->getId(), function (ItemInterface $item) use ($user) {
+            $item->expiresAfter(1800);
 
-        $pagerfanta = new Pagerfanta(
-            new ArrayAdapter(
-                $stmt->fetchAllAssociative()
-            )
-        );
+            return json_encode($this->getPublicActivityQuery($user)->fetchAllAssociative());
+        });
 
-        $countAll = $pagerfanta->count();
+        $result = json_decode($result, true);
 
-        try {
-            $pagerfanta->setMaxPerPage(20000);
-            $pagerfanta->setCurrentPage(1);
-        } catch (NotValidCurrentPageException $e) {
-            throw new NotFoundHttpException();
-        }
+        $countAll = \count($result);
 
-        $result = $pagerfanta->getCurrentPageResults();
+        $startIndex = ($page - 1) * self::PER_PAGE;
+        $result = \array_slice($result, $startIndex, self::PER_PAGE);
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
             ['id' => $this->getOverviewIds((array) $result, 'entry')]
@@ -144,16 +141,16 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
-        $pagerfanta = new Pagerfanta(
+        $pagerfanta = new KbinUnionPagerfanta(
             new ArrayAdapter(
                 $result
             )
         );
 
         try {
+            $pagerfanta->setNbResults($countAll);
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($page);
-            $pagerfanta->setMaxNbPages($countAll > 0 ? ((int) ceil($countAll / self::PER_PAGE)) : 1);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }

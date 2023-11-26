@@ -43,6 +43,7 @@ class EntryDeleteSubscriber implements EventSubscriberInterface
 
         $this->cache->invalidateTags([
             'entry_'.$event->entry->getId(),
+            'user_'.$event->entry->user->getId(),
         ]);
     }
 

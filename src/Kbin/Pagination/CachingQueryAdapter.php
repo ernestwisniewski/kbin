@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pagination;
+namespace App\Kbin\Pagination;
 
 use Pagerfanta\Adapter\AdapterInterface;
 use Psr\Cache\CacheItemPoolInterface;

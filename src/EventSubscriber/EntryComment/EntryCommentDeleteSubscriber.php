@@ -37,8 +37,11 @@ class EntryCommentDeleteSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
-        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
-        $this->cache->invalidateTags(['entry'.$event->comment->entry->getId()]);
+        $this->cache->invalidateTags([
+            'entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+            'entry'.$event->comment->entry->getId(),
+            'user_'.$event->comment->user->getId(),
+        ]);
 
         $this->bus->dispatch(new EntryCommentDeletedNotificationMessage($event->comment->getId()));
     }

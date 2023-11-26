@@ -19,6 +19,7 @@ use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class PostCreateSubscriber implements EventSubscriberInterface
 {
@@ -27,7 +28,8 @@ class PostCreateSubscriber implements EventSubscriberInterface
         private readonly MagazineRepository $magazineRepository,
         private readonly PostRepository $postRepository,
         private readonly PostMagazineChange $postMagazineChange,
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
+        private readonly CacheInterface $cache
     ) {
     }
 
@@ -40,6 +42,8 @@ class PostCreateSubscriber implements EventSubscriberInterface
 
     public function onPostCreated(PostCreatedEvent $event): void
     {
+        $this->cache->invalidateTags(['user_'.$event->post->user->getId()]);
+
         $event->post->magazine->postCount = $this->postRepository->countPostsByMagazine($event->post->magazine);
 
         $this->entityManager->flush();

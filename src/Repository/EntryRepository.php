@@ -23,7 +23,7 @@ use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
 use App\Kbin\Entry\EntryPageView;
-use App\Pagination\AdapterFactory;
+use App\Kbin\Pagination\AdapterFactory;
 use App\Repository\Contract\TagRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\ArrayParameterType;

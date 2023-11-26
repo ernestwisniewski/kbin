@@ -241,7 +241,7 @@ $comment-margin-sm: .3rem;
   }
 
   .comment-wrap {
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(sm) {
       padding: 1rem 1rem 1rem 1.4rem !important;
       position: absolute !important;
       top: -0.5rem;

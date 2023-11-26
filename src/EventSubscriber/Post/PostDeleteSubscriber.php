@@ -43,6 +43,7 @@ class PostDeleteSubscriber implements EventSubscriberInterface
 
         $this->cache->invalidateTags([
             'post_'.$event->post->getId(),
+            'user_'.$event->post->user->getId(),
         ]);
     }
 

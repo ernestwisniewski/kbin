@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Pagination;
+namespace App\Kbin\Pagination;
 
 use Pagerfanta\Adapter\AdapterInterface;
 use Pagerfanta\Exception\LessThan1CurrentPageException;
@@ -22,7 +22,7 @@ use Pagerfanta\PagerfantaInterface;
  *
  * @implements PagerfantaInterface<T>
  */
-class Pagerfanta implements PagerfantaInterface, \JsonSerializable
+class KbinUnionPagerfanta implements PagerfantaInterface, \JsonSerializable
 {
     /**
      * @var AdapterInterface<T>
@@ -133,6 +133,11 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
         return $this;
     }
 
+    public function setNbResults(int $nbResults): void
+    {
+        $this->nbResults = $nbResults;
+    }
+
     private function filterMaxPerPage(int $maxPerPage): void
     {
         $this->checkMaxPerPage($maxPerPage);
@@ -169,7 +174,8 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
      */
     public function setCurrentPage(int $currentPage): PagerfantaInterface
     {
-        $this->currentPage = $this->filterCurrentPage($currentPage);
+        $this->currentPage = $currentPage;
+        //        $this->currentPage = $this->filterCurrentPage($currentPage);
         $this->resetForCurrentPageChange();
 
         return $this;
@@ -269,7 +275,7 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
         $offset = $this->calculateOffsetForCurrentPageResults();
         $length = $this->getMaxPerPage();
 
-        return $this->getAdapter()->getSlice($offset, $length);
+        return $this->getAdapter()->getSlice(0, $length);
     }
 
     /**
@@ -352,7 +358,6 @@ class Pagerfanta implements PagerfantaInterface, \JsonSerializable
         if ($maxNbPages < 1) {
             throw new LessThan1MaxPagesException();
         }
-
         $this->maxNbPages = $maxNbPages;
 
         return $this;

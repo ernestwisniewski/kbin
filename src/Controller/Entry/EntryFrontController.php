@@ -13,7 +13,7 @@ use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\Kbin\Entry\EntryPageView;
-use App\Pagination\Pagerfanta as KbinPagerfanta;
+use App\Kbin\Pagination\KbinCustomPageResultPagination;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
@@ -351,7 +351,7 @@ class EntryFrontController extends AbstractController
             }
         }
 
-        $pagerfanta = new KbinPagerfanta($pagination->getAdapter());
+        $pagerfanta = new KbinCustomPageResultPagination($pagination->getAdapter());
         $pagerfanta->setCurrentPage($pagination->getCurrentPage());
         $pagerfanta->setMaxNbPages($pagination->getNbPages());
         $pagerfanta->setCurrentPageResults($results);

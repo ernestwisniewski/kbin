@@ -31,8 +31,11 @@ class EntryCommentCreateSubscriber implements EventSubscriberInterface
 
     public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
-        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
-        $this->cache->invalidateTags(['entry_'.$event->comment->entry->getId()]);
+        $this->cache->invalidateTags([
+            'entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+            'entry_'.$event->comment->entry->getId(),
+            'user_'.$event->comment->user->getId(),
+        ]);
 
         $this->bus->dispatch(new EntryCommentCreatedNotificationMessage($event->comment->getId()));
         if ($event->comment->body) {
