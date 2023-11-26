@@ -834,3 +834,5 @@ sub_channel: Sub Channel
 show_subscribed_users: Show subscribed users
 show_subscribed_magazines: Show subscribed magazines
 show_subscribed_domains: Show subscribed domains
+mark_new_comments: Mark new comments
+new_comments_count: '%count% new'

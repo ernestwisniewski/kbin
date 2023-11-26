@@ -13,6 +13,7 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
+use App\Kbin\MarkNewComment\MarkNewCommentViewSubject;
 use App\Kbin\PostComment\PostCommentPageView;
 use App\Kbin\User\DTO\UserNoteDto;
 use App\Kbin\User\Form\UserNoteType;
@@ -31,6 +32,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AjaxController extends AbstractController
 {
+    public function __construct(private MarkNewCommentViewSubject $markNewCommentViewSubject)
+    {
+    }
+
     public function fetchTitle(Embed $embed, Request $request): JsonResponse
     {
         $url = json_decode($request->getContent())->url;
@@ -144,6 +149,10 @@ class AjaxController extends AbstractController
 
     public function fetchPostComments(Post $post, PostCommentRepository $repository): JsonResponse
     {
+        if ($this->getUser()) {
+            ($this->markNewCommentViewSubject)($this->getUser(), $post);
+        }
+
         $criteria = new PostCommentPageView(1);
         $criteria->post = $post;
         $criteria->sortOption = Criteria::SORT_OLD;

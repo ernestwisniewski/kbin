@@ -262,3 +262,21 @@ aside.comments {
   margin: .5rem 0;
   padding: 0.75rem;
 }
+
+.new-comment {
+  position: relative;
+}
+
+.new-comment::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--kbin-alert-info-bg);
+  clear: both;
+  transform: rotate(225deg);
+}

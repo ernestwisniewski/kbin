@@ -146,7 +146,7 @@
                         <li>
                             <a class="stretched-link"
                                href="{{ entry_url(entry) ~ '#comments' }}">
-                                <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }}
+                                <span data-subject-target="commentsCounter">{{ entry.commentCount }}</span> {{ 'comments_count'|trans({'%count%': entry.commentCount}) }} {% if newComments > 0 %}({{ 'new_comments_count'|trans({'%count%': newComments}) }}){% endif %}
                             </a>
                         </li>
                         <li>

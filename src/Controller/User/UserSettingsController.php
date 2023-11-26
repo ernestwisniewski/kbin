@@ -20,6 +20,7 @@ class UserSettingsController extends AbstractController
     public const KBIN_SUB_CHANNEL_USERS = 'showSubscribedUsers';
     public const KBIN_SUB_CHANNEL_MAGAZINES = 'showSubscribedMagazines';
     public const KBIN_SUB_CHANNEL_DOMAINS = 'showSubscribedDomains';
+    public const KBIN_MARK_NEW_COMMENTS = 'markNewComments';
 
     public const TRUE = 'true';
     public const FALSE = 'false';
@@ -28,6 +29,7 @@ class UserSettingsController extends AbstractController
         self::KBIN_SUB_CHANNEL_USERS,
         self::KBIN_SUB_CHANNEL_MAGAZINES,
         self::KBIN_SUB_CHANNEL_DOMAINS,
+        self::KBIN_MARK_NEW_COMMENTS,
     ];
 
     public const VALUES = [

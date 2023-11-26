@@ -11,6 +11,7 @@ namespace App\Twig\Components;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
+use App\Kbin\MarkNewComment\MarkNewCommentCount;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -26,6 +27,7 @@ final class EntryComponent
 {
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly MarkNewCommentCount $markNewCommentCount,
         private readonly CacheInterface $cache,
         private readonly Environment $twig,
         private readonly RequestStack $requestStack,
@@ -39,11 +41,13 @@ final class EntryComponent
     public bool $showBody = false;
     public bool $showMagazineName = true;
     public bool $canSeeTrash = false;
+    public int $newComments = 0;
 
     #[PostMount]
     public function postMount(array $attr): array
     {
         $this->canSeeTrashed();
+        $this->countNewComments();
 
         if ($this->isSingle) {
             $this->showMagazineName = false;
@@ -64,18 +68,29 @@ final class EntryComponent
         $key .= $this->canSeeTrash.$this->entry->getId().'_'.$this->security->getUser()?->getId().'_';
         $key .= $this->canSeeTrashed().'_'.$this->entry->cross.'_';
         $key .= $this->requestStack->getCurrentRequest()?->getLocale().'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+            ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
+        ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+            ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW
+        ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+            ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS
+        ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+            ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS
+        ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+            ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
+        ).'_';
 
         return $this->cache->get(
             'entry_'.hash('sha256', $key),
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(1800);
+                $item->expiresAfter(900);
 
                 $item->tag('entry_'.$this->entry->getId());
+                $item->tag('user_view_'.$this->security->getUser()?->getId());
 
                 return $this->twig->render(
                     'components/entry.html.twig',
@@ -87,6 +102,7 @@ final class EntryComponent
                         'showBody' => $this->showBody,
                         'showMagazineName' => $this->showMagazineName,
                         'canSeeTrashed' => $this->canSeeTrashed(),
+                        'newComments' => $this->newComments,
                     ]
                 );
             }
@@ -113,5 +129,16 @@ final class EntryComponent
         $this->entry->image = null;
 
         return false;
+    }
+
+    private function countNewComments(): void
+    {
+        $user = $this->security->getUser();
+
+        if (!$user || !$user->markNewComments) {
+            return;
+        }
+
+        $this->newComments = ($this->markNewCommentCount)($user, $this->entry);
     }
 }

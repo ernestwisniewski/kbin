@@ -17,6 +17,7 @@ use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\Form\EntryCommentType;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentPageView;
+use App\Kbin\MarkNewComment\MarkNewCommentViewSubject;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Service\MentionManager;
@@ -31,15 +32,20 @@ class EntrySingleController extends AbstractController
 {
     use PrivateContentTrait;
 
+    public function __construct(
+        private EntryCommentRepository $repository,
+        private EventDispatcherInterface $dispatcher,
+        private MentionManager $mentionManager,
+        private MarkNewCommentViewSubject $markNewCommentViewSubject
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
         #[MapEntity(id: 'entry_id')]
         Entry $entry,
         ?string $sortBy,
-        EntryCommentRepository $repository,
-        EventDispatcherInterface $dispatcher,
-        MentionManager $mentionManager,
         Request $request
     ): Response {
         if ($entry->magazine !== $magazine) {
@@ -57,6 +63,10 @@ class EntrySingleController extends AbstractController
 
         $this->handlePrivateContent($entry);
 
+        if ($this->getUser()) {
+            ($this->markNewCommentViewSubject)($this->getUser(), $entry);
+        }
+
         $criteria = new EntryCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->entry = $entry;
@@ -69,9 +79,9 @@ class EntrySingleController extends AbstractController
             $criteria->onlyParents = false;
         }
 
-        $comments = $repository->findByCriteria($criteria);
+        $comments = $this->repository->findByCriteria($criteria);
 
-        $dispatcher->dispatch(new EntryHasBeenSeenEvent($entry));
+        $this->dispatcher->dispatch(new EntryHasBeenSeenEvent($entry));
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine, $entry, $comments);
@@ -79,7 +89,7 @@ class EntrySingleController extends AbstractController
 
         $dto = new EntryCommentDto();
         if ($this->getUser() && $this->getUser()->addMentionsEntries && $entry->user !== $this->getUser()) {
-            $dto->body = $mentionManager->addHandle([$entry->user->username])[0];
+            $dto->body = $this->mentionManager->addHandle([$entry->user->username])[0];
         }
 
         return $this->render(

@@ -50,6 +50,11 @@ class UserSettingsType extends AbstractType
                 CheckboxType::class,
                 ['required' => false]
             )
+            ->add(
+                'markNewComments',
+                CheckboxType::class,
+                ['required' => false]
+            )
             ->add('homepage', ChoiceType::class, [
                     'autocomplete' => true,
                     'choices' => [

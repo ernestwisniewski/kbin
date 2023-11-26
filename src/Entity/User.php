@@ -121,6 +121,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public bool $showProfileSubscriptions = false;
     #[Column(type: 'boolean', options: ['default' => true])]
     public bool $showProfileFollowings = true;
+    #[Column(type: 'boolean', options: ['default' => false])]
+    public bool $markNewComments = false;
     #[Column(type: 'boolean')]
     public bool $notifyOnNewEntry = false;
     #[Column(type: 'boolean')]

@@ -119,6 +119,7 @@ trait FactoryTrait
         $user->notifyOnNewPostReply = true;
         $user->notifyOnNewPostCommentReply = true;
         $user->showProfileFollowings = true;
+        $user->markNewComments = false;
         $user->showProfileSubscriptions = true;
         $user->hideAdult = $hideAdult;
         $user->showSubscribedUsers = true;

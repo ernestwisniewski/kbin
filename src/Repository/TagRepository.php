@@ -76,7 +76,7 @@ class TagRepository
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
-        uasort($result, fn($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
         $pagerfanta = new Pagerfanta(
             new ArrayAdapter(
@@ -103,8 +103,8 @@ class TagRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 }

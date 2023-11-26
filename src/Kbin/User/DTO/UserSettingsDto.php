@@ -27,6 +27,7 @@ class UserSettingsDto implements \JsonSerializable
         public ?bool $showSubscribedDomains = null,
         public ?bool $showProfileSubscriptions = null,
         public ?bool $showProfileFollowings = null,
+        public ?bool $markNewComments = null,
         public ?bool $addMentionsEntries = null,
         public ?bool $addMentionsPosts = null,
         #[OA\Property(type: 'string', enum: User::HOMEPAGE_OPTIONS)]
@@ -55,6 +56,7 @@ class UserSettingsDto implements \JsonSerializable
             'showSubscribedDomains' => $this->showSubscribedDomains,
             'showProfileSubscriptions' => $this->showProfileSubscriptions,
             'showProfileFollowings' => $this->showProfileFollowings,
+            'markNewComments' => $this->markNewComments,
             'addMentionsEntries' => $this->addMentionsEntries,
             'addMentionsPosts' => $this->addMentionsPosts,
             'homepage' => $this->homepage,
@@ -79,6 +81,7 @@ class UserSettingsDto implements \JsonSerializable
         $dto->showSubscribedDomains = $this->showSubscribedDomains ?? $dto->showSubscribedDomains;
         $dto->showProfileSubscriptions = $this->showProfileSubscriptions ?? $dto->showProfileSubscriptions;
         $dto->showProfileFollowings = $this->showProfileFollowings ?? $dto->showProfileFollowings;
+        $dto->markNewComments = $this->markNewComments ?? $dto->markNewComments;
         $dto->addMentionsEntries = $this->addMentionsEntries ?? $dto->addMentionsEntries;
         $dto->addMentionsPosts = $this->addMentionsPosts ?? $dto->addMentionsPosts;
         $dto->homepage = $this->homepage ?? $dto->homepage;

@@ -23,6 +23,7 @@ class UserRetrieveApiTest extends WebTestCase
         'showSubscribedDomains',
         'showProfileSubscriptions',
         'showProfileFollowings',
+        'markNewComments',
         'addMentionsEntries',
         'addMentionsPosts',
         'homepage',

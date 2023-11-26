@@ -77,7 +77,7 @@
                                 <a class="stretched-link"
                                    href="#{{ get_url_fragment(post) }}"
                                    data-action="post#expandComments">{{ 'expand'|trans|lower }} (<span
-                                            data-subject-target="commentsCounter">{{ post.commentCount }}</span>)</a>
+                                            data-subject-target="commentsCounter">{{ post.commentCount }}</span>) {% if newComments > 2 %}({{ 'new_comments_count'|trans({'%count%': newComments}) }}){% endif %}</a>
                             </li>
                             <li data-post-target="collapse"
                                 style="display: none">

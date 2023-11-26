@@ -33,6 +33,7 @@ readonly class UserSettingsManager
             $user->showSubscribedDomains,
             $user->showProfileSubscriptions,
             $user->showProfileFollowings,
+            $user->markNewComments,
             $user->addMentionsEntries,
             $user->addMentionsPosts,
             $user->homepage,
@@ -58,6 +59,7 @@ readonly class UserSettingsManager
         $user->showSubscribedDomains = $dto->showSubscribedDomains;
         $user->showProfileSubscriptions = $dto->showProfileSubscriptions;
         $user->showProfileFollowings = $dto->showProfileFollowings;
+        $user->markNewComments = $dto->markNewComments;
         $user->addMentionsEntries = $dto->addMentionsEntries;
         $user->addMentionsPosts = $dto->addMentionsPosts;
         $user->featuredMagazines = $dto->featuredMagazines ? array_unique($dto->featuredMagazines) : null;

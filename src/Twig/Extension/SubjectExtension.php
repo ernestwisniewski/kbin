@@ -13,11 +13,46 @@ use App\Entity\EntryComment;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Entity\User;
+use App\Kbin\MarkNewComment\MarkNewCommentLastSeen;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Twig\TwigTest;
 
 class SubjectExtension extends AbstractExtension
 {
+    public function __construct(private MarkNewCommentLastSeen $markNewCommentLastSeen)
+    {
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('is_new_comment', [$this, 'isNewComment']),
+        ];
+    }
+
+    public function isNewComment(?User $user, EntryComment|PostComment $subject): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        $parent = $subject->getParentSubject();
+
+        $lastSeen = ($this->markNewCommentLastSeen)($user, $parent);
+
+        if (null === $lastSeen) {
+            return false;
+        }
+
+        if ($lastSeen < $subject->createdAt) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getTests(): array
     {
         return [

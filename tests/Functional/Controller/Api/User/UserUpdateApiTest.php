@@ -96,6 +96,7 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
+            false,
             User::HOMEPAGE_MOD,
             ['test'],
             ['en']
@@ -132,6 +133,7 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
+            false,
             User::HOMEPAGE_MOD,
             ['test'],
             ['en']
@@ -161,6 +163,7 @@ class UserUpdateApiTest extends WebTestCase
         self::assertTrue($jsonData['showSubscribedDomains']);
         self::assertFalse($jsonData['showProfileSubscriptions']);
         self::assertFalse($jsonData['showProfileFollowings']);
+        self::assertFalse($jsonData['markNewComments']);
         self::assertFalse($jsonData['addMentionsEntries']);
         self::assertFalse($jsonData['addMentionsPosts']);
         self::assertEquals(User::HOMEPAGE_MOD, $jsonData['homepage']);
@@ -187,6 +190,7 @@ class UserUpdateApiTest extends WebTestCase
         self::assertTrue($jsonData['showSubscribedDomains']);
         self::assertFalse($jsonData['showProfileSubscriptions']);
         self::assertFalse($jsonData['showProfileFollowings']);
+        self::assertFalse($jsonData['markNewComments']);
         self::assertFalse($jsonData['addMentionsEntries']);
         self::assertFalse($jsonData['addMentionsPosts']);
         self::assertEquals(User::HOMEPAGE_MOD, $jsonData['homepage']);

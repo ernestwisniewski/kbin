@@ -14,6 +14,7 @@ use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Event\Post\PostHasBeenSeenEvent;
+use App\Kbin\MarkNewComment\MarkNewCommentViewSubject;
 use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\Form\PostCommentType;
 use App\Kbin\PostComment\PostCommentPageView;
@@ -31,15 +32,20 @@ class PostSingleController extends AbstractController
 {
     use PrivateContentTrait;
 
+    public function __construct(
+        private PostCommentRepository $repository,
+        private EventDispatcherInterface $dispatcher,
+        private MentionManager $mentionManager,
+        private MarkNewCommentViewSubject $markNewCommentViewSubject,
+    ) {
+    }
+
     public function __invoke(
         #[MapEntity(mapping: ['magazine_name' => 'name'])]
         Magazine $magazine,
         #[MapEntity(id: 'post_id')]
         Post $post,
         ?string $sortBy,
-        PostCommentRepository $repository,
-        EventDispatcherInterface $dispatcher,
-        MentionManager $mentionManager,
         Request $request
     ): Response {
         if ($post->magazine !== $magazine) {
@@ -57,6 +63,10 @@ class PostSingleController extends AbstractController
 
         $this->handlePrivateContent($post);
 
+        if ($this->getUser()) {
+            ($this->markNewCommentViewSubject)($this->getUser(), $post);
+        }
+
         $criteria = new PostCommentPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy));
         $criteria->post = $post;
@@ -71,9 +81,9 @@ class PostSingleController extends AbstractController
             $criteria->onlyParents = false;
         }
 
-        $comments = $repository->findByCriteria($criteria);
+        $comments = $this->repository->findByCriteria($criteria);
 
-        $dispatcher->dispatch(new PostHasBeenSeenEvent($post));
+        $this->dispatcher->dispatch(new PostHasBeenSeenEvent($post));
 
         if ($request->isXmlHttpRequest()) {
             return $this->getJsonResponse($magazine, $post, $comments);
@@ -81,7 +91,7 @@ class PostSingleController extends AbstractController
 
         $dto = new PostCommentDto();
         if ($this->getUser() && $this->getUser()->addMentionsPosts && $post->user !== $this->getUser()) {
-            $dto->body = $mentionManager->addHandle([$post->user->username])[0];
+            $dto->body = $this->mentionManager->addHandle([$post->user->username])[0];
         }
 
         return $this->render(
