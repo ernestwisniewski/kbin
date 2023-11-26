@@ -409,9 +409,10 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         return array_values($this->tags ?? []);
     }
 
-    public function countCommentsNewestThan(\DateTime $time): int
+    public function countCommentsNewestThan(\DateTime $time, User $excludedUser): int
     {
         $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->neq('user', $excludedUser))
             ->andWhere(Criteria::expr()->gt('createdAt', \DateTimeImmutable::createFromMutable($time)));
 
         return $this->comments->matching($criteria)->count();

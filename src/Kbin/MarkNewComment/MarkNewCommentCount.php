@@ -36,6 +36,6 @@ readonly class MarkNewCommentCount
             return 0;
         }
 
-        return $subject->countCommentsNewestThan($entity->lastActive);
+        return $subject->countCommentsNewestThan($entity->lastActive, $user);
     }
 }
