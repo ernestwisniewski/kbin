@@ -41,6 +41,7 @@ final class PostCommentsPreviewComponent
                 $item->expiresAfter(3600);
                 $item->tag(['post_comments_user_'.$userId]);
                 $item->tag(['post_'.$postId]);
+                $item->tag(['user_view_'.$userId]);
 
                 return $this->twig->render(
                     'components/post_comments_preview.html.twig',

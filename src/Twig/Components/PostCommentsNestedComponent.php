@@ -47,6 +47,7 @@ final class PostCommentsNestedComponent
                 $item->tag(['post_comments_user_'.$userId]);
                 $item->tag(['post_comment_'.$commentId]);
                 $item->tag(['post_'.$postId]);
+                $item->tag(['user_view_'.$userId]);
 
                 return $this->twig->render(
                     'components/post_comments_nested.html.twig',

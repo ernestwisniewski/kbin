@@ -5,9 +5,11 @@
             Private
         </div>
     {% else %}
+        {{ dump(newComments) }}
         <blockquote{{ attributes.defaults({
             class: html_classes('section post subject ', {
                 'own': app.user and post.isAuthor(app.user),
+                'new-comment': newComments > 0,
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="post-{{ post.id }}"

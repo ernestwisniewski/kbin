@@ -11,6 +11,7 @@
             class: html_classes('entry section subject', {
                 'no-image': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS')) is same as 'false',
                 'own': app.user and entry.isAuthor(app.user),
+                'new-comment': newComments > 0,
                 'show-preview': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW')) is same as 'true'
             })}).without('id') }}
                 id="entry-{{ entry.id }}"

@@ -44,6 +44,7 @@ final class EntryCommentsNestedComponent
                 $item->expiresAfter(3600);
                 $item->tag(['entry_comments_user_'.$userId]);
                 $item->tag(['entry_comment_'.$commentId]);
+                $item->tag(['user_view_'.$userId]);
 
                 return $this->twig->render(
                     'components/entry_comments_nested.html.twig',
