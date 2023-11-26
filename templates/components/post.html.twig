@@ -5,7 +5,6 @@
             Private
         </div>
     {% else %}
-        {{ dump(newComments) }}
         <blockquote{{ attributes.defaults({
             class: html_classes('section post subject ', {
                 'own': app.user and post.isAuthor(app.user),
