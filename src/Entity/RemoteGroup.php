@@ -11,7 +11,7 @@ namespace App\Entity;
 use App\Repository\RemoteInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RemoteInstanceRepository::class)]
+#[ORM\Entity]
 class RemoteGroup
 {
     #[ORM\Id]

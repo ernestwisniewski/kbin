@@ -15,6 +15,7 @@ use App\Kbin\EntryComment\EntryCommentPageView;
 use App\Kbin\Magazine\MagazinePageView;
 use App\Kbin\Post\PostPageView;
 use App\Kbin\PostComment\PostCommentPageView;
+use App\Kbin\SubjectOverviewListCreate;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
@@ -23,14 +24,13 @@ use App\Repository\PostCommentRepository;
 use App\Repository\PostRepository;
 use App\Repository\SearchRepository;
 use App\Repository\UserRepository;
-use App\Service\SubjectOverviewManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class UserFrontController extends AbstractController
 {
-    public function __construct(private readonly SubjectOverviewManager $overviewManager)
+    public function __construct(private readonly SubjectOverviewListCreate $subjectOverviewListCreate)
     {
     }
 
@@ -47,7 +47,7 @@ class UserFrontController extends AbstractController
             'user/overview.html.twig',
             [
                 'user' => $user,
-                'results' => $this->overviewManager->buildList($activity),
+                'results' => ($this->subjectOverviewListCreate)($activity),
                 'pagination' => $activity,
             ],
             $response
@@ -277,7 +277,7 @@ class UserFrontController extends AbstractController
             'user/overview.html.twig',
             [
                 'user' => $user,
-                'results' => $this->overviewManager->buildList($activity),
+                'results' => ($this->subjectOverviewListCreate)($activity),
                 'pagination' => $activity,
             ],
             $response

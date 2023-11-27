@@ -23,7 +23,6 @@ use App\Entity\MagazineLog;
 use App\Entity\OAuth2ClientAccess;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Exception\SubjectHasBeenReportedException;
 use App\Factory\ImageFactory;
 use App\Form\Constraint\ImageConstraint;
 use App\Kbin\Entry\Factory\EntryFactory;
@@ -32,6 +31,8 @@ use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
+use App\Kbin\Report\Exception\SubjectHasBeenReportedException;
+use App\Kbin\Report\ReportCreate;
 use App\Kbin\User\DTO\UserDto;
 use App\Kbin\User\DTO\UserResponseDto;
 use App\Repository\Criteria;
@@ -39,7 +40,6 @@ use App\Repository\ImageRepository;
 use App\Repository\OAuth2ClientAccessRepository;
 use App\Schema\PaginationSchema;
 use App\Service\IpResolver;
-use App\Service\ReportManager;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Security\Authentication\Token\OAuth2Token;
 use Pagerfanta\Pagerfanta;
@@ -77,7 +77,7 @@ class BaseApi extends AbstractController
         protected readonly MagazineFactory $magazineFactory,
         protected readonly RequestStack $request,
         private readonly ImageRepository $imageRepository,
-        private readonly ReportManager $reportManager,
+        private readonly ReportCreate $reportCreate,
         private readonly OAuth2ClientAccessRepository $clientAccessRepository,
     ) {
     }
@@ -367,7 +367,7 @@ class BaseApi extends AbstractController
         $reportDto = ReportDto::create($reportable, $dto->reason);
 
         try {
-            $this->reportManager->report($reportDto, $this->getUserOrThrow());
+            ($this->reportCreate)($reportDto, $this->getUserOrThrow());
         } catch (SubjectHasBeenReportedException $e) {
             // Do nothing
         }

@@ -11,8 +11,8 @@ namespace App\Entity;
 use App\Repository\RemoteInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RemoteInstanceRepository::class)]
-class RemoteActor
+#[ORM\Entity]
+class RemotePerson
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

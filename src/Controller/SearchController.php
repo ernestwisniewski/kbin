@@ -10,12 +10,12 @@ namespace App\Controller;
 
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\SubjectOverviewListCreate;
 use App\Message\ActivityPub\Inbox\ActivityMessage;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SearchManager;
 use App\Service\SettingsManager;
-use App\Service\SubjectOverviewManager;
 use App\Utils\RegPatterns;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class SearchController extends AbstractController
         private readonly ActivityPubManager $activityPubManager,
         private readonly MessageBusInterface $bus,
         private readonly ApHttpClient $apHttpClient,
-        private readonly SubjectOverviewManager $overviewManager,
+        private readonly SubjectOverviewListCreate $subjectOverviewListCreate,
         private readonly SettingsManager $settingsManager
     ) {
     }
@@ -49,7 +49,9 @@ class SearchController extends AbstractController
         }
 
         $objects = [];
-        if (str_contains($query, '@') && (!$this->settingsManager->get('KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN') || $this->getUser())) {
+        if (str_contains($query, '@') && (!$this->settingsManager->get(
+            'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN'
+        ) || $this->getUser())) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
             preg_match(RegPatterns::AP_USER, $name, $matches);
             if (\count(array_filter($matches)) >= 4) {
@@ -88,7 +90,7 @@ class SearchController extends AbstractController
             'search/front.html.twig',
             [
                 'objects' => $objects,
-                'results' => $this->overviewManager->buildList($res),
+                'results' => ($this->subjectOverviewListCreate)($res),
                 'pagination' => $res,
                 'q' => $request->query->get('q'),
             ]

@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
+use App\Kbin\SubjectOverviewListCreate;
 use App\Repository\TagRepository;
-use App\Service\SubjectOverviewManager;
 use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ class TagOverviewController extends AbstractController
     public function __construct(
         private readonly TagManager $tagManager,
         private readonly TagRepository $tagRepository,
-        private readonly SubjectOverviewManager $overviewManager
+        private readonly SubjectOverviewListCreate $subjectOverviewListCreate
     ) {
     }
 
@@ -35,7 +35,7 @@ class TagOverviewController extends AbstractController
             'tag/overview.html.twig',
             [
                 'tag' => $name,
-                'results' => $this->overviewManager->buildList($activity),
+                'results' => ($this->subjectOverviewListCreate)($activity),
                 'pagination' => $activity,
             ]
         );

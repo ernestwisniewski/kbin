@@ -13,7 +13,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\ReportResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Report;
-use App\Service\ReportManager;
+use App\Kbin\Report\ReportReject;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -110,7 +110,7 @@ class MagazineReportsRejectApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'report_id')]
         Report $report,
-        ReportManager $manager,
+        ReportReject $reportReject,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
@@ -119,7 +119,7 @@ class MagazineReportsRejectApi extends MagazineBaseApi
             throw new NotFoundHttpException('Report not found in magazine');
         }
 
-        $manager->reject($report, $this->getUserOrThrow());
+        $reportReject($report, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeReport($report),

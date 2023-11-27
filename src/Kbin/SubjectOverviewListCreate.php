@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Kbin;
 
 use App\Entity\Entry;
 use App\Entity\EntryComment;
@@ -14,9 +14,9 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use Pagerfanta\PagerfantaInterface;
 
-class SubjectOverviewManager
+class SubjectOverviewListCreate
 {
-    public function buildList(PagerfantaInterface $activity): array
+    public function __invoke(PagerfantaInterface $activity): array
     {
         $postsAndEntries = array_filter(
             $activity->getCurrentPageResults(),

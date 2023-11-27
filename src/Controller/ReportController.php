@@ -10,9 +10,9 @@ namespace App\Controller;
 
 use App\DTO\ReportDto;
 use App\Entity\Contracts\ReportInterface;
-use App\Exception\SubjectHasBeenReportedException;
 use App\Form\ReportType;
-use App\Service\ReportManager;
+use App\Kbin\Report\Exception\SubjectHasBeenReportedException;
+use App\Kbin\Report\ReportCreate;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ReportController extends AbstractController
 {
     public function __construct(
-        private readonly ReportManager $manager,
+        private readonly ReportCreate $reportCreate,
         private readonly TranslatorInterface $translator
     ) {
     }
@@ -50,7 +50,8 @@ class ReportController extends AbstractController
                 'form' => $form->createView(),
                 'magazine' => $subject->magazine,
                 'subject' => $subject,
-            ], new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
+            ],
+            new Response(null, $form->isSubmitted() && !$form->isValid() ? 422 : 200)
         );
     }
 
@@ -68,7 +69,7 @@ class ReportController extends AbstractController
     private function handleReportRequest(ReportDto $dto, Request $request): Response
     {
         try {
-            $this->manager->report($dto, $this->getUserOrThrow());
+            ($this->reportCreate)($dto, $this->getUserOrThrow());
             $reportError = false;
             $responseMessage = $this->translator->trans('subject_reported');
         } catch (SubjectHasBeenReportedException $exception) {
@@ -79,7 +80,11 @@ class ReportController extends AbstractController
                 return new JsonResponse(
                     [
                         'success' => true,
-                        'html' => sprintf("<div class='alert %s'>%s</div>", ($reportError) ? 'alert__danger' : 'alert__info', $responseMessage),
+                        'html' => sprintf(
+                            "<div class='alert %s'>%s</div>",
+                            ($reportError) ? 'alert__danger' : 'alert__info',
+                            $responseMessage
+                        ),
                     ]
                 );
             }

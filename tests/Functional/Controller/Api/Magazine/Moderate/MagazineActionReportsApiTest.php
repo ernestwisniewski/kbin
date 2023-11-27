@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Controller\Api\Magazine\Moderate;
 
 use App\DTO\ReportDto;
-use App\Service\ReportManager;
+use App\Kbin\Report\ReportCreate;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;
 
@@ -17,10 +17,15 @@ class MagazineActionReportsApiTest extends WebTestCase
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('JohnDoe');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
         $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept");
 
         self::assertResponseStatusCodeSame(401);
@@ -32,10 +37,15 @@ class MagazineActionReportsApiTest extends WebTestCase
         $magazine = $this->getMagazineByName('test');
         $user = $this->getUserByUsername('JohnDoe');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
         $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject");
 
         self::assertResponseStatusCodeSame(401);
@@ -49,15 +59,24 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -70,15 +89,24 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
         $codes = self::getAuthorizationCodeTokenResponse($client);
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -91,15 +119,27 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:reports:action');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine:reports:action'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -112,15 +152,27 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test', $this->getUserByUsername('JaneDoe'));
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:reports:action');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine:reports:action'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->request('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->request(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
 
         self::assertResponseStatusCodeSame(403);
     }
@@ -133,15 +185,27 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:reports:action');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine:reports:action'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/accept",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         $consideredAt = new \DateTimeImmutable();
 
         self::assertResponseIsSuccessful();
@@ -163,8 +227,14 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::assertEquals($entry->body, $jsonData['subject']['body']);
         self::assertEquals('approved', $jsonData['status']);
         self::assertSame(1, $jsonData['weight']);
-        self::assertSame($report->createdAt->getTimestamp(), \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['createdAt'])->getTimestamp());
-        self::assertSame($consideredAt->getTimestamp(), \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['consideredAt'])->getTimestamp());
+        self::assertSame(
+            $report->createdAt->getTimestamp(),
+            \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['createdAt'])->getTimestamp()
+        );
+        self::assertSame(
+            $consideredAt->getTimestamp(),
+            \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['consideredAt'])->getTimestamp()
+        );
         self::assertNotNull($jsonData['consideredBy']);
         self::assertArrayKeysMatch(self::USER_SMALL_RESPONSE_KEYS, $jsonData['consideredBy']);
         self::assertSame($user->getId(), $jsonData['consideredBy']['userId']);
@@ -178,15 +248,27 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::createOAuth2AuthCodeClient();
         $magazine = $this->getMagazineByName('test');
         $reportedUser = $this->getUserByUsername('testuser');
-        $entry = $this->getEntryByTitle('Report test', body: 'This is gonna be reported', magazine: $magazine, user: $reportedUser);
+        $entry = $this->getEntryByTitle(
+            'Report test',
+            body: 'This is gonna be reported',
+            magazine: $magazine,
+            user: $reportedUser
+        );
 
-        $reportManager = $this->getService(ReportManager::class);
-        $report = $reportManager->report(ReportDto::create($entry, 'I don\'t like it'), $user);
+        $reportCreate = $this->getService(ReportCreate::class);
+        $report = $reportCreate(ReportDto::create($entry, 'I don\'t like it'), $user);
 
-        $codes = self::getAuthorizationCodeTokenResponse($client, scopes: 'read write moderate:magazine:reports:action');
+        $codes = self::getAuthorizationCodeTokenResponse(
+            $client,
+            scopes: 'read write moderate:magazine:reports:action'
+        );
         $token = $codes['token_type'].' '.$codes['access_token'];
 
-        $client->jsonRequest('POST', "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject", server: ['HTTP_AUTHORIZATION' => $token]);
+        $client->jsonRequest(
+            'POST',
+            "/api/moderate/magazine/{$magazine->getId()}/reports/{$report->getId()}/reject",
+            server: ['HTTP_AUTHORIZATION' => $token]
+        );
         $consideredAt = new \DateTimeImmutable();
 
         self::assertResponseIsSuccessful();
@@ -208,8 +290,14 @@ class MagazineActionReportsApiTest extends WebTestCase
         self::assertEquals($entry->body, $jsonData['subject']['body']);
         self::assertEquals('rejected', $jsonData['status']);
         self::assertSame(1, $jsonData['weight']);
-        self::assertSame($report->createdAt->getTimestamp(), \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['createdAt'])->getTimestamp());
-        self::assertSame($consideredAt->getTimestamp(), \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['consideredAt'])->getTimestamp());
+        self::assertSame(
+            $report->createdAt->getTimestamp(),
+            \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['createdAt'])->getTimestamp()
+        );
+        self::assertSame(
+            $consideredAt->getTimestamp(),
+            \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $jsonData['consideredAt'])->getTimestamp()
+        );
         self::assertNotNull($jsonData['consideredBy']);
         self::assertArrayKeysMatch(self::USER_SMALL_RESPONSE_KEYS, $jsonData['consideredBy']);
         self::assertSame($user->getId(), $jsonData['consideredBy']['userId']);

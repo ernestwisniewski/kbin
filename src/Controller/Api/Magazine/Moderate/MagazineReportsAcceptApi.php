@@ -13,8 +13,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\ReportResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Report;
-use App\Kbin\Factory\DeleteServiceFactory;
-use App\Service\ReportManager;
+use App\Kbin\Report\ReportAccept;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -111,8 +110,7 @@ class MagazineReportsAcceptApi extends MagazineBaseApi
         Magazine $magazine,
         #[MapEntity(id: 'report_id')]
         Report $report,
-        ReportManager $reportManager,
-        DeleteServiceFactory $deleteServiceFactory,
+        ReportAccept $reportAccept,
         RateLimiterFactory $apiModerateLimiter,
     ): JsonResponse {
         $headers = $this->rateLimit($apiModerateLimiter);
@@ -121,9 +119,7 @@ class MagazineReportsAcceptApi extends MagazineBaseApi
             throw new NotFoundHttpException('Report not found in magazine');
         }
 
-        $deleteService = $deleteServiceFactory->create($report->getSubject());
-
-        $deleteService($this->getUserOrThrow(), $report->getSubject());
+        $reportAccept($report, $this->getUserOrThrow());
 
         return new JsonResponse(
             $this->serializeReport($report),

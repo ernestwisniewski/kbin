@@ -11,8 +11,9 @@ namespace App\Controller\Magazine\Panel;
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
 use App\Entity\Report;
+use App\Kbin\Report\ReportAccept;
+use App\Kbin\Report\ReportReject;
 use App\Repository\MagazineRepository;
-use App\Service\ReportManager;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,8 @@ class MagazineReportController extends AbstractController
 {
     public function __construct(
         private readonly MagazineRepository $repository,
-        private readonly ReportManager $reportManager
+        private readonly ReportAccept $reportAccept,
+        private readonly ReportReject $reportReject
     ) {
     }
 
@@ -52,7 +54,7 @@ class MagazineReportController extends AbstractController
     ): Response {
         $this->validateCsrf('report_approve', $request->request->get('token'));
 
-        $this->reportManager->accept($report, $this->getUserOrThrow());
+        ($this->reportAccept)($report, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
@@ -68,7 +70,7 @@ class MagazineReportController extends AbstractController
     ): Response {
         $this->validateCsrf('report_decline', $request->request->get('token'));
 
-        $this->reportManager->reject($report, $this->getUserOrThrow());
+        ($this->reportReject)($report, $this->getUserOrThrow());
 
         return $this->redirectToRefererOrHome($request);
     }
