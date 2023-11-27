@@ -38,7 +38,7 @@ class InstanceStatsManager
         $periodDate = $period ? \DateTimeImmutable::createFromMutable(new \DateTime($period)) : null;
 
         return $this->cache->get('instance_stats', function (ItemInterface $item) use ($periodDate, $withFederated) {
-            $item->expiresAfter(0);
+            $item->expiresAfter(60);
 
             $criteria = Criteria::create();
 

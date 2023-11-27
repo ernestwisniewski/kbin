@@ -6,7 +6,7 @@ namespace App\Tests\Functional\Controller\Api\Search;
 
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
-use App\Kbin\ActivityPub\ActivityPubInstanceBrokenCreate;
+use App\Kbin\ActivityPub\ActivityPubFailedConnectionLog;
 use App\Repository\SiteRepository;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\SettingsManager;
@@ -416,7 +416,7 @@ class SearchApiTest extends WebTestCase
             $logger ?? $this->getService(LoggerInterface::class),
             $cache,
             $this->getService(SiteRepository::class),
-            $this->getService(ActivityPubInstanceBrokenCreate::class),
+            $this->getService(ActivityPubFailedConnectionLog::class),
         );
         self::getContainer()->set(ApHttpClient::class, $apHttpClient);
     }

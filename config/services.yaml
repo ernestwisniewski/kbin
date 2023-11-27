@@ -189,7 +189,7 @@ services:
       - { name: kernel.event_listener, event: kernel.controller_arguments }
 
 
-  # Feeds
+  # RSS
   debril.rss_atom.provider:
-    class: App\Feed\Provider
-    arguments: [ '@App\Service\FeedManager' ]
+    class: App\Kbin\Rss\RssProvider
+    arguments: [ '@App\Kbin\Rss\RssFeedCreate' ]

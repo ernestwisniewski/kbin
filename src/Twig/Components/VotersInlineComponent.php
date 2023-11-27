@@ -36,7 +36,7 @@ final class VotersInlineComponent
         return $this->cache->get(
             $this->cacheService->getVotersCacheKey($this->subject),
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(3600);
+                $item->expiresAfter(300);
                 /**
                  * @var Collection $votes
                  */

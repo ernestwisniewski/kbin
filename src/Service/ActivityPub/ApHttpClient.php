@@ -13,7 +13,7 @@ use App\Entity\User;
 use App\Exception\InvalidApPostException;
 use App\Factory\ActivityPub\GroupFactory;
 use App\Factory\ActivityPub\PersonFactory;
-use App\Kbin\ActivityPub\ActivityPubInstanceBrokenCreate;
+use App\Kbin\ActivityPub\ActivityPubFailedConnectionLog;
 use App\Repository\SiteRepository;
 use JetBrains\PhpStorm\ArrayShape;
 use Psr\Log\LoggerInterface;
@@ -44,7 +44,7 @@ class ApHttpClient
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
         private readonly SiteRepository $siteRepository,
-        private readonly ActivityPubInstanceBrokenCreate $activityPubInstanceBrokenCreate
+        private readonly ActivityPubFailedConnectionLog $activityPubFailedConnectionLog
     ) {
     }
 
@@ -61,7 +61,7 @@ class ApHttpClient
             ]);
 
             if (!str_starts_with((string) $r->getStatusCode(), '2')) {
-                ($this->activityPubInstanceBrokenCreate)($url, "Get fail: {$url}, ".$url.' '.$r->getContent(false));
+                ($this->activityPubFailedConnectionLog)($url, "Get fail: {$url}, ".$url.' '.$r->getContent(false));
                 throw new InvalidApPostException("Get fail: {$url}, ".$url.' '.$r->getContent(false));
             }
 
@@ -99,7 +99,7 @@ class ApHttpClient
                         'headers' => $this->getInstanceHeaders($url, null, 'get', ApRequestType::WebFinger),
                     ]);
                 } catch (\Exception $e) {
-                    ($this->activityPubInstanceBrokenCreate)($url, "WebFinger Get fail: {$url}, ".$e->getMessage());
+                    ($this->activityPubFailedConnectionLog)($url, "WebFinger Get fail: {$url}, ".$e->getMessage());
                     throw new InvalidApPostException("WebFinger Get fail: {$url}, ".$e->getMessage());
                 }
 
@@ -127,10 +127,10 @@ class ApHttpClient
                         'headers' => $this->getInstanceHeaders($apProfileId, null, 'get', ApRequestType::ActivityPub),
                     ]);
                     if (str_starts_with((string) $r->getStatusCode(), '4')) {
-                        ($this->activityPubInstanceBrokenCreate)($apProfileId, $r->getContent(false));
+                        ($this->activityPubFailedConnectionLog)($apProfileId, $r->getContent(false));
                     }
                 } catch (\Exception $e) {
-                    ($this->activityPubInstanceBrokenCreate)(
+                    ($this->activityPubFailedConnectionLog)(
                         $apProfileId,
                         "AP Get fail: {$apProfileId}, ".$e->getMessage()
                     );
@@ -166,7 +166,7 @@ class ApHttpClient
         ]);
 
         if (!str_starts_with((string) $req->getStatusCode(), '2')) {
-            ($this->activityPubInstanceBrokenCreate)(
+            ($this->activityPubFailedConnectionLog)(
                 $url,
                 "Post fail: {$url}, ".$req->getContent(false).' '.json_encode($body)
             );

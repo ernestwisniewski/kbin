@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Kbin\Rss;
 
 use App\Entity\Entry;
 use App\Kbin\Entry\EntryPageView;
-use App\Kbin\Entry\Factory\EntryFactory;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\MagazineRepository;
 use App\Repository\UserRepository;
+use App\Service\SettingsManager;
 use App\Utils\IriGenerator;
 use FeedIo\Feed;
 use FeedIo\Feed\Item;
@@ -24,19 +24,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
-class FeedManager
+readonly class RssFeedCreate
 {
     public function __construct(
-        private readonly SettingsManager $settings,
-        private readonly EntryRepository $entryRepository,
-        private readonly MagazineRepository $magazineRepository,
-        private readonly UserRepository $userRepository,
-        private readonly RouterInterface $router,
-        private readonly EntryFactory $entryFactory,
+        private SettingsManager $settings,
+        private EntryRepository $entryRepository,
+        private MagazineRepository $magazineRepository,
+        private UserRepository $userRepository,
+        private RouterInterface $router,
     ) {
     }
 
-    public function getFeed(Request $request): FeedInterface
+    public function __invoke(Request $request): FeedInterface
     {
         $id = $request->get('id');
 

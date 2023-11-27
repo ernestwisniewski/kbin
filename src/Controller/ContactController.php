@@ -10,18 +10,22 @@ namespace App\Controller;
 
 use App\DTO\ContactDto;
 use App\Form\ContactType;
+use App\Kbin\Contact\ContactMailSend;
 use App\Repository\SiteRepository;
-use App\Service\ContactManager;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
+    public function __construct(
+        private readonly SiteRepository $repository,
+        private readonly ContactMailSend $contactMailSend,
+        private readonly IpResolver $ipResolver
+    ) {
+    }
+
     public function __invoke(
-        SiteRepository $repository,
-        ContactManager $manager,
-        IpResolver $ipResolver,
         Request $request
     ): Response {
         $form = $this->createForm(ContactType::class);
@@ -32,10 +36,10 @@ class ContactController extends AbstractController
              * @var ContactDto $dto
              */
             $dto = $form->getData();
-            $dto->ip = $ipResolver->resolve();
+            $dto->ip = $this->ipResolver->resolve();
 
             if (!$dto->surname) {
-                $manager->send($dto);
+                ($this->contactMailSend)($dto);
             }
 
             $this->addFlash('success', 'email_was_sent');
@@ -43,7 +47,7 @@ class ContactController extends AbstractController
             return $this->redirectToRefererOrHome($request);
         }
 
-        $site = $repository->findAll();
+        $site = $this->repository->findAll();
 
         return $this->render(
             'page/contact.html.twig',

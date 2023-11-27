@@ -36,7 +36,7 @@ final class EntriesCrossComponent
         return $this->cache->get(
             "entries_cross_{$this->entry->getId()}_{$this->security->getUser()?->getId()}_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) {
-                $item->expiresAfter(3600);
+                $item->expiresAfter(300);
                 $entries = $this->repository->findCross($this->entry);
 
                 $item->tag('entry_'.$this->entry->getId());

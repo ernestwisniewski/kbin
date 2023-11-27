@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 // SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-declare(strict_types=1);
-
-namespace App\Service;
+namespace App\Kbin\Contact;
 
 use App\DTO\ContactDto;
+use App\Service\SettingsManager;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Mailer\MailerInterface;
@@ -16,7 +17,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ContactManager
+class ContactMailSend
 {
     public function __construct(
         private readonly SettingsManager $settings,
@@ -26,7 +27,7 @@ class ContactManager
     ) {
     }
 
-    public function send(ContactDto $dto)
+    public function __invoke(ContactDto $dto)
     {
         $limiter = $this->contactLimiter->create($dto->ip);
         if (false === $limiter->consume()->isAccepted()) {

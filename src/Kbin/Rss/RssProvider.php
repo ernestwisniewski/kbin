@@ -6,26 +6,20 @@
 
 declare(strict_types=1);
 
-namespace App\Feed;
+namespace App\Kbin\Rss;
 
-use App\Service\FeedManager;
 use Debril\RssAtomBundle\Provider\FeedProviderInterface;
 use FeedIo\FeedInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class Provider implements FeedProviderInterface
+readonly class RssProvider implements FeedProviderInterface
 {
-    public function __construct(private readonly FeedManager $manager)
+    public function __construct(private RssFeedCreate $rssFeedCreate)
     {
     }
 
     public function getFeed(Request $request): FeedInterface
     {
-        return $this->manager->getFeed($request);
-    }
-
-    protected function getItems(): \Generator
-    {
-        yield $this->manager->getItems();
+        return ($this->rssFeedCreate)($request);
     }
 }

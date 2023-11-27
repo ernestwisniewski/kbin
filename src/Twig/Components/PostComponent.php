@@ -57,7 +57,7 @@ final class PostComponent
         return $this->cache->get(
             'post_'.hash('sha256', $key),
             function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(900);
+                $item->expiresAfter(300);
 
                 $item->tag('post_'.$this->post->getId());
                 $item->tag('user_view_'.$this->security->getUser()?->getId());
