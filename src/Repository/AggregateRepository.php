@@ -46,12 +46,17 @@ class AggregateRepository
 
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
         $bind['visibility'] = VisibilityInterface::VISIBILITY_VISIBLE;
+        //        $user = $this->security->getUser();
+        //        if ($user) {
+        //            $stmt->bindValue('private', VisibilityInterface::VISIBILITY_PRIVATE);
+        //            $stmt->bindValue('user', $user->getId());
+        //            $bind['private'] = VisibilityInterface::VISIBILITY_PRIVATE;
+        //            $bind['user'] = $user->getId();
+        //        }
 
         $user = $this->security->getUser();
         if ($user) {
-            $stmt->bindValue('private', VisibilityInterface::VISIBILITY_PRIVATE);
             $stmt->bindValue('user', $user->getId());
-            $bind['private'] = VisibilityInterface::VISIBILITY_PRIVATE;
             $bind['user'] = $user->getId();
         }
         if ($criteria->magazine) {
@@ -67,19 +72,22 @@ class AggregateRepository
             $bind['time'] = $criteria->getSince();
         }
         if ($criteria->languages) {
-            //            @todo https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#list-of-parameters-conversion
+            // @todo https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#list-of-parameters-conversion
             foreach ($criteria->languages as $index => $language) {
                 $stmt->bindValue("language_{$index}", $language);
                 $bind["language_{$index}"] = $language;
             }
         }
 
-        $result = $this->cache->get($this->getCacheKey($sql, $bind), function (ItemInterface $item) use ($stmt) {
-            $item->expiresAfter(30);
-            $stmt = $stmt->executeQuery();
+        $result = $this->cache->get(
+            $this->getCacheKey($sql, $bind),
+            function (ItemInterface $item) use ($stmt, $criteria) {
+                $item->expiresAfter(Criteria::SORT_NEW === $criteria->sortOption ? 30 : 300);
+                $stmt = $stmt->executeQuery();
 
-            return json_encode($stmt->fetchAllAssociative());
-        });
+                return json_encode($stmt->fetchAllAssociative());
+            }
+        );
 
         $result = json_decode($result, true);
 
@@ -151,20 +159,25 @@ class AggregateRepository
 
     private function prepareWhereStatement(Criteria $criteria, string $type): string
     {
-        $user = $this->security->getUser();
-        if (!$user) {
-            $where = "
+        //        $user = $this->security->getUser();
+        //        if (!$user) {
+        //            $where = "
+        //            WHERE {$type}.visibility = :visibility
+        //            AND m_{$type}.visibility = :visibility
+        //            ";
+        //        } else {
+        //            $where = "
+        //            WHERE (
+        //                ({$type}.visibility = :visibility AND m_{$type}.visibility = :visibility)
+        //                OR ({$type}.user_id IN (SELECT uflg_{$type}.following_id AS sclr_1 FROM user_follow uflg_{$type} WHERE uflg_{$type}.follower_id = :user AND {$type}.visibility = :private))
+        //            )
+        //            ";
+        //        }
+
+        $where = "
             WHERE {$type}.visibility = :visibility
             AND m_{$type}.visibility = :visibility
             ";
-        } else {
-            $where = "
-            WHERE (
-                ({$type}.visibility = :visibility AND m_{$type}.visibility = :visibility)
-                OR ({$type}.user_id IN (SELECT uflg_{$type}.following_id AS sclr_1 FROM user_follow uflg_{$type} WHERE uflg_{$type}.follower_id = :user AND {$type}.visibility = :private))
-            )
-            ";
-        }
 
         $user = $this->security->getUser();
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
@@ -275,6 +288,6 @@ class AggregateRepository
 
     private function getCacheKey($query, $params): string
     {
-        return 'pagination_count_'.hash('sha256', $query.json_encode($params));
+        return 'pagination_union_'.hash('sha256', $query.json_encode($params));
     }
 }
