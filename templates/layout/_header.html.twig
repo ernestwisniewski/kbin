@@ -104,20 +104,25 @@
                 </a>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ path('front_subscribed') }}"
+                        <a href="{{ magazine is defined and magazine ? path('front_aggregate_magazine', {name: magazine.name}) : path('front_aggregate') }}"
+                           class="{{ html_classes({'active': is_route_name_contains('_aggregate')}) }}">{{ '*'|trans }}</a>
+                    </li>
+                    <hr>
+                    <li>
+                        <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate_subscribed') : path('front_subscribed') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('front_moderated') }}"
+                        <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate_moderated') : path('front_moderated') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_moderated')}) }}">{{ 'moderated'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('front_favourite') }}"
+                        <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate_favourite') : path('front_favourite') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_favourite')}) }}">{{ 'favourites'|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('front') }}"
-                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
+                        <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate') : path('front') }}"
+                           class="{{ html_classes({'active': is_route_name('front') or path('front_aggregate') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
                     </li>
                 </ul>
             </li>

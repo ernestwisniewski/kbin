@@ -13,11 +13,10 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
-use App\Kbin\Pagination\KbinUnionPagerfanta;
+use App\Kbin\Pagination\KbinUnionPagination;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\ArrayAdapter;
 use Pagerfanta\Exception\NotValidCurrentPageException;
-use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -47,10 +46,10 @@ class TagRepository
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('tag', "\"$tag\"");
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
-        $stmt = $stmt->executeQuery();
 
         $result = $this->cache->get('tag_'.$tag, function (ItemInterface $item) use ($stmt) {
             $item->expiresAfter(30);
+            $stmt = $stmt->executeQuery();
 
             return json_encode($stmt->fetchAllAssociative());
         });
@@ -78,13 +77,7 @@ class TagRepository
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
-        $pagerfanta = new Pagerfanta(
-            new ArrayAdapter(
-                $result
-            )
-        );
-
-        $pagerfanta = new KbinUnionPagerfanta(
+        $pagerfanta = new KbinUnionPagination(
             new ArrayAdapter(
                 $result
             )

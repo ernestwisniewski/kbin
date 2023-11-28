@@ -16,7 +16,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\UserFollow;
-use App\Kbin\Pagination\KbinUnionPagerfanta;
+use App\Kbin\Pagination\KbinUnionPagination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Result;
 use Doctrine\ORM\QueryBuilder;
@@ -84,7 +84,11 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
 
     public function countPublicActivity(User $user): int
     {
-        return $this->getPublicActivityQuery($user)->rowCount();
+        return $this->cache->get('user_public_activity_count_'.$user->getId(), function (ItemInterface $item) use ($user) {
+            $item->expiresAfter(60);
+
+            return $this->getPublicActivityQuery($user)->rowCount();
+        });
     }
 
     private function getPublicActivityQuery(User $user): Result
@@ -128,20 +132,20 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
         $result = \array_slice($result, $startIndex, self::PER_PAGE);
 
         $entries = $this->_em->getRepository(Entry::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry')]
+            ['id' => $this->getOverviewIds($result, 'entry')]
         );
         $entryComments = $this->_em->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'entry_comment')]
+            ['id' => $this->getOverviewIds($result, 'entry_comment')]
         );
-        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds((array) $result, 'post')]);
+        $post = $this->_em->getRepository(Post::class)->findBy(['id' => $this->getOverviewIds($result, 'post')]);
         $postComment = $this->_em->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds((array) $result, 'post_comment')]
+            ['id' => $this->getOverviewIds($result, 'post_comment')]
         );
 
         $result = array_merge($entries, $entryComments, $post, $postComment);
         uasort($result, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
 
-        $pagerfanta = new KbinUnionPagerfanta(
+        $pagerfanta = new KbinUnionPagination(
             new ArrayAdapter(
                 $result
             )

@@ -303,7 +303,7 @@ class EntryFrontControllerTest extends WebTestCase
             $this->getMagazineByName('kbin', $this->getUserByUsername('JaneDoe')),
             $this->getUserByUsername('JaneDoe')
         );
-
+        usleep(1);
         $this->getEntryByTitle('test entry 2', 'https://kbin.pub');
 
         return $client;

@@ -135,8 +135,8 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         if ($criteria->user) {
-            $qb->andWhere('c.user = :user')
-                ->setParameter('user', $criteria->user);
+            $qb->andWhere('c.user = :criteria_user')
+                ->setParameter('criteria_user', $criteria->user);
         }
 
         $qb->join('c.entry', 'ce');
@@ -243,7 +243,6 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
-        $qb->addOrderBy('c.id', 'DESC');
 
         return $qb;
     }

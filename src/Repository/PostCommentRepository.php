@@ -50,11 +50,6 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
 
     public function findByCriteria(PostCommentPageView $criteria)
     {
-        //        return $this->createQueryBuilder('pc')
-        //            ->orderBy('pc.createdAt', 'DESC')
-        //            ->setMaxResults(10)
-        //            ->getQuery()
-        //            ->getResult();
         $pagerfanta = new Pagerfanta(
             new QueryAdapter(
                 $this->getCommentQueryBuilder($criteria),
@@ -132,8 +127,8 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         }
 
         if ($criteria->user) {
-            $qb->andWhere('c.user = :user')
-                ->setParameter('user', $criteria->user);
+            $qb->andWhere('c.user = :criteria_user')
+                ->setParameter('criteria_user', $criteria->user);
         }
 
         $user = $this->security->getUser();
@@ -168,7 +163,6 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
-        $qb->addOrderBy('c.id', 'DESC');
     }
 
     public function hydrate(PostComment ...$comment): void

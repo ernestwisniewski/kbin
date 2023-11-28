@@ -33,3 +33,28 @@ front_magazine:
   <<: *root
   controller: App\Controller\Entry\EntryFrontController::magazine
   path: /m/{name}/{sortBy}/{time}/{type}
+
+front_aggregate:
+  <<: *root
+  controller: App\Controller\AggregateController::front
+  path: /*/{sortBy}/{time}/{type}
+
+front_aggregate_subscribed:
+  <<: *root
+  controller: App\Controller\AggregateController::subscribed
+  path: /*/sub/{sortBy}/{time}/{type}
+
+front_aggregate_moderated:
+  <<: *root
+  controller: App\Controller\AggregateController::moderated
+  path: /*/mod/{sortBy}/{time}/{type}
+
+front_aggregate_favourite:
+  <<: *root
+  controller: App\Controller\AggregateController::favourite
+  path: /*/fav/{sortBy}/{time}/{type}
+
+front_aggregate_magazine:
+  <<: *root
+  controller: App\Controller\AggregateController::magazine
+  path: /*/m/{name}/{sortBy}/{time}/{type}

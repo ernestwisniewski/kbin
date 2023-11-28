@@ -138,8 +138,8 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         if ($criteria->user) {
-            $qb->andWhere('p.user = :user')
-                ->setParameter('user', $criteria->user);
+            $qb->andWhere('p.user = :criteria_user')
+                ->setParameter('criteria_user', $criteria->user);
         }
 
         if ($criteria->tag) {
@@ -215,7 +215,6 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         $qb->addOrderBy('p.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
-        $qb->addOrderBy('p.id', 'DESC');
     }
 
     public function hydrate(Post ...$posts): void

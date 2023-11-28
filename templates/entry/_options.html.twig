@@ -108,43 +108,45 @@
                 </li>
             </ul>
         </li>
-        <li class="dropdown">
-            <button
-                    aria-label="{{ 'filter_by_type'|trans }}"
-                    title="{{ 'filter_by_type'|trans }}"><i
-                        class="fa-solid fa-filter"></i> {{ 'filter_by_type'|trans }}</button>
-            <ul class="dropdown__menu">
-                <li>
-                    <a href="{{ options_url('type', 'all') }}"
-                       class="{{ html_classes({'active': not get_route_param('type') or route_has_param('type', 'all')}) }}">
-                        {{ 'all'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('type', 'links') }}"
-                       class="{{ html_classes({'active': route_has_param('type', 'links')}) }}">
-                        {{ 'links'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('type', 'articles') }}"
-                       class="{{ html_classes({'active': route_has_param('type', 'articles')}) }}">
-                        {{ 'articles'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('type', 'photos') }}"
-                       class="{{ html_classes({'active': route_has_param('type', 'photos')}) }}">
-                        {{ 'photos'|trans|lower }}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ options_url('type', 'videos') }}"
-                       class="{{ html_classes({'active': route_has_param('type', 'videos')}) }}">
-                        {{ 'videos'|trans|lower }}
-                    </a>
-                </li>
-            </ul>
-        </li>
+        {% if not is_route_name_contains('_aggregate') %}
+            <li class="dropdown">
+                <button
+                        aria-label="{{ 'filter_by_type'|trans }}"
+                        title="{{ 'filter_by_type'|trans }}"><i
+                            class="fa-solid fa-filter"></i> {{ 'filter_by_type'|trans }}</button>
+                <ul class="dropdown__menu">
+                    <li>
+                        <a href="{{ options_url('type', 'all') }}"
+                           class="{{ html_classes({'active': not get_route_param('type') or route_has_param('type', 'all')}) }}">
+                            {{ 'all'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ options_url('type', 'links') }}"
+                           class="{{ html_classes({'active': route_has_param('type', 'links')}) }}">
+                            {{ 'links'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ options_url('type', 'articles') }}"
+                           class="{{ html_classes({'active': route_has_param('type', 'articles')}) }}">
+                            {{ 'articles'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ options_url('type', 'photos') }}"
+                           class="{{ html_classes({'active': route_has_param('type', 'photos')}) }}">
+                            {{ 'photos'|trans|lower }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ options_url('type', 'videos') }}"
+                           class="{{ html_classes({'active': route_has_param('type', 'videos')}) }}">
+                            {{ 'videos'|trans|lower }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
     </menu>
 </aside>

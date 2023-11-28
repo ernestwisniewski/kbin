@@ -20,6 +20,9 @@
     {{ component('entry_comment', {comment: subject, showEntryTitle: false}|merge(attributes)|merge(entryCommentAttributes)) }}
 {% elseif subject is post %}
     {{ component('post', {post: subject}|merge(attributes)|merge(postAttributes)) }}
+    {% if(subject.commentCount and postAttributes.showCommentsPreview is defined and postAttributes.showCommentsPreview) %}
+        {{ component('post_comments_preview', {post: subject, 'data-post-target': 'preview'}) }}
+    {% endif %}
 {% elseif subject is post_comment %}
     {{ component('post_comment', {comment: subject}|merge(attributes)|merge(postCommentAttributes)) }}
 {% elseif subject is magazine %}
