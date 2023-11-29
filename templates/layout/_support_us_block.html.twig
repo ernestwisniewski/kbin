@@ -1,0 +1,15 @@
+<section class="section support-us-block">
+    <h3>{{ 'support_us'|trans }}</h3>
+
+    <div>
+        <a href="{{ partner.url }}">
+            <img src="{{ partner.imageUrl }}"
+                 alt="{{ partner.name }}"
+                 {% if partner.imageWidth %}width="{{ partner.imageWidth }}"{% endif %}
+                    {% if partner.imageHeight %}height="{{ partner.imageHeight }}"{% endif %}>
+        </a>
+    </div>
+    <footer>
+        <a href="{{ path('support_us') }}">{{ 'show_more'|trans|lower }}</a>
+    </footer>
+</section>

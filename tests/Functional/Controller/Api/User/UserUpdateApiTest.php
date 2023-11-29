@@ -97,7 +97,7 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
-            User::HOMEPAGE_MOD,
+            User::HOMEPAGE_THREADS_MOD,
             ['test'],
             ['en']
         ))->jsonSerialize();
@@ -134,7 +134,7 @@ class UserUpdateApiTest extends WebTestCase
             false,
             false,
             false,
-            User::HOMEPAGE_MOD,
+            User::HOMEPAGE_THREADS_MOD,
             ['test'],
             ['en']
         ))->jsonSerialize();
@@ -166,7 +166,7 @@ class UserUpdateApiTest extends WebTestCase
         self::assertFalse($jsonData['markNewComments']);
         self::assertFalse($jsonData['addMentionsEntries']);
         self::assertFalse($jsonData['addMentionsPosts']);
-        self::assertEquals(User::HOMEPAGE_MOD, $jsonData['homepage']);
+        self::assertEquals(User::HOMEPAGE_THREADS_MOD, $jsonData['homepage']);
         self::assertEquals(['test'], $jsonData['featuredMagazines']);
         self::assertEquals(['en'], $jsonData['preferredLanguages']);
 
@@ -193,7 +193,7 @@ class UserUpdateApiTest extends WebTestCase
         self::assertFalse($jsonData['markNewComments']);
         self::assertFalse($jsonData['addMentionsEntries']);
         self::assertFalse($jsonData['addMentionsPosts']);
-        self::assertEquals(User::HOMEPAGE_MOD, $jsonData['homepage']);
+        self::assertEquals(User::HOMEPAGE_THREADS_MOD, $jsonData['homepage']);
         self::assertEquals(['test'], $jsonData['featuredMagazines']);
         self::assertEquals(['en'], $jsonData['preferredLanguages']);
     }

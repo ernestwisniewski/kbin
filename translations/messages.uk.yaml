@@ -864,3 +864,5 @@ show_subscribed_domains: Показувати підписані домени
 sub_channel: Субканал
 show_subscribed_magazines: Показувати підписані спільноти
 feed: Стрічка
+new_comments_count: '%count% нових'
+mark_new_comments: Позначaти нові коментарі

@@ -836,3 +836,5 @@ show_subscribed_magazines: Show subscribed magazines
 show_subscribed_domains: Show subscribed domains
 mark_new_comments: Mark new comments
 new_comments_count: '%count% new'
+all_content: All Content
+show_support_us_block: Show "Support Us" block

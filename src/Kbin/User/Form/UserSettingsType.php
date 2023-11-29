@@ -58,10 +58,24 @@ class UserSettingsType extends AbstractType
             ->add('homepage', ChoiceType::class, [
                     'autocomplete' => true,
                     'choices' => [
-                        $this->translator->trans('all') => User::HOMEPAGE_ALL,
-                        $this->translator->trans('subscriptions') => User::HOMEPAGE_SUB,
-                        $this->translator->trans('favourites') => User::HOMEPAGE_FAV,
-                        $this->translator->trans('moderated') => User::HOMEPAGE_MOD,
+                        $this->translator->trans('all_content') => [
+                            $this->translator->trans('all') => User::HOMEPAGE_ALL,
+                            $this->translator->trans('subscriptions') => User::HOMEPAGE_ALL_SUB,
+                            $this->translator->trans('favourites') => User::HOMEPAGE_ALL_FAV,
+                            $this->translator->trans('moderated') => User::HOMEPAGE_ALL_MOD,
+                        ],
+                        $this->translator->trans('threads') => [
+                            $this->translator->trans('all') => User::HOMEPAGE_THREADS_ALL,
+                            $this->translator->trans('subscriptions') => User::HOMEPAGE_THREADS_SUB,
+                            $this->translator->trans('favourites') => User::HOMEPAGE_THREADS_FAV,
+                            $this->translator->trans('moderated') => User::HOMEPAGE_THREADS_MOD,
+                        ],
+                        $this->translator->trans('microblog') => [
+                            $this->translator->trans('all') => User::MICROBLOG_THREADS_ALL,
+                            $this->translator->trans('subscriptions') => User::MICROBLOG_THREADS_SUB,
+                            $this->translator->trans('favourites') => User::MICROBLOG_THREADS_FAV,
+                            $this->translator->trans('moderated') => User::MICROBLOG_THREADS_MOD,
+                        ],
                     ],
                 ]
             )

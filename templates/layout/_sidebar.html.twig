@@ -12,22 +12,22 @@
                     </a>
                 </li>
                 <li class='federation-button'>
-                    <a 
-                    href="#federation"
-                    data-action="options#toggleTab:prevent"
-                    data-options-tab-param="federation"
-                    title="{{ 'federation'|trans }}"
-                    aria-label="{{ 'federation'|trans }}">
+                    <a
+                            href="#federation"
+                            data-action="options#toggleTab:prevent"
+                            data-options-tab-param="federation"
+                            title="{{ 'federation'|trans }}"
+                            aria-label="{{ 'federation'|trans }}">
                         <i class="fa-solid fa-circle-nodes"></i>
                     </a>
                 </li>
-                <li class='settings-button'>       
-                    <a 
-                    href="#settings"
-                    data-action="options#toggleTab:prevent"
-                    data-options-tab-param="settings"
-                    title="{{ 'settings'|trans }}"
-                    aria-label="{{ 'settings'|trans }}">
+                <li class='settings-button'>
+                    <a
+                            href="#settings"
+                            data-action="options#toggleTab:prevent"
+                            data-options-tab-param="settings"
+                            title="{{ 'settings'|trans }}"
+                            aria-label="{{ 'settings'|trans }}">
                         <i class="fa-solid fa-gear"></i>
                     </a>
                 </li>
@@ -131,3 +131,6 @@
             })|raw }}</p>
     </div>
 </div>
+{% if not is_route_name('support_us') and app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_SUPPORT_US_BLOCK')) is not same as 'false'  %}
+    {{ component('support_us_block') }}
+{% endif %}

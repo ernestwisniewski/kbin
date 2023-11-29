@@ -28,6 +28,7 @@ use Pagerfanta\Exception\NotValidCurrentPageException;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -118,7 +119,7 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
     public function findPublicActivity(int $page, User $user): PagerfantaInterface
     {
         // @todo union adapter
-        $result = $this->cache->get('user_'.$user->getId(), function (ItemInterface $item) use ($user) {
+        $result = $this->cache->get('user_public_activity'.$user->getId(), function (ItemInterface $item) use ($user) {
             $item->expiresAfter(30);
 
             return json_encode($this->getPublicActivityQuery($user)->fetchAllAssociative());

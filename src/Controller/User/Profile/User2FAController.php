@@ -215,7 +215,7 @@ class User2FAController extends AbstractController
 
         // the totpAuthenticator checkCode method requires the secret to be present in the user, but we
         // don't want it there right now, so we remove it after we check.
-        $user->setTotpSecret(null);
+        //        $user->setTotpSecret(null);
 
         return $isValid;
     }

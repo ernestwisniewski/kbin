@@ -104,11 +104,6 @@
                 </a>
                 <ul class="dropdown__menu">
                     <li>
-                        <a href="{{ magazine is defined and magazine ? path('front_aggregate_magazine', {name: magazine.name}) : path('front_aggregate') }}"
-                           class="{{ html_classes({'active': is_route_name_contains('_aggregate')}) }}">{{ '*'|trans }}</a>
-                    </li>
-                    <hr>
-                    <li>
                         <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate_subscribed') : path('front_subscribed') }}"
                            class="{{ html_classes({'active': is_route_name_contains('_subscribed')}) }}">{{ 'subscribed'|trans }}</a>
                     </li>

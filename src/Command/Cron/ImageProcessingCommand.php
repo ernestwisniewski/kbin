@@ -42,23 +42,22 @@ class ImageProcessingCommand extends Command
             ->addArgument('monthsAgo', InputArgument::REQUIRED, 'Delete images older than x months.')
             ->addOption('all', null, InputOption::VALUE_OPTIONAL, 'Delete images from all posts, including those that have recorded activity (comments, upvotes, boosts).')
             ->addOption('batchSize', null, InputOption::VALUE_OPTIONAL, 'Number of images to delete at a time.');
-
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $type = $input->getArgument('type');
-        $this->monthsAgo = (int)$input->getArgument('monthsAgo');
-        $this->all = (bool)$input->getOption('all');
+        $this->monthsAgo = (int) $input->getArgument('monthsAgo');
+        $this->all = (bool) $input->getOption('all');
         if ($input->getOption('batchSize')) {
-            $this->batchSize = (int)$input->getOption('batchSize');
+            $this->batchSize = (int) $input->getOption('batchSize');
         }
 
-        if ($type === 'posts') {
+        if ('posts' === $type) {
             $this->deletePostsImages();
         }
 
-        if ($type === 'users') {
+        if ('users' === $type) {
             $this->deleteUsersImages();
         }
 

@@ -146,7 +146,7 @@ go_to_filters: Aller aux filtres
 go_to_footer: Aller au pied de page
 classic_view: Affichage classique
 chat_view: Affichage de discussion
-tree_view: Affichage en arborescente
+tree_view: Affichage en arborescence
 table_view: Affichage en table
 cards_view: Affichage en cartes
 moderate: Modérer
@@ -196,7 +196,7 @@ reset_check_email_desc: Si un compte est déjà associé à votre adresse e-mail
   pour réinitialiser votre mot de passe. Ce lien expirera en %expire%.
 joined: Inscrit·e
 show_profile_subscriptions: Afficher les magazines souscrits
-show_profile_followings: Afficher les utilisateurs abonné·e·s
+show_profile_followings: Afficher les utilisateur·rice·s suivi·e·s
 notify_on_new_entry_reply: Tous les commentaires dans les fils de discussion que j'ai
   créés
 notify_on_new_entry_comment_reply: Réponses à mes commentaires dans tous les fils
@@ -772,7 +772,7 @@ oauth2.grant.user.block: Bloquer ou débloquer des utilisateur·rice·s et affic
   liste des utilisateur·rice·s que vous bloquez.
 oauth2.grant.post.delete: Supprimer de nouvelles publications.
 oauth2.grant.subscribe.general: S'abonner ou suivre n'importe quel magazine, domaine
-  ou utilisateur·rice, et afficher les magazines, domaines et utilisateurs auxquels
+  ou utilisateur·rice, et afficher les magazines, domaines et utilisateur·rice·s auxquels
   vous êtes abonné·e.
 oauth2.grant.moderate.post_comment.trash: Supprimer ou restaurer des commentaires
   sur les publications de vos magazines modérés.
@@ -893,8 +893,10 @@ send_request: Envoyer la demande
 thanks_for_support_request: Merci pour votre soutien ! Après une vérification rapide,
   votre pseudo a été ajouté à la liste. Nous apprécions votre dévouement envers notre
   communauté. En vous remerciant !
-show_subscribed_users: Afficher les utilisateurs abonnés
+show_subscribed_users: Afficher les utilisateur·rice·s abonné·e·s
 show_subscribed_domains: Afficher les domaines abonnés
 sub_channel: Sous-canal
 show_subscribed_magazines: Afficher les magazines abonnés
 feed: Fil d'actualité
+new_comments_count: '%count% nouveaux'
+mark_new_comments: Marquer les nouveaux commentaires

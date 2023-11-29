@@ -615,6 +615,26 @@
       }
     }
   }
+
+  .support-us-block {
+    div {
+      text-align: center;
+    }
+
+    footer {
+      opacity: .85;
+      padding: .5rem 0;
+      position: relative;
+      text-align: center;
+      border-top: var(--kbin-meta-border);
+      margin-top:1rem;
+
+      a {
+        color: var(--kbin-meta-text-color);
+      }
+    }
+  }
+
 }
 
 #sidebar.open {
@@ -645,3 +665,5 @@
     }
   }
 }
+
+

@@ -28,7 +28,7 @@ readonly class UserHomepageListener
 
         $user = $this->security->getUser();
 
-        if ($user instanceof User && User::HOMEPAGE_ALL !== $user->homepage) {
+        if ($user instanceof User && User::HOMEPAGE_THREADS_ALL !== $user->homepage) {
             $event->setResponse(new RedirectResponse($this->urlGenerator->generate($user->homepage)));
         }
     }

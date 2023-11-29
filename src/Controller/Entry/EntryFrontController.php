@@ -38,9 +38,9 @@ class EntryFrontController extends AbstractController
         }
 
         $front = match ($user->homepage) {
-            User::HOMEPAGE_SUB => 'subscribed',
-            User::HOMEPAGE_MOD => 'moderated',
-            User::HOMEPAGE_FAV => 'favourite',
+            User::HOMEPAGE_THREADS_SUB => 'subscribed',
+            User::HOMEPAGE_THREADS_MOD => 'moderated',
+            User::HOMEPAGE_THREADS_FAV => 'favourite',
             default => 'front',
         };
 

@@ -860,3 +860,5 @@ thanks_for_support_request: Vielen Dank für deine Unterstützung! Nach einer sc
   Überprüfung wurde dein Spitzname zur Liste hinzugefügt. Wir schätzen dein Engagement
   für unsere Gemeinschaft. Danke!
 feed: Feed
+new_comments_count: '%count% neue'
+mark_new_comments: Neue Kommentare markieren

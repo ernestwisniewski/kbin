@@ -62,15 +62,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
         self::THEME_LIGHT,
     ];
 
-    public const HOMEPAGE_ALL = 'front';
-    public const HOMEPAGE_SUB = 'front_subscribed';
-    public const HOMEPAGE_MOD = 'front_moderated';
-    public const HOMEPAGE_FAV = 'front_favourite';
+    public const HOMEPAGE_ALL = 'front_aggregate';
+    public const HOMEPAGE_ALL_SUB = 'front_aggregate_subscribed';
+    public const HOMEPAGE_ALL_MOD = 'front_aggregate_moderated';
+    public const HOMEPAGE_ALL_FAV = 'front_aggregate_favourite';
+    public const HOMEPAGE_THREADS_ALL = 'front';
+    public const HOMEPAGE_THREADS_SUB = 'front_subscribed';
+    public const HOMEPAGE_THREADS_MOD = 'front_moderated';
+    public const HOMEPAGE_THREADS_FAV = 'front_favourite';
+    public const MICROBLOG_THREADS_ALL = 'posts_front';
+    public const MICROBLOG_THREADS_SUB = 'posts_subscribed';
+    public const MICROBLOG_THREADS_MOD = 'posts_moderated';
+    public const MICROBLOG_THREADS_FAV = 'posts_favourite';
     public const HOMEPAGE_OPTIONS = [
         self::HOMEPAGE_ALL,
-        self::HOMEPAGE_SUB,
-        self::HOMEPAGE_MOD,
-        self::HOMEPAGE_FAV,
+        self::HOMEPAGE_ALL_SUB,
+        self::HOMEPAGE_ALL_MOD,
+        self::HOMEPAGE_ALL_FAV,
+        self::HOMEPAGE_THREADS_ALL,
+        self::HOMEPAGE_THREADS_SUB,
+        self::HOMEPAGE_THREADS_MOD,
+        self::HOMEPAGE_THREADS_FAV,
+        self::MICROBLOG_THREADS_ALL,
+        self::MICROBLOG_THREADS_SUB,
+        self::MICROBLOG_THREADS_MOD,
+        self::MICROBLOG_THREADS_FAV,
     ];
 
     #[ManyToOne(targetEntity: Image::class, cascade: ['persist'])]
@@ -87,8 +103,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     public array $roles = [];
     #[Column(type: 'integer')]
     public int $followersCount = 0;
-    #[Column(type: 'string', options: ['default' => User::HOMEPAGE_ALL])]
-    public string $homepage = self::HOMEPAGE_ALL;
+    #[Column(type: 'string', options: ['default' => User::HOMEPAGE_THREADS_ALL])]
+    public string $homepage = self::HOMEPAGE_THREADS_ALL;
     #[Column(type: 'text', nullable: true)]
     public ?string $about = null;
     #[Column(type: 'datetimetz')]

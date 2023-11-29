@@ -33,6 +33,7 @@ class ThemeSettingsController extends AbstractController
     public const KBIN_GENERAL_INFINITE_SCROLL = 'kbin_general_infinite_scroll';
     public const KBIN_GENERAL_TOPBAR = 'kbin_general_topbar';
     public const KBIN_GENERAL_TURBO = 'kbin_general_turbo';
+    public const KBIN_GENERAL_SUPPORT_US_BLOCK = 'kbin_general_support_us_block';
     public const KBIN_GENERAL_FIXED_NAVBAR = 'kbin_general_fixed_navbar';
     public const KBIN_GENERAL_SIDEBAR_POSITION = 'kbin_general_sidebar_position';
     public const KBIN_GENERAL_DYNAMIC_LISTS = 'kbin_general_dynamic_lists';
@@ -71,6 +72,7 @@ class ThemeSettingsController extends AbstractController
         self::KBIN_GENERAL_INFINITE_SCROLL,
         self::KBIN_GENERAL_TOPBAR,
         self::KBIN_GENERAL_TURBO,
+        self::KBIN_GENERAL_SUPPORT_US_BLOCK,
         self::KBIN_GENERAL_FIXED_NAVBAR,
         self::KBIN_GENERAL_SIDEBAR_POSITION,
         self::KBIN_ENTRIES_SHOW_PREVIEW,
