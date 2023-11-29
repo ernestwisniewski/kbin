@@ -27,7 +27,7 @@ export default class extends Controller {
             this.loadingValue = true;
 
             const paginationElem = this.paginationTarget.getElementsByClassName('pagination__item--current-page')[0].nextElementSibling;
-            if (paginationElem.classList.contains('pagination__item--disabled')) {
+            if (paginationElem.classList.contains('pagination__item--next-page')) {
                 throw new Error('No more pages');
             }
 
