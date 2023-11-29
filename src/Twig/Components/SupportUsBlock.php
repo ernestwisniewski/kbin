@@ -11,6 +11,7 @@ namespace App\Twig\Components;
 use App\Entity\Contracts\VotableInterface;
 use App\Repository\PartnerBlockRepository;
 use App\Service\CacheService;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
@@ -26,7 +27,7 @@ final class SupportUsBlock
     public function __construct(
         private readonly Environment $twig,
         private readonly CacheInterface $cache,
-        private readonly CacheService $cacheService,
+        private readonly RequestStack $requestStack,
         private readonly PartnerBlockRepository $partnerBlockRepository
     ) {
     }
@@ -34,7 +35,7 @@ final class SupportUsBlock
     public function getHtml(ComponentAttributes $attributes): string
     {
         return $this->cache->get(
-            'support_us_block',
+            "support_us_block_{$this->requestStack->getCurrentRequest()?->getLocale()}",
             function (ItemInterface $item) {
                 $item->expiresAfter(300);
                 $partner = $this->partnerBlockRepository->findToDisplay();
