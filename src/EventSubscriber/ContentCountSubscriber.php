@@ -12,6 +12,7 @@ use App\Event\Entry\EntryDeletedEvent;
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
+use App\Event\Post\PostDeletedEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
@@ -33,6 +34,7 @@ class ContentCountSubscriber implements EventSubscriberInterface
     {
         return [
             EntryDeletedEvent::class => 'onEntryDeleted',
+            PostDeletedEvent::class => 'onPostDeleted',
             EntryCommentCreatedEvent::class => 'onEntryCommentCreated',
             EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
             EntryCommentPurgedEvent::class => 'onEntryCommentPurged',
@@ -45,6 +47,13 @@ class ContentCountSubscriber implements EventSubscriberInterface
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $event->entry->magazine->updateEntryCounts();
+
+        $this->entityManager->flush();
+    }
+
+    public function onPostDeleted(PostDeletedEvent $event): void
+    {
+        $event->post->magazine->updatePostCounts();
 
         $this->entityManager->flush();
     }

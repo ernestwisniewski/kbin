@@ -263,7 +263,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     public function updatePostCounts(): self
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', Entry::VISIBILITY_VISIBLE));
+            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
         $this->postCount = $this->posts->matching($criteria)->count();
 

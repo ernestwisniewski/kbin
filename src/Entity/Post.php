@@ -222,6 +222,7 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $criteria = Criteria::create()
             ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
 
+        $this->magazine->updatePostCounts();
         $this->commentCount = $this->comments->matching($criteria)->count();
         $this->favouriteCount = $this->favourites->count();
 

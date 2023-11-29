@@ -46,6 +46,7 @@ class AggregateRepository
 
         $stmt->bindValue('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
         $bind['visibility'] = VisibilityInterface::VISIBILITY_VISIBLE;
+
         //        $user = $this->security->getUser();
         //        if ($user) {
         //            $stmt->bindValue('private', VisibilityInterface::VISIBILITY_PRIVATE);
@@ -180,6 +181,11 @@ class AggregateRepository
             ";
 
         $user = $this->security->getUser();
+        if ($user) {
+            $where .= "
+            AND {$type}.user_id = :user
+            ";
+        }
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $where .= "
             AND {$type}.user_id NOT IN (SELECT ub_{$type}.blocked_id AS sclr_2 FROM user_block ub_{$type} WHERE ub_{$type}.blocker_id = :user)

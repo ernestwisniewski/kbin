@@ -71,7 +71,7 @@ class AggregateController extends AbstractController
             return new JsonResponse(
                 [
                     'html' => $this->renderView(
-                        'layout/_subject_list.html.twig',
+                        'aggregate/_list.html.twig',
                         [
                             'results' => $posts,
                         ]
@@ -119,7 +119,7 @@ class AggregateController extends AbstractController
             return new JsonResponse(
                 [
                     'html' => $this->renderView(
-                        'layout/_subject_list.html.twig',
+                        'aggregate/_list.html.twig',
                         [
                             'results' => $listing,
                         ]
@@ -160,7 +160,7 @@ class AggregateController extends AbstractController
             return new JsonResponse(
                 [
                     'html' => $this->renderView(
-                        'layout/_subject_list.html.twig',
+                        'aggregate/_list.html.twig',
                         [
                             'results' => $listing,
                         ]
@@ -201,7 +201,7 @@ class AggregateController extends AbstractController
             return new JsonResponse(
                 [
                     'html' => $this->renderView(
-                        'layout/_subject_list.html.twig',
+                        'aggregate/_list.html.twig',
                         [
                             'results' => $listing,
                         ]
@@ -256,7 +256,7 @@ class AggregateController extends AbstractController
             return new JsonResponse(
                 [
                     'html' => $this->renderView(
-                        'layout/_subject_list.html.twig',
+                        'aggregate/_list.html.twig',
                         [
                             'magazine' => $magazine,
                             'results' => $listing,

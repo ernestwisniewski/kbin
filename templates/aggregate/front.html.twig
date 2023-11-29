@@ -57,9 +57,8 @@
     {% endif %}
     <div id="content">
         {% include 'layout/_subject_list.html.twig' with {
-            attributes: {showMagazineName: magazine is defined and magazine},
+            attributes: {showMagazineName: not (magazine is defined and magazine)},
             postAttributes: {showCommentsPreview: true}
         } %}
-
     </div>
 {% endblock %}
