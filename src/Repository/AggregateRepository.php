@@ -83,7 +83,7 @@ class AggregateRepository
         $result = $this->cache->get(
             $this->getCacheKey($sql, $bind),
             function (ItemInterface $item) use ($stmt, $criteria) {
-                $item->expiresAfter(Criteria::SORT_NEW === $criteria->sortOption ? 30 : 300);
+                $item->expiresAfter(\in_array($criteria->sortOption, [Criteria::SORT_NEW, Criteria::SORT_ACTIVE]) ? 30 : 300);
                 $stmt = $stmt->executeQuery();
 
                 return json_encode($stmt->fetchAllAssociative());
