@@ -175,20 +175,25 @@ class AggregateRepository
         //            ";
         //        }
 
-        $where = "
+        $user = $this->security->getUser();
+        if (!$user) {
+            $where = "
             WHERE {$type}.visibility = :visibility
             AND m_{$type}.visibility = :visibility
             ";
+        } else {
+            $where = "
+            WHERE (
+            ({$type}.visibility = :visibility AND m_{$type}.visibility = :visibility)
+            OR ({$type}.user_id = :user)
+            )
+            ";
+        }
 
-        $user = $this->security->getUser();
         if ($user && (!$criteria->magazine || !$criteria->magazine->userIsModerator($user)) && !$criteria->moderated) {
             $where .= "
             AND {$type}.user_id NOT IN (SELECT ub_{$type}.blocked_id AS sclr_2 FROM user_block ub_{$type} WHERE ub_{$type}.blocker_id = :user)
             AND {$type}.magazine_id NOT IN (SELECT mb_{$type}.magazine_id AS sclr_3 FROM magazine_block mb_{$type} WHERE mb_{$type}.user_id = :user)
-            ";
-        } else {
-            $where .= "
-            AND {$type}.visibility != :user
             ";
         }
 
@@ -229,7 +234,6 @@ class AggregateRepository
 
             $where .= ')';
         }
-
         if ($criteria->moderated) {
             $where .= "
             AND {$type}.magazine_id IN (SELECT mm_{$type}.magazine_id AS sclr_33 FROM moderator mm_{$type} WHERE mm_{$type}.user_id = :user)

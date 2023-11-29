@@ -122,7 +122,7 @@
                     </li>
                     <li>
                         <a href="{{ is_route_name_contains('_aggregate') ? path('front_aggregate') : path('front') }}"
-                           class="{{ html_classes({'active': is_route_name('front') or path('front_aggregate') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
+                           class="{{ html_classes({'active': is_route_name('front') or is_route_name('front_aggregate') or is_route_name('posts_front') or is_route_name('people_front')}) }}">{{ 'all'|trans }}</a>
                     </li>
                 </ul>
             </li>
