@@ -8,11 +8,19 @@ declare(strict_types=1);
 
 namespace App\Twig\Components;
 
-use App\Entity\Category;
+use App\Entity\Magazine;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent('category_box')]
+#[AsTwigComponent('magazine_box')]
 final class MagazineBoxComponent
 {
-    public Category $category;
+    public Magazine $magazine;
+    public bool $showCover = true;
+    public bool $showDescription = true;
+    public bool $showRules = true;
+    public bool $showSubscribeButton = true;
+    public bool $showInfo = true;
+    public bool $showMeta = true;
+    public bool $showSectionTitle = false;
+    public bool $stretchedLink = true;
 }
