@@ -72,6 +72,10 @@ class AggregateRepository
             $stmt->bindValue('time', $criteria->getSince(), Types::DATETIME_MUTABLE);
             $bind['time'] = $criteria->getSince();
         }
+        if ($criteria->category) {
+            $stmt->bindValue('category', $criteria->category->getId());
+            $bind['category'] = $criteria->category->getId();
+        }
         if ($criteria->languages) {
             // @todo https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#list-of-parameters-conversion
             foreach ($criteria->languages as $index => $language) {
@@ -83,7 +87,9 @@ class AggregateRepository
         $result = $this->cache->get(
             $this->getCacheKey($sql, $bind),
             function (ItemInterface $item) use ($stmt, $criteria) {
-                $item->expiresAfter(\in_array($criteria->sortOption, [Criteria::SORT_NEW, Criteria::SORT_ACTIVE]) ? 30 : 300);
+                $item->expiresAfter(
+                    \in_array($criteria->sortOption, [Criteria::SORT_NEW, Criteria::SORT_ACTIVE]) ? 30 : 300
+                );
                 $stmt = $stmt->executeQuery();
 
                 return json_encode($stmt->fetchAllAssociative());
@@ -243,6 +249,12 @@ class AggregateRepository
         if ($criteria->favourite) {
             $where .= "
             AND {$type}.id IN (SELECT ef_{$type}.{$type}_id AS sclr_33 FROM favourite ef_{$type} WHERE (ef_{$type}.user_id = :user) AND ef_{$type}.favourite_type IN('".$type."'))
+            ";
+        }
+
+        if ($criteria->category) {
+            $where .= "
+            AND {$type}.magazine_id IN (SELECT ct_{$type}.magazine_id AS sclr_33 FROM category_magazine ct_{$type} WHERE ct_{$type}.category_id = :category)
             ";
         }
 

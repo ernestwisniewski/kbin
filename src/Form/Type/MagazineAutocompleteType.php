@@ -11,17 +11,19 @@ namespace App\Form\Type;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
+use App\Kbin\SpamProtection\SpamProtectionCheck;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\UX\Autocomplete\Form\AsEntityAutocompleteField;
+use Symfony\UX\Autocomplete\Form\BaseEntityAutocompleteType;
 use Symfony\UX\Autocomplete\Form\ParentEntityAutocompleteType;
 
 #[AsEntityAutocompleteField]
 class MagazineAutocompleteType extends AbstractType
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly Security $security, private SpamProtectionCheck $spamProtectionCheck)
     {
     }
 
@@ -47,12 +49,17 @@ class MagazineAutocompleteType extends AbstractType
                     return;
                 }
 
-                $qb->andWhere('entity.name LIKE :filter OR entity.title LIKE :filter')
-                    ->andWhere('entity.apId IS NULL')
-                    ->andWhere('entity.visibility = :visibility')
-                    ->setParameter('filter', '%'.$query.'%')
-                    ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
-                ;
+                $qb->andWhere('LOWER(entity.name) LIKE :filter OR LOWER(entity.title) LIKE :filter')
+                    ->andWhere('entity.visibility = :visibility');
+
+                if (($this->spamProtectionCheck)($currentUser, false)) {
+                    $qb->orderBy('entity.apId', 'DESC');
+                } else {
+                    $qb->andWhere('entity.apId IS NULL');
+                }
+
+                $qb->setParameter('filter', '%'.$query.'%')
+                    ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE);
             },
         ]);
     }

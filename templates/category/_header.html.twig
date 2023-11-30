@@ -1,0 +1,35 @@
+{% if category.isOfficial %}
+{% else %}
+    <li>
+        <a href="{{ path('category_user_front', {username: category.user.username, category_slug: category.slug}) }}"
+           class="{{ html_classes({'active': is_route_name('category_user_front')}) }}">
+            {{ 'threads'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('category_user_posts_front', {username: category.user.username, category_slug: category.slug}) }}"
+           class="{{ html_classes({'active': is_route_name('category_user_posts_front')}) }}">
+            {{ 'microblog'|trans }}
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('category_user_aggregate_front', {username: category.user.username, category_slug: category.slug}) }}"
+           class="{{ html_classes({'active': is_route_name('category_user_aggregate_front')}) }}">
+            {{ 'all_content'|trans }}
+        </a>
+    </li>
+{% endif %}
+<li>
+    <a href="{{ navbar_people_url(magazine ?? null) }}"
+       class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">
+        {{ 'people'|trans }}
+    </a>
+</li>
+{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is not same as 'true' %}
+    <li>
+        <a href="{{ path('magazine_list_all') }}"
+           class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
+            {{ 'magazines'|trans }}
+        </a>
+    </li>
+{% endif %}

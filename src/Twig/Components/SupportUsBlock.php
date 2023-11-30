@@ -10,7 +10,6 @@ namespace App\Twig\Components;
 
 use App\Entity\Contracts\VotableInterface;
 use App\Repository\PartnerBlockRepository;
-use App\Service\CacheService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;

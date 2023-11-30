@@ -81,6 +81,27 @@ class NavbarExtensionRuntime implements RuntimeExtensionInterface
         return $this->urlGenerator->generate('posts_front');
     }
 
+    public function navbarAggregateUrl(?Magazine $magazine): string
+    {
+        if ($magazine instanceof Magazine) {
+            return $this->urlGenerator->generate('front_aggregate_magazine', ['name' => $magazine->name]);
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_subscribed')) {
+            return $this->urlGenerator->generate('front_aggregate_subscribed');
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_favourite')) {
+            return $this->urlGenerator->generate('front_aggregate_favourite');
+        }
+
+        if (str_ends_with($this->getCurrentRouteName(), '_moderated')) {
+            return $this->urlGenerator->generate('front_aggregate_moderated');
+        }
+
+        return $this->urlGenerator->generate('front_aggregate');
+    }
+
     public function navbarPeopleUrl(?Magazine $magazine): string
     {
         if (str_starts_with($this->getCurrentRouteName(), 'tag')) {

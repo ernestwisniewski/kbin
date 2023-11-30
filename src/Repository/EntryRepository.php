@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\CategoryMagazine;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
@@ -213,6 +214,13 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
             }
 
             $qb->setParameter('blocker', $user);
+        }
+
+        if ($criteria->category) {
+            $qb->andWhere(
+                'e.magazine IN (SELECT IDENTITY(ct.magazine) FROM '.CategoryMagazine::class.' ct WHERE ct.category = :category)'
+            );
+            $qb->setParameter('category', $criteria->category);
         }
 
         if (!$user || $user->hideAdult) {

@@ -1,0 +1,55 @@
+# SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+category_user_front:
+  controller: App\Controller\Category\CategoryController::front
+  defaults: { sortBy: hot, time: '∞', type: ~ }
+  path: /u/{username}/c/{category_slug}/{sortBy}/{time}/{type}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_user_posts_front:
+  controller: App\Controller\Category\CategoryController::posts
+  defaults: { sortBy: hot, time: ~ }
+  path: /u/{username}/c/{category_slug}/microblog/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_user_aggregate_front:
+  controller: App\Controller\Category\CategoryController::aggregate
+  defaults: { sortBy: hot, time: ~ }
+  path: /u/{username}/c/{category_slug}/*/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_front:
+  controller: App\Controller\Category\CategoryController::front
+  defaults: { sortBy: hot, time: '∞', type: ~ }
+  path: /c/{category_slug}/{sortBy}/{time}/{type}
+  methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_posts_front:
+  controller: App\Controller\Category\CategoryController::posts
+  defaults: { sortBy: hot, time: ~ }
+  path: /c/{category_slug}/microblog/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_aggregate_front:
+  controller: App\Controller\Category\CategoryController::aggregate
+  defaults: { sortBy: hot, time: ~ }
+  path: /c/{category_slug}/*/{sortBy}/{time}
+  methods: [ GET ]
+  requirements: { sortBy: "%front_sort_options%" }
+
+category_subscribe:
+  controller: App\Controller\Category\CategorySubController::subscribe
+  path: /cs/{id}/subscribe
+  methods: [ POST ]
+
+category_unsubscribe:
+  controller: App\Controller\Category\CategorySubController::unsubscribe
+  path: /cs/{id}/unsubscribe
+  methods: [ POST ]

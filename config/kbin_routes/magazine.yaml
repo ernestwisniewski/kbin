@@ -32,6 +32,11 @@ magazine_abandoned:
   path: /magazines/abandoned
   methods: [ GET ]
 
+magazine_categories:
+  controller: App\Controller\Magazine\MagazineCategoriesController
+  path: /magazines/collections
+  methods: [ GET ]
+
 magazine_list_all:
   controller: App\Controller\Magazine\MagazineListController
   defaults: { sortBy: hot, view: table }

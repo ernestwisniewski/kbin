@@ -6,6 +6,12 @@
     <div class="head-title">
         <span>/d/</span><a href="{{ path('domain_entries', {name: domain.name}) }}">{{ domain.name }}</a>
     </div>
+{% elseif is_route_name_starts_with('category_') %}
+    <div class="head-title">
+        <span>/c/</span><a
+                href="{{ path('category_user_front', {username: category.user.username, category_slug: category.slug}) }}">{{ category.name }}</a>
+    </div>
+{% elseif tag is defined and tag %}
 {% elseif tag is defined and tag %}
     <div class="head-title">
         <span>#</span><a href="{{ path('tag_overview', {name: tag}) }}">{{ tag }}</a>

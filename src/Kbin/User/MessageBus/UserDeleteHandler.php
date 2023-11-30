@@ -36,6 +36,7 @@ use App\Kbin\EntryComment\EntryCommentPurge;
 use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\MagazineUnblock;
 use App\Kbin\Magazine\MagazineUnsubscribe;
+use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
 use App\Kbin\Post\PostDelete;
 use App\Kbin\Post\PostPurge;
 use App\Kbin\PostComment\PostCommentDelete;
@@ -51,7 +52,7 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-class UserDeleteHandler
+class UserDeleteHandler implements AsyncMessageInterface
 {
     private ?User $user;
     private int $batchSize = 5;

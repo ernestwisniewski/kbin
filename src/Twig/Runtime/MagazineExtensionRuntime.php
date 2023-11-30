@@ -12,9 +12,9 @@ use App\Entity\Magazine;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\RuntimeExtensionInterface;
 
-class MagazineExtensionRuntime implements RuntimeExtensionInterface
+readonly class MagazineExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private Security $security)
     {
     }
 

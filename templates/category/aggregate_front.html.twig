@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {% if get_active_sort_option('sortBy') is not same as 'hot' %}
+        {{ category.name }} - {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'all_content'|trans }}
+    {% else %}
+        {{ category.name }} - {{ 'all_content'|trans }}
+    {% endif %}
+{%- endblock -%}
+
+{% block description %}
+    {% if category.description %}
+        {{ category.description }}
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock %}
+
+{% block image %}
+    {{- parent() -}}
+{% endblock %}
+
+{% block mainClass %}page-category-aggregate-front{% endblock %}
+
+{% block header_nav %}
+    {% include 'category/_header.html.twig' %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ category.name }} {{ get_active_sort_option()|trans }}</h1>
+    </header>
+    {% include 'entry/_options.html.twig' %}
+    {% include 'layout/_flash.html.twig' %}
+    {% if magazine is defined and magazine %}
+        {% include 'magazine/_federated_info.html.twig' %}
+        {% include 'magazine/_visibility_info.html.twig' %}
+    {% endif %}
+    <div id="content">
+        {% include 'aggregate/_list.html.twig' %}
+    </div>
+{% endblock %}
+

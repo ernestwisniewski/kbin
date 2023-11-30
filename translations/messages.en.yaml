@@ -838,3 +838,7 @@ mark_new_comments: Mark new comments
 new_comments_count: '%count% new'
 all_content: All Content
 show_support_us_block: Show "Support Us" block
+author: Author
+category: Collection
+categories: Collections
+add_category: Add collection

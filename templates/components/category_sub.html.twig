@@ -1,0 +1,19 @@
+<aside{{ attributes.defaults({class: 'magazine__subscribe'}) }}>
+    <div class='action'>
+        <i class="fa-solid fa-users"></i><span>{{ category.subscriptionsCount }}</span>
+    </div>
+    <form action="{{ path('category_' ~ (is_category_subscribed(category) ? 'unsubscribe' : 'subscribe'), {id: category.id}) }}"
+          name="category_subscribe"
+          method="post">
+        <button type="submit"
+                class="{{ html_classes('btn btn__secondary action', {'active': is_category_subscribed(category)}) }}"
+                data-action="subs#send">
+            {% if is_category_subscribed(category) %}
+                <i class="fa-sharp fa-solid fa-folder-minus"></i><span>{{ 'delete'|trans }}</span>
+            {% else %}
+                <i class="fa-sharp fa-solid fa-folder-plus"></i><span>{{ 'favourite'|trans }}</span>
+            {% endif %}
+        </button>
+        <input type="hidden" name="token" value="{{ csrf_token('subscribe') }}">
+    </form>
+</aside>

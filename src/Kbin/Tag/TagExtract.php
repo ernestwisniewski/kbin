@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
@@ -19,11 +21,11 @@ class TagExtract
         preg_match_all(RegPatterns::LOCAL_TAG, $value, $matches);
 
         $result = $matches[1];
-        $result = array_map(fn($tag) => strtolower(trim($tag)), $result);
+        $result = array_map(fn ($tag) => strtolower(trim($tag)), $result);
 
         $result = array_values($result);
 
-        $result = array_map(fn($tag) => ($this->tagTransliterate)($tag), $result);
+        $result = array_map(fn ($tag) => ($this->tagTransliterate)($tag), $result);
 
         if ($magazineName) {
             $result = array_diff($result, [$magazineName]);

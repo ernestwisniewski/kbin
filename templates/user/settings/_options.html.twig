@@ -38,6 +38,12 @@
             </a>
         </li>
         <li>
+            <a href="{{ path('user_settings_categories') }}"
+               class="{{ html_classes({'active': is_route_name_contains('user_settings_categories')}) }}">
+                {{ 'categories'|trans|lower }}
+            </a>
+        </li>
+        <li>
             <a href="{{ path('user_settings_reports') }}"
                class="{{ html_classes({'active': is_route_name('user_settings_reports')}) }}">
                 {{ 'reports'|trans|lower }}

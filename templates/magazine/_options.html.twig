@@ -24,7 +24,14 @@
                 {{ 'abandoned'|trans|lower }}
             </a>
         </li>
+        <li>
+            <a href="{{ path('magazine_categories') }}"
+               class="{{ html_classes({'active': is_route_name('magazine_categories')}) }}">
+                {{ 'categories'|trans|lower }}
+            </a>
+        </li>
     </menu>
+    {% if not is_route_name('magazine_abandoned') and not is_route_name('magazine_categories') %}
     <menu class="options__layout">
         <li class="dropdown">
             <button aria-label="{{ 'change_view'|trans }}"
@@ -40,4 +47,5 @@
             </ul>
         </li>
     </menu>
+    {% endif %}
 </aside>

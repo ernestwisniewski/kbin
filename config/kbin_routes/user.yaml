@@ -255,6 +255,21 @@ user_settings_2fa_backup:
   path: /settings/2fa/backup
   methods: [ POST ]
 
+user_settings_categories:
+  controller: App\Controller\User\Profile\UserCategoryController
+  path: /settings/collections
+  methods: [ GET, POST ]
+
+user_settings_categories_edit:
+  controller: App\Controller\User\Profile\UserCategoryController::edit
+  path: /settings/collections/{id}
+  methods: [ GET, POST ]
+
+user_settings_categories_delete:
+  controller: App\Controller\User\Profile\UserCategoryController::delete
+  path: /settings/collections/{id}/delete
+  methods: [ POST ]
+
 user_settings_avatar_delete:
   controller: App\Controller\User\UserAvatarDeleteController
   path: /settings/edit/delete_avatar
@@ -285,3 +300,4 @@ user_settings:
   controller: App\Controller\User\UserSettingsController
   path: /settings/front/{key}/{value}
   methods: [ GET ]
+
