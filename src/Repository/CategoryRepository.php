@@ -37,6 +37,7 @@ class CategoryRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('c')
             ->where('c.isPrivate = false')
             ->orderBy('c.isOfficial', 'DESC')
+            ->addOrderBy('c.subscriptionsCount', 'ASC')
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(
@@ -53,5 +54,39 @@ class CategoryRepository extends ServiceEntityRepository
         }
 
         return $pagerfanta;
+    }
+
+    public function findRandom(): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = '
+            SELECT c.id FROM category c
+            WHERE c.is_private = false
+            ORDER BY random()
+            LIMIT 5
+            ';
+        $stmt = $conn->prepare($sql);
+
+        $stmt = $stmt->executeQuery();
+        $ids = $stmt->fetchAllAssociative();
+
+        return $this->createQueryBuilder('c')
+            ->where('c.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findRelated(string $category): array
+    {
+        $category = strtolower($category);
+
+        return $this->createQueryBuilder('c')
+            ->andWhere('LOWER(c.name) LIKE :category OR LOWER(c.description) LIKE :category')
+            ->andWhere('c.isPrivate = false')
+            ->setParameter('category', "%{$category}%")
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
     }
 }

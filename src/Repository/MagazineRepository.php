@@ -468,9 +468,11 @@ class MagazineRepository extends ServiceEntityRepository
 
     public function findRelated(string $magazine): array
     {
+        $magazine = strtolower($magazine);
+
         return $this->createQueryBuilder('m')
             ->where('m.entryCount > 0 OR m.postCount > 0')
-            ->andWhere('m.title LIKE :magazine OR m.description LIKE :magazine OR m.name LIKE :magazine')
+            ->andWhere('LOWER(m.title) LIKE :magazine OR LOWER(m.description) LIKE :magazine OR LOWER(m.name) LIKE :magazine')
             ->andWhere('m.isAdult = false')
             ->andWhere('m.visibility = :visibility')
             ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)

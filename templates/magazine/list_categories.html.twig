@@ -38,11 +38,11 @@
                                         {{ category.name }}
                                     </a>
                                 </td>
-                                <td>{{ component('user_inline', {user: category.user}) }}</td>
+                                <td nowrap="nowrap">{{ component('user_inline', {user: category.user}) }}</td>
                                 <td>
                                     {% for magazine in category.getMagazines() %}
-                                        <small class="badge primary-bg">
-                                            <a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+                                        <small>
+                                            <a class="badge" href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
                                         </small>
                                     {% endfor %}
                                 </td>
