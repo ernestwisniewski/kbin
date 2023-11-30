@@ -16,7 +16,7 @@ use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\Factory\EntryFactory;
 use App\Kbin\MentionManager;
-use App\Kbin\TagManager;
+use App\Kbin\Tag\TagExtract;
 use App\Kbin\Utils\Slugger;
 use App\Kbin\Utils\UrlCleaner;
 use App\Repository\ImageRepository;
@@ -29,7 +29,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 readonly class EntryCreate
 {
     public function __construct(
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private MentionManager $mentionManager,
         private EntryBadgeAssign $entryBadgeAssign,
         private Slugger $slugger,
@@ -64,8 +64,8 @@ readonly class EntryCreate
         if ($entry->image && !$entry->image->altText) {
             $entry->image->altText = $dto->imageAlt;
         }
-        $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+        $entry->tags = $dto->tags ? ($this->tagExtract)(
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

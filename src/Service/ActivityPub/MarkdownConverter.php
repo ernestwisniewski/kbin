@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace App\Service\ActivityPub;
 
+use App\Kbin\Tag\TagExtract;
 use App\Service\ActivityPubManager;
 use App\Service\MentionManager;
-use App\Service\TagManager;
 use League\HTMLToMarkdown\Converter\TableConverter;
 use League\HTMLToMarkdown\HtmlConverter;
 
-class MarkdownConverter
+readonly class MarkdownConverter
 {
     public function __construct(
-        private readonly TagManager $tagManager,
-        private readonly MentionManager $mentionManager,
-        private readonly ActivityPubManager $activityPubManager
+        private TagExtract $tagExtract,
+        private MentionManager $mentionManager,
+        private ActivityPubManager $activityPubManager
     ) {
     }
 
@@ -41,7 +41,7 @@ class MarkdownConverter
                 $value = str_replace($match[0], $replace, $value);
             }
 
-            if ($this->tagManager->extract($match[1])) {
+            if (($this->tagExtract)($match[1])) {
                 $value = str_replace($match[0], $match[1], $value);
             }
         }

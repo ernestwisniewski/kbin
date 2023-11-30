@@ -10,9 +10,9 @@ namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
 use App\Kbin\Entry\EntryPageView;
+use App\Kbin\Tag\TagTransliterate;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
-use App\Service\TagManager;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,7 @@ class TagEntryFrontController extends AbstractController
 {
     public function __construct(
         private readonly EntryRepository $entryRepository,
-        private readonly TagManager $tagManager
+        private readonly TagTransliterate $tagTransliterate
     ) {
     }
 
@@ -31,7 +31,7 @@ class TagEntryFrontController extends AbstractController
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type))
-            ->setTag($this->tagManager->transliterate(strtolower($name)));
+            ->setTag(($this->tagTransliterate)(strtolower($name)));
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 

@@ -10,6 +10,7 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Post;
+use App\Kbin\Tag\TagJoinToBody;
 use App\Markdown\MarkdownConverter;
 use App\Markdown\RenderTarget;
 use App\Service\ActivityPub\ApHttpClient;
@@ -17,8 +18,6 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
-use App\Service\MentionManager;
-use App\Service\TagManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -32,8 +31,7 @@ class PostNoteFactory
         private readonly MentionsWrapper $mentionsWrapper,
         private readonly ApHttpClient $client,
         private readonly ActivityPubManager $activityPubManager,
-        private readonly MentionManager $mentionManager,
-        private readonly TagManager $tagManager,
+        private readonly TagJoinToBody $tagJoinToBody,
         private readonly MarkdownConverter $markdownConverter
     ) {
     }
@@ -66,15 +64,15 @@ class PostNoteFactory
                 $post->apId
                     ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                        'ap_user_followers',
-                        ['username' => $post->user->username],
-                        UrlGeneratorInterface::ABSOLUTE_URL
-                    ),
+                    'ap_user_followers',
+                    ['username' => $post->user->username],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
             ],
             'sensitive' => $post->isAdult(),
             'stickied' => $post->sticky,
             'content' => $this->markdownConverter->convertToHtml(
-                $this->tagManager->joinTagsToBody(
+                ($this->tagJoinToBody)(
                     $post->body,
                     $tags
                 ),

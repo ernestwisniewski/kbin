@@ -215,6 +215,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
         }
 
         $qb->addOrderBy('p.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
+        $qb->addOrderBy('p.id', 'DESC');
     }
 
     public function hydrate(Post ...$posts): void

@@ -14,7 +14,7 @@ use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\MentionManager;
 use App\Kbin\MessageBus\ImagePurgeMessage;
-use App\Kbin\TagManager;
+use App\Kbin\Tag\TagExtract;
 use App\Kbin\Utils\Slugger;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +25,7 @@ use Webmozart\Assert\Assert;
 readonly class EntryEdit
 {
     public function __construct(
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private MentionManager $mentionManager,
         private EntryBadgeAssign $entryBadgeAssign,
         private Slugger $slugger,
@@ -51,8 +51,8 @@ readonly class EntryEdit
         if ($dto->image && $dto->image->id !== $entry->image?->getId()) {
             $entry->image = $this->imageRepository->find($dto->image->id);
         }
-        $entry->tags = $dto->tags ? $this->tagManager->extract(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+        $entry->tags = $dto->tags ? ($this->tagExtract)(
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

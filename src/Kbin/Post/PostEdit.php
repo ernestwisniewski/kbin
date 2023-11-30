@@ -12,9 +12,9 @@ use App\Entity\Post;
 use App\Event\Post\PostEditedEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
-use App\Service\TagManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -26,7 +26,7 @@ readonly class PostEdit
     public function __construct(
         private Slugger $slugger,
         private MentionManager $mentionManager,
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private ImageRepository $imageRepository,
         private EventDispatcherInterface $eventDispatcher,
         private MessageBusInterface $messageBus,
@@ -46,7 +46,7 @@ readonly class PostEdit
         if ($dto->image && $dto->image->id !== $post->image?->getId()) {
             $post->image = $this->imageRepository->find($dto->image->id);
         }
-        $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
+        $post->tags = $dto->body ? ($this->tagExtract)($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->getVisibility();
         $post->editedAt = new \DateTimeImmutable('@'.time());

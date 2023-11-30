@@ -14,9 +14,9 @@ use App\Event\Post\PostCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\Factory\PostFactory;
+use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
-use App\Service\TagManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -28,7 +28,7 @@ readonly class PostCreate
     public function __construct(
         private Slugger $slugger,
         private MentionManager $mentionManager,
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private PostFactory $postFactory,
         private ImageRepository $imageRepository,
         private RateLimiterFactory $postLimiter,
@@ -59,7 +59,7 @@ readonly class PostCreate
         if ($post->image && !$post->image->altText) {
             $post->image->altText = $dto->imageAlt;
         }
-        $post->tags = $dto->body ? $this->tagManager->extract($dto->body, $post->magazine->name) : null;
+        $post->tags = $dto->body ? ($this->tagExtract)($dto->body, $post->magazine->name) : null;
         $post->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;
         $post->visibility = $dto->getVisibility();
         $post->apId = $dto->apId;

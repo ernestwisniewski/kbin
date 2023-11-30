@@ -110,7 +110,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
     }
 
-    private function filter(QueryBuilder $qb, Criteria $criteria): QueryBuilder
+    private function filter(QueryBuilder $qb, Criteria $criteria): void
     {
         $user = $this->security->getUser();
 
@@ -243,8 +243,7 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
-
-        return $qb;
+        $qb->addOrderBy('c.id', 'DESC');
     }
 
     public function hydrateChildren(EntryComment ...$comments): void

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Service;
 
-use App\Service\TagManager;
-use PHPUnit\Framework\TestCase;
+use App\Kbin\Tag\TagExtract;
+use App\Tests\WebTestCase;
 
-class TagManagerTest extends TestCase
+class TagExtractTest extends WebTestCase
 {
     /**
      * @dataProvider provider
      */
     public function testExtract(string $input, ?array $output): void
     {
-        $this->assertEquals($output, (new TagManager())->extract($input, 'kbin'));
+        $this->assertEquals($output, ($this->getService(TagExtract::class))($input, 'kbin'));
     }
 
     public function provider(): array
