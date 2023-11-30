@@ -20,6 +20,7 @@ use App\Repository\AggregateRepository;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
+use FeedIo\Adapter\NotFoundException;
 use Pagerfanta\PagerfantaInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,7 +43,10 @@ class CategoryController extends AbstractController
         EntryRepository $entryRepository,
         Request $request
     ): Response {
-        //        $request->get('_route')
+        if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
+            throw new NotFoundException();
+        }
+
         $user = $this->getUser();
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
@@ -95,8 +99,11 @@ class CategoryController extends AbstractController
         PostRepository $repository,
         Request $request
     ): Response {
-        $user = $this->getUser();
+        if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
+            throw new NotFoundException();
+        }
 
+        $user = $this->getUser();
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation(
@@ -147,8 +154,11 @@ class CategoryController extends AbstractController
         AggregateRepository $aggregateRepository,
         Request $request
     ): Response {
-        $user = $this->getUser();
+        if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
+            throw new NotFoundException();
+        }
 
+        $user = $this->getUser();
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation(
