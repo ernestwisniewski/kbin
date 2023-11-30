@@ -33,8 +33,8 @@
                         <tbody>
                         {% for category in categories %}
                             <tr>
-                                <td>
-                                    <a href="{{ category_url(category) }}">
+                                <td nowrap="nowrap" style="position: relative">
+                                    <a class="stretched-link" href="{{ category_url(category) }}">
                                         {{ category.name }}
                                     </a>
                                 </td>
