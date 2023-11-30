@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/en\>
+// SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
@@ -22,28 +22,21 @@ export default class extends Controller {
     async show(event) {
         event.preventDefault();
 
-        let element = this.element;
+        let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
+            ? this.element.nextElementSibling : null;
 
-        if (element.classList.contains('preview')) {
-            element = element.parentElement.previousElementSibling;
-            this.element.remove();
+        if (null === container) {
+            container = document.createElement('div');
+            container.classList.add('js-container');
+            container.style.display = 'none';
+            this.element.insertAdjacentHTML('afterend', container.outerHTML);
         } else {
-            let container = this.element.nextElementSibling && this.element.nextElementSibling.classList.contains('js-container')
-                ? this.element.nextElementSibling : null;
-
-            if (null === container) {
-                container = document.createElement('div');
-                container.classList.add('js-container');
-                container.style.display = 'none';
-                this.element.insertAdjacentHTML('afterend', container.outerHTML);
-            } else {
-                if (container.querySelector('.preview')) {
-                    container.querySelector('.preview').remove();
-                    if (0 === container.children.length) {
-                        container.remove();
-                    }
-                    return;
+            if (container.querySelector('.preview')) {
+                container.querySelector('.preview').remove();
+                if (0 === container.children.length) {
+                    container.remove();
                 }
+                return;
             }
         }
 
@@ -55,20 +48,14 @@ export default class extends Controller {
             response = await ok(response);
             response = await response.json();
 
-            element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
-            element.nextElementSibling.style.display = 'block';
+            this.element.nextElementSibling.insertAdjacentHTML('afterbegin', response.html);
+            this.element.nextElementSibling.style.display = 'block';
             if (event.params.ratio) {
-                element.nextElementSibling.querySelector('.preview').classList.add('ratio');
+                this.element.nextElementSibling.querySelector('.preview').classList.add('ratio');
             }
             this.loadScripts(response.html);
         } catch (e) {
-            const failedHtml = '<div class="preview" data-controller="preview">' + 
-                                '<a class="retry-failed" href="#" ' + 
-                                    'data-action="preview#show" data-preview-url-param="' + event.params.url +
-                                    '" data-preview-ratio-param="' + event.params.ratio + '">' +
-                                'Failed to load. Click to retry.</a></div>';
-            element.nextElementSibling.insertAdjacentHTML('afterbegin', failedHtml);
-            element.nextElementSibling.style.display = 'block';
+            window.location.href = event.target.href;
         } finally {
             this.loadingValue = false;
         }

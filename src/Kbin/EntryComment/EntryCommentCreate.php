@@ -14,9 +14,9 @@ use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\Factory\EntryCommentFactory;
+use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
-use App\Service\TagManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -25,7 +25,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 readonly class EntryCommentCreate
 {
     public function __construct(
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private MentionManager $mentionManager,
         private EntryCommentFactory $entryCommentFactory,
         private ImageRepository $imageRepository,
@@ -57,7 +57,7 @@ readonly class EntryCommentCreate
         if ($comment->image && !$comment->image->altText) {
             $comment->image->altText = $dto->imageAlt;
         }
-        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->tags = $dto->body ? ($this->tagExtract)($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;

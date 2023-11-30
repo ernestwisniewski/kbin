@@ -12,9 +12,9 @@ use App\Entity\EntryComment;
 use App\Event\EntryComment\EntryCommentEditedEvent;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\MessageBus\ImagePurgeMessage;
+use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;
-use App\Service\TagManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -23,7 +23,7 @@ use Webmozart\Assert\Assert;
 readonly class EntryCommentEdit
 {
     public function __construct(
-        private TagManager $tagManager,
+        private TagExtract $tagExtract,
         private MentionManager $mentionManager,
         private ImageRepository $imageRepository,
         private EventDispatcherInterface $eventDispatcher,
@@ -43,7 +43,7 @@ readonly class EntryCommentEdit
         if ($dto->image && $dto->image->id !== $comment->image?->getId()) {
             $comment->image = $this->imageRepository->find($dto->image->id);
         }
-        $comment->tags = $dto->body ? $this->tagManager->extract($dto->body, $comment->magazine->name) : null;
+        $comment->tags = $dto->body ? ($this->tagExtract)($dto->body, $comment->magazine->name) : null;
         $comment->mentions = $dto->body
             ? array_merge($dto->mentions ?? [], $this->mentionManager->handleChain($comment))
             : $dto->mentions;

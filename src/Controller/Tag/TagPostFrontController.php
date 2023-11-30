@@ -10,14 +10,14 @@ namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
 use App\Kbin\Post\PostPageView;
+use App\Kbin\Tag\TagTransliterate;
 use App\Repository\PostRepository;
-use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagPostFrontController extends AbstractController
 {
-    public function __construct(private readonly TagManager $tagManager)
+    public function __construct(private readonly TagTransliterate $tagTransliterate)
     {
     }
 
@@ -31,7 +31,7 @@ class TagPostFrontController extends AbstractController
         $criteria = new PostPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setTime($criteria->resolveTime($time))
-            ->setTag($this->tagManager->transliterate(strtolower($name)));
+            ->setTag(($this->tagTransliterate)(strtolower($name)));
 
         $posts = $repository->findByCriteria($criteria);
 

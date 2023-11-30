@@ -10,15 +10,15 @@ namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
 use App\Kbin\SubjectOverviewListCreate;
+use App\Kbin\Tag\TagTransliterate;
 use App\Repository\TagRepository;
-use App\Service\TagManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class TagOverviewController extends AbstractController
 {
     public function __construct(
-        private readonly TagManager $tagManager,
+        private readonly TagTransliterate $tagTransliterate,
         private readonly TagRepository $tagRepository,
         private readonly SubjectOverviewListCreate $subjectOverviewListCreate
     ) {
@@ -28,7 +28,7 @@ class TagOverviewController extends AbstractController
     {
         $activity = $this->tagRepository->findOverall(
             $this->getPageNb($request),
-            $this->tagManager->transliterate(strtolower($name))
+            ($this->tagTransliterate)(strtolower($name))
         );
 
         return $this->render(

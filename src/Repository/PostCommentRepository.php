@@ -163,6 +163,7 @@ class PostCommentRepository extends ServiceEntityRepository implements TagReposi
         }
 
         $qb->addOrderBy('c.createdAt', 'DESC');
+        $qb->addOrderBy('c.id', 'DESC');
     }
 
     public function hydrate(PostComment ...$comment): void

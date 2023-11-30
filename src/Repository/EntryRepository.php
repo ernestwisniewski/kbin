@@ -238,6 +238,7 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
         }
 
         $qb->addOrderBy('e.createdAt', Criteria::SORT_OLD === $criteria->sortOption ? 'ASC' : 'DESC');
+        $qb->addOrderBy('e.id', 'DESC');
     }
 
     public function hydrate(Entry ...$entries): void
