@@ -52,7 +52,7 @@ readonly class EntryEdit
             $entry->image = $this->imageRepository->find($dto->image->id);
         }
         $entry->tags = $dto->tags ? ($this->tagExtract)(
-            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

@@ -64,10 +64,10 @@ class PostNoteFactory
                 $post->apId
                     ? ($this->client->getActorObject($post->user->apProfileId)['followers']) ?? []
                     : $this->urlGenerator->generate(
-                    'ap_user_followers',
-                    ['username' => $post->user->username],
-                    UrlGeneratorInterface::ABSOLUTE_URL
-                ),
+                        'ap_user_followers',
+                        ['username' => $post->user->username],
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    ),
             ],
             'sensitive' => $post->isAdult(),
             'stickied' => $post->sticky,
