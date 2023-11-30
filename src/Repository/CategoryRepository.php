@@ -37,7 +37,7 @@ class CategoryRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('c')
             ->where('c.isPrivate = false')
             ->orderBy('c.isOfficial', 'DESC')
-            ->addOrderBy('c.subscriptionsCount', 'ASC')
+            ->addOrderBy('c.subscriptionsCount', 'DESC')
             ->getQuery();
 
         $pagerfanta = new Pagerfanta(
