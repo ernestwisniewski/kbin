@@ -12,7 +12,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ magazine is defined and magazine ? path('front_aggregate_magazine', {name: magazine.name}) : path('front_aggregate') }}"
+        <a href="{{ navbar_aggregate_url(magazine ?? null) }}"
            class="{{ html_classes({'active': is_route_name_contains('_aggregate')}) }}">
             {{ 'all_content'|trans }}
         </a>

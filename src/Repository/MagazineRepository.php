@@ -523,9 +523,11 @@ class MagazineRepository extends ServiceEntityRepository
             ->andWhere('mod.isOwner = true')
             ->andWhere('u.lastActive < :date')
             ->andWhere('m.apId IS NULL')
+            ->andWhere('m.visibility = :visibility')
             ->join('m.moderators', 'mod')
             ->join('mod.user', 'u')
             ->setParameter('date', new \DateTime('-1 month'))
+            ->setParameter('visibility', VisibilityInterface::VISIBILITY_VISIBLE)
             ->orderBy('m.subscriptionsCount', 'DESC')
             ->getQuery();
 

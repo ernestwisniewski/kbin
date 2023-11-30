@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'categories'|trans }} - {{ parent() -}}
+{%- endblock -%}
+
+{% block mainClass %}page-categories page-settings{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    <header>
+        <h1 hidden>{{ 'categories'|trans }}</h1>
+    </header>
+    {% include 'magazine/_options.html.twig' %}
+    <div id="content">
+        {% if categories|length %}
+            <div class="section">
+                <div class="categories table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>{{ 'name'|trans }}</th>
+                            <th>{{ 'author'|trans }}</th>
+                            <th>{{ 'magazines'|trans }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td>
+                                    <a href="{{ category_url(category) }}">
+                                        {{ category.name }}
+                                    </a>
+                                </td>
+                                <td>{{ component('user_inline', {user: category.user}) }}</td>
+                                <td>
+                                    {% for magazine in category.getMagazines() %}
+                                        <small class="badge primary-bg">
+                                            <a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+                                        </small>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {{ component('category_sub', {category: category}) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% if(categories.haveToPaginate is defined and categories.haveToPaginate) %}
+                {{ pagerfanta(categories, null, {'pageParameter':'[p]'}) }}
+            {% endif %}
+        {% else %}
+            <aside class="section section--muted">
+                <p>{{ 'empty'|trans }}</p>
+            </aside>
+        {% endif %}
+
+    </div>
+{% endblock %}

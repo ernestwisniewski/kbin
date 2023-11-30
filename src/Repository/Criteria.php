@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
@@ -90,7 +91,9 @@ abstract class Criteria
 
     public int $page = 1;
     public ?Magazine $magazine = null;
+    public ?Category $category = null;
     public ?User $user = null;
+    public ?array $magazines = null;
     public ?int $perPage = null;
     public bool $moderated = false;
     public bool $favourite = false;

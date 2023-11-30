@@ -12,8 +12,8 @@ use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Entry\EntryPageView;
-use App\Kbin\Pagination\KbinCustomPageResultPagination;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use Pagerfanta\PagerfantaInterface;
@@ -25,8 +25,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class EntryFrontController extends AbstractController
 {
-    public function __construct(private readonly EntryRepository $repository)
-    {
+    public function __construct(
+        private readonly EntryCrosspost $entryCrosspost,
+        private readonly EntryRepository $repository
+    ) {
     }
 
     public function root(?string $sortBy, ?string $time, ?string $type, Request $request): Response
@@ -68,7 +70,7 @@ class EntryFrontController extends AbstractController
         $method = $criteria->resolveSort($sortBy);
         $posts = $this->$method($criteria);
 
-        $posts = $this->handleCrossposts($posts);
+        $posts = ($this->entryCrosspost)($posts);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
@@ -307,55 +309,5 @@ class EntryFrontController extends AbstractController
     private function commented(EntryPageView $criteria): PagerfantaInterface
     {
         return $this->repository->findByCriteria($criteria->showSortOption(Criteria::SORT_COMMENTED));
-    }
-
-    private function handleCrossposts($pagination): PagerfantaInterface
-    {
-        $posts = $pagination->getCurrentPageResults();
-
-        $firstIndexes = [];
-        $tmp = [];
-        $duplicates = [];
-
-        foreach ($posts as $post) {
-            $groupingField = !empty($post->url) ? $post->url : $post->title;
-
-            if (!\in_array($groupingField, $firstIndexes)) {
-                $tmp[] = $post;
-                $firstIndexes[] = $groupingField;
-            } else {
-                if (!\in_array($groupingField, array_column($duplicates, 'groupingField'), true)) {
-                    $duplicates[] = (object) [
-                        'groupingField' => $groupingField,
-                        'items' => [],
-                    ];
-                }
-
-                $duplicateIndex = array_search($groupingField, array_column($duplicates, 'groupingField'));
-                $duplicates[$duplicateIndex]->items[] = $post;
-
-                $post->cross = true;
-            }
-        }
-
-        $results = [];
-        foreach ($tmp as $item) {
-            $results[] = $item;
-            $groupingField = !empty($item->url) ? $item->url : $item->title;
-
-            $duplicateIndex = array_search($groupingField, array_column($duplicates, 'groupingField'));
-            if (false !== $duplicateIndex) {
-                foreach ($duplicates[$duplicateIndex]->items as $duplicateItem) {
-                    $results[] = $duplicateItem;
-                }
-            }
-        }
-
-        $pagerfanta = new KbinCustomPageResultPagination($pagination->getAdapter());
-        $pagerfanta->setCurrentPage($pagination->getCurrentPage());
-        $pagerfanta->setMaxNbPages($pagination->getNbPages());
-        $pagerfanta->setCurrentPageResults($results);
-
-        return $pagerfanta;
     }
 }

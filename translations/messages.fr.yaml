@@ -900,3 +900,5 @@ show_subscribed_magazines: Afficher les magazines abonnés
 feed: Fil d'actualité
 new_comments_count: '%count% nouveaux'
 mark_new_comments: Marquer les nouveaux commentaires
+all_content: Tout le contenu
+show_support_us_block: Afficher le bloc « Soutenez-nous »

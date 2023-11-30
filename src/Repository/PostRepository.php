@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\CategoryMagazine;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Magazine;
 use App\Entity\MagazineBlock;
@@ -190,6 +191,13 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
                 'p.magazine NOT IN (SELECT IDENTITY(mb.magazine) FROM '.MagazineBlock::class.' mb WHERE mb.user = :magazineBlocker)'
             );
             $qb->setParameter('magazineBlocker', $user);
+        }
+
+        if ($criteria->category) {
+            $qb->andWhere(
+                'p.magazine IN (SELECT IDENTITY(ct.magazine) FROM '.CategoryMagazine::class.' ct WHERE ct.category = :category)'
+            );
+            $qb->setParameter('category', $criteria->category);
         }
 
         if (!$user || $user->hideAdult) {

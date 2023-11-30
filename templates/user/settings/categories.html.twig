@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{%- block title -%}
+    {{- 'categories'|trans }} - {{ app.user.username|username(false) }} - {{ parent() -}}
+{%- endblock -%}
+
+
+{% block mainClass %}page-settings page-settings-general{% endblock %}
+
+{% block header_nav %}
+{% endblock %}
+
+{% block sidebar_top %}
+{% endblock %}
+
+{% block body %}
+    {% include('user/settings/_options.html.twig') %}
+    {% include 'layout/_flash.html.twig' %}
+    <div id="content" class="section">
+        <div class="container">
+            <h1 hidden>{{ 'categories'|trans }}</h1>
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.magazines) }}
+            <div class="checkbox">
+                {{ form_label(form.isPrivate, 'private'|trans) }}
+                {{ form_widget(form.isPrivate) }}
+            </div>
+            <div class="row actions">
+                {{ form_row(form.submit, {label: 'save', attr: {class: 'btn btn__primary'}}) }}
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    {% if app.user.categories|length %}
+        <div class="section table-responsive" id="content">
+            <table>
+                <thead>
+                <tr>
+                    <th>{{ 'name'|trans }}</th>
+                    <th>{{ 'magazines'|trans }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for category in app.user.categories %}
+                    <tr>
+                        <td><a href="{{ category_url(category) }}">{{ category.name }}</a></td>
+                        <td>
+                            {% for magazine in category.getMagazines() %}
+                                <small class="badge primary-bg">
+                                    <a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+                                </small>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <aside class="magazine__subscribe">
+                                <a href="{{ path('user_settings_categories_edit', {id: category.id}) }}"
+                                   class="btn btn__secondary">{{ 'edit'|trans }}
+                                </a>
+                                <form action="{{ path('user_settings_categories_delete', {id: category.id}) }}"
+                                      method="post"
+                                      onsubmit="return confirm('{{ 'are_you_sure'|trans }}');">
+                                    <input type="hidden" name="token" value="{{ csrf_token('category_delete') }}">
+                                    <button class="btn btn__danger" type="submit">
+                                        <span><i class="fa-solid fa-ban"></i></span>
+                                    </button>
+                                </form>
+                            </aside>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

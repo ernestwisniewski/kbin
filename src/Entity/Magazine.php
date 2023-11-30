@@ -113,6 +113,11 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
     #[OneToMany(mappedBy: 'magazine', targetEntity: Award::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $awards;
+    #[OneToMany(mappedBy: 'magazine', targetEntity: CategoryMagazine::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $categories;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
@@ -144,6 +149,7 @@ class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiRes
         $this->badges = new ArrayCollection();
         $this->logs = new ArrayCollection();
         $this->awards = new ArrayCollection();
+        $this->categories = new ArrayCollection();
 
         $this->addModerator(new Moderator($this, $user, true, true));
 

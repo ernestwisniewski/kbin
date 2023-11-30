@@ -252,6 +252,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
     #[OneToMany(mappedBy: 'user', targetEntity: Award::class, cascade: ['persist'], fetch: 'EXTRA_LAZY')]
     #[OrderBy(['createdAt' => 'DESC'])]
     public Collection $awards;
+    #[OneToMany(mappedBy: 'user', targetEntity: CategorySubscription::class, cascade: [
+        'persist',
+        'remove',
+    ], orphanRemoval: true)]
+    public Collection $subscribedCategories;
+    #[OneToMany(mappedBy: 'user', targetEntity: Category::class)]
+    public Collection $categories;
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'integer')]
@@ -304,6 +311,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Visibil
         $this->lastActive = new \DateTime();
         $this->createdAtTraitConstruct();
         $this->oAuth2UserConsents = new ArrayCollection();
+        $this->categories = new ArrayCollection();
+        $this->subscribedCategories = new ArrayCollection();
     }
 
     public function getId(): int
