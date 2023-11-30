@@ -48,7 +48,7 @@ class MagazineAutocompleteType extends AbstractType
                     return;
                 }
 
-                $qb->andWhere('LOWER(entity.name) LIKE :filter OR LOWER(entity.title) LIKE :filter')
+                $qb->andWhere('LOWER(entity.name) LIKE :filter OR LOWER(entity.title) LIKE :filter OR entity.name LIKE :filter OR entity.title LIKE :filter')
                     ->andWhere('entity.visibility = :visibility');
 
                 if (($this->spamProtectionCheck)($currentUser, false)) {

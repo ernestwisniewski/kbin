@@ -73,6 +73,7 @@ class UserCategoryController extends AbstractController
         );
     }
 
+    #[IsGranted('ROLE_USER')]
     public function delete(Category $category, Request $request): Response
     {
         $this->validateCsrf('category_delete', $request->request->get('token'));
