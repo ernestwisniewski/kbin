@@ -39,7 +39,7 @@
                                     </a>
                                 </td>
                                 <td>{{ component('user_inline', {user: category.user}) }}</td>
-                                <td>
+                                <td style="white-space:normal">
                                     {% for magazine in category.getMagazines() %}
                                         <small>
                                             <a class="badge" href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>

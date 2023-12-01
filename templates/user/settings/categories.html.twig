@@ -5,7 +5,7 @@
 {%- endblock -%}
 
 
-{% block mainClass %}page-settings page-settings-general{% endblock %}
+{% block mainClass %}page-settings page-settings-categories{% endblock %}
 
 {% block header_nav %}
 {% endblock %}
@@ -47,7 +47,7 @@
                 {% for category in app.user.categories %}
                     <tr>
                         <td><a href="{{ category_url(category) }}">{{ category.name }}</a></td>
-                        <td>
+                        <td style="white-space:normal">
                             {% for magazine in category.getMagazines() %}
                                 <small class="badge primary-bg">
                                     <a href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
