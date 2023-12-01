@@ -28,11 +28,24 @@ readonly class CategoryExtensionRuntime implements RuntimeExtensionInterface
         return $category->isSubscribed($this->security->getUser());
     }
 
-    public function categoryUrl(Category $category): string
+    public function categoryUrl(Category $category, $type = 'front'): string
     {
-        return $this->urlGenerator->generate(
-            'category_user_front',
-            ['username' => $category->user->username, 'category_slug' => $category->slug]
-        );
+        $params = ['username' => $category->user->username, 'category_slug' => $category->slug];
+
+        if (!$category->isOfficial) {
+            return match ($type) {
+                'front' => $this->urlGenerator->generate('category_user_front', $params),
+                'posts' => $this->urlGenerator->generate('category_user_posts_front', $params),
+                'aggregate' => $this->urlGenerator->generate('category_user_aggregate_front', $params),
+            };
+        }
+
+        $params = ['category_slug' => $category->slug];
+
+        return match ($type) {
+            'front' => $this->urlGenerator->generate('category_front', $params),
+            'posts' => $this->urlGenerator->generate('category_posts_front', $params),
+            'aggregate' => $this->urlGenerator->generate('category_aggregate_front', $params),
+        };
     }
 }

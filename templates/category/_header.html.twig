@@ -1,24 +1,21 @@
-{% if category.isOfficial %}
-{% else %}
-    <li>
-        <a href="{{ path('category_user_front', {username: category.user.username, category_slug: category.slug}) }}"
-           class="{{ html_classes({'active': is_route_name('category_user_front')}) }}">
-            {{ 'threads'|trans }}
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('category_user_posts_front', {username: category.user.username, category_slug: category.slug}) }}"
-           class="{{ html_classes({'active': is_route_name('category_user_posts_front')}) }}">
-            {{ 'microblog'|trans }}
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('category_user_aggregate_front', {username: category.user.username, category_slug: category.slug}) }}"
-           class="{{ html_classes({'active': is_route_name('category_user_aggregate_front')}) }}">
-            {{ 'all_content'|trans }}
-        </a>
-    </li>
-{% endif %}
+<li>
+    <a href="{{ category_url(category) }}"
+       class="{{ html_classes({'active': is_route_name('category_user_front') or is_route_name('category_front')}) }}">
+        {{ 'threads'|trans }}
+    </a>
+</li>
+<li>
+    <a href="{{ category_url(category, 'posts') }}"
+       class="{{ html_classes({'active': is_route_name('category_user_posts_front') or is_route_name('category_posts_front')}) }}">
+        {{ 'microblog'|trans }}
+    </a>
+</li>
+<li>
+    <a href="{{ category_url(category, 'aggregate') }}"
+       class="{{ html_classes({'active': is_route_name('category_user_aggregate_front') or is_route_name('category_aggregate_front')}) }}">
+        {{ 'all_content'|trans }}
+    </a>
+</li>
 <li>
     <a href="{{ navbar_people_url(magazine ?? null) }}"
        class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">

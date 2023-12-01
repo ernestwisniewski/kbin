@@ -11,7 +11,6 @@ namespace App\Controller;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Entry\EntryPageView;
 use App\Repository\AggregateRepository;
 use App\Repository\Criteria;
@@ -25,7 +24,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class AggregateController extends AbstractController
 {
     public function __construct(
-        private readonly EntryCrosspost $entryCrosspost,
         private readonly AggregateRepository $repository
     ) {
     }
@@ -68,8 +66,6 @@ class AggregateController extends AbstractController
 
         $method = $criteria->resolveSort($sortBy);
         $posts = $this->$method($criteria);
-
-        $posts = ($this->entryCrosspost)($posts);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

@@ -17,6 +17,18 @@ class EntryCrosspost
     {
         $posts = $pagination->getCurrentPageResults();
 
+        $results = $this->preparePageResults($posts);
+
+        $pagerfanta = new KbinCustomPageResultPagination($pagination->getAdapter());
+        $pagerfanta->setCurrentPage($pagination->getCurrentPage());
+        $pagerfanta->setMaxNbPages($pagination->getNbPages());
+        $pagerfanta->setCurrentPageResults($results);
+
+        return $pagerfanta;
+    }
+
+    public function preparePageResults(iterable $posts): ?iterable
+    {
         $firstIndexes = [];
         $tmp = [];
         $duplicates = [];
@@ -56,11 +68,6 @@ class EntryCrosspost
             }
         }
 
-        $pagerfanta = new KbinCustomPageResultPagination($pagination->getAdapter());
-        $pagerfanta->setCurrentPage($pagination->getCurrentPage());
-        $pagerfanta->setMaxNbPages($pagination->getNbPages());
-        $pagerfanta->setCurrentPageResults($results);
-
-        return $pagerfanta;
+        return $results;
     }
 }

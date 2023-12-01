@@ -62,8 +62,6 @@ final class RelatedCategoriesComponent
                     default => $this->repository->findRandom(),
                 };
 
-                $magazines = array_filter($magazines, fn ($m) => $m->name !== $this->magazine);
-
                 return $this->twig->render(
                     'components/related_categories.html.twig',
                     [

@@ -113,4 +113,9 @@ class KbinUnionPagination extends Pagerfanta
 
         return $this->nbResults;
     }
+
+    public function setCurrentPageResults(?iterable $paginator): void
+    {
+        $this->currentPageResults = $paginator;
+    }
 }

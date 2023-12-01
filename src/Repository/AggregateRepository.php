@@ -11,6 +11,7 @@ namespace App\Repository;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Post;
+use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Pagination\KbinUnionPagination;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +30,7 @@ class AggregateRepository
     public const PER_PAGE = 25;
 
     public function __construct(
+        private EntryCrosspost $entryCrosspost,
         private EntityManagerInterface $entityManager,
         private CacheInterface $cache,
         private readonly Security $security
@@ -122,10 +124,15 @@ class AggregateRepository
             )
         );
 
+        $results = $this->entryCrosspost->preparePageResults(
+            $pagerfanta->getCurrentPageResults()
+        );
+
         try {
             $pagerfanta->setNbResults($countAll);
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
+            $pagerfanta->setCurrentPageResults($results);
         } catch (NotValidCurrentPageException $e) {
             throw new NotFoundHttpException();
         }
