@@ -4,21 +4,4 @@
         attributes: {showMagazineName: not (magazine is defined and magazine)},
         postAttributes: {showCommentsPreview: true}
     } %}
-    {% if(results.haveToPaginate is defined and results.haveToPaginate) %}
-        {% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_INFINITE_SCROLL')) is same as 'true' %}
-            <div data-controller="infinite-scroll" class="infinite-scroll">
-                {{ component('loader', {'data-infinite-scroll-target': 'loader'}) }}
-                <div data-infinite-scroll-target="pagination" class="visually-hidden">
-                    {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
-                </div>
-            </div>
-        {% else %}
-            {{ pagerfanta(results, null, {'pageParameter':'[p]'}) }}
-        {% endif %}
-    {% endif %}
-    {% if not results|length %}
-        <aside class="section section--muted">
-            <p>{{ 'empty'|trans }}</p>
-        </aside>
-    {% endif %}
 </div>
