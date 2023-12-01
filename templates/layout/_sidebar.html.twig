@@ -120,11 +120,13 @@
     }) }}
     {% include 'magazine/_moderators_sidebar.html.twig' %}
 {% endif %}
+{% if category is not defined %}
+    {{ component('related_magazines', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
+{% endif %}
 {% if not is_route_name_contains('people') %}
     {{ component('active_users', {magazine: magazine is defined and magazine ? magazine : null}) }}
 {% endif %}
 {% if category is not defined %}
-    {{ component('related_magazines', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
     {{ component('related_categories', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
 {% endif %}
 {{ component('related_posts', {magazine: magazine is defined and magazine ? magazine.name : null, tag: tag is defined and tag ? tag : null}) }}
