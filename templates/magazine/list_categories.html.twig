@@ -33,12 +33,12 @@
                         <tbody>
                         {% for category in categories %}
                             <tr>
-                                <td nowrap="nowrap" style="position: relative">
+                                <td style="position: relative">
                                     <a class="stretched-link" href="{{ category_url(category) }}">
                                         {{ category.name }}
                                     </a>
                                 </td>
-                                <td nowrap="nowrap">{{ component('user_inline', {user: category.user}) }}</td>
+                                <td>{{ component('user_inline', {user: category.user}) }}</td>
                                 <td>
                                     {% for magazine in category.getMagazines() %}
                                         <small>

@@ -73,8 +73,8 @@
       }
     }
 
-    .action{
-      span{
+    .action {
+      span {
         margin-left: 0.5rem;
       }
     }
@@ -98,7 +98,7 @@
     vertical-align: middle;
     margin-right: 0.25rem;
 
-    @include media-breakpoint-down(sm){
+    @include media-breakpoint-down(sm) {
       width: 25px;
       height: 25px;
     }
@@ -120,6 +120,7 @@
     display: grid;
     grid-template-rows: auto;
   }
+
   h3 {
     border-bottom: var(--kbin-sidebar-header-border);
     color: var(--kbin-sidebar-header-text-color);
@@ -127,6 +128,7 @@
     margin: 0 0 1rem;
     text-transform: uppercase;
   }
+
   .content {
     font-size: 0.85rem;
   }
@@ -223,41 +225,41 @@ td {
   }
 }
 
-.magazines.table-responsive{
+.magazines.table-responsive {
   display: none;
 
-  @include media-breakpoint-up(md){
+  @include media-breakpoint-up(md) {
     display: block;
   }
 
 }
 
-.magazine-list-mobile{
+.magazine-list-mobile {
   display: none;
 
-  .magazines__sortby{
+  .magazines__sortby {
     display: flex;
     column-gap: 0.5rem;
     row-gap: 0.5rem;
     align-items: center;
     margin-bottom: 1rem;
 
-    span{
+    span {
       display: flex;
     }
   }
 
-  .magazine{
+  .magazine {
     position: relative;
     border-bottom: var(--kbin-section-border);
     padding: 1rem;
     font-size: 0.9rem;
 
-    &:nth-of-type(even){
+    &:nth-of-type(even) {
       background-color: var(--kbin-bg-nth);
     }
 
-    &__top{
+    &__top {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -266,61 +268,65 @@ td {
       flex-wrap: wrap;
     }
 
-    &__inline{
+    &__inline {
       width: 100%;
       position: relative;
     }
 
-    &__sub{
-      
+    &__sub {
+
     }
 
-    &__information{
+    &__information {
       justify-content: space-evenly;
       display: flex;
       column-gap: 1rem;
       width: 100%;
 
-      > span{
-        border-left:  var(--kbin-section-border);
+      > span {
+        border-left: var(--kbin-section-border);
         padding-left: 1rem;
         margin-right: auto;
 
-        &:first-child{
+        &:first-child {
           padding-left: 0px;
-          border:0px;
+          border: 0px;
         }
       }
 
     }
 
-    &__info{
+    &__info {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      
-      .value{
+
+      .value {
         font-weight: bold;
       }
     }
 
-    span{
+    span {
       position: relative;
     }
 
-    &__subscribe{
+    &__subscribe {
       margin-bottom: 0px;
     }
   }
 
-  @include media-breakpoint-up(md){
+  @include media-breakpoint-up(md) {
     border: solid 1px red;
   }
 
-  @include media-breakpoint-down(md){
+  @include media-breakpoint-down(md) {
     display: block;
   }
+}
 
-
+.page-categories {
+  td {
+    white-space: nowrap;
+  }
 }

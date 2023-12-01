@@ -179,8 +179,6 @@ class CategoryController extends AbstractController
 
         $posts = $this->$method($criteria, $aggregateRepository);
 
-        $posts = ($this->entryCrosspost)($posts);
-
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
