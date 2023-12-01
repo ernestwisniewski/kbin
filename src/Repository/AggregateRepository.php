@@ -115,7 +115,7 @@ class AggregateRepository
         $result = array_merge($entries, $post);
         uasort(
             $result,
-            fn($a, $b) => $a->{$this->resolveSortField($criteria)} > $b->{$this->resolveSortField($criteria)} ? -1 : 1
+            fn ($a, $b) => $a->{$this->resolveSortField($criteria)} > $b->{$this->resolveSortField($criteria)} ? -1 : 1
         );
 
         $pagerfanta = new KbinUnionPagination(
@@ -141,9 +141,9 @@ class AggregateRepository
 
     private function getOverviewIds(array $result, string $type): array
     {
-        $result = array_filter($result, fn($subject) => $subject['type'] === $type);
+        $result = array_filter($result, fn ($subject) => $subject['type'] === $type);
 
-        return array_map(fn($subject) => $subject['id'], $result);
+        return array_map(fn ($subject) => $subject['id'], $result);
     }
 
     private function getQuery(Criteria $criteria): string
