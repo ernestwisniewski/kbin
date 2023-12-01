@@ -27,6 +27,8 @@ class KbinUnionPagination extends Pagerfanta
      */
     private ?int $nbResults = null;
 
+    private int $maxPerPage = 25;
+
     /**
      * @phpstan-var iterable<array-key, T>|null
      */
@@ -37,6 +39,7 @@ class KbinUnionPagination extends Pagerfanta
      */
     public function __construct(private readonly AdapterInterface $adapter)
     {
+        $this->maxPerPage = 25;
         parent::__construct($adapter);
     }
 

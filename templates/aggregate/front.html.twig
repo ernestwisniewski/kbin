@@ -55,7 +55,9 @@
         {% include 'magazine/_federated_info.html.twig' %}
         {% include 'magazine/_visibility_info.html.twig' %}
     {% endif %}
-    <div id="content">
+    <div id="content" class="{{ html_classes({
+        'show-post-avatar': app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_USERS_AVATARS')) is same as 'true' or not app.request.cookies.has(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_POSTS_SHOW_USERS_AVATARS'))
+    }) }}">
         {% include 'layout/_subject_list.html.twig' with {
             attributes: {showMagazineName: not (magazine is defined and magazine)},
             postAttributes: {showCommentsPreview: true}
