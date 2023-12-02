@@ -39,7 +39,7 @@ class ImageProcessingCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->addArgument('type', InputArgument::REQUIRED, 'Type of images to delete (posts, users).')
@@ -108,7 +108,7 @@ class ImageProcessingCommand extends Command
         }
     }
 
-    private function deleteUsersImages()
+    private function deleteUsersImages(): void
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 

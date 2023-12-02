@@ -12,8 +12,6 @@ security:
             entity:
                 class: App\Entity\User
 
-    enable_authenticator_manager: true
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

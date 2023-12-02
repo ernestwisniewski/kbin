@@ -61,7 +61,7 @@ class ClientCredentialsGrant extends AbstractGrant
         ServerRequestInterface $request,
         ResponseTypeInterface $responseType,
         \DateInterval $accessTokenTTL
-    ) {
+    ): ResponseTypeInterface {
         list($clientId) = $this->getClientCredentials($request);
 
         $client = $this->getKbinClientEntityOrFail($clientId, $request);
@@ -92,7 +92,7 @@ class ClientCredentialsGrant extends AbstractGrant
         return $responseType;
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return 'client_credentials';
     }
