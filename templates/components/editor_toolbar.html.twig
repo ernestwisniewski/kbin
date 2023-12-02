@@ -1,10 +1,10 @@
-<markdown-toolbar for="{{ id }}" class="markdown meta">
+<markdown-toolbar for="{{ id }}" class="markdown meta" data-controller="markdown-toolbar">
     <md-bold title="{{ 'toolbar.bold'|trans }}" aria-label="{{ 'toolbar.bold'|trans }}">
         <i class="fa-solid fa-bold"></i>
     </md-bold>
     <md-italic title="{{ 'toolbar.italic'|trans }}" aria-label="{{ 'toolbar.italic'|trans }}">
         <i class="fa-solid fa-italic"></i>
-    </md-italic >
+    </md-italic>
     <md-strikethrough title="{{ 'toolbar.strikethrough'|trans }}" aria-label="{{ 'toolbar.strikethrough'|trans }}">
         <i class="fa-solid fa-strikethrough"></i>
     </md-strikethrough>
@@ -32,4 +32,7 @@
     <md-mention title="{{ 'toolbar.mention'|trans }}" aria-label="{{ 'toolbar.mention'|trans }}">
         <i class="fa-solid fa-at"></i>
     </md-mention>
+    <md-kbin title="{{ 'toolbar.spoiler'|trans }}" aria-label="{{ 'toolbar.spoiler'|trans }}" data-action="click->markdown-toolbar#addSpoiler">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </md-kbin>
 </markdown-toolbar>
