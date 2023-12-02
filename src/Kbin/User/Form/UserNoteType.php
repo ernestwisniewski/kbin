@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Kbin\User\Form;
 
-use App\Kbin\User\DTO\UserNoteDto;
+use App\Kbin\UserNote\DTO\UserNoteDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;

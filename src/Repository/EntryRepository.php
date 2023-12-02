@@ -455,4 +455,32 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
         return $qb->getQuery()->getResult();
     }
+
+    public function findUsers(Magazine $magazine, ?bool $federated = false): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->select('u.id, COUNT(e.id) as count')
+            ->groupBy('u.id')
+            ->join('e.user', 'u')
+            ->join('e.magazine', 'm')
+            ->andWhere('e.magazine = :magazine')
+            ->andWhere('e.visibility = :visibility')
+            ->andWhere('u.about != :emptyString')
+            ->andWhere('u.isBanned = false');
+
+        if ($federated) {
+            $qb->andWhere('e.apId IS NOT NULL')
+                ->andWhere('e.apDiscoverable = true');
+        } else {
+            $qb->andWhere('e.apId IS NULL');
+        }
+
+        return $qb->orderBy('count', 'DESC')
+            ->setParameters(
+                ['magazine' => $magazine, 'emptyString' => '', 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
+            )
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
+    }
 }

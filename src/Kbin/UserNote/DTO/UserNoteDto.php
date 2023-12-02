@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\User\DTO;
+namespace App\Kbin\UserNote\DTO;
 
 use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;

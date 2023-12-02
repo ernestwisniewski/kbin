@@ -11,7 +11,7 @@ namespace App\Twig\Components;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
-use App\Kbin\MarkNewComment\MarkNewCommentCount;
+use App\Kbin\NewCommentMarker\NewCommentMarkerCount;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -36,7 +36,7 @@ final class PostComponent
 
     public function __construct(
         private readonly AuthorizationCheckerInterface $authorizationChecker,
-        private readonly MarkNewCommentCount $markNewCommentCount,
+        private readonly NewCommentMarkerCount $newCommentMarkerCount,
         private readonly CacheInterface $cache,
         private readonly Environment $twig,
         private readonly RequestStack $requestStack,
@@ -127,6 +127,6 @@ final class PostComponent
             return;
         }
 
-        $this->newComments = ($this->markNewCommentCount)($user, $this->post);
+        $this->newComments = ($this->newCommentMarkerCount)($user, $this->post);
     }
 }

@@ -6,14 +6,14 @@ declare(strict_types=1);
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-namespace App\Kbin\MarkNewComment;
+namespace App\Kbin\NewCommentMarker;
 
 use App\Entity\Entry;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\ViewRepository;
 
-readonly class MarkNewCommentLastSeen
+readonly class NewCommentMarkerLastSeen
 {
     public function __construct(private ViewRepository $viewRepository)
     {

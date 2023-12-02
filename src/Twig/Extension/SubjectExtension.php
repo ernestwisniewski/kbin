@@ -14,14 +14,14 @@ use App\Entity\Magazine;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Kbin\MarkNewComment\MarkNewCommentLastSeen;
+use App\Kbin\NewCommentMarker\NewCommentMarkerLastSeen;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 
 class SubjectExtension extends AbstractExtension
 {
-    public function __construct(private MarkNewCommentLastSeen $markNewCommentLastSeen)
+    public function __construct(private NewCommentMarkerLastSeen $newCommentMarkerLastSeen)
     {
     }
 
@@ -40,7 +40,7 @@ class SubjectExtension extends AbstractExtension
 
         $parent = $subject->getParentSubject();
 
-        $lastSeen = ($this->markNewCommentLastSeen)($user, $parent);
+        $lastSeen = ($this->newCommentMarkerLastSeen)($user, $parent);
 
         if (null === $lastSeen) {
             return false;

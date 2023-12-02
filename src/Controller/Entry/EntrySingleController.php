@@ -17,7 +17,7 @@ use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\Form\EntryCommentType;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentPageView;
-use App\Kbin\MarkNewComment\MarkNewCommentViewSubject;
+use App\Kbin\NewCommentMarker\NewCommentMarkerViewSubject;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Service\MentionManager;
@@ -36,7 +36,7 @@ class EntrySingleController extends AbstractController
         private EntryCommentRepository $repository,
         private EventDispatcherInterface $dispatcher,
         private MentionManager $mentionManager,
-        private MarkNewCommentViewSubject $markNewCommentViewSubject
+        private NewCommentMarkerViewSubject $newCommentMarkerViewSubject
     ) {
     }
 
@@ -64,7 +64,7 @@ class EntrySingleController extends AbstractController
         $this->handlePrivateContent($entry);
 
         if ($this->getUser()) {
-            ($this->markNewCommentViewSubject)($this->getUser(), $entry);
+            ($this->newCommentMarkerViewSubject)($this->getUser(), $entry);
         }
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));

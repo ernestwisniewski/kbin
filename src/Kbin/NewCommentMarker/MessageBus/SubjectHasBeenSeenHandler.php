@@ -6,7 +6,7 @@ declare(strict_types=1);
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-namespace App\Kbin\MarkNewComment\MessageBus;
+namespace App\Kbin\NewCommentMarker\MessageBus;
 
 use App\Entity\Entry;
 use App\Entity\View;

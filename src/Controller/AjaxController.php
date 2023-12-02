@@ -13,16 +13,16 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Kbin\MarkNewComment\MarkNewCommentViewSubject;
+use App\Kbin\NewCommentMarker\NewCommentMarkerViewSubject;
 use App\Kbin\PostComment\PostCommentPageView;
-use App\Kbin\User\DTO\UserNoteDto;
 use App\Kbin\User\Form\UserNoteType;
+use App\Kbin\UserNote\DTO\UserNoteDto;
+use App\Kbin\UserNote\Factory\UserNoteFactory;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\NotificationRepository;
 use App\Repository\PostCommentRepository;
 use App\Repository\UserRepository;
-use App\Service\UserNoteManager;
 use App\Utils\Embed;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +32,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class AjaxController extends AbstractController
 {
-    public function __construct(private MarkNewCommentViewSubject $markNewCommentViewSubject)
+    public function __construct(private NewCommentMarkerViewSubject $newCommentMarkerViewSubject)
     {
     }
 
@@ -72,7 +72,11 @@ class AjaxController extends AbstractController
 
         return new JsonResponse(
             [
-                'html' => sprintf('<a href="%s" class="embed-link"><div class="preview">%s</div></a>', $data->url, $data->html),
+                'html' => sprintf(
+                    '<a href="%s" class="embed-link"><div class="preview">%s</div></a>',
+                    $data->url,
+                    $data->html
+                ),
             ]
         );
     }
@@ -150,7 +154,7 @@ class AjaxController extends AbstractController
     public function fetchPostComments(Post $post, PostCommentRepository $repository): JsonResponse
     {
         if ($this->getUser()) {
-            ($this->markNewCommentViewSubject)($this->getUser(), $post);
+            ($this->newCommentMarkerViewSubject)($this->getUser(), $post);
         }
 
         $criteria = new PostCommentPageView(1);
@@ -193,10 +197,10 @@ class AjaxController extends AbstractController
         ]);
     }
 
-    public function fetchUserPopup(User $user, UserNoteManager $manager): JsonResponse
+    public function fetchUserPopup(User $user, UserNoteFactory $userNoteFactory): JsonResponse
     {
         if ($this->getUser()) {
-            $dto = $manager->createDto($this->getUserOrThrow(), $user);
+            $dto = $userNoteFactory->createDto($this->getUserOrThrow(), $user);
         } else {
             $dto = new UserNoteDto();
             $dto->target = $user;

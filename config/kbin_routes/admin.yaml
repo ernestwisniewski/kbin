@@ -81,6 +81,10 @@ admin_magazine_ownership_requests_reject:
   path: /admin/magazine_ownership/{name}/{username}/reject
   methods: [ POST ]
 
+admin_category_official_toggle:
+  controller: App\Controller\Admin\AdminCategoryController::toggleOfficial
+  path: /admin/category/{id}/official
+  methods: [ POST ]
 admin_cc:
   controller: App\Controller\Admin\AdminClearCacheController
   path: /admin/cc

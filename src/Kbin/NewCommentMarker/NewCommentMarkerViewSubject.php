@@ -6,16 +6,16 @@ declare(strict_types=1);
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-namespace App\Kbin\MarkNewComment;
+namespace App\Kbin\NewCommentMarker;
 
 use App\Entity\Entry;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Kbin\MarkNewComment\MessageBus\SubjectHasBeenSeenMessage;
+use App\Kbin\NewCommentMarker\MessageBus\SubjectHasBeenSeenMessage;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
-readonly class MarkNewCommentViewSubject
+readonly class NewCommentMarkerViewSubject
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

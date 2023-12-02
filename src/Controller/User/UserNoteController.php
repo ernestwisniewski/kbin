@@ -11,21 +11,26 @@ namespace App\Controller\User;
 use App\Controller\AbstractController;
 use App\Entity\User;
 use App\Kbin\User\Form\UserNoteType;
-use App\Service\UserNoteManager;
+use App\Kbin\UserNote\Factory\UserNoteFactory;
+use App\Kbin\UserNote\UserNoteClear;
+use App\Kbin\UserNote\UserNoteSave;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserNoteController extends AbstractController
 {
-    public function __construct(private readonly UserNoteManager $manager)
-    {
+    public function __construct(
+        private readonly UserNoteSave $userNoteSave,
+        private readonly UserNoteClear $userNoteClear,
+        private readonly UserNoteFactory $userNoteFactory
+    ) {
     }
 
     #[IsGranted('ROLE_USER')]
     public function __invoke(User $user, Request $request): Response
     {
-        $dto = $this->manager->createDto($this->getUserOrThrow(), $user);
+        $dto = $this->userNoteFactory->createDto($this->getUserOrThrow(), $user);
 
         $form = $this->createForm(UserNoteType::class, $dto);
         $form->handleRequest($request);
@@ -34,9 +39,9 @@ class UserNoteController extends AbstractController
             $dto = $form->getData();
 
             if ($dto->body) {
-                $this->manager->save($this->getUserOrThrow(), $user, $dto->body);
+                ($this->userNoteSave)($this->getUserOrThrow(), $user, $dto->body);
             } else {
-                $this->manager->clear($this->getUserOrThrow(), $user);
+                ($this->userNoteClear)($this->getUserOrThrow(), $user);
             }
         }
 

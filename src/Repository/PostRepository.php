@@ -416,7 +416,7 @@ class PostRepository extends ServiceEntityRepository implements TagRepositoryInt
             ->setParameters(
                 ['magazine' => $magazine, 'emptyString' => '', 'visibility' => VisibilityInterface::VISIBILITY_VISIBLE]
             )
-            ->setMaxResults(100)
+            ->setMaxResults(50)
             ->getQuery()
             ->getResult();
     }

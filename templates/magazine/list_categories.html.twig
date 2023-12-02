@@ -20,6 +20,11 @@
     <div id="content">
         {% if categories|length %}
             <div class="section">
+                <div style="text-align: right">
+                    <a style="display: inline-block;"
+                       class="btn btn__primary mb-2 float-end"
+                       href="{{ path('user_settings_categories') }}">{{ 'add_new'|trans }}</a>
+                </div>
                 <div class="categories table-responsive">
                     <table>
                         <thead>
@@ -42,12 +47,24 @@
                                 <td style="white-space:normal">
                                     {% for magazine in category.getMagazines() %}
                                         <small>
-                                            <a class="badge" href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
+                                            <a class="badge"
+                                               href="{{ path('front_magazine', {name: magazine.name}) }}">{{ magazine.name }}</a>
                                         </small>
                                     {% endfor %}
                                 </td>
-                                <td>
+                                <td style="text-align: center">
                                     {{ component('category_sub', {category: category}) }}
+                                    <form action="{{ path('admin_category_official_toggle', {id: category.id}) }}"
+                                          name="admin_category_official_toggle"
+                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                          method="post">
+                                        <button type="submit"
+                                                class="btn btn__secondary">
+                                        {{ category.isOfficial ? 'official'|trans : 'unofficial'|trans }}
+                                        </button>
+                                        <input type="hidden" name="token"
+                                               value="{{ csrf_token('admin_category_official_toggle') }}">
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}

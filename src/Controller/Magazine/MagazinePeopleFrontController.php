@@ -10,16 +10,16 @@ namespace App\Controller\Magazine;
 
 use App\Controller\AbstractController;
 use App\Entity\Magazine;
+use App\Kbin\People\PeopleByMagazine;
 use App\Repository\MagazineRepository;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MagazinePeopleFrontController extends AbstractController
 {
     public function __construct(
-        private readonly MagazineRepository $magazineRepository,
-        private readonly UserRepository $userRepository
+        private readonly PeopleByMagazine $peopleByMagazine,
+        private readonly MagazineRepository $magazineRepository
     ) {
     }
 
@@ -35,8 +35,8 @@ class MagazinePeopleFrontController extends AbstractController
                     $this->magazineRepository->findByActivity(),
                     fn ($val) => 'random' !== $val->name && $val !== $magazine
                 ),
-                'local' => $this->userRepository->findPeople($magazine),
-                'federated' => $this->userRepository->findPeople($magazine, true),
+                'local' => ($this->peopleByMagazine)($magazine),
+                'federated' => ($this->peopleByMagazine)($magazine, true),
             ]
         );
     }
