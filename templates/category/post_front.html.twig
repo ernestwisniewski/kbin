@@ -2,9 +2,9 @@
 
 {%- block title -%}
     {% if get_active_sort_option('sortBy') is not same as 'hot' %}
-        {{ category.name }} - {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans }}
+        {{- category.name }} - {{ get_active_sort_option('sortBy')|trans|capitalize }} - {{ 'microblog'|trans -}}
     {% else %}
-        {{ category.name }} - {{ 'microblog'|trans }}
+        {{- category.name }} - {{ 'microblog'|trans -}}
     {% endif %}
 {%- endblock -%}
 

@@ -902,3 +902,9 @@ new_comments_count: '%count% nouveaux'
 mark_new_comments: Marquer les nouveaux commentaires
 all_content: Tout le contenu
 show_support_us_block: Afficher le bloc « Soutenez-nous »
+categories: Collections
+add_category: Ajouter une collection
+author: Auteur
+category: Collection
+related_categories: Collections associées
+random_categories: Collections aléatoires

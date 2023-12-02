@@ -10,19 +10,18 @@ namespace App\Controller\Category;
 
 use App\Controller\AbstractController;
 use App\Controller\User\ThemeSettingsController;
-use App\Entity\Category;
+use App\Entity\User;
 use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Entry\EntryPageView;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\Form\PostType;
 use App\Kbin\Post\PostPageView;
 use App\Repository\AggregateRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
-use FeedIo\Adapter\NotFoundException;
 use Pagerfanta\PagerfantaInterface;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,23 +30,38 @@ class CategoryController extends AbstractController
 {
     public function __construct(
         private readonly EntryCrosspost $entryCrosspost,
+        private readonly CategoryRepository $categoryRepository,
     ) {
     }
 
     public function front(
-        #[MapEntity(mapping: ['category_slug' => 'slug'])]
-        Category $category,
+        ?User $routUser,
+        string $category_slug,
         ?string $sortBy,
         ?string $time,
         ?string $type,
         EntryRepository $entryRepository,
         Request $request
     ): Response {
+        $user = $this->getUser();
+
+        $category = $routUser
+            ? $this->categoryRepository->findOneBy(['slug' => $category_slug, 'user' => $routUser])
+            : $this->categoryRepository->findOneBy(['slug' => $category_slug, 'isOfficial' => true]);
+
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
         if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException();
+        }
+        if (true === $category->isPrivate && $user !== $category->user) {
+            throw $this->createNotFoundException();
+        }
+        if ($routUser && $routUser !== $category->user) {
+            throw $this->createNotFoundException();
         }
 
-        $user = $this->getUser();
         $criteria = new EntryPageView($this->getPageNb($request));
         $criteria->showSortOption($criteria->resolveSort($sortBy))
             ->setFederation(
@@ -92,15 +106,30 @@ class CategoryController extends AbstractController
     }
 
     public function posts(
-        #[MapEntity(mapping: ['category_slug' => 'slug'])]
-        Category $category,
+        ?User $routUser,
+        string $category_slug,
         ?string $sortBy,
         ?string $time,
         PostRepository $repository,
         Request $request
     ): Response {
+        $user = $this->getUser();
+
+        $category = $routUser
+            ? $this->categoryRepository->findOneBy(['slug' => $category_slug, 'user' => $routUser])
+            : $this->categoryRepository->findOneBy(['slug' => $category_slug, 'isOfficial' => true]);
+
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
         if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException();
+        }
+        if (true === $category->isPrivate && $user !== $category->user) {
+            throw $this->createNotFoundException();
+        }
+        if ($routUser && $routUser !== $category->user) {
+            throw $this->createNotFoundException();
         }
 
         $user = $this->getUser();
@@ -146,16 +175,31 @@ class CategoryController extends AbstractController
     }
 
     public function aggregate(
-        #[MapEntity(mapping: ['category_slug' => 'slug'])]
-        Category $category,
+        ?User $routUser,
+        string $category_slug,
         ?string $sortBy,
         ?string $time,
         ?string $type,
         AggregateRepository $aggregateRepository,
         Request $request
     ): Response {
+        $user = $this->getUser();
+
+        $category = $routUser
+            ? $this->categoryRepository->findOneBy(['slug' => $category_slug, 'user' => $routUser])
+            : $this->categoryRepository->findOneBy(['slug' => $category_slug, 'isOfficial' => true]);
+
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
         if (false === str_contains($request->get('_route'), 'user') && false === $category->isOfficial) {
-            throw new NotFoundException();
+            throw $this->createNotFoundException();
+        }
+        if (true === $category->isPrivate && $user !== $category->user) {
+            throw $this->createNotFoundException();
+        }
+        if ($routUser && $routUser !== $category->user) {
+            throw $this->createNotFoundException();
         }
 
         $user = $this->getUser();

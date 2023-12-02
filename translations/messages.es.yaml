@@ -648,3 +648,77 @@ oauth2.grant.post.delete: Eliminar sus publicaciones existentes.
 oauth2.grant.post.create: Crear nuevas publicaciones.
 oauth2.grant.domain.block: Bloquear o desbloquear dominios y ver los dominios que
   ha bloqueado.
+oauth2.grant.moderate.post.trash: Eliminar o restaurar publicaciones en las revistas
+  que modera.
+oauth2.grant.user.message.all: Leer y enviar mensajes a otros usuarios.
+oauth2.grant.user.oauth_clients.edit: Editar los permisos que has otorgado a otras
+  aplicaciones OAuth2.
+oauth2.grant.user.all: Leer y editar tu perfil, mensajes o notificaciones; Leer y
+  editar los permisos que le ha otorgado a otras aplicaciones; seguir o bloquear a
+  otros usuarios; ver listas de usuarios que sigues o tienes bloqueados.
+oauth2.grant.moderate.post.set_adult: Marcar las publicaciones como NSFW en las revistas
+  que modera.
+oauth2.grant.moderate.entry.pin: Fijar hilos en la parte superior de las revistas
+  que modera.
+oauth2.grant.user.message.read: Leer tus mensajes.
+oauth2.grant.moderate.post_comment.all: Moderar los comentarios en las publicaciones
+  de las revistas que modera.
+oauth2.grant.moderate.magazine.ban.create: Vetar usuarios en las revistas que modera.
+oauth2.grant.moderate.post.change_language: Cambiar el idioma de las publicaciones
+  en las revistas que modera.
+oauth2.grant.moderate.entry_comment.all: Moderar comentarios en hilos de las revistas
+  que modera.
+oauth2.grant.user.notification.read: Leer tus notificaciones, incluidas las notificaciones
+  de mensajes.
+oauth2.grant.user.oauth_clients.read: Leer los permisos que has concedido a otras
+  aplicaciones OAuth2.
+oauth2.grant.moderate.entry.change_language: Cambiar el idioma de los hilos en las
+  revistas que modera.
+oauth2.grant.moderate.all: Realizar cualquier acción de moderación que tenga permiso
+  para realizar en las revistas que modera.
+oauth2.grant.moderate.magazine.ban.all: Administrar usuarios vetados en las revistas
+  que modera.
+oauth2.grant.moderate.magazine.all: Administrar vetos, informes y ver elementos eliminados
+  en las revistas que modera.
+oauth2.grant.user.notification.all: Leer y limpiar tus notificaciones.
+oauth2.grant.moderate.magazine.ban.read: Ver usuarios vetados en las revistas que
+  modera.
+oauth2.grant.user.profile.all: Leer y escribir tu perfil.
+oauth2.grant.user.follow: Seguir o dejar de seguir usuarios y leer la lista de usuarios
+  que sigues.
+oauth2.grant.moderate.entry.all: Moderar hilos en las revistas que modera.
+oauth2.grant.moderate.entry_comment.set_adult: Marcar los comentarios en los hilos
+  como NSFW en las revistas que modera.
+oauth2.grant.moderate.entry_comment.trash: Eliminar o restaurar comentarios en hilos
+  de las revistas que modera.
+oauth2.grant.moderate.post.all: Moderar publicaciones en las revistas que moderas.
+oauth2.grant.moderate.entry.trash: Eliminar o restaurar hilos en las revistas que
+  moderas.
+oauth2.grant.user.oauth_clients.all: Leer y editar permisos que has concedido a otras
+  aplicaciones OAuth2.
+oauth2.grant.user.profile.read: Leer tu perfil.
+oauth2.grant.moderate.post_comment.set_adult: Marcar los comentarios de las publicaciones
+  como NSFW en las revistas que modera.
+oauth2.grant.moderate.post_comment.change_language: Cambiar el idioma de los comentarios
+  en las publicaciones de las revistas que modera.
+oauth2.grant.moderate.entry.set_adult: Marcar hilos como NSFW en las revistas que
+  modera.
+oauth2.grant.moderate.entry_comment.change_language: Cambiar el idioma de los comentarios
+  en los hilos de las revistas que modera.
+oauth2.grant.user.message.create: Enviar mensajes a otros usuarios.
+oauth2.grant.user.notification.delete: Limpiar tus notificaciones.
+oauth2.grant.user.block: Bloquear y desbloquear usuarios, y leer tu lista de usuarios
+  bloqueados.
+oauth2.grant.moderate.post_comment.trash: Eliminar o restaurar comentarios en publicaciones
+  de las revistas que modera.
+oauth2.grant.admin.entry_comment.purge: Eliminar por completo cualquier comentario
+  en un hilo de tu instancia.
+oauth2.grant.user.profile.edit: Editar tu perfil.
+last_active: Última Actividad
+oauth2.grant.admin.post.purge: Completamente eliminar todas las publicaciones de tu
+  instancia.
+flash_post_pin_success: La publicación ha sido fijada exitosamente.
+flash_post_unpin_success: La publicación fue des-fijada exitosamente.
+oauth2.grant.admin.federation.read: Ver la lista de instancias de-federadas.
+oauth2.grant.admin.post_comment.purge: Completamente eliminar todos los comentarios
+  de las publicaciones de tu instancia.

@@ -2,9 +2,9 @@
 
 {%- block title -%}
     {% if get_active_sort_option('sortBy') is not same as 'hot' %}
-        {{ category.name }} - {{- get_active_sort_option('sortBy')|trans|capitalize }} - {{ parent() }}
+        {{- category.name }} - {{ get_active_sort_option('sortBy')|trans|capitalize }} - {{ parent() -}}
     {% else %}
-        {{ category.name }} - {{- parent() }}
+        {{- category.name }} - {{ parent() -}}
     {% endif %}
 {%- endblock -%}
 

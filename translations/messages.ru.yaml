@@ -528,7 +528,7 @@ federated_search_only_loggedin: Федерированный поиск огра
 request_account_deletion_title: Удаление учётной записи
 request_account_deletion_description: Администратор получит уведомление о Вашем запросе
   удаления учётной записи.
-request_account_deletion_button: Запросить удаление аккаунта
+request_account_deletion_button: Запросить удаление учётной записи
 errors.server500.title: '500: Ошибка сервера'
 errors.server429.title: '429: Слишком много запросов'
 errors.server404.title: '404: Не найдено'
@@ -755,8 +755,8 @@ update_comment: Обновить комментарий
 show_avatars_on_comments_help: Показывать ли аватары комментаторов при просмотре комментариев
   отдельной записи или ветки.
 comment_reply_position: Расположение поля ответа
-moderation.report.approve_report_title: Принять
-moderation.report.reject_report_title: Отклонить
+moderation.report.approve_report_title: Принять жалобу
+moderation.report.reject_report_title: Отклонить жалобу
 moderation.report.ban_user_description: Вы точно хотите заблокировать пользователя
   (%username%), опубликовавшего содержимое в этом сообществе?
 moderation.report.approve_report_confirmation: Вы точно хотите принять эту жалобу?
@@ -817,7 +817,7 @@ delete_account_request_revoke: Запрос на удаление учётной
 user_suspend_desc: Заморозка учётной записи ничего не удаляет, но скрывает всё её
   содержимое на сервере. Её можно восстановить в любой момент.
 account_reinstated: Учётная запись восстановлена.
-request_account_deletion_revoke_button: Отменить запрос на удаление учётной записи.
+request_account_deletion_revoke_button: Отменить запрос на удаление учётной записи
 reinstate_account: Восстановить учётную запись
 remove_following: Удалить отслеживающих
 apply_for_moderator: Заявка на получение модератора
@@ -837,3 +837,24 @@ spam_protection: Защита от спама
 enable_spam_protection: Включить защиту от спама
 refresh_user: Обновить пользователя
 refresh_magazine: Обновить сообщество
+send_req: Отправить запрос
+show_subscribed_users: Показать подписанных пользователей
+support_us: Поддержите нас
+add_yourself_to_donors_list: Добавиться в список поддерживающих
+show_subscribed_domains: Показать подписанные домены
+sub_channel: Подканал
+show_subscribed_magazines: Показать подписанные сообщества
+send_request: Отправить запрос
+thanks_for_support_request: Спасибо за поддержку! После быстрого подтверждения ваше
+  имя будет добавлено в список. Мы ценим вашу поддержку нашего сообщества!
+feed: Лента
+categories: Коллекции
+all_content: Всё содержимое
+related_categories: Связанные коллекции
+new_comments_count: '%count% новых'
+add_category: Добавить коллекцию
+random_categories: Случайные коллекции
+mark_new_comments: Помечать новые комментарии
+show_support_us_block: Показывать раздел «Поддержите нас»
+author: Автор
+category: Коллекция
