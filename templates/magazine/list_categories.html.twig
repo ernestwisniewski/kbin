@@ -54,17 +54,19 @@
                                 </td>
                                 <td style="text-align: center">
                                     {{ component('category_sub', {category: category}) }}
-                                    <form action="{{ path('admin_category_official_toggle', {id: category.id}) }}"
-                                          name="admin_category_official_toggle"
-                                          onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
-                                          method="post">
-                                        <button type="submit"
-                                                class="btn btn__secondary">
-                                        {{ category.isOfficial ? 'official'|trans : 'unofficial'|trans }}
-                                        </button>
-                                        <input type="hidden" name="token"
-                                               value="{{ csrf_token('admin_category_official_toggle') }}">
-                                    </form>
+                                    {% if app.user and app.user.isAdmin() %}
+                                        <form action="{{ path('admin_category_official_toggle', {id: category.id}) }}"
+                                              name="admin_category_official_toggle"
+                                              onsubmit="return confirm('{{ 'are_you_sure'|trans }}');"
+                                              method="post">
+                                            <button type="submit"
+                                                    class="btn btn__secondary">
+                                                {{ category.isOfficial ? 'official'|trans : 'unofficial'|trans }}
+                                            </button>
+                                            <input type="hidden" name="token"
+                                                   value="{{ csrf_token('admin_category_official_toggle') }}">
+                                        </form>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
