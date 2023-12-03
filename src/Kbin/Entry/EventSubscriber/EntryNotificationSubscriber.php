@@ -32,8 +32,7 @@ final readonly class EntryNotificationSubscriber
         $this->messageBus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
     }
 
-    #[
-        AsEventListener(event: EntryCreatedEvent::class)]
+    #[AsEventListener(event: EntryCreatedEvent::class)]
     public function sendCreatedNotification(EntryCreatedEvent $event): void
     {
         $this->messageBus->dispatch(new EntryCreatedNotificationMessage($event->entry->getId()));

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event\EntryComment;
+namespace App\Kbin\EntryComment\EventSubscriber\EntryComment;
 
 use App\Entity\Magazine;
 

@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Event\EntryComment\EntryCommentCreatedEvent;
-use App\Event\EntryComment\EntryCommentDeletedEvent;
-use App\Event\EntryComment\EntryCommentPurgedEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentCreatedEvent;
+use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentPurgedEvent;
 use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
@@ -33,11 +33,6 @@ class ContentCountSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            EntryDeletedEvent::class => 'onEntryDeleted',
-            PostDeletedEvent::class => 'onPostDeleted',
-            EntryCommentCreatedEvent::class => 'onEntryCommentCreated',
-            EntryCommentDeletedEvent::class => 'onEntryCommentDeleted',
-            EntryCommentPurgedEvent::class => 'onEntryCommentPurged',
             PostCommentCreatedEvent::class => 'onPostCommentCreated',
             PostCommentDeletedEvent::class => 'onPostCommentDeleted',
             PostCommentPurgedEvent::class => 'onPostCommentPurged',
