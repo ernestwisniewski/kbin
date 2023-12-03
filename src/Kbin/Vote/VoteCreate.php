@@ -25,7 +25,7 @@ readonly class VoteCreate
         private VoteUp $voteUp,
         private VoteFactory $voteFactory,
         private RateLimiterFactory $voteLimiter,
-        private RateLimiterFactory $spamProtection,
+        private RateLimiterFactory $spamProtectionLimiter,
         private EventDispatcherInterface $eventDispatcher,
         private EntityManagerInterface $entityManager
     ) {
@@ -35,7 +35,7 @@ readonly class VoteCreate
     {
         if ($rateLimit) {
             $limiter = $this->voteLimiter->create((string)$user->getId());
-            $spamProtection = $this->spamProtection->create((string)$user->getId());
+            $spamProtection = $this->spamProtectionLimiter->create((string)$user->getId());
             if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }

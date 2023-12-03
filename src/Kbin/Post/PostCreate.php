@@ -32,7 +32,7 @@ readonly class PostCreate
         private PostFactory $postFactory,
         private ImageRepository $imageRepository,
         private RateLimiterFactory $postLimiter,
-        private RateLimiterFactory $spamProtection,
+        private RateLimiterFactory $spamProtectionLimiter,
         private EventDispatcherInterface $eventDispatcher,
         private EntityManagerInterface $entityManager
     ) {
@@ -42,7 +42,7 @@ readonly class PostCreate
     {
         if ($rateLimit) {
             $limiter = $this->postLimiter->create($dto->ip);
-            $spamProtection = $this->spamProtection->create($dto->ip);
+            $spamProtection = $this->spamProtectionLimiter->create($dto->ip);
             if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }

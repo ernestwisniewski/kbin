@@ -28,7 +28,7 @@ class FavouriteToggle
     public function __construct(
         private readonly FavouriteFactory $factory,
         private readonly FavouriteRepository $repository,
-        private readonly RateLimiterFactory $spamProtection,
+        private readonly RateLimiterFactory $spamProtectionLimiter,
         private readonly EntityManagerInterface $entityManager,
         private readonly EventDispatcherInterface $dispatcher
     ) {
@@ -36,7 +36,7 @@ class FavouriteToggle
 
     public function __invoke(User $user, FavouriteInterface|VotableInterface $subject, string $type = null): ?Favourite
     {
-        $spamProtection = $this->spamProtection->create((string)$user->getId());
+        $spamProtection = $this->spamProtectionLimitergit ->create((string)$user->getId());
         if (false === $spamProtection->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }
