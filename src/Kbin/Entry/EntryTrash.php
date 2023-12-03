@@ -10,8 +10,8 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Event\Entry\EntryBeforeDeletedEvent;
-use App\Event\Entry\EntryDeletedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryBeforeDeletedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

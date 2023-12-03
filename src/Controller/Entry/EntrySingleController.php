@@ -13,7 +13,7 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\Form\EntryCommentType;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
 use App\Kbin\EntryComment\EntryCommentPageView;

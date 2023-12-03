@@ -10,7 +10,7 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Event\Entry\EntryBeforePurgeEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryBeforePurgeEvent;
 use App\Kbin\EntryComment\EntryCommentPurge;
 use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\Common\Collections\Criteria;

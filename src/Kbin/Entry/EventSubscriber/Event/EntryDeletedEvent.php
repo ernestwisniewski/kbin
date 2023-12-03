@@ -6,13 +6,14 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Entry;
+namespace App\Kbin\Entry\EventSubscriber\Event;
 
 use App\Entity\Entry;
+use App\Entity\User;
 
-class EntryPinEvent
+class EntryDeletedEvent
 {
-    public function __construct(public Entry $entry)
+    public function __construct(public Entry $entry, public ?User $user = null)
     {
     }
 }

@@ -10,10 +10,10 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Event\Entry\EntryCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
+use App\Kbin\Entry\EventSubscriber\Event\EntryCreatedEvent;
 use App\Kbin\Entry\Factory\EntryFactory;
 use App\Kbin\MentionManager;
 use App\Kbin\Tag\TagExtract;
@@ -67,7 +67,7 @@ readonly class EntryCreate
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? ($this->tagExtract)(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Event\Entry\EntryDeletedEvent;
 use App\Event\EntryComment\EntryCommentCreatedEvent;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentPurgedEvent;
@@ -16,6 +15,7 @@ use App\Event\Post\PostDeletedEvent;
 use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentPurgedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;

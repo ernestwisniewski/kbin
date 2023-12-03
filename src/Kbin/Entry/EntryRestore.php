@@ -12,9 +12,9 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Event\Entry\EntryEditedEvent;
-use App\Event\Entry\EntryRestoredEvent;
 use App\Kbin\Contract\RestoreContentServiceInterface;
+use App\Kbin\Entry\EventSubscriber\Event\EntryEditedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryRestoredEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

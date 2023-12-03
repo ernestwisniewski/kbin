@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine\Admin;
 
-use App\Event\Entry\EntryHasBeenSeenEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryHasBeenSeenEvent;
 use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\DTO\MagazineModeratorDto;
 use App\Kbin\Magazine\Moderator\MagazineModeratorAdd;

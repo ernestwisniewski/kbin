@@ -6,14 +6,13 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Entry;
+namespace App\Kbin\Entry\EventSubscriber\Event;
 
 use App\Entity\Entry;
-use App\Entity\User;
 
-class EntryBeforeDeletedEvent
+class EntryHasBeenSeenEvent
 {
-    public function __construct(public Entry $entry, public ?User $user = null)
+    public function __construct(public Entry $entry)
     {
     }
 }

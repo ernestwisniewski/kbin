@@ -10,9 +10,9 @@ namespace App\Controller\Api\Entry;
 
 use App\Controller\Traits\PrivateContentTrait;
 use App\Entity\Entry;
-use App\Event\Entry\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\DTO\EntryResponseDto;
 use App\Kbin\Entry\EntryPageView;
+use App\Kbin\Entry\EventSubscriber\Event\EntryHasBeenSeenEvent;
 use App\Kbin\Entry\Factory\EntryFactory;
 use App\Repository\Criteria;
 use App\Repository\EntryRepository;

@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Entry;
+namespace App\Kbin\Entry\EventSubscriber\Event;
 
 use App\Entity\Entry;
 
-class EntryHasBeenSeenEvent
+class EntryCreatedEvent
 {
     public function __construct(public Entry $entry)
     {

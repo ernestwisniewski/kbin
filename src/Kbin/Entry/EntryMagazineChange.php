@@ -10,7 +10,7 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Entity\Magazine;
-use App\Event\Entry\EntryEditedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryEditedEvent;
 use App\Repository\EntryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

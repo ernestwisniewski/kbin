@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
-use App\Event\Entry\EntryEditedEvent;
-use App\Event\Entry\EntryPinEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryEditedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryPinEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
