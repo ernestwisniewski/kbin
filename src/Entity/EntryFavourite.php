@@ -8,13 +8,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 
 #[Entity]
-#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class EntryFavourite extends Favourite
 {
     #[ManyToOne(targetEntity: Entry::class, inversedBy: 'favourites')]
