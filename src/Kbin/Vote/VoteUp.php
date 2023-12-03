@@ -34,8 +34,8 @@ readonly class VoteUp
 
     public function __invoke(VotableInterface $votable, User $user): Vote
     {
-        $limiter = $this->voteLimiter->create((string)$user->getId());
-        $spamProtection = $this->spamProtectionLimiter->create((string)$user->getId());
+        $limiter = $this->voteLimiter->create((string) $user->getId());
+        $spamProtection = $this->spamProtectionLimiter->create((string) $user->getId());
         if (false === $limiter->consume()->isAccepted() || false === $spamProtection->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }

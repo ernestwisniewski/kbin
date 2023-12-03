@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 // SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
 namespace App\Kbin\Post\EventSubscriber;
 
-use App\Kbin\Post\EventSubscriber\Event\PostBeforeDeletedEvent;
 use App\Kbin\Post\EventSubscriber\Event\PostBeforePurgeEvent;
 use App\Kbin\Post\EventSubscriber\Event\PostCreatedEvent;
 use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
@@ -15,7 +16,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class PostCounterSubscriber
 {
-    public function __construct(private PostRepository $postRepository,)
+    public function __construct(private PostRepository $postRepository)
     {
     }
 
@@ -23,8 +24,8 @@ final readonly class PostCounterSubscriber
     public function onPostBeforePurge(PostBeforePurgeEvent $event): void
     {
         $event->post->magazine->postCount = $this->postRepository->countPostsByMagazine(
-                $event->post->magazine
-            ) - 1;
+            $event->post->magazine
+        ) - 1;
     }
 
     #[AsEventListener(event: PostDeletedEvent::class)]

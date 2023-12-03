@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace App\Kbin\StaticPage\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
 class StaticPageDto
 {
     public ?string $title = null;

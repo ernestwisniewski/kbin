@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // SPDX-FileCopyrightText: 2023 /kbin contributors <https://kbin.pub/>
 //
 // SPDX-License-Identifier: AGPL-3.0-only
@@ -14,7 +16,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class EntryCounterSubscriber
 {
-    public function __construct(private EntryRepository $entryRepository,)
+    public function __construct(private EntryRepository $entryRepository)
     {
     }
 
@@ -22,8 +24,8 @@ final readonly class EntryCounterSubscriber
     public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine(
-                $event->entry->magazine
-            ) - 1;
+            $event->entry->magazine
+        ) - 1;
     }
 
     #[AsEventListener(event: EntryDeletedEvent::class)]
