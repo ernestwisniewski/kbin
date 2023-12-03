@@ -22,7 +22,6 @@ class UserNotificationControllerTest extends WebTestCase
         $this->loadNotificationsFixture();
 
         $crawler = $client->request('GET', '/settings/notifications');
-        dd($crawler->html());
 
         $this->assertCount(2, $crawler->filter('#main .notification'));
 
