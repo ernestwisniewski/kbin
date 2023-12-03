@@ -8,7 +8,10 @@ declare(strict_types=1);
 
 namespace App\DTO;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class SearchDto
 {
-    public string $val;
+    #[Assert\NotBlank]
+    public ?string $val = null;
 }

@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VideoDto
 {
     #[Assert\NotBlank]
-    public string $url;
+    public ?string $url = null;
     #[Assert\NotBlank]
-    public string $format;
-    public ?string $name;
+    public ?string $format = null;
+    public ?string $name = null;
 
     public function create(string $url, string $format, ?string $name): self
     {

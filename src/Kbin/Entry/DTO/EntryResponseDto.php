@@ -36,7 +36,7 @@ class EntryResponseDto implements \JsonSerializable
     public ?array $tags = null;
     #[OA\Property(type: 'array', description: 'Not implemented currently.', items: new OA\Items(ref: new Model(type: EntryBadgeResponseDto::class)))]
     public ?array $badges = null;
-    public int $numComments;
+    public int $numComments = 0;
     public ?int $uv = 0;
     public ?int $dv = 0;
     public ?int $favourites = 0;

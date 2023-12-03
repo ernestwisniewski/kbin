@@ -27,7 +27,7 @@ class EntryCommentResponseDto implements \JsonSerializable
     public ?int $entryId = null;
     public ?int $parentId = null;
     public ?int $rootId = null;
-    public ?ImageDto $image;
+    public ?ImageDto $image = null;
     public ?string $body = null;
     #[OA\Property(example: 'en', nullable: true)]
     public ?string $lang = null;

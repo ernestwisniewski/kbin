@@ -19,7 +19,7 @@ class InstancesDto implements \JsonSerializable
             new Assert\Hostname(),
         ])]
         #[OA\Property(type: 'array', items: new OA\Items(type: 'string', format: 'url'))]
-        public ?array $instances
+        public ?array $instances = []
     ) {
     }
 

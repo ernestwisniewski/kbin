@@ -13,12 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ContactDto
 {
     #[Assert\NotBlank]
-    public string $name;
+    public ?string $name = null;
     #[Assert\NotBlank]
     #[Assert\Email]
-    public string $email;
+    public ?string $email = null;
     #[Assert\NotBlank]
-    public string $message;
+    public ?string $message = null;
     public ?string $ip = null;
     public ?string $surname = null; // honeypot
 }
