@@ -36,7 +36,7 @@ class FavouriteToggle
 
     public function __invoke(User $user, FavouriteInterface|VotableInterface $subject, string $type = null): ?Favourite
     {
-        $spamProtection = $this->spamProtectionLimitergit ->create((string)$user->getId());
+        $spamProtection = $this->spamProtectionLimiter ->create((string)$user->getId());
         if (false === $spamProtection->consume()->isAccepted()) {
             throw new TooManyRequestsHttpException();
         }

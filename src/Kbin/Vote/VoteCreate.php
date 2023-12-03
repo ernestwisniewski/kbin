@@ -36,7 +36,7 @@ readonly class VoteCreate
         if ($rateLimit) {
             $limiter = $this->voteLimiter->create((string)$user->getId());
             $spamProtection = $this->spamProtectionLimiter->create((string)$user->getId());
-            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
+            if (false === $limiter->consume()->isAccepted() || false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }

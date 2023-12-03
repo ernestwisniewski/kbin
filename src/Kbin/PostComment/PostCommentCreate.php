@@ -41,16 +41,16 @@ readonly class PostCommentCreate
         if ($rateLimit) {
             $limiter = $this->postCommentLimiter->create($dto->ip);
             $spamProtection = $this->spamProtectionLimiter->create($dto->ip);
-            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
+            if (false === $limiter->consume()->isAccepted() || false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }
 
-        $comment = $this->postCommentFactory->createFromDto($dto, $user);
-
-        if ($dto->post->magazine->isBanned($user)) {
+        if ($dto->post->magazine->isBanned($user) || $user->isBanned) {
             throw new UserBannedException();
         }
+
+        $comment = $this->postCommentFactory->createFromDto($dto, $user);
 
         $comment->magazine = $dto->post->magazine;
         $comment->lang = $dto->lang;

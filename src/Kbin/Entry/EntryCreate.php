@@ -48,16 +48,16 @@ readonly class EntryCreate
         if ($rateLimit) {
             $limiter = $this->entryLimiter->create($dto->ip);
             $spamProtection = $this->spamProtectionLimiter->create($dto->ip);
-            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
+            if (false === $limiter->consume()->isAccepted() || false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }
 
-        $entry = $this->entryFactory->createFromDto($dto, $user);
-
-        if ($dto->magazine->isBanned($user)) {
+        if ($dto->magazine->isBanned($user) || $user->isBanned) {
             throw new UserBannedException();
         }
+
+        $entry = $this->entryFactory->createFromDto($dto, $user);
 
         $entry->lang = $dto->lang;
         $entry->isAdult = $dto->isAdult || $entry->magazine->isAdult;

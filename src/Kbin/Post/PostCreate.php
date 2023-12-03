@@ -43,16 +43,16 @@ readonly class PostCreate
         if ($rateLimit) {
             $limiter = $this->postLimiter->create($dto->ip);
             $spamProtection = $this->spamProtectionLimiter->create($dto->ip);
-            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
+            if (false === $limiter->consume()->isAccepted() || false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }
 
-        $post = $this->postFactory->createFromDto($dto, $user);
-
-        if ($dto->magazine->isBanned($user)) {
+        if ($dto->magazine->isBanned($user) || $user->isBanned) {
             throw new UserBannedException();
         }
+
+        $post = $this->postFactory->createFromDto($dto, $user);
 
         $post->lang = $dto->lang;
         $post->isAdult = $dto->isAdult || $post->magazine->isAdult;
