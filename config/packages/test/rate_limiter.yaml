@@ -100,3 +100,7 @@ framework:
       policy: 'fixed_window'
       limit: 1000
       interval: '1 second'
+    spam_protection:
+      policy: 'fixed_window'
+      limit: 1000
+      interval: '1 second'
