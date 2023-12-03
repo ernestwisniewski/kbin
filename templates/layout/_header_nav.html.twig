@@ -31,6 +31,12 @@
             </a>
         </li>
     {% endif %}
+    <li>
+        <a href="{{ path('magazine_categories') }}"
+           class="{{ html_classes({'active': is_route_name('magazine_categories') }) }}">
+            {{ 'categories'|trans }}
+        </a>
+    </li>
 {% else %}
     {{ header_nav|raw }}
 {% endif %}

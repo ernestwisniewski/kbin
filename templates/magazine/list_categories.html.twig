@@ -44,7 +44,7 @@
                                     </a>
                                 </td>
                                 <td>{{ component('user_inline', {user: category.user}) }}</td>
-                                <td style="white-space:normal">
+                                <td style="white-space:normal;min-width: 300px">
                                     {% for magazine in category.getMagazines() %}
                                         <small>
                                             <a class="badge"

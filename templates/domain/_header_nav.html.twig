@@ -10,3 +10,23 @@
         {{ 'comments'|trans }}
     </a>
 </li>
+<li>
+    <a href="{{ navbar_people_url(null) }}"
+       class="{{ html_classes({'active': is_route_name_contains('people') or user is defined and not is_route_name_contains('messages')}) }}">
+        {{ 'people'|trans }}
+    </a>
+</li>
+{% if app.request.cookies.get(constant('App\\Controller\\User\\ThemeSettingsController::KBIN_GENERAL_TOPBAR')) is not same as 'true' %}
+    <li>
+        <a href="{{ path('magazine_list_all') }}"
+           class="{{ html_classes({'active': is_route_name('magazine_list_all') }) }}">
+            {{ 'magazines'|trans }}
+        </a>
+    </li>
+{% endif %}
+<li>
+    <a href="{{ path('magazine_categories') }}"
+       class="{{ html_classes({'active': is_route_name('magazine_categories') }) }}">
+        {{ 'categories'|trans }}
+    </a>
+</li>

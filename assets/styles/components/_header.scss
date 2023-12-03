@@ -324,7 +324,9 @@
     }
 
     @include media-breakpoint-up(lg) {
-
+      li {
+        text-align: center;
+      }
       li a.active {
         background: var(--kbin-header-link-active-bg);
       }
