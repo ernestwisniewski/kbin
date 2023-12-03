@@ -86,7 +86,7 @@ framework:
       interval: '2 minutes'
     vote:
       policy: 'sliding_window'
-      limit: 220
+      limit: 120
       interval: '60 minutes'
     entry:
       policy: 'fixed_window'
@@ -120,3 +120,7 @@ framework:
       policy: 'fixed_window'
       limit: 4
       interval: '1 day'
+    spam_protection:
+      policy: 'fixed_window'
+      limit: 1
+      interval: '2 seconds'

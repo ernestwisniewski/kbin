@@ -30,6 +30,7 @@ readonly class EntryCommentCreate
         private EntryCommentFactory $entryCommentFactory,
         private ImageRepository $imageRepository,
         private RateLimiterFactory $entryCommentLimiter,
+        private RateLimiterFactory $spamProtection,
         private EventDispatcherInterface $eventDispatcher,
         private EntityManagerInterface $entityManager,
     ) {
@@ -39,7 +40,8 @@ readonly class EntryCommentCreate
     {
         if ($rateLimit) {
             $limiter = $this->entryCommentLimiter->create($dto->ip);
-            if ($limiter && false === $limiter->consume()->isAccepted()) {
+            $spamProtection = $this->spamProtection->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }

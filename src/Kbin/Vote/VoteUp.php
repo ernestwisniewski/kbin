@@ -18,18 +18,28 @@ use App\Kbin\Vote\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 readonly class VoteUp
 {
     public function __construct(
         private VoteFactory $voteFactory,
         private EventDispatcherInterface $eventDispatcher,
+        private RateLimiterFactory $voteLimiter,
+        private RateLimiterFactory $spamProtection,
         private EntityManagerInterface $entityManager
     ) {
     }
 
     public function __invoke(VotableInterface $votable, User $user): Vote
     {
+        $limiter = $this->voteLimiter->create((string)$user->getId());
+        $spamProtection = $this->spamProtection->create((string)$user->getId());
+        if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         if ($user->isBot) {
             throw new AccessDeniedHttpException('Bots are not allowed to vote on items!');
         }

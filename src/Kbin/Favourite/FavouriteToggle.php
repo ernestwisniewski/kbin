@@ -17,6 +17,8 @@ use App\Factory\FavouriteFactory;
 use App\Repository\FavouriteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class FavouriteToggle
 {
@@ -26,6 +28,7 @@ class FavouriteToggle
     public function __construct(
         private readonly FavouriteFactory $factory,
         private readonly FavouriteRepository $repository,
+        private readonly RateLimiterFactory $spamProtection,
         private readonly EntityManagerInterface $entityManager,
         private readonly EventDispatcherInterface $dispatcher
     ) {
@@ -33,6 +36,11 @@ class FavouriteToggle
 
     public function __invoke(User $user, FavouriteInterface|VotableInterface $subject, string $type = null): ?Favourite
     {
+        $spamProtection = $this->spamProtection->create((string)$user->getId());
+        if (false === $spamProtection->consume()->isAccepted()) {
+            throw new TooManyRequestsHttpException();
+        }
+
         if (!($favourite = $this->repository->findBySubject($user, $subject))) {
             if (self::TYPE_UNLIKE === $type) {
                 return null;

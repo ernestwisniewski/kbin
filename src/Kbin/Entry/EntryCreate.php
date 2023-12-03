@@ -37,6 +37,7 @@ readonly class EntryCreate
         private EntryFactory $entryFactory,
         private ImageRepository $imageRepository,
         private RateLimiterFactory $entryLimiter,
+        private RateLimiterFactory $spamProtection,
         private EventDispatcherInterface $eventDispatcher,
         private EntityManagerInterface $entityManager
     ) {
@@ -46,7 +47,8 @@ readonly class EntryCreate
     {
         if ($rateLimit) {
             $limiter = $this->entryLimiter->create($dto->ip);
-            if (false === $limiter->consume()->isAccepted()) {
+            $spamProtection = $this->spamProtection->create($dto->ip);
+            if (false === $limiter->consume()->isAccepted() && false === $spamProtection->consume()->isAccepted()) {
                 throw new TooManyRequestsHttpException();
             }
         }
