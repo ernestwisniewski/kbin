@@ -20,12 +20,12 @@ use App\Entity\MagazineLogPostRestored;
 use App\Event\EntryComment\EntryCommentDeletedEvent;
 use App\Event\EntryComment\EntryCommentRestoredEvent;
 use App\Event\Magazine\MagazineBanEvent;
-use App\Event\Post\PostDeletedEvent;
-use App\Event\Post\PostRestoredEvent;
 use App\Event\PostComment\PostCommentDeletedEvent;
 use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryRestoredEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostRestoredEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

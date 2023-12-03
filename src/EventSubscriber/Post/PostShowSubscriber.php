@@ -10,7 +10,7 @@ namespace App\EventSubscriber\Post;
 
 use App\Entity\Notification;
 use App\Entity\Post;
-use App\Event\Post\PostHasBeenSeenEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostHasBeenSeenEvent;
 use App\Repository\NotificationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\ArrayShape;

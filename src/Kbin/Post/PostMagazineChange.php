@@ -10,7 +10,7 @@ namespace App\Kbin\Post;
 
 use App\Entity\Magazine;
 use App\Entity\Post;
-use App\Event\Post\PostEditedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostEditedEvent;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

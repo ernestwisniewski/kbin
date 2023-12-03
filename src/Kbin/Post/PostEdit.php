@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\Kbin\Post;
 
 use App\Entity\Post;
-use App\Event\Post\PostEditedEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\EventSubscriber\Event\PostEditedEvent;
 use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
 use App\Service\MentionManager;

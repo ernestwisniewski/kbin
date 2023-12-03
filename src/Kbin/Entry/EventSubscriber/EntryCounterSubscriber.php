@@ -6,7 +6,7 @@
 
 namespace App\Kbin\Entry\EventSubscriber;
 
-use App\Kbin\Entry\EventSubscriber\Event\EntryBeforeDeletedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryBeforePurgeEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryCreatedEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
 use App\Repository\EntryRepository;
@@ -18,8 +18,8 @@ final readonly class EntryCounterSubscriber
     {
     }
 
-    #[AsEventListener(event: EntryBeforeDeletedEvent::class)]
-    public function onEntryBeforePurge(EntryBeforeDeletedEvent $event): void
+    #[AsEventListener(event: EntryBeforePurgeEvent::class)]
+    public function onEntryBeforePurge(EntryBeforePurgeEvent $event): void
     {
         $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine(
                 $event->entry->magazine

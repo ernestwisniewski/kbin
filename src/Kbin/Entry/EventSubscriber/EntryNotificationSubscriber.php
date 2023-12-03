@@ -6,9 +6,10 @@
 
 namespace App\Kbin\Entry\EventSubscriber;
 
-use App\Kbin\Entry\EventSubscriber\Event\EntryBeforeDeletedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryBeforePurgeEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryCreatedEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
+use App\Kbin\Entry\EventSubscriber\Event\EntryEditedEvent;
 use App\Message\Notification\EntryCreatedNotificationMessage;
 use App\Message\Notification\EntryDeletedNotificationMessage;
 use App\Message\Notification\EntryEditedNotificationMessage;
@@ -22,20 +23,22 @@ final readonly class EntryNotificationSubscriber
     ) {
     }
 
-    #[AsEventListener(event: EntryBeforeDeletedEvent::class)]
-    public function sendDeletedNotification(EntryBeforeDeletedEvent|EntryDeletedEvent $event): void
+    #[AsEventListener(event: EntryDeletedEvent::class)]
+    #[AsEventListener(event: EntryBeforePurgeEvent::class)]
+    public function sendDeletedNotification(EntryDeletedEvent|EntryBeforePurgeEvent $event): void
     {
         $this->messageBus->dispatch(new EntryDeletedNotificationMessage($event->entry->getId()));
     }
 
-    #[AsEventListener(event: EntryCreatedEvent::class)]
+    #[
+        AsEventListener(event: EntryCreatedEvent::class)]
     public function sendCreatedNotification(EntryCreatedEvent $event): void
     {
         $this->messageBus->dispatch(new EntryCreatedNotificationMessage($event->entry->getId()));
     }
 
-    #[AsEventListener(event: EntryCreatedEvent::class)]
-    public function sendEditedNotification(EntryCreatedEvent $event): void
+    #[AsEventListener(event: EntryEditedEvent::class)]
+    public function sendEditedNotification(EntryEditedEvent $event): void
     {
         $this->messageBus->dispatch(new EntryEditedNotificationMessage($event->entry->getId()));
     }

@@ -10,8 +10,8 @@ namespace App\Kbin\Post;
 
 use App\Entity\Post;
 use App\Entity\User;
-use App\Event\Post\PostBeforeDeletedEvent;
-use App\Event\Post\PostDeletedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostBeforeDeletedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

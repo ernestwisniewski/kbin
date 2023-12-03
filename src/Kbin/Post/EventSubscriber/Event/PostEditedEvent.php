@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Post;
+namespace App\Kbin\Post\EventSubscriber\Event;
 
 use App\Entity\Post;
 
-class PostCreatedEvent
+class PostEditedEvent
 {
     public function __construct(public Post $post)
     {

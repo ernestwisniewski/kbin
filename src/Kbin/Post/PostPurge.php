@@ -10,8 +10,8 @@ namespace App\Kbin\Post;
 
 use App\Entity\Post;
 use App\Entity\User;
-use App\Event\Post\PostBeforePurgeEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
+use App\Kbin\Post\EventSubscriber\Event\PostBeforePurgeEvent;
 use App\Kbin\PostComment\PostCommentPurge;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;

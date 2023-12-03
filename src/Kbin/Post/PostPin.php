@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\Post;
 
 use App\Entity\Post;
-use App\Event\Post\PostEditedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostEditedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\Entry\EventSubscriber;
+namespace App\Kbin\Post\EventSubscriber;
 
 use App\Entity\Notification;
-use App\Kbin\Entry\EventSubscriber\Event\EntryHasBeenSeenEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostHasBeenSeenEvent;
 use App\Repository\NotificationRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-final readonly class EntryShowSubscriber
+final readonly class PostShowSubscriber
 {
     public function __construct(
         private Security $security,
@@ -22,16 +22,16 @@ final readonly class EntryShowSubscriber
     ) {
     }
 
-    #[AsEventListener(event: EntryHasBeenSeenEvent::class)]
-    public function readNotifications(EntryHasBeenSeenEvent $event): void
+    #[AsEventListener(event: PostHasBeenSeenEvent::class)]
+    public function readNotifications(PostHasBeenSeenEvent $event): void
     {
         if (!$this->security->getUser()) {
             return;
         }
 
-        $notifications = $this->notificationRepository->findUnreadEntryNotifications(
+        $notifications = $this->notificationRepository->findUnreadPostNotifications(
             $this->security->getUser(),
-            $event->entry
+            $event->post
         );
 
         if (!\count($notifications)) {

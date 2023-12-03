@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Post;
 
-use App\Event\Post\PostBeforePurgeEvent;
-use App\Event\Post\PostDeletedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostBeforePurgeEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
 use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\Notification\PostDeletedNotificationMessage;
 use App\Repository\PostRepository;

@@ -12,8 +12,8 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Event\Post\PostRestoredEvent;
 use App\Kbin\Contract\RestoreContentServiceInterface;
+use App\Kbin\Post\EventSubscriber\Event\PostRestoredEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

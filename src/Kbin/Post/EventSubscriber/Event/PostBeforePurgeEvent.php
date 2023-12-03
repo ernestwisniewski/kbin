@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Post;
+namespace App\Kbin\Post\EventSubscriber\Event;
 
 use App\Entity\Post;
 use App\Entity\User;

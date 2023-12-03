@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\Post;
 
-use App\Event\Post\PostBeforeDeletedEvent;
+use App\Kbin\Post\EventSubscriber\Event\PostBeforeDeletedEvent;
 use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Service\ActivityPub\Wrapper\DeleteWrapper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

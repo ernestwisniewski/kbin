@@ -10,9 +10,9 @@ namespace App\Kbin\Post;
 
 use App\Entity\Post;
 use App\Entity\User;
-use App\Event\Post\PostCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Kbin\Post\DTO\PostDto;
+use App\Kbin\Post\EventSubscriber\Event\PostCreatedEvent;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
