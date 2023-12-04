@@ -26,7 +26,6 @@ final readonly class EntryCommentPersistSubscriber
     #[AsEventListener(event: EntryCommentCreatedEvent::class, priority: -10)]
     #[AsEventListener(event: EntryCommentEditedEvent::class, priority: -10)]
     #[AsEventListener(event: EntryCommentBeforePurgeEvent::class, priority: -10)]
-    #[AsEventListener(event: EntryCommentPurgedEvent::class, priority: -10)]
     #[AsEventListener(event: EntryCommentDeletedEvent::class, priority: -10)]
     public function persist(
         EntryCommentCreatedEvent|EntryCommentEditedEvent|EntryCommentBeforePurgeEvent|EntryCommentPurgedEvent|EntryCommentDeletedEvent $event
