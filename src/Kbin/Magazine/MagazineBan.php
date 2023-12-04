@@ -10,9 +10,9 @@ namespace App\Kbin\Magazine;
 
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Event\Magazine\MagazineBanEvent;
 use App\Exception\UserCannotBeBanned;
 use App\Kbin\Magazine\DTO\MagazineBanDto;
+use App\Kbin\Magazine\EventSubscriber\Event\MagazineBanEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;

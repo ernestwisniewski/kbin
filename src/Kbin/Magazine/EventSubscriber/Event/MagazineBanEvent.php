@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Magazine;
+namespace App\Kbin\Magazine\EventSubscriber\Event;
 
 use App\Entity\MagazineBan;
 

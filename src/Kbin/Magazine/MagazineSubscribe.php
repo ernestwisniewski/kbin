@@ -10,7 +10,7 @@ namespace App\Kbin\Magazine;
 
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Event\Magazine\MagazineSubscribedEvent;
+use App\Kbin\Magazine\EventSubscriber\Event\MagazineSubscribedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber\ActivityPub;
 
-use App\Event\Magazine\MagazineSubscribedEvent;
+use App\Kbin\Magazine\EventSubscriber\Event\MagazineSubscribedEvent;
 use App\Message\ActivityPub\Outbox\FollowMessage;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -12,11 +12,12 @@ use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentPurgedEvent;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class PostCommentCounterSubscriber
 {
-    public function __construct(private PostRepository $postRepository)
+    public function __construct(private PostRepository $postRepository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -24,6 +25,9 @@ final readonly class PostCommentCounterSubscriber
     public function onPostCommentPurged(PostCommentPurgedEvent $event): void
     {
         $event->magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($event->magazine);
+
+        $this->entityManager->persist($event->magazine);
+        $this->entityManager->flush();
     }
 
     #[AsEventListener(event: PostCommentDeletedEvent::class)]

@@ -8,11 +8,6 @@ declare(strict_types=1);
 
 namespace App\Kbin\PostComment\EventSubscriber;
 
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforePurgeEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;

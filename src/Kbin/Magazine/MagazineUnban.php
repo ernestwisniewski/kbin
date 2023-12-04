@@ -11,7 +11,7 @@ namespace App\Kbin\Magazine;
 use App\Entity\Magazine;
 use App\Entity\MagazineBan;
 use App\Entity\User;
-use App\Event\Magazine\MagazineBanEvent;
+use App\Kbin\Magazine\EventSubscriber\Event\MagazineBanEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

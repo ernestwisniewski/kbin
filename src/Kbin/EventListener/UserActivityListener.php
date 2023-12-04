@@ -15,7 +15,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class UserActivityListener
+readonly class UserActivityListener
 {
     public function __construct(private Security $security, private EntityManagerInterface $entityManager)
     {

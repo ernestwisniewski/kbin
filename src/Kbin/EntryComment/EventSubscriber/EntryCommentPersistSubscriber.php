@@ -12,7 +12,6 @@ use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 

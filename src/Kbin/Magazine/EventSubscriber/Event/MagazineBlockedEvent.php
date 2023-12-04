@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace App\Event\Magazine;
+namespace App\Kbin\Magazine\EventSubscriber\Event;
 
 use App\Entity\Magazine;
 use App\Entity\User;
 
-class MagazineSubscribedEvent
+class MagazineBlockedEvent
 {
-    public function __construct(public Magazine $magazine, public User $user, public $unfollow = false)
+    public function __construct(public Magazine $magazine, public User $user)
     {
     }
 }

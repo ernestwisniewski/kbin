@@ -10,9 +10,9 @@ namespace App\Kbin\EventListener;
 
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
-class LanguageListener
+readonly class LanguageListener
 {
-    public function __construct(public string $lang)
+    public function __construct(private string $lang)
     {
     }
 

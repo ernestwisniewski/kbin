@@ -12,11 +12,12 @@ use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use App\Repository\EntryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class EntryCommentCounterSubscriber
 {
-    public function __construct(private EntryRepository $entryRepository)
+    public function __construct(private EntryRepository $entryRepository, private EntityManagerInterface $entityManager)
     {
     }
 
@@ -24,6 +25,9 @@ final readonly class EntryCommentCounterSubscriber
     public function onEntryCommentPurged(EntryCommentPurgedEvent $event): void
     {
         $event->magazine->entryCommentCount = $this->entryRepository->countEntryCommentsByMagazine($event->magazine);
+
+        $this->entityManager->persist($event->magazine);
+        $this->entityManager->flush();
     }
 
     #[AsEventListener(event: EntryCommentDeletedEvent::class)]
