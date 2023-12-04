@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace App\Kbin\EntryComment\EventSubscriber;
 
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentBeforePurgeEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentEditedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Contracts\Cache\CacheInterface;
 

@@ -10,9 +10,9 @@ namespace App\Kbin\PostComment;
 
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Event\PostComment\PostCommentBeforePurgeEvent;
-use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforePurgeEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentPurgedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

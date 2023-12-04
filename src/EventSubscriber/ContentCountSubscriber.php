@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Event\PostComment\PostCommentCreatedEvent;
-use App\Event\PostComment\PostCommentDeletedEvent;
-use App\Event\PostComment\PostCommentPurgedEvent;
 use App\Kbin\Entry\EventSubscriber\Event\EntryDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentPurgedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use App\Kbin\Post\EventSubscriber\Event\PostDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentPurgedEvent;
 use App\Repository\EntryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;

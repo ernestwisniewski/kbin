@@ -10,8 +10,8 @@ namespace App\Kbin\EntryComment;
 
 use App\Entity\EntryComment;
 use App\Entity\User;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentBeforePurgeEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentPurgedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

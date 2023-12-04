@@ -6,29 +6,33 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\EntryComment\EventSubscriber;
+namespace App\Kbin\PostComment\EventSubscriber;
 
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
 use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforePurgeEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentEditedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-final readonly class EntryCommentPersistSubscriber
+final readonly class PostCommentPersistSubscriber
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
     ) {
     }
 
-    #[AsEventListener(event: EntryCommentCreatedEvent::class, priority: -10)]
-    #[AsEventListener(event: EntryCommentEditedEvent::class, priority: -10)]
-    #[AsEventListener(event: EntryCommentBeforePurgeEvent::class, priority: -10)]
-    #[AsEventListener(event: EntryCommentDeletedEvent::class, priority: -10)]
+    #[AsEventListener(event: PostCommentCreatedEvent::class, priority: -10)]
+    #[AsEventListener(event: PostCommentEditedEvent::class, priority: -10)]
+    #[AsEventListener(event: PostCommentBeforePurgeEvent::class, priority: -10)]
+    #[AsEventListener(event: PostCommentDeletedEvent::class, priority: -10)]
     public function persist(
-        EntryCommentCreatedEvent|EntryCommentEditedEvent|EntryCommentBeforePurgeEvent|EntryCommentDeletedEvent $event
+        PostCommentCreatedEvent|PostCommentEditedEvent|PostCommentBeforePurgeEvent|PostCommentDeletedEvent $event
     ): void {
         $this->entityManager->persist($event->comment);
         $this->entityManager->flush();

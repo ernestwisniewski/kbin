@@ -12,7 +12,7 @@ use App\Entity\EntryComment;
 use App\Entity\User;
 use App\Exception\UserBannedException;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentCreatedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
 use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;

@@ -10,9 +10,9 @@ namespace App\Kbin\PostComment;
 
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Event\PostComment\PostCommentCreatedEvent;
 use App\Exception\UserBannedException;
 use App\Kbin\PostComment\DTO\PostCommentDto;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;

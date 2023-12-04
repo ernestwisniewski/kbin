@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\EntryComment\EventSubscriber;
 
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentPurgedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentPurgedEvent;
 use App\Repository\EntryRepository;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 

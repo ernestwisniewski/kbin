@@ -12,8 +12,8 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Event\PostComment\PostCommentRestoredEvent;
 use App\Kbin\Contract\RestoreContentServiceInterface;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentRestoredEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

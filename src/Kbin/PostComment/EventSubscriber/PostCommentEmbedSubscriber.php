@@ -6,24 +6,24 @@ declare(strict_types=1);
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-namespace App\Kbin\EntryComment\EventSubscriber;
+namespace App\Kbin\PostComment\EventSubscriber;
 
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
 use App\Kbin\MessageBus\LinkEmbedMessage;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentEditedEvent;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final readonly class EntryCommentEmbedSubscriber
+final readonly class PostCommentEmbedSubscriber
 {
     public function __construct(
         private MessageBusInterface $messageBus,
     ) {
     }
 
-    #[AsEventListener(event: EntryCommentCreatedEvent::class)]
-    #[AsEventListener(event: EntryCommentEditedEvent::class)]
-    public function attachEmbed(EntryCommentCreatedEvent|EntryCommentEditedEvent $event): void
+    #[AsEventListener(event: PostCommentCreatedEvent::class)]
+    #[AsEventListener(event: PostCommentEditedEvent::class)]
+    public function attachEmbed(PostCommentCreatedEvent|PostCommentEditedEvent $event): void
     {
         if ($event->comment->body) {
             $this->messageBus->dispatch(new LinkEmbedMessage($event->comment->body));

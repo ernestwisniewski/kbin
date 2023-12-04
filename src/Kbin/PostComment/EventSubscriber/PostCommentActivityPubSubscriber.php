@@ -6,12 +6,12 @@ declare(strict_types=1);
 //
 // SPDX-License-Identifier: AGPL-3.0-only
 
-namespace App\Kbin\EntryComment\EventSubscriber;
+namespace App\Kbin\PostComment\EventSubscriber;
 
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforeDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforePurgeEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentCreatedEvent;
-use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforeDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforePurgeEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentEditedEvent;
 use App\Message\ActivityPub\Outbox\CreateMessage;
 use App\Message\ActivityPub\Outbox\DeleteMessage;
 use App\Message\ActivityPub\Outbox\UpdateMessage;
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class EntryCommentActivityPubSubscriber
+final readonly class PostCommentActivityPubSubscriber
 {
     public function __construct(
         private MessageBusInterface $messageBus,
@@ -28,9 +28,9 @@ final readonly class EntryCommentActivityPubSubscriber
     ) {
     }
 
-    #[AsEventListener(event: EntryCommentBeforeDeletedEvent::class)]
-    #[AsEventListener(event: EntryCommentBeforePurgeEvent::class)]
-    public function sendApDeleteMessage(EntryCommentBeforeDeletedEvent|EntryCommentBeforePurgeEvent $event): void
+    #[AsEventListener(event: PostCommentBeforeDeletedEvent::class)]
+    #[AsEventListener(event: PostCommentBeforePurgeEvent::class)]
+    public function sendApDeleteMessage(PostCommentBeforeDeletedEvent|PostCommentBeforePurgeEvent $event): void
     {
         if (!$event->comment->apId) {
             $this->messageBus->dispatch(
@@ -43,16 +43,16 @@ final readonly class EntryCommentActivityPubSubscriber
         }
     }
 
-    #[AsEventListener(event: EntryCommentCreatedEvent::class)]
-    public function sendApCreateMessage(EntryCommentCreatedEvent $event): void
+    #[AsEventListener(event: PostCommentCreatedEvent::class)]
+    public function sendApCreateMessage(PostCommentCreatedEvent $event): void
     {
         if (!$event->comment->apId) {
             $this->messageBus->dispatch(new CreateMessage($event->comment->getId(), \get_class($event->comment)));
         }
     }
 
-    #[AsEventListener(event: EntryCommentEditedEvent::class)]
-    public function sendApUpdateMessage(EntryCommentEditedEvent $event): void
+    #[AsEventListener(event: PostCommentEditedEvent::class)]
+    public function sendApUpdateMessage(PostCommentEditedEvent $event): void
     {
         if (!$event->comment->apId) {
             $this->messageBus->dispatch(new UpdateMessage($event->comment->getId(), \get_class($event->comment)));

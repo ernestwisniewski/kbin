@@ -12,8 +12,8 @@ use App\Entity\Contracts\ContentInterface;
 use App\Entity\EntryComment;
 use App\Entity\User;
 use App\Kbin\Contract\DeleteContentServiceInterface;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentBeforeDeletedEvent;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentBeforeDeletedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

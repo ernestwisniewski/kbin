@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event\PostComment;
+namespace App\Kbin\PostComment\EventSubscriber\Event;
 
 use App\Entity\PostComment;
 use App\Entity\User;

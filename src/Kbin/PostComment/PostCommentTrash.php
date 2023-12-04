@@ -10,8 +10,8 @@ namespace App\Kbin\PostComment;
 
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Event\PostComment\PostCommentBeforeDeletedEvent;
-use App\Event\PostComment\PostCommentDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforeDeletedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

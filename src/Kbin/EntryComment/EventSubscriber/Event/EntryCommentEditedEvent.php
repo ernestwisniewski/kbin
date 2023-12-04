@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Kbin\EntryComment\EventSubscriber\EntryComment;
+namespace App\Kbin\EntryComment\EventSubscriber\Event;
 
 use App\Entity\EntryComment;
 

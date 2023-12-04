@@ -10,7 +10,7 @@ namespace App\Kbin\EntryComment;
 
 use App\Entity\EntryComment;
 use App\Kbin\EntryComment\DTO\EntryCommentDto;
-use App\Kbin\EntryComment\EventSubscriber\EntryComment\EntryCommentEditedEvent;
+use App\Kbin\EntryComment\EventSubscriber\Event\EntryCommentEditedEvent;
 use App\Kbin\MessageBus\ImagePurgeMessage;
 use App\Kbin\Tag\TagExtract;
 use App\Repository\ImageRepository;
