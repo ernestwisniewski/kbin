@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Kbin\Contact;
 
-use App\DTO\ContactDto;
+use App\Kbin\Contact\DTO\ContactDto;
 use App\Service\SettingsManager;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;

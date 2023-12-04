@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Api\Magazine\Moderate;
 
-use App\DTO\ReportDto;
+use App\Kbin\Report\DTO\ReportDto;
 use App\Kbin\Report\ReportCreate;
 use App\Tests\Functional\Controller\Api\Magazine\MagazineRetrieveApiTest;
 use App\Tests\WebTestCase;

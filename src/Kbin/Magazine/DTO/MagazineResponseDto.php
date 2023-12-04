@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace App\Kbin\Magazine\DTO;
 
 use App\DTO\ImageDto;
-use App\DTO\ModeratorResponseDto;
 use App\Kbin\Entry\DTO\EntryBadgeResponseDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
@@ -17,7 +16,7 @@ use OpenApi\Attributes as OA;
 #[OA\Schema()]
 class MagazineResponseDto implements \JsonSerializable
 {
-    public ?ModeratorResponseDto $owner = null;
+    public ?MagazineModeratorResponseDto $owner = null;
     public ?ImageDto $icon = null;
     public ?string $name = null;
     public ?string $title = null;
@@ -35,14 +34,14 @@ class MagazineResponseDto implements \JsonSerializable
     public ?array $tags = null;
     #[OA\Property(type: 'array', description: 'Magazine badges', items: new OA\Items(ref: new Model(type: EntryBadgeResponseDto::class)))]
     public ?array $badges = null;
-    #[OA\Property(type: 'array', description: 'Moderator list', items: new OA\Items(ref: new Model(type: ModeratorResponseDto::class)))]
+    #[OA\Property(type: 'array', description: 'Moderator list', items: new OA\Items(ref: new Model(type: MagazineModeratorResponseDto::class)))]
     public ?array $moderators = null;
     public ?string $apId = null;
     public ?string $apProfileId = null;
     public ?int $magazineId = null;
 
     public static function create(
-        ModeratorResponseDto $owner = null,
+        MagazineModeratorResponseDto $owner = null,
         ImageDto $icon = null,
         string $name = null,
         string $title = null,
@@ -108,7 +107,7 @@ class MagazineResponseDto implements \JsonSerializable
             'isBlockedByUser' => $this->isBlockedByUser,
             'tags' => $this->tags,
             'badges' => array_map(fn (EntryBadgeResponseDto $badge) => $badge->jsonSerialize(), $this->badges),
-            'moderators' => array_map(fn (ModeratorResponseDto $moderator) => $moderator->jsonSerialize(), $this->moderators),
+            'moderators' => array_map(fn (MagazineModeratorResponseDto $moderator) => $moderator->jsonSerialize(), $this->moderators),
             'apId' => $this->apId,
             'apProfileId' => $this->apProfileId,
         ];

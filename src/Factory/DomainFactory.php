@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Entity\User;
+use App\Kbin\Domain\DTO\DomainDto;
 use Symfony\Bundle\SecurityBundle\Security;
 
 readonly class DomainFactory

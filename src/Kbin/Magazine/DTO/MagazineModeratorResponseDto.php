@@ -6,12 +6,13 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\Kbin\Magazine\DTO;
 
+use App\DTO\ImageDto;
 use OpenApi\Attributes as OA;
 
 #[OA\Schema()]
-class ModeratorResponseDto implements \JsonSerializable
+class MagazineModeratorResponseDto implements \JsonSerializable
 {
     public ?int $magazineId = null;
     public ?int $userId = null;
@@ -26,7 +27,7 @@ class ModeratorResponseDto implements \JsonSerializable
         string $apId = null,
         ImageDto $avatar = null
     ): self {
-        $dto = new ModeratorResponseDto();
+        $dto = new MagazineModeratorResponseDto();
         $dto->magazineId = $magazineId;
         $dto->userId = $userId;
         $dto->avatar = $avatar;

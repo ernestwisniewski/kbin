@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\Kbin\Entry\DTO;
 
 use App\DTO\Contracts\VisibilityAwareDtoTrait;
-use App\DTO\DomainDto;
 use App\DTO\ImageDto;
 use App\Entity\Entry;
+use App\Kbin\Domain\DTO\DomainDto;
 use App\Kbin\Magazine\DTO\MagazineSmallResponseDto;
 use App\Kbin\User\DTO\UserSmallResponseDto;
 use Nelmio\ApiDocBundle\Annotation\Model;

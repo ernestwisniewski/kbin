@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\DTO\ReportDto;
-use App\DTO\ReportResponseDto;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentReport;
@@ -24,6 +22,8 @@ use App\Kbin\EntryComment\Factory\EntryCommentFactory;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
+use App\Kbin\Report\DTO\ReportDto;
+use App\Kbin\Report\DTO\ReportResponseDto;
 use App\Kbin\User\Factory\UserFactory;
 use Doctrine\ORM\EntityManagerInterface;
 

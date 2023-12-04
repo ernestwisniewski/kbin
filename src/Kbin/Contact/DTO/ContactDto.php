@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\Kbin\Contact\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

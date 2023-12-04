@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\DTO;
+namespace App\Kbin\Report\DTO;
 
 use App\Entity\Contracts\ReportInterface;
 use App\Entity\Entry;

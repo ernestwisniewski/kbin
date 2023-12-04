@@ -10,9 +10,9 @@ namespace App\Controller\Api\Magazine\Moderate;
 
 use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\ReportResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Report;
+use App\Kbin\Report\DTO\ReportResponseDto;
 use App\Kbin\Report\ReportAccept;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;

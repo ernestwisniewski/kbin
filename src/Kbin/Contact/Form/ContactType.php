@@ -6,21 +6,25 @@
 
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\Kbin\Contact\Form;
 
-use App\DTO\ReportDto;
+use App\Kbin\Contact\DTO\ContactDto;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ReportType extends AbstractType
+class ContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('reason', TextareaType::class)
+            ->add('name')
+            ->add('surname')
+            ->add('email', EmailType::class)
+            ->add('message', TextareaType::class)
             ->add('submit', SubmitType::class);
     }
 
@@ -28,7 +32,7 @@ class ReportType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => ReportDto::class,
+                'data_class' => ContactDto::class,
             ]
         );
     }

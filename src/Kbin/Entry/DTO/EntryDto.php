@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace App\Kbin\Entry\DTO;
 
-use App\DTO\DomainDto;
 use App\DTO\ImageDto;
 use App\Entity\Contracts\ContentVisibilityInterface;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Domain\DTO\DomainDto;
 use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\User\DTO\UserDto;
 use Doctrine\Common\Collections\Collection;

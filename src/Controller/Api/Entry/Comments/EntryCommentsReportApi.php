@@ -10,8 +10,8 @@ namespace App\Controller\Api\Entry\Comments;
 
 use App\Controller\Api\Entry\EntriesBaseApi;
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\ReportRequestDto;
 use App\Entity\EntryComment;
+use App\Kbin\Report\DTO\ReportRequestDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

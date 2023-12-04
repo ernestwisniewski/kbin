@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Controller\AbstractController;
-use App\DTO\ReportDto;
-use App\DTO\ReportRequestDto;
 use App\Entity\Client;
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Contracts\ContentVisibilityInterface;
@@ -31,6 +29,8 @@ use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
+use App\Kbin\Report\DTO\ReportDto;
+use App\Kbin\Report\DTO\ReportRequestDto;
 use App\Kbin\Report\Exception\SubjectHasBeenReportedException;
 use App\Kbin\Report\ReportCreate;
 use App\Kbin\User\DTO\UserDto;

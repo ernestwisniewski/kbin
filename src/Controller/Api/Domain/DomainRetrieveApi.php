@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace App\Controller\Api\Domain;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
 use App\Entity\User;
 use App\Factory\DomainFactory;
+use App\Kbin\Domain\DTO\DomainDto;
 use App\Repository\DomainRepository;
 use App\Schema\PaginationSchema;
 use App\Service\SearchManager;

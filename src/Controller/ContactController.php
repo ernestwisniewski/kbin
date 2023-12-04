@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DTO\ContactDto;
-use App\Form\ContactType;
 use App\Kbin\Contact\ContactMailSend;
+use App\Kbin\Contact\DTO\ContactDto;
+use App\Kbin\Contact\Form\ContactType;
 use App\Repository\SiteRepository;
 use App\Service\IpResolver;
 use Symfony\Component\HttpFoundation\Request;

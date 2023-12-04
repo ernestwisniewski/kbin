@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Domain;
 
-use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Factory\DomainFactory;
 use App\Kbin\Domain\DomainSubscribe;
 use App\Kbin\Domain\DomainUnsubscribe;
+use App\Kbin\Domain\DTO\DomainDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

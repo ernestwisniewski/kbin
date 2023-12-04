@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace App\Kbin\Report;
 
-use App\DTO\ReportDto;
 use App\Entity\Report;
 use App\Entity\User;
 use App\Event\Report\SubjectReportedEvent;
 use App\Factory\ReportFactory;
+use App\Kbin\Report\DTO\ReportDto;
 use App\Kbin\Report\Exception\SubjectHasBeenReportedException;
 use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;

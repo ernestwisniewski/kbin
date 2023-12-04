@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\Controller\Api\Domain;
 
 use App\Controller\Api\BaseApi;
-use App\DTO\DomainDto;
 use App\Entity\Domain;
 use App\Factory\DomainFactory;
+use App\Kbin\Domain\DTO\DomainDto;
 use Symfony\Contracts\Service\Attribute\Required;
 
 class DomainBaseApi extends BaseApi

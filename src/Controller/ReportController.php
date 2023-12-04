@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DTO\ReportDto;
 use App\Entity\Contracts\ReportInterface;
-use App\Form\ReportType;
+use App\Kbin\Report\DTO\ReportDto;
 use App\Kbin\Report\Exception\SubjectHasBeenReportedException;
+use App\Kbin\Report\Form\ReportType;
 use App\Kbin\Report\ReportCreate;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;

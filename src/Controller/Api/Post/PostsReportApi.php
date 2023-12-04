@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Post;
 
 use App\Controller\Traits\PrivateContentTrait;
-use App\DTO\ReportRequestDto;
 use App\Entity\Post;
+use App\Kbin\Report\DTO\ReportRequestDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;

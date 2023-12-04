@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Magazine\Panel;
 
-use App\DTO\ReportDto;
+use App\Kbin\Report\DTO\ReportDto;
 use App\Kbin\Report\ReportCreate;
 use App\Tests\WebTestCase;
 

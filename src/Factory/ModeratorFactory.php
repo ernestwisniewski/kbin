@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace App\Factory;
 
-use App\DTO\ModeratorResponseDto;
 use App\Entity\Magazine;
 use App\Entity\Moderator;
 use App\Entity\User;
+use App\Kbin\Magazine\DTO\MagazineModeratorResponseDto;
 
 class ModeratorFactory
 {
@@ -20,9 +20,9 @@ class ModeratorFactory
     ) {
     }
 
-    public function createDto(Moderator $moderator): ModeratorResponseDto
+    public function createDto(Moderator $moderator): MagazineModeratorResponseDto
     {
-        return ModeratorResponseDto::create(
+        return MagazineModeratorResponseDto::create(
             $moderator->magazine->getId(),
             $moderator->user->getId(),
             $moderator->user->username,
@@ -31,9 +31,9 @@ class ModeratorFactory
         );
     }
 
-    public function createDtoWithUser(User $user, Magazine $magazine): ModeratorResponseDto
+    public function createDtoWithUser(User $user, Magazine $magazine): MagazineModeratorResponseDto
     {
-        return ModeratorResponseDto::create(
+        return MagazineModeratorResponseDto::create(
             $magazine->getId(),
             $user->getId(),
             $user->username,
