@@ -10,7 +10,6 @@ namespace App\Kbin\PostComment;
 
 use App\Entity\PostComment;
 use App\Entity\User;
-use App\Exception\UserBannedException;
 use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
@@ -19,8 +18,11 @@ use App\Repository\ImageRepository;
 use App\Service\MentionManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 readonly class PostCommentCreate
 {
@@ -32,6 +34,7 @@ readonly class PostCommentCreate
         private RateLimiterFactory $postCommentLimiter,
         private RateLimiterFactory $spamProtectionLimiter,
         private EventDispatcherInterface $eventDispatcher,
+        private AccessDecisionManagerInterface $accessDecisionManager,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -46,8 +49,9 @@ readonly class PostCommentCreate
             }
         }
 
-        if ($dto->post->magazine->isBanned($user) || $user->isBanned) {
-            throw new UserBannedException();
+        $token = new UsernamePasswordToken($user, 'firewall', $user->getRoles());
+        if (false === $this->accessDecisionManager->decide($token, ['create_content'], $dto->post->magazine)) {
+            throw new AccessDeniedHttpException();
         }
 
         $comment = $this->postCommentFactory->createFromDto($dto, $user);

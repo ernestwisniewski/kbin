@@ -41,6 +41,10 @@ class PostVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),

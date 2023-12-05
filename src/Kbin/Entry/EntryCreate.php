@@ -10,7 +10,6 @@ namespace App\Kbin\Entry;
 
 use App\Entity\Entry;
 use App\Entity\User;
-use App\Exception\UserBannedException;
 use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EventSubscriber\Event\EntryCreatedEvent;
@@ -23,8 +22,11 @@ use App\Repository\ImageRepository;
 use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 readonly class EntryCreate
 {
@@ -39,7 +41,8 @@ readonly class EntryCreate
         private RateLimiterFactory $entryLimiter,
         private RateLimiterFactory $spamProtectionLimiter,
         private EventDispatcherInterface $eventDispatcher,
-        private EntityManagerInterface $entityManager
+        private AccessDecisionManagerInterface $accessDecisionManager,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -53,8 +56,9 @@ readonly class EntryCreate
             }
         }
 
-        if ($dto->magazine->isBanned($user) || $user->isBanned) {
-            throw new UserBannedException();
+        $token = new UsernamePasswordToken($user, 'firewall', $user->getRoles());
+        if (false === $this->accessDecisionManager->decide($token, ['create_content'], $dto->magazine)) {
+            throw new AccessDeniedHttpException();
         }
 
         $entry = $this->entryFactory->createFromDto($dto, $user);
@@ -67,7 +71,7 @@ readonly class EntryCreate
             $entry->image->altText = $dto->imageAlt;
         }
         $entry->tags = $dto->tags ? ($this->tagExtract)(
-            implode(' ', array_map(fn ($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
+            implode(' ', array_map(fn($tag) => str_starts_with($tag, '#') ? $tag : '#'.$tag, $dto->tags)),
             $entry->magazine->name
         ) : null;
         $entry->mentions = $dto->body ? $this->mentionManager->extract($dto->body) : null;

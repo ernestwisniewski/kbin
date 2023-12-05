@@ -36,6 +36,10 @@ class OAuth2UserConsentVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::VIEW => $this->canView($subject, $user),
             self::EDIT => $this->canEdit($subject, $user),

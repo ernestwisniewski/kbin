@@ -38,6 +38,10 @@ class UserVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::FOLLOW => $this->canFollow($subject, $user),
             self::BLOCK => $this->canBlock($subject, $user),

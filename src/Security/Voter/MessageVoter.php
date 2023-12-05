@@ -35,6 +35,10 @@ class MessageVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::DELETE => $this->canDelete($subject, $user),
             default => throw new \LogicException(),

@@ -36,6 +36,10 @@ class NotificationVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::VIEW => $this->canView($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),

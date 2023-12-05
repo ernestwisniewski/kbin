@@ -10,7 +10,6 @@ namespace App\Kbin\Post;
 
 use App\Entity\Post;
 use App\Entity\User;
-use App\Exception\UserBannedException;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\EventSubscriber\Event\PostCreatedEvent;
 use App\Kbin\Post\Factory\PostFactory;
@@ -20,8 +19,11 @@ use App\Service\MentionManager;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 
 readonly class PostCreate
 {
@@ -34,6 +36,7 @@ readonly class PostCreate
         private RateLimiterFactory $postLimiter,
         private RateLimiterFactory $spamProtectionLimiter,
         private EventDispatcherInterface $eventDispatcher,
+        private AccessDecisionManagerInterface $accessDecisionManager,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -48,9 +51,11 @@ readonly class PostCreate
             }
         }
 
-        if ($dto->magazine->isBanned($user) || $user->isBanned) {
-            throw new UserBannedException();
+        $token = new UsernamePasswordToken($user, 'firewall', $user->getRoles());
+        if (false === $this->accessDecisionManager->decide($token, ['create_content'], $dto->magazine)) {
+            throw new AccessDeniedHttpException();
         }
+
 
         $post = $this->postFactory->createFromDto($dto, $user);
 

@@ -36,6 +36,10 @@ class MessageThreadVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::SHOW => $this->canShow($subject, $user),
             self::REPLY => $this->canReply($subject, $user),

@@ -49,6 +49,10 @@ class MagazineVoter extends Voter
             return false;
         }
 
+        if($user->isBanned) {
+            return false;
+        }
+
         return match ($attribute) {
             self::CREATE_CONTENT => $this->canCreateContent($subject, $user),
             self::EDIT => $this->canEdit($subject, $user),
