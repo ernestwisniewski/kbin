@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Controller\ActivityPub;
 
 use App\ActivityPub\JsonRd;
-use App\Event\ActivityPub\WebfingerResponseEvent;
+use App\Kbin\ActivityPub\Webfinger\EventSubscriber\Event\WebfingerResponseEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

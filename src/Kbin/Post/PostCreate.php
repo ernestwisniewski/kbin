@@ -56,7 +56,6 @@ readonly class PostCreate
             throw new AccessDeniedHttpException();
         }
 
-
         $post = $this->postFactory->createFromDto($dto, $user);
 
         $post->lang = $dto->lang;

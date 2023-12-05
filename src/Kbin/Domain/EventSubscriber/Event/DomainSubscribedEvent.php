@@ -6,13 +6,14 @@
 
 declare(strict_types=1);
 
-namespace App\Event\User;
+namespace App\Kbin\Domain\EventSubscriber\Event;
 
+use App\Entity\Domain;
 use App\Entity\User;
 
-class UserFollowEvent
+class DomainSubscribedEvent
 {
-    public function __construct(public User $follower, public User $following, public $unfollow = false)
+    public function __construct(public Domain $domain, public User $user)
     {
     }
 }

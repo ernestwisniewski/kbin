@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Kbin\User;
 
 use App\Entity\User;
-use App\Event\User\UserBlockEvent;
+use App\Kbin\User\EventSubscriber\Event\UserBlockEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 

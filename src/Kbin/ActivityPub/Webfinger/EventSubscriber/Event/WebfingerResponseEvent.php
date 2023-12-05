@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event\ActivityPub;
+namespace App\Kbin\ActivityPub\Webfinger\EventSubscriber\Event;
 
 use App\ActivityPub\JsonRd;
 

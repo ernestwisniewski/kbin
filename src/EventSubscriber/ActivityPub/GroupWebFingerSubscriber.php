@@ -10,7 +10,7 @@ namespace App\EventSubscriber\ActivityPub;
 
 use App\ActivityPub\JsonRdLink;
 use App\Entity\Magazine;
-use App\Event\ActivityPub\WebfingerResponseEvent;
+use App\Kbin\ActivityPub\Webfinger\EventSubscriber\Event\WebfingerResponseEvent;
 use App\Repository\MagazineRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
 use JetBrains\PhpStorm\ArrayShape;

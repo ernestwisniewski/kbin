@@ -36,7 +36,7 @@ class OAuth2UserConsentVoter extends Voter
             return false;
         }
 
-        if($user->isBanned) {
+        if ($user->isBanned) {
             return false;
         }
 

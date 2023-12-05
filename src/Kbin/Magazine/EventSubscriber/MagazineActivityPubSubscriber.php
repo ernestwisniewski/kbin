@@ -6,28 +6,20 @@
 
 declare(strict_types=1);
 
-namespace App\EventSubscriber\ActivityPub;
+namespace App\Kbin\Magazine\EventSubscriber;
 
 use App\Kbin\Magazine\EventSubscriber\Event\MagazineSubscribedEvent;
 use App\Message\ActivityPub\Outbox\FollowMessage;
-use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class MagazineFollowSubscriber implements EventSubscriberInterface
+readonly class MagazineActivityPubSubscriber
 {
-    public function __construct(private readonly MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus)
     {
     }
 
-    #[ArrayShape([MagazineSubscribedEvent::class => 'string'])]
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            MagazineSubscribedEvent::class => 'onMagazineFollow',
-        ];
-    }
-
+    #[AsEventListener(event: MagazineSubscribedEvent::class)]
     public function onMagazineFollow(MagazineSubscribedEvent $event): void
     {
         if ($event->magazine->apId && !$event->user->apId) {

@@ -6,14 +6,13 @@
 
 declare(strict_types=1);
 
-namespace App\Event;
+namespace App\Kbin\User\EventSubscriber\Event;
 
-use App\Entity\Domain;
 use App\Entity\User;
 
-class DomainSubscribedEvent
+class UserBlockEvent
 {
-    public function __construct(public Domain $domain, public User $user)
+    public function __construct(public User $blocker, public User $blocked)
     {
     }
 }

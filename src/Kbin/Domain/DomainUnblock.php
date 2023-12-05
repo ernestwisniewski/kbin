@@ -10,7 +10,7 @@ namespace App\Kbin\Domain;
 
 use App\Entity\Domain;
 use App\Entity\User;
-use App\Event\DomainBlockedEvent;
+use App\Kbin\Domain\EventSubscriber\Event\DomainBlockedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 

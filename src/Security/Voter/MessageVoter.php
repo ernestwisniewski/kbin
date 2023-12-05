@@ -35,7 +35,7 @@ class MessageVoter extends Voter
             return false;
         }
 
-        if($user->isBanned) {
+        if ($user->isBanned) {
             return false;
         }
 
