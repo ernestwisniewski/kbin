@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Event;
+namespace App\Kbin\Vote\EventSubscriber\Event;
 
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\Vote;

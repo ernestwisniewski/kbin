@@ -12,6 +12,7 @@ use App\Kbin\PostComment\EventSubscriber\Event\PostCommentBeforePurgeEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentEditedEvent;
+use App\Kbin\PostComment\EventSubscriber\Event\PostCommentPurgedEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
@@ -30,6 +31,12 @@ final readonly class PostCommentPersistSubscriber
         PostCommentCreatedEvent|PostCommentEditedEvent|PostCommentBeforePurgeEvent|PostCommentDeletedEvent $event
     ): void {
         $this->entityManager->persist($event->comment);
+        $this->entityManager->flush();
+    }
+
+    #[AsEventListener(event: PostCommentPurgedEvent::class, priority: -10)]
+    public function persistOnPurge(PostCommentPurgedEvent $event): void
+    {
         $this->entityManager->flush();
     }
 }

@@ -15,12 +15,12 @@ use App\Entity\PostCreatedNotification;
 use App\Entity\PostDeletedNotification;
 use App\Entity\PostEditedNotification;
 use App\Entity\PostMentionedNotification;
+use App\Kbin\Factory\HtmlClassFactory;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
-use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
@@ -46,7 +46,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager,
-        private readonly GenerateHtmlClassService $classService,
+        private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
     }

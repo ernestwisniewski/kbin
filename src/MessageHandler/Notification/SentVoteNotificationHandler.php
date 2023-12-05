@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\MessageHandler\Notification;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Kbin\Factory\HtmlClassFactory;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Message\Notification\VoteNotificationMessage;
-use App\Service\GenerateHtmlClassService;
 use App\Service\SettingsManager;
 use App\Service\VotableRepositoryResolver;
 use App\Utils\IriGenerator;
@@ -26,7 +26,7 @@ class SentVoteNotificationHandler
         private readonly MagazineFactory $magazineFactory,
         private readonly VotableRepositoryResolver $resolver,
         private readonly HubInterface $publisher,
-        private readonly GenerateHtmlClassService $classService,
+        private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
     }

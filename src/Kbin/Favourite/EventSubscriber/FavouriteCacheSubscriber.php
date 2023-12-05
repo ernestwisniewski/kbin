@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\Kbin\Favourite\EventSubscriber;
 
+use App\Entity\Contracts\FavouriteInterface;
 use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
@@ -17,7 +18,7 @@ use App\Service\CacheService;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class FavouriteCacheNotificationSubscriber
+class FavouriteCacheSubscriber
 {
     public function __construct(private CacheInterface $cache, private CacheService $cacheService)
     {
@@ -37,12 +38,12 @@ class FavouriteCacheNotificationSubscriber
         };
     }
 
-    private function clearEntryCommentCache(EntryComment $comment): void
+    private function clearEntryCommentCache(EntryComment|FavouriteInterface $comment): void
     {
         $this->cache->invalidateTags(['entry_comment_'.$comment->root?->getId() ?? $comment->getId()]);
     }
 
-    private function clearPostCommentCache(PostComment $comment): void
+    private function clearPostCommentCache(PostComment|FavouriteInterface $comment): void
     {
         $this->cache->invalidateTags([
             'post_'.$comment->post->getId(),
@@ -50,14 +51,14 @@ class FavouriteCacheNotificationSubscriber
         ]);
     }
 
-    private function clearEntryCache(Entry $entry): void
+    private function clearEntryCache(Entry|FavouriteInterface $entry): void
     {
         $this->cache->invalidateTags([
             'entry_'.$entry->getId(),
         ]);
     }
 
-    private function clearPostCache(Post $post): void
+    private function clearPostCache(Post|FavouriteInterface $post): void
     {
         $this->cache->invalidateTags([
             'post_'.$post->getId(),

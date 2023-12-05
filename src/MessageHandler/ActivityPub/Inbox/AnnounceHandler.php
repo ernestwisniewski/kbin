@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\MessageHandler\ActivityPub\Inbox;
 
 use App\Entity\User;
-use App\EventSubscriber\VoteHandleSubscriber;
+use App\Kbin\Vote\EventSubscriber\VoteCacheSubscriber;
 use App\Kbin\Vote\VoteUp;
 use App\Message\ActivityPub\Inbox\AnnounceMessage;
 use App\Message\ActivityPub\Inbox\ChainActivityMessage;
@@ -29,7 +29,7 @@ class AnnounceHandler
         private readonly EntityManagerInterface $entityManager,
         private readonly MessageBusInterface $bus,
         private readonly VoteUp $voteUp,
-        private readonly VoteHandleSubscriber $voteHandleSubscriber,
+        private readonly VoteCacheSubscriber $voteCacheSubscriber,
         private readonly ApHttpClient $apHttpClient,
     ) {
     }
@@ -53,7 +53,7 @@ class AnnounceHandler
 
             if ($actor instanceof User) {
                 ($this->voteUp)($entity, $actor);
-                $this->voteHandleSubscriber->clearCache($entity);
+                $this->voteCacheSubscriber->onVote($entity);
             } else {
                 $entity->lastActive = new \DateTime();
                 $this->entityManager->flush();

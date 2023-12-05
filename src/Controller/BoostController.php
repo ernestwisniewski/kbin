@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Contracts\VotableInterface;
+use App\Kbin\Factory\HtmlClassFactory;
 use App\Kbin\Vote\VoteCreate;
-use App\Service\GenerateHtmlClassService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,7 @@ class BoostController extends AbstractController
 {
     public function __construct(
         private readonly VoteCreate $voteCreate,
-        private readonly GenerateHtmlClassService $classService
+        private readonly HtmlClassFactory $classService
     ) {
     }
 

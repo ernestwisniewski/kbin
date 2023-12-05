@@ -21,7 +21,7 @@ final readonly class EntryCacheSubscriber
     ) {
     }
 
-    #[AsEventListener(event: EntryDeletedEvent::class)]
+    #[AsEventListener(event: EntryDeletedEvent::class, priority: -12)]
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
         $this->cache->invalidateTags([
@@ -30,13 +30,13 @@ final readonly class EntryCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: EntryCreatedEvent::class)]
+    #[AsEventListener(event: EntryCreatedEvent::class, priority: -12)]
     public function onEntryCreated(EntryCreatedEvent $event): void
     {
         $this->cache->invalidateTags(['user_'.$event->entry->user->getId()]);
     }
 
-    #[AsEventListener(event: EntryEditedEvent::class)]
+    #[AsEventListener(event: EntryEditedEvent::class, priority: -12)]
     public function onEntryEdited(EntryEditedEvent $event): void
     {
         $this->cache->invalidateTags(['entry_'.$event->entry->getId()]);

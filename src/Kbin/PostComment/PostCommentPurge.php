@@ -30,13 +30,15 @@ readonly class PostCommentPurge
     {
         $this->eventDispatcher->dispatch(new PostCommentBeforePurgeEvent($comment, $user));
 
-        $magazine = $comment->post->magazine;
+        $post = $comment->post;
+        $user = $post->user;
+
         $image = $comment->image?->filePath;
         $comment->post->removeComment($comment);
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 
-        $this->eventDispatcher->dispatch(new PostCommentPurgedEvent($magazine));
+        $this->eventDispatcher->dispatch(new PostCommentPurgedEvent($post, $user));
 
         if ($image) {
             $this->messageBus->dispatch(new ImagePurgeMessage($image));

@@ -22,23 +22,26 @@ final readonly class EntryCommentCacheSubscriber
     ) {
     }
 
-    #[AsEventListener(event: EntryCommentDeletedEvent::class)]
+    #[AsEventListener(event: EntryCommentDeletedEvent::class, priority: -12)]
     public function onEntryCommentDeleted(EntryCommentDeletedEvent $event): void
     {
         $this->cache->invalidateTags([
             'entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
-            'entry'.$event->comment->entry->getId(),
+            'entry_'.$event->comment->entry->getId(),
             'user_'.$event->comment->user->getId(),
         ]);
     }
 
     #[AsEventListener(event: EntryCommentBeforePurgeEvent::class)]
-    public function onEntryCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
+    public function onPostCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
     {
-        $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);
+        $this->cache->invalidateTags([
+            'entry_'.$event->comment->entry->getId(),
+            'post_comment_'.$event->comment->root?->getId() ?? $event->comment->getId(),
+        ]);
     }
 
-    #[AsEventListener(event: EntryCommentCreatedEvent::class)]
+    #[AsEventListener(event: EntryCommentCreatedEvent::class, priority: -12)]
     public function onEntryCommentCreated(EntryCommentCreatedEvent $event): void
     {
         $this->cache->invalidateTags([
@@ -48,7 +51,7 @@ final readonly class EntryCommentCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: EntryCommentEditedEvent::class)]
+    #[AsEventListener(event: EntryCommentEditedEvent::class, priority: -12)]
     public function onEntryCommentEdited(EntryCommentEditedEvent $event): void
     {
         $this->cache->invalidateTags(['entry_comment_'.$event->comment->root?->getId() ?? $event->comment->getId()]);

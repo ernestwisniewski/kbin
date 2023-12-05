@@ -16,13 +16,13 @@ use App\Entity\EntryCommentEditedNotification;
 use App\Entity\EntryCommentMentionedNotification;
 use App\Entity\EntryCommentReplyNotification;
 use App\Entity\Notification;
+use App\Kbin\Factory\HtmlClassFactory;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\User\Factory\UserFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
-use App\Service\GenerateHtmlClassService;
 use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
@@ -49,7 +49,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
         private readonly ImageManager $imageManager,
-        private readonly GenerateHtmlClassService $classService,
+        private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
     }

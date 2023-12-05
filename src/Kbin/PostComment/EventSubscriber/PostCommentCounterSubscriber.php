@@ -12,25 +12,25 @@ use App\Kbin\PostComment\EventSubscriber\Event\PostCommentCreatedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentDeletedEvent;
 use App\Kbin\PostComment\EventSubscriber\Event\PostCommentPurgedEvent;
 use App\Repository\PostRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class PostCommentCounterSubscriber
 {
-    public function __construct(private PostRepository $postRepository, private EntityManagerInterface $entityManager)
+    public function __construct(private PostRepository $postRepository)
     {
     }
 
-    #[AsEventListener(event: PostCommentPurgedEvent::class)]
+    #[AsEventListener(event: PostCommentPurgedEvent::class, priority: -12)]
     public function onPostCommentPurged(PostCommentPurgedEvent $event): void
     {
-        $event->magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine($event->magazine);
+        $event->post->magazine->postCommentCount = $this->postRepository->countPostCommentsByMagazine(
+            $event->post->magazine
+        );
 
-        $this->entityManager->persist($event->magazine);
-        $this->entityManager->flush();
+        $event->post->updateCounts();
     }
 
-    #[AsEventListener(event: PostCommentDeletedEvent::class)]
+    #[AsEventListener(event: PostCommentDeletedEvent::class, priority: -12)]
     public function onPostCommentDeleted(PostCommentDeletedEvent $event): void
     {
         $magazine = $event->comment->post->magazine;
@@ -39,7 +39,7 @@ final readonly class PostCommentCounterSubscriber
         $event->comment->post->updateCounts();
     }
 
-    #[AsEventListener(event: PostCommentCreatedEvent::class)]
+    #[AsEventListener(event: PostCommentCreatedEvent::class, priority: -12)]
     public function onPostCommentCreated(PostCommentCreatedEvent $event): void
     {
         $magazine = $event->comment->post->magazine;

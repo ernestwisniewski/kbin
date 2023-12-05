@@ -21,7 +21,7 @@ final readonly class PostCacheSubscriber
     ) {
     }
 
-    #[AsEventListener(event: PostDeletedEvent::class)]
+    #[AsEventListener(event: PostDeletedEvent::class, priority: -12)]
     public function onPostDeleted(PostDeletedEvent $event): void
     {
         $this->cache->invalidateTags([
@@ -30,13 +30,13 @@ final readonly class PostCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: PostCreatedEvent::class)]
+    #[AsEventListener(event: PostCreatedEvent::class, priority: -12)]
     public function onPostCreated(PostCreatedEvent $event): void
     {
         $this->cache->invalidateTags(['user_'.$event->post->user->getId()]);
     }
 
-    #[AsEventListener(event: PostEditedEvent::class)]
+    #[AsEventListener(event: PostEditedEvent::class, priority: -12)]
     public function onPostEdited(PostEditedEvent $event): void
     {
         $this->cache->invalidateTags(['post_'.$event->post->getId()]);

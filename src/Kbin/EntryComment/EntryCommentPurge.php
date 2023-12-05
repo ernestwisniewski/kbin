@@ -30,17 +30,18 @@ readonly class EntryCommentPurge
     {
         $this->eventDispatcher->dispatch(new EntryCommentBeforePurgeEvent($comment, $user));
 
-        $magazine = $comment->entry->magazine;
+        $entry = $comment->entry;
+        $user = $comment->user;
+
         $image = $comment->image?->filePath;
         $comment->entry->removeComment($comment);
 
         $this->entityManager->remove($comment);
-        $this->entityManager->flush();
 
         if ($image) {
             $this->messageBus->dispatch(new ImagePurgeMessage($image));
         }
 
-        $this->eventDispatcher->dispatch(new EntryCommentPurgedEvent($magazine));
+        $this->eventDispatcher->dispatch(new EntryCommentPurgedEvent($entry, $user));
     }
 }

@@ -11,7 +11,7 @@ namespace App\Kbin\Vote;
 use App\Entity\Contracts\VotableInterface;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Event\VoteEvent;
+use App\Kbin\Vote\EventSubscriber\Event\VoteEvent;
 use App\Kbin\Vote\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

@@ -120,6 +120,8 @@ class EntryFrontController extends AbstractController
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
+        $listing = ($this->entryCrosspost)($listing);
+
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
@@ -161,6 +163,8 @@ class EntryFrontController extends AbstractController
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
 
+        $listing = ($this->entryCrosspost)($listing);
+
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(
                 [
@@ -201,6 +205,8 @@ class EntryFrontController extends AbstractController
 
         $method = $criteria->resolveSort($sortBy);
         $listing = $this->$method($criteria);
+
+        $listing = ($this->entryCrosspost)($listing);
 
         if ($request->isXmlHttpRequest()) {
             return new JsonResponse(

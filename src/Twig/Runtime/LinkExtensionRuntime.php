@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Twig\Runtime;
 
 use App\Entity\Contracts\ContentInterface;
-use App\Service\GenerateHtmlClassService;
+use App\Kbin\Factory\HtmlClassFactory;
 use App\Service\SettingsManager;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -17,7 +17,7 @@ class LinkExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private readonly SettingsManager $settingsManager,
-        private readonly GenerateHtmlClassService $generateHtmlClassService
+        private readonly HtmlClassFactory $generateHtmlClassService
     ) {
     }
 

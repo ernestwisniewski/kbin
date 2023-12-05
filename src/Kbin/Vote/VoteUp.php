@@ -13,7 +13,7 @@ use App\Entity\EntryComment;
 use App\Entity\PostComment;
 use App\Entity\User;
 use App\Entity\Vote;
-use App\Event\VoteEvent;
+use App\Kbin\Vote\EventSubscriber\Event\VoteEvent;
 use App\Kbin\Vote\Factory\VoteFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;

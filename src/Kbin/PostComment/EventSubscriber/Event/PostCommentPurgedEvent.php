@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace App\Kbin\PostComment\EventSubscriber\Event;
 
-use App\Entity\Magazine;
+use App\Entity\Post;
+use App\Entity\User;
 
 class PostCommentPurgedEvent
 {
-    public function __construct(public Magazine $magazine)
+    public function __construct(public Post $post, public User $user)
     {
     }
 }

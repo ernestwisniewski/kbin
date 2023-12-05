@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Kbin\Factory;
 
 use App\Entity\Contracts\ContentInterface;
 use App\Entity\Entry;
@@ -14,7 +14,7 @@ use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
 
-class GenerateHtmlClassService
+class HtmlClassFactory
 {
     public function fromEntity(ContentInterface $subject): string
     {
