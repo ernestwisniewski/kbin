@@ -13,6 +13,7 @@ use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
 use App\Entity\Magazine;
 use App\Entity\User;
+use App\Kbin\Criteria\ValueObject\DateRange;
 
 abstract class Criteria
 {
@@ -202,17 +203,11 @@ abstract class Criteria
             '1w' => Criteria::TIME_WEEK,
             '1m' => Criteria::TIME_MONTH,
             '1y' => Criteria::TIME_YEAR,
-            '∞' => Criteria::TIME_ALL,
-            'all' => Criteria::TIME_ALL,
-            'wszystko' => Criteria::TIME_ALL,
-            '3g' => Criteria::TIME_3_HOURS,
-            '6g' => Criteria::TIME_6_HOURS,
-            '12g' => Criteria::TIME_12_HOURS,
-            '1t' => Criteria::TIME_WEEK,
-            '1r' => Criteria::TIME_YEAR,
+            '∞' => null,
+            'all' => null,
         ];
 
-        return $routes[$value] ?? null;
+        return $routes[$value] ?? $value;
     }
 
     public function resolveType(?string $value): ?string
@@ -229,12 +224,6 @@ abstract class Criteria
             'photos' => Entry::ENTRY_TYPE_IMAGE,
             'image' => Entry::ENTRY_TYPE_IMAGE,
             'images' => Entry::ENTRY_TYPE_IMAGE,
-
-            'artykuł' => Entry::ENTRY_TYPE_ARTICLE,
-            'artykuły' => Entry::ENTRY_TYPE_ARTICLE,
-            'linki' => Entry::ENTRY_TYPE_LINK,
-            'obraz' => Entry::ENTRY_TYPE_IMAGE,
-            'obrazy' => Entry::ENTRY_TYPE_IMAGE,
         ];
 
         return $routes[$value] ?? null;
@@ -258,19 +247,28 @@ abstract class Criteria
         return $this;
     }
 
-    public function getSince(): \DateTimeImmutable
+    public function getRange(): DateRange
     {
+        if (str_contains($this->time, '::')) {
+            $date = explode('::', $this->time);
+            // set 00:00:00 to
+            return new DateRange(
+                new \DateTimeImmutable($date[0].' 00:00:00'),
+                new \DateTimeImmutable($date[1].' 23:59:59')
+            );
+        }
+
         $since = new \DateTimeImmutable('@'.time());
 
         return match ($this->time) {
-            Criteria::TIME_YEAR => $since->modify('-1 year'),
-            Criteria::TIME_MONTH => $since->modify('-1 month'),
-            Criteria::TIME_WEEK => $since->modify('-1 week'),
-            Criteria::TIME_DAY => $since->modify('-1 day'),
-            Criteria::TIME_12_HOURS => $since->modify('-12 hours'),
-            Criteria::TIME_6_HOURS => $since->modify('-6 hours'),
-            Criteria::TIME_3_HOURS => $since->modify('-3 hours'),
-            default => throw new \LogicException(),
+            Criteria::TIME_YEAR => new DateRange($since->modify('-1 year'), $since),
+            Criteria::TIME_MONTH => new DateRange($since->modify('-1 month'), $since),
+            Criteria::TIME_WEEK => new DateRange($since->modify('-1 week'), $since),
+            Criteria::TIME_DAY => new DateRange($since->modify('-1 day'), $since),
+            Criteria::TIME_12_HOURS => new DateRange($since->modify('-12 hours'), $since),
+            Criteria::TIME_6_HOURS => new DateRange($since->modify('-6 hours'), $since),
+            Criteria::TIME_3_HOURS => new DateRange($since->modify('-3 hours'), $since),
+            default => new DateRange(new \DateTimeImmutable('@0'), $since),
         };
     }
 }

@@ -16,6 +16,7 @@ use App\Kbin\Magazine\MagazinePageView;
 use App\Kbin\Post\PostPageView;
 use App\Kbin\PostComment\PostCommentPageView;
 use App\Kbin\SubjectOverviewListCreate;
+use App\Repository\AggregateRepository;
 use App\Repository\Criteria;
 use App\Repository\EntryCommentRepository;
 use App\Repository\EntryRepository;
@@ -34,36 +35,56 @@ class UserFrontController extends AbstractController
     {
     }
 
-    public function front(User $user, Request $request, UserRepository $repository): Response
-    {
-        $response = new Response();
-        if ($user->apId) {
-            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
-        }
-
-        $activity = $repository->findPublicActivity($this->getPageNb($request), $user);
-
-        return $this->render(
-            'user/overview.html.twig',
-            [
-                'user' => $user,
-                'results' => ($this->subjectOverviewListCreate)($activity),
-                'pagination' => $activity,
-            ],
-            $response
-        );
-    }
-
-    public function entries(User $user, Request $request, EntryRepository $repository): Response
-    {
+    public function front(
+        User $user,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request,
+        AggregateRepository $repository
+    ): Response {
         $response = new Response();
         if ($user->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
         }
 
         $criteria = new EntryPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
+
+        $activity = $repository->findByCriteria($criteria, true);
+
+        return $this->render(
+            'user/overview.html.twig',
+            [
+                'user' => $user,
+                'results' => ($this->subjectOverviewListCreate)($activity, $criteria->resolveSort($sortBy)),
+                'pagination' => $activity,
+            ],
+            $response
+        );
+    }
+
+    public function entries(
+        User $user,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request,
+        EntryRepository $repository
+    ): Response {
+        $response = new Response();
+        if ($user->apId) {
+            $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
+        }
+
+        $criteria = new EntryPageView($this->getPageNb($request));
+        $criteria->user = $user;
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
 
         return $this->render(
             'user/entries.html.twig',
@@ -75,17 +96,25 @@ class UserFrontController extends AbstractController
         );
     }
 
-    public function comments(User $user, Request $request, EntryCommentRepository $repository): Response
-    {
+    public function comments(
+        User $user,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request,
+        EntryCommentRepository $repository
+    ): Response {
         $response = new Response();
         if ($user->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
         }
 
         $criteria = new EntryCommentPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
         $criteria->onlyParents = false;
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
 
         $comments = $repository->findByCriteria($criteria);
 
@@ -99,16 +128,24 @@ class UserFrontController extends AbstractController
         );
     }
 
-    public function posts(User $user, Request $request, PostRepository $repository): Response
-    {
+    public function posts(
+        User $user,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request,
+        PostRepository $repository
+    ): Response {
         $response = new Response();
         if ($user->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
         }
 
         $criteria = new PostPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_NEW;
         $criteria->user = $user;
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
 
         $posts = $repository->findByCriteria($criteria);
 
@@ -122,17 +159,25 @@ class UserFrontController extends AbstractController
         );
     }
 
-    public function replies(User $user, Request $request, PostCommentRepository $repository): Response
-    {
+    public function replies(
+        User $user,
+        ?string $sortBy,
+        ?string $time,
+        ?string $type,
+        Request $request,
+        PostCommentRepository $repository
+    ): Response {
         $response = new Response();
         if ($user->apId) {
             $response->headers->set('X-Robots-Tag', 'noindex, nofollow');
         }
 
         $criteria = new PostCommentPageView($this->getPageNb($request));
-        $criteria->sortOption = Criteria::SORT_NEW;
-        $criteria->onlyParents = false;
         $criteria->user = $user;
+        $criteria->onlyParents = false;
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
 
         $comments = $repository->findByCriteria($criteria);
 

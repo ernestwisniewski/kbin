@@ -286,7 +286,7 @@ figure {
 }
 
 .danger, .danger i {
-  color: var(--kbin-danger-color);
+  color: var(--kbin-danger-color) !important;
 }
 
 .danger-bg {
@@ -295,7 +295,7 @@ figure {
 
 .success,
 .success i {
-  color: var(--kbin-success-color);
+  color: var(--kbin-success-color) !important;
 }
 
 .secondary-bg {

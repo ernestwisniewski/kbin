@@ -102,12 +102,10 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        if (Criteria::TIME_ALL !== $criteria->time) {
-            $since = $criteria->getSince();
-
-            $qb->andWhere('c.createdAt > :time')
-                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
-        }
+        $range = $criteria->getRange();
+        $qb->andWhere('c.createdAt BETWEEN :dateFrom AND :dateTo')
+            ->setParameter('dateFrom', $range->from, Types::DATETIMETZ_IMMUTABLE)
+            ->setParameter('dateTo', $range->to, Types::DATETIMETZ_IMMUTABLE);
     }
 
     private function filter(QueryBuilder $qb, Criteria $criteria): void

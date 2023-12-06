@@ -10,7 +10,9 @@ namespace App\Repository;
 
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\Entry;
+use App\Entity\EntryComment;
 use App\Entity\Post;
+use App\Entity\PostComment;
 use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Pagination\KbinUnionPagination;
 use Doctrine\DBAL\Types\Types;
@@ -37,11 +39,11 @@ class AggregateRepository
     ) {
     }
 
-    public function findByCriteria(Criteria $criteria): PagerfantaInterface
+    public function findByCriteria(Criteria $criteria, $withComments = false): PagerfantaInterface
     {
         // @todo union adapter
         $conn = $this->entityManager->getConnection();
-        $sql = $this->getQuery($criteria);
+        $sql = $this->getQuery($criteria, $withComments);
         $bind = [];
 
         $stmt = $conn->prepare($sql);
@@ -70,9 +72,11 @@ class AggregateRepository
             $stmt->bindValue('criteria_user', $criteria->user->getId());
             $bind['criteria_user'] = $criteria->user->getId();
         }
-        if (Criteria::TIME_ALL !== $criteria->time) {
-            $stmt->bindValue('time', $criteria->getSince(), Types::DATETIME_MUTABLE);
-            $bind['time'] = $criteria->getSince();
+        if ($criteria->time) {
+            $stmt->bindValue('timeFrom', $criteria->getRange()->from, Types::DATETIME_MUTABLE);
+            $stmt->bindValue('timeTo', $criteria->getRange()->to, Types::DATETIME_MUTABLE);
+            $bind['timeFrom'] = $criteria->getRange()->from;
+            $bind['timeTo'] = $criteria->getRange()->to;
         }
         if ($criteria->category) {
             $stmt->bindValue('category', $criteria->category->getId());
@@ -111,8 +115,15 @@ class AggregateRepository
         $post = $this->entityManager->getRepository(Post::class)->findBy(
             ['id' => $this->getOverviewIds($result, 'post')]
         );
+        $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
+            ['id' => $this->getOverviewIds($result, 'entry_comment')]
+        );
+        $postComments = $this->entityManager->getRepository(PostComment::class)->findBy(
+            ['id' => $this->getOverviewIds($result, 'post_comment')]
+        );
 
-        $result = array_merge($entries, $post);
+        $result = array_merge($entries, $post, $entryComments, $postComments);
+
         uasort(
             $result,
             fn ($a, $b) => $a->{$this->resolveSortField($criteria)} > $b->{$this->resolveSortField($criteria)} ? -1 : 1
@@ -146,13 +157,22 @@ class AggregateRepository
         return array_map(fn ($subject) => $subject['id'], $result);
     }
 
-    private function getQuery(Criteria $criteria): string
+    private function getQuery(Criteria $criteria, $withComments = false): string
     {
         $query = "
         ({$this->prepareQuery($criteria, 'entry')})
         UNION
         ({$this->prepareQuery($criteria, 'post')})
         ";
+
+        if ($withComments) {
+            $query .= "
+        UNION
+        ({$this->prepareCommentsQuery($criteria, 'entry_comment')})
+        UNION
+        ({$this->prepareCommentsQuery($criteria, 'post_comment')})
+        ";
+        }
 
         $query .= "ORDER BY {$this->resolveSortQuery($criteria)} DESC, created_at DESC LIMIT 25000";
 
@@ -163,6 +183,17 @@ class AggregateRepository
     {
         return "
         SELECT {$type}.id, {$type}.created_at, {$type}.score, {$type}.ranking, {$type}.last_active, {$type}.comment_count, '{$type}' AS type 
+        FROM {$type} 
+        INNER JOIN magazine m_{$type} ON {$type}.magazine_id = m_{$type}.id 
+        INNER JOIN ".'"user"'." u_{$type} ON {$type}.user_id = u_{$type}.id
+        {$this->prepareWhereStatement($criteria, $type)}
+        ";
+    }
+
+    private function prepareCommentsQuery(Criteria $criteria, string $type): string
+    {
+        return "
+        SELECT {$type}.id, {$type}.created_at, {$type}.score, {$type}.score + {$type}.favourite_count AS ranking, {$type}.last_active, 0 as comment_count, '{$type}' AS type 
         FROM {$type} 
         INNER JOIN magazine m_{$type} ON {$type}.magazine_id = m_{$type}.id 
         INNER JOIN ".'"user"'." u_{$type} ON {$type}.user_id = u_{$type}.id
@@ -271,9 +302,9 @@ class AggregateRepository
             ";
         }
 
-        if (Criteria::TIME_ALL !== $criteria->time) {
+        if ($criteria->time) {
             $where .= "
-            AND {$type}.created_at > :time
+            AND ({$type}.created_at BETWEEN :timeFrom AND :timeTo)
             ";
         }
 

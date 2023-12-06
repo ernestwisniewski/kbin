@@ -110,6 +110,7 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     private int $id;
     #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
     private $bodyTs;
+    public $ranking;
 
     public function __construct(string $body, ?Post $post, User $user, PostComment $parent = null, string $ip = null)
     {
@@ -122,6 +123,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
         $this->children = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
+
+        $this->ranking = $this->score + $this->favouriteCount;
 
         if ($parent) {
             $this->root = $parent->root ?? $parent;

@@ -111,6 +111,7 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     private int $id;
     #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
     private $bodyTs;
+    public $ranking = 0;
 
     public function __construct(
         string $body,
@@ -129,6 +130,8 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
         $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+
+        $this->ranking = $this->score + $this->favouriteCount;
 
         if ($parent) {
             $this->root = $parent->root ?? $parent;

@@ -12,11 +12,12 @@ use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Repository\Criteria;
 use Pagerfanta\PagerfantaInterface;
 
 class SubjectOverviewListCreate
 {
-    public function __invoke(PagerfantaInterface $activity): array
+    public function __invoke(PagerfantaInterface $activity, $sortBy = 'hot'): array
     {
         $postsAndEntries = array_filter(
             $activity->getCurrentPageResults(),
@@ -76,17 +77,28 @@ class SubjectOverviewListCreate
 
         $merged = array_merge($results, $parents);
 
-        uasort($merged, fn ($a, $b) => $a->getCreatedAt() > $b->getCreatedAt() ? -1 : 1);
+        uasort($merged, fn ($a, $b) => $a->{$this->resolveSort($sortBy)} > $b->{$this->resolveSort($sortBy)} ? -1 : 1);
 
         $results = [];
         foreach ($merged as $entry) {
             $results[] = $entry;
-            uasort($entry->children, fn ($a, $b) => $a->getCreatedAt() < $b->getCreatedAt() ? -1 : 1);
+            uasort($entry->children, fn ($a, $b) => $a->{$this->resolveSort($sortBy)} < $b->{$this->resolveSort($sortBy)} ? -1 : 1);
             foreach ($entry->children as $child) {
                 $results[] = $child;
             }
         }
 
         return $results;
+    }
+
+    private function resolveSort(string $criteria): string
+    {
+        return match ($criteria) {
+            Criteria::SORT_TOP => 'score',
+            Criteria::SORT_HOT => 'ranking',
+            Criteria::SORT_COMMENTED => 'commentCount',
+            Criteria::SORT_ACTIVE => 'lastActive',
+            default => 'createdAt',
+        };
     }
 }

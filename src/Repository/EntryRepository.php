@@ -109,12 +109,10 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     private function addTimeClause(QueryBuilder $qb, EntryPageView $criteria): void
     {
-        if (Criteria::TIME_ALL !== $criteria->time) {
-            $since = $criteria->getSince();
-
-            $qb->andWhere('e.createdAt > :time')
-                ->setParameter('time', $since, Types::DATETIMETZ_IMMUTABLE);
-        }
+        $range = $criteria->getRange();
+        $qb->andWhere('e.createdAt BETWEEN :dateFrom AND :dateTo')
+            ->setParameter('dateFrom', $range->from, Types::DATETIMETZ_IMMUTABLE)
+            ->setParameter('dateTo', $range->to, Types::DATETIMETZ_IMMUTABLE);
     }
 
     private function addStickyClause(QueryBuilder $qb, EntryPageView $criteria): void

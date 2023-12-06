@@ -33,7 +33,7 @@
     <header>
         <h1 hidden>{{ category.name }} {{ get_active_sort_option()|trans }}</h1>
     </header>
-    {% include 'post/_options.html.twig' %}
+    {% include 'layout/_options.html.twig' %}
     {% include 'layout/_flash.html.twig' %}
     {% if magazine is defined and magazine %}
         {% include 'magazine/_federated_info.html.twig' %}

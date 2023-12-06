@@ -49,7 +49,7 @@
             <h1 hidden>{{ get_active_sort_option()|trans }}</h1>
         {% endif %}
     </header>
-    {% include 'entry/_options.html.twig' %}
+    {% include 'layout/_options.html.twig' %}
     {% include 'layout/_flash.html.twig' %}
     {% if magazine is defined and magazine %}
         {% include 'magazine/_federated_info.html.twig' %}

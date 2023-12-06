@@ -2,29 +2,28 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
-user_overview:
-  controller: App\Controller\User\UserFrontController::front
-  path: /u/{username}
-  methods: [ GET ]
-
 user_entries:
   controller: App\Controller\User\UserFrontController::entries
-  path: /u/{username}/threads
+  path: /u/{username}/threads/{sortBy}/{time}/{type}
+  defaults: { sortBy: hot, time: '∞', type: ~ }
   methods: [ GET ]
 
 user_comments:
   controller: App\Controller\User\UserFrontController::comments
-  path: /u/{username}/comments
+  path: /u/{username}/comments/{sortBy}/{time}/{type}
+  defaults: { sortBy: hot, time: '∞', type: ~ }
   methods: [ GET ]
 
 user_posts:
   controller: App\Controller\User\UserFrontController::posts
-  path: /u/{username}/posts
+  path: /u/{username}/posts/{sortBy}/{time}/{type}
+  defaults: { sortBy: hot, time: '∞', type: ~ }
   methods: [ GET ]
 
 user_replies:
   controller: App\Controller\User\UserFrontController::replies
-  path: /u/{username}/replies
+  path: /u/{username}/replies/{sortBy}/{time}/{type}
+  defaults: { sortBy: hot, time: '∞', type: ~ }
   methods: [ GET ]
 
 user_boosts:
@@ -158,6 +157,12 @@ user_ap_refresh:
   controller: App\Controller\User\UserApRefresh
   path: /u/{username}/ap_refresh
   methods: [ POST ]
+
+user_overview:
+  controller: App\Controller\User\UserFrontController::front
+  path: /u/{username}/{sortBy}/{time}/{type}
+  defaults: { sortBy: hot, time: '∞', type: ~ }
+  methods: [ GET ]
 
 notifications_front:
   controller: App\Controller\User\Profile\UserNotificationController::notifications

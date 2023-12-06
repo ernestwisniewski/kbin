@@ -59,8 +59,15 @@
                     {% for subject in results %}
                         <tr>
                             <td style="text-align: center;"
-                                class="{{ html_classes({'success': subject.points >= 0, 'danger': subject.points < 0}) }}">{{ subject.points }}</td>
-                            <td>{{ subject.day >= date('-2 days') ? subject.day|ago : subject.day|date('Y-m-d') }}</td>
+                                class="{{ html_classes({'success': subject.points >= 0, 'danger': subject.points < 0}) }}">
+                                {{ subject.points }}
+                            </td>
+                            <td style="position: relative">
+                                <a href="{{ path('user_overview', {username: user.username, time: subject.day|date('Y-m-d') ~ '::' ~ subject.day|date('Y-m-d')}) }}"
+                                class="stretched-link">
+                                    {{ subject.day >= date('-2 days') ? subject.day|ago : subject.day|date('Y-m-d') }}
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

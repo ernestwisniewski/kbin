@@ -24,7 +24,7 @@ readonly class SpamProtectionCheck
     public function __invoke(User $user, bool $throw = true): bool
     {
         if ($this->settingsManager->get('KBIN_SPAM_PROTECTION')) {
-            if (($this->userReputationGet)($user) < 8 && $user->spamProtection) {
+            if (($this->userReputationGet)($user) < 3 && $user->spamProtection) {
                 if ($throw) {
                     throw new SpamProtectionVerificationFailed('User has spam protection enabled and reputation is too low '.$user->getUsername().' '.$user->getId());
                 } else {
