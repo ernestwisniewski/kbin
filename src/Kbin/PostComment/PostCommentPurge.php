@@ -34,7 +34,7 @@ readonly class PostCommentPurge
         $user = $post->user;
 
         $image = $comment->image?->filePath;
-        $comment->post->removeComment($comment);
+
         $this->entityManager->remove($comment);
         $this->entityManager->flush();
 

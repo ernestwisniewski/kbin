@@ -34,9 +34,9 @@ readonly class EntryCommentPurge
         $user = $comment->user;
 
         $image = $comment->image?->filePath;
-        $comment->entry->removeComment($comment);
 
         $this->entityManager->remove($comment);
+        $this->entityManager->flush();
 
         if ($image) {
             $this->messageBus->dispatch(new ImagePurgeMessage($image));
