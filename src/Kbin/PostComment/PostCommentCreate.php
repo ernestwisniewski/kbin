@@ -77,8 +77,6 @@ readonly class PostCommentCreate
             throw new \Exception('Comment body and image cannot be empty');
         }
 
-        $comment->post->addComment($comment);
-
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
 
