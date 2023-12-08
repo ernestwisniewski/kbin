@@ -31,7 +31,7 @@ final readonly class PostCounterSubscriber
     #[AsEventListener(event: PostDeletedEvent::class)]
     public function onPostDeleted(PostDeletedEvent $event): void
     {
-        $event->post->magazine->updatePostCounts();
+        $event->post->magazine->postCount = $this->postRepository->countPostsByMagazine($event->post->magazine);
     }
 
     #[AsEventListener(event: PostCreatedEvent::class)]

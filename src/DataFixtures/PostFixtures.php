@@ -64,7 +64,6 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
             }
 
             $entity->createdAt = $this->getRandomTime();
-            $entity->updateCounts();
             $entity->updateLastActive();
             $entity->updateRanking();
 

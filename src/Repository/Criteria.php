@@ -203,8 +203,8 @@ abstract class Criteria
             '1w' => Criteria::TIME_WEEK,
             '1m' => Criteria::TIME_MONTH,
             '1y' => Criteria::TIME_YEAR,
-            '∞' => null,
-            'all' => null,
+            '∞' => Criteria::TIME_ALL,
+            'all' => Criteria::TIME_ALL,
         ];
 
         return $routes[$value] ?? $value;
@@ -251,6 +251,7 @@ abstract class Criteria
     {
         if (str_contains($this->time, '::')) {
             $date = explode('::', $this->time);
+
             // set 00:00:00 to
             return new DateRange(
                 new \DateTimeImmutable($date[0].' 00:00:00'),

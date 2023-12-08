@@ -11,6 +11,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 #[Entity]
 class EntryFavourite extends Favourite

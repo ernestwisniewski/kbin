@@ -31,7 +31,7 @@ final readonly class EntryCounterSubscriber
     #[AsEventListener(event: EntryDeletedEvent::class)]
     public function onEntryDeleted(EntryDeletedEvent $event): void
     {
-        $event->entry->magazine->updateEntryCounts();
+        $event->entry->magazine->entryCount = $this->entryRepository->countEntriesByMagazine($event->entry->magazine);
     }
 
     #[AsEventListener(event: EntryCreatedEvent::class)]

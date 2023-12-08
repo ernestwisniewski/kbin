@@ -12,6 +12,7 @@ use App\Entity\Contracts\VotableInterface;
 use App\Entity\User;
 use App\Entity\Vote;
 use App\Kbin\Vote\EventSubscriber\Event\VoteEvent;
+use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -38,8 +39,6 @@ readonly class VoteRemove
         }
 
         $vote->choice = VotableInterface::VOTE_NONE;
-
-        $votable->updateVoteCounts();
 
         $this->entityManager->flush();
 

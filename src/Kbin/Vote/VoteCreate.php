@@ -61,8 +61,6 @@ readonly class VoteCreate
             $this->entityManager->persist($vote);
         }
 
-        $votable->updateVoteCounts();
-
         $this->entityManager->flush();
 
         $this->eventDispatcher->dispatch(new VoteEvent($votable, $vote, $votedAgain));

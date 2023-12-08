@@ -72,7 +72,7 @@ class AggregateRepository
             $stmt->bindValue('criteria_user', $criteria->user->getId());
             $bind['criteria_user'] = $criteria->user->getId();
         }
-        if ($criteria->time) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $stmt->bindValue('timeFrom', $criteria->getRange()->from, Types::DATETIME_MUTABLE);
             $stmt->bindValue('timeTo', $criteria->getRange()->to, Types::DATETIME_MUTABLE);
             $bind['timeFrom'] = $criteria->getRange()->from;
@@ -115,14 +115,17 @@ class AggregateRepository
         $post = $this->entityManager->getRepository(Post::class)->findBy(
             ['id' => $this->getOverviewIds($result, 'post')]
         );
-        $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
-            ['id' => $this->getOverviewIds($result, 'entry_comment')]
-        );
-        $postComments = $this->entityManager->getRepository(PostComment::class)->findBy(
-            ['id' => $this->getOverviewIds($result, 'post_comment')]
-        );
 
-        $result = array_merge($entries, $post, $entryComments, $postComments);
+        if ($withComments) {
+            $entryComments = $this->entityManager->getRepository(EntryComment::class)->findBy(
+                ['id' => $this->getOverviewIds($result, 'entry_comment')]
+            );
+            $postComments = $this->entityManager->getRepository(PostComment::class)->findBy(
+                ['id' => $this->getOverviewIds($result, 'post_comment')]
+            );
+        }
+
+        $result = array_merge($entries, $post, $entryComments ?? [], $postComments ?? []);
 
         uasort(
             $result,
@@ -302,7 +305,7 @@ class AggregateRepository
             ";
         }
 
-        if ($criteria->time) {
+        if (Criteria::TIME_ALL !== $criteria->time) {
             $where .= "
             AND ({$type}.created_at BETWEEN :timeFrom AND :timeTo)
             ";

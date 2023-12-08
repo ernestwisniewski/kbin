@@ -111,7 +111,8 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     private int $id;
     #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
     private $bodyTs;
-    public $ranking = 0;
+    public int $ranking = 0;
+    public int $commentCount = 0;
 
     public function __construct(
         string $body,
@@ -130,8 +131,6 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
         $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-
-        $this->ranking = $this->score + $this->favouriteCount;
 
         if ($parent) {
             $this->root = $parent->root ?? $parent;
@@ -155,32 +154,6 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, EntryCommentVote::class);
-
-        if (!$this->votes->contains($vote)) {
-            $this->votes->add($vote);
-            $vote->setComment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, EntryCommentVote::class);
-
-        if ($this->votes->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->comment === $this) {
-                $vote->setComment(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getChildrenRecursive(int &$startIndex = 0): \Traversable
@@ -229,6 +202,9 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
         return $this->user;
     }
 
+    /**
+     * @deprecated
+     */
     public function updateCounts(): self
     {
         $this->favouriteCount = $this->favourites->count();

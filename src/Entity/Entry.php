@@ -182,11 +182,8 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
         $this->notifications = new ArrayCollection();
         $this->badges = new ArrayCollection();
 
-        $user->addEntry($this);
-
         $this->createdAtTraitConstruct();
-
-        $this->updateLastActive();
+        $this->lastActive = new \DateTime();
     }
 
     public function updateLastActive(): void
@@ -234,77 +231,6 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     public function restore(): void
     {
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-    }
-
-    public function addComment(EntryComment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->entry = $this;
-        }
-
-        $this->updateCounts();
-        $this->updateRanking();
-        $this->updateLastActive();
-
-        return $this;
-    }
-
-    public function updateCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
-
-        $this->commentCount = $this->comments->matching($criteria)->count();
-        $this->favouriteCount = $this->favourites->count();
-
-        return $this;
-    }
-
-    public function removeComment(EntryComment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            if ($comment->entry === $this) {
-                $comment->entry = null;
-            }
-        }
-
-        $this->updateCounts();
-        $this->updateRanking();
-        $this->updateLastActive();
-
-        return $this;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, EntryVote::class);
-
-        if (!$this->votes->contains($vote)) {
-            $this->votes->add($vote);
-            $vote->entry = $this;
-        }
-
-        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
-        $this->updateRanking();
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, EntryVote::class);
-
-        if ($this->votes->removeElement($vote)) {
-            if ($vote->entry === $this) {
-                $vote->entry = null;
-            }
-        }
-
-        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
-        $this->updateRanking();
-
-        return $this;
     }
 
     public function isAuthor(User $user): bool
@@ -378,7 +304,7 @@ class Entry implements VotableInterface, CommentInterface, DomainInterface, Visi
     {
         $amount = $this->adaAmount / 1000000;
 
-        return $amount > 0 ? (string) $amount : '';
+        return $amount > 0 ? (string)$amount : '';
     }
 
     public function isAdult(): bool

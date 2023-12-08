@@ -32,7 +32,7 @@ final readonly class EntryCommentCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: EntryCommentBeforePurgeEvent::class)]
+    #[AsEventListener(event: EntryCommentBeforePurgeEvent::class, priority: -12)]
     public function onPostCommentBeforePurge(EntryCommentBeforePurgeEvent $event): void
     {
         $this->cache->invalidateTags([

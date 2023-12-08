@@ -40,6 +40,8 @@ readonly class EntryCommentDelete implements DeleteContentServiceInterface
 
         $this->isTrashed($user, $subject) ? $subject->trash() : $subject->softDelete();
 
+        $subject->entry->updateLastActive();
+
         $this->eventDispatcher->dispatch(new EntryCommentBeforeDeletedEvent($subject, $user));
 
         $this->entityManager->flush();

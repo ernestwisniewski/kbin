@@ -24,7 +24,7 @@ readonly class VoteCacheSubscriber
     {
     }
 
-    #[AsEventListener(event: VoteEvent::class, priority: -1)]
+    #[AsEventListener(event: VoteEvent::class, priority: -12)]
     public function onVote(VoteEvent $event): void
     {
         $this->cache->delete($this->cacheService->getVotersCacheKey($event->votable));

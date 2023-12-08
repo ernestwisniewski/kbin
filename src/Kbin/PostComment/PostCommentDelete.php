@@ -40,6 +40,8 @@ readonly class PostCommentDelete implements DeleteContentServiceInterface
 
         $this->isTrashed($user, $subject) ? $subject->trash() : $subject->softDelete();
 
+        $subject->post->updateLastActive();
+
         $this->eventDispatcher->dispatch(new PostCommentBeforeDeletedEvent($subject, $user));
 
         $this->entityManager->flush();

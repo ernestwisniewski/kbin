@@ -13,7 +13,7 @@ use App\Kbin\Favourite\EventSubscriber\Event\FavouriteEvent;
 use App\Kbin\Vote\VoteRemove;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
-class FavouriteHandleSubscriber
+readonly class FavouriteHandleSubscriber
 {
     public function __construct(private VoteRemove $voteRemove)
     {

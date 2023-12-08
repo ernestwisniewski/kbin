@@ -72,6 +72,7 @@ readonly class EntryCommentCreate
         $comment->magazine->lastActive = new \DateTime();
         $comment->user->lastActive = new \DateTime();
         $comment->lastActive = $dto->lastActive ?? $comment->lastActive;
+        $comment->entry->lastActive = new \DateTime();
         $comment->createdAt = $dto->createdAt ?? $comment->createdAt;
         if (empty($comment->body) && null === $comment->image) {
             throw new \Exception('Comment body and image cannot be empty');

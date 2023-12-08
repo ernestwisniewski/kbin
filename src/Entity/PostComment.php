@@ -110,7 +110,8 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     private int $id;
     #[Column(type: 'text', nullable: true, insertable: false, updatable: false, options: ['default' => 'english'])]
     private $bodyTs;
-    public $ranking;
+    public int $ranking = 0;
+    public int $commentCount = 0;
 
     public function __construct(string $body, ?Post $post, User $user, PostComment $parent = null, string $ip = null)
     {
@@ -123,8 +124,6 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
         $this->children = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->favourites = new ArrayCollection();
-
-        $this->ranking = $this->score + $this->favouriteCount;
 
         if ($parent) {
             $this->root = $parent->root ?? $parent;
@@ -144,32 +143,6 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, PostCommentVote::class);
-
-        if (!$this->votes->contains($vote)) {
-            $this->votes->add($vote);
-            $vote->setComment($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, PostCommentVote::class);
-
-        if ($this->votes->removeElement($vote)) {
-            // set the owning side to null (unless already changed)
-            if ($vote->getComment() === $this) {
-                $vote->setComment(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getChildrenRecursive(int &$startIndex = 0): \Traversable
@@ -218,6 +191,9 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
         return $this->user;
     }
 
+    /**
+     * @deprecated
+     */
     public function updateCounts(): self
     {
         $this->favouriteCount = $this->favourites->count();

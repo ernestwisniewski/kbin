@@ -35,6 +35,17 @@ class FavouriteRepository extends ServiceEntityRepository
         parent::__construct($registry, Favourite::class);
     }
 
+    public function countBySubject(FavouriteInterface $subject): int
+    {
+        return match (true) {
+            $subject instanceof Entry => $this->countByEntry($subject),
+            $subject instanceof EntryComment => $this->countByEntryComment($subject),
+            $subject instanceof Post => $this->countByPost($subject),
+            $subject instanceof PostComment => $this->countByPostComment($subject),
+            default => throw new \LogicException(),
+        };
+    }
+
     public function findBySubject(User $user, FavouriteInterface $subject): ?Favourite
     {
         return match (true) {
@@ -80,5 +91,57 @@ class FavouriteRepository extends ServiceEntityRepository
         return $this->getEntityManager()->createQuery($dql)
             ->setParameters(['comment' => $comment, 'user' => $user])
             ->getOneOrNullResult();
+    }
+
+    private function countByEntry(Entry $subject): int
+    {
+        return (int) $this->_em->createQuery(
+            '
+        SELECT COUNT(f.id)
+        FROM '.EntryFavourite::class.' f
+        WHERE f.entry = :entry
+        '
+        )
+            ->setParameter('entry', $subject)
+            ->getSingleScalarResult();
+    }
+
+    private function countByEntryComment(EntryComment $subject): int
+    {
+        return (int) $this->_em->createQuery(
+            '
+        SELECT COUNT(f.id)
+        FROM '.EntryCommentFavourite::class.' f
+        WHERE f.entryComment = :comment
+        '
+        )
+            ->setParameter('comment', $subject)
+            ->getSingleScalarResult();
+    }
+
+    private function countByPost(Post $subject): int
+    {
+        return (int) $this->_em->createQuery(
+            '
+        SELECT COUNT(f.id)
+        FROM '.PostFavourite::class.' f
+        WHERE f.post = :post
+        '
+        )
+            ->setParameter('post', $subject)
+            ->getSingleScalarResult();
+    }
+
+    private function countByPostComment(PostComment $subject): int
+    {
+        return (int) $this->_em->createQuery(
+            '
+        SELECT COUNT(f.id)
+        FROM '.PostCommentFavourite::class.' f
+        WHERE f.postComment = :comment
+        '
+        )
+            ->setParameter('comment', $subject)
+            ->getSingleScalarResult();
     }
 }

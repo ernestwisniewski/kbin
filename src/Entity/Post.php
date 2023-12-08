@@ -131,10 +131,8 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         $this->favourites = new ArrayCollection();
         $this->notifications = new ArrayCollection();
 
-        $user->addPost($this);
-
         $this->createdAtTraitConstruct();
-        $this->updateLastActive();
+        $this->lastActive = new \DateTime();
     }
 
     public function updateLastActive(): void
@@ -203,47 +201,6 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
         return new ArrayCollection($comments->slice(-2, 2));
     }
 
-    public function addComment(PostComment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->post = $this;
-        }
-
-        $this->updateCounts();
-        $this->updateRanking();
-        $this->updateLastActive();
-
-        return $this;
-    }
-
-    public function updateCounts(): self
-    {
-        $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('visibility', VisibilityInterface::VISIBILITY_VISIBLE));
-
-        $this->magazine->updatePostCounts();
-        $this->commentCount = $this->comments->matching($criteria)->count();
-        $this->favouriteCount = $this->favourites->count();
-
-        return $this;
-    }
-
-    public function removeComment(PostComment $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            if ($comment->post === $this) {
-                $comment->post = null;
-            }
-        }
-
-        $this->updateCounts();
-        $this->updateRanking();
-        $this->updateLastActive();
-
-        return $this;
-    }
-
     public function softDelete(): void
     {
         $this->visibility = VisibilityInterface::VISIBILITY_SOFT_DELETED;
@@ -257,37 +214,6 @@ class Post implements VotableInterface, CommentInterface, VisibilityInterface, R
     public function restore(): void
     {
         $this->visibility = VisibilityInterface::VISIBILITY_VISIBLE;
-    }
-
-    public function addVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, PostVote::class);
-
-        if (!$this->votes->contains($vote)) {
-            $this->votes->add($vote);
-            $vote->post = $this;
-        }
-
-        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
-        $this->updateRanking();
-
-        return $this;
-    }
-
-    public function removeVote(Vote $vote): self
-    {
-        Assert::isInstanceOf($vote, PostVote::class);
-
-        if ($this->votes->removeElement($vote)) {
-            if ($vote->getPost() === $this) {
-                $vote->setPost(null);
-            }
-        }
-
-        $this->score = $this->getUpVotes()->count() - $this->getDownVotes()->count();
-        $this->updateRanking();
-
-        return $this;
     }
 
     public function isAuthor(User $user): bool

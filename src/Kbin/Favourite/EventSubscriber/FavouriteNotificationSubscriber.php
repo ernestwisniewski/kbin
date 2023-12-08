@@ -14,7 +14,7 @@ use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class FavouriteNotificationSubscriber
+readonly class FavouriteNotificationSubscriber
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

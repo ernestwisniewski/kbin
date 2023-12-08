@@ -32,7 +32,7 @@ final readonly class PostCommentCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: PostCommentBeforePurgeEvent::class)]
+    #[AsEventListener(event: PostCommentBeforePurgeEvent::class, priority: -12)]
     public function onPostCommentBeforePurge(PostCommentBeforePurgeEvent $event): void
     {
         $this->cache->invalidateTags([
@@ -41,7 +41,7 @@ final readonly class PostCommentCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: PostCommentCreatedEvent::class)]
+    #[AsEventListener(event: PostCommentCreatedEvent::class, priority: -12)]
     public function onPostCommentCreated(PostCommentCreatedEvent $event): void
     {
         $this->cache->invalidateTags([
@@ -51,7 +51,7 @@ final readonly class PostCommentCacheSubscriber
         ]);
     }
 
-    #[AsEventListener(event: PostCommentEditedEvent::class)]
+    #[AsEventListener(event: PostCommentEditedEvent::class, priority: -12)]
     public function onPostCommentEdited(PostCommentEditedEvent $event): void
     {
         $this->cache->invalidateTags([

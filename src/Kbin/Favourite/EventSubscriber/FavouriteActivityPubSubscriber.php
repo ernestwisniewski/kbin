@@ -13,7 +13,7 @@ use App\Message\ActivityPub\Outbox\LikeMessage;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class FavouriteActivityPubSubscriber
+readonly class FavouriteActivityPubSubscriber
 {
     public function __construct(private MessageBusInterface $messageBus)
     {

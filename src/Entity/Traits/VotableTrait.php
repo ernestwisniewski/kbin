@@ -18,10 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
 trait VotableTrait
 {
     #[ORM\Column(type: 'integer')]
-    private int $upVotes = 0;
+    public int $upVotes = 0;
 
     #[ORM\Column(type: 'integer')]
-    private int $downVotes = 0;
+    public int $downVotes = 0;
 
     public function countUpVotes(): int
     {
@@ -53,6 +53,9 @@ trait VotableTrait
         return $this->votes->matching($criteria)->first() ?: null;
     }
 
+    /**
+     * @deprecated
+     */
     public function updateVoteCounts(): self
     {
         $this->upVotes = $this->getUpVotes()->count();

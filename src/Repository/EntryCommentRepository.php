@@ -13,6 +13,7 @@ namespace App\Repository;
 use App\Entity\Contracts\VisibilityInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
+use App\Entity\Entry;
 use App\Entity\EntryComment;
 use App\Entity\EntryCommentFavourite;
 use App\Entity\MagazineBlock;
@@ -102,10 +103,12 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
 
     private function addTimeClause(QueryBuilder $qb, Criteria $criteria): void
     {
-        $range = $criteria->getRange();
-        $qb->andWhere('c.createdAt BETWEEN :dateFrom AND :dateTo')
-            ->setParameter('dateFrom', $range->from, Types::DATETIMETZ_IMMUTABLE)
-            ->setParameter('dateTo', $range->to, Types::DATETIMETZ_IMMUTABLE);
+        if (Criteria::TIME_ALL !== $criteria->time) {
+            $range = $criteria->getRange();
+            $qb->andWhere('c.createdAt BETWEEN :dateFrom AND :dateTo')
+                ->setParameter('dateFrom', $range->from, Types::DATETIMETZ_IMMUTABLE)
+                ->setParameter('dateTo', $range->to, Types::DATETIMETZ_IMMUTABLE);
+        }
     }
 
     private function filter(QueryBuilder $qb, Criteria $criteria): void
@@ -325,5 +328,19 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
             ->where('c.tags IS NOT NULL')
             ->getQuery()
             ->getResult();
+    }
+
+    public function countCommentsByEntry(Entry $entry): int
+    {
+        return \intval(
+            $this->createQueryBuilder('c')
+                ->select('count(c.id)')
+                ->where('c.entry = :entry')
+                ->andWhere('c.visibility = :visible')
+                ->setParameter('entry', $entry)
+                ->setParameter('visible', VisibilityInterface::VISIBILITY_VISIBLE)
+                ->getQuery()
+                ->getSingleScalarResult()
+        );
     }
 }

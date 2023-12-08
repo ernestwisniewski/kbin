@@ -66,7 +66,7 @@ class Domain
         return $this;
     }
 
-    public function updateCounts()
+    public function updateCounts(): void
     {
         $this->entryCount = $this->entries->count();
     }

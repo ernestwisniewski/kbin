@@ -24,16 +24,12 @@ readonly class VoteFactory
 {
     public function create(int $choice, VotableInterface $votable, User $user): Vote
     {
-        $vote = match (true) {
+        return match (true) {
             $votable instanceof Entry => new EntryVote($choice, $user, $votable),
             $votable instanceof EntryComment => new EntryCommentVote($choice, $user, $votable),
             $votable instanceof Post => new PostVote($choice, $user, $votable),
             $votable instanceof PostComment => new PostCommentVote($choice, $user, $votable),
             default => throw new \LogicException(),
         };
-
-        $votable->addVote($vote);
-
-        return $vote;
     }
 }

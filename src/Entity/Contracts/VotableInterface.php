@@ -25,10 +25,6 @@ interface VotableInterface
 
     public function getId(): int;
 
-    public function addVote(Vote $votable): self;
-
-    public function removeVote(Vote $votable): self;
-
     public function getUpVotes(): Collection;
 
     public function getDownVotes(): Collection;

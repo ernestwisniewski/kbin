@@ -20,10 +20,15 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 #[Entity(repositoryClass: FavouriteRepository::class)]
 #[InheritanceType('SINGLE_TABLE')]
 #[DiscriminatorColumn(name: 'favourite_type', type: 'text')]
+#[UniqueConstraint(name: 'user_entry_favourite_idx', columns: ['user_id', 'entry_id'])]
+#[UniqueConstraint(name: 'user_entry_comment_favourite_idx', columns: ['user_id', 'entry_comment_id'])]
+#[UniqueConstraint(name: 'user_post_favourite_idx', columns: ['user_id', 'post_id'])]
+#[UniqueConstraint(name: 'user_post_comment_favourite_idx', columns: ['user_id', 'post_comment_id'])]
 #[DiscriminatorMap([
     'entry' => 'EntryFavourite',
     'entry_comment' => 'EntryCommentFavourite',

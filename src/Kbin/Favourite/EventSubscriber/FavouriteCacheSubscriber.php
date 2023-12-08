@@ -18,13 +18,13 @@ use App\Service\CacheService;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Contracts\Cache\CacheInterface;
 
-class FavouriteCacheSubscriber
+readonly class FavouriteCacheSubscriber
 {
     public function __construct(private CacheInterface $cache, private CacheService $cacheService)
     {
     }
 
-    #[AsEventListener(event: FavouriteEvent::class, priority: -1)]
+    #[AsEventListener(event: FavouriteEvent::class, priority: -12)]
     public function onFavourite(FavouriteEvent $event): void
     {
         $this->cache->delete($this->cacheService->getFavouritesCacheKey($event->subject));
