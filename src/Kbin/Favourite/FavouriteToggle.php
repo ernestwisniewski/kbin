@@ -41,33 +41,26 @@ class FavouriteToggle
             throw new TooManyRequestsHttpException();
         }
 
-        $this->entityManager->beginTransaction();
-        try {
-            if (!($favourite = $this->repository->findBySubject($user, $subject))) {
-                if (self::TYPE_UNLIKE === $type) {
-                    return null;
-                }
-
-                $favourite = $this->factory->createFromEntity($user, $subject);
-                $this->entityManager->persist($favourite);
-
-                $subject->updateRanking();
-            } else {
-                if (self::TYPE_LIKE === $type) {
-                    return $favourite;
-                }
-
-                $this->entityManager->remove($favourite);
-                $subject->updateRanking();
-                $favourite = null;
+        if (!($favourite = $this->repository->findBySubject($user, $subject))) {
+            if (self::TYPE_UNLIKE === $type) {
+                return null;
             }
 
-            $this->entityManager->flush();
-            $this->entityManager->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->rollback();
-            throw $e;
+            $favourite = $this->factory->createFromEntity($user, $subject);
+            $this->entityManager->persist($favourite);
+
+            $subject->updateRanking();
+        } else {
+            if (self::TYPE_LIKE === $type) {
+                return $favourite;
+            }
+
+            $this->entityManager->remove($favourite);
+            $subject->updateRanking();
+            $favourite = null;
         }
+
+        $this->entityManager->flush();
 
         $this->dispatcher->dispatch(new FavouriteEvent($subject, $user, null === $favourite));
 
