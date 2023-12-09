@@ -87,7 +87,7 @@ class AggregateRepository
             $bind['search'] = $criteria->search;
         }
         if ($criteria->tag) {
-            $stmt->bindValue('tag', $criteria->tag);
+            $stmt->bindValue('tag', "\"$criteria->tag\"");
             $bind['tag'] = $criteria->tag;
         }
         if ($criteria->languages) {

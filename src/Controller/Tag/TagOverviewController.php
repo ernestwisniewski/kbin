@@ -37,7 +37,7 @@ class TagOverviewController extends AbstractController
             )
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
-        $criteria->search = $request->query->get('q');
+        $criteria->tag = ($this->tagTransliterate)(strtolower($name));
 
         $results = $this->aggregateRepository->findByCriteria($criteria);
 
