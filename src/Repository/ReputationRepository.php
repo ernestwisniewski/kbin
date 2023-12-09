@@ -84,7 +84,7 @@ class ReputationRepository extends ServiceEntityRepository
 
     public function getUserReputationTotal(User $user): int
     {
-        return $this->getUserReputationVotesCount($user);
+        return $this->getUserReputationVotesCount($user) + $this->getUserReputationFavouritesCount($user);
     }
 
     private function getUserReputationVotesCount(User $user): int
@@ -102,7 +102,7 @@ class ReputationRepository extends ServiceEntityRepository
         $stmt->bindValue('user', $user->getId());
         $stmt = $stmt->executeQuery();
 
-        return (int) $stmt->fetchAllAssociative()[0]['total'] ?? 0;
+        return (int)$stmt->fetchAllAssociative()[0]['total'] ?? 0;
     }
 
     private function getUserReputationVotesSubquery(string $className): string
@@ -115,29 +115,31 @@ class ReputationRepository extends ServiceEntityRepository
         )";
     }
 
-    /**
-     * @deprecated
-     */
-    private function getUserReputationFavouritesCount(User $user)
+    private function getUserReputationFavouritesCount(User $user): int
     {
         $conn = $this->getEntityManager()
             ->getConnection();
 
-        $sql = 'SELECT count(f.id) as total FROM favourite f
-                LEFT JOIN entry e ON f.entry_id = e.id 
-                LEFT JOIN entry_comment ec ON f.entry_comment_id = ec.id 
-                LEFT JOIN post p ON f.post_id = p.id 
-                LEFT JOIN post_comment pc ON f.post_comment_id = pc.id 
-                WHERE (e.user_id = :user AND f.user_id != :user) 
-                OR (ec.user_id = :user AND f.user_id != :user)
-                OR (p.user_id = :user AND f.user_id != :user)  
-                OR (pc.user_id = :user AND f.user_id != :user);
-            ';
+        $sql = "SELECT
+                    ({$this->getUserReputationFavouritesSubquery(Entry::class)}) +
+                    ({$this->getUserReputationFavouritesSubquery(EntryComment::class)}) +
+                    ({$this->getUserReputationFavouritesSubquery(Post::class)}) +
+                    ({$this->getUserReputationFavouritesSubquery(PostComment::class)}) as total";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('user', $user->getId());
         $stmt = $stmt->executeQuery();
 
-        return $stmt->fetchAllAssociative()[0]['total'] ?? 0;
+        return (int)$stmt->fetchAllAssociative()[0]['total'] ?? 0;
+    }
+
+    private function getUserReputationFavouritesSubquery(string $className): string
+    {
+        $type = $this->getEntityManager()->getClassMetadata($className)->getTableName();
+
+        return "SELECT count(f.id)
+                FROM favourite f
+                LEFT JOIN {$type} fj ON f.{$type}_id = fj.id
+                WHERE fj.user_id = :user AND f.user_id != :user";
     }
 }
