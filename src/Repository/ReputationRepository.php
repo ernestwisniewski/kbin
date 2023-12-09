@@ -87,7 +87,7 @@ class ReputationRepository extends ServiceEntityRepository
         return $this->getUserReputationVotesCount($user);
     }
 
-    private function getUserReputationVotesCount(User $user)
+    private function getUserReputationVotesCount(User $user): int
     {
         $conn = $this->getEntityManager()
             ->getConnection();
@@ -102,7 +102,7 @@ class ReputationRepository extends ServiceEntityRepository
         $stmt->bindValue('user', $user->getId());
         $stmt = $stmt->executeQuery();
 
-        return $stmt->fetchAllAssociative()[0]['total'] ?? 0;
+        return (int) $stmt->fetchAllAssociative()[0]['total'] ?? 0;
     }
 
     private function getUserReputationVotesSubquery(string $className): string
