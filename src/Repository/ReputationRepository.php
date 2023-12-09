@@ -84,7 +84,7 @@ class ReputationRepository extends ServiceEntityRepository
 
     public function getUserReputationTotal(User $user): int
     {
-        return $this->getUserReputationVotesCount($user) + $this->getUserReputationFavouritesCount($user);
+        return $this->getUserReputationVotesCount($user);
     }
 
     private function getUserReputationVotesCount(User $user)
@@ -115,6 +115,9 @@ class ReputationRepository extends ServiceEntityRepository
         )";
     }
 
+    /**
+     * @deprecated
+     */
     private function getUserReputationFavouritesCount(User $user)
     {
         $conn = $this->getEntityManager()
