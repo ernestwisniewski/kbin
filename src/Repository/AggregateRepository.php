@@ -15,6 +15,7 @@ use App\Entity\Post;
 use App\Entity\PostComment;
 use App\Kbin\Entry\EntryCrosspost;
 use App\Kbin\Pagination\KbinUnionPagination;
+use App\Kbin\SubjectOverviewListCreate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Pagerfanta\Adapter\ArrayAdapter;
@@ -33,6 +34,7 @@ class AggregateRepository
 
     public function __construct(
         private EntryCrosspost $entryCrosspost,
+        private SubjectOverviewListCreate $subjectOverviewListCreate,
         private EntityManagerInterface $entityManager,
         private CacheInterface $cache,
         private readonly Security $security
@@ -150,6 +152,10 @@ class AggregateRepository
             $pagerfanta->setNbResults($countAll);
             $pagerfanta->setMaxPerPage(self::PER_PAGE);
             $pagerfanta->setCurrentPage($criteria->page);
+
+            $results = ($this->subjectOverviewListCreate)($pagerfanta, $criteria->sortOption);
+            $pagerfanta->setCurrentPageResults($results);
+
             $results = $this->entryCrosspost->preparePageResults(
                 $pagerfanta->getCurrentPageResults()
             );

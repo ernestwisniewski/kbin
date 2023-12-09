@@ -54,14 +54,12 @@ class UserFrontController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
 
-        $activity = $repository->findByCriteria($criteria, true);
-
         return $this->render(
             'user/overview.html.twig',
             [
                 'user' => $user,
-                'results' => ($this->subjectOverviewListCreate)($activity, $criteria->resolveSort($sortBy)),
-                'pagination' => $activity,
+                'results' => $repository->findByCriteria($criteria, true),
+//                'pagination' => $activity,
             ],
             $response
         );
