@@ -98,8 +98,8 @@ class SearchController extends AbstractController
             ->setTime($criteria->resolveTime($time))
             ->setType($criteria->resolveType($type));
         $criteria->search = $request->query->get('q');
-        
-        $results = $this->aggregateRepository->findByCriteria($criteria);
+
+        $results = $this->aggregateRepository->findByCriteria($criteria, true);
 
         return $this->render(
             'search/front.html.twig',

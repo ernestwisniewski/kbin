@@ -39,7 +39,7 @@ class TagOverviewController extends AbstractController
             ->setType($criteria->resolveType($type));
         $criteria->tag = ($this->tagTransliterate)(strtolower($name));
 
-        $results = $this->aggregateRepository->findByCriteria($criteria);
+        $results = $this->aggregateRepository->findByCriteria($criteria, true);
 
         return $this->render(
             'tag/overview.html.twig',
