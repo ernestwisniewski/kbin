@@ -8,10 +8,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Controller\User\ThemeSettingsController;
 use App\Entity\Magazine;
 use App\Entity\User;
-use App\Kbin\SubjectOverviewListCreate;
+use App\Kbin\Entry\EntryPageView;
 use App\Message\ActivityPub\Inbox\ActivityMessage;
+use App\Repository\AggregateRepository;
+use App\Repository\Criteria;
 use App\Service\ActivityPub\ApHttpClient;
 use App\Service\ActivityPubManager;
 use App\Service\SearchManager;
@@ -25,15 +28,15 @@ class SearchController extends AbstractController
 {
     public function __construct(
         private readonly SearchManager $manager,
+        private readonly AggregateRepository $aggregateRepository,
         private readonly ActivityPubManager $activityPubManager,
         private readonly MessageBusInterface $bus,
         private readonly ApHttpClient $apHttpClient,
-        private readonly SubjectOverviewListCreate $subjectOverviewListCreate,
         private readonly SettingsManager $settingsManager
     ) {
     }
 
-    public function __invoke(Request $request): Response
+    public function __invoke(?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
         $query = $request->query->get('q') ? trim($request->query->get('q')) : null;
 
@@ -50,8 +53,8 @@ class SearchController extends AbstractController
 
         $objects = [];
         if (str_contains($query, '@') && (!$this->settingsManager->get(
-            'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN'
-        ) || $this->getUser())) {
+                    'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN'
+                ) || $this->getUser())) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
             preg_match(RegPatterns::AP_USER, $name, $matches);
             if (\count(array_filter($matches)) >= 4) {
@@ -84,14 +87,25 @@ class SearchController extends AbstractController
             }
         }
 
-        $res = $this->manager->findPaginated($query, $this->getPageNb($request));
+        $criteria = new EntryPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation(
+                'false' === $request->cookies->get(
+                    ThemeSettingsController::KBIN_FEDERATION_ENABLED,
+                    true
+                ) ? Criteria::AP_LOCAL : Criteria::AP_ALL
+            )
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
+        $criteria->search = $request->query->get('q');
+        
+        $results = $this->aggregateRepository->findByCriteria($criteria);
 
         return $this->render(
             'search/front.html.twig',
             [
                 'objects' => $objects,
-                'results' => ($this->subjectOverviewListCreate)($res),
-                'pagination' => $res,
+                'results' => $results,
                 'q' => $request->query->get('q'),
             ]
         );

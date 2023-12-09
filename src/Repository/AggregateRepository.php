@@ -82,6 +82,14 @@ class AggregateRepository
             $stmt->bindValue('category', $criteria->category->getId());
             $bind['category'] = $criteria->category->getId();
         }
+        if ($criteria->search) {
+            $stmt->bindValue('search', $criteria->search);
+            $bind['search'] = $criteria->search;
+        }
+        if ($criteria->tag) {
+            $stmt->bindValue('tag', $criteria->tag);
+            $bind['tag'] = $criteria->tag;
+        }
         if ($criteria->languages) {
             // @todo https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/data-retrieval-and-manipulation.html#list-of-parameters-conversion
             foreach ($criteria->languages as $index => $language) {
@@ -295,6 +303,18 @@ class AggregateRepository
         if ($criteria->category) {
             $where .= "
             AND {$type}.magazine_id IN (SELECT ct_{$type}.magazine_id AS sclr_33 FROM category_magazine ct_{$type} WHERE ct_{$type}.category_id = :category)
+            ";
+        }
+
+        if ($criteria->search) {
+            $where .= "
+            AND {$type}.body_ts @@ plainto_tsquery( :search ) = true
+            ";
+        }
+
+        if ($criteria->tag) {
+            $where .= "
+            AND {$type}.tags @> :tag = true
             ";
         }
 

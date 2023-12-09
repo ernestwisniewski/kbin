@@ -110,6 +110,7 @@ abstract class Criteria
     public ?string $tag = null;
     public ?string $domain = null;
     public ?array $languages = null;
+    public ?string $search = null;
 
     public function __construct(int $page)
     {

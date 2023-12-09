@@ -4,27 +4,29 @@
 
 tag_overview:
   controller: App\Controller\Tag\TagOverviewController
-  path: /tag/{name}
+  path: /tag/{name}/{sortBy}/{time}/{type}
+  defaults: { sortBy: newest, time: '∞', type: ~ }
   methods: [GET]
+  requirements: { sortBy: "%front_sort_options%" }
 
 tag_entries:
   controller: App\Controller\Tag\TagEntryFrontController
-  defaults: { sortBy: hot, time: ~ }
-  path: tag/{name}/threads/{sortBy}/{time}
+  path: tag/{name}/threads/{sortBy}/{time}/{type}
+  defaults: { sortBy: newest, time: '∞', type: ~ }
   methods: [ GET ]
   requirements: { sortBy: "%front_sort_options%" }
 
 tag_comments:
   controller: App\Controller\Tag\TagCommentFrontController
-  defaults: { sortBy: hot, time: ~ }
-  path: tag/{name}/comments/{sortBy}/{time}
+  path: tag/{name}/comments/{sortBy}/{time}/{type}
+  defaults: { sortBy: newest, time: '∞', type: ~ }
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 
 tag_posts:
   controller: App\Controller\Tag\TagPostFrontController
-  defaults: { sortBy: hot, time: ~ }
-  path: tag/{name}/posts/{sortBy}/{time}
+  path: tag/{name}/posts/{sortBy}/{time}/{type}
+  defaults: { sortBy: newest, time: '∞', type: ~ }
   methods: [GET]
   requirements: { sortBy: "%front_sort_options%" }
 

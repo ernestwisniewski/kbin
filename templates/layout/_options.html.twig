@@ -113,7 +113,7 @@
                 {% endif %}
             </ul>
         </li>
-        {% if not is_route_name_contains('_aggregate') and not is_route_name_contains('user_') or is_route_name_contains('entries') %}
+        {% if not is_route_name_contains('posts') and is_route_name_contains('entries') or is_route_name('front') or is_route_name('front_magazine') or is_route_name_contains('root') %}
             <li class="dropdown">
                 <button
                         aria-label="{{ 'filter_by_type'|trans }}"

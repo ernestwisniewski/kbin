@@ -4,6 +4,6 @@
 
 search:
   controller: App\Controller\SearchController
-  defaults: { val: ~, }
-  path: /search
+  path: /search/{sortBy}/{time}/{type}
+  defaults: { sortBy: newest, time: '∞', type: ~ }
   methods: [GET]

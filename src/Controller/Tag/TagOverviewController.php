@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace App\Controller\Tag;
 
 use App\Controller\AbstractController;
-use App\Kbin\SubjectOverviewListCreate;
+use App\Controller\User\ThemeSettingsController;
+use App\Kbin\Entry\EntryPageView;
 use App\Kbin\Tag\TagTransliterate;
-use App\Repository\TagRepository;
+use App\Repository\AggregateRepository;
+use App\Repository\Criteria;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,24 +21,31 @@ class TagOverviewController extends AbstractController
 {
     public function __construct(
         private readonly TagTransliterate $tagTransliterate,
-        private readonly TagRepository $tagRepository,
-        private readonly SubjectOverviewListCreate $subjectOverviewListCreate
+        private readonly AggregateRepository $aggregateRepository
     ) {
     }
 
-    public function __invoke(string $name, Request $request): Response
+    public function __invoke(string $name, ?string $sortBy, ?string $time, ?string $type, Request $request): Response
     {
-        $activity = $this->tagRepository->findOverall(
-            $this->getPageNb($request),
-            ($this->tagTransliterate)(strtolower($name))
-        );
+        $criteria = new EntryPageView($this->getPageNb($request));
+        $criteria->showSortOption($criteria->resolveSort($sortBy))
+            ->setFederation(
+                'false' === $request->cookies->get(
+                    ThemeSettingsController::KBIN_FEDERATION_ENABLED,
+                    true
+                ) ? Criteria::AP_LOCAL : Criteria::AP_ALL
+            )
+            ->setTime($criteria->resolveTime($time))
+            ->setType($criteria->resolveType($type));
+        $criteria->search = $request->query->get('q');
+
+        $results = $this->aggregateRepository->findByCriteria($criteria);
 
         return $this->render(
             'tag/overview.html.twig',
             [
                 'tag' => $name,
-                'results' => ($this->subjectOverviewListCreate)($activity),
-                'pagination' => $activity,
+                'results' => $results,
             ]
         );
     }
