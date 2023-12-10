@@ -94,6 +94,7 @@
         "symfony/uid": "6.4.*",
         "symfony/ux-autocomplete": "^2.7",
         "symfony/ux-chartjs": "^2.7",
+        "symfony/ux-live-component": "^2.13",
         "symfony/ux-turbo": "^2.13",
         "symfony/ux-twig-component": "^2.7",
         "symfony/validator": "6.4.*",

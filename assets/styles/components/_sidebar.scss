@@ -9,6 +9,13 @@
     font-size: .8rem;
     margin: 0 0 1rem;
     text-transform: uppercase;
+
+    button.refresh-random {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+    }
   }
 
   figure, blockquote {

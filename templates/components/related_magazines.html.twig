@@ -1,6 +1,19 @@
 {% if magazines|length %}
     <section{{ attributes.defaults({class: 'magazines section related-magazines'}) }}>
-        <h3>{{ title|trans }}</h3>
+        <h3>
+            {{ title|trans }}
+            {% if type is same as 'random' %}
+                <button
+                        class="refresh-random"
+                        aria-label="{{ 'refresh'|trans }}"
+                        title="{{ 'refresh'|trans }}"
+                        data-action="live#action"
+                        data-action-name="refreshRandom"
+                >
+                    <i class="fa-solid fa-sync"></i>
+                </button>
+            {% endif %}
+        </h3>
         <div class="container">
             <ul class="meta">
                 {% for magazine in magazines %}
