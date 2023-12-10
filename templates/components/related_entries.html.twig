@@ -4,6 +4,7 @@
             {{ title|trans }}
             {% if type is same as 'random' %}
                 <button
+                        style="display: none"
                         class="refresh-random"
                         aria-label="{{ 'refresh'|trans }}"
                         title="{{ 'refresh'|trans }}"
