@@ -1,6 +1,6 @@
 {% if entries|length %}
     <section{{ attributes.defaults({class: 'entries section'}) }}>
-        <h3>
+        <h3 style="display: flex;justify-content: space-between;">
             {{ title|trans }}
             {% if type is same as 'random' %}
                 <button

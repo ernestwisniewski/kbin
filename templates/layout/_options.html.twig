@@ -85,7 +85,7 @@
                         {{ '12h'|trans|lower }}
                     </a>
                 </li>
-                {% if get_active_sort_option() is not same as 'hot'|trans|lower and is_route_name_contains('post') %}
+                {% if get_active_sort_option() is not same as 'hot'|trans|lower or is_route_name_contains('post') %}
                     <li>
                         <a href="{{ options_url('time', '1d') }}"
                            class="{{ html_classes({'active': route_has_param('time', '1d')}) }}">

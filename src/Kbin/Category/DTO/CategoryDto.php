@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Kbin\User\DTO\UserDto;
 use App\Utils\RegPatterns;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CategoryDto
@@ -19,7 +20,7 @@ class CategoryDto
     public const MAX_NAME_LENGTH = 25;
 
     #[Assert\NotBlank]
-    public ArrayCollection|null $magazines = null;
+    public ArrayCollection|Collection|null $magazines = null;
     public User|UserDto|null $user = null;
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: self::MAX_NAME_LENGTH)]
