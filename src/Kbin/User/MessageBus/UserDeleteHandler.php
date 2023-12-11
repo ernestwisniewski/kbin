@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace App\Kbin\User\MessageBus;
 
 use App\Entity\Contracts\VisibilityInterface;
-use App\Entity\Contracts\VotableInterface;
 use App\Entity\DomainBlock;
 use App\Entity\DomainSubscription;
 use App\Entity\Entry;
@@ -97,9 +96,7 @@ class UserDeleteHandler implements AsyncMessageInterface
             || $this->removeMagazineBlocks()
             || $this->removeUserFollows()
             || $this->removeUserBlocks()
-            || $this->removeFavourites()
             || $this->removeReports()
-            || $this->removeVotes()
             || $this->removeEntryComments()
             || $this->removeEntries()
             || $this->removePostComments()
@@ -112,7 +109,9 @@ class UserDeleteHandler implements AsyncMessageInterface
             $this->removeDomainSubscriptions();
             $this->removeDomainBlocks();
             $this->removeNotifications();
+            $this->removeVotes();
             $this->purgeVotes();
+            $this->removeFavourites();
             $this->removeMod();
             $this->removeBans();
             $this->removeMessagesParticipants();
@@ -245,31 +244,15 @@ class UserDeleteHandler implements AsyncMessageInterface
         return $retry;
     }
 
-    private function removeVotes(): bool
+    private function removeVotes(): void
     {
         foreach ([Entry::class, Post::class, EntryComment::class, PostComment::class] as $subjectClass) {
-            $subjects = $this->entityManager->createQueryBuilder()
-                ->select('c')
-                ->from($subjectClass, 'c')
-                ->join('c.votes', 'cv')
-                ->where('cv.user = :user')
-                ->andWhere('cv.choice != 0')
-                ->orderBy('c.id', 'DESC')
-                ->setParameter('user', $this->user)
-                ->setMaxResults($this->batchSize)
-                ->getQuery()
-                ->execute();
-
-            $retry = false;
-
-            foreach ($subjects as $subject) {
-                $retry = true;
-                ($this->voteCreate)(VotableInterface::VOTE_NONE, $subject, $this->user, false);
-            }
+            $query = $this->entityManager->createQuery(
+                'DELETE FROM '.$subjectClass.'Vote v WHERE v.user = :user'
+            );
+            $query->setParameter('user', $this->user->getId());
+            $query->execute();
         }
-
-
-        return $retry;
     }
 
     private function removeEntryComments(): bool
@@ -436,24 +419,13 @@ class UserDeleteHandler implements AsyncMessageInterface
         //        $this->entityManager->flush();
     }
 
-    private function removeFavourites(): bool
+    private function removeFavourites(): void
     {
-        $subjects = $this->entityManager->getRepository(Favourite::class)->findBy(
-            [
-                'user' => $this->user,
-            ],
-            ['createdAt' => 'DESC'],
-            $this->batchSize
+        $query = $this->entityManager->createQuery(
+            'DELETE FROM '.Favourite::class.' f WHERE f.user = :user'
         );
-
-        $retry = false;
-
-        foreach ($subjects as $subject) {
-            $retry = true;
-            ($this->favouriteToggle)($this->user, $subject->getSubject(), FavouriteToggle::TYPE_UNLIKE, false);
-        }
-
-        return $retry;
+        $query->setParameter('user', $this->user->getId());
+        $query->execute();
     }
 
     private function removeNotifications(): void
