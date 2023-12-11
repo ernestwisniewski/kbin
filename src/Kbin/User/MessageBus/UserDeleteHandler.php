@@ -60,7 +60,6 @@ class UserDeleteHandler implements AsyncMessageInterface
         private readonly UserAvatarDetach $userAvatarDetach,
         private readonly UserCoverDetach $userCoverDetach,
         private readonly UserUnfollow $userUnfollow,
-        private readonly UserUnblock $userUnblock,
         private readonly MagazineUnsubscribe $magazineUnsubscribe,
         private readonly MagazineUnblock $magazineUnblock,
         private readonly EntryCommentDelete $entryCommentDelete,
@@ -530,7 +529,7 @@ class UserDeleteHandler implements AsyncMessageInterface
     {
         $em = $this->entityManager;
         $query = $em->createQuery(
-            'DELETE FROM '.UserFollowRequest::class.' ufr WHERE ufr.follower = :userId OR ufr.following'
+            'DELETE FROM '.UserFollowRequest::class.' ufr WHERE ufr.follower = :userId OR ufr.following = :userId'
         );
         $query->setParameter('userId', $this->user->getId());
         $query->execute();
