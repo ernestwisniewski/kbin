@@ -28,7 +28,7 @@ readonly class UserActivityPubSubscriber
                     new FollowMessage($event->follower->getId(), $event->following->getId(), $event->unfollow)
                 );
             } catch (\Throwable $e) {
-                if ($event->unfollow) {
+                if (!$event->unfollow) {
                     throw $e;
                 }
             }
