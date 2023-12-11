@@ -32,7 +32,6 @@ use App\Kbin\Entry\EntryDelete;
 use App\Kbin\Entry\EntryPurge;
 use App\Kbin\EntryComment\EntryCommentDelete;
 use App\Kbin\EntryComment\EntryCommentPurge;
-use App\Kbin\Favourite\FavouriteToggle;
 use App\Kbin\Magazine\MagazineUnblock;
 use App\Kbin\Magazine\MagazineUnsubscribe;
 use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
@@ -44,7 +43,6 @@ use App\Kbin\User\UserAvatarDetach;
 use App\Kbin\User\UserCoverDetach;
 use App\Kbin\User\UserUnblock;
 use App\Kbin\User\UserUnfollow;
-use App\Kbin\Vote\VoteCreate;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -72,8 +70,6 @@ class UserDeleteHandler implements AsyncMessageInterface
         private readonly PostCommentPurge $postCommentPurge,
         private readonly PostDelete $postDelete,
         private readonly PostPurge $postPurge,
-        private readonly VoteCreate $voteCreate,
-        private readonly FavouriteToggle $favouriteToggle,
         private readonly MessageBusInterface $bus,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -112,6 +108,7 @@ class UserDeleteHandler implements AsyncMessageInterface
             $this->removeVotes();
             $this->purgeVotes();
             $this->removeFavourites();
+            $this->removeFollowing();
             $this->removeMod();
             $this->removeBans();
             $this->removeMessagesParticipants();
@@ -423,6 +420,15 @@ class UserDeleteHandler implements AsyncMessageInterface
     {
         $query = $this->entityManager->createQuery(
             'DELETE FROM '.Favourite::class.' f WHERE f.user = :user'
+        );
+        $query->setParameter('user', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeFollowing(): void
+    {
+        $query = $this->entityManager->createQuery(
+            'DELETE FROM '.UserFollow::class.' f WHERE f.following = :user OR f.follower = :user'
         );
         $query->setParameter('user', $this->user->getId());
         $query->execute();
