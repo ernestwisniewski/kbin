@@ -28,6 +28,7 @@ use App\Entity\Report;
 use App\Entity\User;
 use App\Entity\UserBlock;
 use App\Entity\UserFollow;
+use App\Entity\UserFollowRequest;
 use App\Kbin\Entry\EntryDelete;
 use App\Kbin\Entry\EntryPurge;
 use App\Kbin\EntryComment\EntryCommentDelete;
@@ -91,7 +92,6 @@ class UserDeleteHandler implements AsyncMessageInterface
         $retry = $this->removeMagazineSubscriptions()
             || $this->removeMagazineBlocks()
             || $this->removeUserFollows()
-            || $this->removeUserBlocks()
             || $this->removeReports()
             || $this->removeEntryComments()
             || $this->removeEntries()
@@ -102,6 +102,8 @@ class UserDeleteHandler implements AsyncMessageInterface
         if ($retry) {
             $this->bus->dispatch($message);
         } else {
+            $this->removeUserBlocks();
+            $this->removeUserFollowRequest();
             $this->removeDomainSubscriptions();
             $this->removeDomainBlocks();
             $this->removeNotifications();
@@ -218,27 +220,13 @@ class UserDeleteHandler implements AsyncMessageInterface
         return $retry;
     }
 
-    private function removeUserBlocks(): bool
+    private function removeUserBlocks(): void
     {
-        $subscriptions = $this->entityManager
-            ->getRepository(UserBlock::class)
-            ->findBy(
-                [
-                    'blocker' => $this->user,
-                ],
-                ['createdAt' => 'DESC'],
-                $this->batchSize
-            );
-
-        $retry = false;
-
-        foreach ($subscriptions as $subscription) {
-            $retry = true;
-
-            ($this->userUnblock)($this->user, $subscription->blocked);
-        }
-
-        return $retry;
+        $query = $this->entityManager->createQuery(
+            'DELETE FROM '.UserBlock::class.' ub WHERE ub.blocker = :user OR ub.blocked = :user'
+        );
+        $query->setParameter('user', $this->user->getId());
+        $query->execute();
     }
 
     private function removeVotes(): void
@@ -533,6 +521,16 @@ class UserDeleteHandler implements AsyncMessageInterface
         $em = $this->entityManager;
         $query = $em->createQuery(
             'DELETE FROM '.MagazineOwnershipRequest::class.' r WHERE r.user = :userId'
+        );
+        $query->setParameter('userId', $this->user->getId());
+        $query->execute();
+    }
+
+    private function removeUserFollowRequest(): void
+    {
+        $em = $this->entityManager;
+        $query = $em->createQuery(
+            'DELETE FROM '.UserFollowRequest::class.' ufr WHERE ufr.follower = :userId OR ufr.following'
         );
         $query->setParameter('userId', $this->user->getId());
         $query->execute();
