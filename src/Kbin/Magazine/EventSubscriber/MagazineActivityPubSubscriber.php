@@ -23,9 +23,15 @@ readonly class MagazineActivityPubSubscriber
     public function onMagazineFollow(MagazineSubscribedEvent $event): void
     {
         if ($event->magazine->apId && !$event->user->apId) {
-            $this->bus->dispatch(
-                new FollowMessage($event->user->getId(), $event->magazine->getId(), $event->unfollow, true)
-            );
+            try {
+                $this->bus->dispatch(
+                    new FollowMessage($event->user->getId(), $event->magazine->getId(), $event->unfollow, true)
+                );
+            } catch (\Throwable $e) {
+                if ($event->unfollow) {
+                    throw $e;
+                }
+            }
         }
     }
 }

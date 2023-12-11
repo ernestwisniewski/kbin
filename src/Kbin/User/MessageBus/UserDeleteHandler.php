@@ -98,7 +98,6 @@ class UserDeleteHandler implements AsyncMessageInterface
             || $this->removeUserFollows()
             || $this->removeUserBlocks()
             || $this->removeFavourites()
-            || $this->removeNotifications()
             || $this->removeReports()
             || $this->removeVotes()
             || $this->removeEntryComments()
@@ -112,6 +111,7 @@ class UserDeleteHandler implements AsyncMessageInterface
         } else {
             $this->removeDomainSubscriptions();
             $this->removeDomainBlocks();
+            $this->removeNotifications();
             $this->purgeVotes();
             $this->removeMod();
             $this->removeBans();
@@ -264,9 +264,10 @@ class UserDeleteHandler implements AsyncMessageInterface
 
             foreach ($subjects as $subject) {
                 $retry = true;
-                ($this->voteCreate)(VotableInterface::VOTE_NONE, $subject, $this->user);
+                ($this->voteCreate)(VotableInterface::VOTE_NONE, $subject, $this->user, false);
             }
         }
+
 
         return $retry;
     }
@@ -449,20 +450,18 @@ class UserDeleteHandler implements AsyncMessageInterface
 
         foreach ($subjects as $subject) {
             $retry = true;
-            ($this->favouriteToggle)($this->user, $subject->getSubject(), FavouriteToggle::TYPE_UNLIKE);
+            ($this->favouriteToggle)($this->user, $subject->getSubject(), FavouriteToggle::TYPE_UNLIKE, false);
         }
 
         return $retry;
     }
 
-    private function removeNotifications(): bool
+    private function removeNotifications(): void
     {
         $em = $this->entityManager;
         $query = $em->createQuery('DELETE FROM '.Notification::class.' n WHERE n.user = :userId');
         $query->setParameter('userId', $this->user->getId());
         $query->execute();
-
-        return false;
     }
 
     private function removeDomainSubscriptions(): void

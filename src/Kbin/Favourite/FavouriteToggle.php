@@ -34,11 +34,13 @@ class FavouriteToggle
     ) {
     }
 
-    public function __invoke(User $user, FavouriteInterface|VotableInterface $subject, string $type = null): ?Favourite
+    public function __invoke(User $user, FavouriteInterface|VotableInterface $subject, string $type = null, bool $rateLimit = true): ?Favourite
     {
-        $spamProtection = $this->spamProtectionLimiter->create((string)$user->getId());
-        if (false === $spamProtection->consume()->isAccepted()) {
-            throw new TooManyRequestsHttpException();
+        if($rateLimit) {
+            $spamProtection = $this->spamProtectionLimiter->create((string)$user->getId());
+            if (false === $spamProtection->consume()->isAccepted()) {
+                throw new TooManyRequestsHttpException();
+            }
         }
 
         if (!($favourite = $this->repository->findBySubject($user, $subject))) {

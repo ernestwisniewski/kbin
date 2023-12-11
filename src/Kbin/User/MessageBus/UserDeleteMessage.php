@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace App\Kbin\User\MessageBus;
 
-class UserDeleteMessage
+use App\Kbin\MessageBus\Contracts\AsyncMessageInterface;
+
+class UserDeleteMessage implements AsyncMessageInterface
 {
     public function __construct(public int $id, public bool $purge, public bool $contentOnly)
     {
