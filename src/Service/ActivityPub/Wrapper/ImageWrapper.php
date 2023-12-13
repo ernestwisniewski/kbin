@@ -9,20 +9,23 @@ declare(strict_types=1);
 namespace App\Service\ActivityPub\Wrapper;
 
 use App\Entity\Image;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageMimeTypeGet;
+use App\Kbin\Image\ImageUrlGet;
 
 class ImageWrapper
 {
-    public function __construct(private readonly ImageManager $imageManager)
-    {
+    public function __construct(
+        private readonly ImageMimeTypeGet $imageMimeTypeGet,
+        private readonly ImageUrlGet $imageUrlGet
+    ) {
     }
 
     public function build(array $item, Image $image, string $title = ''): array
     {
         $item['attachment'][] = [
             'type' => 'Image',
-            'mediaType' => $this->imageManager->getMimetype($image),
-            'url' => $this->imageManager->getUrl($image),
+            'mediaType' => ($this->imageMimeTypeGet)($image),
+            'url' => ($this->imageUrlGet)($image),
             'name' => $image->altText,
             'blurhash' => $image->blurhash,
             'focalPoint' => [0, 0],
@@ -32,7 +35,7 @@ class ImageWrapper
 
         $item['image'] = [ // @todo Lemmy
             'type' => 'Image',
-            'url' => $this->imageManager->getUrl($image),
+            'url' => ($this->imageUrlGet)($image),
         ];
 
         return $item;

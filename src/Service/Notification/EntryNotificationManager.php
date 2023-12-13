@@ -17,12 +17,12 @@ use App\Entity\EntryMentionedNotification;
 use App\Entity\Magazine;
 use App\Entity\Notification;
 use App\Kbin\Factory\HtmlClassFactory;
+use App\Kbin\Image\ImageUrlGet;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
-use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\IriGenerator;
@@ -46,7 +46,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
@@ -125,8 +125,7 @@ class EntryNotificationManager implements ContentNotificationManagerInterface
                 ],
                 'title' => $magazine->title,
                 'body' => $entry->title,
-                'icon' => $this->imageManager->getUrl($entry->image),
-//                'image' => $this->imageManager->getUrl($entry->image),
+                'icon' => ($this->imageUrlGet)($entry->image),
                 'url' => $this->urlGenerator->generate('entry_single', [
                     'magazine_name' => $magazine->name,
                     'entry_id' => $entry->getId(),

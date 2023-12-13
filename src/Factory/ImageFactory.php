@@ -10,13 +10,13 @@ namespace App\Factory;
 
 use App\DTO\ImageDto;
 use App\Entity\Image;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageUrlGet;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ImageFactory
 {
     public function __construct(
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly EntityManagerInterface $entityManager,
     ) {
     }
@@ -35,7 +35,7 @@ class ImageFactory
             $image->height,
             $image->altText,
             $image->sourceUrl,
-            $this->imageManager->getUrl($image),
+            ($this->imageUrlGet)($image),
         );
     }
 }

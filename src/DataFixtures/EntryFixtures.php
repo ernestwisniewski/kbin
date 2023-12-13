@@ -10,8 +10,8 @@ namespace App\DataFixtures;
 
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EntryCreate;
+use App\Kbin\Image\ImageDownload;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -22,7 +22,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function __construct(
         private readonly EntryCreate $entryCreate,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -52,7 +52,7 @@ class EntryFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(1, 400);
             if ($roll % 5) {
                 try {
-                    $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                    $tempFile = ($this->imageDownload)("https://picsum.photos/300/$roll?hash=$roll");
                 } catch (\Exception $e) {
                     $tempFile = null;
                 }

@@ -25,8 +25,8 @@ final class Version20231208083618 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX user_post_favourite_idx ON favourite (user_id, post_id)');
         $this->addSql('CREATE UNIQUE INDEX user_post_comment_favourite_idx ON favourite (user_id, post_comment_id)');
 
-        //DELETE FROM favourite
-        //WHERE (entry_id, user_id) IN (
+        // DELETE FROM favourite
+        // WHERE (entry_id, user_id) IN (
         //        SELECT entry_id, user_id
         //    FROM (
         //        SELECT entry_id, user_id
@@ -35,11 +35,11 @@ final class Version20231208083618 extends AbstractMigration
         //        HAVING COUNT(entry_id) > 1
         //        ORDER BY entry_id, user_id
         //    ) AS subquery
-        //);
+        // );
         //
         //
-        //DELETE FROM favourite
-        //WHERE (entry_comment_id, user_id) IN (
+        // DELETE FROM favourite
+        // WHERE (entry_comment_id, user_id) IN (
         //        SELECT entry_comment_id, user_id
         //    FROM (
         //        SELECT entry_comment_id, user_id
@@ -48,10 +48,10 @@ final class Version20231208083618 extends AbstractMigration
         //        HAVING COUNT(entry_comment_id) > 1
         //        ORDER BY entry_comment_id, user_id
         //    ) AS subquery
-        //);
+        // );
         //
-        //DELETE FROM favourite
-        //WHERE (post_id, user_id) IN (
+        // DELETE FROM favourite
+        // WHERE (post_id, user_id) IN (
         //        SELECT post_id, user_id
         //    FROM (
         //        SELECT post_id, user_id
@@ -60,11 +60,11 @@ final class Version20231208083618 extends AbstractMigration
         //        HAVING COUNT(post_id) > 1
         //        ORDER BY post_id, user_id
         //    ) AS subquery
-        //);
+        // );
         //
         //
-        //DELETE FROM favourite
-        //WHERE (post_comment_id, user_id) IN (
+        // DELETE FROM favourite
+        // WHERE (post_comment_id, user_id) IN (
         //        SELECT post_comment_id, user_id
         //    FROM (
         //        SELECT post_comment_id, user_id
@@ -73,7 +73,7 @@ final class Version20231208083618 extends AbstractMigration
         //        HAVING COUNT(post_comment_id) > 1
         //        ORDER BY post_comment_id, user_id
         //    ) AS subquery
-        //);
+        // );
     }
 
     public function down(Schema $schema): void

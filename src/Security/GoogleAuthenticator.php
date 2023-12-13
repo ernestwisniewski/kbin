@@ -10,10 +10,10 @@ namespace App\Security;
 
 use App\Entity\Image;
 use App\Entity\User;
+use App\Kbin\Image\ImageDownload;
 use App\Kbin\User\DTO\UserDto;
 use App\Kbin\User\UserCreate;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use App\Service\IpResolver;
 use App\Utils\Slugger;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +39,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         private readonly RouterInterface $router,
         private readonly EntityManagerInterface $entityManager,
         private readonly UserCreate $userCreate,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly RequestStack $requestStack,
         private readonly IpResolver $ipResolver,
@@ -122,7 +122,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         }
 
         try {
-            $tempFile = $this->imageManager->download($pictureUrl);
+            $tempFile = ($this->imageDownload)($pictureUrl);
         } catch (\Exception $e) {
             $tempFile = null;
         }

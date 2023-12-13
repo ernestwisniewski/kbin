@@ -17,7 +17,7 @@ use App\Kbin\Entry\DTO\EntryRequestDto;
 use App\Kbin\Entry\DTO\EntryResponseDto;
 use App\Kbin\Entry\EntryCreate;
 use App\Kbin\Entry\Factory\EntryFactory;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageMimeTypeGet;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -422,7 +422,7 @@ class MagazineEntryCreateApi extends EntriesBaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

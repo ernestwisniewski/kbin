@@ -12,12 +12,12 @@ use App\Controller\Api\Magazine\MagazineBaseApi;
 use App\DTO\ImageUploadDto;
 use App\Entity\Magazine;
 use App\Factory\ImageFactory;
+use App\Kbin\Image\ImageMimeTypeGet;
 use App\Kbin\Magazine\DTO\MagazineThemeDto;
 use App\Kbin\Magazine\DTO\MagazineThemeRequestDto;
 use App\Kbin\Magazine\DTO\MagazineThemeResponseDto;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\MagazineThemeChange;
-use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -113,7 +113,7 @@ class MagazineUpdateThemeApi extends MagazineBaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

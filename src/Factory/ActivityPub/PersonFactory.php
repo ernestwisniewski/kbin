@@ -10,9 +10,9 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\User;
+use App\Kbin\Image\ImageUrlGet;
 use App\Markdown\MarkdownConverter;
 use App\Markdown\RenderTarget;
-use App\Service\ImageManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -20,7 +20,7 @@ class PersonFactory
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly MarkdownConverter $markdownConverter
     ) {
     }
@@ -89,7 +89,7 @@ class PersonFactory
         if ($user->cover) {
             $person['image'] = [
                 'type' => 'Image',
-                'url' => $this->imageManager->getUrl($user->cover),
+                'url' => ($this->imageUrlGet)($user->cover),
                 // @todo media url
             ];
         }
@@ -97,7 +97,7 @@ class PersonFactory
         if ($user->avatar) {
             $person['icon'] = [
                 'type' => 'Image',
-                'url' => $this->imageManager->getUrl($user->avatar),
+                'url' => ($this->imageUrlGet)($user->avatar),
                 // @todo media url
             ];
         }

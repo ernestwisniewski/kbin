@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace App\Utils;
 
 use App\Entity\Entry;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageUrlCheck;
 use App\Service\SettingsManager;
 use Embed\Embed as BaseEmbed;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -23,8 +23,11 @@ class Embed
     public ?string $image = null;
     public ?string $html = null;
 
-    public function __construct(private CacheInterface $cache, private SettingsManager $settings)
-    {
+    public function __construct(
+        private ImageUrlCheck $imageUrlCheck,
+        private CacheInterface $cache,
+        private SettingsManager $settings
+    ) {
     }
 
     public function fetch($url): self
@@ -115,7 +118,7 @@ class Embed
             return false;
         }
 
-        return ImageManager::isImageUrl($this->url);
+        return ($this->imageUrlCheck)($this->url);
     }
 
     private function isVideoUrl(): bool

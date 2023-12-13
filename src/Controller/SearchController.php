@@ -53,8 +53,8 @@ class SearchController extends AbstractController
 
         $objects = [];
         if (str_contains($query, '@') && (!$this->settingsManager->get(
-                    'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN'
-                ) || $this->getUser())) {
+            'KBIN_FEDERATED_SEARCH_ONLY_LOGGEDIN'
+        ) || $this->getUser())) {
             $name = str_starts_with($query, '@') ? $query : '@'.$query;
             preg_match(RegPatterns::AP_USER, $name, $matches);
             if (\count(array_filter($matches)) >= 4) {

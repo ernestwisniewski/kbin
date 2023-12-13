@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Image;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageFileNameGet;
+use App\Kbin\Image\ImageFilePathGet;
+use App\Kbin\Image\ImageStore;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use kornrunner\Blurhash\Blurhash;
@@ -23,12 +25,13 @@ use kornrunner\Blurhash\Blurhash;
  */
 class ImageRepository extends ServiceEntityRepository
 {
-    private ImageManager $imageManager;
-
-    public function __construct(ManagerRegistry $registry, ImageManager $imageManager)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly ImageStore $imageStore,
+        private readonly ImageFileNameGet $imageFileNameGet,
+        private readonly ImageFilePathGet $imageFilePathGet
+    ) {
         parent::__construct($registry, Image::class);
-        $this->imageManager = $imageManager;
     }
 
     public function findOrCreateFromUpload($upload): ?Image
@@ -38,8 +41,8 @@ class ImageRepository extends ServiceEntityRepository
 
     public function findOrCreateFromPath(string $source): ?Image
     {
-        $fileName = $this->imageManager->getFileName($source);
-        $filePath = $this->imageManager->getFilePath($source);
+        $fileName = ($this->imageFileNameGet)($source);
+        $filePath = ($this->imageFilePathGet)($source);
         $sha256 = hash_file('sha256', $source, true);
 
         if ($image = $this->findOneBySha256($sha256)) {
@@ -61,7 +64,7 @@ class ImageRepository extends ServiceEntityRepository
         }
 
         try {
-            $this->imageManager->store($source, $filePath);
+            ($this->imageStore)($source, $filePath);
         } catch (\Exception $e) {
             return null;
         } finally {

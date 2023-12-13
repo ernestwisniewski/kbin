@@ -329,7 +329,7 @@ class BaseApi extends AbstractController
                 throw new BadRequestHttpException('File cannot exceed '.(string) self::$constraint->maxSize.' bytes');
             }
 
-            if (false === array_search($uploaded->getMimeType(), self::$constraint->mimeTypes)) {
+            if (!\in_array($uploaded->getMimeType(), self::$constraint->mimeTypes)) {
                 throw new BadRequestHttpException('Mimetype of "'.$uploaded->getMimeType().'" not allowed!');
             }
 

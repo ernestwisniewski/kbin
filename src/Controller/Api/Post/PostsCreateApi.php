@@ -11,12 +11,12 @@ namespace App\Controller\Api\Post;
 use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\ImageUploadDto;
 use App\Entity\Magazine;
+use App\Kbin\Image\ImageMimeTypeGet;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\DTO\PostRequestDto;
 use App\Kbin\Post\DTO\PostResponseDto;
 use App\Kbin\Post\Factory\PostFactory;
 use App\Kbin\Post\PostCreate;
-use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -214,7 +214,7 @@ class PostsCreateApi extends PostsBaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

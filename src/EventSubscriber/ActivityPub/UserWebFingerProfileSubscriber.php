@@ -10,9 +10,9 @@ namespace App\EventSubscriber\ActivityPub;
 
 use App\ActivityPub\JsonRdLink;
 use App\Kbin\ActivityPub\Webfinger\EventSubscriber\Event\WebfingerResponseEvent;
+use App\Kbin\Image\ImageUrlGet;
 use App\Repository\UserRepository;
 use App\Service\ActivityPub\Webfinger\WebFingerParameters;
-use App\Service\ImageManager;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,7 +26,7 @@ class UserWebFingerProfileSubscriber implements EventSubscriberInterface
         private readonly WebFingerParameters $webfingerParameters,
         private readonly UserRepository $userRepository,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ImageManager $imageManager
+        private readonly ImageUrlGet $imageUrlGet
     ) {
     }
 
@@ -63,7 +63,7 @@ class UserWebFingerProfileSubscriber implements EventSubscriberInterface
                 $link = new JsonRdLink();
                 $link->setRel('http://webfinger.net/rel/avatar')
                     ->setHref(
-                        $this->imageManager->getUrl($actor->avatar),
+                        ($this->imageUrlGet)($actor->avatar),
                     ); // @todo media url
                 $jsonRd->addLink($link);
             }

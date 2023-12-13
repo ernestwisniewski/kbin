@@ -16,12 +16,12 @@ use App\Entity\PostDeletedNotification;
 use App\Entity\PostEditedNotification;
 use App\Entity\PostMentionedNotification;
 use App\Kbin\Factory\HtmlClassFactory;
+use App\Kbin\Image\ImageUrlGet;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
-use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\IriGenerator;
@@ -45,7 +45,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
@@ -120,8 +120,7 @@ class PostNotificationManager implements ContentNotificationManagerInterface
                 ],
                 'title' => $post->magazine->name,
                 'body' => $post->body,
-                'icon' => $this->imageManager->getUrl($post->image),
-//                'image' => $this->imageManager->getUrl($post->image),
+                'icon' => ($this->imageUrlGet)($post->image),
                 'url' => $this->urlGenerator->generate('post_single', [
                     'magazine_name' => $post->magazine->name,
                     'post_id' => $post->getId(),

@@ -26,13 +26,13 @@ readonly class VoteCounterSubscriber
     public function onVote(VoteEvent $event): void
     {
         $event->votable->upVotes = $this->voteRepository->countBySubject(
-                $event->votable,
-                VotableInterface::VOTE_UP
-            );
+            $event->votable,
+            VotableInterface::VOTE_UP
+        );
         $event->votable->downVotes = $this->voteRepository->countBySubject(
-                $event->votable,
-                VotableInterface::VOTE_DOWN
-            );
+            $event->votable,
+            VotableInterface::VOTE_DOWN
+        );
         $event->votable->score = $event->votable->upVotes - $event->votable->downVotes;
         $event->votable->updateRanking();
 

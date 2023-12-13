@@ -10,14 +10,14 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Magazine;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageUrlGet;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GroupFactory
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ImageManager $imageManager
+        private readonly ImageUrlGet $imageUrlGet
     ) {
     }
 
@@ -74,7 +74,7 @@ class GroupFactory
         if ($magazine->icon) {
             $group['icon'] = [
                 'type' => 'Image',
-                'url' => $this->imageManager->getUrl($magazine->icon),
+                'url' => ($this->imageUrlGet)($magazine->icon),
             ];
         }
 

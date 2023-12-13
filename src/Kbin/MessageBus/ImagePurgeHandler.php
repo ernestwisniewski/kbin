@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace App\Kbin\MessageBus;
 
+use App\Kbin\Image\ImageRemove;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -19,7 +19,7 @@ readonly class ImagePurgeHandler
 {
     public function __construct(
         private ImageRepository $imageRepository,
-        private ImageManager $imageManager,
+        private ImageRemove $imageRemove,
         private EntityManagerInterface $entityManager,
         private ManagerRegistry $managerRegistry
     ) {
@@ -45,6 +45,6 @@ readonly class ImagePurgeHandler
             }
         }
 
-        $this->imageManager->remove($message->path);
+        ($this->imageRemove)($message->path);
     }
 }

@@ -33,7 +33,6 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
-use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostCommentRepository::class)]
 #[Index(columns: ['up_votes'], name: 'post_comment_up_votes_idx')]

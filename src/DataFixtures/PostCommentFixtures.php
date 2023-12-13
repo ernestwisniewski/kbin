@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\PostComment;
+use App\Kbin\Image\ImageDownload;
 use App\Kbin\PostComment\DTO\PostCommentDto;
 use App\Kbin\PostComment\PostCommentCreate;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -23,7 +23,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
 
     public function __construct(
         private readonly PostCommentCreate $postCommentCreate,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -95,7 +95,7 @@ class PostCommentFixtures extends BaseFixture implements DependentFixtureInterfa
         $roll = rand(1, 400);
         if ($roll % 10) {
             try {
-                $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                $tempFile = ($this->imageDownload)("https://picsum.photos/300/$roll?hash=$roll");
             } catch (\Exception $e) {
                 $tempFile = null;
             }

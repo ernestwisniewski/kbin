@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Kbin\Image\ImageDownload;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
-use App\Service\ImageManager;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -21,7 +21,7 @@ class UserFixtures extends BaseFixture
 
     public function __construct(
         private readonly UserPasswordHasherInterface $hasher,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly UserRepository $userRepository,
     ) {
@@ -57,7 +57,7 @@ class UserFixtures extends BaseFixture
                 $rand = rand(1, 500);
 
                 try {
-                    $tempFile = $this->imageManager->download("https://picsum.photos/500/500?hash={$rand}");
+                    $tempFile = ($this->imageDownload)("https://picsum.photos/500/500?hash={$rand}");
                 } catch (\Exception $e) {
                     $tempFile = null;
                 }

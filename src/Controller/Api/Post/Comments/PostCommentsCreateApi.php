@@ -13,11 +13,11 @@ use App\Controller\Traits\PrivateContentTrait;
 use App\DTO\ImageUploadDto;
 use App\Entity\Post;
 use App\Entity\PostComment;
+use App\Kbin\Image\ImageMimeTypeGet;
 use App\Kbin\PostComment\DTO\PostCommentRequestDto;
 use App\Kbin\PostComment\DTO\PostCommentResponseDto;
 use App\Kbin\PostComment\Factory\PostCommentFactory;
 use App\Kbin\PostComment\PostCommentCreate;
-use App\Service\ImageManager;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -239,7 +239,7 @@ class PostCommentsCreateApi extends PostsBaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

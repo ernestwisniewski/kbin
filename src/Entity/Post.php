@@ -34,7 +34,6 @@ use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
-use Webmozart\Assert\Assert;
 
 #[Entity(repositoryClass: PostRepository::class)]
 #[Index(columns: ['visibility', 'is_adult'], name: 'post_visibility_adult_idx')]

@@ -10,9 +10,9 @@ namespace App\Kbin\Entry\MessageBus;
 
 use App\Entity\Entry;
 use App\Entity\Image;
+use App\Kbin\Image\ImageDownload;
 use App\Repository\EntryRepository;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use App\Utils\Embed;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -24,7 +24,7 @@ readonly class EntryEmbedAttachHandler
     public function __construct(
         private EntryRepository $entryRepository,
         private Embed $embed,
-        private ImageManager $manager,
+        private ImageDownload $imageDownload,
         private ImageRepository $imageRepository,
         private EntityManagerInterface $entityManager
     ) {
@@ -86,7 +86,7 @@ readonly class EntryEmbedAttachHandler
     private function fetchImage(string $url): ?string
     {
         try {
-            return $this->manager->download($url);
+            return ($this->imageDownload)($url);
         } catch (\Exception $e) {
             return null;
         }

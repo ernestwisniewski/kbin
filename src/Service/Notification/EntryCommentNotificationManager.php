@@ -17,13 +17,13 @@ use App\Entity\EntryCommentMentionedNotification;
 use App\Entity\EntryCommentReplyNotification;
 use App\Entity\Notification;
 use App\Kbin\Factory\HtmlClassFactory;
+use App\Kbin\Image\ImageUrlGet;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\User\Factory\UserFactory;
 use App\Repository\MagazineLogRepository;
 use App\Repository\MagazineSubscriptionRepository;
 use App\Repository\NotificationRepository;
 use App\Service\Contracts\ContentNotificationManagerInterface;
-use App\Service\ImageManager;
 use App\Service\MentionManager;
 use App\Service\SettingsManager;
 use App\Utils\IriGenerator;
@@ -48,7 +48,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
         private readonly Environment $twig,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly HtmlClassFactory $classService,
         private readonly SettingsManager $settingsManager
     ) {
@@ -157,8 +157,7 @@ class EntryCommentNotificationManager implements ContentNotificationManagerInter
                 ],
                 'title' => $comment->entry->title,
                 'body' => $comment->body,
-                'icon' => $this->imageManager->getUrl($comment->image),
-//                'image' => $this->imageManager->getUrl($comment->image),
+                'icon' => ($this->imageUrlGet)($comment->image),
                 'url' => $this->urlGenerator->generate('entry_single', [
                         'magazine_name' => $comment->magazine->name,
                         'entry_id' => $comment->entry->getId(),

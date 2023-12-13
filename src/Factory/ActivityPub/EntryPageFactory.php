@@ -10,6 +10,7 @@ namespace App\Factory\ActivityPub;
 
 use App\Entity\Contracts\ActivityPubActivityInterface;
 use App\Entity\Entry;
+use App\Kbin\Image\ImageUrlGet;
 use App\Markdown\MarkdownConverter;
 use App\Markdown\RenderTarget;
 use App\Service\ActivityPub\ApHttpClient;
@@ -17,7 +18,6 @@ use App\Service\ActivityPub\Wrapper\ImageWrapper;
 use App\Service\ActivityPub\Wrapper\MentionsWrapper;
 use App\Service\ActivityPub\Wrapper\TagsWrapper;
 use App\Service\ActivityPubManager;
-use App\Service\ImageManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EntryPageFactory
@@ -25,7 +25,7 @@ class EntryPageFactory
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly GroupFactory $groupFactory,
-        private readonly ImageManager $imageManager,
+        private readonly ImageUrlGet $imageUrlGet,
         private readonly ImageWrapper $imageWrapper,
         private readonly TagsWrapper $tagsWrapper,
         private readonly MentionsWrapper $mentionsWrapper,
@@ -131,10 +131,10 @@ class EntryPageFactory
 
     private function getUrl(Entry $entry): string
     {
-        $imageUrl = $this->imageManager->getUrl($entry->image);
+        $imageUrl = ($this->imageUrlGet)($entry->image);
 
         if (Entry::ENTRY_TYPE_IMAGE === $entry->type && $imageUrl) {
-            return $this->imageManager->getUrl($entry->image);
+            return ($this->imageUrlGet)($entry->image);
         }
 
         return $entry->url ?? $this->getActivityPubId($entry);

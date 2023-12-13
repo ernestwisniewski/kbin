@@ -15,14 +15,10 @@ use App\Entity\User;
 use App\Entity\Vote;
 use App\Kbin\Vote\EventSubscriber\Event\VoteEvent;
 use App\Kbin\Vote\Factory\VoteFactory;
-use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Lock\Key;
-use Symfony\Component\Lock\Lock;
-use Symfony\Component\Lock\Store\SemaphoreStore;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 readonly class VoteUp

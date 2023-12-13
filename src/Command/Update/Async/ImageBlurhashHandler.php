@@ -9,30 +9,28 @@ declare(strict_types=1);
 namespace App\Command\Update\Async;
 
 use App\Entity\Image;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImagePathGet;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-class ImageBlurhashHandler
+readonly class ImageBlurhashHandler
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly ImageManager $manager
+        private EntityManagerInterface $entityManager,
+        private ImagePathGet $imagePathGet
     ) {
     }
 
-    public function __invoke(ImageBlurhashMessage $message)
+    public function __invoke(ImageBlurhashMessage $message): void
     {
         $repo = $this->entityManager->getRepository(Image::class);
 
         $image = $repo->find($message->id);
 
-        $image->blurhash = $repo->blurhash($this->manager->getPath($image));
+        $image->blurhash = $repo->blurhash(($this->imagePathGet)($image));
 
         $this->entityManager->persist($image);
         $this->entityManager->flush();
-
-        return true;
     }
 }

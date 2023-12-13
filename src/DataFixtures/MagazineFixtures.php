@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Kbin\Image\ImageDownload;
 use App\Kbin\Magazine\DTO\MagazineDto;
 use App\Kbin\Magazine\MagazineCreate;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +23,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function __construct(
         private readonly MagazineCreate $magazineCreate,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -36,7 +36,7 @@ class MagazineFixtures extends BaseFixture implements DependentFixtureInterface
             $width = rand(100, 400);
 
             try {
-                $tempFile = $this->imageManager->download("https://picsum.photos/{$width}/?hash=$width");
+                $tempFile = ($this->imageDownload)("https://picsum.photos/{$width}/?hash=$width");
             } catch (\Exception $e) {
                 $tempFile = null;
             }

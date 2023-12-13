@@ -102,7 +102,7 @@ class ReputationRepository extends ServiceEntityRepository
         $stmt->bindValue('user', $user->getId());
         $stmt = $stmt->executeQuery();
 
-        return (int)$stmt->fetchAllAssociative()[0]['total'] ?? 0;
+        return (int) $stmt->fetchAllAssociative()[0]['total'] ?? 0;
     }
 
     private function getUserReputationVotesSubquery(string $className): string
@@ -130,7 +130,7 @@ class ReputationRepository extends ServiceEntityRepository
         $stmt->bindValue('user', $user->getId());
         $stmt = $stmt->executeQuery();
 
-        return (int)$stmt->fetchAllAssociative()[0]['total'] ?? 0;
+        return (int) $stmt->fetchAllAssociative()[0]['total'] ?? 0;
     }
 
     private function getUserReputationFavouritesSubquery(string $className): string

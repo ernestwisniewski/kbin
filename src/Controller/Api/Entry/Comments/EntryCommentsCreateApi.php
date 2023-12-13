@@ -17,7 +17,7 @@ use App\Kbin\EntryComment\DTO\EntryCommentRequestDto;
 use App\Kbin\EntryComment\DTO\EntryCommentResponseDto;
 use App\Kbin\EntryComment\EntryCommentCreate;
 use App\Kbin\EntryComment\Factory\EntryCommentFactory;
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageMimeTypeGet;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Attributes as OA;
@@ -241,7 +241,7 @@ class EntryCommentsCreateApi extends EntriesBaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

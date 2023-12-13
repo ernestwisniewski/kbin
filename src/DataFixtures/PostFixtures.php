@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Kbin\Image\ImageDownload;
 use App\Kbin\Post\DTO\PostDto;
 use App\Kbin\Post\PostCreate;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -22,7 +22,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
 
     public function __construct(
         private readonly PostCreate $postCreate,
-        private readonly ImageManager $imageManager,
+        private readonly ImageDownload $imageDownload,
         private readonly ImageRepository $imageRepository,
         private readonly EntityManagerInterface $entityManager
     ) {
@@ -50,7 +50,7 @@ class PostFixtures extends BaseFixture implements DependentFixtureInterface
             $roll = rand(1, 400);
             if ($roll % 7) {
                 try {
-                    $tempFile = $this->imageManager->download("https://picsum.photos/300/$roll?hash=$roll");
+                    $tempFile = ($this->imageDownload)("https://picsum.photos/300/$roll?hash=$roll");
                 } catch (\Exception $e) {
                     $tempFile = null;
                 }

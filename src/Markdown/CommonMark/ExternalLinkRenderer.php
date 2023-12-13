@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace App\Markdown\CommonMark;
 
+use App\Kbin\Image\ImageUrlCheck;
 use App\Markdown\CommonMark\Node\ActivityPubMentionLink;
 use App\Markdown\CommonMark\Node\ActorSearchLink;
 use App\Markdown\CommonMark\Node\CommunityLink;
@@ -17,9 +18,7 @@ use App\Markdown\CommonMark\Node\TagLink;
 use App\Markdown\MarkdownConverter;
 use App\Markdown\RenderTarget;
 use App\Repository\EmbedRepository;
-use App\Service\ImageManager;
 use App\Service\SettingsManager;
-use App\Utils\Embed;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Node\Inline\Text;
 use League\CommonMark\Node\Node;
@@ -36,7 +35,7 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
     private ConfigurationInterface $config;
 
     public function __construct(
-        private readonly Embed $embed,
+        private readonly ImageUrlCheck $imageUrlCheck,
         private readonly EmbedRepository $embedRepository,
         private readonly SettingsManager $settingsManager,
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -76,9 +75,9 @@ final class ExternalLinkRenderer implements NodeRendererInterface, Configuration
 
         if (
             !$this->isMentionType($node)
-                && (ImageManager::isImageUrl($url)
-                    || $this->isEmbed($url, $title)
-                )
+            && (($this->imageUrlCheck)($url)
+                || $this->isEmbed($url, $title)
+            )
         ) {
             return EmbedElement::buildEmbed($url, $title);
         }

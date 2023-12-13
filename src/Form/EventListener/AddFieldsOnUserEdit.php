@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace App\Form\EventListener;
 
-use App\Service\ImageManager;
+use App\Kbin\Image\ImageMimeTypeGet;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormEvent;
@@ -59,7 +59,7 @@ final class AddFieldsOnUserEdit implements EventSubscriberInterface
                 'detectCorrupted' => true,
                 'groups' => ['upload'],
                 'maxSize' => $maxSize,
-                'mimeTypes' => ImageManager::IMAGE_MIMETYPES,
+                'mimeTypes' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ]
         );
     }

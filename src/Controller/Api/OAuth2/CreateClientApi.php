@@ -13,10 +13,10 @@ use App\DTO\ImageUploadDto;
 use App\DTO\OAuth2ClientDto;
 use App\Entity\Client;
 use App\Factory\ClientFactory;
+use App\Kbin\Image\ImageMimeTypeGet;
 use App\Kbin\User\DTO\UserDto;
 use App\Kbin\User\UserCreate;
 use App\Repository\UserRepository;
-use App\Service\ImageManager;
 use App\Service\SettingsManager;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
@@ -257,7 +257,7 @@ class CreateClientApi extends BaseApi
         ),
         encoding: [
             'imageUpload' => [
-                'contentType' => ImageManager::IMAGE_MIMETYPE_STR,
+                'contentType' => ImageMimeTypeGet::IMAGE_MIMETYPE_STR,
             ],
         ]
     ))]

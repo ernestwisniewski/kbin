@@ -14,12 +14,12 @@ use App\Kbin\Entry\Badge\EntryBadgeAssign;
 use App\Kbin\Entry\DTO\EntryDto;
 use App\Kbin\Entry\EventSubscriber\Event\EntryCreatedEvent;
 use App\Kbin\Entry\Factory\EntryFactory;
+use App\Kbin\Image\ImageUrlCheck;
 use App\Kbin\MentionManager;
 use App\Kbin\Tag\TagExtract;
 use App\Kbin\Utils\Slugger;
 use App\Kbin\Utils\UrlCleaner;
 use App\Repository\ImageRepository;
-use App\Service\ImageManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -31,6 +31,7 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 readonly class EntryCreate
 {
     public function __construct(
+        private ImageUrlCheck $imageUrlCheck,
         private TagExtract $tagExtract,
         private MentionManager $mentionManager,
         private EntryBadgeAssign $entryBadgeAssign,
@@ -104,7 +105,7 @@ readonly class EntryCreate
         $isImageUrl = false;
         if ($dto->url) {
             $entry->url = ($this->urlCleaner)($dto->url);
-            $isImageUrl = ImageManager::isImageUrl($dto->url);
+            $isImageUrl = ($this->imageUrlCheck)($dto->url);
         }
 
         if (($dto->image && !$dto->body) || $isImageUrl) {

@@ -42,7 +42,6 @@ use App\Kbin\PostComment\PostCommentDelete;
 use App\Kbin\PostComment\PostCommentPurge;
 use App\Kbin\User\UserAvatarDetach;
 use App\Kbin\User\UserCoverDetach;
-use App\Kbin\User\UserUnblock;
 use App\Kbin\User\UserUnfollow;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;

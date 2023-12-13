@@ -18,6 +18,8 @@ use App\Entity\Image;
 use App\Entity\Magazine;
 use App\Entity\User;
 use App\Factory\ActivityPub\PersonFactory;
+use App\Kbin\Image\ImageDownload;
+use App\Kbin\Image\ImageUrlCheck;
 use App\Kbin\Magazine\Factory\MagazineFactory;
 use App\Kbin\Magazine\MagazineCreate;
 use App\Kbin\MessageBus\ImagePurgeMessage;
@@ -39,6 +41,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ActivityPubManager
 {
     public function __construct(
+        private ImageUrlCheck $imageUrlCheck,
         private Server $server,
         private UserRepository $userRepository,
         private UserCreate $userCreate,
@@ -48,7 +51,7 @@ class ActivityPubManager
         private MagazineRepository $magazineRepository,
         private ApHttpClient $apHttpClient,
         private ImageRepository $imageRepository,
-        private ImageManager $imageManager,
+        private ImageDownload $imageDownload,
         private EntityManagerInterface $entityManager,
         private PersonFactory $personFactory,
         private SettingsManager $settingsManager,
@@ -258,12 +261,12 @@ class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ($this->imageUrlCheck)($val['url'])
         ); // @todo multiple images
 
         if (\count($images)) {
             try {
-                if ($tempFile = $this->imageManager->download($images[0]['url'])) {
+                if ($tempFile = ($this->imageDownload)($images[0]['url'])) {
                     $image = $this->imageRepository->findOrCreateFromPath($tempFile);
                     if ($image && isset($images[0]['name'])) {
                         $image->altText = $images[0]['name'];
@@ -376,7 +379,7 @@ class ActivityPubManager
     {
         $images = array_filter(
             $attachment,
-            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ImageManager::isImageUrl($val['url'])
+            fn ($val) => \in_array($val['type'], ['Document', 'Image']) && ($this->imageUrlCheck)($val['url'])
         );
 
         array_shift($images);
