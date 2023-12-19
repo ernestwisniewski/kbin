@@ -64,52 +64,43 @@ final class EntryComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
-        $key = $this->isSingle.'_'.$this->showShortSentence.'_'.$this->showBody.'_'.$this->showMagazineName.'_';
-        $key .= $this->canSeeTrash.$this->entry->getId().'_'.$this->security->getUser()?->getId().'_';
-        $key .= $this->canSeeTrashed().'_'.$this->entry->cross.'_';
-        $key .= $this->requestStack->getCurrentRequest()?->getLocale().'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
-        ).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW
-        ).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS
-        ).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS
-        ).'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
-        ).'_';
+        return $this->renderView($attributes);
 
-        return $this->cache->get(
-            'entry_'.hash('sha256', $key),
-            function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(900);
+//        if ($this->security->getUser()) {
+//            return $this->renderView($attributes);
+//        }
+//
+//        return $this->cache->get(
+//            'entry_'.hash('sha256', $this->getCacheKey()),
+//            function (ItemInterface $item) use ($attributes) {
+//                $item->expiresAfter(1800);
+//
+//                $item->tag('entry_'.$this->entry->getId());
+//                $item->tag('user_view_'.$this->security->getUser()?->getId());
+//
+//                return $this->renderView($attributes);
+//            }
+//        );
+    }
 
-                $item->tag('entry_'.$this->entry->getId());
-                $item->tag('user_view_'.$this->security->getUser()?->getId());
-
-                return $this->twig->render(
-                    'components/entry.html.twig',
-                    [
-                        'attributes' => $attributes,
-                        'entry' => $this->entry,
-                        'isSingle' => $this->isSingle,
-                        'showShortSentence' => $this->showShortSentence,
-                        'showBody' => $this->showBody,
-                        'showMagazineName' => $this->showMagazineName,
-                        'canSeeTrashed' => $this->canSeeTrashed(),
-                        'newComments' => $this->newComments,
-                    ]
-                );
-            }
+    private function renderView(ComponentAttributes $attributes): string
+    {
+        return $this->twig->render(
+            'components/entry.html.twig',
+            [
+                'attributes' => $attributes,
+                'entry' => $this->entry,
+                'isSingle' => $this->isSingle,
+                'showShortSentence' => $this->showShortSentence,
+                'showBody' => $this->showBody,
+                'showMagazineName' => $this->showMagazineName,
+                'canSeeTrashed' => $this->canSeeTrashed(),
+                'newComments' => $this->newComments,
+            ]
         );
     }
 
-    public function canSeeTrashed(): bool
+    private function canSeeTrashed(): bool
     {
         if (VisibilityInterface::VISIBILITY_VISIBLE === $this->entry->getVisibility()) {
             return true;
@@ -139,6 +130,39 @@ final class EntryComponent
             return;
         }
 
-        $this->newComments = ($this->newCommentMarkerCount)($user, $this->entry);
+        $this->newComments = $this->cache->get(
+            "entry_new_comments_{$this->entry->getId()}_{$user->getId()}",
+            function (ItemInterface $item) use ($user): int {
+                $item->expiresAfter(1800);
+                $item->tag(['entry_'.$this->entry->getId()]);
+
+                return ($this->newCommentMarkerCount)($user, $this->entry);
+            }
+        );
+    }
+
+    private function getCacheKey(): string
+    {
+        $key = $this->isSingle.'_'.$this->showShortSentence.'_'.$this->showBody.'_'.$this->showMagazineName.'_';
+        $key .= $this->canSeeTrash.$this->entry->getId().'_'.$this->security->getUser()?->getId().'_';
+        $key .= $this->canSeeTrashed().'_'.$this->entry->cross.'_';
+        $key .= $this->requestStack->getCurrentRequest()?->getLocale().'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
+            ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_ENTRIES_SHOW_PREVIEW
+            ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_ENTRIES_SHOW_USERS_AVATARS
+            ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_ENTRIES_SHOW_MAGAZINES_ICONS
+            ).'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_ENTRIES_SHOW_THUMBNAILS
+            ).'_';
+
+        return $key;
     }
 }

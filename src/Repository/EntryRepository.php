@@ -251,36 +251,12 @@ class EntryRepository extends ServiceEntityRepository implements TagRepositoryIn
 
     public function hydrate(Entry ...$entries): void
     {
-        $this->_em->createQueryBuilder()
-            ->select('PARTIAL e.{id}')
-            ->addSelect('u')
-            ->addSelect('ua')
-            ->addSelect('m')
-            ->addSelect('mi')
-            ->addSelect('d')
-            ->addSelect('i')
-            ->addSelect('b')
-            ->from(Entry::class, 'e')
-            ->join('e.user', 'u')
-            ->join('e.magazine', 'm')
-            ->join('e.domain', 'd')
-            ->leftJoin('u.avatar', 'ua')
-            ->leftJoin('m.icon', 'mi')
-            ->leftJoin('e.image', 'i')
-            ->leftJoin('e.badges', 'b')
-            ->where('e IN (?1)')
-            ->setParameter(1, $entries)
-            ->getQuery()
-            ->getResult();
-
         if ($this->security->getUser()) {
             $this->_em->createQueryBuilder()
                 ->select('PARTIAL e.{id}')
-                ->addSelect('ev')
                 ->addSelect('ef')
                 ->from(Entry::class, 'e')
                 ->leftJoin('e.favourites', 'ef')
-                ->leftJoin('e.votes', 'ev')
                 ->where('e IN (?1)')
                 ->setParameter(1, $entries)
                 ->getQuery()

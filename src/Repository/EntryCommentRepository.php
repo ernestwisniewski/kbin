@@ -55,6 +55,17 @@ class EntryCommentRepository extends ServiceEntityRepository implements TagRepos
         parent::__construct($registry, EntryComment::class);
     }
 
+    public function findAllChildren(EntryComment $comment): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.root = :root')
+            ->setParameter('root', $comment)
+            ->indexBy('c', 'c.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+
     public function findByCriteria(Criteria $criteria): PagerfantaInterface
     {
         $pagerfanta = new Pagerfanta($this->adapterFactory->create($this->getEntryQueryBuilder($criteria)));

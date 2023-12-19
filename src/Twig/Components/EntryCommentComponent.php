@@ -14,16 +14,11 @@ use App\Entity\EntryComment;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsTwigComponent('entry_comment')]
 final class EntryCommentComponent
 {
-    public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly AuthorizationCheckerInterface $authorizationChecker
-    ) {
-    }
-
     public EntryComment $comment;
     public bool $showMagazineName = true;
     public bool $showEntryTitle = true;
@@ -32,6 +27,13 @@ final class EntryCommentComponent
     public bool $canSeeTrash = false;
     public bool $dateAsUrl = false;
 
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly AuthorizationCheckerInterface $authorizationChecker
+    ) {
+    }
+
+    #[PostMount]
     public function postMount(array $attr): array
     {
         $this->canSeeTrashed();

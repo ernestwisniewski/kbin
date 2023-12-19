@@ -10,11 +10,13 @@ namespace App\Twig\Components;
 
 use App\Controller\User\ThemeSettingsController;
 use App\Entity\EntryComment;
+use App\Repository\EntryCommentRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 use Symfony\UX\TwigComponent\ComponentAttributes;
 use Twig\Environment;
 
@@ -22,19 +24,37 @@ use Twig\Environment;
 final class EntryCommentsNestedComponent
 {
     public EntryComment $comment;
+    public array $nestedComments = [];
     public int $level;
     public string $view = ThemeSettingsController::TREE;
 
     public function __construct(
+        private readonly EntryCommentRepository $entryCommentRepository,
         private readonly Environment $twig,
         private readonly Security $security,
         private readonly CacheInterface $cache,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+
     ) {
+    }
+
+
+    #[PostMount]
+    public function postMount(array $attr): array
+    {
+        if (null === $this->comment->root) {
+            $this->nestedComments = $this->entryCommentRepository->findAllChildren( $this->comment);
+        }
+
+        return $attr;
     }
 
     public function getHtml(ComponentAttributes $attributes): string
     {
+        if ($this->security->getUser()) {
+            return $this->renderView();
+        }
+
         $commentId = $this->comment->root?->getId() ?? $this->comment->getId();
         $userId = $this->security->getUser()?->getId();
 
@@ -46,15 +66,21 @@ final class EntryCommentsNestedComponent
                 $item->tag(['entry_comment_'.$commentId]);
                 $item->tag(['user_view_'.$userId]);
 
-                return $this->twig->render(
-                    'components/entry_comments_nested.html.twig',
-                    [
-                        'comment' => $this->comment,
-                        'level' => $this->level,
-                        'view' => $this->view,
-                    ]
-                );
+                return $this->renderView();
             }
+        );
+    }
+
+    private function renderView(): string
+    {
+        return $this->twig->render(
+            'components/entry_comments_nested.html.twig',
+            [
+                'comment' => $this->comment,
+                'nestedComments' => $this->nestedComments,
+                'level' => $this->level,
+                'view' => $this->view,
+            ]
         );
     }
 }

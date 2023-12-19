@@ -89,7 +89,7 @@ class PostComment implements VotableInterface, VisibilityInterface, ReportInterf
     public bool $isAdult = false;
     #[Column(type: 'boolean', options: ['default' => false])]
     public ?bool $updateMark = false;
-    #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'parent', targetEntity: PostComment::class, fetch: 'EAGER', orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
     #[OneToMany(mappedBy: 'root', targetEntity: PostComment::class, orphanRemoval: true)]

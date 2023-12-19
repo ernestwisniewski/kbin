@@ -24,6 +24,7 @@ use App\Repository\EntryCommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -87,7 +88,7 @@ class EntryComment implements VotableInterface, VisibilityInterface, ReportInter
     public ?array $tags = null;
     #[Column(type: 'json', nullable: true)]
     public ?array $mentions = null;
-    #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'parent', targetEntity: EntryComment::class, fetch: 'EAGER', orphanRemoval: true)]
     #[OrderBy(['createdAt' => 'ASC'])]
     public Collection $children;
     #[OneToMany(mappedBy: 'root', targetEntity: EntryComment::class, orphanRemoval: true)]

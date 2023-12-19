@@ -32,6 +32,10 @@ final class PostCommentsPreviewComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
+        if ($this->security->getUser()) {
+            return $this->renderView($attributes);
+        }
+
         $postId = $this->post->getId();
         $userId = $this->security->getUser()?->getId();
 
@@ -43,17 +47,22 @@ final class PostCommentsPreviewComponent
                 $item->tag(['post_'.$postId]);
                 $item->tag(['user_view_'.$userId]);
 
-                return $this->twig->render(
-                    'components/post_comments_preview.html.twig',
-                    [
-                        'attributes' => new ComponentAttributes($attributes->all()),
-                        'post' => $this->post,
-                        'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
-                            ? $this->post->getBestComments($this->security->getUser())
-                            : $this->post->getLastComments($this->security->getUser()),
-                    ]
-                );
+                return $this->renderView($attributes);
             }
+        );
+    }
+
+    private function renderView(ComponentAttributes $attributes): string
+    {
+        return $this->twig->render(
+            'components/post_comments_preview.html.twig',
+            [
+                'attributes' => new ComponentAttributes($attributes->all()),
+                'post' => $this->post,
+                'comments' => $this->post->lastActive < (new \DateTime('-4 hours'))
+                    ? $this->post->getBestComments($this->security->getUser())
+                    : $this->post->getLastComments($this->security->getUser()),
+            ]
         );
     }
 }

@@ -18,6 +18,7 @@ use App\Repository\MagazineRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -36,6 +37,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Index(columns: ['ap_id'], name: 'magazine_ap_id_idx')]
 #[Index(columns: ['ap_profile_id'], name: 'magazine_ap_profile_id_idx')]
 #[UniqueConstraint(name: 'magazine_name_idx', columns: ['name'])]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class Magazine implements VisibilityInterface, ActivityPubActorInterface, ApiResourceInterface
 {
     use ActivityPubActorTrait;

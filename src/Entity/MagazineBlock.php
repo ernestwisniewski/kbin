@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Traits\CreatedAtTrait;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -21,6 +22,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
 #[Entity(repositoryClass: 'App\Repository\MagazineBlockRepository')]
 #[Table]
 #[UniqueConstraint(name: 'magazine_block_idx', columns: ['user_id', 'magazine_id'])]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class MagazineBlock
 {
     use CreatedAtTrait {

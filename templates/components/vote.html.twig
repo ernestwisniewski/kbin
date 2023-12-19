@@ -2,7 +2,7 @@
 {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
 {%- set VOTE_DOWN = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_DOWN') -%}
 {% if app.user %}
-    {%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
+    {%- set user_choice = is_granted('ROLE_USER') ? this.userChoice(subject, app.user) : null -%}
 
     {% set upUrl = path(formDest~'_favourite', {id: subject.id, choice: VOTE_UP}) %}
     {% set downUrl = path(formDest~'_vote', {id: subject.id, choice: VOTE_DOWN}) %}
@@ -23,7 +23,7 @@
     <form method="post"
           action="{{ upUrl }}"
           class="{{ html_classes('vote__up',{
-              'active': app.user and subject.isFavored(app.user),
+              'active': app.user and this.isFavourite(subject, app.user),
           }) }}">
         <button type="submit"
                 title="{{ 'favourite'|trans }}"

@@ -35,6 +35,10 @@ final class PostCommentsNestedComponent
 
     public function getHtml(ComponentAttributes $attributes): string
     {
+        if($this->security->getUser()) {
+            return $this->renderView();
+        }
+
         $comment = $this->comment->root ?? $this->comment;
         $commentId = $comment->getId();
         $postId = $comment->post->getId();
@@ -49,15 +53,20 @@ final class PostCommentsNestedComponent
                 $item->tag(['post_'.$postId]);
                 $item->tag(['user_view_'.$userId]);
 
-                return $this->twig->render(
-                    'components/post_comments_nested.html.twig',
-                    [
-                        'comment' => $this->comment,
-                        'level' => $this->level,
-                        'view' => $this->view,
-                    ]
-                );
+                return $this->renderView();
             }
+        );
+    }
+
+    private function renderView(): string
+    {
+        return $this->twig->render(
+            'components/post_comments_nested.html.twig',
+            [
+                'comment' => $this->comment,
+                'level' => $this->level,
+                'view' => $this->view,
+            ]
         );
     }
 }

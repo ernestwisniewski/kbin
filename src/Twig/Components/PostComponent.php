@@ -44,42 +44,6 @@ final class PostComponent
     ) {
     }
 
-    public function getHtml(ComponentAttributes $attributes): string
-    {
-        $key = $this->isSingle.'_'.$this->showMagazineName.'_'.$this->dateAsUrl.'_'.$this->showCommentsPreview.'_';
-        $key .= $this->showExpand.'_'.$this->canSeeTrash.'_'.$this->post->getId().'_'.$this->security->getUser(
-        )?->getId();
-        $key .= $this->canSeeTrashed().'_'.$this->requestStack->getCurrentRequest()?->getLocale().'_';
-        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
-            ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW
-        ).'_';
-
-        return $this->cache->get(
-            'post_'.hash('sha256', $key),
-            function (ItemInterface $item) use ($attributes) {
-                $item->expiresAfter(300);
-
-                $item->tag('post_'.$this->post->getId());
-                $item->tag('user_view_'.$this->security->getUser()?->getId());
-
-                return $this->twig->render(
-                    'components/post.html.twig',
-                    [
-                        'attributes' => $attributes,
-                        'post' => $this->post,
-                        'isSingle' => $this->isSingle,
-                        'showMagazineName' => $this->showMagazineName,
-                        'showCommentsPreview' => $this->showCommentsPreview,
-                        'dateAsUrl' => $this->dateAsUrl,
-                        'showExpand' => $this->showExpand,
-                        'canSeeTrashed' => $this->canSeeTrashed(),
-                        'newComments' => $this->newComments,
-                    ]
-                );
-            }
-        );
-    }
-
     #[PostMount]
     public function postMount(array $attr): array
     {
@@ -99,7 +63,28 @@ final class PostComponent
         return $attr;
     }
 
-    public function canSeeTrashed(): bool
+    public function getHtml(ComponentAttributes $attributes): string
+    {
+        return $this->renderView($attributes);
+
+//        if ($this->security->getUser()) {
+//            return $this->renderView($attributes);
+//        }
+//
+//        return $this->cache->get(
+//            'post_'.hash('sha256', $this->getCachedKey()),
+//            function (ItemInterface $item) use ($attributes) {
+//                $item->expiresAfter(1800);
+//
+//                $item->tag('post_'.$this->post->getId());
+//                $item->tag('user_view_'.$this->security->getUser()?->getId());
+//
+//                return $this->renderView($attributes);
+//            }
+//        );
+    }
+
+    private function canSeeTrashed(): bool
     {
         if (VisibilityInterface::VISIBILITY_VISIBLE === $this->post->getVisibility()) {
             return true;
@@ -127,6 +112,45 @@ final class PostComponent
             return;
         }
 
-        $this->newComments = ($this->newCommentMarkerCount)($user, $this->post);
+        $this->newComments = $this->cache->get(
+            "post_new_comments_{$this->post->getId()}_{$user->getId()}",
+            function (ItemInterface $item) use ($user): int {
+                $item->expiresAfter(1800);
+                $item->tag(['post_'.$this->post->getId()]);
+
+                return ($this->newCommentMarkerCount)($user, $this->post);
+            }
+        );
+    }
+
+    private function getCachedKey(): string
+    {
+        $key = $this->isSingle.'_'.$this->showMagazineName.'_'.$this->dateAsUrl.'_'.$this->showCommentsPreview.'_';
+        $key .= $this->showExpand.'_'.$this->canSeeTrash.'_'.$this->post->getId().'_'.$this->security->getUser(
+            )?->getId();
+        $key .= $this->canSeeTrashed().'_'.$this->requestStack->getCurrentRequest()?->getLocale().'_';
+        $key .= $this->requestStack->getCurrentRequest()->cookies->get(
+                ThemeSettingsController::KBIN_POSTS_SHOW_PREVIEW
+            ).'_';
+
+        return $key;
+    }
+
+    private function renderView(ComponentAttributes $attributes): string
+    {
+        return $this->twig->render(
+            'components/post.html.twig',
+            [
+                'attributes' => $attributes,
+                'post' => $this->post,
+                'isSingle' => $this->isSingle,
+                'showMagazineName' => $this->showMagazineName,
+                'showCommentsPreview' => $this->showCommentsPreview,
+                'dateAsUrl' => $this->dateAsUrl,
+                'showExpand' => $this->showExpand,
+                'canSeeTrashed' => $this->canSeeTrashed(),
+                'newComments' => $this->newComments,
+            ]
+        );
     }
 }

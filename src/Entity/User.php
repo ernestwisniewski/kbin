@@ -18,6 +18,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -45,6 +46,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Index(columns: ['visibility'], name: 'user_visibility_idx')]
 #[Index(columns: ['ap_id'], name: 'user_ap_id_idx')]
 #[Index(columns: ['ap_profile_id'], name: 'user_ap_profile_id_idx')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, VisibilityInterface, TwoFactorInterface, BackupCodeInterface, EquatableInterface, ActivityPubActorInterface, ApiResourceInterface
 {
     use ActivityPubActorTrait;

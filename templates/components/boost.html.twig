@@ -1,5 +1,5 @@
 {%- set VOTE_UP = constant('App\\Entity\\Contracts\\VotableInterface::VOTE_UP') -%}
-{%- set user_choice = is_granted('ROLE_USER') ? subject.userChoice(app.user) : null -%}
+{%- set user_choice = is_granted('ROLE_USER') ? this.isFavourite(subject, app.user) : null -%}
 <form method="post"
       action="{{ path(formDest~'_boost', {id: subject.id}) }}">
     <input type="hidden" name="token" value="{{ csrf_token('boost') }}">
