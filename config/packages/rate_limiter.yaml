@@ -122,5 +122,5 @@ framework:
       interval: '1 day'
     spam_protection:
       policy: 'sliding_window'
-      limit: 2
+      limit: 4
       interval: '1 second'

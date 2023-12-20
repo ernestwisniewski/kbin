@@ -2,10 +2,13 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-only
 
-#doctrine:
+doctrine:
 #    dbal:
 #        # Overrides the database name in the test environment only
 #        # "host", "port", "username", & "password" can also be set to override their respective url parts
 #        #
 #        # If you're using ParaTest, "TEST_TOKEN" is set by ParaTest otherwise nothing is appended to the database name.
 #        dbname: main_test%env(default::TEST_TOKEN)%
+  orm:
+    second_level_cache:
+      enabled: false
